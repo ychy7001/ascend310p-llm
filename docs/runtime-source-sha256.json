@@ -26,7 +26,7 @@
   "native-overlay/csrc/gmm/qwen_w4_a8_swiglu_pack_v310/op_host/qwen_w4_a8_swiglu_pack_v310_tiling.h": "129856de179f0f7805762fd5f2a031021c74fe603d586e21af0678e7461a41ab",
   "native-overlay/csrc/gmm/qwen_w4_a8_swiglu_pack_v310/op_kernel/qwen_w4_a8_swiglu_pack_v310.cpp": "fb86ff40ec5d054e34a15244f17d349c75edf9d51c997d4b5defe188053f44fa",
   "native-overlay/csrc/gmm/qwen_w4_a8_swiglu_pack_v310/qwen_w4_a8_swiglu_pack_310_torch_adpt.h": "b98d7bb41ce5444a053a1dc38ba7155cfdf0450dcb6703ce3e15e51fb33a9098",
-  "runtime/vllm_ascend/models/qwen36_w4_patch.py": "bd4ec68f347b1da20e1b6668105c2a3e7cba32c12691e279a01b001b8abf9a1b",
+  "runtime/vllm_ascend/models/qwen36_w4_patch.py": "56c4f06509a6827385f1685088796b27799240b660d71c7ad823a3a22e767a18",
   "runtime/vllm_ascend/models/qwen4_exp/__init__.py": "6c6ec57de9f82ef42d82760f144a4571cb16b3cd6de33aaa7aa9fd65e8ab1fa1",
   "runtime/vllm_ascend/models/qwen4_exp/dtype_policy.py": "7430b25bb2d351bc8606b76e8a84ac5089e83cde0cd562e4820fb1e3a8c1cf0c",
   "runtime/vllm_ascend/models/qwen4_exp/grouped_expert_dispatch.py": "18fdf28a295b64d2915b121c39167b89f94879995f0995a074ac18f1b00f6295",

@@ -12,6 +12,8 @@
 
 启动通过，target/draft共享embedding，日志权重加载约27.288GB。英文、中文、代码、数学、重复输入五类HTTP生成sanity全部通过，completion tokens分别67/91/35/128/128；未发现空文本、非有限字面量或明显重复。数学等样例可能被长度截断，不能当成题目正确率。
 
+p128/o64、单流、1次warmup后3轮streaming：aggregate output吞吐为21.9236/21.9136/21.9567 tok/s；TTFT为0.6659/0.6632/0.6627s，mean TPOT约35.69/35.82/35.74ms。该文本是重复固定token工作负载，不能用来证明生成质量；三轮也不是正式尾延迟统计。
+
 初次打包将包含overlay namespace的runtime目录直接置于PYTHONPATH，导致遮蔽官方包、platform plugin缺失；现已将bootstrap与runtime分离，正式启动日志不再出现该失败。本记录保留失败原因帮助复现，发布启动器已修正。
 
 ## 源码构建
@@ -19,6 +21,10 @@
 三个W4算子家族的公开snapshot已投入新的隔离CANN构建目录；基础社区源固定`0637d3baa6bc2000ba6433b301f233c6516847b4`。SDK/依赖沿用既有镜像。测试准备阶段最初递归忽略`build`目录，误删`cmake/third_party/build/modules/patch/`内受版本管理的补丁，host构建失败；补回后重试。该过滤方式不是公开build-native脚本的行为，正式脚本从固定Git checkout获取源文件。
 
 完整OPP/extension新构建结果、替换后的生成门禁正在验证，完成前不声称“从公开脚本全新下载并构建已验收”。完整ModelScope上传与远端文件检查也将在完成后追加；本文件不把计划写成结果。
+
+## 发布状态
+
+GitHub公开仓库`ychy7001/ascend310p-qwen36`已创建，首个源码commit为`3b6022c`。ModelScope公开仓库`ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P`已创建，64个文件正在上传；完整权重尚需以远端清单校验确认，不能把空仓创建当作发布完成。
 
 ## 尚未完成的门禁
 
