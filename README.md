@@ -1,13 +1,14 @@
 # Ascend 310P — Qwen3.6 W4A8 / MTP / C8 实验
 
-在Atlas 300I DUO / Ascend310P3上研究Qwen3.6-35B-A3B低比特推理。首版提供可运行的Routed Experts W4A8与BF16 MTP适配，以及独立C8分页KV算子实验。**W4A8+MTP+C8已通过TP1/eager/4K有限生成；完整质量、容量及性能门禁仍未完成。** 本项目不是华为、Qwen或vLLM官方发布。
+在Atlas 300I DUO / Ascend310P3上研究Qwen3.6-35B-A3B低比特推理。首版提供可运行的Routed Experts W4A8与BF16 MTP适配，以及独立C8分页KV算子实验。**W4A8+MTP+C8+Decode Graph已通过TP1/4K有限生成与固定GSM32；128K配置已启动并通过64K输入检索，完整质量、容量及性能门禁仍未完成。** 本项目不是华为、Qwen或vLLM官方发布。
 
 | 能力 | 当前状态 |
 | --- | --- |
 | W4A8 TP1/TP2、FP16 KV | 已在a2启动、生成 |
 | W4A8 + Qwen3.6自身BF16 MTP | TP1/TP2已运行，speculative tokens=1 |
-| INT8 KV / C8 | 独立算子已测；experimental TP1/eager/MTP=0/1有限生成已通过；MTP=1固定GSM32首轮32/32，匹配FP16 KV对照待补；容量和全面质量未验收 |
-| 长上下文 | TP1无MTP精确128K生成已测；262144配置启动不等于实际256K验收 |
+| INT8 KV / C8 | TP1/eager/MTP=0/1有限生成已通过；MTP=1/eager和Decode Graph固定GSM32均32/32；有FP16 KV性能对照，全面质量未验收 |
+| Decode Graph | 实验mode0/FULL_DECODE_ONLY/[1,2]已capture/replay；C8图内固定转换上限范围，长配置存在额外开销 |
+| 长上下文 | TP1无MTP/FP16 KV精确128K生成已测；TP1/MTP/C8/Graph的128K配置通过65,536输入中间检索；262144配置启动不等于实际256K验收 |
 | 全面质量及稳定加速 | 尚未完成；INT4不保证更快 |
 
 模型制品：[ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P)。发布状态及独立加载证据以[验证记录](docs/release-validation.md)为准。
@@ -63,7 +64,7 @@ sanity只检查服务可用性、非空输出与明显异常，不替代准确�
 
 [华为反馈报告](docs/huawei-feedback.md)整理已知结果与五项具体问题：C8接口、混合Matmul、NZ/UB/L1流水、W4小M/Prefill与hybrid/MTP cache状态。TP1短上下文真实C8生成已通过；下一节点是紧凑分配、质量差分，再验证MTP回退和TP2。
 
-[详细技术评审报告](docs/huawei-report.md)记录完整适配路径、初版TP1/TP2/MTP与C8测试数据、失败证据和待补门禁；报告以2026-10-12状态为准，DOCX/PDF同内容版供评审转发。
+[详细技术评审报告](docs/huawei-report.md)记录完整适配路径、初版TP1/TP2/MTP与C8测试数据、失败证据和待补门禁。最新Graph与长上下文数据见[C8记录](docs/c8.md)；此前已转发的DOCX/PDF为冻结版本，并未自动同步后续实验。
 
 ## 从原始浮点重新量化
 
