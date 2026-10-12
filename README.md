@@ -63,6 +63,8 @@ sanity只检查服务可用性、非空输出与明显异常，不替代准确�
 
 [华为反馈报告](docs/huawei-feedback.md)整理已知结果与五项具体问题：C8接口、混合Matmul、NZ/UB/L1流水、W4小M/Prefill与hybrid/MTP cache状态。下一节点是TP1短上下文真实C8生成，然后验证MTP回退和TP2。
 
+[详细技术评审报告](docs/huawei-report.md)记录完整适配路径、初版TP1/TP2/MTP与C8测试数据、失败证据和待补门禁；报告以2026-10-12状态为准，DOCX/PDF同内容版供评审转发。
+
 ## 从原始浮点重新量化
 
 `tools/convert_modelslim_w4a8.py`与`modelslim_ssz_adapter.py`复用已安装ModelSlim SSZ，只输出expert sidecar；`prepare_hybrid_model.py`组合源模型与sidecar的实验目录，仍需导出自包含checkpoint。该组工具不会覆盖原始权重。ModelSlim版本应随重新转换单独锁定；当前公开制品的不可变标识为文件SHA256。
