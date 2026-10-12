@@ -6,7 +6,7 @@
 | --- | --- |
 | W4A8 TP1/TP2、FP16 KV | 已在a2启动、生成 |
 | W4A8 + Qwen3.6自身BF16 MTP | TP1/TP2已运行，speculative tokens=1 |
-| INT8 KV / C8 | 独立算子数值、动态页表、Graph与benchmark；未接完整模型 |
+| INT8 KV / C8 | 独立算子已测；experimental TP1/eager/MTP=0完整模型短生成与chunked prefill已通过，容量/质量/对照仍待验收 |
 | 长上下文 | TP1无MTP精确128K生成已测；262144配置启动不等于实际256K验收 |
 | 全面质量及稳定加速 | 尚未完成；INT4不保证更快 |
 

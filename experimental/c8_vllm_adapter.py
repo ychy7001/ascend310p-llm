@@ -1,0 +1,170 @@
+# SPDX-License-Identifier: Apache-2.0
+"""TP1/eager C8 bring-up with explicit independent layer buffers.
+
+Uses a real C8 spec and charged scale storage. The first allocator retains
+hybrid page padding and replaces shared pools by independent layer buffers,
+reducing scheduler blocks to stay inside its original memory budget. This is
+an explicit correctness candidate, NOT a model memory-saving claim.
+"""
+from dataclasses import dataclass, replace
+import math
+import os
+import torch
+import torch_npu
+from vllm.model_executor.layers.attention import Attention
+from vllm.v1.kv_cache_interface import FullAttentionSpec, KVCacheTensor
+import vllm.v1.core.kv_cache_utils as cache_utils
+# Initialize the ops package before DeviceOperator imports its submodules.
+# Importing the runner first creates a DeviceOperator/fused_moe cycle.
+import vllm_ascend.ops  # noqa: F401
+from vllm_ascend._310p.model_runner_310p import NPUModelRunner310
+from vllm_ascend._310p.attention.attention_v1 import AscendAttentionBackendImpl310
+from vllm_ascend.attention.attention_v1 import AscendAttentionState
+from c8_cache_310 import C8Cache310
+
+torch.ops.load_library(os.environ['QWEN36_C8_LIBRARY'])
+_SCRATCH = {}
+
+
+@dataclass(frozen=True, kw_only=True)
+class C8FullAttentionSpec(FullAttentionSpec):
+    @property
+    def real_page_size_bytes(self):
+        # Two signed-byte data tensors and two padded FP16 scale tensors.
+        return self.block_size * (2 * self.num_kv_heads * self.head_size + 64)
+
+
+_original_spec = Attention.get_kv_cache_spec
+def get_spec(self, config):
+    spec = _original_spec(self, config)
+    if spec is None or not isinstance(self.impl, AscendAttentionBackendImpl310):
+        return spec
+    if (config.parallel_config.tensor_parallel_size != 1 or config.speculative_config
+            or not config.model_config.enforce_eager or config.kv_transfer_config):
+        raise RuntimeError('C8 bring-up requires TP1/eager/no-MTP/no-KV-transfer')
+    if not isinstance(spec, FullAttentionSpec) or spec.head_size != 256 or spec.num_kv_heads != 2:
+        raise RuntimeError('C8 bring-up supports Qwen full attention 2KV/dim256 only')
+    return C8FullAttentionSpec(block_size=spec.block_size, num_kv_heads=spec.num_kv_heads,
+        head_size=spec.head_size, head_size_v=spec.head_size_v, dtype=torch.int8,
+        page_size_padded=spec.page_size_bytes)
+Attention.get_kv_cache_spec = get_spec
+
+
+_original_configs = cache_utils.get_kv_cache_configs
+def get_configs(config, specs, memory):
+    configs = _original_configs(config, specs, memory)
+    if not any(isinstance(s, C8FullAttentionSpec) for worker in specs for s in worker.values()):
+        return configs
+    if len(configs) != 1:
+        raise RuntimeError('C8 bring-up allocator is TP1 only')
+    cfg = configs[0]
+    layer_specs = {name: group.kv_cache_spec for group in cfg.kv_cache_groups
+                   for name in group.layer_names}
+    # Reserve one shared, max-context FP16 NZ workspace, not one per layer.
+    scratch = math.ceil(config.model_config.max_model_len / 64) * 64 * 2 * 256 * 4
+    old_budget = sum(t.size for t in cfg.kv_cache_tensors)
+    per_block = sum(s.page_size_bytes for s in layer_specs.values())
+    blocks = min(cfg.num_blocks, (old_budget - scratch) // per_block)
+    full = next(s for s in layer_specs.values() if isinstance(s, C8FullAttentionSpec))
+    if blocks < math.ceil(config.model_config.max_model_len / full.block_size) + len(cfg.kv_cache_groups):
+        raise RuntimeError('Independent C8 layer allocation cannot fit requested context in budget')
+    cfg.num_blocks = blocks
+    cfg.kv_cache_tensors = [KVCacheTensor(size=blocks*s.page_size_bytes, shared_by=[name])
+                           for name,s in layer_specs.items()]
+    print(f'C8_ALLOCATOR independent_layers={len(layer_specs)} blocks={blocks} '
+          f'allocated_bytes={sum(t.size for t in cfg.kv_cache_tensors)} '
+          f'reserved_scratch_bytes={scratch} original_budget_bytes={old_budget}', flush=True)
+    return configs
+cache_utils.get_kv_cache_configs = get_configs
+import vllm.v1.engine.core as engine_core
+engine_core.get_kv_cache_configs = get_configs
+
+
+_original_allocate = NPUModelRunner310._allocate_kv_cache_tensors
+def allocate(self, config):
+    specs = {name:g.kv_cache_spec for g in config.kv_cache_groups for name in g.layer_names}
+    filtered = replace(config,
+        kv_cache_groups=[g for g in config.kv_cache_groups if not isinstance(g.kv_cache_spec,C8FullAttentionSpec)],
+        kv_cache_tensors=[t for t in config.kv_cache_tensors
+                         if not isinstance(specs[t.shared_by[0]],C8FullAttentionSpec)])
+    result = _original_allocate(self, filtered)
+    buffers = {name:t for t in config.kv_cache_tensors for name in t.shared_by}
+    for name,spec in specs.items():
+        if not isinstance(spec, C8FullAttentionSpec):
+            continue
+        allocation = buffers[name]
+        if allocation.shared_by != [name]:
+            raise RuntimeError('C8 bring-up requires independent layer allocation')
+        tensor = torch.zeros(allocation.size,dtype=torch.int8,device=self.device)
+        blocks = tensor.numel() // spec.page_size_bytes
+        capacity = blocks * spec.block_size
+        data_bytes = capacity * spec.num_kv_heads * spec.head_size
+        scale_bytes = capacity * 16 * 2
+        used = 2*data_bytes + 2*scale_bytes
+        if used > tensor.numel():
+            raise RuntimeError('C8 data and scales exceed charged allocation')
+        k = tensor[:data_bytes].view(capacity, spec.num_kv_heads, spec.head_size)
+        v = tensor[data_bytes:2*data_bytes].view_as(k)
+        ks = tensor[2*data_bytes:2*data_bytes+scale_bytes].view(torch.float16).view(capacity,16)
+        vs = tensor[2*data_bytes+scale_bytes:used].view(torch.float16).view_as(ks)
+        result[name] = (k,v,ks,vs)
+        print(f'C8_STORAGE layer={name} slots={capacity} data_scale_bytes={used} '
+              f'allocated_bytes={tensor.numel()} page_padding_bytes={tensor.numel()-used}',flush=True)
+    return result
+NPUModelRunner310._allocate_kv_cache_tensors = allocate
+
+
+def scratch_buffers(device, context, heads, dim):
+    key = (str(device), context, heads, dim)
+    if key not in _SCRATCH:
+        blocks = math.ceil(context/64)
+        shape = (blocks, heads*dim//16,64,16)
+        k = torch_npu.empty_with_format(size=shape,dtype=torch.float16,device=device,acl_format=29)
+        v = torch_npu.empty_with_format(size=shape,dtype=torch.float16,device=device,acl_format=29)
+        table = torch.arange(blocks,dtype=torch.int32,device=device)
+        _SCRATCH[key] = k,v,table
+        print(f'C8_SCRATCH shared_bytes={4*k.numel()} context={context}',flush=True)
+    return _SCRATCH[key]
+
+
+def forward(self, layer, query, key, value, kv_cache, attn_metadata,
+            output=None, output_scale=None, output_block_scale=None):
+    if output is None or output_scale is not None or output_block_scale is not None:
+        raise RuntimeError('C8 requires a plain preallocated output')
+    if attn_metadata is None:
+        return output.zero_()
+    if len(kv_cache) != 4 or len(attn_metadata.seq_lens_list) != 1:
+        raise RuntimeError('C8 requires real four-tensor storage and one request')
+    count = attn_metadata.num_actual_tokens
+    cache = C8Cache310.__new__(C8Cache310)
+    cache.k,cache.v,cache.ks,cache.vs = kv_cache
+    cache.heads,cache.dim = self.num_kv_heads,self.head_size
+    cache.capacity = cache.k.shape[0]
+    cache.block_size = 64
+    if key is not None and value is not None:
+        k = key[:count].reshape(count,cache.heads,cache.dim)
+        v = value[:count].reshape_as(k)
+        for start in range(0,count,4096):
+            cache.write(k[start:start+4096],v[start:start+4096],
+                        attn_metadata.slot_mapping[start:start+4096])
+    if not getattr(self,'_c8_logged',False):
+        print(f'C8_FORWARD layer={layer.layer_name} k_dtype={cache.k.dtype} '
+              f'scale_dtype={cache.ks.dtype} state={attn_metadata.attn_state}',flush=True)
+        self._c8_logged=True
+    # First prefill uses current float inputs; all historical reads use C8.
+    if attn_metadata.attn_state == AscendAttentionState.PrefillNoCache:
+        return self.forward_prefill_310(query,key,value,attn_metadata,output)
+    length = attn_metadata.seq_lens_list[0]
+    pages = math.ceil(length/64)
+    selected = attn_metadata.block_tables[0,:pages].to(torch.int32).contiguous()
+    context = self.vllm_config.model_config.max_model_len
+    ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim)
+    ko,vo = ko[:pages],vo[:pages]
+    torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected)
+    compact = replace(attn_metadata,block_tables=identity[:pages].reshape(1,-1))
+    self.key_cache,self.value_cache = ko,vo
+    q = query[:count].reshape(count,self.num_heads,self.head_size)
+    if compact.attn_state == AscendAttentionState.DecodeOnly:
+        return self.forward_paged_attention(q,compact,output)
+    return self.forward_chunked_prefill_310(q,compact,output)
+AscendAttentionBackendImpl310.forward = forward

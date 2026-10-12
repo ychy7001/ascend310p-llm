@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: Apache-2.0
+import sys
+import os
+sys.path.insert(0, '/bootstrap')
+with open('/bootstrap/sitecustomize.py', 'rb') as source:
+    exec(compile(source.read(), '/bootstrap/sitecustomize.py', 'exec'))
+sys.path.insert(0, '/c8adapter')
+if os.environ.get('QWEN36_C8_ENABLED', '1') == '1':
+    import c8_vllm_adapter  # noqa: F401,E402
