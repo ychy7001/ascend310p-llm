@@ -44,3 +44,5 @@ experimentally verified：TP1/W4A8/C8 fused write/split_by_type/MTP1/eager/32K/.
 数学窗口draft3544/accepted3413，实际未接受131枚草稿，说明本次回归覆盖了真实拒绝；仍不是所有rollback情形的证明。
 
 32K Graph全范围组已真实capture/replay并开始匹配GSM32。index205暂缺严格答案：512token截断，predicted=None；原始推导已得到x=98并校验均分93，但在讨论另一分支时耗尽预算。eager同题510token完成####98。此差异仍按协议记错，不把中间98当最终答案，不声称Graph质量等价，也不能仅据截断认定计算错误。完整32题结果和新有效长度组尚未完成；后续可将同题两侧输出预算提高做定位，但不得覆盖现有512token原始协议。
+
+32K Graph全范围组匹配GSM32完成：31/32，parse_missing=1/truncated=1；唯一严格得分差异仍index205的512token截断，推导中得到98但无####最终答案。toy8/8与A/B/A复用通过（文本一致、无泄漏）。尚未提高输出预算重测该题或完成有效长度组，不声称Graph质量等价。
