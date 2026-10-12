@@ -29,3 +29,7 @@ python3 tools/eval_gsm8k_http.py --base-url http://127.0.0.1:18016 \
 ## 第一轮GSM子集结果
 
 experimentally verified：TP1/W4A8/C8/eager/4K/.90、MTP=1、max-batch256、max-seqs1、无prefix cache，固定32题32/32、parse_missing=0、truncated=0；6875输出tokens。GSM期间draft3496、accepted3365、reject131；之后8题/A-B-A复用仍通过。原始c8-mtp1-gsm32.jsonl与metrics留a2。FP16 KV+MTP同配置、同seed/indices对照正在加载与排队；尚不能用单侧32/32证明精度等价，也不作为完整GSM或全面质量分数。
+
+## 匹配FP16 KV对照已完成
+
+experimentally verified：相同checkpoint/OPP/extension、TP1/eager/4K/.90/MTP=1、max-seqs1/max-batch256、无prefix cache、同SHA/indices/prompt/512输出上限；FP16 KV为31/32，parse_missing=1/truncated=1，C8非融合独立层为32/32。唯一差异index205：FP16正确推导过程中512tokens处截断，未出现####98；C8在上限内回答98。其余31题数值答案相同，全文仅9题完全相同。这个差异不能解释为量化提高准确率，也不能从32题证明精度等价。脚本compare_gsm8k_runs.py拒绝未完成或协议不同的runs；原始fp16kv-mtp1-gsm32.jsonl。FP16的8题/A-B-A也通过。
