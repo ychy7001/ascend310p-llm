@@ -10,6 +10,8 @@ QWEN36_C8_ALLOW_GRAPH=${QWEN36_C8_ALLOW_GRAPH:-0}
 GRAPH_MODE=${GRAPH_MODE:-FULL_DECODE_ONLY}
 COMPILATION_MODE=${COMPILATION_MODE:-3}
 GRAPH_CAPTURE_SIZES=${GRAPH_CAPTURE_SIZES:-1}
+ENABLE_PREFIX_CACHING=${ENABLE_PREFIX_CACHING:-0}
+MAX_BATCHED_TOKENS=${MAX_BATCHED_TOKENS:-256}
 if [[ "$MTP" != 0 && "$MTP" != 1 ]]; then echo 'MTP must be 0 or 1' >&2; exit 2; fi
 if [[ "$NUM_SPECULATIVE_TOKENS" != 1 && "$NUM_SPECULATIVE_TOKENS" != 2 ]]; then
   echo 'NUM_SPECULATIVE_TOKENS must be 1 or 2' >&2; exit 2
@@ -18,6 +20,12 @@ if [[ "$MTP" == 1 && "$NUM_SPECULATIVE_TOKENS" == 2 && "${QWEN36_C8_ENABLED:-1}"
   [[ "${QWEN36_C8_ALLOW_MTP2:-0}" == 1 ]] || { echo 'C8 MTP2 is experimental; set QWEN36_C8_ALLOW_MTP2=1' >&2; exit 2; }
 fi
 if [[ "$ENFORCE_EAGER" != 0 && "$ENFORCE_EAGER" != 1 ]]; then echo 'ENFORCE_EAGER must be 0 or 1' >&2; exit 2; fi
+if [[ "$ENABLE_PREFIX_CACHING" != 0 && "$ENABLE_PREFIX_CACHING" != 1 ]]; then
+  echo 'ENABLE_PREFIX_CACHING must be 0 or 1' >&2; exit 2
+fi
+if [[ "$ENABLE_PREFIX_CACHING" == 1 && "$MAX_BATCHED_TOKENS" -lt 1152 ]]; then
+  echo 'ENABLE_PREFIX_CACHING=1 requires MAX_BATCHED_TOKENS>=1152 on the hybrid 310P path' >&2; exit 2
+fi
 if [[ "$ENFORCE_EAGER" == 0 && "$QWEN36_C8_ALLOW_GRAPH" != 1 ]]; then
   echo 'ENFORCE_EAGER=0 requires QWEN36_C8_ALLOW_GRAPH=1' >&2; exit 2
 fi
@@ -47,7 +55,8 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e ENABLE_PROFILER="${PROFILE_DIR:+1}" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
-  -e MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-256}" \
+  -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" \
+  -e ENABLE_PREFIX_CACHING="$ENABLE_PREFIX_CACHING" \
   -v "$MODEL_DIR:/model:ro" -v "$root/runtime:/w4only:ro" \
   -v "$root/bootstrap:/bootstrap:ro" -v "$root/experimental:/c8adapter:ro" \
   -v "$root/experimental/c8_bootstrap:/c8bootstrap:ro" \
@@ -77,9 +86,14 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     if [[ "$MTP" == 1 ]]; then
       args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$NUM_SPECULATIVE_TOKENS}")
     fi
+    if [[ "$ENABLE_PREFIX_CACHING" == 1 ]]; then
+      args+=(--enable-prefix-caching)
+    else
+      args+=(--no-enable-prefix-caching)
+    fi
     exec vllm serve /model "${args[@]}" --served-model-name qwen36-w4a8-c8 \
       --tensor-parallel-size 1 --dtype float16 --block-size 64 \
       --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$MEMORY_UTILIZATION" \
-      --max-num-seqs 1 --max-num-batched-tokens "$MAX_BATCHED_TOKENS" --no-enable-prefix-caching \
+      --max-num-seqs 1 --max-num-batched-tokens "$MAX_BATCHED_TOKENS" \
       --host 0.0.0.0 --port "$PORT"
   '

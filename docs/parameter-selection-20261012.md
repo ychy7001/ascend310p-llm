@@ -41,6 +41,8 @@ C8 的目的首先是容量和成本，而不是预设加速。当前 C8 后端�
 
 因此短请求几乎持平，8K 约下降 5.5%，近 32K 约下降 13.2%，Prefill 差异小于 1%；样本中约少用 2.5 GB。C8 的已知收益是长上下文余量，代价是历史越长，反量化/转换越影响 Decode。不能把“INT8 KV”写成固定加速结论。
 
+补充了同一 `max_model_len=114688`、`.95`、W4/MTP1/eager、prefix off 的 FP16 KV 实测：8K/256 为 Prefill `381.61`、Decode `26.12 tok/s`；32256/256 为 Prefill `354.19`、Decode `22.30 tok/s`；近满 `114560` 输入检索耗时 `428.35s`。C8 同协议近满检索为 `432.24s`，两者均正确返回 `ASCEND732941`，差异约 0.9%。这说明当前 C8 在 112K 长检索上的主要价值仍是物理内存余量，而不是端到端速度提升。
+
 当前 C16 的 256K 长请求尚未与 C8 112K 形成同协议完整对照。旧记录中的 310K/262K 是启动器的 KV 估算或不同配置容量，不应当直接当作已验证的长请求上限。后续应在同一服务协议下测 64K、112K、128K 和能启动的最大长度。
 
 ## MTP 0/1/2 的取舍
@@ -64,6 +66,8 @@ vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C
 已有 C8 eager 证据：`.95` 下 64K 和 112K 可以启动；128K 需要 `.97`；`.99` 无法为 262K 提供足够物理空间。112K 的稳定性优先于把 memory utilization 推到 `.97/.99`。`0.90` 适合短/中上下文调试，`.95` 是当前产品候选，`.97` 仅作为专门的 128K 实验参数。
 
 Prefix cache 可能降低重复会议前缀的实际压力，但当前主要数据是在 prefix cache off 下获得的，不能提前把它计入容量或吞吐收益。下一轮单独做 prefix hit/miss、首请求/复用请求和长输入 Decode 对照。
+
+补充的 C8/112K prefix-cache 实测使用 `max_num_batched_tokens=2048`（prefix cache 在该 hybrid 模式下要求 Mamba `block_size=1152 <= max_num_batched_tokens`；因此不能直接沿用默认 1024）：8K 冷请求 Prefill `361.45 tok/s`，后续相同 token IDs 的三次命中 Prefill `2263.83/2270.20/2274.52 tok/s`，Decode 约 `25.1 tok/s`。prefix cache counter 从 0 增至每次 6912 命中 tokens，服务日志命中率最高约 63.3%。这证明重复前缀能显著降低 Prefill，但没有带来 Decode 加速；建议作为会议/模板前缀明确重复时的可选配置，并把 `2048` 约束写入启动检查。
 
 ## 当前代码入口与简化边界
 
