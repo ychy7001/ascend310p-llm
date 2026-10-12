@@ -11,6 +11,7 @@ The reference and group-only backends require eager execution.
 from __future__ import annotations
 
 import regex as re
+import os
 import torch
 import torch.nn.functional as F
 from torch import nn
@@ -312,7 +313,15 @@ class W4SparseMoE(nn.Module):
         self.top_k = int(config.num_experts_per_tok)
         if self.top_k <= 0 or self.top_k > int(config.num_experts):
             raise ValueError("W4 top_k must be positive and no larger than num_experts")
-        self.grouped_chunk_tokens = min(MAX_GROUPED_TOKENS, MAX_GROUPED_ROUTES // self.top_k)
+        default_grouped_chunk_tokens = min(MAX_GROUPED_TOKENS, MAX_GROUPED_ROUTES // self.top_k)
+        requested_grouped_chunk_tokens = int(os.environ.get(
+            "QWEN36_GROUPED_CHUNK_TOKENS", default_grouped_chunk_tokens))
+        max_grouped_chunk_tokens = MAX_GROUPED_ROUTES // self.top_k
+        if requested_grouped_chunk_tokens < 1 or requested_grouped_chunk_tokens > max_grouped_chunk_tokens:
+            raise ValueError(
+                f"QWEN36_GROUPED_CHUNK_TOKENS must be in [1, {max_grouped_chunk_tokens}]"
+            )
+        self.grouped_chunk_tokens = requested_grouped_chunk_tokens
         if self.grouped_routing and self.grouped_chunk_tokens == 0:
             raise ValueError("W4 grouped top_k exceeds the bounded route workspace")
         self.expert_tp_rank, self.expert_tp_size = expert_sharding

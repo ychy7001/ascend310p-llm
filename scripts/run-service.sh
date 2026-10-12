@@ -15,6 +15,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-public}" --network host \
   -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e ATEN_CPU_CAPABILITY=default \
   -e VLLM_WORKER_MULTIPROC_METHOD=spawn -e PYTHONPATH=/bootstrap \
   -e TP="$TP" -e MTP="$MTP" -e PORT="${PORT:-18015}" \
+  -e QWEN36_GROUPED_CHUNK_TOKENS="${QWEN36_GROUPED_CHUNK_TOKENS:-512}" \
   -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
   -v "$MODEL_DIR:/model:ro" -v "$project_root/runtime:/w4only:ro" \
