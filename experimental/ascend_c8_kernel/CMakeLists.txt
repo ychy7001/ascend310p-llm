@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(qwen36_c8_page LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+include(cmake/config_envs.cmake)
+include(cmake/config_ascend.cmake)
+add_subdirectory(csrc)

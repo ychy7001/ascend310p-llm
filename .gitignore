@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.so
+*.run
+*.safetensors
+build/
+artifacts/
+weights/
+logs/
+*.log
+.venv/
