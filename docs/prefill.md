@@ -74,3 +74,5 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 长输入对照可用`experimental/run-long-context-sweep.sh`复现，沿用前述MODEL_DIR/OPP_DIR/EXTENSION/C8_LIBRARY，设置全新的RESULT_DIR；默认顺序比较1024:512与4096:640，固定32K上限、8K/32256输入、1/256输出、warmup1+三轮，最后执行32256中间needle。每组正常通过后才停止服务进入下一组；失败保留服务和原始证据。4096/640测量完成后，已经正常启动`PAIRS=1024:512`，结果目录`long-context-sweep-20261012`。
 
 近32K输入32256/输出256token三轮有效请求：Prefill 358.0764/358.1915/358.4693tok/s；Decode 18.8163/18.7997/18.8091tok/s，中位18.8091。HTTP TTFT中位90.1193秒，请求平均TPOT中位53.1154ms。同配置8K→近32K，Decode中位下降10.7079%，说明历史长度有可测影响，不能据此推断MTP/C8/Graph组合幅度相同。原始文件`w4-long-b4096-g640-p32256-o256.jsonl`。32K输入持续生成完成，没有OOM或使用量不符；固定重复文本的吞吐测试不代表正式生成准确率。
+
+1024/512的8K对照已完成，与4096/640逐项核验prompt IDs相同、同32K上限、同权重和缓存/调度协议。8192/1：Prefill中位382.3675tok/s；Decode中位None；TTFT中位21.4309s。 8192/256：Prefill中位382.7324tok/s；Decode中位21.124864003891854；TTFT中位21.4097s。两组8K Prefill/Decode差距不到1%，不足以认定显著；近32K对照仍在测量。
