@@ -11,9 +11,12 @@ TP1、公开W4 checkpoint、FP16 KV、MTP=0、eager、max_model_len4096、memory
 | 调度batch | 专家chunk | 三次Prefill tok/s | 中位数 | 状态 |
 | --- | --- | --- | --- | --- |
 | 256 | 256 | 324.6767 / 324.2034 / 322.4247 | 324.2034 | 实际请求计时通过，检索检查待补 |
+| 1024 | 256 | 354.4466 / 355.0568 / 354.4582 | 354.4582 | 计时与3072-token中间needle通过 |
 | 1024 | 512 | 387.7657 / 387.8843 / 387.8627 | 387.8627 | 计时与3072-token中间needle通过 |
 
 两轮prompt IDs逐项一致（3072），第二轮Prefill中位数提高19.6356%。调度batch与专家chunk同时改变，尚不能独立归因；均未开C8/MTP/Graph。第二轮needle输出14tokens、正确返回ASCEND732941，耗时8.79984s；只有单个检索样本，不是正式准确率评测。batch1024时权重23.82GiB、peak activation2.75GiB、non-torch约.18GiB；这是启动profile预算，非请求实际峰值。
+
+补充batch1024/chunk256对照后，三组prompt IDs再次逐项核验一致。固定chunk256，调度batch256→1024，中位吞吐+9.3320%；固定batch1024，chunk256→512，中位+9.4241%。这些是顺序跨服务三轮观察，尚无交替重复或尾延迟门禁。chunk256检索正确返回验证码，14输出tokens、9.68224s。raw `qwen36-prefill-b1024-g256-p3072-o1.jsonl`、`qwen36-prefill-b1024-g256-needle.jsonl`；640专家分块候选已启动，4096调度batch候选尚未测完。
 
 第一轮不含MTP的权重实测23.8202GiB，峰值激活2.75GiB，non-torch约.19GiB；KV预算4.95GiB（310P worker日志明确halved for workspace）。此前MTP配置加载27.288GiB，不能将其作为关闭MTP配置的基础内存。32G实际业务容量仍需独立实卡或受控预算验证。
 
