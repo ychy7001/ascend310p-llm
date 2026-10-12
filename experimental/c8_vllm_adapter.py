@@ -68,19 +68,38 @@ def get_configs(config, specs, memory):
     # Reserve one shared, max-context FP16 NZ workspace, not one per layer.
     scratch = math.ceil(config.model_config.max_model_len / 64) * 64 * 2 * 256 * 4
     old_budget = sum(t.size for t in cfg.kv_cache_tensors)
-    per_block = sum(s.page_size_bytes for s in layer_specs.values())
+    pool_mode = os.environ.get('QWEN36_C8_POOL_MODE','independent')
+    if pool_mode not in ('independent','split_by_type'):
+        raise RuntimeError('C8 pool mode must be independent or split_by_type')
+    pools=[]
+    if pool_mode == 'split_by_type':
+        # Upstream assigns disjoint block IDs to layers in different groups
+        # sharing one pool. Preserve that sharing within each storage type;
+        # split C8 payloads from the original linear-state padded buffers.
+        for tensor in cfg.kv_cache_tensors:
+            for c8 in (False,True):
+                names=[name for name in tensor.shared_by
+                       if isinstance(layer_specs[name],C8FullAttentionSpec)==c8]
+                if not names: continue
+                first=layer_specs[names[0]]
+                if any(layer_specs[name] != first for name in names):
+                    raise RuntimeError('C8 split pool requires identical specs within each type')
+                size=first.real_page_size_bytes if c8 else first.page_size_bytes
+                pools.append((names,size))
+    else:
+        pools=[([name],spec.page_size_bytes) for name,spec in layer_specs.items()]
+    per_block = sum(size for _,size in pools)
     blocks = min(cfg.num_blocks, (old_budget - scratch) // per_block)
     full = next(s for s in layer_specs.values() if isinstance(s, C8FullAttentionSpec))
     needed = math.ceil(config.model_config.max_model_len / full.block_size) + len(cfg.kv_cache_groups)
-    print(f'C8_BUDGET groups={len(cfg.kv_cache_groups)} layers={len(layer_specs)} '
+    print(f'C8_BUDGET mode={pool_mode} groups={len(cfg.kv_cache_groups)} layers={len(layer_specs)} '
           f'original_blocks={cfg.num_blocks} independent_blocks={blocks} minimum_blocks={needed} '
           f'charged_bytes_per_block={per_block} original_budget_bytes={old_budget}',flush=True)
     if blocks < needed:
         raise RuntimeError('Independent C8 layer allocation cannot fit requested context in budget')
     cfg.num_blocks = blocks
-    cfg.kv_cache_tensors = [KVCacheTensor(size=blocks*s.page_size_bytes, shared_by=[name])
-                           for name,s in layer_specs.items()]
-    print(f'C8_ALLOCATOR independent_layers={len(layer_specs)} blocks={blocks} '
+    cfg.kv_cache_tensors = [KVCacheTensor(size=blocks*size,shared_by=names) for names,size in pools]
+    print(f'C8_ALLOCATOR mode={pool_mode} layers={len(layer_specs)} pools={len(pools)} blocks={blocks} '
           f'allocated_bytes={sum(t.size for t in cfg.kv_cache_tensors)} '
           f'reserved_scratch_bytes={scratch} original_budget_bytes={old_budget}', flush=True)
     return configs
@@ -98,13 +117,18 @@ def allocate(self, config):
                          if not isinstance(specs[t.shared_by[0]],C8FullAttentionSpec)])
     result = _original_allocate(self, filtered)
     buffers = {name:t for t in config.kv_cache_tensors for name in t.shared_by}
+    allocated={}
     for name,spec in specs.items():
         if not isinstance(spec, C8FullAttentionSpec):
             continue
         allocation = buffers[name]
-        if allocation.shared_by != [name]:
-            raise RuntimeError('C8 bring-up requires independent layer allocation')
-        blocks = allocation.size // spec.page_size_bytes
+        pool_key=tuple(allocation.shared_by)
+        if pool_key in allocated:
+            result[name]=allocated[pool_key]
+            continue
+        if any(not isinstance(specs[other],C8FullAttentionSpec) for other in allocation.shared_by):
+            raise RuntimeError('C8 physical pool cannot alias linear state')
+        blocks = config.num_blocks
         capacity = blocks * spec.block_size
         data_bytes = capacity * spec.num_kv_heads * spec.head_size
         scale_bytes = capacity * 16 * 2
@@ -120,6 +144,7 @@ def allocate(self, config):
         ks = tensor[2*data_bytes:2*data_bytes+scale_bytes].view(torch.float16).view(capacity,16)
         vs = tensor[2*data_bytes+scale_bytes:used].view(torch.float16).view_as(ks)
         result[name] = (k,v,ks,vs)
+        allocated[pool_key]=result[name]
         print(f'C8_STORAGE layer={name} slots={capacity} data_scale_bytes={used} '
               f'allocated_bytes={tensor.numel()} charged_bytes={allocation.size} '
               f'avoided_padding_bytes={allocation.size-used}',flush=True)
