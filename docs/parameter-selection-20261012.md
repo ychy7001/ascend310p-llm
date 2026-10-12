@@ -51,6 +51,8 @@ a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144
 
 这个 a1 结果适合做方向性 W8A8 参考，不能直接作为 a2 TP1/W4A8 的回归基线：硬件拓扑、TP、权重格式、Graph、batch、MTP 和 prefix-cache 状态均不同。后续优化顺序应先完成 a2 C8/Graph 生命周期和 MTP 门禁，再用固定 unique prompt、相同输出长度和阶段 counter 做跨机器矩阵对照；否则无法判断差距来自 W4 算子还是 TP/调度配置。
 
+为避免 prefix cache 污染，`tools/bench_server_phases.py` 新增 `--unique-prompts`，让 warmup 和每一轮使用不同 token 前缀。A1 当前原服务（TP2/W8A8/Decode Graph/prefix cache enabled）使用该模式得到：8K/256 三轮 Prefill `1303.37/1304.36/1302.90` tok/s、Decode `32.16/32.16/32.14` tok/s；32K/256 前两轮有效 Prefill `1385.07/1383.88` tok/s、Decode `29.30/29.26` tok/s，第三轮因服务端阶段计数出现多请求增量而作废。8K 结果可作为新的冷请求方向性参考；32K 需要重新完成严格三轮后再用于正式比较。原始结果在 `data/ascend/experiment-results/a1-w8a8-reference/cold-unique-p8192-o256.jsonl` 和 `cold-unique-p32256-o256.jsonl`。
+
 当前数据不能支持“TP2 Prefill 1000 tok/s，所以 TP1 必然 500 tok/s”的线性结论。a1 是 TP2/W8A8，a2 是 TP1/W4A8；TP1 还要承担 W4 权重解包/反量化、MoE routed-expert 调度和不同通信/同步开销。实测 a2 TP1 W4A8 冷 Prefill 在 8K/32K 约 `372--354 tok/s`（eager/MTP1）或 Graph 约 `380/352 tok/s`，确实低于 TP2 结果的一半，但差距不能归因于单一反量化步骤。需要用同一设备 profile 拆分 `QwenW4A8Int4MatmulV310`、专家 pack/dispatch、attention 和 host/Graph launch 后，才能判断下一步应优化算子还是调度。
 
 ### Prefill profile 的优化优先级
