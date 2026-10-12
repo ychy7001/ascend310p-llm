@@ -31,10 +31,28 @@ from c8_cache_310 import C8Cache310
 torch.ops.load_library(os.environ['QWEN36_C8_LIBRARY'])
 _SCRATCH = {}
 
+# Explicit 310P experiment contract: Qwen full-attention geometry and the
+# device-side page size are intentionally named instead of repeated literals.
+C8_BLOCK_SIZE = 64
+C8_KV_HEADS = 2
+C8_HEAD_SIZE = 256
+
+
+def _flag(name, default='0'):
+    return os.environ.get(name, default) == '1'
+
+
+def _graph_candidate_enabled():
+    return _flag('QWEN36_C8_ALLOW_GRAPH')
+
+
+def _mtp2_enabled():
+    return _flag('QWEN36_C8_ALLOW_MTP2')
+
 # The pinned image wraps FULL graphs even with compilation mode NONE, but
 # initializes GraphParams only for VLLM_COMPILE. Keep both conditions aligned
 # for the explicit direct-capture probe; never bypass parameter updates.
-if os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1':
+if _graph_candidate_enabled():
     import direct_graph_310  # noqa: F401
 
 
@@ -43,7 +61,7 @@ class C8FullAttentionSpec(FullAttentionSpec):
     @property
     def real_page_size_bytes(self):
         # Two signed-byte data tensors and two padded FP16 scale tensors.
-        return self.block_size * (2 * self.num_kv_heads * self.head_size + 64)
+        return self.block_size * (2 * self.num_kv_heads * self.head_size + C8_BLOCK_SIZE)
 
 
 _original_spec = Attention.get_kv_cache_spec
@@ -51,7 +69,7 @@ def get_spec(self, config):
     spec = _original_spec(self, config)
     if spec is None or not isinstance(self.impl, AscendAttentionBackendImpl310):
         return spec
-    graph_candidate = os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1'
+    graph_candidate = _graph_candidate_enabled()
     if (config.parallel_config.tensor_parallel_size != 1
             or (not config.model_config.enforce_eager and not graph_candidate)
             or config.kv_transfer_config):
@@ -60,9 +78,9 @@ def get_spec(self, config):
     if speculative and (speculative.method != 'mtp'
             or speculative.num_speculative_tokens not in (1, 2)
             or (speculative.num_speculative_tokens == 2
-                and os.environ.get('QWEN36_C8_ALLOW_MTP2', '0') != '1')):
+                and not _mtp2_enabled())):
         raise RuntimeError('C8 supports MTP1 by default; set QWEN36_C8_ALLOW_MTP2=1 for the experimental MTP2 path')
-    if not isinstance(spec, FullAttentionSpec) or spec.head_size != 256 or spec.num_kv_heads != 2:
+    if not isinstance(spec, FullAttentionSpec) or spec.head_size != C8_HEAD_SIZE or spec.num_kv_heads != C8_KV_HEADS:
         raise RuntimeError('C8 bring-up supports Qwen full attention 2KV/dim256 only')
     return C8FullAttentionSpec(block_size=spec.block_size, num_kv_heads=spec.num_kv_heads,
         head_size=spec.head_size, head_size_v=spec.head_size_v, dtype=torch.int8,
@@ -81,7 +99,7 @@ def get_configs(config, specs, memory):
     layer_specs = {name: group.kv_cache_spec for group in cfg.kv_cache_groups
                    for name in group.layer_names}
     # Reserve one shared, max-context FP16 NZ workspace, not one per layer.
-    scratch = math.ceil(config.model_config.max_model_len / 64) * 64 * 2 * 256 * 4
+    scratch = math.ceil(config.model_config.max_model_len / C8_BLOCK_SIZE) * C8_BLOCK_SIZE * 2 * C8_HEAD_SIZE * 4
     old_budget = sum(t.size for t in cfg.kv_cache_tensors)
     pool_mode = os.environ.get('QWEN36_C8_POOL_MODE','independent')
     if pool_mode not in ('independent','split_by_type'):
@@ -185,7 +203,7 @@ NPUModelRunner310._allocate_kv_cache_tensors = allocate
 def scratch_buffers(device, context, heads, dim):
     key = (str(device), context, heads, dim)
     if key not in _SCRATCH:
-        blocks = math.ceil(context/64)
+        blocks = math.ceil(context / C8_BLOCK_SIZE)
         shape = (blocks, heads*dim//16,64,16)
         k = torch_npu.empty_with_format(size=shape,dtype=torch.float16,device=device,acl_format=29)
         v = torch_npu.empty_with_format(size=shape,dtype=torch.float16,device=device,acl_format=29)
@@ -208,7 +226,7 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     cache.k,cache.v,cache.ks,cache.vs = kv_cache
     cache.heads,cache.dim = self.num_kv_heads,self.head_size
     cache.capacity = cache.k.shape[0]
-    cache.block_size = 64
+    cache.block_size = C8_BLOCK_SIZE
     if key is not None and value is not None:
         k = key[:count].reshape(count,cache.heads,cache.dim)
         v = value[:count].reshape_as(k)
@@ -228,10 +246,10 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     # fixed max-context table only for a forward dispatched to a FULL graph;
     # native PA masks by device context_lens. Chunked prefill remains eager
     # even in a graph-enabled service and must use its actual history length.
-    graph_candidate = (os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1'
+    graph_candidate = (_graph_candidate_enabled()
                        and not self.vllm_config.model_config.enforce_eager
                        and get_forward_context().cudagraph_runtime_mode == CUDAGraphMode.FULL)
-    pages = math.ceil((context if graph_candidate else length)/64)
+    pages = math.ceil((context if graph_candidate else length) / C8_BLOCK_SIZE)
     if attn_metadata.block_tables.shape[1] < pages:
         raise RuntimeError('C8 graph requires a max-context device block table')
     selected = attn_metadata.block_tables[0,:pages].to(torch.int32).contiguous()
@@ -240,10 +258,10 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     if graph_candidate and os.environ.get('QWEN36_C8_DEVICE_LENGTH', '0') == '1':
         # Same replay-updated tensor that native PA consumes. Keep output and
         # page table extent fixed; only device-side conversion work varies.
-        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected,
+        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected,
                                    attn_metadata.seq_lens)
     else:
-        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected)
+        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected)
     # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
     # discards it and forces an eager device->host copy in every SplitFuse layer.
     # Preserve the builder's full metadata, changing only the compact page table.
