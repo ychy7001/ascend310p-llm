@@ -69,6 +69,8 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 
 真实profile初步统计：3072token/output1，400次`QwenW4A8Int4MatmulV310`累计3.980758秒，单次5.2924～15.3176ms，op_statistic中占累计时间50.402%；其次Slice .422909秒、Mul .361105秒、ReduceSum .291646秒、ViewCopy .279497秒、普通MatMulV2 .266708秒、Tril .262126秒、Cast .231858秒。step_trace的Computing为7.840336秒、Stage7.895287秒，无通信。累计算子比例不直接等于普通请求墙钟占比。`kernel_details`同时给出cube_utilization约93.87%和mac_ratio约.0325，两者口径不同，当前不能用前者声称Cube已达峰值或用后者认定硬件算力利用率3%；没有实测GB/s，暂不认定memory/compute bound。原始目录`prefill-profile-b4096-g640`，本地摘要`w4-prefill-profile-b4096-g640-summary.json`。
 
+后续更完整的 fused profile（同为真实310P3、单请求）显示：`QwenW4A8Int4MatmulV310`累计占21.51%，普通`MatMulV2`占19.17%，`hcom_allReduce_`占18.23%；`TransData`、`Slice`、`IndexPut`、`Cast`、`ViewCopy`合计约16%，而`QwenW4A8PackV310`仅1.51%。这些是可能重叠的累计kernel时间，不能转换成端到端墙钟加速比。当前Prefill优先级应是先配对确认通信、专家分组和布局搬运的实际墙钟成本，再评估W4 tile/L1权重复用；单独优化Pack不足以解释W4与A1 W8A8的差距。完整摘要归档于`data/ascend/experiment-results/tp1-w4-profile/profile-summary.json`。
+
 8K输入/输出256token三轮有效请求：Prefill 384.8600/384.9462/384.5370tok/s；Decode 21.0647/21.0749/21.0600tok/s，中位21.0647。Decode分母为服务端decode阶段耗时，分子输出token数减1；HTTP TTFT中位21.3138秒，请求平均TPOT中位47.4792ms。这些是FP16KV/MTP0/eager配置，不能称为W4+MTP+C8+Graph组合结果。近32K持续Decode结果见下文。
 
 长输入对照可用`experimental/run-long-context-sweep.sh`复现，沿用前述MODEL_DIR/OPP_DIR/EXTENSION/C8_LIBRARY，设置全新的RESULT_DIR；默认顺序比较1024:512与4096:640，固定32K上限、8K/32256输入、1/256输出、warmup1+三轮，最后执行32256中间needle。每组正常通过后才停止服务进入下一组；失败保留服务和原始证据。4096/640测量完成后，已经正常启动`PAIRS=1024:512`，结果目录`long-context-sweep-20261012`。

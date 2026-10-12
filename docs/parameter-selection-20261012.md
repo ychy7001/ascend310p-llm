@@ -53,6 +53,20 @@ a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144
 
 当前数据不能支持“TP2 Prefill 1000 tok/s，所以 TP1 必然 500 tok/s”的线性结论。a1 是 TP2/W8A8，a2 是 TP1/W4A8；TP1 还要承担 W4 权重解包/反量化、MoE routed-expert 调度和不同通信/同步开销。实测 a2 TP1 W4A8 冷 Prefill 在 8K/32K 约 `372--354 tok/s`（eager/MTP1）或 Graph 约 `380/352 tok/s`，确实低于 TP2 结果的一半，但差距不能归因于单一反量化步骤。需要用同一设备 profile 拆分 `QwenW4A8Int4MatmulV310`、专家 pack/dispatch、attention 和 host/Graph launch 后，才能判断下一步应优化算子还是调度。
 
+### Prefill profile 的优化优先级
+
+当前已有一份真实 310P3、TP1、W4A8 专家路径的 NPU profile（3072 输入、输出 1，单请求）。profile 的累计 kernel 时间会重叠，不能直接当作端到端墙钟占比；它用于排序热点，不用于宣称某个算子可以带来同等比例的加速。摘要归档在 `data/ascend/experiment-results/tp1-w4-profile/profile-summary.json`。
+
+| 算子 | 次数 | 累计时间占比 | 备注 |
+| --- | ---: | ---: | --- |
+| `QwenW4A8Int4MatmulV310` | 360 | 21.51% | Cube median 约 92.29；是最大单一算子，但不像明显未启动 Cube |
+| `MatMulV2` | 2168 | 19.17% | 与 W4 专家 MatMul 同量级，应检查非专家层和形状效率 |
+| `hcom_allReduce_` | 648 | 18.23% | 通信/同步已经是主要项，TP 扩展和路由组织需要单独分析 |
+| `TransData`、`Slice`、`IndexPut`、`Cast`、`ViewCopy` | - | 约 16% | 候选是布局、路由元数据和 activation pack 的融合或减少往返 |
+| `QwenW4A8PackV310` | 360 | 1.51% | 只优化 pack 本身不可能解释 Prefill 与 A1 的全部差距 |
+
+因此 Prefill 优化顺序暂定为：先确认相同输入下 profile 的墙钟阶段与 TP/通信开销，再检查 routed-expert 分组、激活 pack、布局转换和普通 MatMul；只有在这些成本隔离后，才继续改 W4 tile、L1 权重复用或跨 K 累加。A1 的 8K/32K 冷 Prefill（约 1282/1086 tok/s）保留为方向性 W8A8 参考；正式比较必须固定 unique prompt、输出长度、prefix-cache 状态、Graph capture 和 `max_num_batched_tokens`，并在 A2 上交替复测。
+
 ## Graph 修复探针（2026-10-12）
 
 镜像中的 310P attention backend 声明自己属于 updatable graph，但 FULL graph 参数更新仍误进入通用 `update_graph_params`，造成 `graph_params=None`。新增 `QWEN36_C8_FORCE_UPDATABLE_GRAPH=1` 仅用于诊断：在 `direct_graph_310.py` 中将 Graph 参数更新判断切到 updatable 分支，默认关闭，不改变普通 eager/Graph 行为。
