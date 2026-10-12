@@ -17,6 +17,10 @@ def verify(root, repo):
     checked = 0
     hashed = 0
     for file in sorted(root.iterdir()):
+        # ms-hub writes its local resume database into the upload directory.
+        # It is transport state, not a published model artifact.
+        if file.name == '.ms_upload_cache':
+            continue
         if not file.is_file():
             continue
         record = remote.get(file.name)

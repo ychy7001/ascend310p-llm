@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | Routed Experts W4A8 | 完整模型TP1/TP2启动、生成 | 其它层保持浮点；不保证优于W8A8 |
 | W4A8+MTP | Qwen3.6自身BF16 MTP，TP1/TP2生成与部分benchmark | 仅num_speculative_tokens=1已测 |
-| C8 | 独立page写入、读取、反量化、Attention与mutable Graph已测 | hybrid model backend尚未接入 |
+| C8 | 独立page写入、读取、反量化、Attention与mutable Graph已测 | TP1/eager/MTP=0/4K完整模型生成通过；容量与质量待验收 |
 | W4A8+MTP+C8 | 尚未联合运行 | 不属于首版已支持配置 |
 
 环境：镜像`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`，CANN9.1.0，Torch2.10.0+cpu，torch-npu2.10.0.post4，vLLM基于`0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665`，vLLM-Ascend基于`1cdb8c4db6e50f36f1fb3283b3e3dd618f6821e8`。额外社区W4模块及本地修改见来源说明。
@@ -33,4 +33,4 @@
 
 ## 下一验收节点
 
-C8先实现TP1/eager/单请求短生成，关闭MTP，仅压缩full-attention K/V，linear-attention状态维持原精度。按层复用NZ scratch；验证chunked prefill、decode append、页复用、生成质量与实际峰值内存，再加MTP拒绝token/state rollback，最后TP2/并发/Graph/长上下文。
+C8已实现TP1/eager/单请求短生成，关闭MTP，仅压缩full-attention K/V，linear-attention状态维持原精度。匹配FP16 KV对照：p512/o64中位吞吐14.2881→13.2868tok/s（−7.01%），TPOT45.40→49.80ms；p3072/o32吞吐2.9583→2.8152（−4.84%），TPOT45.90→50.91ms。都是1warmup/3rounds、4K/.90/max-batch256，同一prompt IDs，非尾延迟统计或正式精度。五类sanity均通过，三类文本相同、两类文本不同，不证明精度等价。按层复用NZ scratch；验证chunked prefill、decode append、页复用、生成质量与实际峰值内存，再加MTP拒绝token/state rollback，最后TP2/并发/Graph/长上下文。

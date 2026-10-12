@@ -4,7 +4,9 @@
 Uses a real C8 spec and charged scale storage. The first allocator retains
 hybrid page padding and replaces shared pools by independent layer buffers,
 reducing scheduler blocks to stay inside its original memory budget. This is
-an explicit correctness candidate, NOT a model memory-saving claim.
+an explicit correctness candidate. Physical C8 buffers omit unused tail
+padding while the scheduler conservatively retains its charged page budget.
+This does not increase advertised context capacity.
 """
 from dataclasses import dataclass, replace
 import math
@@ -95,21 +97,25 @@ def allocate(self, config):
         allocation = buffers[name]
         if allocation.shared_by != [name]:
             raise RuntimeError('C8 bring-up requires independent layer allocation')
-        tensor = torch.zeros(allocation.size,dtype=torch.int8,device=self.device)
-        blocks = tensor.numel() // spec.page_size_bytes
+        blocks = allocation.size // spec.page_size_bytes
         capacity = blocks * spec.block_size
         data_bytes = capacity * spec.num_kv_heads * spec.head_size
         scale_bytes = capacity * 16 * 2
         used = 2*data_bytes + 2*scale_bytes
-        if used > tensor.numel():
+        if used > allocation.size:
             raise RuntimeError('C8 data and scales exceed charged allocation')
+        # Views consume a contiguous payload, never the hybrid padded tail.
+        # Keep the scheduler charge unchanged; this saves physical storage
+        # without advertising extra blocks that its grouping cannot support.
+        tensor = torch.zeros(used,dtype=torch.int8,device=self.device)
         k = tensor[:data_bytes].view(capacity, spec.num_kv_heads, spec.head_size)
         v = tensor[data_bytes:2*data_bytes].view_as(k)
         ks = tensor[2*data_bytes:2*data_bytes+scale_bytes].view(torch.float16).view(capacity,16)
         vs = tensor[2*data_bytes+scale_bytes:used].view(torch.float16).view_as(ks)
         result[name] = (k,v,ks,vs)
         print(f'C8_STORAGE layer={name} slots={capacity} data_scale_bytes={used} '
-              f'allocated_bytes={tensor.numel()} page_padding_bytes={tensor.numel()-used}',flush=True)
+              f'allocated_bytes={tensor.numel()} charged_bytes={allocation.size} '
+              f'avoided_padding_bytes={allocation.size-used}',flush=True)
     return result
 NPUModelRunner310._allocate_kv_cache_tensors = allocate
 

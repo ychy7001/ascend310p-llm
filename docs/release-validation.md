@@ -24,12 +24,12 @@ p128/o64、单流、1次warmup后3轮streaming：aggregate output吞吐为21.923
 
 experimentally verified：替换新OPP和extension后，在相同TP1/MTP=1/4096/.90配置下启动与五类生成sanity再次全部PASS；completion tokens为75/98/35/128/128。p128/o64单流，1次warmup后3轮aggregate吞吐为21.9502/21.9445/21.9728tok/s，TTFT为0.6582/0.6591/0.6575s，mean TPOT为35.814/35.823/35.793ms。与首轮性能接近，不能将其作为严格精度一致性验证；英文和中文文本也不完全相同。数学与长解释被128输出上限截断。
 
-新构建使用固定社区源码快照与本仓库三个overlay，无既有OPP或extension复用。测试时通过分步构建、补回源码目录内被准备脚本漏掉的补丁完成，**没有逐字端到端运行公开build-native.sh**，因此生成门禁验证的是对应源码产物，而不是完整公开脚本在全新环境中下载构建的验收。原始构建、服务与请求日志在a2独立release目录留存，未提交Git。完整ModelScope上传与远端文件检查将在完成后追加。
+新构建使用固定社区源码快照与本仓库三个overlay，无既有OPP或extension复用。测试时通过分步构建、补回源码目录内被准备脚本漏掉的补丁完成，**没有逐字端到端运行公开build-native.sh**，因此生成门禁验证的是对应源码产物，而不是完整公开脚本在全新环境中下载构建的验收。原始构建、服务与请求日志在a2独立release目录留存，未提交Git。完整ModelScope上传与远端文件检查结果如下。
 
 ## 发布状态
 
-GitHub公开仓库`ychy7001/ascend310p-qwen36`已创建，首个源码commit为`3b6022c`。ModelScope公开仓库`ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P`已创建，64个文件正在上传；完整权重尚需以远端清单校验确认，不能把空仓创建当作发布完成。
+GitHub公开仓库`ychy7001/ascend310p-qwen36`已创建，首个源码commit为`3b6022c`。ModelScope公开仓库`ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P`已创建，2026-10-12 04:10:37 UTC（北京时间12:10:37）完成64文件提交：53个LFS PUT、1个LFS复用、10个普通文件，失败0，耗时3662.9s。随后64个发布文件的远端大小与SHA256全部匹配本地（远端另有平台文件，共65项）。从远端新下载config、index和deployment-sha256三个文件并逐字节比对通过；未重新下载全部24.63GB权重做推理，因此不称为fresh-download inference。校验器排除CLI在本地生成的`.ms_upload_cache`，不把传输状态当作模型制品。
 
 ## 尚未完成的门禁
 
-C8完整模型、W4A8+MTP+C8组合、公开制品TP2复测、长上下文真实请求、多模态、正式质量集合、同条件W8A8比较与全部吞吐/尾延迟矩阵仍未完成。
+C8 TP1/eager/MTP=0/4K完整模型短生成和chunked prefill已通过，详见docs/c8.md。严格C8质量、容量和长上下文、W4A8+MTP+C8组合、公开制品TP2复测、长上下文真实请求、多模态、正式质量集合、同条件W8A8比较与全部吞吐/尾延迟矩阵仍未完成。

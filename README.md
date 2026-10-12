@@ -6,7 +6,7 @@
 | --- | --- |
 | W4A8 TP1/TP2、FP16 KV | 已在a2启动、生成 |
 | W4A8 + Qwen3.6自身BF16 MTP | TP1/TP2已运行，speculative tokens=1 |
-| INT8 KV / C8 | 独立算子已测；experimental TP1/eager/MTP=0完整模型短生成与chunked prefill已通过，容量/质量/对照仍待验收 |
+| INT8 KV / C8 | 独立算子已测；experimental TP1/eager/MTP=0完整模型短生成与chunked prefill已通过，匹配FP16 KV对照已测，速度下降，容量/质量仍待验收 |
 | 长上下文 | TP1无MTP精确128K生成已测；262144配置启动不等于实际256K验收 |
 | 全面质量及稳定加速 | 尚未完成；INT4不保证更快 |
 
@@ -61,7 +61,7 @@ sanity只检查服务可用性、非空输出与明显异常，不替代准确�
 
 [C8独立复现](docs/c8.md)包含选页NZ转换、原生PA对照、Cube/Split-KV候选和混合Mmad编译探针。需要真实310P执行；FP16工作区额外内存必须计入容量收益。
 
-[华为反馈报告](docs/huawei-feedback.md)整理已知结果与五项具体问题：C8接口、混合Matmul、NZ/UB/L1流水、W4小M/Prefill与hybrid/MTP cache状态。下一节点是TP1短上下文真实C8生成，然后验证MTP回退和TP2。
+[华为反馈报告](docs/huawei-feedback.md)整理已知结果与五项具体问题：C8接口、混合Matmul、NZ/UB/L1流水、W4小M/Prefill与hybrid/MTP cache状态。TP1短上下文真实C8生成已通过；下一节点是紧凑分配、质量差分，再验证MTP回退和TP2。
 
 [详细技术评审报告](docs/huawei-report.md)记录完整适配路径、初版TP1/TP2/MTP与C8测试数据、失败证据和待补门禁；报告以2026-10-12状态为准，DOCX/PDF同内容版供评审转发。
 

@@ -30,7 +30,7 @@ tags:
 | --- | --- |
 | 完整W4A8 TP1/TP2、FP16 KV | 已在真实310P3运行 |
 | BF16 MTP | TP1/TP2、num_speculative_tokens=1已运行 |
-| INT8 KV / C8 | 独立算子实验，尚未完整模型接入 |
+| INT8 KV / C8 | TP1/eager/MTP=0/4K短生成与chunked prefill已通过；质量、容量和长上下文待验收 |
 | W4A8+MTP+C8 | 尚未联合验收 |
 | 长上下文 | 无MTP TP1实际128K生成已测；256K配置不等于实际请求验收 |
 | 多模态、全面精度、长上下文质量 | 未完成验收 |
