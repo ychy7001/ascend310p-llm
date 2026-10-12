@@ -96,8 +96,8 @@ def get_configs(config, specs, memory):
     full = next(s for s in layer_specs.values() if isinstance(s, C8FullAttentionSpec))
     required_blocks = math.ceil(config.model_config.max_model_len / full.block_size)
     # Each C8 physical pool must contain every logical page of a request.
-    # The old check used the number of hybrid groups, which could let a 32K
-    # config start with only ~5K physical slots and fail later on block tables.
+    # Use the scheduler page size (1152 for this hybrid model), not the
+    # 64-token kernel subblock size used by the expanded device block table.
     needed = required_blocks
     print(f'C8_BUDGET mode={pool_mode} groups={len(cfg.kv_cache_groups)} layers={len(layer_specs)} '
           f'original_blocks={cfg.num_blocks} independent_blocks={blocks} minimum_blocks={needed} '

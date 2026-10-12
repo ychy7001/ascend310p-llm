@@ -7,6 +7,7 @@ MTP=${MTP:-0}
 ENFORCE_EAGER=${ENFORCE_EAGER:-1}
 QWEN36_C8_ALLOW_GRAPH=${QWEN36_C8_ALLOW_GRAPH:-0}
 GRAPH_MODE=${GRAPH_MODE:-FULL_DECODE_ONLY}
+COMPILATION_MODE=${COMPILATION_MODE:-3}
 GRAPH_CAPTURE_SIZES=${GRAPH_CAPTURE_SIZES:-1}
 if [[ "$MTP" != 0 && "$MTP" != 1 ]]; then echo 'MTP must be 0 or 1' >&2; exit 2; fi
 if [[ "$ENFORCE_EAGER" != 0 && "$ENFORCE_EAGER" != 1 ]]; then echo 'ENFORCE_EAGER must be 0 or 1' >&2; exit 2; fi
@@ -24,6 +25,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e QWEN36_C8_ALLOW_GRAPH="$QWEN36_C8_ALLOW_GRAPH" \
   -e ENFORCE_EAGER="$ENFORCE_EAGER" \
   -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
+  -e COMPILATION_MODE="$COMPILATION_MODE" \
   -e MTP="$MTP" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
@@ -49,7 +51,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     if [[ "$ENFORCE_EAGER" == 1 ]]; then
       args+=(--enforce-eager)
     else
-      args+=(--compilation-config "{\"cudagraph_mode\":\"$GRAPH_MODE\",\"cudagraph_capture_sizes\":[$GRAPH_CAPTURE_SIZES]}")
+      args+=(--compilation-config "{\"mode\":$COMPILATION_MODE,\"cudagraph_mode\":\"$GRAPH_MODE\",\"cudagraph_capture_sizes\":[$GRAPH_CAPTURE_SIZES]}")
     fi
     if [[ "$MTP" == 1 ]]; then
       args+=(--speculative-config '\''{"method":"mtp","num_speculative_tokens":1}'\'')
