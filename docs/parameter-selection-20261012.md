@@ -51,6 +51,21 @@ a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144
 
 这个 a1 结果适合做方向性 W8A8 参考，不能直接作为 a2 TP1/W4A8 的回归基线：硬件拓扑、TP、权重格式、Graph、batch、MTP 和 prefix-cache 状态均不同。后续优化顺序应先完成 a2 C8/Graph 生命周期和 MTP 门禁，再用固定 unique prompt、相同输出长度和阶段 counter 做跨机器矩阵对照；否则无法判断差距来自 W4 算子还是 TP/调度配置。
 
+当前数据不能支持“TP2 Prefill 1000 tok/s，所以 TP1 必然 500 tok/s”的线性结论。a1 是 TP2/W8A8，a2 是 TP1/W4A8；TP1 还要承担 W4 权重解包/反量化、MoE routed-expert 调度和不同通信/同步开销。实测 a2 TP1 W4A8 冷 Prefill 在 8K/32K 约 `372--354 tok/s`（eager/MTP1）或 Graph 约 `380/352 tok/s`，确实低于 TP2 结果的一半，但差距不能归因于单一反量化步骤。需要用同一设备 profile 拆分 `QwenW4A8Int4MatmulV310`、专家 pack/dispatch、attention 和 host/Graph launch 后，才能判断下一步应优化算子还是调度。
+
+## Graph 修复探针（2026-10-12）
+
+镜像中的 310P attention backend 声明自己属于 updatable graph，但 FULL graph 参数更新仍误进入通用 `update_graph_params`，造成 `graph_params=None`。新增 `QWEN36_C8_FORCE_UPDATABLE_GRAPH=1` 仅用于诊断：在 `direct_graph_310.py` 中将 Graph 参数更新判断切到 updatable 分支，默认关闭，不改变普通 eager/Graph 行为。
+
+该开关已在真实 310P3 上通过两级门禁：
+
+| 配置 | 结果 |
+| --- | --- |
+| 4K、C8、MTP1、Graph、capture `[1,2]` | capture 成功；toy 8/8；A/B/A 一致；3072-token needle 正确；Prefill 384.20、Decode 32.69 tok/s |
+| 32K、C8、MTP1、Graph、device-length、capture `[1,2]` | KV 124518 tokens；capture 成功；8K Prefill/Decode 379.72/30.67；近32K 351.53/23.47 tok/s；32256-token needle 正确（95.40s） |
+
+32K 结果与此前未强制分支的 C8 device-length Graph（8K 377.93/30.51、近32K 350.34/23.18）接近，说明修复消除了初始化故障，但没有凭空产生大幅加速。该开关仍应作为实验/待上游确认路径；产品默认继续使用 eager，直到确认镜像与上游 runner 的版本契约后再把它改成正式 backend 行为。
+
 ## MTP 0/1/2 的取舍
 
 在 FP16 KV、eager、TP1、32K 上限、1024:512、同一 W4 checkpoint 的配对扫描中：
