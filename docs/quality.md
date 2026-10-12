@@ -33,3 +33,7 @@ experimentally verified：TP1/W4A8/C8/eager/4K/.90、MTP=1、max-batch256、max-
 ## 匹配FP16 KV对照已完成
 
 experimentally verified：相同checkpoint/OPP/extension、TP1/eager/4K/.90/MTP=1、max-seqs1/max-batch256、无prefix cache、同SHA/indices/prompt/512输出上限；FP16 KV为31/32，parse_missing=1/truncated=1，C8非融合独立层为32/32。唯一差异index205：FP16正确推导过程中512tokens处截断，未出现####98；C8在上限内回答98。其余31题数值答案相同，全文仅9题完全相同。这个差异不能解释为量化提高准确率，也不能从32题证明精度等价。脚本compare_gsm8k_runs.py拒绝未完成或协议不同的runs；原始fp16kv-mtp1-gsm32.jsonl。FP16的8题/A-B-A也通过。
+
+## 32K配置MTP2实测小样本
+
+experimentally verified：TP1/W4A8/FP16KV/eager/32K/.90/1024:512/maxseq1/prefix off，MTP1与MTP2各自toy严格8/8，A/B/A文本一致、无标记泄漏；两组32256中间needle均通过。MTP2的p128吞吐窗口含warmup，draft tokens620/accepted490，实际第二位置接受229且存在130枚未接受草稿。数据支持两枚草稿实际参与verify，不等于所有拒绝情形或长上下文精度已验收。两组都完成固定128/8192/32256输入、输出256的三轮有效usage请求。C8与Graph仍仅验证一枚草稿组合；新C8有效长度Graph集成的固定GSM32对照已排队，原始题目/输出不提交。

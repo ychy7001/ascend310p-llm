@@ -47,6 +47,14 @@ r = json.load(open(sys.argv[1]))
 if r['strict_matches'] != 8 or r['reuse']['canary_leaked'] or not r['reuse']['identical_text']:
     raise RuntimeError('Toy/reuse quality gate failed; preserve service')
 PY
+  if [[ -n "${QUALITY_DATASET:-}" ]]; then
+    curl --max-time 30 -sf "$base/metrics" >"$RESULT_DIR/$name-gsm-metrics-before.txt"
+    python3 "$root/tools/eval_gsm8k_http.py" --base-url "$base" \
+      --model qwen36-w4a8-c8 --label "$name" --dataset "$QUALITY_DATASET" \
+      --limit 32 --seed 310 --max-tokens 512 --out "$RESULT_DIR/$name-gsm32.jsonl"
+    curl --max-time 30 -sf "$base/metrics" >"$RESULT_DIR/$name-gsm-metrics-after.txt"
+    # Scores/truncations are evidence for matched review, not a full accuracy gate.
+  fi
   for tokens in ${PROMPT_LENGTHS:-128 8192 32256}; do
     before="$RESULT_DIR/$name-p${tokens}-metrics-before.txt"
     after="$RESULT_DIR/$name-p${tokens}-metrics-after.txt"

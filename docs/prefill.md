@@ -86,3 +86,17 @@ MTP1/2后续对照已启动：`experimental/run-mtp-sweep.sh`使用FP16KV/eager/
 MTP1候选已启动成功并通过8/8 toy严格答案和A/B/A复用（文本一致、无标记泄漏）。相同32K上限/FP16KV/eager/.90/1024:512，p128/o256三轮Decode 26.75564/26.76552/26.77896tok/s，中位26.76552；Prefill中位194.83565tok/s。TTFT中位0.65988秒，HTTP请求平均TPOT中位37.3611ms。此结果不是C8/Graph组合，也不与无MTP的8K输入做直接收益比较；8K及近32K同条件配对测量继续执行，MTP2仍无设备结果。
 
 MTP1的8K/256三轮完成，与无MTP相同32K上限/FP16KV/eager/.90/1024:512/prefix off且逐项prompt IDs一致：Decode中位26.23727tok/s（无MTP21.12486，约+24.20%）；Prefill中位378.89077tok/s（无MTP382.73237，约−1.00%）。这是顺序跨服务三轮，不是交替复测或尾延迟门禁；长输入、MTP2和正式质量继续验证。
+
+## MTP1/2完整32K扫描结果（2026-10-12，experimentally verified）
+
+两组均TP1/FP16KV/eager/32K/.90/maxseq1/prefix off/1024:512，同checkpoint/OPP/extension；固定IDs逐项核验相同、warmup1后三轮，阶段计时，非纯kernel或P95。
+
+| 输入/输出 | MTP1 Prefill中位 | MTP2 Prefill中位 | MTP1 Decode中位 | MTP2 Decode中位 |
+| --- | --- | --- | --- | --- |
+| 128/256 | 194.8356 | 187.9083 | 26.7655 | 29.9720 |
+| 8192/256 | 378.8908 | 376.3521 | 26.2373 | 33.1059 |
+| 32256/256 | 352.0753 | 350.2415 | 22.4596 | 28.8517 |
+
+两组toy严格8/8、A/B/A文本一致且无标记泄漏；近32K中间needle均通过。MTP2为32256输入+14输出，95.6655秒。MTP2相对MTP1长输入Decode约+28.46%；重复文本接受率100%是有利负载，不代表业务普遍收益。p128计数窗口含warmup：MTP1草稿413/接受385（拒绝28）；MTP2草稿620/接受490（未接受130），第0位261、第1位229、draft轮310，按轮次第1位接受比例约73.87%（不是条件接受率）。8K/近32K窗口MTP1接受400/400、MTP2接受532/532，两位置各266/266；仅证明实际第二枚草稿参与verify及短负载存在拒绝，不替代hybrid rollback全部正确性。
+
+原始目录mtp-sweep-20261012、文件qwen36-mtp{1,2}-fp16-32k-p{128,8192,32256}-o256.jsonl、前后metrics、reuse和needle。当前MTP2仍只在FP16 KV/eager通过，C8单草稿限制未移除，也没有MTP2 Graph结果。后续C8/MTP1三组Graph对照已启动，独立冻结代码和新库，数学回归在吞吐counter窗口之外独占执行。
