@@ -15,7 +15,7 @@ if [[ "$NUM_SPECULATIVE_TOKENS" != 1 && "$NUM_SPECULATIVE_TOKENS" != 2 ]]; then
   echo 'NUM_SPECULATIVE_TOKENS must be 1 or 2' >&2; exit 2
 fi
 if [[ "$MTP" == 1 && "$NUM_SPECULATIVE_TOKENS" == 2 && "${QWEN36_C8_ENABLED:-1}" == 1 ]]; then
-  echo 'C8 adapter supports only one draft token; test two with FP16 KV first' >&2; exit 2
+  [[ "${QWEN36_C8_ALLOW_MTP2:-0}" == 1 ]] || { echo 'C8 MTP2 is experimental; set QWEN36_C8_ALLOW_MTP2=1' >&2; exit 2; }
 fi
 if [[ "$ENFORCE_EAGER" != 0 && "$ENFORCE_EAGER" != 1 ]]; then echo 'ENFORCE_EAGER must be 0 or 1' >&2; exit 2; fi
 if [[ "$ENFORCE_EAGER" == 0 && "$QWEN36_C8_ALLOW_GRAPH" != 1 ]]; then
@@ -38,6 +38,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e QWEN36_GROUPED_CHUNK_TOKENS="${QWEN36_GROUPED_CHUNK_TOKENS:-512}" \
   -e QWEN36_C8_ALLOW_GRAPH="$QWEN36_C8_ALLOW_GRAPH" \
   -e QWEN36_C8_DEVICE_LENGTH="${QWEN36_C8_DEVICE_LENGTH:-0}" \
+  -e QWEN36_C8_ALLOW_MTP2="${QWEN36_C8_ALLOW_MTP2:-0}" \
   -e ENFORCE_EAGER="$ENFORCE_EAGER" \
   -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
   -e COMPILATION_MODE="$COMPILATION_MODE" \

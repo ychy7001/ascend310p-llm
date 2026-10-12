@@ -100,3 +100,17 @@ MTP1的8K/256三轮完成，与无MTP相同32K上限/FP16KV/eager/.90/1024:512/p
 两组toy严格8/8、A/B/A文本一致且无标记泄漏；近32K中间needle均通过。MTP2为32256输入+14输出，95.6655秒。MTP2相对MTP1长输入Decode约+28.46%；重复文本接受率100%是有利负载，不代表业务普遍收益。p128计数窗口含warmup：MTP1草稿413/接受385（拒绝28）；MTP2草稿620/接受490（未接受130），第0位261、第1位229、draft轮310，按轮次第1位接受比例约73.87%（不是条件接受率）。8K/近32K窗口MTP1接受400/400、MTP2接受532/532，两位置各266/266；仅证明实际第二枚草稿参与verify及短负载存在拒绝，不替代hybrid rollback全部正确性。
 
 原始目录mtp-sweep-20261012、文件qwen36-mtp{1,2}-fp16-32k-p{128,8192,32256}-o256.jsonl、前后metrics、reuse和needle。当前MTP2仍只在FP16 KV/eager通过，C8单草稿限制未移除，也没有MTP2 Graph结果。后续C8/MTP1三组Graph对照已启动，独立冻结代码和新库，数学回归在吞吐counter窗口之外独占执行。
+
+## C8 + MTP2候选（2026-10-12）
+
+新增实验开关`QWEN36_C8_ALLOW_MTP2=1`，默认仍拒绝C8两枚draft。TP1/W4A8/C8/fused-write/split-by-type/MTP2/eager/4K/.90真实启动成功；8题严格答案8/8，A/B/A复用文本一致且无标记泄漏。C8 allocator为41层/21池/92 blocks，GPU KV cache size 41,905 tokens；权重27.29GiB，启动profile的KV3.21GiB。
+
+同一服务、warmup后3轮、输出128的服务端阶段测量：
+
+| 输入tokens | Prefill中位tok/s | Decode中位tok/s |
+| --- | ---: | ---: |
+| 128 | 188.63 | 30.91 |
+| 2048 | 373.12 | 30.19 |
+| 3072 | 376.06 | 33.70 |
+
+这是eager路径，不是Graph收益结论。MTP2 Graph使用capture sizes `[1,2,3]` 仍在capture阶段失败：310P attention `update_graph_params` 读取`None.attn_params`。失败发生在图初始化，不是C8数值输出失败；原始日志`c8-mtp2-graph-4k.log`保留。当前结论：C8+MTP2 eager可运行，C8+MTP2 Graph尚未适配；默认仍为MTP1，需修复Graph参数生命周期并完成质量/长上下文门禁后才可产品化。

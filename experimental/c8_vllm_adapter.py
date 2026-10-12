@@ -57,8 +57,11 @@ def get_spec(self, config):
             or config.kv_transfer_config):
         raise RuntimeError('C8 experiment requires TP1/eager/no-KV-transfer; set QWEN36_C8_ALLOW_GRAPH=1 only for graph experiments')
     speculative = config.speculative_config
-    if speculative and (speculative.method != 'mtp' or speculative.num_speculative_tokens != 1):
-        raise RuntimeError('C8 speculative experiment supports only MTP with one draft token')
+    if speculative and (speculative.method != 'mtp'
+            or speculative.num_speculative_tokens not in (1, 2)
+            or (speculative.num_speculative_tokens == 2
+                and os.environ.get('QWEN36_C8_ALLOW_MTP2', '0') != '1')):
+        raise RuntimeError('C8 supports MTP1 by default; set QWEN36_C8_ALLOW_MTP2=1 for the experimental MTP2 path')
     if not isinstance(spec, FullAttentionSpec) or spec.head_size != 256 or spec.num_kv_heads != 2:
         raise RuntimeError('C8 bring-up supports Qwen full attention 2KV/dim256 only')
     return C8FullAttentionSpec(block_size=spec.block_size, num_kv_heads=spec.num_kv_heads,
