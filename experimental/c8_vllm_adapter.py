@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""TP1/eager C8 bring-up with explicit independent layer buffers.
+"""TP1/eager C8 experiment with explicit independent layer buffers.
 
 Uses a real C8 spec and charged scale storage. The first allocator retains
 hybrid page padding and replaces shared pools by independent layer buffers,
@@ -41,9 +41,15 @@ def get_spec(self, config):
     spec = _original_spec(self, config)
     if spec is None or not isinstance(self.impl, AscendAttentionBackendImpl310):
         return spec
-    if (config.parallel_config.tensor_parallel_size != 1 or config.speculative_config
+    if (config.parallel_config.tensor_parallel_size != 1
             or not config.model_config.enforce_eager or config.kv_transfer_config):
-        raise RuntimeError('C8 bring-up requires TP1/eager/no-MTP/no-KV-transfer')
+        raise RuntimeError('C8 experiment requires TP1/eager/no-KV-transfer')
+    speculative = config.speculative_config
+    if speculative and (speculative.method != 'mtp' or speculative.num_speculative_tokens != 1):
+        raise RuntimeError('C8 speculative experiment supports only MTP with one draft token')
+    # Keep the independent BF16 MTP drafter and its cache on the native path.
+    if 'mtp' in self.layer_name.split('.'):
+        return spec
     if not isinstance(spec, FullAttentionSpec) or spec.head_size != 256 or spec.num_kv_heads != 2:
         raise RuntimeError('C8 bring-up supports Qwen full attention 2KV/dim256 only')
     return C8FullAttentionSpec(block_size=spec.block_size, num_kv_heads=spec.num_kv_heads,
@@ -133,8 +139,12 @@ def scratch_buffers(device, context, heads, dim):
     return _SCRATCH[key]
 
 
+_original_forward = AscendAttentionBackendImpl310.forward
 def forward(self, layer, query, key, value, kv_cache, attn_metadata,
             output=None, output_scale=None, output_block_scale=None):
+    if 'mtp' in layer.layer_name.split('.'):
+        return _original_forward(self, layer, query, key, value, kv_cache,
+            attn_metadata, output, output_scale, output_block_scale)
     if output is None or output_scale is not None or output_block_scale is not None:
         raise RuntimeError('C8 requires a plain preallocated output')
     if attn_metadata is None:
