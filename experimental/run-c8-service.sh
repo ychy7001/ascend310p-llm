@@ -21,7 +21,13 @@ if [[ "$ENFORCE_EAGER" != 0 && "$ENFORCE_EAGER" != 1 ]]; then echo 'ENFORCE_EAGE
 if [[ "$ENFORCE_EAGER" == 0 && "$QWEN36_C8_ALLOW_GRAPH" != 1 ]]; then
   echo 'ENFORCE_EAGER=0 requires QWEN36_C8_ALLOW_GRAPH=1' >&2; exit 2
 fi
+profile_mount=()
+if [[ -n "${PROFILE_DIR:-}" ]]; then
+  mkdir -p "$PROFILE_DIR"
+  profile_mount=(-v "$PROFILE_DIR:/profile:rw")
+fi
 podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
+  "${profile_mount[@]}" \
   --group-add keep-groups --shm-size 16g \
   -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e ATEN_CPU_CAPABILITY=default \
   -e VLLM_WORKER_MULTIPROC_METHOD=spawn -e PYTHONPATH=/c8bootstrap \
@@ -36,6 +42,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e COMPILATION_MODE="$COMPILATION_MODE" \
   -e MTP="$MTP" \
   -e NUM_SPECULATIVE_TOKENS="$NUM_SPECULATIVE_TOKENS" \
+  -e ENABLE_PROFILER="${PROFILE_DIR:+1}" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
   -e MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-256}" \
@@ -57,6 +64,9 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     export ASCEND_CUSTOM_OPP_PATH=/opp
     python3 -c "import sitecustomize; print(sitecustomize.__file__)"
     args=()
+    if [[ "$ENABLE_PROFILER" == 1 ]]; then
+      args+=(--profiler-config '\''{"profiler":"torch","torch_profiler_dir":"/profile","torch_profiler_with_stack":false,"ignore_frontend":true}'\'')
+    fi
     if [[ "$ENFORCE_EAGER" == 1 ]]; then
       args+=(--enforce-eager)
     else
