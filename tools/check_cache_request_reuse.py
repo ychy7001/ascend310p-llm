@@ -44,6 +44,12 @@ def answer(base, model, label, prompt, expected):
         'elapsed_s':time.perf_counter()-start}
 
 
+def speculative_metrics(base):
+    with urllib.request.urlopen(base.rstrip('/')+'/metrics',timeout=30) as response:
+        lines=response.read().decode().splitlines()
+    return [line for line in lines if not line.startswith('#') and 'spec_decode' in line]
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--base-url',required=True)
@@ -51,7 +57,12 @@ def main():
     parser.add_argument('--out',type=Path,required=True)
     args=parser.parse_args()
     with args.out.open('x') as stream:
-        rows=[answer(args.base_url,args.model,*case) for case in CASES]
+        metrics_before=speculative_metrics(args.base_url)
+        rows=[]
+        for case in CASES:
+            row=answer(args.base_url,args.model,*case)
+            rows.append(row)
+            print(json.dumps({'label':row['label'],'strict_match':row['strict_match']}),flush=True)
         before=answer(args.base_url,args.model,*CASES[5])
         tokens=post(args.base_url,'/tokenize',{'model':args.model,
             'prompt':'Unrelated background: the replacement code is ZXQ9182. '*4096,
@@ -63,6 +74,8 @@ def main():
             'model':args.model,'base_url':args.base_url,'rows':rows,
             'strict_matches':sum(r['strict_match'] for r in rows),
             'answers_present':sum(r['answer_present'] for r in rows),
+            'speculative_metrics_before':metrics_before,
+            'speculative_metrics_after':speculative_metrics(args.base_url),
             'reuse':{'before':before,'after':after,
                 'identical_text':before['text']==after['text'],
                 'canary_leaked':'ZXQ9182' in after['text'],

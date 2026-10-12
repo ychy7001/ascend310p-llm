@@ -47,9 +47,6 @@ def get_spec(self, config):
     speculative = config.speculative_config
     if speculative and (speculative.method != 'mtp' or speculative.num_speculative_tokens != 1):
         raise RuntimeError('C8 speculative experiment supports only MTP with one draft token')
-    # Keep the independent BF16 MTP drafter and its cache on the native path.
-    if 'mtp' in self.layer_name.split('.'):
-        return spec
     if not isinstance(spec, FullAttentionSpec) or spec.head_size != 256 or spec.num_kv_heads != 2:
         raise RuntimeError('C8 bring-up supports Qwen full attention 2KV/dim256 only')
     return C8FullAttentionSpec(block_size=spec.block_size, num_kv_heads=spec.num_kv_heads,
@@ -74,7 +71,11 @@ def get_configs(config, specs, memory):
     per_block = sum(s.page_size_bytes for s in layer_specs.values())
     blocks = min(cfg.num_blocks, (old_budget - scratch) // per_block)
     full = next(s for s in layer_specs.values() if isinstance(s, C8FullAttentionSpec))
-    if blocks < math.ceil(config.model_config.max_model_len / full.block_size) + len(cfg.kv_cache_groups):
+    needed = math.ceil(config.model_config.max_model_len / full.block_size) + len(cfg.kv_cache_groups)
+    print(f'C8_BUDGET groups={len(cfg.kv_cache_groups)} layers={len(layer_specs)} '
+          f'original_blocks={cfg.num_blocks} independent_blocks={blocks} minimum_blocks={needed} '
+          f'charged_bytes_per_block={per_block} original_budget_bytes={old_budget}',flush=True)
+    if blocks < needed:
         raise RuntimeError('Independent C8 layer allocation cannot fit requested context in budget')
     cfg.num_blocks = blocks
     cfg.kv_cache_tensors = [KVCacheTensor(size=blocks*s.page_size_bytes, shared_by=[name])
@@ -139,12 +140,8 @@ def scratch_buffers(device, context, heads, dim):
     return _SCRATCH[key]
 
 
-_original_forward = AscendAttentionBackendImpl310.forward
 def forward(self, layer, query, key, value, kv_cache, attn_metadata,
             output=None, output_scale=None, output_block_scale=None):
-    if 'mtp' in layer.layer_name.split('.'):
-        return _original_forward(self, layer, query, key, value, kv_cache,
-            attn_metadata, output, output_scale, output_block_scale)
     if output is None or output_scale is not None or output_block_scale is not None:
         raise RuntimeError('C8 requires a plain preallocated output')
     if attn_metadata is None:
