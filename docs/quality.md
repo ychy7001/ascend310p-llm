@@ -10,7 +10,7 @@ experimentally verified：TP1/W4A8/C8/eager/MTP=0/4K，8个算术/排序/提取/
 
 ## 跨页拒绝槽覆盖探针
 
-`experimental/check_c8_rejected_slots_310.py --library <libqwen36_c8.so>`对prefix63/64/127写入两枚错误draft的K/V，再限制有效长度读取，要求与写入前完全一致；覆盖下一提交位置，和新建干净C8缓存的原生PA对照。测试包括scale覆盖和页边界。探针尚待真实设备执行；即使通过，也只证明存储/PA语义，不替代scheduler及linear state rollback。
+`experimental/check_c8_rejected_slots_310.py --library <libqwen36_c8.so>`对prefix63/64/127写入两枚错误draft的K/V，再限制有效长度读取，要求与写入前完全一致；覆盖下一提交位置，和新建干净C8缓存的原生PA对照。测试包括scale覆盖和页边界。experimentally verified：原版和融合write库均在真实310P3通过上述3个边界，max_abs_vs_fresh_c8=0；只证明存储/PA语义，不替代scheduler及linear state rollback。
 
 ## GSM8K固定子集协议
 
@@ -25,3 +25,7 @@ python3 tools/eval_gsm8k_http.py --base-url http://127.0.0.1:18016 \
 ```
 
 随后同硬件/权重/OPP/TP/eager/context/batch参数、同dataset SHA与indices运行FP16 KV对照；分别比较得分、逐题对错变化、解析缺失、截断和token使用量。MTP影响另以同缓存精度开关作对照；FP16/BF16或W8目标基线仍须在对应权重下独立评估。尚未开始/完成的任务不能写成验收通过。
+
+## 第一轮GSM子集结果
+
+experimentally verified：TP1/W4A8/C8/eager/4K/.90、MTP=1、max-batch256、max-seqs1、无prefix cache，固定32题32/32、parse_missing=0、truncated=0；6875输出tokens。GSM期间draft3496、accepted3365、reject131；之后8题/A-B-A复用仍通过。原始c8-mtp1-gsm32.jsonl与metrics留a2。FP16 KV+MTP同配置、同seed/indices对照正在加载与排队；尚不能用单侧32/32证明精度等价，也不作为完整GSM或全面质量分数。

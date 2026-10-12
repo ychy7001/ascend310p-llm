@@ -11,6 +11,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e VLLM_WORKER_MULTIPROC_METHOD=spawn -e PYTHONPATH=/c8bootstrap \
   -e QWEN36_C8_LIBRARY=/custom/libqwen36_c8.so \
   -e QWEN36_C8_ENABLED="${QWEN36_C8_ENABLED:-1}" \
+  -e QWEN36_C8_FUSED_WRITE="${QWEN36_C8_FUSED_WRITE:-0}" \
   -e MTP="$MTP" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \

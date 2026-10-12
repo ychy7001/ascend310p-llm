@@ -4,6 +4,7 @@
 #include "torch_npu/csrc/aten/CustomFunctions.h"
 #include "aclrtlaunch_c8_page_dequant_kernel.h"
 #include "aclrtlaunch_c8_page_scatter_kernel.h"
+#include "aclrtlaunch_c8_quant_scatter_kernel.h"
 #include "aclrtlaunch_c8_table_dequant_kernel.h"
 #include "aclrtlaunch_c8_attention_kernel.h"
 #include "aclrtlaunch_c8_qk_cube_kernel.h"
@@ -155,6 +156,38 @@ at::Tensor dequant(const at::Tensor& x, const at::Tensor& scale,
   return y;
 }
 
+void quant_scatter(const at::Tensor& key,const at::Tensor& value,
+                   const at::Tensor& slots,at::Tensor& kc,at::Tensor& vc,
+                   at::Tensor& ks,at::Tensor& vs) {
+  TORCH_CHECK(key.dim()==3 && key.scalar_type()==at::kHalf &&
+              value.sizes()==key.sizes() && value.scalar_type()==at::kHalf,
+              "fused C8 write requires matching FP16 [tokens,heads,dim]");
+  int64_t tokens=key.size(0),heads=key.size(1),dim=key.size(2);
+  TORCH_CHECK(tokens>0 && tokens<=4096 && heads>0 && heads<=16 && (dim==128 || dim==256),
+              "fused C8 write supports tokens 1..4096, heads 1..16, dim128/256");
+  TORCH_CHECK(kc.dim()==3 && kc.size(1)==heads && kc.size(2)==dim &&
+              vc.sizes()==kc.sizes() && ks.dim()==2 && ks.size(0)==kc.size(0) &&
+              ks.size(1)==16 && vs.sizes()==ks.sizes(),"invalid fused C8 cache shapes");
+  TORCH_CHECK(kc.scalar_type()==at::kChar && vc.scalar_type()==at::kChar &&
+              ks.scalar_type()==at::kHalf && vs.scalar_type()==at::kHalf &&
+              slots.scalar_type()==at::kInt && slots.numel()==tokens,"invalid fused C8 dtypes/slots");
+  TORCH_CHECK(key.device().type()==c10::DeviceType::PrivateUse1,"fused C8 write requires NPU");
+  const at::Tensor* tensors[]={&key,&value,&slots,&kc,&vc,&ks,&vs};
+  for (const at::Tensor* tensor : tensors) {
+    TORCH_CHECK(tensor->device()==key.device() && tensor->is_contiguous(),
+                "fused C8 tensors must be contiguous on the same NPU");
+  }
+  void *k=key.data_ptr(),*v=value.data_ptr(),*s=slots.data_ptr();
+  void *ko=kc.data_ptr(),*vo=vc.data_ptr(),*kso=ks.data_ptr(),*vso=vs.data_ptr();
+  int64_t capacity=kc.size(0);
+  auto stream=c10_npu::getCurrentNPUStream().stream(false);
+  int64_t blocks=std::min<int64_t>(tokens*2,32);
+  auto launch=[=]() -> int {
+    return ACLRT_LAUNCH_KERNEL(c8_quant_scatter_kernel)(blocks,stream,k,v,s,ko,vo,kso,vso,tokens,heads,dim,capacity);
+  };
+  at_npu::native::OpCommand::RunOpApi("c8_quant_scatter_kernel",launch);
+}
+
 void scatter(const at::Tensor& x, const at::Tensor& scale,
              const at::Tensor& slots, at::Tensor& cache,
              at::Tensor& scale_cache, int64_t tokens, int64_t heads,
@@ -190,6 +223,7 @@ void scatter(const at::Tensor& x, const at::Tensor& scale,
 }
 
 TORCH_LIBRARY_FRAGMENT(npu, m) {
+  m.def("c8_quant_scatter(Tensor key, Tensor value, Tensor slots, Tensor(a!) kc, Tensor(b!) vc, Tensor(c!) ks, Tensor(d!) vs) -> ()");
   m.def("c8_nz_layout(Tensor x) -> Tensor");
   m.def("c8_cache_to_nz(Tensor k, Tensor v, Tensor ks, Tensor vs, Tensor(a!) ko, Tensor(b!) vo, int block, Tensor? table=None) -> ()");
   m.def("c8_qk_cube(Tensor q, Tensor k, bool transpose_b) -> Tensor");
@@ -199,6 +233,7 @@ TORCH_LIBRARY_FRAGMENT(npu, m) {
   m.def("c8_page_scatter(Tensor x, Tensor scale, Tensor slots, Tensor(a!) cache, Tensor(b!) scale_cache, int tokens, int heads, int dim) -> ()");
 }
 TORCH_LIBRARY_IMPL(npu, PrivateUse1, m) {
+  m.impl("c8_quant_scatter",TORCH_FN(qwen36_c8::quant_scatter));
   m.impl("c8_nz_layout", TORCH_FN(qwen36_c8::nz_layout));
   m.impl("c8_cache_to_nz", TORCH_FN(qwen36_c8::cache_to_nz));
   m.impl("c8_qk_cube", TORCH_FN(qwen36_c8::qk_cube));

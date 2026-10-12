@@ -9,7 +9,7 @@
 | Routed Experts W4A8 | 完整模型TP1/TP2启动、生成 | 其它层保持浮点；不保证优于W8A8 |
 | W4A8+MTP | Qwen3.6自身BF16 MTP，TP1/TP2生成与部分benchmark | 仅num_speculative_tokens=1已测 |
 | C8 | 独立page写入、读取、反量化、Attention与mutable Graph已测 | TP1/eager/MTP=0/4K完整模型生成通过；容量与质量待验收 |
-| W4A8+MTP+C8 | 尚未联合运行 | 不属于首版已支持配置 |
+| W4A8+MTP+C8 | TP1/eager/4K短生成与固定GSM32初轮通过 | FP16匹配质量对照、长上下文/TP2/Graph/完整门禁未完成 |
 
 环境：镜像`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`，CANN9.1.0，Torch2.10.0+cpu，torch-npu2.10.0.post4，vLLM基于`0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665`，vLLM-Ascend基于`1cdb8c4db6e50f36f1fb3283b3e3dd618f6821e8`。额外社区W4模块及本地修改见来源说明。
 

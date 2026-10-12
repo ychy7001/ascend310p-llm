@@ -1,12 +1,12 @@
 # Ascend 310P — Qwen3.6 W4A8 / MTP / C8 实验
 
-在Atlas 300I DUO / Ascend310P3上研究Qwen3.6-35B-A3B低比特推理。首版提供可运行的Routed Experts W4A8与BF16 MTP适配，以及独立C8分页KV算子实验。**W4A8+MTP+C8尚未联合运行。** 本项目不是华为、Qwen或vLLM官方发布。
+在Atlas 300I DUO / Ascend310P3上研究Qwen3.6-35B-A3B低比特推理。首版提供可运行的Routed Experts W4A8与BF16 MTP适配，以及独立C8分页KV算子实验。**W4A8+MTP+C8已通过TP1/eager/4K有限生成；完整质量、容量及性能门禁仍未完成。** 本项目不是华为、Qwen或vLLM官方发布。
 
 | 能力 | 当前状态 |
 | --- | --- |
 | W4A8 TP1/TP2、FP16 KV | 已在a2启动、生成 |
 | W4A8 + Qwen3.6自身BF16 MTP | TP1/TP2已运行，speculative tokens=1 |
-| INT8 KV / C8 | 独立算子已测；experimental TP1/eager/MTP=0完整模型短生成与chunked prefill已通过，匹配FP16 KV对照已测，速度下降，容量/质量仍待验收 |
+| INT8 KV / C8 | 独立算子已测；experimental TP1/eager/MTP=0/1有限生成已通过；MTP=1固定GSM32首轮32/32，匹配FP16 KV对照待补；容量和全面质量未验收 |
 | 长上下文 | TP1无MTP精确128K生成已测；262144配置启动不等于实际256K验收 |
 | 全面质量及稳定加速 | 尚未完成；INT4不保证更快 |
 

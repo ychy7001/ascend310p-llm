@@ -5,7 +5,10 @@ Requires libqwen36_c8.so to be loaded by the caller. Quantization is performed
 on the input device and the scale row is padded to 32 bytes for Ascend C DMA.
 """
 import torch
+import os
 from c8_backend_contract import C8PageSpec, validate_cache_tensors
+
+_FUSED_WRITE = os.environ.get('QWEN36_C8_FUSED_WRITE','0') == '1'
 
 
 class C8Cache310:
@@ -27,6 +30,11 @@ class C8Cache310:
             raise ValueError('expected matching [tokens, KV heads, head dim]')
         if key.shape[0] != slots.numel() or key.shape[0] > 4096:
             raise ValueError('slot count mismatch or write chunk exceeds 4096 tokens')
+        if _FUSED_WRITE:
+            torch.ops.npu.c8_quant_scatter(key.contiguous(),value.contiguous(),
+                slots.to(device=key.device,dtype=torch.int32).contiguous(),
+                self.k,self.v,self.ks,self.vs)
+            return
         for source, cache, scale_cache in ((key, self.k, self.ks), (value, self.v, self.vs)):
             # Quantize with the scale actually stored in the cache.  FP16's
             # smallest normal value also avoids device-dependent subnormal flush.
