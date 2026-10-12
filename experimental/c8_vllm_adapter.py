@@ -9,6 +9,7 @@ padding while the scheduler conservatively retains its charged page budget.
 This does not increase advertised context capacity.
 """
 from dataclasses import dataclass, replace
+from copy import copy
 import math
 import os
 import torch
@@ -199,7 +200,11 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim)
     ko,vo = ko[:pages],vo[:pages]
     torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected)
-    compact = replace(attn_metadata,block_tables=identity[:pages].reshape(1,-1))
+    # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
+    # discards it and forces an eager device->host copy in every SplitFuse layer.
+    # Preserve the builder's full metadata, changing only the compact page table.
+    compact = copy(attn_metadata)
+    compact.block_tables = identity[:pages].reshape(1,-1)
     self.key_cache,self.value_cache = ko,vo
     q = query[:count].reshape(count,self.num_heads,self.head_size)
     if compact.attn_state == AscendAttentionState.DecodeOnly:

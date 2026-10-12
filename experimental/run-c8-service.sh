@@ -16,6 +16,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e MTP="$MTP" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
+  -e MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-256}" \
   -v "$MODEL_DIR:/model:ro" -v "$root/runtime:/w4only:ro" \
   -v "$root/bootstrap:/bootstrap:ro" -v "$root/experimental:/c8adapter:ro" \
   -v "$root/experimental/c8_bootstrap:/c8bootstrap:ro" \
@@ -40,6 +41,6 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     exec vllm serve /model "${args[@]}" --served-model-name qwen36-w4a8-c8 \
       --tensor-parallel-size 1 --dtype float16 --enforce-eager --block-size 64 \
       --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$MEMORY_UTILIZATION" \
-      --max-num-seqs 1 --max-num-batched-tokens 256 --no-enable-prefix-caching \
+      --max-num-seqs 1 --max-num-batched-tokens "$MAX_BATCHED_TOKENS" --no-enable-prefix-caching \
       --host 0.0.0.0 --port "$PORT"
   '
