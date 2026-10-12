@@ -37,7 +37,7 @@ tags:
 
 独立公开checkpoint的启动/生成门禁见[release-validation](https://github.com/ychy7001/ascend310p-qwen36/blob/main/docs/release-validation.md)。数值算子门禁、基本生成与MTP接受率不能替代模型准确率评估。INT4可能因解包、路由、Prefill和通信成本更慢，未承诺10%–20%端到端收益。
 
-最新实验快照（代码 `1087f04`）：融合动态 KV 写入与按存储类型拆分的共享池已在真实 310P3 启动。W4A8+MTP+C8 的固定 GSM32 子集为 32/32；匹配 FP16 KV 对照为 31/32，其中唯一差异是 FP16 输出在 512 token 上限截断，不能解释为量化精度提升。TP1/eager/4K/MTP=1 的 C8 HTTP 吞吐（p512/o64、p3072/o32）中位数为 14.8362、2.9198 tok/s；对应 FP16 KV 为 15.5266、2.9430 tok/s。该结果包含 Prefill/HTTP，尚非纯 Decode 或正式尾延迟结论。
+最新实验快照（代码 `a486949`）：融合动态 KV 写入与按存储类型拆分的共享池已在真实 310P3 启动。W4A8+MTP+C8 的固定 GSM32 子集为 32/32；匹配 FP16 KV 对照为 31/32，其中唯一差异是 FP16 输出在 512 token 上限截断，不能解释为量化精度提升。TP1/eager/4K/MTP=1 的 C8 HTTP 吞吐（p512/o64、p3072/o32）中位数为 14.8362、2.9198 tok/s；对应 FP16 KV 为 15.5266、2.9430 tok/s。该结果包含 Prefill/HTTP，尚非纯 Decode 或正式尾延迟结论。
 
 ## 代码、构建与启动
 
