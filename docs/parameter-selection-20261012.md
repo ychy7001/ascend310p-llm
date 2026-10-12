@@ -45,6 +45,12 @@ C8 的目的首先是容量和成本，而不是预设加速。当前 C8 后端�
 
 当前 C16 的 256K 长请求尚未与 C8 112K 形成同协议完整对照。旧记录中的 310K/262K 是启动器的 KV 估算或不同配置容量，不应当直接当作已验证的长请求上限。后续应在同一服务协议下测 64K、112K、128K 和能启动的最大长度。
 
+### a1 W8A8 参考点
+
+a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144`、`.90`、`max_num_batched_tokens=4096`、`FULL_DECODE_ONLY` Graph、prefix cache 开启、无 MTP。使用唯一 token 前缀隔离 cache 命中后，冷请求阶段计时为：8K Prefill 约 `1282 tok/s`、Decode `32.0 tok/s`；32K Prefill `1086.26 tok/s`、Decode `29.22 tok/s`。相同前缀再次请求会分别出现约 13.6K 和 64.7K tok/s 的缓存 Prefill，不能与冷请求混报。
+
+这个 a1 结果适合做方向性 W8A8 参考，不能直接作为 a2 TP1/W4A8 的回归基线：硬件拓扑、TP、权重格式、Graph、batch、MTP 和 prefix-cache 状态均不同。后续优化顺序应先完成 a2 C8/Graph 生命周期和 MTP 门禁，再用固定 unique prompt、相同输出长度和阶段 counter 做跨机器矩阵对照；否则无法判断差距来自 W4 算子还是 TP/调度配置。
+
 ## MTP 0/1/2 的取舍
 
 在 FP16 KV、eager、TP1、32K 上限、1024:512、同一 W4 checkpoint 的配对扫描中：
@@ -57,7 +63,7 @@ C8 的目的首先是容量和成本，而不是预设加速。当前 C8 后端�
 
 MTP1 相对无 MTP 的 8K Decode 约提升 24%，近 32K 约提升 19%；Prefill 约持平或略降。MTP2 在这组重复/有利负载上比 MTP1 再快约 26%--28%，但会增加草稿计算、显存和 Graph 形状复杂度，接受率也依赖真实请求，不能用重复文本的 100% 接受率代表业务平均值。
 
-C8+MTP2 eager 已经通过 4K 启动和 8/8 toy 正确性；C8+MTP2 Graph 在 310P attention 的 `update_graph_params` 阶段仍因 `graph_params=None` 失败。故当前产品候选选 MTP1；MTP2 保留为实验开关，修复 Graph 参数生命周期、完成 112K 质量和长 Decode 后再决定。
+C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段计时：8K/128 Prefill `372.51`、Decode `31.57 tok/s`，32K/128 Prefill `346.04`、Decode `25.68 tok/s`。相对 C8+MTP1，Decode 分别约提升 20% 和 14%，但 Graph 仍在 310P attention 的 `update_graph_params` 阶段失败。因此产品候选仍选 MTP1；MTP2 保留为 eager 实验档，不能作为 Graph 默认。
 
 ## 长上下文与显存口径
 
