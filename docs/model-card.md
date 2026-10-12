@@ -30,8 +30,8 @@ tags:
 | --- | --- |
 | 完整W4A8 TP1/TP2、FP16 KV | 已在真实310P3运行 |
 | BF16 MTP | TP1/TP2、num_speculative_tokens=1已运行 |
-| INT8 KV / C8 | TP1/eager/MTP=0/4K短生成与chunked prefill已通过；质量、容量和长上下文待验收 |
-| W4A8+MTP+C8 | TP1/eager/4K短生成、GSM32和有限HTTP对照已通过；完整长上下文/TP2/全面质量未验收 |
+| INT8 KV / C8 | TP1/eager/MTP=0/4K短生成与chunked prefill已通过；32K配置已启动并完成约9.9K输入实测 |
+| W4A8+MTP+C8 | TP1/eager/4K短生成、GSM32、32K配置启动和有限HTTP对照已通过；TP2/全面质量/接近上限长上下文未验收 |
 | 长上下文 | 无MTP TP1实际128K生成已测；256K配置不等于实际请求验收 |
 | 多模态、全面精度、长上下文质量 | 未完成验收 |
 
@@ -41,7 +41,7 @@ tags:
 
 ## 代码、构建与启动
 
-公开代码：[ychy7001/ascend310p-qwen36](https://github.com/ychy7001/ascend310p-qwen36)。当前研究快照为 `3688ebb`；[构建与启动说明](https://github.com/ychy7001/ascend310p-qwen36/blob/3688ebb/README.md)、[公开制品验证](https://github.com/ychy7001/ascend310p-qwen36/blob/3688ebb/docs/release-validation.md)和[C8实验说明](https://github.com/ychy7001/ascend310p-qwen36/blob/3688ebb/docs/c8.md)可按固定版本查阅。
+公开代码：[ychy7001/ascend310p-qwen36](https://github.com/ychy7001/ascend310p-qwen36)。当前研究快照为 `529fc91`；[构建与启动说明](https://github.com/ychy7001/ascend310p-qwen36/blob/529fc91/README.md)、[公开制品验证](https://github.com/ychy7001/ascend310p-qwen36/blob/529fc91/docs/release-validation.md)和[C8实验说明](https://github.com/ychy7001/ascend310p-qwen36/blob/529fc91/docs/c8.md)可按固定版本查阅。
 
 已测环境为Ascend310P3、CANN9.1、`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch2.10/torch-npu2.10.0.post4；宿主需要匹配的Ascend驱动与rootless Podman。复现依赖自定义OPP和Torch extension，单独下载权重无法直接用官方原版启动。
 
@@ -85,7 +85,7 @@ python3 tools/bench_generation_sanity.py \
   --out /tmp/qwen36-generation.json --max-tokens 128
 ```
 
-sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库；已在TP1/eager/单请求MTP=0和MTP=1实验配置运行，TP2、Graph、长上下文和全面质量尚未验收。不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。
+sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库；已在TP1/eager/单请求MTP=0和MTP=1实验配置运行，32K上限配置已完成启动和约9.9K输入实测；TP2、Graph、全面质量和接近上限长上下文尚未验收。不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。
 
 ## 发布校验与性能边界
 
