@@ -35,17 +35,7 @@ _SCRATCH = {}
 # initializes GraphParams only for VLLM_COMPILE. Keep both conditions aligned
 # for the explicit direct-capture probe; never bypass parameter updates.
 if os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1':
-    from vllm.config.compilation import CompilationMode, CUDAGraphMode
-    _original_use_aclgraph = NPUModelRunner._use_aclgraph
-
-    def use_aclgraph(self):
-        if (self.compilation_config.mode == CompilationMode.NONE
-                and self.compilation_config.cudagraph_mode.has_full_cudagraphs()
-                and not self.model_config.enforce_eager):
-            return True
-        return _original_use_aclgraph(self)
-
-    NPUModelRunner._use_aclgraph = use_aclgraph
+    import direct_graph_310  # noqa: F401
 
 
 @dataclass(frozen=True, kw_only=True)

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
-# 固定MTP1/C8/32K，分别测eager、Graph全范围和Graph有效长度；独占davinci0。
+# 固定MTP1/32K，测C8 eager/两种Graph及FP16 KV Graph；独占davinci0。
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 : "${MODEL_DIR:?}" "${OPP_DIR:?}" "${EXTENSION:?}" "${C8_LIBRARY:?}" "${RESULT_DIR:?}"
@@ -8,11 +8,12 @@ mkdir -p "$RESULT_DIR"
 PORT=${PORT:-18020}
 base="http://127.0.0.1:$PORT"
 for mode in ${MODES:-eager graph-full graph-device}; do
-  eager=0; device_length=0
+  eager=0; device_length=0; c8=1
   case "$mode" in
     eager) eager=1 ;;
     graph-full) ;;
     graph-device) device_length=1 ;;
+    fp16-graph) c8=0 ;;
     *) echo "Unknown mode: $mode" >&2; exit 2 ;;
   esac
   name="qwen36-c8-${mode}-32k"
@@ -22,7 +23,7 @@ for mode in ${MODES:-eager graph-full graph-device}; do
     echo 'Endpoint occupied; stop existing service explicitly' >&2; exit 2
   fi
   env CONTAINER_NAME="$name" PORT="$PORT" MTP=1 NUM_SPECULATIVE_TOKENS=1 \
-    QWEN36_C8_ENABLED=1 QWEN36_C8_FUSED_WRITE=1 QWEN36_C8_POOL_MODE=split_by_type \
+    QWEN36_C8_ENABLED="$c8" QWEN36_C8_FUSED_WRITE=1 QWEN36_C8_POOL_MODE=split_by_type \
     ENFORCE_EAGER="$eager" QWEN36_C8_ALLOW_GRAPH=1 COMPILATION_MODE=0 \
     GRAPH_MODE=FULL_DECODE_ONLY GRAPH_CAPTURE_SIZES=1,2 \
     QWEN36_C8_DEVICE_LENGTH="$device_length" MAX_MODEL_LEN=32768 MEMORY_UTILIZATION=0.90 \
