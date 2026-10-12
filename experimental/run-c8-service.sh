@@ -4,7 +4,15 @@ set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 : "${MODEL_DIR:?}" "${OPP_DIR:?}" "${EXTENSION:?}" "${C8_LIBRARY:?}"
 MTP=${MTP:-0}
+ENFORCE_EAGER=${ENFORCE_EAGER:-1}
+QWEN36_C8_ALLOW_GRAPH=${QWEN36_C8_ALLOW_GRAPH:-0}
+GRAPH_MODE=${GRAPH_MODE:-FULL_DECODE_ONLY}
+GRAPH_CAPTURE_SIZES=${GRAPH_CAPTURE_SIZES:-1}
 if [[ "$MTP" != 0 && "$MTP" != 1 ]]; then echo 'MTP must be 0 or 1' >&2; exit 2; fi
+if [[ "$ENFORCE_EAGER" != 0 && "$ENFORCE_EAGER" != 1 ]]; then echo 'ENFORCE_EAGER must be 0 or 1' >&2; exit 2; fi
+if [[ "$ENFORCE_EAGER" == 0 && "$QWEN36_C8_ALLOW_GRAPH" != 1 ]]; then
+  echo 'ENFORCE_EAGER=0 requires QWEN36_C8_ALLOW_GRAPH=1' >&2; exit 2
+fi
 podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   --group-add keep-groups --shm-size 16g \
   -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e ATEN_CPU_CAPABILITY=default \
@@ -13,6 +21,9 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e QWEN36_C8_ENABLED="${QWEN36_C8_ENABLED:-1}" \
   -e QWEN36_C8_FUSED_WRITE="${QWEN36_C8_FUSED_WRITE:-0}" \
   -e QWEN36_C8_POOL_MODE="${QWEN36_C8_POOL_MODE:-independent}" \
+  -e QWEN36_C8_ALLOW_GRAPH="$QWEN36_C8_ALLOW_GRAPH" \
+  -e ENFORCE_EAGER="$ENFORCE_EAGER" \
+  -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
   -e MTP="$MTP" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
@@ -35,11 +46,16 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     export ASCEND_CUSTOM_OPP_PATH=/opp
     python3 -c "import sitecustomize; print(sitecustomize.__file__)"
     args=()
+    if [[ "$ENFORCE_EAGER" == 1 ]]; then
+      args+=(--enforce-eager)
+    else
+      args+=(--compilation-config "{\"cudagraph_mode\":\"$GRAPH_MODE\",\"cudagraph_capture_sizes\":[$GRAPH_CAPTURE_SIZES]}")
+    fi
     if [[ "$MTP" == 1 ]]; then
       args+=(--speculative-config '\''{"method":"mtp","num_speculative_tokens":1}'\'')
     fi
     exec vllm serve /model "${args[@]}" --served-model-name qwen36-w4a8-c8 \
-      --tensor-parallel-size 1 --dtype float16 --enforce-eager --block-size 64 \
+      --tensor-parallel-size 1 --dtype float16 --block-size 64 \
       --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$MEMORY_UTILIZATION" \
       --max-num-seqs 1 --max-num-batched-tokens "$MAX_BATCHED_TOKENS" --no-enable-prefix-caching \
       --host 0.0.0.0 --port "$PORT"

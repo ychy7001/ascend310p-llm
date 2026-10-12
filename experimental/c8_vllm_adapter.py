@@ -42,9 +42,11 @@ def get_spec(self, config):
     spec = _original_spec(self, config)
     if spec is None or not isinstance(self.impl, AscendAttentionBackendImpl310):
         return spec
+    graph_candidate = os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1'
     if (config.parallel_config.tensor_parallel_size != 1
-            or not config.model_config.enforce_eager or config.kv_transfer_config):
-        raise RuntimeError('C8 experiment requires TP1/eager/no-KV-transfer')
+            or (not config.model_config.enforce_eager and not graph_candidate)
+            or config.kv_transfer_config):
+        raise RuntimeError('C8 experiment requires TP1/eager/no-KV-transfer; set QWEN36_C8_ALLOW_GRAPH=1 only for graph experiments')
     speculative = config.speculative_config
     if speculative and (speculative.method != 'mtp' or speculative.num_speculative_tokens != 1):
         raise RuntimeError('C8 speculative experiment supports only MTP with one draft token')

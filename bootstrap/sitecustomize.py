@@ -8,6 +8,7 @@ import torch
 import torch_npu  # noqa: F401
 
 torch.ops.load_library(os.environ.get('QWEN36_EXTENSION', '/custom/qwen36_int4_custom.so'))
+import w4_fake  # noqa: E402,F401
 overlay = Path(os.environ.get('QWEN36_RUNTIME', '/w4only'))
 vllm_ascend.models.__path__ = [
     str(overlay / 'vllm_ascend/models'), *list(vllm_ascend.models.__path__),
