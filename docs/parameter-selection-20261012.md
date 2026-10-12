@@ -84,4 +84,6 @@ Prefix cache 可能降低重复会议前缀的实际压力，但当前主要数�
 - C8 的 scale 布局、页对齐和 hybrid state 是否有官方 allocator 约束，可否减少当前 padding？
 - MTP2 在 310P Graph 下推荐的 capture sizes、rollback 和 KV cache 形状是什么？
 
+源码调查补充：当前上游 310P `AscendAttentionBackendImpl310.update_graph_params` 直接声明 `NotImplementedError("FIA and PA should be use UpdatableGraph.")`，而 FULL graph 更新流程仍会通过 `impl_cls.update_graph_params` 触达该接口。实验日志中的 `graph_params=None` 因此应先按 310P attention 的 graph 类型/生命周期不匹配排查，不能用跳过更新或强行填全局对象的方式掩盖问题；这也是提交上游前需要请华为确认的具体代码点。
+
 原始日志和结果保留在 a2 的 `qwen36-public-release-20261012` 目录；本仓库只提交复现脚本、汇总和不含权重的代码。所有尚未完成的项目都标为实验性，不把启动成功等同于性能或精度验收。
