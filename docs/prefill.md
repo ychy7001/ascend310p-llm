@@ -61,7 +61,7 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 
 ## 长输入与产品参数门禁（2026-10-12）
 
-32K服务正在运行：TP1、FP16 KV、MTP=0、eager、memory .90、batch4096/chunk640、max seq1、prefix off。8K输入输出1token、warmup1后三轮Prefill为384.2473/385.2984/383.9917tok/s，中位384.2473；HTTP TTFT为21.518/21.394/21.623秒。近32K输入32256token三轮Prefill为358.5912/358.0136/357.3548tok/s，中位358.0136；TTFT为90.365/90.290/90.423秒。近32K中间needle检查通过，usage输入32256+输出14=32270token，正确返回ASCEND732941，耗时94.0191秒；单样本不代表完整长上下文精度。随后3072-token NPU profile采集成功。长输入后输出256token的持续Decode测量正在运行。原始文件`w4-long-b4096-g640-p8192-o1.jsonl`和`w4-long-b4096-g640-p32256-o1.jsonl`。
+4096/640的32K服务测量已完成并正常停止：TP1、FP16 KV、MTP=0、eager、memory .90、batch4096/chunk640、max seq1、prefix off。8K输入输出1token、warmup1后三轮Prefill为384.2473/385.2984/383.9917tok/s，中位384.2473；HTTP TTFT为21.518/21.394/21.623秒。近32K输入32256token三轮Prefill为358.5912/358.0136/357.3548tok/s，中位358.0136；TTFT为90.365/90.290/90.423秒。近32K中间needle检查通过，usage输入32256+输出14=32270token，正确返回ASCEND732941，耗时94.0191秒；单样本不代表完整长上下文精度。随后3072-token NPU profile采集成功。长输入后输出256token的持续Decode结果见下文。原始文件`w4-long-b4096-g640-p8192-o1.jsonl`和`w4-long-b4096-g640-p32256-o1.jsonl`。
 
 产品参数分别报告：配置上限、实际请求验证长度（输入+输出）、业务推荐长度、KV物理容量。不能相互替代。长度档位先覆盖8K/32K，再对候选组合测试64K/128K，若内存和质量允许再到原生262144上限；不以KV估算承诺300K。每档需要Prefill tok/s和TTFT、长输入后固定输出256token的Decode tok/s和TPOT、峰值内存和质量检查。正式P95需要足够请求样本，三轮观察只作为探索，不报告可靠P95。
 
@@ -69,6 +69,8 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 
 真实profile初步统计：3072token/output1，400次`QwenW4A8Int4MatmulV310`累计3.980758秒，单次5.2924～15.3176ms，op_statistic中占累计时间50.402%；其次Slice .422909秒、Mul .361105秒、ReduceSum .291646秒、ViewCopy .279497秒、普通MatMulV2 .266708秒、Tril .262126秒、Cast .231858秒。step_trace的Computing为7.840336秒、Stage7.895287秒，无通信。累计算子比例不直接等于普通请求墙钟占比。`kernel_details`同时给出cube_utilization约93.87%和mac_ratio约.0325，两者口径不同，当前不能用前者声称Cube已达峰值或用后者认定硬件算力利用率3%；没有实测GB/s，暂不认定memory/compute bound。原始目录`prefill-profile-b4096-g640`，本地摘要`w4-prefill-profile-b4096-g640-summary.json`。
 
-8K输入/输出256token三轮有效请求：Prefill 384.8600/384.9462/384.5370tok/s；Decode 21.0647/21.0749/21.0600tok/s，中位21.0647。Decode分母为服务端decode阶段耗时，分子输出token数减1；HTTP TTFT中位21.3138秒，请求平均TPOT中位47.4792ms。这些是FP16KV/MTP0/eager配置，不能称为W4+MTP+C8+Graph组合结果。近32K持续Decode尚未完成。
+8K输入/输出256token三轮有效请求：Prefill 384.8600/384.9462/384.5370tok/s；Decode 21.0647/21.0749/21.0600tok/s，中位21.0647。Decode分母为服务端decode阶段耗时，分子输出token数减1；HTTP TTFT中位21.3138秒，请求平均TPOT中位47.4792ms。这些是FP16KV/MTP0/eager配置，不能称为W4+MTP+C8+Graph组合结果。近32K持续Decode结果见下文。
 
-长输入对照可用`experimental/run-long-context-sweep.sh`复现，沿用前述MODEL_DIR/OPP_DIR/EXTENSION/C8_LIBRARY，设置全新的RESULT_DIR；默认顺序比较1024:512与4096:640，固定32K上限、8K/32256输入、1/256输出、warmup1+三轮，最后执行32256中间needle。每组正常通过后才停止服务进入下一组；失败保留服务和原始证据。当前4096/640测量完成后，已排队仅运行`PAIRS=1024:512`，结果目录`long-context-sweep-20261012`。
+长输入对照可用`experimental/run-long-context-sweep.sh`复现，沿用前述MODEL_DIR/OPP_DIR/EXTENSION/C8_LIBRARY，设置全新的RESULT_DIR；默认顺序比较1024:512与4096:640，固定32K上限、8K/32256输入、1/256输出、warmup1+三轮，最后执行32256中间needle。每组正常通过后才停止服务进入下一组；失败保留服务和原始证据。4096/640测量完成后，已经正常启动`PAIRS=1024:512`，结果目录`long-context-sweep-20261012`。
+
+近32K输入32256/输出256token三轮有效请求：Prefill 358.0764/358.1915/358.4693tok/s；Decode 18.8163/18.7997/18.8091tok/s，中位18.8091。HTTP TTFT中位90.1193秒，请求平均TPOT中位53.1154ms。同配置8K→近32K，Decode中位下降10.7079%，说明历史长度有可测影响，不能据此推断MTP/C8/Graph组合幅度相同。原始文件`w4-long-b4096-g640-p32256-o256.jsonl`。32K输入持续生成完成，没有OOM或使用量不符；固定重复文本的吞吐测试不代表正式生成准确率。
