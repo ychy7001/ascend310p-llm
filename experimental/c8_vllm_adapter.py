@@ -92,10 +92,15 @@ def get_configs(config, specs, memory):
     per_block = sum(size for _,size in pools)
     blocks = min(cfg.num_blocks, (old_budget - scratch) // per_block)
     full = next(s for s in layer_specs.values() if isinstance(s, C8FullAttentionSpec))
-    needed = math.ceil(config.model_config.max_model_len / full.block_size) + len(cfg.kv_cache_groups)
+    required_blocks = math.ceil(config.model_config.max_model_len / full.block_size)
+    # Each C8 physical pool must contain every logical page of a request.
+    # The old check used the number of hybrid groups, which could let a 32K
+    # config start with only ~5K physical slots and fail later on block tables.
+    needed = required_blocks
     print(f'C8_BUDGET mode={pool_mode} groups={len(cfg.kv_cache_groups)} layers={len(layer_specs)} '
           f'original_blocks={cfg.num_blocks} independent_blocks={blocks} minimum_blocks={needed} '
-          f'charged_bytes_per_block={per_block} original_budget_bytes={old_budget}',flush=True)
+          f'charged_bytes_per_block={per_block} required_context_blocks={required_blocks} '
+          f'original_budget_bytes={old_budget}',flush=True)
     if blocks < needed:
         raise RuntimeError('Independent C8 layer allocation cannot fit requested context in budget')
     cfg.num_blocks = blocks
