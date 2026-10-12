@@ -65,9 +65,11 @@ vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C
 
 已有 C8 eager 证据：`.95` 下 64K 和 112K 可以启动；128K 需要 `.97`；`.99` 无法为 262K 提供足够物理空间。112K 的稳定性优先于把 memory utilization 推到 `.97/.99`。`0.90` 适合短/中上下文调试，`.95` 是当前产品候选，`.97` 仅作为专门的 128K 实验参数。
 
-Prefix cache 可能降低重复会议前缀的实际压力，但当前主要数据是在 prefix cache off 下获得的，不能提前把它计入容量或吞吐收益。下一轮单独做 prefix hit/miss、首请求/复用请求和长输入 Decode 对照。
+Prefix cache 的收益取决于请求是否复用完全相同的 token 前缀，不能把它计入冷请求容量或 Decode 吞吐。
 
 补充的 C8/112K prefix-cache 实测使用 `max_num_batched_tokens=2048`（prefix cache 在该 hybrid 模式下要求 Mamba `block_size=1152 <= max_num_batched_tokens`；因此不能直接沿用默认 1024）：8K 冷请求 Prefill `361.45 tok/s`，后续相同 token IDs 的三次命中 Prefill `2263.83/2270.20/2274.52 tok/s`，Decode 约 `25.1 tok/s`。prefix cache counter 从 0 增至每次 6912 命中 tokens，服务日志命中率最高约 63.3%。这证明重复前缀能显著降低 Prefill，但没有带来 Decode 加速；建议作为会议/模板前缀明确重复时的可选配置，并把 `2048` 约束写入启动检查。
+
+112K 长前缀复用也已验证：114560-token 冷请求耗时 `412.00s`、Prefill `278.78 tok/s`；同一 token 前缀再次请求耗时 `9.33s`、Prefill `13846.95 tok/s`，Decode 约 `12.51 tok/s`，两次均生成 14 tokens。长请求 prefix hit counter 增至 `140544`。长前缀命中可以显著降低重复会议材料的 TTFT，但不改善历史 KV 主导的 Decode，因此产品上建议把 prefix cache 作为有明确模板/会议前缀复用时的可选档位。
 
 ## 当前代码入口与简化边界
 
