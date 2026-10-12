@@ -32,4 +32,4 @@ GitHub公开仓库`ychy7001/ascend310p-qwen36`已创建，首个源码commit为`
 
 ## 尚未完成的门禁
 
-C8 TP1/eager/MTP=0/4K完整模型短生成和chunked prefill已通过，详见docs/c8.md。严格C8质量、容量和长上下文、W4A8+MTP+C8组合、公开制品TP2复测、长上下文真实请求、多模态、正式质量集合、同条件W8A8比较与全部吞吐/尾延迟矩阵仍未完成。
+C8 TP1/eager/MTP=0/4K完整模型短生成和chunked prefill已通过，详见docs/c8.md。112K C8/MTP1/Graph诊断路径已经在真实310P完成capture、阶段计时和近满长检索；它仍依赖实验monkeypatch，不能视为正式backend修复或产品默认配置。严格量化质量、公开制品TP2复测、多模态、正式质量集合、同条件W8A8交替比较与完整吞吐/尾延迟矩阵仍未完成。

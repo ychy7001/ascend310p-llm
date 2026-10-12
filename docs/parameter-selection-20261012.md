@@ -1,6 +1,6 @@
 # Qwen3.6-35B-A3B 310P 参数选择与华为评审记录
 
-更新时间：2026-10-12  
+更新时间：2026-10-13  
 硬件：Atlas 300I DUO 中单颗 Ascend 310P3，TP1，48 GB 级 NPU 内存  
 模型：Qwen3.6-35B-A3B W4A8 实验 checkpoint；MTP 层保留浮点权重  
 
@@ -21,12 +21,12 @@ max_num_seqs=1
 max_num_batched_tokens=1024
 QWEN36_GROUPED_CHUNK_TOKENS=512
 prefix cache: 先关闭，单独验收后再打开
-Graph: 112K 当前使用 eager；>32K Graph 生命周期问题修复前不作为默认
+Graph: 112K Graph mode=0 + 诊断性 updatable-graph 开关已跑通；尚不作为默认
 ```
 
 这个档位满足超过 100K 的业务目标，并且已有真实启动、短请求、64K/128K 容量和长检索证据。`114688` 是配置上限，不等于每个请求都应该填满；业务默认可以使用 112K，保留输出预算后实际输入应相应减少。
 
-近满上下文实测（2026-10-12）：输入 `114560`、输出上限 128，实际输出 14；总耗时 432.24 s，检索词正确返回，服务端 MTP 平均接受长度约 1.85。该结果证明 112K 档位可以完成一次真实长检索且没有 OOM；耗时包含长 Prefill 和生成，只有一个样本，不能作为 P95 或稳定 Decode 吞吐。原始结果归档在 `data/ascend/experiment-results/112k-c8-eager/`，完整 a2 日志留在实验机 release 目录。
+近满上下文实测：eager 输入 `114560`、输出上限 128，实际输出 14，总耗时 432.24 s；Graph mode=0 同一 prompt IDs（SHA256 `5cd728...`）也正确检索到 `ASCEND732941`，实际输出 14，总耗时 431.94 s。各只有一个长样本，耗时包含长 Prefill 和生成，不能作为 P95 或稳定吞吐。Graph原始结果归档在 `data/ascend/experiment-results/112k-c8-force-graph/`，eager结果在 `data/ascend/experiment-results/112k-c8-eager/`。
 
 ## C8 与 C16/FP16 KV 的取舍
 
@@ -73,14 +73,15 @@ a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144
 
 镜像中的 310P attention backend 声明自己属于 updatable graph，但 FULL graph 参数更新仍误进入通用 `update_graph_params`，造成 `graph_params=None`。新增 `QWEN36_C8_FORCE_UPDATABLE_GRAPH=1` 仅用于诊断：在 `direct_graph_310.py` 中将 Graph 参数更新判断切到 updatable 分支，默认关闭，不改变普通 eager/Graph 行为。
 
-该开关已在真实 310P3 上通过两级门禁：
+该开关已在真实 310P3 上通过三档上下文门禁：
 
 | 配置 | 结果 |
 | --- | --- |
 | 4K、C8、MTP1、Graph、capture `[1,2]` | capture 成功；toy 8/8；A/B/A 一致；3072-token needle 正确；Prefill 384.20、Decode 32.69 tok/s |
 | 32K、C8、MTP1、Graph、device-length、capture `[1,2]` | KV 124518 tokens；capture 成功；8K Prefill/Decode 379.72/30.67；近32K 351.53/23.47 tok/s；32256-token needle 正确（95.40s） |
+| 112K、C8、MTP1、Graph、mode=0、device-length、capture `[1,2]` | 服务启动与capture成功；8K Prefill/Decode 379.05/21.08；32K 351.14/18.39 tok/s；114560-token needle正确（431.94s） |
 
-32K 结果与此前未强制分支的 C8 device-length Graph（8K 377.93/30.51、近32K 350.34/23.18）接近，说明修复消除了初始化故障，但没有凭空产生大幅加速。该开关仍应作为实验/待上游确认路径；产品默认继续使用 eager，直到确认镜像与上游 runner 的版本契约后再把它改成正式 backend 行为。
+112K Graph 需要 `COMPILATION_MODE=0`：mode=3 在 vLLM split-graph 过程中因节点仍有多个用户而报错。112K同一配置下Graph阶段数值与eager接近，但32K Decode约18.39 tok/s，不能据此宣称Graph加速；与早期eager数据协议并非完全交替匹配。该开关仍是实验性诊断路径，依赖monkeypatch和镜像版本，产品默认暂保留eager，待把修复收敛为可审查的backend改动并完成匹配A/B、MTP与回归门禁后再切换。
 
 ## MTP 0/1/2 的取舍
 
