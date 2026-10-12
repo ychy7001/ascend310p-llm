@@ -6,8 +6,12 @@ project_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 : "${EXTENSION:?Set EXTENSION to qwen36_int4_custom.so}"
 TP=${TP:-1}
 MTP=${MTP:-0}
+NUM_SPECULATIVE_TOKENS=${NUM_SPECULATIVE_TOKENS:-1}
 if [[ "$TP" != 1 && "$TP" != 2 ]]; then echo 'TP must be 1 or 2' >&2; exit 2; fi
 if [[ "$MTP" != 0 && "$MTP" != 1 ]]; then echo 'MTP must be 0 or 1' >&2; exit 2; fi
+if [[ "$NUM_SPECULATIVE_TOKENS" != 1 && "$NUM_SPECULATIVE_TOKENS" != 2 ]]; then
+  echo 'NUM_SPECULATIVE_TOKENS must be 1 or 2; 2 is an unqualified experiment' >&2; exit 2
+fi
 devices=(--device /dev/davinci0)
 if [[ "$TP" == 2 ]]; then devices+=(--device /dev/davinci1); fi
 podman run --rm --name "${CONTAINER_NAME:-qwen36-public}" --network host \
@@ -15,6 +19,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-public}" --network host \
   -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e ATEN_CPU_CAPABILITY=default \
   -e VLLM_WORKER_MULTIPROC_METHOD=spawn -e PYTHONPATH=/bootstrap \
   -e TP="$TP" -e MTP="$MTP" -e PORT="${PORT:-18015}" \
+  -e NUM_SPECULATIVE_TOKENS="$NUM_SPECULATIVE_TOKENS" \
   -e QWEN36_GROUPED_CHUNK_TOKENS="${QWEN36_GROUPED_CHUNK_TOKENS:-512}" \
   -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
@@ -38,7 +43,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-public}" --network host \
       --gpu-memory-utilization "$MEMORY_UTILIZATION" --enforce-eager
       --host 0.0.0.0 --port "$PORT")
     if [[ "$MTP" == 1 ]]; then
-      args+=(--speculative-config '\''{"method":"mtp","num_speculative_tokens":1}'\'')
+      args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$NUM_SPECULATIVE_TOKENS}")
     fi
     exec vllm serve /model "${args[@]}"
   '

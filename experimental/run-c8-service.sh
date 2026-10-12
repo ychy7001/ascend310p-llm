@@ -4,12 +4,19 @@ set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 : "${MODEL_DIR:?}" "${OPP_DIR:?}" "${EXTENSION:?}" "${C8_LIBRARY:?}"
 MTP=${MTP:-0}
+NUM_SPECULATIVE_TOKENS=${NUM_SPECULATIVE_TOKENS:-1}
 ENFORCE_EAGER=${ENFORCE_EAGER:-1}
 QWEN36_C8_ALLOW_GRAPH=${QWEN36_C8_ALLOW_GRAPH:-0}
 GRAPH_MODE=${GRAPH_MODE:-FULL_DECODE_ONLY}
 COMPILATION_MODE=${COMPILATION_MODE:-3}
 GRAPH_CAPTURE_SIZES=${GRAPH_CAPTURE_SIZES:-1}
 if [[ "$MTP" != 0 && "$MTP" != 1 ]]; then echo 'MTP must be 0 or 1' >&2; exit 2; fi
+if [[ "$NUM_SPECULATIVE_TOKENS" != 1 && "$NUM_SPECULATIVE_TOKENS" != 2 ]]; then
+  echo 'NUM_SPECULATIVE_TOKENS must be 1 or 2' >&2; exit 2
+fi
+if [[ "$MTP" == 1 && "$NUM_SPECULATIVE_TOKENS" == 2 && "${QWEN36_C8_ENABLED:-1}" == 1 ]]; then
+  echo 'C8 adapter supports only one draft token; test two with FP16 KV first' >&2; exit 2
+fi
 if [[ "$ENFORCE_EAGER" != 0 && "$ENFORCE_EAGER" != 1 ]]; then echo 'ENFORCE_EAGER must be 0 or 1' >&2; exit 2; fi
 if [[ "$ENFORCE_EAGER" == 0 && "$QWEN36_C8_ALLOW_GRAPH" != 1 ]]; then
   echo 'ENFORCE_EAGER=0 requires QWEN36_C8_ALLOW_GRAPH=1' >&2; exit 2
@@ -28,6 +35,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
   -e COMPILATION_MODE="$COMPILATION_MODE" \
   -e MTP="$MTP" \
+  -e NUM_SPECULATIVE_TOKENS="$NUM_SPECULATIVE_TOKENS" \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
   -e MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-256}" \
@@ -55,7 +63,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
       args+=(--compilation-config "{\"mode\":$COMPILATION_MODE,\"cudagraph_mode\":\"$GRAPH_MODE\",\"cudagraph_capture_sizes\":[$GRAPH_CAPTURE_SIZES]}")
     fi
     if [[ "$MTP" == 1 ]]; then
-      args+=(--speculative-config '\''{"method":"mtp","num_speculative_tokens":1}'\'')
+      args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$NUM_SPECULATIVE_TOKENS}")
     fi
     exec vllm serve /model "${args[@]}" --served-model-name qwen36-w4a8-c8 \
       --tensor-parallel-size 1 --dtype float16 --block-size 64 \

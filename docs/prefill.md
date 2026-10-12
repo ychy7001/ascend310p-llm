@@ -36,3 +36,9 @@ bash experimental/run-prefill-sweep.sh
 C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache为FP16。每组服务名仍沿用`qwen36-w4a8-c8`，不是C8启用证据。超过 readiness 观察期限时脚本保留活容器并报错，不能据此认定运行终止或重新启动。
 
 通过分块扫描后，按profile决定融合dispatch/count、SwiGLU/activation pack、优化expert weight复用或扩大原生route上限；之后回归MTP1，另测MTP2，再接入Graph/C8。仅参数变化不代表kernel效率改善。
+
+## 后续MTP2设备门禁
+
+标准启动器保持`MTP=0/1`作为开关；`MTP=1 NUM_SPECULATIVE_TOKENS=2`选择两次草稿预测，默认草稿数仍为1。实验C8启动器仅在`QWEN36_C8_ENABLED=0`时接受两草稿，C8后端的单草稿限制不变。先测试FP16 KV/eager，再评估Graph/capture形状及C8回退；当前没有MTP2设备运行结果。
+
+固定镜像源码`vllm_ascend/spec_decode/llm_base_proposer.py`在单草稿early exit后具有`num_speculative_tokens-1`次迭代，并更新位置、hidden states和slot mapping。源码路径存在不代表310P的Qwen hybrid state回退已经正确，须记录第二位置接受率、实际拒绝、质量、平均接受长度、同协议TPOT和内存。不要仅以“能启动”宣布MTP2适配完成。
