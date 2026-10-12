@@ -21,12 +21,29 @@ import vllm.v1.core.kv_cache_utils as cache_utils
 # Importing the runner first creates a DeviceOperator/fused_moe cycle.
 import vllm_ascend.ops  # noqa: F401
 from vllm_ascend._310p.model_runner_310p import NPUModelRunner310
+from vllm_ascend.worker.model_runner_v1 import NPUModelRunner
 from vllm_ascend._310p.attention.attention_v1 import AscendAttentionBackendImpl310
 from vllm_ascend.attention.attention_v1 import AscendAttentionState
 from c8_cache_310 import C8Cache310
 
 torch.ops.load_library(os.environ['QWEN36_C8_LIBRARY'])
 _SCRATCH = {}
+
+# The pinned image wraps FULL graphs even with compilation mode NONE, but
+# initializes GraphParams only for VLLM_COMPILE. Keep both conditions aligned
+# for the explicit direct-capture probe; never bypass parameter updates.
+if os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1':
+    from vllm.config.compilation import CompilationMode, CUDAGraphMode
+    _original_use_aclgraph = NPUModelRunner._use_aclgraph
+
+    def use_aclgraph(self):
+        if (self.compilation_config.mode == CompilationMode.NONE
+                and self.compilation_config.cudagraph_mode.has_full_cudagraphs()
+                and not self.model_config.enforce_eager):
+            return True
+        return _original_use_aclgraph(self)
+
+    NPUModelRunner._use_aclgraph = use_aclgraph
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -201,9 +218,16 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     if attn_metadata.attn_state == AscendAttentionState.PrefillNoCache:
         return self.forward_prefill_310(query,key,value,attn_metadata,output)
     length = attn_metadata.seq_lens_list[0]
-    pages = math.ceil(length/64)
-    selected = attn_metadata.block_tables[0,:pages].to(torch.int32).contiguous()
     context = self.vllm_config.model_config.max_model_len
+    # Python sequence lengths do not change during graph replay. Convert the
+    # fixed max-context table in the graph candidate; native PA masks by the
+    # device context_lens. Eager retains its shorter actual-context work.
+    graph_candidate = (os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1'
+                       and not self.vllm_config.model_config.enforce_eager)
+    pages = math.ceil((context if graph_candidate else length)/64)
+    if attn_metadata.block_tables.shape[1] < pages:
+        raise RuntimeError('C8 graph requires a max-context device block table')
+    selected = attn_metadata.block_tables[0,:pages].to(torch.int32).contiguous()
     ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim)
     ko,vo = ko[:pages],vo[:pages]
     torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected)
