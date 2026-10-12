@@ -37,3 +37,8 @@ experimentally verified：相同checkpoint/OPP/extension、TP1/eager/4K/.90/MTP=
 ## 32K配置MTP2实测小样本
 
 experimentally verified：TP1/W4A8/FP16KV/eager/32K/.90/1024:512/maxseq1/prefix off，MTP1与MTP2各自toy严格8/8，A/B/A文本一致、无标记泄漏；两组32256中间needle均通过。MTP2的p128吞吐窗口含warmup，draft tokens620/accepted490，实际第二位置接受229且存在130枚未接受草稿。数据支持两枚草稿实际参与verify，不等于所有拒绝情形或长上下文精度已验收。两组都完成固定128/8192/32256输入、输出256的三轮有效usage请求。C8与Graph仍仅验证一枚草稿组合；新C8有效长度Graph集成的固定GSM32对照已排队，原始题目/输出不提交。
+
+## 32K C8/Graph匹配质量对照：eager组完成
+
+experimentally verified：TP1/W4A8/C8 fused write/split_by_type/MTP1/eager/32K/.90/1024:512/maxseq1/prefix off，固定同GSM数据SHA、32indices/seed310/temperature0/enable_thinking=false/max_tokens512，32/32正确，parse_missing=0，truncated=0。数学回归先独占运行，再toy8/8及A/B/A文本一致、无标记泄漏，之后才恢复阶段吞吐计时。Graph全范围和Graph有效长度两组尚未完成，不能据单侧32/32宣称Graph等价。原始qwen36-c8-eager-32k-gsm32.jsonl、前后metrics及reuse留实验目录。
+数学窗口draft3544/accepted3413，实际未接受131枚草稿，说明本次回归覆盖了真实拒绝；仍不是所有rollback情形的证明。
