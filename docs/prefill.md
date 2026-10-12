@@ -68,3 +68,7 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 先在相同32K上限下对比4096/640与1024/512（8K和32256token固定IDs）。输出1token隔离Prefill趋势，输出256token观察持续Decode；检索样本单独运行。之后回归MTP1/2，再结合C8与Graph完成组合门禁。32G规格还需要实际32G设备或受控预算验证；48G设备上的成功不能替代32G结论。
 
 真实profile初步统计：3072token/output1，400次`QwenW4A8Int4MatmulV310`累计3.980758秒，单次5.2924～15.3176ms，op_statistic中占累计时间50.402%；其次Slice .422909秒、Mul .361105秒、ReduceSum .291646秒、ViewCopy .279497秒、普通MatMulV2 .266708秒、Tril .262126秒、Cast .231858秒。step_trace的Computing为7.840336秒、Stage7.895287秒，无通信。累计算子比例不直接等于普通请求墙钟占比。`kernel_details`同时给出cube_utilization约93.87%和mac_ratio约.0325，两者口径不同，当前不能用前者声称Cube已达峰值或用后者认定硬件算力利用率3%；没有实测GB/s，暂不认定memory/compute bound。原始目录`prefill-profile-b4096-g640`，本地摘要`w4-prefill-profile-b4096-g640-summary.json`。
+
+8K输入/输出256token三轮有效请求：Prefill 384.8600/384.9462/384.5370tok/s；Decode 21.0647/21.0749/21.0600tok/s，中位21.0647。Decode分母为服务端decode阶段耗时，分子输出token数减1；HTTP TTFT中位21.3138秒，请求平均TPOT中位47.4792ms。这些是FP16KV/MTP0/eager配置，不能称为W4+MTP+C8+Graph组合结果。近32K持续Decode尚未完成。
+
+长输入对照可用`experimental/run-long-context-sweep.sh`复现，沿用前述MODEL_DIR/OPP_DIR/EXTENSION/C8_LIBRARY，设置全新的RESULT_DIR；默认顺序比较1024:512与4096:640，固定32K上限、8K/32256输入、1/256输出、warmup1+三轮，最后执行32256中间needle。每组正常通过后才停止服务进入下一组；失败保留服务和原始证据。当前4096/640测量完成后，已排队仅运行`PAIRS=1024:512`，结果目录`long-context-sweep-20261012`。
