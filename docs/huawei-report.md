@@ -1,11 +1,11 @@
 # Ascend 310P3 · Qwen3.6-35B-A3B
 # W4A8 / MTP / KV-C8 适配与初版测试报告
 
-技术评审版 v0.1 · 2026-10-12 · 联系人：ychy7001
+技术评审版 v0.2 · 2026-10-12 · 联系人：ychy7001
 
 ## 01　结论与评审目标
 
-本项目在 Atlas 300I DUO 的真实 Ascend 310P3 上，已完成 Qwen3.6-35B-A3B Routed Experts W4A8 的 TP1/TP2 启动和生成，以及使用模型自身 BF16 MTP 的推测解码适配。当前 KV 仍为 FP16；C8 已完成独立算子实验，尚未接入完整模型。W4A8、MTP、C8 三项联合推理尚未验收。
+本项目在 Atlas 300I DUO 的真实 Ascend 310P3 上，已完成 Qwen3.6-35B-A3B Routed Experts W4A8 的 TP1/TP2 启动和生成，以及使用模型自身 BF16 MTP 的推测解码适配。标准启动器使用 FP16 KV；实验 C8 已完成 TP1/eager/MTP=0/4K 完整模型短生成与 chunked Prefill。W4A8、MTP、C8 三项联合推理尚未验收。
 
 目标是同时研究模型权重与 KV 内存压缩、单流 Prefill/Decode、并发吞吐和较长上下文，最终维持合理精度并验证是否有稳定收益。历史约 25 tok/s Decode、1000 tok/s Prefill 仅为观察值，不能直接用作严格对照。
 
@@ -14,8 +14,8 @@
 | W4A8 | Routed Experts 完整模型 TP1/TP2 生成 | 其余层保留浮点；尚无全面质量结论 |
 | MTP | Qwen3.6 自身 19 个 BF16 张量；TP1/TP2 生成 | 已测 speculative tokens=1 |
 | 长上下文 | 无 MTP TP1 实际 32K、128K prompt 生成 | 256K 配置启动不等于实际 256K 验收 |
-| C8 | 动态写缓存、页表读取、Attention 与 Graph | 独立实验；未验证全模型内存净节省 |
-| 公开交付 | GitHub 源码与自包含 checkpoint 本地加载通过 | ModelScope 上传与远端校验仍进行中 |
+| C8 | 独立算子与 TP1 完整模型短生成；匹配 FP16 KV 对照 | 速度下降；正式质量、容量、长上下文待验收 |
+| 公开交付 | GitHub 源码、自包含 checkpoint；ModelScope 64 文件远端哈希通过 | 未做全量重新下载后的推理验收 |
 
 工程判断：W4 路径已值得继续研究，但未证明稳定 10%–20% 的端到端改善。C8 的主要价值仍是容量；当前转换成本高于原生 FP16 路径，需要接口、布局和流水方面的指导。
 
@@ -36,7 +36,7 @@
 | vLLM 基础提交 | 0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665 |
 | vLLM-Ascend 基础提交 | 1cdb8c4db6e50f36f1fb3283b3e3dd618f6821e8 |
 | 社区 W4 基础提交 | opensensor/vllm-ascend：0637d3baa6bc2000ba6433b301f233c6516847b4 |
-| 本报告源码快照 | ychy7001/ascend310p-qwen36：84db5c0 |
+| 本报告源码快照 | ychy7001/ascend310p-qwen36：3688ebb |
 
 源模型为 ModelScope Qwen/Qwen3.6-35B-A3B BF16 checkpoint。社区 Qwen3.8-Flash-Next 的 310P 实现提供算子思路和部分代码基础；模型、专家 shape、路由、加载与 MTP 布局存在差异，未假定其 checkpoint 或整套框架可直接复用。
 
@@ -110,7 +110,7 @@ W4 Decode 专家更快，Prefill 更慢；AllReduce 等待和 TransData 也增�
 
 ## 06　KV-C8 的路径与容量设计
 
-独立 C8 生命周期：FP16 K/V 输入 → 设备端动态 per-token/head scale → INT8 ND 持久缓存与 FP16 padded scale → 按设备页表选择有效页 → 临时 FP16 NZ → 原生 310P Paged Attention。linear attention recurrent state 保持浮点。该方案不依赖静态 KV 标定权重。
+完整模型 C8 生命周期：FP16 K/V 输入 → 设备端动态 per-token/head scale → INT8 ND 持久缓存与 FP16 padded scale → 按设备页表选择有效页 → 临时 FP16 NZ → 原生 310P Paged Attention。linear attention recurrent state 保持浮点。该方案不依赖静态 KV 标定权重。
 
 | 项目 | 实际契约 |
 | --- | --- |
@@ -124,7 +124,11 @@ W4 Decode 专家更快，Prefill 更慢；AllReduce 等待和 TransData 也增�
 
 32K、2 KV、dim256 的持久 C8 为 34 MiB，FP16 K/V 为 64 MiB，张量级减少约 46.9%。staged 路线另需 64 MiB 临时 NZ。单层同时存在 C8 与 NZ 时峰值更大；只有跨层复用工作区、移除参考副本并计入并发/Graph/allocator，才可能有全模型净收益。
 
-S：实际 model_runner_v1.py 的 get_kv_cache_spec 将 Attention page 对齐到 Mamba state page；_reshape_kv_cache_tensors 再按 page size 与 kernel block 切片。仅改 dtype 可能被 padding 抵消。下一后端必须显式计费 K/V、scale、padding 和共享 scratch，不能绕过 allocator 检查来宣称节省。
+S：hybrid spec 将 Attention page 对齐到 Mamba state page；310P 的 NPUModelRunner310._allocate_kv_cache_tensors 覆写通用分配与 reshape，必须接入专用路径。实验后端使用真实 INT8 spec、显式 scale 计费、独立层分配和跨层共用 NZ；保留上游 page 预算并减少 block 数，不绕过分组检查。
+
+E：TP1/MTP=0/eager/4096/.90、max-seqs=1、max-batch=256、无 prefix cache，五类生成 sanity 通过；completion tokens=64/64/35/64/64。无历史 Prefill 消费当前浮点 K/V；历史读取使用真实 INT8 cache。linear state 保留浮点。十个 full attention 层确认 INT8 K/V、FP16 scale。
+
+初版原预算 5,308,416,000 bytes，40 层独立分配 5,284,823,040 bytes，scheduler blocks=56，共用 NZ=8,388,608 bytes。每 full 层 64512 slots，有效 payload 70,189,056 bytes、allocation 132,120,576 bytes；每层仍有 61,931,520 bytes 无用尾部。紧凑分配已在真实设备通过五类生成与两组 benchmark，十层物理 payload 共减少 619,315,200 bytes（590.625 MiB），scheduler 仍为 56 blocks，不宣传新增上下文容量。紧凑版 p512/o64、p3072/o32 中位吞吐为 13.4352 / 2.8361 tok/s，仍慢于 FP16 KV；整模型峰值和长上下文收益待验收。
 
 另一条候选为融合 Cube QK/PV、Split-KV online softmax，已通过独立数值与 Graph，但长序列仍较慢。基础 Mmad<float,half,int8_t> 在当前 SDK 编译失败，而 half/half 控制组成功；高阶路径见 UB antiquant。该证据仅说明当前 API/实现限制，未证明底层全部硬件能力。
 
@@ -151,7 +155,16 @@ S：实际 model_runner_v1.py 的 get_kv_cache_spec 将 Attention page 对齐到
 | Cube float→half CAST_RINT | 310P 失败；改 CAST_NONE 后数值门禁通过 |
 | 混合基础 Mmad 类型 | half×int8 编译失败；同 shape half×half 编译成功 |
 
-mutable query/table/scale 的 Graph 回放已通过；C8 多 query 因果参考 Q=2/3 最大绝对误差约 0.00547–0.02219。它们未证明 vLLM scheduler、MTP 拒绝回退或模型精度。当前无法通过仅增加启动参数获得已验收 C8。
+匹配完整模型对照：同 checkpoint/OPP/extension，TP1/eager/MTP=0/4K/.90、max-seqs1/max-batch256，prompt IDs 相同。1 warmup + 3 rounds，中位数如下；吞吐含 Prefill/HTTP，不是纯 Decode 指标。
+
+| 输入 / 输出 | FP16 KV / C8 tok/s | FP16 / C8 TTFT s | FP16 / C8 TPOT ms |
+| --- | --- | --- | --- |
+| p512/o64 | 14.2881 / 13.2868 | 1.6193 / 1.6781 | 45.40 / 49.80 |
+| p3072/o32 | 2.9583 / 2.8152 | 9.3947 / 9.7878 | 45.90 / 50.91 |
+
+当前 C8 吞吐下降 7.01% / 4.84%，平均 TPOT 增加 9.69% / 10.91%。两边五类 sanity 均通过，code/math/repeat 文本相同，英文/中文不同；不证明质量等价。连续请求覆盖页释放再分配，尚无严格请求隔离、logits 或正式质量差分。
+
+独立 mutable query/table/scale 的 Graph 回放已通过；C8 多 query 因果参考 Q=2/3 最大绝对误差约 0.00547–0.02219。它们未证明 vLLM scheduler、MTP 拒绝回退或模型精度。当前无法通过仅增加启动参数获得已验收 C8。
 
 ## 08　希望华为协助的具体事项
 
@@ -165,7 +178,7 @@ mutable query/table/scale 的 Graph 回放已通过；C8 多 query 因果参考 
 
 5. Qwen3.6 hybrid cache：full/linear attention 的动态 scale、Mamba page padding、分组和共享 scratch 如何联合设计？MTP draft/verify 拒绝后，哪些 cache/state 需要回退，哪些仅更新有效长度即可？希望获得正确性约束与参考实现。
 
-下一验收节点：TP1、eager、单请求短上下文、MTP=0，真实 INT8 持久 full-attention cache 生成；验证 chunked Prefill、decode append、页复用、请求隔离、logits/生成和峰值内存。随后再加 MTP=1、TP2、并发 2/4/8、Graph、32K/128K/256K 和全面质量。
+下一验收节点：在已通过的 TP1 短生成、chunked Prefill 基础上验证紧凑物理分配、请求隔离、logits/生成质量与峰值内存；查明转换与调度成本。随后再加 MTP=1、TP2、并发 2/4/8、Graph、32K/128K/256K 和全面质量。
 
 研究退出边界：若路线只有容量收益而速度下降，报告真实权衡；若 SDK/hybrid 分配受阻，提交精确最小复现，不通过隐藏 FP16 副本或绕过检查伪造 C8 成功。正式门禁需同机同模型同输入/输出/并发的 W8A8/W4 对照、TTFT/TPOT P50/P95、峰值内存及质量集合。
 
@@ -175,7 +188,7 @@ mutable query/table/scale 的 Graph 回放已通过；C8 多 query 因果参考 
 
 权重：https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P
 
-源码和本报告对应 84db5c0；原始作者许可、版权及来源提交见 NOTICE / docs/provenance.md，精确 runtime/native 快照见 docs/runtime-source-sha256.json。社区模型卡仅作思路参考，不声明直接复现成功。
+源码和本报告对应 3688ebb；原始作者许可、版权及来源提交见 NOTICE / docs/provenance.md，精确 runtime/native 快照见 docs/runtime-source-sha256.json。社区模型卡仅作思路参考，不声明直接复现成功。
 
 | 复现步骤 | 仓库入口 |
 | --- | --- |
@@ -189,8 +202,8 @@ mutable query/table/scale 的 Graph 回放已通过；C8 多 query 因果参考 
 
 典型启动：设置 MODEL_DIR、OPP_DIR、EXTENSION 的绝对路径；TP=1 MTP=1 MAX_MODEL_LEN=4096 MEMORY_UTILIZATION=0.90，执行 scripts/run-service.sh。TP2 改 TP=2。尚无已验收 C8 服务开关。
 
-公开源码对应的三类 OPP 和 extension 已在新目录分步编译、打包、安装并完成生成检查；过程中补回准备脚本误过滤的源码补丁。没有逐字端到端执行公开 build-native.sh，不声称新下载环境完整脚本验收。ModelScope 约 24.63 GB 上传尚在进行，远端哈希校验完成后再发布确认记录。
+公开源码对应的三类 OPP 和 extension 已在新目录分步编译、打包、安装并完成生成检查；过程中补回准备脚本误过滤的源码补丁。没有逐字端到端执行公开 build-native.sh，不声称新下载环境完整脚本验收。ModelScope 约 24.63 GB、64 文件已于北京时间 12:10:37 完成提交，失败 0、耗时约 61 分钟；64 文件远端大小与 SHA256 全部匹配。新下载 config/index/deployment-sha256 三文件逐字节匹配；没有全量重新下载权重做推理。模型卡随后独立更新 C8 状态，不改动权重。
 
 原始构建、服务、请求、profiler 和数值 samples 留在实验机，不提交 Git。公开交付提供可复现源码与汇总；华为需要时可另按指定范围提供原始日志。部分旧实验目录后缀为 20261013，实际时间以日志为准，本报告统一使用 2026-10-12。
 
-待补完整门禁：group size 对照、W4A16/解包 INT8 对照、正式质量集合、c2/c8 与尾延迟矩阵、纯 Prefill/Decode 指标、实际近 256K 请求、完整 C8 及三项联合。当前未对外发送本报告。
+待补完整门禁：group size 对照、W4A16/解包 INT8 对照、正式质量集合、c2/c8 与尾延迟矩阵、纯 Prefill/Decode 指标、实际近 256K 请求、C8 长上下文/质量/容量及三项联合。当前未对外发送本报告。

@@ -37,16 +37,59 @@ tags:
 
 独立公开checkpoint的启动/生成门禁见[release-validation](https://github.com/ychy7001/ascend310p-qwen36/blob/main/docs/release-validation.md)。数值算子门禁、基本生成与MTP接受率不能替代模型准确率评估。INT4可能因解包、路由、Prefill和通信成本更慢，未承诺10%–20%端到端收益。
 
-## 使用
+## 代码、构建与启动
+
+公开代码：[ychy7001/ascend310p-qwen36](https://github.com/ychy7001/ascend310p-qwen36)。当前研究快照为 `3688ebb`；[构建与启动说明](https://github.com/ychy7001/ascend310p-qwen36/blob/3688ebb/README.md)、[公开制品验证](https://github.com/ychy7001/ascend310p-qwen36/blob/3688ebb/docs/release-validation.md)和[C8实验说明](https://github.com/ychy7001/ascend310p-qwen36/blob/3688ebb/docs/c8.md)可按固定版本查阅。
+
+已测环境为Ascend310P3、CANN9.1、`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch2.10/torch-npu2.10.0.post4；宿主需要匹配的Ascend驱动与rootless Podman。复现依赖自定义OPP和Torch extension，单独下载权重无法直接用官方原版启动。
+
+1. 获取代码和权重，在仓库根目录校验：
 
 ```bash
+git clone https://github.com/ychy7001/ascend310p-qwen36.git
+cd ascend310p-qwen36
+git checkout 3688ebb
 ms-hub download ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P --local-dir ./weights
 python3 tools/validate_checkpoint.py ./weights --verify-hashes
 ```
 
-配套仓库中构建独立OPP与Torch extension，然后运行`scripts/run-service.sh`。已测环境为Ascend310P3、CANN9.1、`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch2.10/torch-npu2.10.0.post4。初次建议TP1/4K/eager，再按容量与质量门禁扩展。
+2. 按仓库README准备上述310P镜像，禁用不兼容Triton，挂载仓库到`/project`和新的可写构建目录到`/work`。在容器内执行：
 
-本方案C8为运行时动态量化，不包含静态KV标定scale；因此本checkpoint不是官方静态C8 checkpoint。
+```bash
+source /usr/local/Ascend/ascend-toolkit/set_env.sh
+WORK_DIR=/work/qwen36-build bash /project/scripts/build-native.sh
+```
+
+已验证对应源码的新目录分步编译、安装及真实NPU生成；尚未把公开build-native脚本在全新下载环境中逐字端到端验收。制品位于构建目录的`artifacts/opp/vendors/custom_transformer`和`artifacts/qwen36_int4_custom.so`。SDK和driver不随仓库提供。
+
+3. 回到宿主仓库根目录，替换以下三个路径为宿主上的绝对路径，启动TP1、MTP=1、FP16 KV的4K首次复现配置：
+
+```bash
+MODEL_DIR=/absolute/path/ascend310p-qwen36/weights \
+OPP_DIR=/absolute/path/qwen36-build/artifacts/opp/vendors/custom_transformer \
+EXTENSION=/absolute/path/qwen36-build/artifacts/qwen36_int4_custom.so \
+TP=1 MTP=1 MAX_MODEL_LEN=4096 MEMORY_UTILIZATION=0.90 PORT=18015 \
+bash scripts/run-service.sh
+```
+
+`MTP=0`关闭推测解码；`TP=2`使用两颗芯片。默认eager；首次复现使用4K，长上下文需另做内存和质量门禁。启动器挂载只读自包含checkpoint，不依赖源BF16父目录。
+
+4. 服务就绪后做生成检查：
+
+```bash
+curl http://127.0.0.1:18015/health
+python3 tools/bench_generation_sanity.py \
+  --base-url http://127.0.0.1:18015 --model qwen36-w4a8 \
+  --out /tmp/qwen36-generation.json --max-tokens 128
+```
+
+sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库，只支持TP1/eager/MTP=0/单请求实验；不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。W4A8+MTP+C8三项联合尚未验收。
+
+## 发布校验与性能边界
+
+2026-10-12完整上传64个文件、失败0；远端64文件大小和SHA256全部匹配本地，新下载config/index/manifest三文件逐字节匹配。没有重新下载全部权重再做推理。
+
+匹配TP1/MTP=0/4K/.90、max-batch256的初版C8对照：p512/o64吞吐14.2881→13.2868tok/s，p3072/o32为2.9583→2.8152tok/s，均为1warmup/3rounds中位数，含Prefill/HTTP。当前C8转换路线更慢；有限生成检查不证明质量等价，容量收益仍需分配与长上下文实测。完整数据和边界见公开报告。
 
 ## 来源与许可
 
