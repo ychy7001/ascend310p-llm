@@ -10,7 +10,7 @@ using namespace AscendC;
 extern "C" __global__ __aicore__ void c8_cache_to_nz_kernel(
     GM_ADDR key, GM_ADDR value, GM_ADDR ks, GM_ADDR vs, GM_ADDR kout, GM_ADDR vout,
     int64_t slots, int64_t heads, int64_t dim, int64_t block_size,
-    GM_ADDR table, int64_t physical_blocks, bool selected){
+    GM_ADDR table, int64_t physical_blocks, bool selected, GM_ADDR context_length, bool limited){
   int64_t width=heads*dim,tile=16;
 #ifdef C8_NZ_PIPELINE
   while(tile*2<=C8_NZ_MAX_TILE && tile*2<=block_size && tile*2*width<=16384)tile*=2;
@@ -52,7 +52,19 @@ extern "C" __global__ __aicore__ void c8_cache_to_nz_kernel(
   GlobalTensor<int32_t> pages;
   if(selected)pages.SetGlobalBuffer(reinterpret_cast<__gm__ int32_t*>(table));
 
-  for(int64_t t=GetBlockIdx()*tile;t<slots;t+=GetBlockNum()*tile){
+  // Read the replay-updated length on device. Convert complete live pages;
+  // native PA masks the final page. Unused NZ pages retain old values and
+  // must never be read beyond this same context length.
+  int64_t active_slots=slots;
+  if(limited){
+    GlobalTensor<int32_t> length;
+    length.SetGlobalBuffer(reinterpret_cast<__gm__ int32_t*>(context_length));
+    int64_t tokens=length.GetValue(0);
+    ASCENDC_ASSERT(tokens>=0 && tokens<=slots, { KERNEL_LOG(KERNEL_ERROR, "invalid C8 context length"); });
+    if(tokens<0 || tokens>slots)return;
+    active_slots=((tokens+block_size-1)/block_size)*block_size;
+  }
+  for(int64_t t=GetBlockIdx()*tile;t<active_slots;t+=GetBlockNum()*tile){
     int64_t physical=selected?pages.GetValue(t/block_size):t/block_size;
     bool valid=physical>=0 && physical<physical_blocks;
     int64_t source=physical*block_size+t%block_size;

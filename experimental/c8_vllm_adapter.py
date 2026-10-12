@@ -244,7 +244,13 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     selected = attn_metadata.block_tables[0,:pages].to(torch.int32).contiguous()
     ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim)
     ko,vo = ko[:pages],vo[:pages]
-    torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected)
+    if graph_candidate and os.environ.get('QWEN36_C8_DEVICE_LENGTH', '0') == '1':
+        # Same replay-updated tensor that native PA consumes. Keep output and
+        # page table extent fixed; only device-side conversion work varies.
+        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected,
+                                   attn_metadata.seq_lens)
+    else:
+        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,64,selected)
     # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
     # discards it and forces an eager device->host copy in every SplitFuse layer.
     # Preserve the builder's full metadata, changing only the compact page table.

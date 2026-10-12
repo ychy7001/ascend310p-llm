@@ -7,7 +7,7 @@ using namespace AscendC;
 extern "C" __global__ __aicore__ void c8_cache_to_nz_kernel(
     GM_ADDR key, GM_ADDR value, GM_ADDR ks, GM_ADDR vs, GM_ADDR kout, GM_ADDR vout,
     int64_t slots, int64_t heads, int64_t dim, int64_t block_size,
-    GM_ADDR table, int64_t physical_blocks, bool selected){
+    GM_ADDR table, int64_t physical_blocks, bool selected, GM_ADDR context_length, bool limited){
   TPipe pipe;TBuf<TPosition::VECCALC> ib,hb,sb;
   pipe.InitBuffer(ib,65536);pipe.InitBuffer(hb,65536*2);pipe.InitBuffer(sb,128*32);
   auto x=ib.Get<int8_t>();auto y=hb.Get<half>();auto scale=sb.Get<half>();
@@ -23,7 +23,19 @@ extern "C" __global__ __aicore__ void c8_cache_to_nz_kernel(
   if(selected)pages.SetGlobalBuffer(reinterpret_cast<__gm__ int32_t*>(table));
   int64_t tile=16;
   while(tile*2<=block_size && tile*2*width<=65536)tile*=2;
-  for(int64_t t=GetBlockIdx()*tile;t<slots;t+=GetBlockNum()*tile){
+  // Read the replay-updated length on device. Convert complete live pages;
+  // native PA masks the final page. Unused NZ pages retain old values and
+  // must never be read beyond this same context length.
+  int64_t active_slots=slots;
+  if(limited){
+    GlobalTensor<int32_t> length;
+    length.SetGlobalBuffer(reinterpret_cast<__gm__ int32_t*>(context_length));
+    int64_t tokens=length.GetValue(0);
+    ASCENDC_ASSERT(tokens>=0 && tokens<=slots, { KERNEL_LOG(KERNEL_ERROR, "invalid C8 context length"); });
+    if(tokens<0 || tokens>slots)return;
+    active_slots=((tokens+block_size-1)/block_size)*block_size;
+  }
+  for(int64_t t=GetBlockIdx()*tile;t<active_slots;t+=GetBlockNum()*tile){
     int64_t physical=selected?pages.GetValue(t/block_size):t/block_size;
     bool valid=physical>=0 && physical<physical_blocks;
     int64_t source=physical*block_size+t%block_size;

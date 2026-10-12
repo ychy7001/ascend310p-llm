@@ -8,6 +8,7 @@ from c8_cache_310 import C8Cache310
 
 p = argparse.ArgumentParser()
 p.add_argument('--library', required=True)
+p.add_argument('--device-length', action='store_true', help='Test replay-updated device length conversion')
 a = p.parse_args()
 torch.ops.load_library(a.library)
 torch.npu.set_device(0)
@@ -27,8 +28,9 @@ v = torch_npu.empty_with_format(size=shape, dtype=torch.float16, device='npu', a
 out = torch.empty_like(query)
 
 
-def forward():
-    torch.ops.npu.c8_cache_to_nz(cache.k, cache.v, cache.ks, cache.vs, k, v, 64, table)
+def forward(limited=a.device_length):
+    args = (cache.k, cache.v, cache.ks, cache.vs, k, v, 64, table)
+    torch.ops.npu.c8_cache_to_nz(*args, length) if limited else torch.ops.npu.c8_cache_to_nz(*args)
     torch_npu._npu_paged_attention(query=query, key_cache=k, value_cache=v,
         num_kv_heads=2, num_heads=16, scale_value=1/16, block_table=identity,
         context_lens=length, out=out)
@@ -40,15 +42,21 @@ graph = torch.npu.NPUGraph()
 with torch.npu.graph(graph):
     forward()
 for n, order in [(63, [0,1,2,3]), (65, [3,0,2,1]),
-                 (127, [1,3,0,2]), (193, [2,1,3,0])]:
+                 (127, [1,3,0,2]), (193, [2,1,3,0]),
+                 (1, [3,2,1,0]), (256, [1,0,3,2]), (64, [2,3,1,0])]:
     length.fill_(n)
     table.copy_(torch.tensor(order, device='npu', dtype=torch.int32))
     query.add_(0.01)
-    forward()
+    forward(False)
     expected = out.clone()
+    # Poison scratch so a stale or incomplete conversion cannot pass by
+    # reading the previous eager result. PA must mask unconverted pages.
+    k.fill_(float('nan'))
+    v.fill_(float('nan'))
     graph.replay()
     torch.npu.synchronize()
     torch.testing.assert_close(out.cpu(), expected.cpu(), atol=.002, rtol=.002)
     print(json.dumps({'status':'PASS', 'length':n, 'table':order,
         'max_abs':(out-expected).abs().max().item(),
+        'device_length':a.device_length,
         'scope':'C8 conversion plus native PA replay, not model or MTP'}), flush=True)

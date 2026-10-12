@@ -27,7 +27,8 @@ at::Tensor nz_layout(const at::Tensor& x){
 }
 void cache_to_nz(const at::Tensor& k,const at::Tensor& v,const at::Tensor& ks,
                  const at::Tensor& vs,at::Tensor& ko,at::Tensor& vo,int64_t block,
-                 const c10::optional<at::Tensor>& table=c10::nullopt){
+                 const c10::optional<at::Tensor>& table=c10::nullopt,
+                 const c10::optional<at::Tensor>& context_length=c10::nullopt){
   TORCH_CHECK(k.dim()==3 && v.sizes()==k.sizes() && k.scalar_type()==at::kChar &&
     v.scalar_type()==at::kChar && k.is_contiguous() && v.is_contiguous(),"expected matching contiguous INT8 caches");
   int64_t slots=k.size(0),heads=k.size(1),dim=k.size(2);
@@ -46,11 +47,17 @@ void cache_to_nz(const at::Tensor& k,const at::Tensor& v,const at::Tensor& ks,
     ko.is_contiguous() && vo.is_contiguous(),"expected contiguous raw NZ output cache shape");
   TORCH_CHECK(k.device().type()==c10::DeviceType::PrivateUse1,"requires NPU");
   for(const auto& t:{v,ks,vs,ko,vo})TORCH_CHECK(t.device()==k.device(),"requires one NPU");
+  if(context_length){
+    TORCH_CHECK(table.has_value() && context_length->device()==k.device() &&
+      context_length->scalar_type()==at::kInt && context_length->numel()==1 &&
+      context_length->is_contiguous(),"device context length requires selected pages and one contiguous INT32 value");
+  }
   auto stream=c10_npu::getCurrentNPUStream().stream(false);
   void *a=k.data_ptr(),*b=v.data_ptr(),*c=ks.data_ptr(),*d=vs.data_ptr(),*e=ko.data_ptr(),*f=vo.data_ptr();
   void *mapping=table?table->data_ptr():nullptr;bool selected=table.has_value();
+  void *length=context_length?context_length->data_ptr():nullptr;bool limited=context_length.has_value();
   auto launch=[=]() -> int {return ACLRT_LAUNCH_KERNEL(c8_cache_to_nz_kernel)(8,stream,a,b,c,d,e,f,
-    out_blocks*block,heads,dim,block,mapping,slots/block,selected);};
+    out_blocks*block,heads,dim,block,mapping,slots/block,selected,length,limited);};
   at_npu::native::OpCommand::RunOpApi("c8_cache_to_nz_kernel",launch);
 }
 at::Tensor qk_cube(const at::Tensor& q, const at::Tensor& k, bool transpose_b) {
@@ -225,7 +232,7 @@ void scatter(const at::Tensor& x, const at::Tensor& scale,
 TORCH_LIBRARY_FRAGMENT(npu, m) {
   m.def("c8_quant_scatter(Tensor key, Tensor value, Tensor slots, Tensor(a!) kc, Tensor(b!) vc, Tensor(c!) ks, Tensor(d!) vs) -> ()");
   m.def("c8_nz_layout(Tensor x) -> Tensor");
-  m.def("c8_cache_to_nz(Tensor k, Tensor v, Tensor ks, Tensor vs, Tensor(a!) ko, Tensor(b!) vo, int block, Tensor? table=None) -> ()");
+  m.def("c8_cache_to_nz(Tensor k, Tensor v, Tensor ks, Tensor vs, Tensor(a!) ko, Tensor(b!) vo, int block, Tensor? table=None, Tensor? context_length=None) -> ()");
   m.def("c8_qk_cube(Tensor q, Tensor k, bool transpose_b) -> Tensor");
   m.def("c8_attention(Tensor q, Tensor k, Tensor v, Tensor ks, Tensor vs, Tensor table, int block_size, int length, bool cube=False, int splits=1) -> Tensor");
   m.def("c8_table_dequant(Tensor x, Tensor scale, Tensor table, int logical_page, int block_size, int tokens, int heads, int dim) -> Tensor");
