@@ -20,7 +20,11 @@ p128/o64、单流、1次warmup后3轮streaming：aggregate output吞吐为21.923
 
 三个W4算子家族的公开snapshot已投入新的隔离CANN构建目录；基础社区源固定`0637d3baa6bc2000ba6433b301f233c6516847b4`。SDK/依赖沿用既有镜像。测试准备阶段最初递归忽略`build`目录，误删`cmake/third_party/build/modules/patch/`内受版本管理的补丁，host构建失败；补回后重试。该过滤方式不是公开build-native脚本的行为，正式脚本从固定Git checkout获取源文件。
 
-三个OPP家族干净编译、打包、安装验证已成功；独立Torch extension编译和链接也成功。构建容器未挂NPU，CANN的“无法取得设备/console log level”诊断不等于设备执行失败。extension最初因镜像Triton不兼容失败，禁用Triton后成功；公开说明要求执行同样准备。替换新产物后的生成门禁正在验证，完成前不声称“从公开脚本全新下载并构建已验收”。完整ModelScope上传与远端文件检查也将在完成后追加。
+三个OPP家族干净编译、打包、安装验证已成功；独立Torch extension编译和链接也成功。构建容器未挂NPU，CANN的“无法取得设备/console log level”诊断不等于设备执行失败。extension最初因镜像Triton不兼容失败，禁用Triton后成功；公开说明要求执行同样准备。
+
+experimentally verified：替换新OPP和extension后，在相同TP1/MTP=1/4096/.90配置下启动与五类生成sanity再次全部PASS；completion tokens为75/98/35/128/128。p128/o64单流，1次warmup后3轮aggregate吞吐为21.9502/21.9445/21.9728tok/s，TTFT为0.6582/0.6591/0.6575s，mean TPOT为35.814/35.823/35.793ms。与首轮性能接近，不能将其作为严格精度一致性验证；英文和中文文本也不完全相同。数学与长解释被128输出上限截断。
+
+新构建使用固定社区源码快照与本仓库三个overlay，无既有OPP或extension复用。测试时通过分步构建、补回源码目录内被准备脚本漏掉的补丁完成，**没有逐字端到端运行公开build-native.sh**，因此生成门禁验证的是对应源码产物，而不是完整公开脚本在全新环境中下载构建的验收。原始构建、服务与请求日志在a2独立release目录留存，未提交Git。完整ModelScope上传与远端文件检查将在完成后追加。
 
 ## 发布状态
 
