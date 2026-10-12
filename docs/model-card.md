@@ -31,11 +31,13 @@ tags:
 | 完整W4A8 TP1/TP2、FP16 KV | 已在真实310P3运行 |
 | BF16 MTP | TP1/TP2、num_speculative_tokens=1已运行 |
 | INT8 KV / C8 | TP1/eager/MTP=0/4K短生成与chunked prefill已通过；质量、容量和长上下文待验收 |
-| W4A8+MTP+C8 | 尚未联合验收 |
+| W4A8+MTP+C8 | TP1/eager/4K短生成、GSM32和有限HTTP对照已通过；完整长上下文/TP2/全面质量未验收 |
 | 长上下文 | 无MTP TP1实际128K生成已测；256K配置不等于实际请求验收 |
 | 多模态、全面精度、长上下文质量 | 未完成验收 |
 
 独立公开checkpoint的启动/生成门禁见[release-validation](https://github.com/ychy7001/ascend310p-qwen36/blob/main/docs/release-validation.md)。数值算子门禁、基本生成与MTP接受率不能替代模型准确率评估。INT4可能因解包、路由、Prefill和通信成本更慢，未承诺10%–20%端到端收益。
+
+最新实验快照（代码 `1087f04`）：融合动态 KV 写入与按存储类型拆分的共享池已在真实 310P3 启动。W4A8+MTP+C8 的固定 GSM32 子集为 32/32；匹配 FP16 KV 对照为 31/32，其中唯一差异是 FP16 输出在 512 token 上限截断，不能解释为量化精度提升。TP1/eager/4K/MTP=1 的 C8 HTTP 吞吐（p512/o64、p3072/o32）中位数为 14.8362、2.9198 tok/s；对应 FP16 KV 为 15.5266、2.9430 tok/s。该结果包含 Prefill/HTTP，尚非纯 Decode 或正式尾延迟结论。
 
 ## 代码、构建与启动
 
@@ -83,7 +85,7 @@ python3 tools/bench_generation_sanity.py \
   --out /tmp/qwen36-generation.json --max-tokens 128
 ```
 
-sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库，只支持TP1/eager/MTP=0/单请求实验；不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。W4A8+MTP+C8三项联合尚未验收。
+sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库；已在TP1/eager/单请求MTP=0和MTP=1实验配置运行，TP2、Graph、长上下文和全面质量尚未验收。不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。
 
 ## 发布校验与性能边界
 
