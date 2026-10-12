@@ -188,7 +188,7 @@ E：TP1/MTP=0/eager/4096/.90、max-seqs=1、max-batch=256、无 prefix cache，�
 
 权重：https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P
 
-源码和本报告对应 3688ebb；原始作者许可、版权及来源提交见 NOTICE / docs/provenance.md，精确 runtime/native 快照见 docs/runtime-source-sha256.json。社区模型卡仅作思路参考，不声明直接复现成功。
+首版报告对应 3688ebb；后续实验补充见下节和docs/c8.md。原始作者许可、版权及来源提交见 NOTICE / docs/provenance.md，初始runtime/native快照见 docs/runtime-source-sha256.json，后续实验adapter修改由Git提交追踪。社区模型卡仅作思路参考，不声明直接复现成功。
 
 | 复现步骤 | 仓库入口 |
 | --- | --- |
@@ -206,4 +206,25 @@ E：TP1/MTP=0/eager/4096/.90、max-seqs=1、max-batch=256、无 prefix cache，�
 
 原始构建、服务、请求、profiler 和数值 samples 留在实验机，不提交 Git。公开交付提供可复现源码与汇总；华为需要时可另按指定范围提供原始日志。部分旧实验目录后缀为 20261013，实际时间以日志为准，本报告统一使用 2026-10-12。
 
-待补完整门禁：group size 对照、W4A16/解包 INT8 对照、正式质量集合、c2/c8 与尾延迟矩阵、纯 Prefill/Decode 指标、实际近 256K 请求、C8 长上下文/质量/容量及三项联合。当前未对外发送本报告。
+待补完整门禁：group size 对照、W4A16/解包 INT8 对照、正式质量集合、c2/c8 与尾延迟矩阵、设备级 Prefill/Decode 指标、实际近 256K 请求、C8 长上下文/质量/容量及联合稳定性。用户已转发冻结版v0.2 DOCX/PDF，后续Markdown更新不会自动同步其中数据。
+
+## 10　后续联合 Graph / 长上下文实验补充（2026-10-12）
+
+E：W4A8+自身BF16 MTP=1+动态C8+Decode Graph，在TP1/4K/.90、max-seqs1/max-batch256、关闭prefix cache配置完成capture/replay。模式为编译mode0与FULL_DECODE_ONLY/[1,2]；实验补丁统一GraphParams初始化条件，未跳过attention参数更新。图内C8固定转换max-context范围，原生PA按设备有效长度遮罩。之前使用CPU长度裁剪的候选出现3072-token检索失败，已淘汰；修正候选相同检索通过，固定GSM32为32/32，0解析缺失/0截断，8toy和A/B/A复用检查通过。小样本不等于全面质量验收。
+
+服务端请求阶段计时（1warmup/3次、独占端点、逐次counter增量核对1）：
+
+| 配置与负载 | Prefill中位tok/s | Decode中位tok/s |
+| --- | --- | --- |
+| 4K上限、p128/o256 | 未用于长Prefill指标 | 32.9694 |
+| 4K上限、p3072/o1 | 318.401 | 无独立后续Decode |
+| 4K上限、p4032/o32 | 317.689 | 31.1525 |
+| 128K上限/.95、p128/o64 | 211.883 | 20.6136 |
+
+指标是vLLM服务端请求阶段墙钟时间，非纯kernel时间；Decode按`(completion_tokens-1)/decode_seconds`。W8历史约1000tok/s来自TP2及不同Prefill分块，尚无严格同条件对照。4K配置速度不能套用到128K配置。
+
+E：128K上限/.95联合Graph服务初始化成功：C8 115调度页、共享NZ 256MiB、Graph约0.35GiB；精确65,536输入tokens中间needle检索通过，14输出tokens，总耗时269.763s。单次服务端Prefill268.772s（243.835tok/s）、Decode0.918615s（14.1517tok/s），没有重复统计。130,560输入请求则持续等待capacity，未执行也未产生生成结果。旧门禁只计Attention页、遗漏其他hybrid组和调度预留；新保守门禁与`.97`候选正在验证。**目前已验收的联合长请求为64K单次，不是128K/256K产品指标。**
+
+S：当前固定max-context转换条件也覆盖eager chunked Prefill，可能增加长配置成本。待验证补丁将固定范围限定于FULL图forward，Prefill恢复按实际历史长度转换；之后扫描batch256/512/1024/4096并补齐同机同TP W8对照。Prefill专家大M路径仍是主要优化方向，不能假定W4权重压缩自然带来Prefill加速。
+
+完整协议、原始文件名和复现入口见docs/c8.md、tools/bench_server_phases.py。冻结版Office报告尚未包含本节。
