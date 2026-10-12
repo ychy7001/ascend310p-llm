@@ -224,6 +224,7 @@ E：W4A8+自身BF16 MTP=1+动态C8+Decode Graph，在TP1/4K/.90、max-seqs1/max-
 指标是vLLM服务端请求阶段墙钟时间，非纯kernel时间；Decode按`(completion_tokens-1)/decode_seconds`。W8历史约1000tok/s来自TP2及不同Prefill分块，尚无严格同条件对照。4K配置速度不能套用到128K配置。
 
 E：128K上限/.95联合Graph服务初始化成功：C8 115调度页、共享NZ 256MiB、Graph约0.35GiB；精确65,536输入tokens中间needle检索通过，14输出tokens，总耗时269.763s。单次服务端Prefill268.772s（243.835tok/s）、Decode0.918615s（14.1517tok/s），没有重复统计。130,560输入请求则持续等待capacity，未执行也未产生生成结果。旧门禁只计Attention页、遗漏其他hybrid组和调度预留；新保守门禁与`.97`候选正在验证。**目前已验收的联合长请求为64K单次，不是128K/256K产品指标。**
+E：128K上限/.95联合Graph服务初始化成功：C8 115调度页、共享NZ 256MiB、Graph约0.35GiB；精确65,536输入tokens中间needle检索通过，14输出tokens，总耗时269.763s。单次服务端Prefill268.772s（243.835tok/s）、Decode0.918615s（14.1517tok/s），没有重复统计。130,560输入请求在旧门禁下持续等待capacity，未执行；修正门禁后以`.97`启动，保守计算121页、实际分配128页，接近上限请求真实执行并正确返回needle，输入130,560、输出12、总耗时587.262s。该结果证明TP1/48G/C8/MTP/Graph可承载接近128K，但首token等待约数分钟，不能作为交互式性能指标，也没有完成重复P50/P95和并发验收。
 
 S：当前固定max-context转换条件也覆盖eager chunked Prefill，可能增加长配置成本。待验证补丁将固定范围限定于FULL图forward，Prefill恢复按实际历史长度转换；之后扫描batch256/512/1024/4096并补齐同机同TP W8对照。Prefill专家大M路径仍是主要优化方向，不能假定W4权重压缩自然带来Prefill加速。
 

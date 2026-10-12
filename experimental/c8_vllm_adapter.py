@@ -14,6 +14,8 @@ import math
 import os
 import torch
 import torch_npu
+from vllm.config.compilation import CUDAGraphMode
+from vllm.forward_context import get_forward_context
 from vllm.model_executor.layers.attention import Attention
 from vllm.v1.kv_cache_interface import FullAttentionSpec, KVCacheTensor
 import vllm.v1.core.kv_cache_utils as cache_utils
@@ -112,16 +114,26 @@ def get_configs(config, specs, memory):
     blocks = min(cfg.num_blocks, (old_budget - scratch) // per_block)
     full = next(s for s in layer_specs.values() if isinstance(s, C8FullAttentionSpec))
     required_blocks = math.ceil(config.model_config.max_model_len / full.block_size)
+    # All cache groups draw block IDs from the same scheduler pool. Full
+    # attention pages alone omit Mamba running/speculative/rotation state and
+    # the pool's reserved null block. Use each spec's upstream worst-case
+    # contract, including every group even when their physical tensors share.
+    scheduler_required_blocks = 1 + sum(
+        math.ceil(group.kv_cache_spec.max_memory_usage_bytes(config)
+                  / group.kv_cache_spec.page_size_bytes)
+        for group in cfg.kv_cache_groups
+    )
     # Each C8 physical pool must contain every logical page of a request.
     # Use the scheduler page size (1152 for this hybrid model), not the
     # 64-token kernel subblock size used by the expanded device block table.
-    needed = required_blocks
+    needed = max(required_blocks, scheduler_required_blocks)
     print(f'C8_BUDGET mode={pool_mode} groups={len(cfg.kv_cache_groups)} layers={len(layer_specs)} '
           f'original_blocks={cfg.num_blocks} independent_blocks={blocks} minimum_blocks={needed} '
           f'charged_bytes_per_block={per_block} required_context_blocks={required_blocks} '
+          f'scheduler_required_blocks={scheduler_required_blocks} '
           f'original_budget_bytes={old_budget}',flush=True)
     if blocks < needed:
-        raise RuntimeError('Independent C8 layer allocation cannot fit requested context in budget')
+        raise RuntimeError('C8 allocation cannot fit full context plus hybrid/speculative scheduler state in budget')
     cfg.num_blocks = blocks
     cfg.kv_cache_tensors = [KVCacheTensor(size=blocks*size,shared_by=names) for names,size in pools]
     print(f'C8_ALLOCATOR mode={pool_mode} layers={len(layer_specs)} pools={len(pools)} blocks={blocks} '
@@ -220,10 +232,12 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     length = attn_metadata.seq_lens_list[0]
     context = self.vllm_config.model_config.max_model_len
     # Python sequence lengths do not change during graph replay. Convert the
-    # fixed max-context table in the graph candidate; native PA masks by the
-    # device context_lens. Eager retains its shorter actual-context work.
+    # fixed max-context table only for a forward dispatched to a FULL graph;
+    # native PA masks by device context_lens. Chunked prefill remains eager
+    # even in a graph-enabled service and must use its actual history length.
     graph_candidate = (os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1'
-                       and not self.vllm_config.model_config.enforce_eager)
+                       and not self.vllm_config.model_config.enforce_eager
+                       and get_forward_context().cudagraph_runtime_mode == CUDAGraphMode.FULL)
     pages = math.ceil((context if graph_candidate else length)/64)
     if attn_metadata.block_tables.shape[1] < pages:
         raise RuntimeError('C8 graph requires a max-context device block table')
