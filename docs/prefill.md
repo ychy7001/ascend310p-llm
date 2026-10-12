@@ -1,0 +1,38 @@
+# TP1 W4 Prefill 调优记录
+
+目标是改善真实专家矩阵的大 M 路径，同时保留 Decode 收益及精度。历史 W8A8 约1000tok/s来自用户观测；a1当前为TP2、batch4096。尚无同机同TP同输入的严格W8/W4对照，不承诺TP1达到该值。
+
+## 固定条件与两个分块参数
+
+TP1、公开W4 checkpoint、FP16 KV、MTP=0、eager、max_model_len4096、memory utilization .90、max_num_seqs1、prefix off。同一3072-token prompt，输出1token，1次warmup、3次测量，使用`tools/bench_server_phases.py`服务端请求阶段计时；包含阶段调度与首token处理，非纯kernel时间。每次counter增量验证为1，保存prompt IDs和HTTP响应。
+
+`MAX_BATCHED_TOKENS`控制一次模型forward的调度token数；`QWEN36_GROUPED_CHUNK_TOKENS`控制每层专家的内部切片。batch256时，专家chunk512/640实际不会扩大输入。专家chunk上限由5120routes/top_k8确定为640，不能直接将chunk设为1024/4096；大调度batch可由多个小专家chunk处理。
+
+| 调度batch | 专家chunk | 三次Prefill tok/s | 中位数 | 状态 |
+| --- | --- | --- | --- | --- |
+| 256 | 256 | 324.6767 / 324.2034 / 322.4247 | 324.2034 | 实际请求计时通过，检索检查待补 |
+| 1024 | 512 | 387.7657 / 387.8843 / 387.8627 | 387.8627 | 计时与3072-token中间needle通过 |
+
+两轮prompt IDs逐项一致（3072），第二轮Prefill中位数提高19.6356%。调度batch与专家chunk同时改变，尚不能独立归因；均未开C8/MTP/Graph。第二轮needle输出14tokens、正确返回ASCEND732941，耗时8.79984s；只有单个检索样本，不是正式准确率评测。batch1024时权重23.82GiB、peak activation2.75GiB、non-torch约.18GiB；这是启动profile预算，非请求实际峰值。
+
+第一轮不含MTP的权重实测23.8202GiB，峰值激活2.75GiB，non-torch约.19GiB；KV预算4.95GiB（310P worker日志明确halved for workspace）。此前MTP配置加载27.288GiB，不能将其作为关闭MTP配置的基础内存。32G实际业务容量仍需独立实卡或受控预算验证。
+
+原始第一轮文件：`w4-prefill-256.log`、`w4-prefill-256-p3072-o1.jsonl`，保留在实验目录，不提交Git。第二轮日志`w4-prefill-b1024-g512.log`、请求`w4-prefill-b1024-g512-p3072-o1.jsonl`与`w4-prefill-b1024-g512-needle.jsonl`。代码提交eac6c0e引入专家chunk可选参数，不修改默认512。后续扫描已启动，依次1024:256、1024:640、4096:512、4096:640；结果写入新目录prefill-sweep-20261012。尚未得到结果，不宣称进一步收益。
+
+## 扫描复现
+
+`experimental/run-prefill-sweep.sh`顺序运行实验服务，每组计时后单独执行3072-token中间needle。需要独占davinci0、端口未被其他服务占用，设置已验证制品的绝对路径；不覆盖已有结果。
+
+```bash
+MODEL_DIR=/absolute/path/weights \
+OPP_DIR=/absolute/path/build/artifacts/opp/vendors/custom_transformer \
+EXTENSION=/absolute/path/build/artifacts/qwen36_int4_custom.so \
+C8_LIBRARY=/absolute/path/c8-build/output/libqwen36_c8.so \
+RESULT_DIR=/absolute/path/new-prefill-results PORT=18020 \
+PAIRS='1024:256 1024:512 1024:640 4096:512 4096:640' \
+bash experimental/run-prefill-sweep.sh
+```
+
+C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache为FP16。每组服务名仍沿用`qwen36-w4a8-c8`，不是C8启用证据。超过 readiness 观察期限时脚本保留活容器并报错，不能据此认定运行终止或重新启动。
+
+通过分块扫描后，按profile决定融合dispatch/count、SwiGLU/activation pack、优化expert weight复用或扩大原生route上限；之后回归MTP1，另测MTP2，再接入Graph/C8。仅参数变化不代表kernel效率改善。
