@@ -157,3 +157,20 @@ GSM固定32题完成：31/32，与原N128基线相同；仍为index205达到512�
 4096批量实际114560token检索通过，耗时348.941s，输出正确检索码14tokens、总114574tokens；相比原N128415.306s减少15.98%，比GDN/b1024的352.140s小幅改善。长请求后的8K复测已启动，独立保留文件以检查运行状态复用。
 
 长请求之后8K复测完成：Prefill中位503.226、Decode37.079tok/s；三条输出与4096候选长请求前全部一致，未观察到持续性能下降。本轮收敛为4096/512单流实验基线，启动器`experimental/run-gdn-112k-product.sh`，参数选择与边界见`docs/gdn-112k-candidate.md`。
+
+新GDN/b4096 MTP1/2业务近似对照已启动：中文解释、会议摘要、Python代码、英文技术分析4类固定chat；每类预热1、测量3、temperature0、thinking关闭、max_tokens256。保存全文、usage、TTFT、TPOT、请求阶段计数和MTP接受率差分，不作为任务质量评分。MTP2初测中位Decode分别31.32/39.22/39.30/34.19tok/s；会议文本重复一致，另外三类有重复输出差异，需与MTP1一起分析。MTP1独立服务正在加载，仅修改draft token数及对应capture sizes。
+
+MTP1/2对照已完成，保留MTP2实验默认。四类chat中位Decode：
+
+| 输入 | MTP1 tok/s | MTP2 tok/s | MTP2变化 |
+|---|---:|---:|---:|
+| 中文解释 | 30.804 | 31.316 | +1.66% |
+| 会议摘要 | 32.960 | 39.225 | +19.01% |
+| Python代码 | 33.885 | 39.305 | +16.00% |
+| 英文分析 | 32.684 | 34.189 | +4.60% |
+
+8K/128相同prompt token hash三条：MTP1 Prefill510.604、Decode30.571；MTP2 Prefill503.099、Decode37.100tok/s，Prefill -1.47%、Decode +21.36%。三条输出全部跨配置一致。MTP2对照来源是同日4096候选记录，chat是先MTP2再MTP1，未交替A/B。
+
+会议摘要两组均147tokens正常结束、全部重复及跨配置输出一致；其余三类均256tokens上限截断，两组均有重复文本差异，跨配置文本也不相同。不能据此宣称全面质量等价，或将差异全归因于MTP深度。完整全文、接受率及指标见`results/pr17640-mtp-20261013/comparison.json`和原始jsonl。
+
+MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组权重27.288GiB、Graph约.31GiB。池容量均不作为单请求上下文上限。MTP1的TTFT在这四类chat中更低约43–65ms，但MTP2总耗时均较低；主要取舍是草稿成本与批量验证收益。尚未完成MTP0、prefix复用及并发对照。已启动恢复MTP2服务，端口18024。

@@ -84,6 +84,7 @@
     "runtime/vllm_ascend/models/qwen4_exp/weight_mapping.py": "e807cdd7e07f03b606c7d9d9921ef1bde9c9fa1ea695aca939cbac6ce82530d6",
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
+    "tools/bench_mtp_chat.py": "a6e4408ed9a5ca33cda45d19da870f508640fcb41bde3d2895c4b4683982840a",
     "tools/build_pr17640_wy_extension.py": "e109a088753fc1aee1761bc7a454792977c48a3f7dd6e5d9125a6d50cebf1af9",
     "tools/build_qwen36_int4_extension.py": "4c4475e67ae99c2cfa3c332e3caf0c91069bda131193b6f409f629728bc6f2d3",
     "tools/check_mindieq_qmm_310.py": "baebc5725219dd6402f8962605eb15aabfaf6b1286cfb7f42a36114b6f84301d",

@@ -1,0 +1,210 @@
+{
+  "scope": "同芯片TP1/GDN/W4A8/C8/Graph/4096/512/112K/.95/max_seqs1/prefix_off；预热1重复3；顺序比较，未交替A/B",
+  "chat": {
+    "dialogue": {
+      "mtp1": {
+        "median": {
+          "decode_tok_s": 30.803898210477993,
+          "elapsed_s": 8.617604684957769,
+          "ttft_s": 0.35329739400185645,
+          "mean_tpot_s": 0.03246274777258947,
+          "acceptance_rate": 0.7655172413793103,
+          "mean_acceptance_length": 1.7655172413793103
+        },
+        "unique_texts": 3,
+        "completion_tokens": [
+          256,
+          256,
+          256
+        ],
+        "finish_reasons": [
+          "length",
+          "length",
+          "length"
+        ],
+        "prompt_sha256": "ea7cd5390071a1d7032af72f7ea915c55abc45e0ce04fdbbb7d657a130f006b0"
+      },
+      "mtp2": {
+        "median": {
+          "decode_tok_s": 31.316484232167802,
+          "elapsed_s": 8.53929559304379,
+          "ttft_s": 0.396490458981134,
+          "mean_tpot_s": 0.031931480011838834,
+          "acceptance_rate": 0.6173913043478261,
+          "mean_acceptance_length": 2.234782608695652
+        },
+        "unique_texts": 3,
+        "completion_tokens": [
+          256,
+          256,
+          256
+        ],
+        "finish_reasons": [
+          "length",
+          "length",
+          "length"
+        ],
+        "prompt_sha256": "ea7cd5390071a1d7032af72f7ea915c55abc45e0ce04fdbbb7d657a130f006b0"
+      },
+      "mtp2_decode_gain_pct": 1.6640297217819455,
+      "cross_profile_same_text_repeats": 0
+    },
+    "meeting": {
+      "mtp1": {
+        "median": {
+          "decode_tok_s": 32.96023474842376,
+          "elapsed_s": 6.548729381989688,
+          "ttft_s": 2.1197882400010712,
+          "mean_tpot_s": 0.030335213301291894,
+          "acceptance_rate": 0.9342105263157895,
+          "mean_acceptance_length": 1.9342105263157894
+        },
+        "unique_texts": 1,
+        "completion_tokens": [
+          147,
+          147,
+          147
+        ],
+        "finish_reasons": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "prompt_sha256": "ee12d16ce4b2cee766287f5f81a197383b85defc7890e4d5b89eda3158f4d372"
+      },
+      "mtp2": {
+        "median": {
+          "decode_tok_s": 39.2246982942934,
+          "elapsed_s": 5.892454807006288,
+          "ttft_s": 2.1688442450249568,
+          "mean_tpot_s": 0.02548999635603164,
+          "acceptance_rate": 0.9411764705882353,
+          "mean_acceptance_length": 2.8823529411764706
+        },
+        "unique_texts": 1,
+        "completion_tokens": [
+          147,
+          147,
+          147
+        ],
+        "finish_reasons": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "prompt_sha256": "ee12d16ce4b2cee766287f5f81a197383b85defc7890e4d5b89eda3158f4d372"
+      },
+      "mtp2_decode_gain_pct": 19.00612539226294,
+      "cross_profile_same_text_repeats": 3
+    },
+    "code": {
+      "mtp1": {
+        "median": {
+          "decode_tok_s": 33.88476923984947,
+          "elapsed_s": 7.81025146599859,
+          "ttft_s": 0.275709529989399,
+          "mean_tpot_s": 0.02951131122752878,
+          "acceptance_rate": 0.9541984732824428,
+          "mean_acceptance_length": 1.954198473282443
+        },
+        "unique_texts": 3,
+        "completion_tokens": [
+          256,
+          256,
+          256
+        ],
+        "finish_reasons": [
+          "length",
+          "length",
+          "length"
+        ],
+        "prompt_sha256": "2c36d1f4918f243a0a3d5e58943973b95600e936accdd08fd45c354fbfdda29c"
+      },
+      "mtp2": {
+        "median": {
+          "decode_tok_s": 39.30470027150394,
+          "elapsed_s": 6.825248720007949,
+          "ttft_s": 0.33778159599751234,
+          "mean_tpot_s": 0.025441047545138967,
+          "acceptance_rate": 0.9222222222222223,
+          "mean_acceptance_length": 2.8444444444444446
+        },
+        "unique_texts": 2,
+        "completion_tokens": [
+          256,
+          256,
+          256
+        ],
+        "finish_reasons": [
+          "length",
+          "length",
+          "length"
+        ],
+        "prompt_sha256": "2c36d1f4918f243a0a3d5e58943973b95600e936accdd08fd45c354fbfdda29c"
+      },
+      "mtp2_decode_gain_pct": 15.995183538923063,
+      "cross_profile_same_text_repeats": 0
+    },
+    "analysis": {
+      "mtp1": {
+        "median": {
+          "decode_tok_s": 32.68372115069938,
+          "elapsed_s": 8.131022359011695,
+          "ttft_s": 0.31942878605332226,
+          "mean_tpot_s": 0.030595376521723307,
+          "acceptance_rate": 0.8823529411764706,
+          "mean_acceptance_length": 1.8823529411764706
+        },
+        "unique_texts": 3,
+        "completion_tokens": [
+          256,
+          256,
+          256
+        ],
+        "finish_reasons": [
+          "length",
+          "length",
+          "length"
+        ],
+        "prompt_sha256": "4146cb5831b35f8dae87be6e6f71c454e536d06c6175229a820ae7f5d7863704"
+      },
+      "mtp2": {
+        "median": {
+          "decode_tok_s": 34.18879996654973,
+          "elapsed_s": 7.842917917994782,
+          "ttft_s": 0.3840049490099773,
+          "mean_tpot_s": 0.029247389545015916,
+          "acceptance_rate": 0.7259615384615384,
+          "mean_acceptance_length": 2.4519230769230766
+        },
+        "unique_texts": 3,
+        "completion_tokens": [
+          256,
+          256,
+          256
+        ],
+        "finish_reasons": [
+          "length",
+          "length",
+          "length"
+        ],
+        "prompt_sha256": "4146cb5831b35f8dae87be6e6f71c454e536d06c6175229a820ae7f5d7863704"
+      },
+      "mtp2_decode_gain_pct": 4.604979980433299,
+      "cross_profile_same_text_repeats": 0
+    }
+  },
+  "synthetic8k": {
+    "mtp1": {
+      "prefill_tok_s": 510.6039466771348,
+      "decode_tok_s": 30.571339588196697
+    },
+    "mtp2": {
+      "prefill_tok_s": 503.09934403014785,
+      "decode_tok_s": 37.0999787472769
+    },
+    "mtp2_source": "../pr17640-b4096-20261013/p8192-o128.jsonl",
+    "cross_profile_same_text_repeats": 3
+  },
+  "decision": "保留MTP2实验默认；MTP1可选。非全面质量验收；MTP0/prefix/concurrency尚未测。"
+}

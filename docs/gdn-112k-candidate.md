@@ -9,7 +9,7 @@
 | TP | 1 | 单颗 48G 目标硬件 |
 | 权重 | N128 W4A8；MTP 保留浮点权重 | 使用现有模型与已验收加载路径 |
 | KV | 实验动态 C8 | 沿用112K候选，非官方310P C8后端 |
-| MTP | 2 | 沿用已测Graph组合；未在新GDN下完成MTP1的直接对照 |
+| MTP | 2 | 新GDN下MTP1/2对照已完成；8K Decode提升21.36%，四类chat提升1.66%–19.01% |
 | Graph | FULL_DECODE_ONLY，mode0，capture1/2/3 | Graph占用约.31GiB |
 | max_model_len | 114688 | 112 Ki tokens；实际检索输入114560+输出余量 |
 | gpu_memory_utilization | .95 | 单芯片内存候选；非宣称.90一定不可用 |
@@ -49,6 +49,6 @@ bash experimental/run-gdn-112k-product.sh
 
 ## 后续边界
 
-这轮收敛目标是已有112K单流候选。尚需新GDN下MTP0/1/2公平对照、prefix caching、并发2/4/8、TTFT/TPOT尾延迟、更多任务精度、长文decode128以上稳定性。48G以外的32G硬件、TP2及官方main迁移不能由本轮结果外推。MindIEQ W4存储INT8计算路径尚无稳定加速，未替换权重后端。
+这轮收敛目标是已有112K单流候选。已完成新GDN下MTP1/2固定输入对照，尚需MTP0对照、prefix caching、并发2/4/8、TTFT/TPOT尾延迟、更多任务精度、长文decode128以上稳定性。48G以外的32G硬件、TP2及官方main迁移不能由本轮结果外推。MindIEQ W4存储INT8计算路径尚无稳定加速，未替换权重后端。
 
 本轮工程结论：采用4096/512作为新的单流实验基线，服务保留a2的18024端口；仍保留原启动器用于回归。未将这一小样本门禁写成正式产品验收。
