@@ -1,0 +1,187 @@
+{
+  "scope": "8K首块后MTP2 Graph采集；Profiler停止提示记录周期可能不完整；按实际捕获kernel时长总和统计，不等于墙钟占比",
+  "kernel_count": 167731,
+  "sum_kernel_us": 3116531.4039999973,
+  "top": [
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "count": 5125,
+      "sum_us": 1468646.4369999962,
+      "sum_fraction": 0.47124390760671364
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "count": 3280,
+      "sum_us": 489241.5890000007,
+      "sum_fraction": 0.15698272392573046
+    },
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "count": 492,
+      "sum_us": 204224.65299999993,
+      "sum_fraction": 0.06552947059602295
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "count": 15006,
+      "sum_us": 185770.94200000126,
+      "sum_fraction": 0.0596082368243004
+    },
+    {
+      "name": "aclnnRecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310",
+      "count": 1230,
+      "sum_us": 121250.827,
+      "sum_fraction": 0.038905697162036394
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "count": 492,
+      "sum_us": 120692.71400000005,
+      "sum_fraction": 0.0387266157000997
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "count": 164,
+      "sum_us": 59169.50699999997,
+      "sum_fraction": 0.01898569253114448
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "count": 6642,
+      "sum_us": 40058.03599999955,
+      "sum_fraction": 0.012853403610368234
+    },
+    {
+      "name": "RmsNorm",
+      "count": 8405,
+      "sum_us": 38359.28799999974,
+      "sum_fraction": 0.012308327119940605
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "count": 5125,
+      "sum_us": 30210.576999999925,
+      "sum_fraction": 0.009693653964540623
+    },
+    {
+      "name": "aclnnMul_MulAiCore_Mul",
+      "count": 10414,
+      "sum_us": 27835.397999999845,
+      "sum_fraction": 0.00893153136986643
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCore_Cast",
+      "count": 14801,
+      "sum_us": 27728.661000000004,
+      "sum_fraction": 0.008897282717706902
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCpu_Cast",
+      "count": 123,
+      "sum_us": 16213.727999999994,
+      "sum_fraction": 0.005202491455465535
+    },
+    {
+      "name": "aclnnInplaceCopy_SliceAiCore_Slice",
+      "count": 9922,
+      "sum_us": 15162.74700000028,
+      "sum_fraction": 0.0048652636647714305
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_ReduceSum",
+      "count": 3485,
+      "sum_us": 13652.455999999962,
+      "sum_fraction": 0.004380657285364539
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310",
+      "count": 1640,
+      "sum_us": 12246.088000000003,
+      "sum_fraction": 0.003929396631229972
+    },
+    {
+      "name": "aclnnAdd_AddAiCore_Add",
+      "count": 6560,
+      "sum_us": 11480.703000000049,
+      "sum_fraction": 0.00368380789786518
+    },
+    {
+      "name": "CausalConv1dV310",
+      "count": 1230,
+      "sum_us": 10892.571000000014,
+      "sum_fraction": 0.003495094253187902
+    },
+    {
+      "name": "aclnnInplaceScatter_ScatterElements_ScatterElements",
+      "count": 82,
+      "sum_us": 10322.635999999997,
+      "sum_fraction": 0.0033122194715417045
+    },
+    {
+      "name": "aclnnAdds_AddAiCore_Add",
+      "count": 4961,
+      "sum_us": 10164.75800000007,
+      "sum_fraction": 0.0032615612302041414
+    },
+    {
+      "name": "aclnnInplaceCopy_ViewCopyAiCpu_ViewCopy",
+      "count": 164,
+      "sum_us": 9783.218000000006,
+      "sum_fraction": 0.003139136665667308
+    },
+    {
+      "name": "aclnnTopk_CastAiCore_Cast",
+      "count": 1640,
+      "sum_us": 9583.273000000014,
+      "sum_fraction": 0.0030749804053635077
+    },
+    {
+      "name": "aclnnGtScalar_CastAiCore_Cast",
+      "count": 1353,
+      "sum_us": 8617.510999999993,
+      "sum_fraction": 0.0027650967960533347
+    },
+    {
+      "name": "aclnnInplaceCopy_TensorMoveAiCore_TensorMove",
+      "count": 4592,
+      "sum_us": 7416.680999999991,
+      "sum_fraction": 0.0023797870255633713
+    },
+    {
+      "name": "aclnnNonzeroV2_NonzeroAiCpu_NonZero",
+      "count": 164,
+      "sum_us": 7325.947000000004,
+      "sum_fraction": 0.0023506732486627013
+    },
+    {
+      "name": "QwenW4A8PackV310",
+      "count": 1640,
+      "sum_us": 7059.901000000012,
+      "sum_fraction": 0.0022653071908528785
+    },
+    {
+      "name": "aclnnContiguous_TransposeAiCore_Transpose",
+      "count": 1230,
+      "sum_us": 6941.585000000002,
+      "sum_fraction": 0.0022273431902821946
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_MemSet",
+      "count": 3485,
+      "sum_us": 6816.824999999983,
+      "sum_fraction": 0.002187311506391607
+    },
+    {
+      "name": "aclnnCat_ConcatD_ConcatD",
+      "count": 2378,
+      "sum_us": 6599.778000000004,
+      "sum_fraction": 0.002117667735203739
+    },
+    {
+      "name": "aclnnSub_SubAiCore_Sub",
+      "count": 4469,
+      "sum_us": 5983.6279999999915,
+      "sum_fraction": 0.0019199639677367412
+    }
+  ]
+}
