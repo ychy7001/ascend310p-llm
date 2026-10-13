@@ -57,17 +57,20 @@ a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144
 
 ### Prefill profile 的优化优先级
 
-当前已有一份真实 310P3、TP1、W4A8 专家路径的 NPU profile（3072 输入、输出 1，单请求）。profile 的累计 kernel 时间会重叠，不能直接当作端到端墙钟占比；它用于排序热点，不用于宣称某个算子可以带来同等比例的加速。摘要归档在 `data/ascend/experiment-results/tp1-w4-profile/profile-summary.json`。
+2026-10-13 复核发现旧表误用了 TP2 profile（含 648 次 AllReduce），不得用它判断 TP1 通信瓶颈。真实 TP1 原始记录来自 a2 `prefill-profile-b4096-g640/dp0_pp0_tp0_dcp0_ep0_rank0_197_20261012091437972_ascend_pt/`，对应启动日志明确 `tensor_parallel_size=1`、MTP关闭、eager、32K、batch4096。已将原始 `op_statistic.csv` 归档到仓库 `results/tp1-prefill-profile-20261012/`。下表比例为累计算子时间，不能当作墙钟占比或可实现加速比；请求范围需结合采集日志进一步核对。
 
-| 算子 | 次数 | 累计时间占比 | 备注 |
-| --- | ---: | ---: | --- |
-| `QwenW4A8Int4MatmulV310` | 360 | 21.51% | Cube median 约 92.29；是最大单一算子，但不像明显未启动 Cube |
-| `MatMulV2` | 2168 | 19.17% | 与 W4 专家 MatMul 同量级，应检查非专家层和形状效率 |
-| `hcom_allReduce_` | 648 | 18.23% | 通信/同步已经是主要项，TP 扩展和路由组织需要单独分析 |
-| `TransData`、`Slice`、`IndexPut`、`Cast`、`ViewCopy` | - | 约 16% | 候选是布局、路由元数据和 activation pack 的融合或减少往返 |
-| `QwenW4A8PackV310` | 360 | 1.51% | 只优化 pack 本身不可能解释 Prefill 与 A1 的全部差距 |
+| 算子 | 次数 | 累计时间占比 |
+| --- | ---: | ---: |
+| `QwenW4A8Int4MatmulV310` | 400 | 50.402% |
+| `Slice` | 4503 | 5.355% |
+| `Mul` | 2620 | 4.572% |
+| `ReduceSum` | 2330 | 3.693% |
+| `ViewCopy` | 1890 | 3.539% |
+| `MatMulV2` | 231 | 3.377% |
+| `QwenW4A8PackV310` | 400 | 2.272% |
+| `TransData` | 391 | 1.209% |
 
-因此 Prefill 优化顺序暂定为：先确认相同输入下 profile 的墙钟阶段与 TP/通信开销，再检查 routed-expert 分组、激活 pack、布局转换和普通 MatMul；只有在这些成本隔离后，才继续改 W4 tile、L1 权重复用或跨 K 累加。A1 的 8K/32K 冷 Prefill（约 1282/1086 tok/s）保留为方向性 W8A8 参考；正式比较必须固定 unique prompt、输出长度、prefix-cache 状态、Graph capture 和 `max_num_batched_tokens`，并在 A2 上交替复测。
+原始统计没有 HCCL/AllReduce 项。因此 TP1 的优化优先级是 W4 grouped MatMul、route 重排/归约与中间张量，再检查普通 MatMul 和 linear attention；pack 本身占比较小。TP2 的通信等待仍是另一份 profile 的发现，应与 TP1 分开分析。A1 的 W8A8 TP2 冷 Prefill 保留为方向性参考，不能从这份累计 profile 外推端到端提升。
 
 ## Graph 修复探针（2026-10-12）
 

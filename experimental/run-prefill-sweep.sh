@@ -22,6 +22,14 @@ for pair in $PAIRS; do
     echo "Port $PORT already serves a model; stop it explicitly before the sweep" >&2
     exit 2
   fi
+  # Record the source and artifact identity beside the raw measurements.
+  {
+    git -C "$root" rev-parse HEAD
+    printf 'TP=1 MAX_MODEL_LEN=4096 MEMORY_UTILIZATION=0.90 MTP=0 C8=0 EAGER=1 PREFIX_CACHE=0\n'
+    printf 'MAX_BATCHED_TOKENS=%s QWEN36_GROUPED_CHUNK_TOKENS=%s\n' "$batch" "$chunk"
+    sha256sum "$EXTENSION" "$C8_LIBRARY"
+    podman image inspect quay.io/ascend/vllm-ascend:v0.23.0.post1-310p --format '{{.Id}}'
+  } > "$RESULT_DIR/$name-environment.txt"
   env CONTAINER_NAME="$name" PORT="$PORT" MAX_MODEL_LEN=4096 \
     MEMORY_UTILIZATION=0.90 MTP=0 QWEN36_C8_ENABLED=0 ENFORCE_EAGER=1 \
     MAX_BATCHED_TOKENS="$batch" QWEN36_GROUPED_CHUNK_TOKENS="$chunk" \

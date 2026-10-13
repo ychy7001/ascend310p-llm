@@ -1,0 +1,42 @@
+{
+  "qwen36-prefill-b1024-g512-p3072-o1": {
+    "prefill_tok_s": [
+      379.90669437112746,
+      379.8070269865596,
+      379.82602101767355
+    ],
+    "median": 379.82602101767355,
+    "all_valid": true,
+    "needle_retrieved": true
+  },
+  "qwen36-prefill-b1024-g640-p3072-o1": {
+    "prefill_tok_s": [
+      379.9406143619682,
+      379.1193025000873,
+      379.11238194717015
+    ],
+    "median": 379.1193025000873,
+    "all_valid": true,
+    "needle_retrieved": true
+  },
+  "qwen36-prefill-b4096-g512-p3072-o1": {
+    "prefill_tok_s": [
+      374.8910568518525,
+      375.0862731396272,
+      375.00199013683346
+    ],
+    "median": 375.00199013683346,
+    "all_valid": true,
+    "needle_retrieved": true
+  },
+  "qwen36-prefill-b4096-g640-p3072-o1": {
+    "prefill_tok_s": [
+      384.0988429418451,
+      384.0233661891655,
+      384.2369395643611
+    ],
+    "median": 384.0988429418451,
+    "all_valid": true,
+    "needle_retrieved": true
+  }
+}
