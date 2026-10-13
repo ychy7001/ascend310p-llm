@@ -46,3 +46,5 @@ build.sh使用全新SOURCE_DIR/BUILD_DIR；run-micro.sh、start-service.sh、run
 114560输入、14输出检索正确ASCEND732941，耗时297.832秒；输入SHA与C3及历史native匹配。C3 303.264秒，历史native348.941秒；本次总时间分别减少1.79%/14.65%。单次canary不是最大上下文或全面长文质量验收，也不是持续Decode吞吐；请求后sanity5/5通过。
 
 正在追加同组合114560输入+128输出（总114688）的持续生成，warmup1/repeat3、unique prompts、spec counters。远端控制器PID4011690，输出service目录对应p114560-o128.jsonl/txt；run-long-phases.sh记录复现。原基础state DONE不代表这组追加测试完成，追加long-state独立记录；进程存活仍需实际ps核对。本次提交不纳入未完成持续生成结果。
+
+持续生成预热已完成（不计入正式统计）：114560输入、32输出，TTFT302.791秒、总304.591秒，请求平均TPOT0.058070秒。正在执行三条各128输出正式测量。新增analyze-long.py仅在三条有效、输入/输出长度及后sanity/long-state全部通过后生成long-phases-summary.json；三请求P95描述统计不能充当产品尾延迟。sample-long-memory.py每20秒读取npu-smi，仅在指定实际bench进程匹配时采样，未发起推理；采样于预热过程中才开始，不能宣称覆盖启动或全部运行峰值。
