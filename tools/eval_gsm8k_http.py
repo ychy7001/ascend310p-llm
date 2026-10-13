@@ -29,11 +29,14 @@ def main():
     p.add_argument('--out',type=Path,required=True)
     p.add_argument('--limit',type=int,default=32)
     p.add_argument('--seed',type=int,default=310)
+    p.add_argument('--indices',help='仅用于诊断指定dataset行，逗号分隔；覆盖随机抽样')
     p.add_argument('--max-tokens',type=int,default=512)
     a=p.parse_args()
     raw=a.dataset.read_bytes()
     data=[json.loads(line) for line in raw.decode().splitlines()]
-    selected=sorted(random.Random(a.seed).sample(range(len(data)),a.limit))
+    selected=sorted(int(i) for i in a.indices.split(',')) if a.indices else sorted(random.Random(a.seed).sample(range(len(data)),a.limit))
+    if not selected or len(set(selected))!=len(selected) or min(selected)<0 or max(selected)>=len(data):
+        p.error('Invalid dataset indices')
     config={'kind':'config','label':a.label,'model':a.model,'base_url':a.base_url,
         'dataset_sha256':hashlib.sha256(raw).hexdigest(),'dataset_rows':len(data),
         'indices':selected,'max_tokens':a.max_tokens,'temperature':0,'enable_thinking':False,

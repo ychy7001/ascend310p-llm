@@ -24,6 +24,6 @@ warmup5/repeat20、两后端交错、host dispatch+synchronize，比较双方完
 
 ## 可选服务接入准备
 
-QWEN36_MINDIEQ_CUSTOM_QUANT=1开启新quantize；同时必须开启QWEN36_MINDIEQ_ENABLED并挂载本轮新库。默认仍关闭，不自动替换旧库。仅在当前B0/A1/B2测试结束后更新服务代码并启动新的C3候选，避免混入配对结果。本轮当前尚未启动新量化服务。
+QWEN36_MINDIEQ_CUSTOM_QUANT=1开启新quantize；同时必须开启QWEN36_MINDIEQ_ENABLED并挂载本轮新库。默认仍关闭，不自动替换旧库。仅在当前B0/A1/B2测试结束后更新服务代码并启动新的C3候选，避免混入配对结果。B/A/B结束后已启动C3新量化服务，正在加载，尚待服务质量与性能门禁。
 
 复现：build-a8.sh使用新的SOURCE_DIR/BUILD_DIR；run-quant.sh和run-mlp.sh中的库路径须改为对应输出。只挂载davinci1，在该容器环境逻辑编号为0。代码check_a8_quant_310.py、bench_mindieq_mlp_310.py --grouped-custom-quant；原始数值/耗时与构建日志全部保留。服务质量需要64题同协议、第711题以及8K/32K性能复测后再判定。

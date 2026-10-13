@@ -1,0 +1,341 @@
+{
+  "scope": "串行B0/A1/B2、相同制品和参数、单流、prefix off、phase counter；三次/条件，不能代表生产P95",
+  "performance": [
+    {
+      "prompt_tokens": 8192,
+      "output_tokens": 128,
+      "stats": {
+        "B0": {
+          "prefill_tok_s": 630.355755889558,
+          "decode_tok_s": 35.79749102212623,
+          "acceptance_rate": 0.9185185185185185,
+          "mean_acceptance_length": 2.837037037037037,
+          "per_request": [
+            {
+              "repeat": 0,
+              "prefill_tok_s": 633.8535285256644,
+              "decode_tok_s": 35.79749102212623,
+              "spec_decode": {
+                "drafts": 45.0,
+                "drafted_tokens": 90.0,
+                "accepted_tokens": 82.0,
+                "acceptance_rate": 0.9111111111111111,
+                "mean_acceptance_length": 2.822222222222222
+              }
+            },
+            {
+              "repeat": 1,
+              "prefill_tok_s": 630.355755889558,
+              "decode_tok_s": 37.13212956189244,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 2,
+              "prefill_tok_s": 630.0975108799265,
+              "decode_tok_s": 33.7871976282126,
+              "spec_decode": {
+                "drafts": 47.0,
+                "drafted_tokens": 94.0,
+                "accepted_tokens": 80.0,
+                "acceptance_rate": 0.851063829787234,
+                "mean_acceptance_length": 2.702127659574468
+              }
+            }
+          ]
+        },
+        "A1": {
+          "prefill_tok_s": 502.9361100986431,
+          "decode_tok_s": 37.03838147950406,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0,
+          "per_request": [
+            {
+              "repeat": 0,
+              "prefill_tok_s": 503.6122838107596,
+              "decode_tok_s": 37.03838147950406,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 1,
+              "prefill_tok_s": 502.9361100986431,
+              "decode_tok_s": 37.01898799709735,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 2,
+              "prefill_tok_s": 502.2463520191585,
+              "decode_tok_s": 37.04123572420071,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            }
+          ]
+        },
+        "B2": {
+          "prefill_tok_s": 628.6482489776278,
+          "decode_tok_s": 35.65428469660909,
+          "acceptance_rate": 0.9185185185185185,
+          "mean_acceptance_length": 2.837037037037037,
+          "per_request": [
+            {
+              "repeat": 0,
+              "prefill_tok_s": 629.4407617683852,
+              "decode_tok_s": 35.65428469660909,
+              "spec_decode": {
+                "drafts": 45.0,
+                "drafted_tokens": 90.0,
+                "accepted_tokens": 82.0,
+                "acceptance_rate": 0.9111111111111111,
+                "mean_acceptance_length": 2.822222222222222
+              }
+            },
+            {
+              "repeat": 1,
+              "prefill_tok_s": 628.6482489776278,
+              "decode_tok_s": 37.00361382748414,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 2,
+              "prefill_tok_s": 627.3886105332023,
+              "decode_tok_s": 33.701599155217515,
+              "spec_decode": {
+                "drafts": 47.0,
+                "drafted_tokens": 94.0,
+                "accepted_tokens": 80.0,
+                "acceptance_rate": 0.851063829787234,
+                "mean_acceptance_length": 2.702127659574468
+              }
+            }
+          ]
+        }
+      },
+      "candidate_relative_to_A1": {
+        "B0": {
+          "prefill_tok_s": 0.253351555460839,
+          "decode_tok_s": -0.03350282619839917
+        },
+        "B2": {
+          "prefill_tok_s": 0.2499564782777839,
+          "decode_tok_s": -0.037369256636143544
+        }
+      },
+      "identical_texts_vs_A1": {
+        "B0": 1,
+        "B2": 1
+      }
+    },
+    {
+      "prompt_tokens": 32256,
+      "output_tokens": 128,
+      "stats": {
+        "B0": {
+          "prefill_tok_s": 550.7444648892713,
+          "decode_tok_s": 29.031533069582242,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0,
+          "per_request": [
+            {
+              "repeat": 0,
+              "prefill_tok_s": 550.7444648892713,
+              "decode_tok_s": 29.054881969237883,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 1,
+              "prefill_tok_s": 551.6627393518319,
+              "decode_tok_s": 29.02947162075387,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 2,
+              "prefill_tok_s": 547.9887844175086,
+              "decode_tok_s": 29.031533069582242,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            }
+          ]
+        },
+        "A1": {
+          "prefill_tok_s": 450.3547642198236,
+          "decode_tok_s": 29.1055987933878,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0,
+          "per_request": [
+            {
+              "repeat": 0,
+              "prefill_tok_s": 450.3547642198236,
+              "decode_tok_s": 29.152554939493292,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 1,
+              "prefill_tok_s": 450.95883640383704,
+              "decode_tok_s": 29.1055987933878,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 2,
+              "prefill_tok_s": 449.14319366604104,
+              "decode_tok_s": 29.09146235580112,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            }
+          ]
+        },
+        "B2": {
+          "prefill_tok_s": 549.6444548804975,
+          "decode_tok_s": 29.097006557119247,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0,
+          "per_request": [
+            {
+              "repeat": 0,
+              "prefill_tok_s": 549.6444548804975,
+              "decode_tok_s": 29.097006557119247,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 1,
+              "prefill_tok_s": 551.1146303657046,
+              "decode_tok_s": 29.086165266770852,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            },
+            {
+              "repeat": 2,
+              "prefill_tok_s": 547.4403470997003,
+              "decode_tok_s": 29.13373148672794,
+              "spec_decode": {
+                "drafts": 43.0,
+                "drafted_tokens": 86.0,
+                "accepted_tokens": 86.0,
+                "acceptance_rate": 1.0,
+                "mean_acceptance_length": 3.0
+              }
+            }
+          ]
+        }
+      },
+      "candidate_relative_to_A1": {
+        "B0": {
+          "prefill_tok_s": 0.2229124873217645,
+          "decode_tok_s": -0.002544724275605148
+        },
+        "B2": {
+          "prefill_tok_s": 0.22046994624932936,
+          "decode_tok_s": -0.0002952090534039664
+        }
+      },
+      "identical_texts_vs_A1": {
+        "B0": 3,
+        "B2": 3
+      }
+    }
+  ],
+  "quality": {
+    "summary": {
+      "B0": {
+        "kind": "summary",
+        "label": "B0",
+        "samples": 64,
+        "correct": 62,
+        "parse_missing": 2,
+        "truncated": 2
+      },
+      "A1": {
+        "kind": "summary",
+        "label": "A1",
+        "samples": 64,
+        "correct": 63,
+        "parse_missing": 1,
+        "truncated": 1
+      }
+    },
+    "answer_changes": [
+      {
+        "index": 711,
+        "gold": "6",
+        "A1": "6",
+        "B0": null,
+        "A1_finish": "stop",
+        "B0_finish": "length"
+      }
+    ],
+    "identical_texts": 22,
+    "limitation": "固定64题零样本子集，非完整GSM8K，不能证明全面精度等价"
+  }
+}
