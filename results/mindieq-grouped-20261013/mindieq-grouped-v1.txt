@@ -1,0 +1,7 @@
+[W1013 15:02:25.564558343 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+Traceback (most recent call last):
+  File "/project/tools/bench_mindieq_grouped_310.py", line 44, in <module>
+    row={'kind':'failure','case':label,'k':k,'n':n,'max_abs':max_abs,'bad_rows':((actual-golden).abs().amax(1)>.01).nonzero().flatten()[:64].tolist(),'finite':bool(torch.isfinite(actual).all())};f.write(json.dumps(row)+'\n');f.flush();raise AssertionError(row)
+                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'kind': 'failure', 'case': 'tail_zero', 'k': 2048, 'n': 1024, 'max_abs': 5.266678810119629, 'bad_rows': [0, 242], 'finite': True}
+[ERROR] 2026-10-13-15:02:26 (PID:164, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

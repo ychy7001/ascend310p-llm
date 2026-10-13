@@ -30,7 +30,7 @@ bash scripts/run-candidate.sh
 
 最新速度、质量和上下文边界以[GDN候选说明](docs/gdn-112k-candidate.md)、[MTP对照](results/pr17640-mtp-20261013/README.md)和[prefix复用](results/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
 
-最新 Prefill 路由与 MindIEQ 混合后端门禁见[实测记录](results/route-occupancy-20261013/README.md)：已覆盖三类8K输入和真实专家权重，出现异步完整MLP数值阻塞，尚未改变默认后端。最新[生命周期诊断与投入判断](results/mindieq-lifetime-20261013/README.md)记录混合候选局部收益和残余失败。 最新[MindIEQ异步门禁推进](results/mindieq-queue-localize-20261013/README.md)。
+最新 Prefill 路由与 MindIEQ 混合后端门禁见[实测记录](results/route-occupancy-20261013/README.md)：已覆盖三类8K输入和真实专家权重，出现异步完整MLP数值阻塞，尚未改变默认后端。最新[生命周期诊断与投入判断](results/mindieq-lifetime-20261013/README.md)记录混合候选局部收益和残余失败。 最新[MindIEQ异步门禁推进](results/mindieq-queue-localize-20261013/README.md)。 [设备端分组原型](results/mindieq-grouped-20261013/README.md)已完成独立真实专家MLP重复对照，尚未集成服务。
 
 ## 精度与计算路径
 

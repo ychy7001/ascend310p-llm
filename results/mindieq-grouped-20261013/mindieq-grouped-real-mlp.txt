@@ -1,0 +1,485 @@
+[W1013 15:05:59.891213880 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+...PROGRESS real_occupancy_p05 reference begin
+PROGRESS real_occupancy_p05 reference done
+PROGRESS real_occupancy_p05 native_w4 single begin
+PROGRESS real_occupancy_p05 native_w4 single done
+PROGRESS real_occupancy_p05 native_w4 queued begin 0
+PROGRESS real_occupancy_p05 native_w4 queued submitted 0
+PROGRESS real_occupancy_p05 native_w4 queued begin 1
+PROGRESS real_occupancy_p05 native_w4 queued submitted 1
+PROGRESS real_occupancy_p05 native_w4 queued begin 2
+PROGRESS real_occupancy_p05 native_w4 queued submitted 2
+PROGRESS real_occupancy_p05 native_w4 queued begin 3
+PROGRESS real_occupancy_p05 native_w4 queued submitted 3
+PROGRESS real_occupancy_p05 native_w4 queued begin 4
+PROGRESS real_occupancy_p05 native_w4 queued submitted 4
+PROGRESS real_occupancy_p05 native_w4 queued begin 5
+PROGRESS real_occupancy_p05 native_w4 queued submitted 5
+PROGRESS real_occupancy_p05 native_w4 queued begin 6
+PROGRESS real_occupancy_p05 native_w4 queued submitted 6
+PROGRESS real_occupancy_p05 native_w4 queued begin 7
+PROGRESS real_occupancy_p05 native_w4 queued submitted 7
+PROGRESS real_occupancy_p05 native_w4 queued synchronize begin
+PROGRESS real_occupancy_p05 native_w4 queued synchronize done
+PROGRESS real_occupancy_p05 mindieq_w4 single begin
+.Timeout (0:01:00)!
+Thread 0x00007cb2aea00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bd600640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2be000640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bea00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bf400640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bfe00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2c4a00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2c5400640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2e1000640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb23fe00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 395 in _recv
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 430 in _recv_bytes
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 250 in recv
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/managers.py", line 828 in _callmethod
+  File "<string>", line 2 in get
+  File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 68 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb38899f740 (most recent call first):
+  File "/project/tools/bench_mindieq_mlp_310.py", line 195 in main
+  File "/project/tools/bench_mindieq_mlp_310.py", line 272 in <module>
+......Timeout (0:01:00)!
+Thread 0x00007cb2aea00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bd600640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2be000640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bea00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bf400640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bfe00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2c4a00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2c5400640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2e1000640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb23fe00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 395 in _recv
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 430 in _recv_bytes
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 250 in recv
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/managers.py", line 828 in _callmethod
+  File "<string>", line 2 in get
+  File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 68 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb38899f740 (most recent call first):
+  File "/project/tools/bench_mindieq_mlp_310.py", line 195 in main
+  File "/project/tools/bench_mindieq_mlp_310.py", line 272 in <module>
+.PROGRESS real_occupancy_p05 mindieq_w4 single done
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 0
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 0
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 1
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 1
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 2
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 2
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 3
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 3
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 4
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 4
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 5
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 5
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 6
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 6
+PROGRESS real_occupancy_p05 mindieq_w4 queued begin 7
+PROGRESS real_occupancy_p05 mindieq_w4 queued submitted 7
+PROGRESS real_occupancy_p05 mindieq_w4 queued synchronize begin
+PROGRESS real_occupancy_p05 mindieq_w4 queued synchronize done
+PROGRESS real_occupancy_p05 mindieq_grouped single begin
+PROGRESS real_occupancy_p05 mindieq_grouped single done
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 0
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 0
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 1
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 1
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 2
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 2
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 3
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 3
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 4
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 4
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 5
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 5
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 6
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 6
+PROGRESS real_occupancy_p05 mindieq_grouped queued begin 7
+PROGRESS real_occupancy_p05 mindieq_grouped queued submitted 7
+PROGRESS real_occupancy_p05 mindieq_grouped queued synchronize begin
+PROGRESS real_occupancy_p05 mindieq_grouped queued synchronize done
+PROGRESS real_occupancy_p05 w8 single begin
+PROGRESS real_occupancy_p05 w8 single done
+PROGRESS real_occupancy_p05 w8 queued begin 0
+PROGRESS real_occupancy_p05 w8 queued submitted 0
+PROGRESS real_occupancy_p05 w8 queued begin 1
+PROGRESS real_occupancy_p05 w8 queued submitted 1
+PROGRESS real_occupancy_p05 w8 queued begin 2
+PROGRESS real_occupancy_p05 w8 queued submitted 2
+PROGRESS real_occupancy_p05 w8 queued begin 3
+PROGRESS real_occupancy_p05 w8 queued submitted 3
+PROGRESS real_occupancy_p05 w8 queued begin 4
+PROGRESS real_occupancy_p05 w8 queued submitted 4
+PROGRESS real_occupancy_p05 w8 queued begin 5
+PROGRESS real_occupancy_p05 w8 queued submitted 5
+PROGRESS real_occupancy_p05 w8 queued begin 6
+PROGRESS real_occupancy_p05 w8 queued submitted 6
+PROGRESS real_occupancy_p05 w8 queued begin 7
+PROGRESS real_occupancy_p05 w8 queued submitted 7
+PROGRESS real_occupancy_p05 w8 queued synchronize begin
+PROGRESS real_occupancy_p05 w8 queued synchronize done
+{"kind": "measurement", "rows": 4096, "routing": "real_occupancy_p05", "group_ends": [41, 59, 72, 72, 92, 113, 119, 140, 140, 146, 146, 152, 165, 178, 214, 241, 268, 268, 268, 327, 327, 327, 334, 354, 354, 354, 360, 384, 405, 423, 423, 430, 430, 436, 436, 442, 442, 442, 448, 454, 454, 454, 454, 468, 497, 518, 531, 544, 572, 572, 593, 607, 654, 694, 700, 770, 788, 807, 807, 814, 814, 834, 861, 868, 896, 896, 896, 904, 923, 923, 930, 968, 975, 983, 995, 1065, 1092, 1112, 1142, 1142, 1154, 1154, 1166, 1212, 1212, 1230, 1244, 1251, 1251, 1265, 1265, 1277, 1283, 1320, 1375, 1375, 1375, 1375, 1409, 1423, 1429, 1443, 1485, 1492, 1492, 1521, 1521, 1521, 1521, 1547, 1547, 1547, 1605, 1605, 1605, 1619, 1663, 1663, 1722, 1722, 1728, 1728, 1755, 1789, 1789, 1820, 1833, 1894, 1917, 1917, 1930, 1972, 2019, 2019, 2052, 2066, 2174, 2193, 2193, 2193, 2232, 2283, 2290, 2316, 2323, 2330, 2343, 2364, 2411, 2411, 2411, 2425, 2439, 2439, 2445, 2531, 2531, 2531, 2531, 2537, 2558, 2585, 2603, 2610, 2610, 2616, 2630, 2630, 2657, 2657, 2657, 2677, 2698, 2725, 2752, 2752, 2752, 2759, 2771, 2771, 2771, 2797, 2797, 2859, 2866, 2885, 2917, 2917, 2917, 2972, 2998, 3033, 3054, 3088, 3095, 3107, 3121, 3127, 3147, 3182, 3189, 3195, 3202, 3223, 3251, 3299, 3299, 3299, 3332, 3339, 3339, 3352, 3352, 3352, 3359, 3359, 3359, 3359, 3394, 3400, 3522, 3522, 3549, 3549, 3562, 3562, 3562, 3582, 3588, 3594, 3619, 3619, 3626, 3632, 3652, 3671, 3698, 3698, 3705, 3759, 3773, 3773, 3836, 3842, 3874, 3912, 3959, 3959, 3972, 4009, 4044, 4052, 4052, 4058, 4090, 4096], "status": "PASS", "errors_vs_native": {"native_w4": {"max_abs": 0.0, "relative_l2": 0.0, "finite": true, "queued_relative_l2": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "mindieq_w4": {"max_abs": 8.392333984375e-05, "relative_l2": 0.010560045950114727, "finite": true, "queued_relative_l2": [0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "mindieq_grouped": {"max_abs": 8.392333984375e-05, "relative_l2": 0.010560045950114727, "finite": true, "queued_relative_l2": [0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "w8": {"max_abs": 8.392333984375e-05, "relative_l2": 0.010560045950114727, "finite": true, "queued_relative_l2": [0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727, 0.010560045950114727], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, "graph_checks": {}, "median_ms": {"native_w4": 19.3677835050039, "mindieq_w4": 27.60075402329676, "mindieq_grouped": 9.83580798492767, "w8": 15.615145006449893}, "timing_valid": true, "scope": "synchronized full MLP fixed grouping; no router/combine"}
+PROGRESS real_occupancy_p50 reference begin
+PROGRESS real_occupancy_p50 reference done
+PROGRESS real_occupancy_p50 native_w4 single begin
+PROGRESS real_occupancy_p50 native_w4 single done
+PROGRESS real_occupancy_p50 native_w4 queued begin 0
+PROGRESS real_occupancy_p50 native_w4 queued submitted 0
+PROGRESS real_occupancy_p50 native_w4 queued begin 1
+PROGRESS real_occupancy_p50 native_w4 queued submitted 1
+PROGRESS real_occupancy_p50 native_w4 queued begin 2
+PROGRESS real_occupancy_p50 native_w4 queued submitted 2
+PROGRESS real_occupancy_p50 native_w4 queued begin 3
+PROGRESS real_occupancy_p50 native_w4 queued submitted 3
+PROGRESS real_occupancy_p50 native_w4 queued begin 4
+PROGRESS real_occupancy_p50 native_w4 queued submitted 4
+PROGRESS real_occupancy_p50 native_w4 queued begin 5
+PROGRESS real_occupancy_p50 native_w4 queued submitted 5
+PROGRESS real_occupancy_p50 native_w4 queued begin 6
+PROGRESS real_occupancy_p50 native_w4 queued submitted 6
+PROGRESS real_occupancy_p50 native_w4 queued begin 7
+PROGRESS real_occupancy_p50 native_w4 queued submitted 7
+PROGRESS real_occupancy_p50 native_w4 queued synchronize begin
+PROGRESS real_occupancy_p50 native_w4 queued synchronize done
+PROGRESS real_occupancy_p50 mindieq_w4 single begin
+.....Timeout (0:01:00)!
+Thread 0x00007cb2aea00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bd600640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2be000640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bea00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bf400640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2bfe00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2c4a00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2c5400640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb2e1000640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 355 in wait
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/queues.py", line 251 in _feed
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1012 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb23fe00640 (most recent call first):
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 395 in _recv
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 430 in _recv_bytes
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/connection.py", line 250 in recv
+  File "/usr/local/python3.12.13/lib/python3.12/multiprocessing/managers.py", line 828 in _callmethod
+  File "<string>", line 2 in get
+  File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/repository_manager/utils/multiprocess_util.py", line 68 in run
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/usr/local/python3.12.13/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007cb38899f740 (most recent call first):
+  File "/project/tools/bench_mindieq_mlp_310.py", line 195 in main
+  File "/project/tools/bench_mindieq_mlp_310.py", line 272 in <module>
+.PROGRESS real_occupancy_p50 mindieq_w4 single done
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 0
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 0
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 1
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 1
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 2
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 2
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 3
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 3
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 4
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 4
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 5
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 5
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 6
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 6
+PROGRESS real_occupancy_p50 mindieq_w4 queued begin 7
+PROGRESS real_occupancy_p50 mindieq_w4 queued submitted 7
+PROGRESS real_occupancy_p50 mindieq_w4 queued synchronize begin
+PROGRESS real_occupancy_p50 mindieq_w4 queued synchronize done
+PROGRESS real_occupancy_p50 mindieq_grouped single begin
+PROGRESS real_occupancy_p50 mindieq_grouped single done
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 0
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 0
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 1
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 1
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 2
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 2
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 3
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 3
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 4
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 4
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 5
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 5
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 6
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 6
+PROGRESS real_occupancy_p50 mindieq_grouped queued begin 7
+PROGRESS real_occupancy_p50 mindieq_grouped queued submitted 7
+PROGRESS real_occupancy_p50 mindieq_grouped queued synchronize begin
+PROGRESS real_occupancy_p50 mindieq_grouped queued synchronize done
+PROGRESS real_occupancy_p50 w8 single begin
+PROGRESS real_occupancy_p50 w8 single done
+PROGRESS real_occupancy_p50 w8 queued begin 0
+PROGRESS real_occupancy_p50 w8 queued submitted 0
+PROGRESS real_occupancy_p50 w8 queued begin 1
+PROGRESS real_occupancy_p50 w8 queued submitted 1
+PROGRESS real_occupancy_p50 w8 queued begin 2
+PROGRESS real_occupancy_p50 w8 queued submitted 2
+PROGRESS real_occupancy_p50 w8 queued begin 3
+PROGRESS real_occupancy_p50 w8 queued submitted 3
+PROGRESS real_occupancy_p50 w8 queued begin 4
+PROGRESS real_occupancy_p50 w8 queued submitted 4
+PROGRESS real_occupancy_p50 w8 queued begin 5
+PROGRESS real_occupancy_p50 w8 queued submitted 5
+PROGRESS real_occupancy_p50 w8 queued begin 6
+PROGRESS real_occupancy_p50 w8 queued submitted 6
+PROGRESS real_occupancy_p50 w8 queued begin 7
+PROGRESS real_occupancy_p50 w8 queued submitted 7
+PROGRESS real_occupancy_p50 w8 queued synchronize begin
+PROGRESS real_occupancy_p50 w8 queued synchronize done
+{"kind": "measurement", "rows": 4096, "routing": "real_occupancy_p50", "group_ends": [4, 7, 63, 63, 104, 104, 108, 122, 133, 136, 137, 140, 155, 155, 155, 155, 155, 169, 169, 172, 175, 175, 176, 176, 176, 341, 341, 350, 361, 362, 381, 381, 381, 425, 433, 443, 546, 549, 549, 597, 600, 603, 603, 634, 634, 719, 719, 728, 730, 730, 740, 783, 783, 786, 786, 786, 786, 801, 801, 819, 877, 877, 880, 920, 963, 964, 1020, 1021, 1036, 1056, 1056, 1073, 1126, 1136, 1252, 1273, 1277, 1282, 1282, 1310, 1310, 1310, 1310, 1310, 1310, 1310, 1317, 1321, 1321, 1351, 1351, 1415, 1415, 1424, 1424, 1490, 1587, 1640, 1640, 1680, 1687, 1693, 1696, 1696, 1698, 1698, 1725, 1725, 1728, 1728, 1751, 1884, 1890, 1890, 1902, 1909, 1910, 2000, 2000, 2018, 2106, 2115, 2117, 2129, 2139, 2142, 2142, 2173, 2175, 2175, 2178, 2216, 2216, 2216, 2349, 2357, 2376, 2376, 2376, 2386, 2386, 2406, 2408, 2409, 2409, 2418, 2418, 2418, 2422, 2422, 2631, 2669, 2692, 2693, 2693, 2693, 2693, 2696, 2712, 2784, 2786, 2807, 2807, 2808, 2808, 2852, 2852, 2863, 3108, 3115, 3115, 3172, 3172, 3172, 3172, 3258, 3258, 3325, 3325, 3325, 3325, 3325, 3432, 3474, 3474, 3474, 3484, 3493, 3504, 3504, 3529, 3531, 3531, 3531, 3548, 3548, 3548, 3557, 3557, 3572, 3573, 3580, 3583, 3583, 3666, 3666, 3668, 3668, 3678, 3682, 3682, 3682, 3682, 3684, 3687, 3727, 3740, 3742, 3743, 3744, 3748, 3764, 3769, 3777, 3777, 3784, 3789, 3801, 3801, 3822, 3837, 3837, 3837, 3837, 3839, 3839, 3839, 3839, 3845, 3848, 3848, 3848, 3858, 3874, 3874, 3874, 3982, 4060, 4065, 4088, 4088, 4091, 4091, 4096, 4096, 4096], "status": "PASS", "errors_vs_native": {"native_w4": {"max_abs": 0.0, "relative_l2": 0.0, "finite": true, "queued_relative_l2": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "mindieq_w4": {"max_abs": 6.771087646484375e-05, "relative_l2": 0.010623346082866192, "finite": true, "queued_relative_l2": [0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "mindieq_grouped": {"max_abs": 6.771087646484375e-05, "relative_l2": 0.010623346082866192, "finite": true, "queued_relative_l2": [0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "w8": {"max_abs": 6.771087646484375e-05, "relative_l2": 0.010623346082866192, "finite": true, "queued_relative_l2": [0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192, 0.010623346082866192], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, "graph_checks": {}, "median_ms": {"native_w4": 19.0565274679102, "mindieq_w4": 24.930436979047954, "mindieq_grouped": 9.771721030119807, "w8": 14.090983488131315}, "timing_valid": true, "scope": "synchronized full MLP fixed grouping; no router/combine"}
+PROGRESS real_occupancy_p95 reference begin
+PROGRESS real_occupancy_p95 reference done
+PROGRESS real_occupancy_p95 native_w4 single begin
+PROGRESS real_occupancy_p95 native_w4 single done
+PROGRESS real_occupancy_p95 native_w4 queued begin 0
+PROGRESS real_occupancy_p95 native_w4 queued submitted 0
+PROGRESS real_occupancy_p95 native_w4 queued begin 1
+PROGRESS real_occupancy_p95 native_w4 queued submitted 1
+PROGRESS real_occupancy_p95 native_w4 queued begin 2
+PROGRESS real_occupancy_p95 native_w4 queued submitted 2
+PROGRESS real_occupancy_p95 native_w4 queued begin 3
+PROGRESS real_occupancy_p95 native_w4 queued submitted 3
+PROGRESS real_occupancy_p95 native_w4 queued begin 4
+PROGRESS real_occupancy_p95 native_w4 queued submitted 4
+PROGRESS real_occupancy_p95 native_w4 queued begin 5
+PROGRESS real_occupancy_p95 native_w4 queued submitted 5
+PROGRESS real_occupancy_p95 native_w4 queued begin 6
+PROGRESS real_occupancy_p95 native_w4 queued submitted 6
+PROGRESS real_occupancy_p95 native_w4 queued begin 7
+PROGRESS real_occupancy_p95 native_w4 queued submitted 7
+PROGRESS real_occupancy_p95 native_w4 queued synchronize begin
+PROGRESS real_occupancy_p95 native_w4 queued synchronize done
+PROGRESS real_occupancy_p95 mindieq_w4 single begin
+...PROGRESS real_occupancy_p95 mindieq_w4 single done
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 0
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 0
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 1
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 1
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 2
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 2
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 3
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 3
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 4
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 4
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 5
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 5
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 6
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 6
+PROGRESS real_occupancy_p95 mindieq_w4 queued begin 7
+PROGRESS real_occupancy_p95 mindieq_w4 queued submitted 7
+PROGRESS real_occupancy_p95 mindieq_w4 queued synchronize begin
+PROGRESS real_occupancy_p95 mindieq_w4 queued synchronize done
+PROGRESS real_occupancy_p95 mindieq_grouped single begin
+PROGRESS real_occupancy_p95 mindieq_grouped single done
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 0
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 0
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 1
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 1
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 2
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 2
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 3
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 3
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 4
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 4
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 5
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 5
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 6
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 6
+PROGRESS real_occupancy_p95 mindieq_grouped queued begin 7
+PROGRESS real_occupancy_p95 mindieq_grouped queued submitted 7
+PROGRESS real_occupancy_p95 mindieq_grouped queued synchronize begin
+PROGRESS real_occupancy_p95 mindieq_grouped queued synchronize done
+PROGRESS real_occupancy_p95 w8 single begin
+PROGRESS real_occupancy_p95 w8 single done
+PROGRESS real_occupancy_p95 w8 queued begin 0
+PROGRESS real_occupancy_p95 w8 queued submitted 0
+PROGRESS real_occupancy_p95 w8 queued begin 1
+PROGRESS real_occupancy_p95 w8 queued submitted 1
+PROGRESS real_occupancy_p95 w8 queued begin 2
+PROGRESS real_occupancy_p95 w8 queued submitted 2
+PROGRESS real_occupancy_p95 w8 queued begin 3
+PROGRESS real_occupancy_p95 w8 queued submitted 3
+PROGRESS real_occupancy_p95 w8 queued begin 4
+PROGRESS real_occupancy_p95 w8 queued submitted 4
+PROGRESS real_occupancy_p95 w8 queued begin 5
+PROGRESS real_occupancy_p95 w8 queued submitted 5
+PROGRESS real_occupancy_p95 w8 queued begin 6
+PROGRESS real_occupancy_p95 w8 queued submitted 6
+PROGRESS real_occupancy_p95 w8 queued begin 7
+PROGRESS real_occupancy_p95 w8 queued submitted 7
+PROGRESS real_occupancy_p95 w8 queued synchronize begin
+PROGRESS real_occupancy_p95 w8 queued synchronize done
+{"kind": "measurement", "rows": 4096, "routing": "real_occupancy_p95", "group_ends": [44, 45, 45, 45, 54, 59, 105, 105, 105, 105, 105, 153, 153, 153, 153, 153, 154, 154, 154, 163, 163, 168, 172, 173, 173, 185, 185, 441, 441, 441, 441, 441, 441, 441, 441, 488, 488, 581, 581, 676, 676, 712, 712, 722, 725, 725, 725, 725, 725, 792, 792, 792, 816, 816, 862, 869, 917, 918, 918, 918, 960, 960, 1003, 1004, 1070, 1070, 1070, 1084, 1130, 1130, 1130, 1177, 1177, 1222, 1226, 1316, 1316, 1382, 1382, 1382, 1382, 1389, 1389, 1389, 1436, 1436, 1436, 1436, 1437, 1438, 1440, 1440, 1443, 1443, 1443, 1443, 1443, 1490, 1598, 1598, 1598, 1672, 1763, 1809, 1809, 1811, 1811, 1852, 1866, 1877, 1877, 1877, 1877, 1879, 1879, 2024, 2025, 2025, 2025, 2025, 2025, 2025, 2049, 2049, 2049, 2049, 2052, 2240, 2241, 2251, 2251, 2251, 2251, 2298, 2299, 2299, 2348, 2841, 2841, 2841, 2871, 2871, 2871, 2920, 2921, 2968, 2968, 2968, 2968, 3015, 3015, 3015, 3015, 3015, 3015, 3015, 3015, 3015, 3015, 3015, 3023, 3027, 3074, 3074, 3074, 3074, 3074, 3074, 3074, 3074, 3074, 3074, 3075, 3089, 3089, 3091, 3092, 3092, 3092, 3092, 3093, 3093, 3141, 3141, 3141, 3141, 3141, 3155, 3157, 3157, 3157, 3157, 3172, 3172, 3174, 3183, 3183, 3183, 3183, 3183, 3183, 3193, 3196, 3196, 3196, 3198, 3198, 3198, 3200, 3200, 3200, 3200, 3200, 3271, 3271, 3284, 3284, 3284, 3291, 3411, 3418, 3418, 3426, 3435, 3435, 3435, 3435, 3719, 3719, 3719, 3745, 3746, 3749, 3749, 3749, 3749, 3866, 3866, 3870, 3951, 3953, 3959, 3978, 3978, 3979, 3979, 3981, 3981, 3981, 3981, 3981, 3981, 3989, 4094, 4096, 4096], "status": "PASS", "errors_vs_native": {"native_w4": {"max_abs": 0.0, "relative_l2": 0.0, "finite": true, "queued_relative_l2": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "mindieq_w4": {"max_abs": 6.866455078125e-05, "relative_l2": 0.010434286668896675, "finite": true, "queued_relative_l2": [0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "mindieq_grouped": {"max_abs": 6.866455078125e-05, "relative_l2": 0.010434286668896675, "finite": true, "queued_relative_l2": [0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "w8": {"max_abs": 6.866455078125e-05, "relative_l2": 0.010434286668896675, "finite": true, "queued_relative_l2": [0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675, 0.010434286668896675], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, "graph_checks": {}, "median_ms": {"native_w4": 17.343473999062553, "mindieq_w4": 17.15811199392192, "mindieq_grouped": 7.824819476809353, "w8": 10.055034508695826}, "timing_valid": true, "scope": "synchronized full MLP fixed grouping; no router/combine"}

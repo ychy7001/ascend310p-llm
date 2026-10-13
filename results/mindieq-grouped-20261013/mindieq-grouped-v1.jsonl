@@ -1,0 +1,2 @@
+{"kind": "config", "scope": "\u5355launch MindIEQ grouped\u539f\u578b\uff1a\u6574\u6570\u7cbe\u5ea6\u3001\u52a8\u6001\u4e13\u5bb6\u8fb9\u754c\u3001Graph\u53ca\u4e09\u771f\u5b9ecounts\u3002", "warmup": 5, "repeats": 20, "weights": "synthetic integer W4; activations synthetic integer A8; actual shapes", "padding_rows": 16}
+{"kind": "failure", "case": "tail_zero", "k": 2048, "n": 1024, "max_abs": 5.266678810119629, "bad_rows": [0, 242], "finite": true}

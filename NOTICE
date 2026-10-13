@@ -11,3 +11,11 @@ changes; see docs/provenance.md for attribution and modifications.
 Model weights are derived from Qwen/Qwen3.6-35B-A3B and are distributed
 separately on ModelScope under their applicable Apache-2.0 license.
 Huawei/CANN SDKs and proprietary driver binaries are not distributed here.
+
+MindIEQ grouped experiments refer to mindIEQ/ops-nn revision
+ d9c9871aa335f7b5638e9a2679a45bb3e7561d3a, including Huawei's
+QuantBatchMatMulPertokenArch20 implementation. External files retain their
+CANN Open Software License Agreement Version 2.0 and are generated only
+in the user's isolated build directory. They are not relicensed under
+this repository's Apache-2.0 license or vendored here. See the fixed
+external repository LICENSE and results/mindieq-grouped-20261013.

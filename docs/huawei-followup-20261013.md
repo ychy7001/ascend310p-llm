@@ -210,3 +210,7 @@ MindIEQ记录inputs/output/workspace stream后的两轮完整MLP混合≥128行�
 ## 异步门禁推进
 
 原W4仅recordStream、MindIEQ调用线程分配workspace的隔离组合，三真实counts分布120连续提交输出和16shape/4输入Graph均通过；仍未接入真实服务。混合MLP收益约10%/19%，分散样本慢2.7%，不全量替换。详见[证据](../results/mindieq-queue-localize-20261013/README.md)。
+
+## MindIEQ设备端分组
+
+复用固定外部类，一次launch读取动态专家边界，固定64/128/256 tile。修正ND单行加载与尾行写回后，12整数案例/动态counts Graph通过；全部层0真实256专家权重的完整MLP独立两轮节省约49%～55%耗时，96连续输出/轮通过。仍无模型端到端数据，接入前需处理与native不同的W4布局避免双份权重驻留。详见[分组证据](../results/mindieq-grouped-20261013/README.md)。

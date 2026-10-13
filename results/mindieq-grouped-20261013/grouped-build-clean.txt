@@ -1,0 +1,182 @@
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /work/grouped-build-clean
+[  2%] Creating directories for 'grouped_device_precompile'
+[  4%] No download step for 'grouped_device_precompile'
+[  6%] No update step for 'grouped_device_precompile'
+[  9%] No patch step for 'grouped_device_precompile'
+[ 11%] Performing configure step for 'grouped_device_precompile'
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    DYNAMIC_MODE
+    INCLUDE_DIR
+
+
+-- Build files have been written to: /work/grouped-build-clean/grouped_device_precompile-prefix/src/grouped_device_precompile-build
+[ 13%] Performing build step for 'grouped_device_precompile'
+[100%] Building CXX object CMakeFiles/precompile_obj.dir/work/mindieq_grouped_kernel/grouped.cpp.o
+[100%] Built target precompile_obj
+[100%] Built target check_src_template
+[ 15%] No install step for 'grouped_device_precompile'
+[ 18%] Completed 'grouped_device_precompile'
+[ 18%] Built target grouped_device_precompile
+[ 20%] Creating directories for 'grouped_device_preprocess'
+[ 22%] No download step for 'grouped_device_preprocess'
+[ 25%] No update step for 'grouped_device_preprocess'
+[ 27%] No patch step for 'grouped_device_preprocess'
+[ 29%] Performing configure step for 'grouped_device_preprocess'
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /work/grouped-build-clean/grouped_device_preprocess-prefix/src/grouped_device_preprocess-build
+[ 31%] Performing build step for 'grouped_device_preprocess'
+[ 50%] Building CXX object CMakeFiles/preprocess_obj.dir/work/mindieq_grouped_kernel/grouped.cpp.o
+[100%] Building CXX object CMakeFiles/m200_obj.dir/work/mindieq_grouped_kernel/grouped.cpp.o
+[100%] Built target preprocess_obj
+[100%] Built target m200_obj
+/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/grouped-build-clean/grouped_device_preprocess-prefix/src/grouped_device_preprocess-build/CMakeFiles/m200_obj.dir/work/mindieq_grouped_kernel/grouped.cpp.o -o /work/grouped-build-clean/grouped_device_preprocess-prefix/src/grouped_device_preprocess-build/CMakeFiles/m200_obj.dir/work/mindieq_grouped_kernel/grouped.cpp.o[100%] Built target merge_m200_obj_text
+[100%] Built target _host_cpp
+[ 34%] No install step for 'grouped_device_preprocess'
+[ 36%] Completed 'grouped_device_preprocess'
+[ 36%] Built target grouped_device_preprocess
+[ 38%] Creating directories for 'grouped_device_aic_device'
+[ 40%] Creating directories for 'grouped_device_aiv_device'
+[ 43%] Creating directories for 'grouped_device_host'
+[ 45%] No download step for 'grouped_device_aic_device'
+[ 47%] No download step for 'grouped_device_host'
+[ 50%] No download step for 'grouped_device_aiv_device'
+[ 52%] No update step for 'grouped_device_aic_device'
+[ 54%] No update step for 'grouped_device_host'
+[ 56%] No update step for 'grouped_device_aiv_device'
+[ 59%] No patch step for 'grouped_device_aic_device'
+[ 61%] No patch step for 'grouped_device_host'
+[ 63%] No patch step for 'grouped_device_aiv_device'
+[ 65%] Performing configure step for 'grouped_device_aic_device'
+[ 68%] Performing configure step for 'grouped_device_host'
+[ 70%] Performing configure step for 'grouped_device_aiv_device'
+-- The C compiler identification is GNU 11.4.0
+-- The C compiler identification is GNU 11.4.0
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Configuring done (0.2s)
+-- Build files have been written to: /work/grouped-build-clean/grouped_device_aic_device-prefix/src/grouped_device_aic_device-build
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    ASCEND_PYTHON_EXECUTABLE
+
+
+-- Build files have been written to: /work/grouped-build-clean/grouped_device_host-prefix/src/grouped_device_host-build
+[ 72%] Performing build step for 'grouped_device_aic_device'
+[ 75%] Performing build step for 'grouped_device_host'
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+[100%] Building CXX object CMakeFiles/device_aic_obj.dir/work/grouped-build-clean/auto_gen/grouped_device/auto_gen_grouped.cpp.o
+[100%] Building CXX object CMakeFiles/host_bisheng_obj.dir/work/mindieq_grouped_kernel/grouped.cpp.o
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    BUILD_MODE
+
+
+-- Build files have been written to: /work/grouped-build-clean/grouped_device_aiv_device-prefix/src/grouped_device_aiv_device-build
+[ 77%] Performing build step for 'grouped_device_aiv_device'
+[ 79%] No install step for 'grouped_device_aiv_device'
+[ 81%] Completed 'grouped_device_aiv_device'
+[ 81%] Built target grouped_device_aiv_device
+[100%] Built target host_bisheng_obj
+[ 84%] Performing install step for 'grouped_device_host'
+[100%] Built target host_bisheng_obj
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /work/grouped-build-clean/grouped_device_host_dir/./objects-Release/host_bisheng_obj/work/mindieq_grouped_kernel/grouped.cpp.o
+[ 86%] Completed 'grouped_device_host'
+[ 86%] Built target grouped_device_host
+[100%] Built target device_aic_obj
+/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/ccec_compiler/bin/ld.lld  -m aicorelinux -r  -Ttext=0 /work/grouped-build-clean/grouped_device_aic_device-prefix/src/grouped_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/grouped-build-clean/auto_gen/grouped_device/auto_gen_grouped.cpp.o -static -o /work/grouped-build-clean/grouped_device_aic_device_dir/device_aic.o
+[100%] Built target merge_aic_device_obj
+[ 88%] No install step for 'grouped_device_aic_device'
+[ 90%] Completed 'grouped_device_aic_device'
+[ 90%] Built target grouped_device_aic_device
+/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/ccec_compiler/bin/ld.lld -x -m aicorelinux   -Ttext=0 /work/grouped-build-clean/grouped_device_aic_device_dir/device_aic.o -static -o /work/grouped-build-clean/grouped_device_merge_obj_dir/device_aic.o
+[ 90%] Built target grouped_device_merge_obj
+[ 93%] Building CXX object CMakeFiles/grouped_device_host_stub_obj.dir/auto_gen/grouped_device/host_stub.cpp.o
+<command-line>: warning: "_GLIBCXX_USE_CXX11_ABI" redefined
+<command-line>: note: this is the location of the previous definition
+[ 93%] Built target grouped_device_host_stub_obj
+[ 95%] Linking CXX static library lib/libgrouped_device.a
+/usr/local/Ascend/ascend-toolkit/latest/bin/ascendc_pack_kernel /work/grouped-build-clean/CMakeFiles/grouped_device_host_stub_obj.dir/auto_gen/grouped_device/host_stub.cpp.o /work/grouped-build-clean/grouped_device_merge_obj_dir/device_aic.o 2 /work/grouped-build-clean/CMakeFiles/grouped_device_host_stub_obj.dir/auto_gen/grouped_device/host_stub.cpp.o
+recompile: /usr/bin/ar qc lib/libgrouped_device.a CMakeFiles/grouped_device_host_stub_obj.dir/auto_gen/grouped_device/host_stub.cpp.o /work/grouped-build-clean/grouped_device_host_dir/objects-Release/host_bisheng_obj/work/mindieq_grouped_kernel/grouped.cpp.o  ascendc_runtime.cpp.o aicpu_rt.cpp.o ascendc_elf_tool.c.o
+recompile: /usr/bin/ranlib lib/libgrouped_device.a
+[ 95%] Built target grouped_device
+[ 97%] Building CXX object CMakeFiles/qwen36_mindieq_grouped.dir/register.cpp.o
+[100%] Linking CXX shared library output/libqwen36_mindieq_grouped.so
+[100%] Built target qwen36_mindieq_grouped
+d553e5ca5e61d3c51a2b17292456cde80a08234d0fba723324c4e24b857bd418  /work/grouped-build-clean/output/libqwen36_mindieq_grouped.so

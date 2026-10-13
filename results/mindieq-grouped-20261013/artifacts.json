@@ -1,0 +1,13 @@
+{
+  "external_commit": "d9c9871aa335f7b5638e9a2679a45bb3e7561d3a",
+  "grouped_library_sha256": "4fa785134a69a57d57f2927503a1051bb9fce42ad40688c448996984cd7efabc",
+  "generated_external_header_sha256": "2347e844670181a67833bab4bdf647e6d0cf1edfb21dbb14ca3eded267d7b580",
+  "build": "CANN9.1 Ascend310P3 Release; copied patched header into external work source directory; v1 include error, v2 namespace error, v3 missing Release merge error, v4 compiled, v5 ND single-row fixed",
+  "license": "Generated external class remains CANN Open Software License V2; not vendored into this repository",
+  "clean_build_library_sha256": "d553e5ca5e61d3c51a2b17292456cde80a08234d0fba723324c4e24b857bd418",
+  "runtime_sources": {
+    "experimental/mindieq_grouped_kernel/CMakeLists.txt": "b8daaa2881d618e0cfc75db2daa2e820b42b607489a76f2a51c6abe06218bffe",
+    "experimental/mindieq_grouped_kernel/register.cpp": "6bdeb8b463fab5033c021f8ee903a84afa9a3e361875f037dd04b5c1ea20d2ac",
+    "experimental/mindieq_grouped_kernel/grouped.cpp": "852451a027eac8e88ac80a113c9f2cca9db1ba3186c4039ff967309886eaf872"
+  }
+}

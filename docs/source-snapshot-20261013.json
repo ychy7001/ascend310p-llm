@@ -87,7 +87,7 @@
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
     "scripts/run-candidate.sh": "8bea6b00c72dcbf8bea47b4153f745b692667977841ccabdee472ae6c09f6354",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
-    "tools/bench_mindieq_mlp_310.py": "f4419bc9f5c60c4d96d53272575c2544b223301fe31ee07a65dbcb33908ae515",
+    "tools/bench_mindieq_mlp_310.py": "c776058a5339f84e3b383a1192f3563170277b1511ec00c7d91e492d002f5fc1",
     "tools/bench_mtp_chat.py": "a6e4408ed9a5ca33cda45d19da870f508640fcb41bde3d2895c4b4683982840a",
     "tools/bench_prefix_reuse.py": "97885a47181add37fd44cd28a7ff610d5ef4be5e1d4b380890be468273523f06",
     "tools/bench_w4_backends_310.py": "1c5805ed101c11fa2e7bb499f3487bb93f7d8288eb743872e24d7ffd04e558f8",
@@ -102,6 +102,12 @@
     "tools/patch_mindieq_queue_binding.py": "d0d7df3b555ebef897c306a8c97cbb82517a9e0a764ba35b63e6a107d5401ef1",
     "tools/qwen36_int4_custom.cpp": "f6e3f4a46b4a28898050883da0341ca45545ab9d160852c631cf1ed93f91d7c7",
     "tools/summarize_route_occupancy.py": "99892f488bfe315281a61a5479b891c98592bfa6c2c5d7e5e7fd1ea705918b08",
-    "tools/patch_native_queue_lifetime.py": "a2fbeb90102e511385af2c2991b2ffeb0c03d994d5a1478f275f8e8220a50bd1"
+    "tools/patch_native_queue_lifetime.py": "a2fbeb90102e511385af2c2991b2ffeb0c03d994d5a1478f275f8e8220a50bd1",
+    "experimental/mindieq_grouped_kernel/CMakeLists.txt": "b8daaa2881d618e0cfc75db2daa2e820b42b607489a76f2a51c6abe06218bffe",
+    "experimental/mindieq_grouped_kernel/register.cpp": "6bdeb8b463fab5033c021f8ee903a84afa9a3e361875f037dd04b5c1ea20d2ac",
+    "experimental/mindieq_grouped_kernel/grouped.cpp": "852451a027eac8e88ac80a113c9f2cca9db1ba3186c4039ff967309886eaf872",
+    "tools/bench_mindieq_grouped_310.py": "ddf78e96d44ed44470008169aacee7a33d3cd09452f3c6216c058e3f3c0e7cf2",
+    "tools/prepare_mindieq_grouped_header.py": "51ab1154bf469a064b4212dcde1989c036575a4526b845981b178691589d19ac",
+    "tools/check_mindieq_native_layout.py": "20f5932869fcd0e670bc2489d4124a095a9d72a1176aed0a0b306d53303e10f0"
   }
 }

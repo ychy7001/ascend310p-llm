@@ -20,6 +20,7 @@ from check_w4_grouped_prefill_310 import signed_nibbles
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--grouped-library',help='独立MindIEQ设备端分组原型扩展')
     p.add_argument('--model',type=Path,required=True)
     p.add_argument('--library',required=True)
     p.add_argument('--upstream-test',required=True)
@@ -28,7 +29,7 @@ def main():
     p.add_argument('--experts',type=int,choices=[8,64,256],default=8)
     p.add_argument('--rows',type=int,nargs='+',default=[8,128,512,1024,4096])
     p.add_argument('--retain-native-inputs',action='store_true',help='诊断：保留native pack/matmul参数，定位混合路径生命周期')
-    p.add_argument('--backends',nargs='+',choices=['native_w4','mindieq_w4','w8','hybrid_128','hybrid_256'])
+    p.add_argument('--backends',nargs='+',choices=['native_w4','mindieq_w4','w8','hybrid_128','hybrid_256','mindieq_grouped'])
     p.add_argument('--graph',action='store_true',help='固定分组完整MLP Graph；3次激活更新与eager同后端输出比较')
     p.add_argument('--progress',action='store_true',help='验证阶段打印进度及每60秒Python栈，定位停滞')
     p.add_argument('--queued-repeats',type=int,default=0,help='完整MLP连续异步提交次数；统一同步后逐输出检查')
@@ -51,6 +52,7 @@ def main():
         p.error('--route-trace requires --experts 256')
     torch.set_num_threads(4);torch.manual_seed(310)
     torch.ops.load_library(a.library)
+    if a.grouped_library:torch.ops.load_library(a.grouped_library)
     spec=importlib.util.spec_from_file_location('external_qmm',a.upstream_test)
     external=importlib.util.module_from_spec(spec);spec.loader.exec_module(external)
     index=json.loads((a.model/'model.safetensors.index.json').read_text())['weight_map']
@@ -78,6 +80,7 @@ def main():
     if a.experts!=8 and not a.real_expert_weights:
         native=[[t.repeat(a.experts//8,1,1) for t in bank] for bank in native]
         other=[bank*(a.experts//8) for bank in other]
+    grouped_banks=[(torch.stack([b[0] for b in bank]),torch.stack([b[2] for b in bank])) for bank in other] if a.grouped_library else None
     with a.out.open('x') as f:
         f.write(json.dumps({'kind':'config','scope':__doc__,'warmup':0 if a.validate_only else 5,'repeats':0 if a.validate_only else 20,'experts':a.experts,
                             'weight_scope':f'real layer0 expert0..{weight_experts-1}; repeated if weight_experts<experts',
@@ -153,6 +156,19 @@ def main():
                 if a.retain_intermediates:torch.npu.synchronize()
                 return result
             funcs={'native_w4':native_mlp,'mindieq_w4':lambda:alternate_mlp('mindieq'),'w8':lambda:alternate_mlp('w8')}
+            if a.grouped_library:
+                def grouped_projection(inputs,bank):
+                    q,s=torch_npu.npu_dynamic_quant(inputs)
+                    q=torch_npu.npu_format_cast(q,2).contiguous()
+                    q=torch.cat([q,torch.zeros((16,q.shape[1]),device=q.device,dtype=q.dtype)])
+                    s=torch.cat([s.float(),torch.zeros(16,device=s.device,dtype=torch.float32)])
+                    return torch.ops.qwen36_mindieq_grouped.matmul(q,s,*bank,boundaries)
+                def grouped_mlp():
+                    gate=grouped_projection(x,grouped_banks[0])
+                    g,u=gate.float().chunk(2,dim=-1)
+                    hidden=(torch.nn.functional.silu(g)*u).half()
+                    return grouped_projection(hidden,grouped_banks[1])
+                funcs['mindieq_grouped']=grouped_mlp
             if a.hybrid:
                 counts=[end-(ends[i-1] if i else 0) for i,end in enumerate(ends)]
                 for threshold in [128,256]:

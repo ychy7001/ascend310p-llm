@@ -1,0 +1,30 @@
+{
+  "scope": "\u4ec5CPU\u9a8c\u8bc1\u4e24\u79cdW4\u5e03\u5c40\u7684\u5b57\u8282\u5173\u7cfb\uff1b\u4e0d\u58f0\u79f0\u8bbe\u5907\u5b9e\u73b0\u5b8c\u6210\u3002",
+  "seed": 20261013,
+  "cases": [
+    {
+      "n": 1024,
+      "k": 2048,
+      "status": "PASS",
+      "weight_bytes": 1048576
+    },
+    {
+      "n": 2048,
+      "k": 512,
+      "status": "PASS",
+      "weight_bytes": 524288
+    },
+    {
+      "n": 16,
+      "k": 128,
+      "status": "PASS",
+      "weight_bytes": 1024
+    },
+    {
+      "n": 32,
+      "k": 256,
+      "status": "PASS",
+      "weight_bytes": 4096
+    }
+  ]
+}
