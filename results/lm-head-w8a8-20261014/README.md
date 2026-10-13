@@ -9,7 +9,7 @@
 |3|3.222ms|1.40%|
 |8|3.236ms|1.32%|
 
-权重从FP16/BF16存储约1.017GB降至W8约508.6MB，另有约0.99MB per-channel scale；约50%权重存储节省。输出有限，误差可测。
+权重从FP16/BF16存储约1.017GB降至W8约508.6MB，另有约0.99MB per-channel scale；约50%权重存储节省。输出有限，误差可测。batch=1 的 top-k overlap（k=1/5/10/50）均为 100%。这只是与同一 ND FP16 分片参考的算子输出比较，不代表完整生成质量。
 
 **不能把原始记录中的127倍写成W8A8加速。** FP16参考使用ND `torch.matmul`，单次约412ms，只是数值参考，不是生产的NZ LM-head实现；尝试对FP16分片执行`npu_format_cast(..., FRACTAL_NZ)`在本CANN/310P实验容器中失败，日志报TransData unsupported/groups=1。因此当前没有公平的FP16-NZ分片基线，也不能宣称W8A8端到端加速。W8A8 3.22ms本身说明算子可运行，是否优于vLLM生产LM head需在框架真实权重加载路径补齐NZ基线后再判定。
 
