@@ -1,0 +1,40 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "medians": {
+      "A1": {
+        "prefill_tok_s": 502.9361100986431,
+        "decode_tok_s": 37.03838147950406
+      },
+      "B0": {
+        "prefill_tok_s": 630.355755889558,
+        "decode_tok_s": 35.79749102212623
+      }
+    },
+    "relative_change": {
+      "prefill_tok_s": 0.253351555460839,
+      "decode_tok_s": -0.03350282619839917
+    },
+    "identical_texts": 1,
+    "scope": "B0/A1完成，B2及64题质量对照未完成，非最终门禁"
+  },
+  {
+    "prompt_tokens": 32256,
+    "medians": {
+      "A1": {
+        "prefill_tok_s": 450.3547642198236,
+        "decode_tok_s": 29.1055987933878
+      },
+      "B0": {
+        "prefill_tok_s": 550.7444648892713,
+        "decode_tok_s": 29.031533069582242
+      }
+    },
+    "relative_change": {
+      "prefill_tok_s": 0.2229124873217645,
+      "decode_tok_s": -0.002544724275605148
+    },
+    "identical_texts": 3,
+    "scope": "B0/A1完成，B2及64题质量对照未完成，非最终门禁"
+  }
+]

@@ -1,0 +1,647 @@
+{
+  "scope": "在独占310P比较native per-token pack与torch-npu dynamic_quant；合成输入诊断。",
+  "seed": 310,
+  "rows": [
+    {
+      "width": 512,
+      "row": 0,
+      "max_abs_input": 0.0,
+      "native_scale": 1.0,
+      "dynamic_scale": 0.0,
+      "native_code_range": [
+        0,
+        0
+      ],
+      "dynamic_code_range": [
+        0,
+        0
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0,
+      "dynamic_max_abs_reconstruction_error": 0.0,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 512,
+      "row": 1,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        127,
+        127
+      ],
+      "dynamic_code_range": [
+        127,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0,
+      "dynamic_max_abs_reconstruction_error": 0.0,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 512,
+      "row": 2,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        -127
+      ],
+      "dynamic_code_range": [
+        -127,
+        -127
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0,
+      "dynamic_max_abs_reconstruction_error": 0.0,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 512,
+      "row": 3,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        127
+      ],
+      "dynamic_code_range": [
+        -127,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 4,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003927409648895264,
+      "dynamic_max_abs_reconstruction_error": 0.00405043363571167,
+      "reconstruction_difference_l2": 0.015748023986816406
+    },
+    {
+      "width": 512,
+      "row": 4,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        0,
+        127
+      ],
+      "dynamic_code_range": [
+        0,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 6,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003927409648895264,
+      "dynamic_max_abs_reconstruction_error": 0.004133105278015137,
+      "reconstruction_difference_l2": 0.019287336617708206
+    },
+    {
+      "width": 512,
+      "row": 5,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        0
+      ],
+      "dynamic_code_range": [
+        -127,
+        0
+      ],
+      "native_vs_dynamic_code_mismatches": 6,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003927409648895264,
+      "dynamic_max_abs_reconstruction_error": 0.004133105278015137,
+      "reconstruction_difference_l2": 0.019287336617708206
+    },
+    {
+      "width": 512,
+      "row": 6,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        127
+      ],
+      "dynamic_code_range": [
+        -127,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0002422332763671875,
+      "dynamic_max_abs_reconstruction_error": 0.0002422332763671875,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 512,
+      "row": 7,
+      "max_abs_input": 6.848573684692383e-05,
+      "native_scale": 5.392577691054612e-07,
+      "dynamic_scale": 5.392577691054612e-07,
+      "native_code_range": [
+        -98,
+        127
+      ],
+      "dynamic_code_range": [
+        -128,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 511,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 2.693941496545449e-07,
+      "dynamic_max_abs_reconstruction_error": 6.896538980072364e-05,
+      "reconstruction_difference_l2": 0.0012194177834317088
+    },
+    {
+      "width": 512,
+      "row": 8,
+      "max_abs_input": 0.60302734375,
+      "native_scale": 0.004748246632516384,
+      "dynamic_scale": 0.004748246632516384,
+      "native_code_range": [
+        -127,
+        119
+      ],
+      "dynamic_code_range": [
+        -127,
+        120
+      ],
+      "native_vs_dynamic_code_mismatches": 14,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0023722052574157715,
+      "dynamic_max_abs_reconstruction_error": 0.0025432705879211426,
+      "reconstruction_difference_l2": 0.017766281962394714
+    },
+    {
+      "width": 512,
+      "row": 9,
+      "max_abs_input": 0.640625,
+      "native_scale": 0.005044291261583567,
+      "dynamic_scale": 0.005044291261583567,
+      "native_code_range": [
+        -122,
+        127
+      ],
+      "dynamic_code_range": [
+        -122,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 5,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0025211870670318604,
+      "dynamic_max_abs_reconstruction_error": 0.0026836097240448,
+      "reconstruction_difference_l2": 0.011279369704425335
+    },
+    {
+      "width": 512,
+      "row": 10,
+      "max_abs_input": 0.56884765625,
+      "native_scale": 0.00447911536321044,
+      "dynamic_scale": 0.00447911536321044,
+      "native_code_range": [
+        -127,
+        124
+      ],
+      "dynamic_code_range": [
+        -127,
+        124
+      ],
+      "native_vs_dynamic_code_mismatches": 4,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0022337883710861206,
+      "dynamic_max_abs_reconstruction_error": 0.0023164451122283936,
+      "reconstruction_difference_l2": 0.008958227932453156
+    },
+    {
+      "width": 512,
+      "row": 11,
+      "max_abs_input": 0.6875,
+      "native_scale": 0.0054133860394358635,
+      "dynamic_scale": 0.0054133860394358635,
+      "native_code_range": [
+        -127,
+        98
+      ],
+      "dynamic_code_range": [
+        -127,
+        98
+      ],
+      "native_vs_dynamic_code_mismatches": 4,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0027009397745132446,
+      "dynamic_max_abs_reconstruction_error": 0.002843201160430908,
+      "reconstruction_difference_l2": 0.01082678884267807
+    },
+    {
+      "width": 512,
+      "row": 12,
+      "max_abs_input": 0.634765625,
+      "native_scale": 0.0049981544725596905,
+      "dynamic_scale": 0.0049981544725596905,
+      "native_code_range": [
+        -127,
+        120
+      ],
+      "dynamic_code_range": [
+        -127,
+        120
+      ],
+      "native_vs_dynamic_code_mismatches": 4,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.002498120069503784,
+      "dynamic_max_abs_reconstruction_error": 0.002750903367996216,
+      "reconstruction_difference_l2": 0.009996309876441956
+    },
+    {
+      "width": 512,
+      "row": 13,
+      "max_abs_input": 0.64111328125,
+      "native_scale": 0.005048136226832867,
+      "dynamic_scale": 0.005048136226832867,
+      "native_code_range": [
+        -101,
+        127
+      ],
+      "dynamic_code_range": [
+        -101,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 10,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.00251924991607666,
+      "dynamic_max_abs_reconstruction_error": 0.0027047693729400635,
+      "reconstruction_difference_l2": 0.01596362143754959
+    },
+    {
+      "width": 512,
+      "row": 14,
+      "max_abs_input": 0.6259765625,
+      "native_scale": 0.004928949289023876,
+      "dynamic_scale": 0.004928949289023876,
+      "native_code_range": [
+        -127,
+        111
+      ],
+      "dynamic_code_range": [
+        -127,
+        111
+      ],
+      "native_vs_dynamic_code_mismatches": 5,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.002461351454257965,
+      "dynamic_max_abs_reconstruction_error": 0.0025490522384643555,
+      "reconstruction_difference_l2": 0.011021473444998264
+    },
+    {
+      "width": 512,
+      "row": 15,
+      "max_abs_input": 0.6181640625,
+      "native_scale": 0.004867433570325375,
+      "dynamic_scale": 0.004867433570325375,
+      "native_code_range": [
+        -96,
+        127
+      ],
+      "dynamic_code_range": [
+        -96,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 10,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.002409204840660095,
+      "dynamic_max_abs_reconstruction_error": 0.002662479877471924,
+      "reconstruction_difference_l2": 0.015392175875604153
+    },
+    {
+      "width": 2048,
+      "row": 0,
+      "max_abs_input": 0.0,
+      "native_scale": 1.0,
+      "dynamic_scale": 0.0,
+      "native_code_range": [
+        0,
+        0
+      ],
+      "dynamic_code_range": [
+        0,
+        0
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0,
+      "dynamic_max_abs_reconstruction_error": 0.0,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 2048,
+      "row": 1,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        127,
+        127
+      ],
+      "dynamic_code_range": [
+        127,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0,
+      "dynamic_max_abs_reconstruction_error": 0.0,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 2048,
+      "row": 2,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        -127
+      ],
+      "dynamic_code_range": [
+        -127,
+        -127
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0,
+      "dynamic_max_abs_reconstruction_error": 0.0,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 2048,
+      "row": 3,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        127
+      ],
+      "dynamic_code_range": [
+        -127,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 42,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003935098648071289,
+      "dynamic_max_abs_reconstruction_error": 0.004183053970336914,
+      "reconstruction_difference_l2": 0.05102943256497383
+    },
+    {
+      "width": 2048,
+      "row": 4,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        0,
+        127
+      ],
+      "dynamic_code_range": [
+        0,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 42,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003935098648071289,
+      "dynamic_max_abs_reconstruction_error": 0.004183053970336914,
+      "reconstruction_difference_l2": 0.05102947726845741
+    },
+    {
+      "width": 2048,
+      "row": 5,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        0
+      ],
+      "dynamic_code_range": [
+        -127,
+        0
+      ],
+      "native_vs_dynamic_code_mismatches": 42,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003935098648071289,
+      "dynamic_max_abs_reconstruction_error": 0.004183053970336914,
+      "reconstruction_difference_l2": 0.05102947726845741
+    },
+    {
+      "width": 2048,
+      "row": 6,
+      "max_abs_input": 1.0,
+      "native_scale": 0.007874015718698502,
+      "dynamic_scale": 0.007874015718698502,
+      "native_code_range": [
+        -127,
+        127
+      ],
+      "dynamic_code_range": [
+        -127,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 0,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0002422332763671875,
+      "dynamic_max_abs_reconstruction_error": 0.0002422332763671875,
+      "reconstruction_difference_l2": 0.0
+    },
+    {
+      "width": 2048,
+      "row": 7,
+      "max_abs_input": 6.604194641113281e-05,
+      "native_scale": 5.20015305482957e-07,
+      "dynamic_scale": 5.20015305482957e-07,
+      "native_code_range": [
+        -127,
+        113
+      ],
+      "dynamic_code_range": [
+        -128,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 2045,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 2.59540684055537e-07,
+      "dynamic_max_abs_reconstruction_error": 6.650235445704311e-05,
+      "reconstruction_difference_l2": 0.002343616681173444
+    },
+    {
+      "width": 2048,
+      "row": 8,
+      "max_abs_input": 0.7392578125,
+      "native_scale": 0.0058209276758134365,
+      "dynamic_scale": 0.0058209276758134365,
+      "native_code_range": [
+        -117,
+        127
+      ],
+      "dynamic_code_range": [
+        -117,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 9,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.00290757417678833,
+      "dynamic_max_abs_reconstruction_error": 0.0029373764991760254,
+      "reconstruction_difference_l2": 0.017462773248553276
+    },
+    {
+      "width": 2048,
+      "row": 9,
+      "max_abs_input": 0.79443359375,
+      "native_scale": 0.006255382671952248,
+      "dynamic_scale": 0.006255382671952248,
+      "native_code_range": [
+        -124,
+        127
+      ],
+      "dynamic_code_range": [
+        -124,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 24,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0031273309141397476,
+      "dynamic_max_abs_reconstruction_error": 0.003339141607284546,
+      "reconstruction_difference_l2": 0.03064499795436859
+    },
+    {
+      "width": 2048,
+      "row": 10,
+      "max_abs_input": 0.6884765625,
+      "native_scale": 0.005421075504273176,
+      "dynamic_scale": 0.005421075504273176,
+      "native_code_range": [
+        -127,
+        121
+      ],
+      "dynamic_code_range": [
+        -127,
+        121
+      ],
+      "native_vs_dynamic_code_mismatches": 32,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0027105212211608887,
+      "dynamic_max_abs_reconstruction_error": 0.0029162466526031494,
+      "reconstruction_difference_l2": 0.03066624328494072
+    },
+    {
+      "width": 2048,
+      "row": 11,
+      "max_abs_input": 0.71044921875,
+      "native_scale": 0.005594088230282068,
+      "dynamic_scale": 0.005594088230282068,
+      "native_code_range": [
+        -119,
+        127
+      ],
+      "dynamic_code_range": [
+        -119,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 15,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.002795115113258362,
+      "dynamic_max_abs_reconstruction_error": 0.002935439348220825,
+      "reconstruction_difference_l2": 0.02166581153869629
+    },
+    {
+      "width": 2048,
+      "row": 12,
+      "max_abs_input": 0.86328125,
+      "native_scale": 0.0067974901758134365,
+      "dynamic_scale": 0.0067974901758134365,
+      "native_code_range": [
+        -127,
+        93
+      ],
+      "dynamic_code_range": [
+        -127,
+        93
+      ],
+      "native_vs_dynamic_code_mismatches": 13,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.003395982086658478,
+      "dynamic_max_abs_reconstruction_error": 0.003579437732696533,
+      "reconstruction_difference_l2": 0.024508707225322723
+    },
+    {
+      "width": 2048,
+      "row": 13,
+      "max_abs_input": 0.68212890625,
+      "native_scale": 0.00537109375,
+      "dynamic_scale": 0.00537109375,
+      "native_code_range": [
+        -124,
+        127
+      ],
+      "dynamic_code_range": [
+        -124,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 20,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.002685546875,
+      "dynamic_max_abs_reconstruction_error": 0.002685546875,
+      "reconstruction_difference_l2": 0.02402026206254959
+    },
+    {
+      "width": 2048,
+      "row": 14,
+      "max_abs_input": 0.64501953125,
+      "native_scale": 0.0050788940861821175,
+      "dynamic_scale": 0.0050788940861821175,
+      "native_code_range": [
+        -116,
+        127
+      ],
+      "dynamic_code_range": [
+        -116,
+        127
+      ],
+      "native_vs_dynamic_code_mismatches": 18,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.002534642815589905,
+      "dynamic_max_abs_reconstruction_error": 0.0026067495346069336,
+      "reconstruction_difference_l2": 0.0215479526668787
+    },
+    {
+      "width": 2048,
+      "row": 15,
+      "max_abs_input": 0.8115234375,
+      "native_scale": 0.0063899485394358635,
+      "dynamic_scale": 0.006389948073774576,
+      "native_code_range": [
+        -127,
+        105
+      ],
+      "dynamic_code_range": [
+        -127,
+        105
+      ],
+      "native_vs_dynamic_code_mismatches": 27,
+      "native_vs_symmetric127_mismatches": 0,
+      "native_max_abs_reconstruction_error": 0.0031920894980430603,
+      "dynamic_max_abs_reconstruction_error": 0.0033314526081085205,
+      "reconstruction_difference_l2": 0.03320307284593582
+    }
+  ],
+  "limitation": "合成激活、单次诊断；不能代表模型质量或性能"
+}

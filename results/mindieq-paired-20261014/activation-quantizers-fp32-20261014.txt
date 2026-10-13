@@ -1,0 +1,18 @@
+[W1013 16:27:02.395204225 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+Traceback (most recent call last):
+  File "/project/tools/check_activation_quantizers_310.py", line 36, in <module>
+    q,s=torch_npu.npu_dynamic_quant(device.float() if a.fp32_input else device)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_ops.py", line 1209, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: dynamic_quant_run_aclnn:../third_party/op-plugin/op_plugin/ops/opapi/DynamicQuantKernelNpuOpApi.cpp:129 NPU function error: call aclnnDynamicQuantV2 failed, error code is 161002
+[ERROR] 2026-10-13-16:27:02 (PID:165, Device:0, RankID:-1) ERR00100 PTA call acl api failed.
+[PID: 165] 2026-10-13-16:27:02.716.351 AclNN_Parameter_Error(EZ1001): Tensor dynamicQuantParams.x not implemented for DT_FLOAT, should be in dtype support list [DT_FLOAT16,].
+TraceBack (most recent call last):
+        invalid dtype.
+
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)

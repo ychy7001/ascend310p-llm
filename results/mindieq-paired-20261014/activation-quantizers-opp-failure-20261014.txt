@@ -1,0 +1,10 @@
+[W1013 16:24:26.882149770 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+Traceback (most recent call last):
+  File "/project/tools/check_activation_quantizers_310.py", line 34, in <module>
+    lo,hi,scale,_=torch.ops.qwen36_int4.pack(device)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_ops.py", line 1209, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: aclnnQwenW4A8PackV310 or aclnnQwenW4A8PackV310GetWorkspaceSize not in libopapi.so, or libopapi.sonot found.
+[ERROR] 2026-10-13-16:24:28 (PID:165, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

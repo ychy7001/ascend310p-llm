@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/project/tools/check_activation_quantizers_310.py", line 7, in <module>
+    import torch_npu
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/__init__.py", line 40, in <module>
+    import torch_npu.utils.patch_getenv
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/utils/__init__.py", line 12, in <module>
+    from torch_npu.npu.utils import get_cann_version
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/npu/__init__.py", line 171, in <module>
+    from .deterministic import enable_deterministic_with_backward, disable_deterministic_with_backward # noqa: F403
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/npu/deterministic.py", line 5, in <module>
+    from torch._dynamo.decorators import forbid_in_graph
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_dynamo/__init__.py", line 13, in <module>
+    from . import (
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_dynamo/aot_compile.py", line 14, in <module>
+    from torch._dynamo.convert_frame import GraphRuntimeEnv
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_dynamo/convert_frame.py", line 60, in <module>
+    from torch._dynamo.symbolic_convert import TensorifyState
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_dynamo/symbolic_convert.py", line 53, in <module>
+    from torch._dynamo.exc import ObservedException, TensorifyScalarRestartAnalysis
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_dynamo/exc.py", line 44, in <module>
+    from .utils import counters
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_dynamo/utils.py", line 2503, in <module>
+    common_constant_types.add(triton.language.dtype)
+                              ^^^^^^^^^^^^^^^
+AttributeError: module 'triton' has no attribute 'language'

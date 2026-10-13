@@ -6,6 +6,8 @@
     "tools/eval_gsm8k_http.py": "9bbc496fea7825edc9a734135ceff98e7b70652cc97a1f75cfd1214f48f8d0a0",
     "experimental/mindieq_prefill_adapter.py": "636a2ba8672750fdc430ab1b3ffeb18ec5698a570a2585588d67f0e69231b5ed",
     "configs/tp1-48g-112k.env": "9aa6c78b8e670c959530e57cc2fefc9f2037e192d4f82acb5df52bab1c5b86f5",
-    "results/mindieq-paired-20261014/run-paired.sh": "7fa8c4305db3c0d185e0099b5660b7e395eaca6e771005ec44afc38bda985d75"
+    "results/mindieq-paired-20261014/run-paired.sh": "7fa8c4305db3c0d185e0099b5660b7e395eaca6e771005ec44afc38bda985d75",
+    "tools/check_activation_quantizers_310.py": "5173f993689859cf2c45638474fb5dde5a39ab673d0e12b2fd390b634df135b4",
+    "results/mindieq-paired-20261014/check-activation-quantizers.sh": "25ce91673eddd10955c535f49a20c14e824c3301aa2de187abb61fd40503fb1e"
   }
 }
