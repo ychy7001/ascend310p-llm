@@ -1,0 +1,69 @@
+{
+  "scope": "单流112K上限附近/合成输入/128持续输出，warmup1+三次；非全面长文质量、最大可支持上下文或生产P95",
+  "prompt_tokens": 114560,
+  "output_tokens": 128,
+  "total_tokens": 114688,
+  "prefill_tok_s_median": 378.7333330765238,
+  "decode_tok_s_median": 16.778320727815917,
+  "samples": [
+    {
+      "repeat": 0,
+      "prefill_tok_s": 378.0453216637049,
+      "decode_tok_s": 16.77445297912157,
+      "ttft_s": 303.0850339010358,
+      "mean_tpot_s": 0.0593744669133416,
+      "elapsed_s": 310.62559119903017,
+      "spec_decode": {
+        "drafts": 42.0,
+        "drafted_tokens": 84.0,
+        "accepted_tokens": 84.0,
+        "acceptance_rate": 1.0,
+        "mean_acceptance_length": 3.0
+      }
+    },
+    {
+      "repeat": 1,
+      "prefill_tok_s": 379.34992599956786,
+      "decode_tok_s": 16.78833691514384,
+      "ttft_s": 302.0404231369612,
+      "mean_tpot_s": 0.05932564634690428,
+      "elapsed_s": 309.574780223018,
+      "spec_decode": {
+        "drafts": 42.0,
+        "drafted_tokens": 84.0,
+        "accepted_tokens": 84.0,
+        "acceptance_rate": 1.0,
+        "mean_acceptance_length": 3.0
+      }
+    },
+    {
+      "repeat": 2,
+      "prefill_tok_s": 378.7333330765238,
+      "decode_tok_s": 16.778320727815917,
+      "ttft_s": 302.5308009419823,
+      "mean_tpot_s": 0.05935999576376355,
+      "elapsed_s": 310.0695204039803,
+      "spec_decode": {
+        "drafts": 42.0,
+        "drafted_tokens": 84.0,
+        "accepted_tokens": 84.0,
+        "acceptance_rate": 1.0,
+        "mean_acceptance_length": 3.0
+      }
+    }
+  ],
+  "post_sanity": "PASS 5/5",
+  "ttft_s": {
+    "p50": 302.5308009419823,
+    "p95_interpolated": 303.0296106051304,
+    "n": 3,
+    "limitation": "三次请求描述统计，TPOT为请求均值而非逐token延迟；不代表生产P95"
+  },
+  "request_mean_tpot_s": {
+    "p50": 0.05935999576376355,
+    "p95_interpolated": 0.059373019798383796,
+    "n": 3,
+    "limitation": "三次请求描述统计，TPOT为请求均值而非逐token延迟；不代表生产P95"
+  },
+  "acceptance_rate": 1.0
+}

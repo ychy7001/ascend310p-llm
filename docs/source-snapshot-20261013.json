@@ -1,6 +1,6 @@
 {
   "description": "2026-10-13核心运行、构建与实验适配源码；不含二进制、不代表所有实验均验收",
-  "base_commit": "0ecaeb2db49877326e9666c93728e4cf781d1bbf",
+  "base_commit": "2883c59f4dd29611c477469909745442dbf74704",
   "files": {
     "bootstrap/sitecustomize.py": "77d5888394944b06826bf30b999486769f05b5b40d11d564397e28975eb78268",
     "bootstrap/w4_fake.py": "bf1267c4049892c1b166f788a1a88ab5ecdae3c24674147a084c3630ff23231c",
@@ -118,6 +118,7 @@
     "tools/check_mindieq_projection_parity_310.py": "22794e129b423920296ccf75a53a3402dca5caecfa4f22fde3d9e42e4162f3c8",
     "experimental/mindieq_activation.py": "a21c2993b4f2303d9aa8b190b9d207188033c1f7fc57c78063e89ac939f57ec0",
     "experimental/mindieq_grouped_kernel/activation_gather.cpp": "86e25d746f0adb104e1735719594e4576d5f276b26eb97309fe8349962e72fa8",
-    "tools/check_mindieq_shared_gate_310.py": "70743bb588cf4781b4236f71bd14069a5177faf5f138f3a66e89e979322761d9"
+    "tools/check_mindieq_shared_gate_310.py": "70743bb588cf4781b4236f71bd14069a5177faf5f138f3a66e89e979322761d9",
+    "tools/bench_c8_long_components_310.py": "8833004e11638d35d0b7bf18ecd890670e60f8ff993b831ba92f51828395bba5"
   }
 }

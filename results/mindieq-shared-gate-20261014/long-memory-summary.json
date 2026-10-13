@@ -1,0 +1,13 @@
+{
+  "scope": "20秒npu-smi采样，预热中途开始；不是全过程峰值或内存带宽",
+  "samples": 53,
+  "first_utc": "2026-10-13T18:25:47.741716+00:00",
+  "last_utc": "2026-10-13T18:43:35.896509+00:00",
+  "memory_mb_min": 35775,
+  "memory_mb_observed_max": 35778,
+  "device_total_mb": 44277,
+  "aicore_percent_range": [
+    95,
+    100
+  ]
+}

@@ -221,3 +221,6 @@ Prefill `+6.51%`、Decode `-0.11%`。两档均通过严格答案 8/8、A/B/A 复
 `n=2048,k=512` 在 rows `129/257/1024` 的 balanced/one-expert 分组均通过，
 最大绝对误差分别约 `1.23e-4` 和 `6.11e-5`，所有 12 个 case PASS；计时为
 同步 host call 且不包含 activation pack，不应直接当作纯 kernel latency。
+
+
+2026-10-14 E5共享Gate候选近112K持续生成已完成：114560+128、warmup1/repeat3、prefix off，Prefill378.733/Decode16.778 tok/s，TTFT302.531秒，MTP100%，后sanity5/5。详情及范围见results/mindieq-shared-gate-20261014/long-phases-summary.json。单层C8诊断发现112K转换3.340ms、native PA2.802ms、组合6.028ms（Q1 Graph host计时），提示长上下文转换成本，不能直接当整模型profile。复现见results/c8-long-components-20261014。

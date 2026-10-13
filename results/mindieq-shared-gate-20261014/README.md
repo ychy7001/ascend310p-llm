@@ -50,3 +50,11 @@ build.sh使用全新SOURCE_DIR/BUILD_DIR；run-micro.sh、start-service.sh、run
 持续生成预热已完成（不计入正式统计）：114560输入、32输出，TTFT302.791秒、总304.591秒，请求平均TPOT0.058070秒。正在执行三条各128输出正式测量。新增analyze-long.py仅在三条有效、输入/输出长度及后sanity/long-state全部通过后生成long-phases-summary.json；三请求P95描述统计不能充当产品尾延迟。sample-long-memory.py每20秒读取npu-smi，仅在指定实际bench进程匹配时采样，未发起推理；采样于预热过程中才开始，不能宣称覆盖启动或全部运行峰值。
 
 首次正式114560/128请求已完整完成并校验有效：Prefill378.045 tok/s、Decode16.774 tok/s、MTP100%（42draft、84/84accepted、平均长度3）。原始请求快照long-progress.json仅记录第一条，不作为三次中位数；剩余两条继续。即使MTP100%，长上下文Decode也明显下降，不能把全部速度差异归因于接受率。当前C8仍转FP16/NZ scratch再调用已有attention，这属于待profile定位的结构性成本，不把源码观察当实测耗时拆分。
+
+## 近112K持续生成完整结果（2026-10-14）
+
+追加控制器已结束，独立long-state DONE、后sanity5/5。114560输入+128输出=114688，warmup1、三次不同prompt、prefix off：Prefill中位378.733 tok/s，范围378.045～379.350；Decode中位16.778 tok/s，范围16.774～16.788；TTFT中位302.531秒，请求平均TPOT中位59.360ms。三次MTP均84/84接受、42drafts（100%/平均长度3），因此这组长上下文Decode下降不能归因于接受率不足。三次P95仅描述统计，完整输出及分析见long-phases-summary.json和service/p114560-o128.jsonl。合成输入重复生成不是自然业务质量验收。
+
+53次20秒npu-smi采样：芯片0使用35775～35778MB/44277MB，AI Core95～100%；预热中途开始，既不代表全过程峰值，也不证明32G可用或内存带宽。只证明本组合完成112K配置上限附近的单流检索和128持续输出，没有探索更大上下文或多并发。
+
+后续单层诊断见../c8-long-components-20261014：112K的C8转换3.340ms、native PA2.802ms、组合6.028ms，明确转换成本；Q1/合成缓存的微测试不是MTP2整模型耗时拆分。优先profile真实Decode后再优化C8转换/融合，保留MindIEQ为可选Prefill候选；不把当前候选提升为产品默认。
