@@ -1,0 +1,44 @@
+[
+  {
+    "tokens": 8192,
+    "baseline_ms": {
+      "conversion": 0.3132104757241905,
+      "native_pa": 0.30628350214101374,
+      "staged": 0.5366105178836733
+    },
+    "candidate_ms": {
+      "conversion": 0.30901998979970813,
+      "native_pa": 0.33345751580782235,
+      "staged": 0.5232144612818956
+    },
+    "conversion_regression_percent": -1.337913719135131
+  },
+  {
+    "tokens": 32768,
+    "baseline_ms": {
+      "conversion": 0.9933350083883852,
+      "native_pa": 0.8780274947639555,
+      "staged": 1.7876280180644244
+    },
+    "candidate_ms": {
+      "conversion": 1.0139025107491761,
+      "native_pa": 0.8831889717839658,
+      "staged": 1.8507054774090648
+    },
+    "conversion_regression_percent": 2.070550437375629
+  },
+  {
+    "tokens": 114688,
+    "baseline_ms": {
+      "conversion": 3.2583285064902157,
+      "native_pa": 2.786039956845343,
+      "staged": 5.991473532048985
+    },
+    "candidate_ms": {
+      "conversion": 3.3499060082249343,
+      "native_pa": 2.7762085082940757,
+      "staged": 6.089690519729629
+    },
+    "conversion_regression_percent": 2.810566876615006
+  }
+]

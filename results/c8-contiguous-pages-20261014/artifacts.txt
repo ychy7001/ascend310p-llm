@@ -1,0 +1,8 @@
+4cc6f96b6d5608fd10bbc92c0b4c74708551fb182d1d77be839fdb2c3a95198f  /home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/c8-device-length-source/csrc/c8_cache_to_nz_transdata.cpp
+846655f94495493b26fbbf7446d8ddeb47a79a8807668ab9d1cced25bf6afc34  /home/ychy/ascend-lab-runtime/mindieq-r3-20261013/c8-contiguous-pages-build/output/libqwen36_c8.so
+C8_NZ_BROADCAST:BOOL=OFF
+C8_NZ_COMPACT_SCALE:BOOL=ON
+C8_NZ_CONTIGUOUS_PAGES:BOOL=ON
+C8_NZ_MAX_TILE:STRING=64
+C8_NZ_PIPELINE:BOOL=OFF
+C8_NZ_TRANSDATA:BOOL=ON

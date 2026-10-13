@@ -1,0 +1,46 @@
+diff --git a/experimental/ascend_c8_kernel/csrc/CMakeLists.txt b/experimental/ascend_c8_kernel/csrc/CMakeLists.txt
+index 6dc78a6..c1bae9c 100644
+--- a/experimental/ascend_c8_kernel/csrc/CMakeLists.txt
++++ b/experimental/ascend_c8_kernel/csrc/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ option(C8_NZ_BROADCAST "Experimental Brcb/Gather NZ conversion (slower on tested 310P)" OFF)
+ option(C8_NZ_TRANSDATA "Experimental two-pass vector transpose NZ conversion" OFF)
+ option(C8_NZ_COMPACT_SCALE "Experimental compact per-head scale broadcast" OFF)
++option(C8_NZ_CONTIGUOUS_PAGES "Experimental contiguous per-core tile ranges" OFF)
+ option(C8_NZ_PIPELINE "Experimental double-buffered NZ writeback" OFF)
+ set(C8_NZ_MAX_TILE 16 CACHE STRING "Maximum page-local transdata token tile: 16,32,64")
+ if(NOT C8_NZ_MAX_TILE MATCHES "^(16|32|64)$")
+@@ -16,6 +17,9 @@ elseif(C8_NZ_TRANSDATA)
+   if(C8_NZ_COMPACT_SCALE)
+     set(C8_NZ_SCALE_DEFINE "#define C8_NZ_COMPACT_SCALE 1\n")
+   endif()
++  if(C8_NZ_CONTIGUOUS_PAGES)
++    string(APPEND C8_NZ_SCALE_DEFINE "#define C8_NZ_CONTIGUOUS_PAGES 1\n")
++  endif()
+   if(C8_NZ_PIPELINE)
+     string(APPEND C8_NZ_SCALE_DEFINE "#define C8_NZ_PIPELINE 1\n")
+   endif()
+diff --git a/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp b/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp
+index 53c76f4..518bc7d 100644
+--- a/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp
++++ b/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp
+@@ -64,7 +64,18 @@ extern "C" __global__ __aicore__ void c8_cache_to_nz_kernel(
+     if(tokens<0 || tokens>slots)return;
+     active_slots=((tokens+block_size-1)/block_size)*block_size;
+   }
+-  for(int64_t t=GetBlockIdx()*tile;t<active_slots;t+=GetBlockNum()*tile){
++#ifdef C8_NZ_CONTIGUOUS_PAGES
++  // Assign whole page-local tiles in contiguous ranges. Empty cores do no work.
++  int64_t tiles=(active_slots+tile-1)/tile;
++  int64_t per_core=(tiles+GetBlockNum()-1)/GetBlockNum();
++  int64_t begin=GetBlockIdx()*per_core*tile;
++  int64_t end=begin+per_core*tile;
++  if(end>active_slots)end=active_slots;
++  int64_t step=tile;
++#else
++  int64_t begin=GetBlockIdx()*tile,end=active_slots,step=GetBlockNum()*tile;
++#endif
++  for(int64_t t=begin;t<end;t+=step){
+     int64_t physical=selected?pages.GetValue(t/block_size):t/block_size;
+     bool valid=physical>=0 && physical<physical_blocks;
+     int64_t source=physical*block_size+t%block_size;

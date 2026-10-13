@@ -1,0 +1,8 @@
+[W1013 19:27:04.274270208 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+{"status": "PASS", "length": 63, "table": [0, 1, 2, 3], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 65, "table": [3, 0, 2, 1], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 127, "table": [1, 3, 0, 2], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 193, "table": [2, 1, 3, 0], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 1, "table": [3, 2, 1, 0], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 256, "table": [1, 0, 3, 2], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 64, "table": [2, 3, 1, 0], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
