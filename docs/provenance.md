@@ -2,7 +2,7 @@
 
 社区参考：[opensensor/vllm-ascend](https://github.com/opensensor/vllm-ascend)，基于`0637d3baa6bc2000ba6433b301f233c6516847b4`。感谢matteius及vLLM贡献者的310P W4实现。原文件SPDX与版权声明保留，没有将原作者填写为新增提交的Co-author。
 
-`runtime/vllm_ascend/models/qwen4_exp/`为经过a2测试的社区模块子集，并非整个社区模型。`w4_moe.py`、`w4_backend_policy.py`等含本地ModelSlim metadata/backend适配；非专家执行和FP16驻留策略亦有实验修改。`native-overlay/`为a2实际构建源码的三个算子家族快照，不是未经修改的社区commit：包含per-token activation pack、融合SwiGLU pack和per-channel跨K累加。来源revision只能标识基础，精确快照以本仓库Git commit和`runtime-source-sha256.json`为准。
+`runtime/vllm_ascend/models/qwen4_exp/`为经过a2测试的社区模块子集，并非整个社区模型。`w4_moe.py`、`w4_backend_policy.py`等含本地ModelSlim metadata/backend适配；非专家执行和FP16驻留策略亦有实验修改。`native-overlay/`为a2实际构建源码的三个算子家族快照，不是未经修改的社区commit：包含per-token activation pack、融合SwiGLU pack和per-channel跨K累加。来源revision只能标识基础。`runtime-source-sha256.json`固定首发历史快照，不会随着后续调优重写；当前N128/C8/MTP/Graph核心源码与启动器清单见`source-snapshot-20261013.json`，结合Git历史追踪修改。
 
 `runtime/vllm_ascend/models/qwen36_w4_patch.py`为独立Qwen3.6适配：替换routed experts、处理checkpoint加载、TP专家所有权和BF16 MTP。公开首版采用已验证的普通W4路径，不启用未通过广泛性能门禁的fused down-reduce候选。`tools/`中的量化与测试、`experimental/`中的C8为独立实验模块。
 

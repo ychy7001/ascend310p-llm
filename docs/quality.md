@@ -1,6 +1,6 @@
 # 质量与缓存回退验证协议
 
-有限生成sanity不是完整精度验收。原始响应、usage、截断原因、逐题结果和数据集留在实验目录，不进入Git。
+有限生成sanity不是完整精度验收。数据集留在实验目录，不进入Git；历史原始响应保留在实验机，后续逐题响应、usage、截断原因和关键日志统一归档到仓库results/。
 
 ## 已测请求复用小样本
 
@@ -48,3 +48,7 @@ experimentally verified：TP1/W4A8/C8 fused write/split_by_type/MTP1/eager/32K/.
 32K Graph全范围组匹配GSM32完成：31/32，parse_missing=1/truncated=1；唯一严格得分差异仍index205的512token截断，推导中得到98但无####最终答案。toy8/8与A/B/A复用通过（文本一致、无泄漏）。尚未提高输出预算重测该题或完成有效长度组，不声称Graph质量等价。
 
 32K Graph设备有效长度组完成同协议GSM32：31/32、parse_missing=1/truncated=1，唯一严格差异仍index205截断。与Graph全范围组逐题numeric答案无变化、12题全文一致；toy8/8与A/B/A文本一致、无泄漏。该结果没有发现新增小样本回归，但不是数值完全等价或完整精度验收。尚未提高该题输出预算定位，FP16 KV Graph对照也未完成。
+
+## N128 / 112K / C8 / MTP2 / Graph 子集回归
+
+2026-10-13完成相同数据集SHA、seed310、32题indices、temperature0、thinking关闭、512token上限的回归：31/32，parse_missing=1、truncated=1；唯一未得分题index205在512tokens处截断。该结果不证明与MTP1精度等价，也不是全面GSM8K成绩。完整响应和服务日志见`results/n128-quality-20261013/`。首次客户端执行只留下1题，没有summary，未计入完整结果；另以新文件完成32题，保留了首次文件而没有覆盖。
