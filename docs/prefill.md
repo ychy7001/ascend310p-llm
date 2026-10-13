@@ -203,3 +203,21 @@ chunk512、prefix off下真实启动并完成初步回归。严格答案8/8、A/
 全部归因于tile改动。原始JSONL、metrics和服务日志存于仓库
 `results/n128-product-20261013/`；复现用
 `experimental/check-n128-product.sh`，不再写入对接文档目录。
+
+### N=128 与稳定 N=64 的产品组合对照
+
+随后在同一 a2 第一颗 310P3 上进行了顺序对照：TP1、W4A8、C8、MTP2、
+FULL_DECODE_ONLY Graph、mode=0、capture `[1,2,3]`、112K/.95、batch1024、
+chunk512、prefix off，唯一变化是 routed gate/up Prefill OPP 的 N tile。
+稳定 N=64 对照在 8K/128 的 Prefill/Decode 中位数为 `364.4936/37.1222`
+tok/s，N=128 为 `391.5909/37.0124`，Prefill `+7.43%`、Decode `-0.30%`。
+32K/128 对照为 N=64 `335.7245/29.0776`、N=128 `357.5768/29.0453`，
+Prefill `+6.51%`、Decode `-0.11%`。两档均通过严格答案 8/8、A/B/A 复用检查
+和 114560-token 检索；长请求耗时分别为 `435.7018s` 与 `415.3063s`。
+这是顺序配对和阶段计时，尚无 P95、交替随机化或完整业务准确率结论；原始
+证据见 `results/n128-product-baseline-n64-20261013/`。
+
+独立真实专家矩阵检查也已完成：gate/up `n=1024,k=2048` 和 down
+`n=2048,k=512` 在 rows `129/257/1024` 的 balanced/one-expert 分组均通过，
+最大绝对误差分别约 `1.23e-4` 和 `6.11e-5`，所有 12 个 case PASS；计时为
+同步 host call 且不包含 activation pack，不应直接当作纯 kernel latency。

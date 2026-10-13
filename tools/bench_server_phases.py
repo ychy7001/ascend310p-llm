@@ -2,6 +2,7 @@
 """独占服务的分阶段计时；Prometheus 请求阶段耗时并非纯 kernel 时间。"""
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import urllib.request
@@ -14,6 +15,10 @@ METRICS = (
     'vllm:request_prefill_time_seconds_sum',
     'vllm:request_decode_time_seconds_sum',
 )
+
+
+def prompt_hash(tokens):
+    return hashlib.sha256(json.dumps(tokens, separators=(',', ':')).encode()).hexdigest()
 
 
 def snapshot(base):
@@ -77,7 +82,8 @@ def main():
         }) + '\n')
         warmup_tokens = prompt_sets[0] if prompt_sets else tokens
         warmup = request(args.base_url, args.model, warmup_tokens, min(32, args.output_tokens))
-        output.write(json.dumps({'kind': 'warmup', **warmup}) + '\n')
+        output.write(json.dumps({'kind': 'warmup', 'prompt_ids_sha256': prompt_hash(warmup_tokens),
+                                 **warmup}) + '\n')
         output.flush()
         for repeat in range(args.repeats):
             request_tokens = prompt_sets[repeat + 1] if prompt_sets else tokens
@@ -92,6 +98,7 @@ def main():
                      and usage is not None and usage['prompt_tokens'] == len(request_tokens)
                      and usage['completion_tokens'] == args.output_tokens)
             row = {'kind': 'request', 'repeat': repeat, 'valid': valid,
+                   'prompt_ids_sha256': prompt_hash(request_tokens),
                    'metrics_before': before, 'metrics_after': after,
                    'prefill_seconds': prefill, 'decode_seconds': decode,
                    'prefill_tok_s': len(request_tokens) / prefill if valid else None,

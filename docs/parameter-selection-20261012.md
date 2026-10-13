@@ -6,6 +6,8 @@
 
 本文把当前已经在 a2 实机验证过的结果、仍待补齐的对照和产品参数建议分开记录。表中的吞吐是服务端阶段计时，通常为 warmup 后三轮中位数，不是正式 P95，也不应与另一台机器或不同 TP 配置的历史数字直接比较。
 
+本文保留逐阶段实验历史。早期的 Graph 失败和“尚未完成112K”记录已被后续门禁结果更新，不代表当前仍有同一故障。当前性能候选为 TP1/48GB、112K、W4A8+C8、MTP2、Decode Graph；它已经可运行，仍需正式质量、尾延迟及 Graph backend 收敛后才能作为产品默认。下面冻结的 MTP1 建议是回退档，不是当前最高 Decode 性能档。
+
 ## 当前产品候选
 
 最新算子候选补充（2026-10-13）：`ac5f191`的大Prefill Gate/Up N=128
@@ -106,7 +108,7 @@ a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144
 
 MTP1 相对无 MTP 的 8K Decode 约提升 24%，近 32K 约提升 19%；Prefill 约持平或略降。MTP2 在这组重复/有利负载上比 MTP1 再快约 26%--28%，但会增加草稿计算、显存和 Graph 形状复杂度，接受率也依赖真实请求，不能用重复文本的 100% 接受率代表业务平均值。
 
-C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段计时：8K/128 Prefill `372.51`、Decode `31.57 tok/s`，32K/128 Prefill `346.04`、Decode `25.68 tok/s`。相对 C8+MTP1，Decode 分别约提升 20% 和 14%，但 Graph 仍在 310P attention 的 `update_graph_params` 阶段失败。因此产品候选仍选 MTP1；MTP2 保留为 eager 实验档，不能作为 Graph 默认。
+C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段计时：8K/128 Prefill `372.51`、Decode `31.57 tok/s`，32K/128 Prefill `346.04`、Decode `25.68 tok/s`。相对 C8+MTP1，Decode 分别约提升 20% 和 14%。当时 Graph 在 310P attention 的 `update_graph_params` 阶段失败，因此该阶段保留 MTP1 默认与 MTP2 eager 实验档；后续使用诊断性 updatable-graph 开关完成了下述 Graph 门禁。
 
 补充的 C8+MTP2+Graph 4K 门禁（2026-10-13）已通过：使用`NUM_SPECULATIVE_TOKENS=2`、capture `[1,2,3]`、`COMPILATION_MODE=0`和诊断性updatable-graph开关，sanity 5/5、严格答案8/8、A/B/A一致、3072-token needle通过。3072/128 unique-prompt三轮Prefill中位`370.43 tok/s`、Decode中位`36.03 tok/s`。这是短上下文可运行证据；MTP2仍依赖实验开关，尚未完成8K/32K/112K容量、真实业务接受率和与MTP1交替复测，产品默认暂不切换。
 
@@ -153,4 +155,4 @@ Prefix cache 的收益取决于请求是否复用完全相同的 token 前缀，
 
 源码调查补充：当前上游 310P `AscendAttentionBackendImpl310.update_graph_params` 直接声明 `NotImplementedError("FIA and PA should be use UpdatableGraph.")`，而 FULL graph 更新流程仍会通过 `impl_cls.update_graph_params` 触达该接口。实验日志中的 `graph_params=None` 因此应先按 310P attention 的 graph 类型/生命周期不匹配排查，不能用跳过更新或强行填全局对象的方式掩盖问题；这也是提交上游前需要请华为确认的具体代码点。
 
-原始日志和结果保留在 a2 的 `qwen36-public-release-20261012` 目录；本仓库只提交复现脚本、汇总和不含权重的代码。所有尚未完成的项目都标为实验性，不把启动成功等同于性能或精度验收。
+早期完整工作目录保留在 a2 的 `qwen36-public-release-20261012`，此前对接目录的记录是历史归档。后续原始数据、关键日志及复现记录统一提交到本仓库 `results/`，结论更新到 `docs/`，不再写入对接文档目录；权重继续由 ModelScope 发布。所有尚未完成的项目都标为实验性，不把启动成功等同于性能或精度验收。

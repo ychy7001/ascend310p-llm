@@ -1,0 +1,42 @@
+{
+  "baseline": "results/n128-product-baseline-n64-20261013/p32256-o128.jsonl",
+  "candidate": "results/n128-product-20261013/p32256-o128.jsonl",
+  "baseline_sha256": "66276ae889bd4bad5d8bc054794b913e264b999cf52ce6061304c7d7e49d13a3",
+  "candidate_sha256": "0496df5ffc3f9995037450df9c8149dc52df5b4bef7a368473a833b61454f6bf",
+  "prompt_tokens": 32256,
+  "output_tokens": 128,
+  "repeats": 3,
+  "recorded_warmup_prompt_equal": true,
+  "measured_prompt_hashes_equal": null,
+  "limits": "Sequential pair; no reliable P95 or business accuracy claim. Measured prompt hashes missing from legacy evidence. Service settings and artifacts must be checked against startup logs.",
+  "prefill": {
+    "baseline_samples_tok_s": [
+      335.7244799069868,
+      336.18489861955175,
+      335.6023708507988
+    ],
+    "candidate_samples_tok_s": [
+      357.5767551249524,
+      357.57549718991777,
+      357.7770716137083
+    ],
+    "baseline_median_tok_s": 335.7244799069868,
+    "candidate_median_tok_s": 357.5767551249524,
+    "median_change_percent": 6.508990712866636
+  },
+  "decode": {
+    "baseline_samples_tok_s": [
+      29.05022846352641,
+      29.07757101051643,
+      29.112053532543595
+    ],
+    "candidate_samples_tok_s": [
+      29.03870442318031,
+      29.045266156386337,
+      29.09431061193102
+    ],
+    "baseline_median_tok_s": 29.07757101051643,
+    "candidate_median_tok_s": 29.045266156386337,
+    "median_change_percent": -0.11109887451881129
+  }
+}

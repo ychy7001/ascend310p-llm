@@ -1,0 +1,41 @@
+{
+  "baseline": "results/n128-product-baseline-n64-20261013/p8192-o128.jsonl",
+  "candidate": "results/n128-product-20261013/p8192-o128.jsonl",
+  "baseline_sha256": "c96678d6bd37fe73b3d162be2eccfe7083adb123de86f61ec2d2b27e69c32b78",
+  "candidate_sha256": "00208361343127aef0ed1f3e4f57df1eb7f0feeeebd6e639ecfd62a196640b37",
+  "prompt_tokens": 8192,
+  "output_tokens": 128,
+  "repeats": 3,
+  "recorded_warmup_prompt_equal": true,
+  "limits": "Sequential pair; no reliable P95 or business accuracy claim. Measured unique prompt IDs are not retained by the source files. Service settings and artifacts must be checked against startup logs.",
+  "prefill": {
+    "baseline_samples_tok_s": [
+      365.4454006624597,
+      364.4467499565987,
+      364.4936102328811
+    ],
+    "candidate_samples_tok_s": [
+      392.31490103027784,
+      391.5909402597231,
+      391.2393609326445
+    ],
+    "baseline_median_tok_s": 364.4936102328811,
+    "candidate_median_tok_s": 391.5909402597231,
+    "median_change_percent": 7.434240070636355
+  },
+  "decode": {
+    "baseline_samples_tok_s": [
+      37.14193617670011,
+      37.091657623675644,
+      37.12222195961611
+    ],
+    "candidate_samples_tok_s": [
+      36.99771863698904,
+      37.02135056485473,
+      37.01237477105787
+    ],
+    "baseline_median_tok_s": 37.12222195961611,
+    "candidate_median_tok_s": 37.01237477105787,
+    "median_change_percent": -0.29590682550667546
+  }
+}
