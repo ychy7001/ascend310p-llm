@@ -33,3 +33,5 @@ workspace-record绑定单矩阵16形状、4次输入更新Graph测试通过。�
 后续门禁：异步混合数值、重复计时→设备端grouped/按M选择→真实服务同协议Prefill/质量回归。若无可重复端到端收益，停止全量迁移。不能把单矩阵大M加速倍数或本表MLP节省直接写成模型Prefill tok/s改善。默认服务参数和权重不变。
 
 注意：部分失败JSONL末尾是前面样本的PASS，必须检查summary；没有summary不能当整组通过。完整MLP Graph Cast报错另见failure-full-mlp-graph-cast.txt。
+
+实验结束恢复原候选端口18024，health HTTP200；英语/中文/代码/数学/重复文本5项64-token基本生成检查通过（candidate-restored-lifetime-sanity.json）。不是MindIEQ模型集成或完整质量复测。
