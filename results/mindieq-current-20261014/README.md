@@ -34,3 +34,7 @@
 | Decode tok/s | 29.185 / 29.153 / 29.136 | **29.153** |
 
 三次请求均通过计数器/usage 校验；MTP 每次 43 drafts、86 drafted、86 accepted，接受率 100%，平均接受长度 3。相对本次 8K 复测，32K Prefill 下降约 12.6%，Decode 下降约 18.7%；这反映长 KV/注意力成本，不能归因于 MindIEQ 单独开销。
+
+## 114560 token 近满长检索
+
+当前服务在 `max_model_len=114688` 下执行 114560 token、输出 14、warmup 1 + 正式 1 次，Prefill **378.373 tok/s**，Decode **17.339 tok/s**，Prefill 阶段耗时 302.770 s，Decode 阶段耗时 0.750 s。MTP 为 5 drafts、10 drafted、10 accepted，接受率 100%，平均接受长度 3；计数器和 usage 校验通过。该请求用于容量和阶段性能确认，未注入专门 needle，因此不能作为检索正确性证明；历史同配置 needle 正确性记录仍见 `results/pr17640-b4096-20261013/` 和 `results/mindieq-native-layout-20261013/`。

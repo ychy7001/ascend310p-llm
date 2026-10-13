@@ -268,3 +268,5 @@ E5共享Gate近112K检索追加通过，同SHA114560输入/14输出正确，297.
 对正在运行的 18024 候选服务做了新的独占 8K/128 复测（TP1/48G/W4A8/C8/MTP2/Graph、GDN PR、MindIEQ native-layout grouped、prefix off、4096/512）。三次 Prefill 为 625.267/625.386/625.149 tok/s，中位 **625.267 tok/s**；Decode 为 35.811/35.867/35.918 tok/s，中位 **35.867 tok/s**。三次 MTP 计数均为 44 drafts、88 drafted、84 accepted，接受率 95.45%，平均接受长度 2.909。原始记录见 `results/mindieq-current-20261014/current-8k-20261014.jsonl`。该复测用于确认当前候选没有回归，不改变历史配对比较的统计口径。
 
 同一 18024 当前候选服务继续完成 32256/128 复测：Prefill 546.851/546.397/545.844 tok/s，中位 **546.397**；Decode 29.185/29.153/29.136 tok/s，中位 **29.153**。三次 MTP 均 43 drafts、86 drafted、86 accepted，接受率 100%，平均接受长度3。相对同一服务本次 8K 复测，长输入 Prefill 约下降12.6%、Decode约下降18.7%。
+
+当前 18024 候选服务完成 114560 token 近满长单次阶段复测：Prefill **378.373 tok/s**（302.770s），Decode **17.339 tok/s**（0.750s），MTP 5 drafts/10 drafted/10 accepted，接受率100%、平均接受长度3，计数器和 usage 校验通过。该次未携带专门 needle，只用于容量和阶段性能；历史近满长检索正确性记录仍单独保留。
