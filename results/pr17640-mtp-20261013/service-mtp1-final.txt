@@ -19,12 +19,12 @@ INFO 10-13 10:20:12 [importing.py:81] Triton not installed or not compatible; ce
 2026-10-13 10:20:14,349 - 1 - ServiceProfiler - INFO - VLLM_USE_V1 not set, auto-detected via vLLM 0.23.0+empty: default 1
 INFO 10-13 10:20:14 [__init__.py:115] Registered model loader `<class 'vllm_ascend.model_loader.netloader.netloader.ModelNetLoaderElastic'>` with load format `netloader`
 INFO 10-13 10:20:14 [__init__.py:115] Registered model loader `<class 'vllm_ascend.model_loader.rfork.rfork_loader.RForkModelLoader'>` with load format `rfork`
-(APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339] 
+(APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339]
 (APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339]        █     █     █▄   ▄█
 (APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.23.0
 (APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339]   █▄█▀ █     █     █     █  model   /model
 (APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
-(APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339] 
+(APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:339]
 (APIServer pid=1) INFO 10-13 10:20:14 [api_utils.py:273] non-default args: {'model_tag': '/model', 'host': '0.0.0.0', 'port': 18024, 'model': '/model', 'dtype': 'float16', 'max_model_len': 114688, 'served_model_name': ['qwen36-w4a8-c8'], 'block_size': 64, 'gpu_memory_utilization': 0.95, 'enable_prefix_caching': False, 'max_num_batched_tokens': 4096, 'max_num_seqs': 1, 'speculative_config': {'method': 'mtp', 'num_speculative_tokens': 1}, 'compilation_config': {'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'vllm_ascend.compilation.compiler_interface.AscendCompiler', 'custom_ops': [], 'ir_enable_torch_wrap': None, 'splitting_ops': None, 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': None, 'compile_ranges_endpoints': None, 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_DECODE_ONLY: (2, 0)>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [1, 2], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': None, 'pass_config': {}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': None, 'static_all_moe_layers': []}}
 (APIServer pid=1) INFO 10-13 10:20:20 [model.py:611] Resolved architecture: Qwen3_5MoeForConditionalGeneration
 (APIServer pid=1) WARNING 10-13 10:20:20 [model.py:2083] Casting torch.bfloat16 to torch.float16.
@@ -109,53 +109,99 @@ INFO 10-13 10:20:51 [importing.py:81] Triton not installed or not compatible; ce
 (EngineCore pid=216) INFO 10-13 10:20:58 [qwen_gdn_linear_attn.py:228] Using Triton/FLA GDN prefill kernel (requested=auto, head_k_dim=128).
 (EngineCore pid=216) INFO 10-13 10:20:58 [weight_utils.py:922] Filesystem type for checkpoints: EXT4. Checkpoint size: 22.92 GiB. Available RAM: 17.18 GiB.
 (EngineCore pid=216) INFO 10-13 10:20:58 [weight_utils.py:952] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre) and the checkpoint size (22.92 GiB) exceeds 90% of available RAM (17.18 GiB).
-(EngineCore pid=216) Loading safetensors checkpoint shards:   0% Completed | 0/52 [00:00<?, ?it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   2% Completed | 1/52 [00:00<00:47,  1.08it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   4% Completed | 2/52 [00:07<03:44,  4.49s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   6% Completed | 3/52 [00:08<02:18,  2.82s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   8% Completed | 4/52 [00:09<01:44,  2.17s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  10% Completed | 5/52 [00:10<01:08,  1.45s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  12% Completed | 6/52 [00:19<03:07,  4.07s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  13% Completed | 7/52 [00:19<02:06,  2.80s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  15% Completed | 8/52 [00:28<03:31,  4.82s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  17% Completed | 9/52 [00:28<02:24,  3.36s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  19% Completed | 10/52 [00:37<03:37,  5.17s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  21% Completed | 11/52 [00:38<02:30,  3.66s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  23% Completed | 12/52 [00:48<03:51,  5.79s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  27% Completed | 14/52 [00:52<02:25,  3.83s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  29% Completed | 15/52 [00:52<01:48,  2.93s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  31% Completed | 16/52 [01:02<02:54,  4.84s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  35% Completed | 18/52 [01:05<01:55,  3.40s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  37% Completed | 19/52 [01:05<01:27,  2.66s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  38% Completed | 20/52 [01:16<02:27,  4.60s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  42% Completed | 22/52 [01:18<01:38,  3.30s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  44% Completed | 23/52 [01:19<01:15,  2.59s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  46% Completed | 24/52 [01:27<01:55,  4.12s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  50% Completed | 26/52 [01:32<01:25,  3.30s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  52% Completed | 27/52 [01:32<01:05,  2.60s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  54% Completed | 28/52 [01:41<01:39,  4.15s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  58% Completed | 30/52 [01:45<01:13,  3.35s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  60% Completed | 31/52 [01:46<00:55,  2.64s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  62% Completed | 32/52 [01:56<01:30,  4.53s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  65% Completed | 34/52 [01:59<00:58,  3.26s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  67% Completed | 35/52 [01:59<00:43,  2.57s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  69% Completed | 36/52 [02:10<01:13,  4.60s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  73% Completed | 38/52 [02:13<00:47,  3.37s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  75% Completed | 39/52 [02:13<00:34,  2.65s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  77% Completed | 40/52 [02:23<00:51,  4.29s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  81% Completed | 42/52 [02:27<00:34,  3.48s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  83% Completed | 43/52 [02:27<00:24,  2.73s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  85% Completed | 44/52 [02:36<00:33,  4.16s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  87% Completed | 45/52 [02:36<00:21,  3.13s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  88% Completed | 46/52 [02:45<00:28,  4.74s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  90% Completed | 47/52 [02:46<00:17,  3.47s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  92% Completed | 48/52 [02:55<00:20,  5.08s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  94% Completed | 49/52 [02:55<00:10,  3.65s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  96% Completed | 50/52 [03:02<00:09,  4.79s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  98% Completed | 51/52 [03:04<00:03,  4.00s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards: 100% Completed | 52/52 [03:06<00:00,  3.24s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards: 100% Completed | 52/52 [03:06<00:00,  3.58s/it]
-(EngineCore pid=216) 
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   0% Completed | 0/52 [00:00<?, ?it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   2% Completed | 1/52 [00:00<00:47,  1.08it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   4% Completed | 2/52 [00:07<03:44,  4.49s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   6% Completed | 3/52 [00:08<02:18,  2.82s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   8% Completed | 4/52 [00:09<01:44,  2.17s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  10% Completed | 5/52 [00:10<01:08,  1.45s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  12% Completed | 6/52 [00:19<03:07,  4.07s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  13% Completed | 7/52 [00:19<02:06,  2.80s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  15% Completed | 8/52 [00:28<03:31,  4.82s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  17% Completed | 9/52 [00:28<02:24,  3.36s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  19% Completed | 10/52 [00:37<03:37,  5.17s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  21% Completed | 11/52 [00:38<02:30,  3.66s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  23% Completed | 12/52 [00:48<03:51,  5.79s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  27% Completed | 14/52 [00:52<02:25,  3.83s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  29% Completed | 15/52 [00:52<01:48,  2.93s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  31% Completed | 16/52 [01:02<02:54,  4.84s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  35% Completed | 18/52 [01:05<01:55,  3.40s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  37% Completed | 19/52 [01:05<01:27,  2.66s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  38% Completed | 20/52 [01:16<02:27,  4.60s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  42% Completed | 22/52 [01:18<01:38,  3.30s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  44% Completed | 23/52 [01:19<01:15,  2.59s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  46% Completed | 24/52 [01:27<01:55,  4.12s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  50% Completed | 26/52 [01:32<01:25,  3.30s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  52% Completed | 27/52 [01:32<01:05,  2.60s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  54% Completed | 28/52 [01:41<01:39,  4.15s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  58% Completed | 30/52 [01:45<01:13,  3.35s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  60% Completed | 31/52 [01:46<00:55,  2.64s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  62% Completed | 32/52 [01:56<01:30,  4.53s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  65% Completed | 34/52 [01:59<00:58,  3.26s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  67% Completed | 35/52 [01:59<00:43,  2.57s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  69% Completed | 36/52 [02:10<01:13,  4.60s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  73% Completed | 38/52 [02:13<00:47,  3.37s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  75% Completed | 39/52 [02:13<00:34,  2.65s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  77% Completed | 40/52 [02:23<00:51,  4.29s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  81% Completed | 42/52 [02:27<00:34,  3.48s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  83% Completed | 43/52 [02:27<00:24,  2.73s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  85% Completed | 44/52 [02:36<00:33,  4.16s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  87% Completed | 45/52 [02:36<00:21,  3.13s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  88% Completed | 46/52 [02:45<00:28,  4.74s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  90% Completed | 47/52 [02:46<00:17,  3.47s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  92% Completed | 48/52 [02:55<00:20,  5.08s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  94% Completed | 49/52 [02:55<00:10,  3.65s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  96% Completed | 50/52 [03:02<00:09,  4.79s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  98% Completed | 51/52 [03:04<00:03,  4.00s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards: 100% Completed | 52/52 [03:06<00:00,  3.24s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards: 100% Completed | 52/52 [03:06<00:00,  3.58s/it]
+(EngineCore pid=216)
 (EngineCore pid=216) INFO 10-13 10:24:05 [default_loader.py:397] Loading weights took 186.39 seconds
 (EngineCore pid=216) INFO 10-13 10:24:05 [model_runner_v1.py:3745] Loading drafter model...
 (EngineCore pid=216) INFO 10-13 10:24:05 [vllm.py:999] Asynchronous scheduling is enabled.
@@ -177,27 +223,47 @@ INFO 10-13 10:20:51 [importing.py:81] Triton not installed or not compatible; ce
 (EngineCore pid=216)   gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
 (EngineCore pid=216) INFO 10-13 10:24:08 [weight_utils.py:922] Filesystem type for checkpoints: EXT4. Checkpoint size: 22.92 GiB. Available RAM: 18.78 GiB.
 (EngineCore pid=216) INFO 10-13 10:24:08 [weight_utils.py:952] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre) and the checkpoint size (22.92 GiB) exceeds 90% of available RAM (18.78 GiB).
-(EngineCore pid=216) Loading safetensors checkpoint shards:   0% Completed | 0/52 [00:00<?, ?it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   2% Completed | 1/52 [00:02<01:45,  2.07s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   4% Completed | 2/52 [00:02<01:08,  1.37s/it]
-(EngineCore pid=216) Loading safetensors checkpoint shards:   8% Completed | 4/52 [00:03<00:27,  1.72it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  12% Completed | 6/52 [00:04<00:25,  1.80it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  15% Completed | 8/52 [00:05<00:24,  1.83it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  19% Completed | 10/52 [00:06<00:23,  1.82it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  25% Completed | 13/52 [00:06<00:12,  3.10it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  31% Completed | 16/52 [00:07<00:10,  3.37it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  35% Completed | 18/52 [00:07<00:09,  3.75it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  38% Completed | 20/52 [00:08<00:12,  2.66it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  46% Completed | 24/52 [00:09<00:07,  3.99it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  54% Completed | 28/52 [00:09<00:04,  5.70it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  62% Completed | 32/52 [00:09<00:02,  7.72it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  73% Completed | 38/52 [00:09<00:01, 12.16it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  79% Completed | 41/52 [00:09<00:00, 13.87it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  88% Completed | 46/52 [00:10<00:00, 17.81it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards:  94% Completed | 49/52 [00:12<00:00,  4.88it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards: 100% Completed | 52/52 [00:13<00:00,  3.94it/s]
-(EngineCore pid=216) Loading safetensors checkpoint shards: 100% Completed | 52/52 [00:13<00:00,  3.89it/s]
-(EngineCore pid=216) 
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   0% Completed | 0/52 [00:00<?, ?it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   2% Completed | 1/52 [00:02<01:45,  2.07s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   4% Completed | 2/52 [00:02<01:08,  1.37s/it]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:   8% Completed | 4/52 [00:03<00:27,  1.72it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  12% Completed | 6/52 [00:04<00:25,  1.80it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  15% Completed | 8/52 [00:05<00:24,  1.83it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  19% Completed | 10/52 [00:06<00:23,  1.82it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  25% Completed | 13/52 [00:06<00:12,  3.10it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  31% Completed | 16/52 [00:07<00:10,  3.37it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  35% Completed | 18/52 [00:07<00:09,  3.75it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  38% Completed | 20/52 [00:08<00:12,  2.66it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  46% Completed | 24/52 [00:09<00:07,  3.99it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  54% Completed | 28/52 [00:09<00:04,  5.70it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  62% Completed | 32/52 [00:09<00:02,  7.72it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  73% Completed | 38/52 [00:09<00:01, 12.16it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  79% Completed | 41/52 [00:09<00:00, 13.87it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  88% Completed | 46/52 [00:10<00:00, 17.81it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards:  94% Completed | 49/52 [00:12<00:00,  4.88it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards: 100% Completed | 52/52 [00:13<00:00,  3.94it/s]
+(EngineCore pid=216)
+Loading safetensors checkpoint shards: 100% Completed | 52/52 [00:13<00:00,  3.89it/s]
+(EngineCore pid=216)
 (EngineCore pid=216) INFO 10-13 10:24:22 [default_loader.py:397] Loading weights took 13.41 seconds
 (EngineCore pid=216) INFO 10-13 10:24:22 [llm_base_proposer.py:440] [spec_decode/base] Detected MTP model. Sharing target model embedding weights with the draft model.
 (EngineCore pid=216) INFO 10-13 10:24:22 [llm_base_proposer.py:496] [spec_decode/base] Wrapping draft model with ACLGraphWrapper: runtime_mode=FULL, use_eagle=True, enable_enpu=False
@@ -221,7 +287,8 @@ INFO 10-13 10:20:51 [importing.py:81] Triton not installed or not compatible; ce
 (EngineCore pid=216) C8_STORAGE layer=language_model.model.layers.35.self_attn.attn slots=133632 data_scale_bytes=145391616 allocated_bytes=145391616 charged_bytes=145391616 avoided_padding_bytes=0
 (EngineCore pid=216) C8_STORAGE layer=language_model.model.layers.39.self_attn.attn slots=133632 data_scale_bytes=145391616 allocated_bytes=145391616 charged_bytes=145391616 avoided_padding_bytes=0
 (EngineCore pid=216) C8_STORAGE layer=mtp.layers.0.self_attn.attn slots=133632 data_scale_bytes=145391616 allocated_bytes=145391616 charged_bytes=145391616 avoided_padding_bytes=0
-(EngineCore pid=216) Capturing CUDA graphs (decode, FULL):   0%|          | 0/1 [00:00<?, ?it/s].(EngineCore pid=216) C8_FORWARD layer=language_model.model.layers.3.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
+(EngineCore pid=216)
+Capturing CUDA graphs (decode, FULL):   0%|          | 0/1 [00:00<?, ?it/s].(EngineCore pid=216) C8_FORWARD layer=language_model.model.layers.3.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
 (EngineCore pid=216) C8_SCRATCH shared_bytes=234881024 context=114688
 (EngineCore pid=216) C8_FORWARD layer=language_model.model.layers.7.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
 (EngineCore pid=216) C8_FORWARD layer=language_model.model.layers.11.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
@@ -233,7 +300,9 @@ INFO 10-13 10:20:51 [importing.py:81] Triton not installed or not compatible; ce
 (EngineCore pid=216) C8_FORWARD layer=language_model.model.layers.35.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
 (EngineCore pid=216) C8_FORWARD layer=language_model.model.layers.39.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
 (EngineCore pid=216) C8_FORWARD layer=mtp.layers.0.self_attn.attn k_dtype=torch.int8 scale_dtype=torch.float16 state=AscendAttentionState.SpecDecoding
-Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:00<00:00,  3.09it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:00<00:00,  3.08it/s]
+
+Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:00<00:00,  3.09it/s]
+Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:00<00:00,  3.08it/s]
 (EngineCore pid=216) INFO 10-13 10:26:06 [gpu_model_runner.py:6585] Graph capturing finished in 1 secs, took 0.31 GiB
 (EngineCore pid=216) INFO 10-13 10:26:06 [worker.py:771] Free memory on device (41.98/43.24 GiB) on startup. Desired GPU memory utilization is (0.95, 41.08 GiB). Actual usage: 27.29 GiB for weights, 2.75 GiB for peak activation, 0.19 GiB for non-torch memory, 0.31 GiB for NPU graph memory. Replace gpu_memory_utilization with `--kv-cache-memory=11169128857` (10.4 GiB) to fit into requested memory, or `--kv-cache-memory=12136886272` (11.3 GiB) to fully utilize NPU free memory. Current KV cache memory: 4.3 GiB.
 (EngineCore pid=216) INFO 10-13 10:26:06 [worker_310p.py:127] Skip warm-up atb ops for 310P device.
@@ -288,7 +357,7 @@ INFO 10-13 10:20:51 [importing.py:81] Triton not installed or not compatible; ce
 (APIServer pid=1) INFO:     127.0.0.1:51030 - "GET /metrics HTTP/1.1" 200 OK
 (APIServer pid=1) INFO:     127.0.0.1:51034 - "GET /metrics HTTP/1.1" 200 OK
 (APIServer pid=1) INFO:     127.0.0.1:51044 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-(EngineCore pid=216) WARNING 10-13 10:26:33 [sampler.py:55] [sample/sampler] Triton not available, falling back to vLLM default penalty implementation. Penalty performance may be degraded on NPU. 
+(EngineCore pid=216) WARNING 10-13 10:26:33 [sampler.py:55] [sample/sampler] Triton not available, falling back to vLLM default penalty implementation. Penalty performance may be degraded on NPU.
 (EngineCore pid=216) INFO 10-13 10:26:33 [acl_graph.py:243] Replaying aclgraph
 (APIServer pid=1) INFO:     127.0.0.1:58512 - "GET /metrics HTTP/1.1" 200 OK
 (APIServer pid=1) INFO:     127.0.0.1:58526 - "GET /metrics HTTP/1.1" 200 OK
