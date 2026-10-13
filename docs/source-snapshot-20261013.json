@@ -1,6 +1,6 @@
 {
   "description": "2026-10-13核心运行、构建与实验适配源码；不含二进制、不代表所有实验均验收",
-  "base_commit": "d996b8a089667553045d621294dc5ca2440136a2",
+  "base_commit": "36acedb02b63f4cb5225ccc765a2ad6f6b0f8514",
   "files": {
     "bootstrap/sitecustomize.py": "77d5888394944b06826bf30b999486769f05b5b40d11d564397e28975eb78268",
     "bootstrap/w4_fake.py": "bf1267c4049892c1b166f788a1a88ab5ecdae3c24674147a084c3630ff23231c",
@@ -90,7 +90,7 @@
     "runtime/vllm_ascend/models/qwen4_exp/w4a8_int4.py": "d79755f02e705ef527448b92350fb31448d8db8170363ebb5041addf084ea31c",
     "runtime/vllm_ascend/models/qwen4_exp/weight_mapping.py": "e807cdd7e07f03b606c7d9d9921ef1bde9c9fa1ea695aca939cbac6ce82530d6",
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
-    "scripts/run-candidate.sh": "9ed97fafd49814f0e30ca8d75226beb942ec6e253f4797be7a11f1aeb23187e6",
+    "scripts/run-candidate.sh": "e457400ac66c6de79930f0302ee7139f0bb95658ff96ccd60a1466f1f81c9453",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
     "tools/bench_mindieq_grouped_310.py": "9842cadbdb64b0114c1b1e1232d7a18d9a8c89524b2110d0c5832257fbd5343d",
     "tools/bench_mindieq_mlp_310.py": "5aa0b5c8a6d2ef312664a34e851dec345bb764d5e9873b1985d96da850ca1711",

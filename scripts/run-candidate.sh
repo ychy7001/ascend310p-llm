@@ -13,6 +13,18 @@ name=${CONTAINER_NAME:-qwen36-tp1-48g-112k}
 source "$root/configs/tp1-48g-112k.env"
 export ENABLE_PREFIX_CACHING="$prefix" PORT="$port" CONTAINER_NAME="$name"
 [[ "$prefix" == 0 || "$prefix" == 1 ]] || { echo "ENABLE_PREFIX_CACHING must be 0 or 1" >&2; exit 2; }
+mindieq=${QWEN36_MINDIEQ_ENABLED:-0}
+custom_quant=${QWEN36_MINDIEQ_CUSTOM_QUANT:-0}
+for flag in "$mindieq" "$custom_quant"; do
+  [[ "$flag" == 0 || "$flag" == 1 ]] || { echo 'MindIEQ flags must be 0 or 1' >&2; exit 2; }
+done
+if [[ "$custom_quant" == 1 && "$mindieq" != 1 ]]; then
+  echo 'QWEN36_MINDIEQ_CUSTOM_QUANT=1 requires QWEN36_MINDIEQ_ENABLED=1' >&2; exit 2
+fi
+if [[ "$mindieq" == 1 ]]; then
+  : "${MINDIEQ_LIBRARY:?set MindIEQ experiment library}"
+  [[ -r "$MINDIEQ_LIBRARY" ]] || { echo "Missing artifact: $MINDIEQ_LIBRARY" >&2; exit 2; }
+fi
 : "${MODEL_DIR:?}" "${OPP_DIR:?}" "${EXTENSION:?}" "${C8_LIBRARY:?}"
 : "${GDN_OPP_DIR:?}" "${GDN_LIBRARY:?}" "${GDN_SOURCE:?}"
 for path in "$MODEL_DIR/model.safetensors.index.json" "$EXTENSION" "$C8_LIBRARY" "$GDN_LIBRARY" "$GDN_SOURCE"; do

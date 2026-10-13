@@ -1,0 +1,14 @@
+{
+  "source_base_commit": "36acedb",
+  "library_sha256": "246cc4656cf401cc01586628bf018c2132251d9e22db2fb93ad17ddba8685de0",
+  "sources": {
+    "experimental/mindieq_grouped_kernel/activation_quant.cpp": "f3fd79ac96c8d8ee85697bb0e8fa47419126771fd6001c5160c42fcb75072627",
+    "experimental/mindieq_grouped_kernel/register.cpp": "3e2d59bd2f14d8bed3400d752386fbb018c07994f6651a38146f71f04329e20d",
+    "experimental/mindieq_prefill_adapter.py": "0460a171cb7d464cecf57199622dd163da71c6dfcaed19cfbcf96b2a4dddd783",
+    "tools/eval_gsm8k_http.py": "2bdcb11bf10153c3f82a77d5647a5746fe3af7ab305a3007eadb4479e2585a93",
+    "tools/bench_server_phases.py": "b3cc12064808e192d53aff5c9d6d11c94ed198794220eba49f52495500995540",
+    "scripts/run-candidate.sh": "e457400ac66c6de79930f0302ee7139f0bb95658ff96ccd60a1466f1f81c9453",
+    "results/mindieq-a8-service-20261014/run-service-gates.sh": "11e62adaab36138cfcb645729ac7bf2fd209d2a89ab207d7b50aec9a1af40e17"
+  },
+  "preflight_note": "run-candidate新增仅错误开关/缺失库检查，实际运行模型路径不变，preflight随后复核"
+}

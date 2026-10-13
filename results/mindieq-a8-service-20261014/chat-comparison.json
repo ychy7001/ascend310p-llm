@@ -1,0 +1,197 @@
+{
+  "scope": "历史同配置业务输入对照，未交替重启；256输出上限，非质量评分",
+  "cases": [
+    {
+      "case": "dialogue",
+      "stats": {
+        "native": {
+          "ttft_s": 0.396490458981134,
+          "decode_tok_s": 31.316484232167802,
+          "elapsed_s": 8.53929559304379,
+          "acceptance_rate": 0.6173913043478261
+        },
+        "C3": {
+          "ttft_s": 0.4661015440360643,
+          "decode_tok_s": 31.547198646581265,
+          "elapsed_s": 8.54888632899383,
+          "acceptance_rate": 0.6371681415929203
+        }
+      },
+      "relative_change": {
+        "ttft_s": 0.17556812144688339,
+        "decode_tok_s": 0.007367187603277481,
+        "elapsed_s": 0.0011231296358746867
+      },
+      "prompt_tokens": 45,
+      "completion_tokens": {
+        "native": [
+          256,
+          256,
+          256
+        ],
+        "C3": [
+          256,
+          256,
+          256
+        ]
+      },
+      "finish_reason": {
+        "native": [
+          "length",
+          "length",
+          "length"
+        ],
+        "C3": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "identical_texts": 0
+    },
+    {
+      "case": "meeting",
+      "stats": {
+        "native": {
+          "ttft_s": 2.1688442450249568,
+          "decode_tok_s": 39.2246982942934,
+          "elapsed_s": 5.892454807006288,
+          "acceptance_rate": 0.9411764705882353
+        },
+        "C3": {
+          "ttft_s": 1.9205547940218821,
+          "decode_tok_s": 39.071409095371486,
+          "elapsed_s": 5.605017557973042,
+          "acceptance_rate": 0.95
+        }
+      },
+      "relative_change": {
+        "ttft_s": -0.11448007461698462,
+        "decode_tok_s": -0.0039079764940910255,
+        "elapsed_s": -0.04878056064027436
+      },
+      "prompt_tokens": 962,
+      "completion_tokens": {
+        "native": [
+          147,
+          147,
+          147
+        ],
+        "C3": [
+          145,
+          145,
+          145
+        ]
+      },
+      "finish_reason": {
+        "native": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "C3": [
+          "stop",
+          "stop",
+          "stop"
+        ]
+      },
+      "identical_texts": 0
+    },
+    {
+      "case": "code",
+      "stats": {
+        "native": {
+          "ttft_s": 0.33778159599751234,
+          "decode_tok_s": 39.30470027150394,
+          "elapsed_s": 6.825248720007949,
+          "acceptance_rate": 0.9222222222222223
+        },
+        "C3": {
+          "ttft_s": 0.40798237500712276,
+          "decode_tok_s": 38.619790719555546,
+          "elapsed_s": 7.013621886027977,
+          "acceptance_rate": 0.9010989010989011
+        }
+      },
+      "relative_change": {
+        "ttft_s": 0.207828904361407,
+        "decode_tok_s": -0.017425639865391807,
+        "elapsed_s": 0.02759945809268749
+      },
+      "prompt_tokens": 30,
+      "completion_tokens": {
+        "native": [
+          256,
+          256,
+          256
+        ],
+        "C3": [
+          256,
+          256,
+          256
+        ]
+      },
+      "finish_reason": {
+        "native": [
+          "length",
+          "length",
+          "length"
+        ],
+        "C3": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "identical_texts": 0
+    },
+    {
+      "case": "analysis",
+      "stats": {
+        "native": {
+          "ttft_s": 0.3840049490099773,
+          "decode_tok_s": 34.18879996654973,
+          "elapsed_s": 7.842917917994782,
+          "acceptance_rate": 0.7259615384615384
+        },
+        "C3": {
+          "ttft_s": 0.4643167739850469,
+          "decode_tok_s": 33.793668901925635,
+          "elapsed_s": 8.017778097011615,
+          "acceptance_rate": 0.7238095238095238
+        }
+      },
+      "relative_change": {
+        "ttft_s": 0.2091426820985658,
+        "decode_tok_s": -0.011557324767487942,
+        "elapsed_s": 0.022295296322766944
+      },
+      "prompt_tokens": 42,
+      "completion_tokens": {
+        "native": [
+          256,
+          256,
+          256
+        ],
+        "C3": [
+          256,
+          256,
+          256
+        ]
+      },
+      "finish_reason": {
+        "native": [
+          "length",
+          "length",
+          "length"
+        ],
+        "C3": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "identical_texts": 0
+    }
+  ]
+}

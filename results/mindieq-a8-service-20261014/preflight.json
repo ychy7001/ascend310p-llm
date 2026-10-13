@@ -1,0 +1,32 @@
+{
+  "profile": "# SPDX-License-Identifier: Apache-2.0\n# 已测单流实验候选；路径由调用者环境提供。\nexport QWEN36_PROFILE=mtp2\nexport MAX_BATCHED_TOKENS=4096\nexport QWEN36_GROUPED_CHUNK_TOKENS=512\nexport ENABLE_PREFIX_CACHING=0\nexport PORT=18024\nexport CONTAINER_NAME=qwen36-tp1-48g-112k\n",
+  "artifacts": {
+    "EXTENSION": {
+      "path": "/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/clean-build/artifacts/qwen36_int4_custom.so",
+      "sha256": "a8ac855968ddc3a56db676c1ac8dd9a8657dbae2fffb28c4276ddb7fef4b5950"
+    },
+    "C8_LIBRARY": {
+      "path": "/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/c8-device-length-build/output/libqwen36_c8.so",
+      "sha256": "85f383cfab4e1f5595394bb1317febfcc65b7b04815c55e8a39ab8b94c3f05e1"
+    },
+    "GDN_LIBRARY": {
+      "path": "/home/ychy/ascend-lab-runtime/mindieq-r3-20261013/gdn-extension/pr17640_gdn.so",
+      "sha256": "7a8004d28f5f488f36a142b3ec453ea1df5ac8396e7244d787ffa10bfbb92047"
+    },
+    "GDN_SOURCE": {
+      "path": "/home/ychy/ascend-lab-runtime/mindieq-r3-20261013/pr17640/vllm_ascend/_310p/ops/fla/chunk_gated_delta_rule.py",
+      "sha256": "3b9bc0eb2e2e9d944316858df1efaea72776e7221b5eb1640db4a719b985accb"
+    },
+    "MINDIEQ_LIBRARY": {
+      "path": "/home/ychy/ascend-lab-runtime/mindieq-r3-20261013/grouped-a8-build-v2/output/libqwen36_mindieq_grouped.so",
+      "sha256": "246cc4656cf401cc01586628bf018c2132251d9e22db2fb93ad17ddba8685de0"
+    },
+    "MODEL_INDEX": {
+      "sha256": "3f38112c8fc6e4f247e3c05b91df43e487e94ac7e8cf7787a01728cc87d47624"
+    }
+  },
+  "prefix": "0",
+  "mindieq_prefill": "1",
+  "mindieq_custom_quant": "1",
+  "port": "18024"
+}

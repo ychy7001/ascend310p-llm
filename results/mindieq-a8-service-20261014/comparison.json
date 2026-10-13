@@ -1,0 +1,92 @@
+{
+  "scope": "C3与同日A1旧结果对照，未进行新量化器交替A/B；单流/prefix off/warmup1/repeats3/phase counter",
+  "quality": {
+    "A1": {
+      "kind": "summary",
+      "label": "A1",
+      "samples": 64,
+      "correct": 63,
+      "parse_missing": 1,
+      "truncated": 1
+    },
+    "C3": {
+      "kind": "summary",
+      "label": "C3-custom-a8",
+      "samples": 64,
+      "correct": 63,
+      "parse_missing": 1,
+      "truncated": 1
+    },
+    "answer_changes": [],
+    "identical_texts": 26,
+    "limitation": "64题固定零样本子集，非完整GSM8K或全面质量证明"
+  },
+  "performance": [
+    {
+      "prompt_tokens": 8192,
+      "output_tokens": 128,
+      "stats": {
+        "A1": {
+          "prefill_tok_s": 502.9361100986431,
+          "decode_tok_s": 37.03838147950406,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0
+        },
+        "C3": {
+          "prefill_tok_s": 607.0191334099732,
+          "decode_tok_s": 34.73363816144907,
+          "acceptance_rate": 0.9296296296296296,
+          "mean_acceptance_length": 2.859259259259259
+        }
+      },
+      "relative_change": {
+        "prefill_tok_s": 0.2069507860370492,
+        "decode_tok_s": -0.062225810793875125
+      },
+      "identical_texts": 1
+    },
+    {
+      "prompt_tokens": 32256,
+      "output_tokens": 128,
+      "stats": {
+        "A1": {
+          "prefill_tok_s": 450.3547642198236,
+          "decode_tok_s": 29.1055987933878,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0
+        },
+        "C3": {
+          "prefill_tok_s": 533.0574801418268,
+          "decode_tok_s": 28.952975593031628,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0
+        }
+      },
+      "relative_change": {
+        "prefill_tok_s": 0.1836390385816702,
+        "decode_tok_s": -0.0052437746235560745
+      },
+      "identical_texts": 3
+    }
+  ],
+  "long_request": {
+    "C3": {
+      "kind": "result",
+      "elapsed_s": 303.26394517399604,
+      "text": "\n\n<think>\n\n</think>\n\nASCEND732941",
+      "expected": "ASCEND732941",
+      "retrieved": true,
+      "usage": {
+        "prompt_tokens": 114560,
+        "total_tokens": 114574,
+        "completion_tokens": 14,
+        "prompt_tokens_details": null
+      },
+      "finish_reason": "stop"
+    },
+    "A1_historical_elapsed_s": 348.94114446797175,
+    "relative_elapsed_change": -0.1309023026322088,
+    "limitation": "单次检索canary总时间，不是112K持续Decode吞吐或最长上下文证明",
+    "post_sanity": "PASS 5/5"
+  }
+}

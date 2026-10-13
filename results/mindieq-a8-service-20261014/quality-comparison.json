@@ -1,0 +1,21 @@
+{
+  "reference": {
+    "kind": "summary",
+    "label": "A1",
+    "samples": 64,
+    "correct": 63,
+    "parse_missing": 1,
+    "truncated": 1
+  },
+  "candidate": {
+    "kind": "summary",
+    "label": "C3-custom-a8",
+    "samples": 64,
+    "correct": 63,
+    "parse_missing": 1,
+    "truncated": 1
+  },
+  "answer_changes": [],
+  "identical_texts": 26,
+  "limitation": "small fixed subset; not comprehensive quality or statistical equivalence"
+}

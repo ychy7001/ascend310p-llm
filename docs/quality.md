@@ -52,3 +52,8 @@ experimentally verified：TP1/W4A8/C8 fused write/split_by_type/MTP1/eager/32K/.
 ## N128 / 112K / C8 / MTP2 / Graph 子集回归
 
 2026-10-13完成相同数据集SHA、seed310、32题indices、temperature0、thinking关闭、512token上限的回归：31/32，parse_missing=1、truncated=1；唯一未得分题index205在512tokens处截断。该结果不证明与MTP1精度等价，也不是全面GSM8K成绩。完整响应和服务日志见`results/n128-quality-20261013/`。首次客户端执行只留下1题，没有summary，未计入完整结果；另以新文件完成32题，保留了首次文件而没有覆盖。
+
+
+## 2026-10-14 MindIEQ固定64题配对
+
+旧dynamic_quant路径B0与原native A1分别62/64、63/64，新增711因512输出上限截断，不能据Prefill收益直接默认采用。随后新FP32算术A8准备C3在相同dataset SHA、seed310/64indices/512上限、零样本提示协议下达到63/64，与A1数字答案变化0；711正常输出6，唯一共同205仍截断。全文26/64一致；这属于小样本配对，非完整GSM8K或精度完全等价。证据见results/mindieq-paired-20261014与results/mindieq-a8-service-20261014。

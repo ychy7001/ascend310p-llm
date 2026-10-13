@@ -38,3 +38,12 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 ```
 
 新清单须随被追踪文件的修改同步维护，并通过上述命令；不要重写首发历史清单。Git记录说明每轮实际修改与测量依据。代码来源及许可证见[provenance](provenance.md)和NOTICE。
+
+
+## 可选MindIEQ Prefill路径
+
+`experimental/mindieq_prefill_adapter.py`仅替换TP1大于16token的grouped routed experts，复用现有signed W4权重；Decode仍走native。`experimental/mindieq_grouped_kernel/`提供一次launch设备端专家调度、外部MindIEQ矩阵类及自有A8量化。`tools/prepare_mindieq_grouped_header.py`对固定外部构建树生成隔离头，不把外部代码复制进公开仓库。来源与CANN许可要求见NOTICE。
+
+两个显式开关：QWEN36_MINDIEQ_ENABLED开启实验后端，QWEN36_MINDIEQ_CUSTOM_QUANT选择FP32算术A8准备；默认均off。新版量化需要含quantize接口的新库。仅已发布SSZ per-channel checkpoint、TP1、FP16输入和K512/2048经过测试；不支持任意独立group-wise权重、TP2 C8、多模态或并发批处理。`scripts/run-candidate.sh --check`拒绝无效开关组合/缺失库，并输出制品hash，不初始化NPU。
+
+旧dynamic_quant版本B/A/B已证明Prefill收益但出现额外截断和8K接受率下降，保留实验选项；新A8版本的模型结果见results/mindieq-a8-service-20261014，不根据单算子测试宣称默认采用。
