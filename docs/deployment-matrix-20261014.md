@@ -91,6 +91,7 @@ MAX_MODEL_LEN=32768 MEMORY_UTILIZATION=0.90 ENFORCE_EAGER=1 \
 - Decode 的主要成本仍是长 KV/Attention、C8 转换和调度；MindIEQ 没有证明稳定的 Decode 提升。
 - C8、Graph 和 GDN 均依赖实验性外部制品或 monkeypatch；默认启动器保留开关，不能称为官方 backend 支持。
 - 长请求生命周期仍有独立风险：一次 64K 原始 W4 对照完成后观察到 Engine 保持 `Running: 1 reqs`/约 14.9% KV usage，后续长请求未及时调度；重启容器并完成 512/32 恢复探针后恢复正常。该问题见 `results/long-request-lifecycle-20261014/`，在修复前不能宣称连续长请求稳定。
+- 32K 两轮连续交替（MindIEQ/原始 W4 各 2 次）均完成并回到 `Running: 0 reqs`，因此当前残留风险集中在 64K 及以上路径，但没有足够样本把 64K 写成精确阈值。
 - 尚未完成：同条件 W8A8 交替 A/B、TP2 C8、32G 实机、并发 2/4/8 的完整矩阵、P50/P95、正式质量集合及多模态；MindIEQ 目前仍保持可选分流。
 
 ## 并发边界
