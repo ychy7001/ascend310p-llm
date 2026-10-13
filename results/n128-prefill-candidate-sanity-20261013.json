@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "model": "qwen36-w4a8",
+  "cases": 5,
+  "issues": [],
+  "rows": [
+    {
+      "label": "english",
+      "elapsed_s": 3.2377958760480396,
+      "text": "INT4 weights are half the size of standard INT8 weights, allowing significantly more data to fit within the same memory capacity. This reduction in weight size directly decreases the total volume of data that must be transferred from memory to the processor during inference. Consequently, the system spends less time waiting for data, thereby lowering memory bandwidth",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "中文",
+      "elapsed_s": 3.2194861200405285,
+      "text": "INT4 将模型权重的精度从传统的 16 位或 32 位大幅压缩至 4 位，使得单个权重的数据体积缩小为原来的四分之一或八分之一。\n\n这种数据量的显著减少直接降低了模型参数在存储器和计算单元之间传输所需的字节数，",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "code",
+      "elapsed_s": 1.8844234750140458,
+      "text": "```python\ndef sum_list(numbers: list[int]) -> int:\n    \"\"\"Return the sum of a list of integers.\"\"\"\n    return sum(numbers)\n```",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 61,
+        "completion_tokens": 35,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "issues": []
+    },
+    {
+      "label": "math",
+      "elapsed_s": 3.2308972500031814,
+      "text": "To compute $37 \\times 19$, we can use the standard vertical multiplication method or the distributive property. Below is the step-by-step arithmetic using the vertical multiplication method.\n\n### Method 1: Vertical Multiplication\n\n**Step 1: Multiply 37 by the ones digit of 1",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "repeat",
+      "elapsed_s": 3.4373266519978642,
+      "text": "It appears that your input consists of the repeated phrase **\"quantization bandwidth precision\"** many times. This looks like a copy-paste error or a glitch.\n\nHowever, if you are asking about the relationship between **quantization**, **bandwidth**, and **precision** in signal processing, communications, or machine learning,",
+      "usage": {
+        "prompt_tokens": 140,
+        "total_tokens": 204,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    }
+  ]
+}

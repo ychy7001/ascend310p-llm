@@ -275,6 +275,11 @@ extern "C" __global__ __aicore__ void qwen_w4_a8_int4_matmul_v310(GM_ADDR low, G
       RunSchedule<WIDE_COLUMNS>(low, high, xs, sums, codes, scale, offset, weight_sum, ends, y, td);
     } else if (td->nDim % (GetBlockNum() * MEDIUM_COLUMNS) == 0) {
       RunSchedule<MEDIUM_COLUMNS>(low, high, xs, sums, codes, scale, offset, weight_sum, ends, y, td);
+    } else if (td->nDim == 1024 && td->numRows > DECODE_ROUTE_LIMIT) {
+      // Gate/up prefill has eight 128-column tiles on 310P. Keep the narrow
+      // down-projection fallback at N=64 because its 256-column shape does
+      // not fill a full 8-core N=128 partition.
+      RunSchedule<128>(low, high, xs, sums, codes, scale, offset, weight_sum, ends, y, td);
     } else {
       RunSchedule<64>(low, high, xs, sums, codes, scale, offset, weight_sum, ends, y, td);
     }

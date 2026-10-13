@@ -150,3 +150,37 @@ for the measured prefill range. Raw M=16 data and the detailed profile are in
 `results/m64-prefill-candidate-20261013/`. Further optimization should target
 the full routed-expert schedule and its surrounding route/layout work, rather
 than selecting a smaller or larger M tile from this simple dispatch change.
+
+## N=128 gate/up candidate (2026-10-13)
+
+The next isolated candidate kept M=32 but changed only large-prefill
+`nDim=1024` gate/up projections from N=64 to N=128. Down projection and all
+Decode dispatches remain unchanged. A complete three-op OPP package compiled
+and loaded on one 310P3. For 4096 input tokens, TP1/eager/MTP0/FP16-KV gave
+`401.1729 / 400.6277 / 401.2060 tok/s` (median `401.1729`), compared with the
+stable path's approximately 375--380 tok/s. The 5--7% difference comes from
+short sequential measurements, not an alternating A/B test. At 8192 input
+tokens the Prefill measurements were `397.3443 / 396.7822 / 396.1008 tok/s`
+(median `396.7822`). With 8192 input and 256 output tokens, Prefill was
+`397.9453 / 398.5922 / 397.8720 tok/s` (median `397.9453`) and Decode was
+`21.2352 / 21.2181 / 21.1859 tok/s` (median `21.2181`). All requests passed
+token-usage checks. Decode dispatch is unchanged; this is a regression check,
+not a matched Decode A/B comparison.
+
+Five short generation sanity cases passed. The separate 3072-token/14-output
+request was only a benchmark prompt with valid token usage; it did not test
+needle retrieval and is not counted as a quality result. Keep this experimental
+until a matched baseline A/B run, actual retrieval checks, and validation with
+the product C8/MTP/Graph configuration are complete. Raw evidence is in
+`results/n128-prefill-candidate-20261013/` and sibling
+`n128-prefill-candidate-20261013*.jsonl` files.
+
+A subsequent stable N=64 OPP repeat on the same device, launcher, model,
+extension, TP1/eager/MTP0/FP16 KV/.90 and unique-prompt protocol gave
+376.2280 tok/s at 4096/1 and 371.2599 tok/s at 8192/256. Candidate differences
+were +6.63% and +7.19%. The initial 4096 candidate used max length 8192,
+while the other runs used 12288; this remains one sequential pair, not an
+alternating validation. Decode at 8192/256 was 21.0576 vs 21.2181 tok/s
+(+0.76%, not claimed as a material improvement). Keep the N=128 source as a
+candidate for product-combination checks; do not treat these eager/MTP0/FP16
+KV results as C8/MTP/Graph performance. See the candidate README for raw paths.
