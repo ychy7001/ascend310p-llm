@@ -1,0 +1,19 @@
+[W1013 11:55:46.330909553 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+Traceback (most recent call last):
+  File "/project/tools/bench_w4_backends_310.py", line 129, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/project/tools/bench_w4_backends_310.py", line 106, in main
+    torch.testing.assert_close(outputs[name].cpu().float(),v[3],rtol=.002,atol=.002)
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/testing/_comparison.py", line 1600, in assert_close
+    raise error_metas[0].to_error(msg)
+AssertionError: Tensor-likes are not close!
+
+Mismatched elements: 455 / 1024 (44.4%)
+Greatest absolute difference: 0.3175440728664398 at index (0, 563) (up to 0.002 allowed)
+Greatest relative difference: 328.2592468261719 at index (0, 296) (up to 0.002 allowed)
+[ERROR] 2026-10-13-11:55:54 (PID:164, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

@@ -186,3 +186,9 @@ MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组�
 实际114560token检索通过，正确输出ASCEND732941、总114574tokens、耗时348.211s，关闭prefix同类单样本348.941s。之后A/B/A全部最终答案正确；A三条全文一致，B共享/冷参考的思考段出现少量措辞差异，最终答案LinMei、两条均232输出tokens。严格B全文一致检查为false，未隐藏。补测同一B冷参考的热请求两次全文完全匹配；另一独立cache_salt冷请求全文也有变化、最终答案相同。因此目前不能将变化单独归因于prefix，但也不宣称严格等价。保留prefix为可选试验，默认off。服务18024暂保留prefix候选用于后续诊断。
 
 服务日志归档只归一化换行及行末空白，a2原始log保留。该轮没有证明全面长文质量、最长上下文、并发批处理或P95。
+
+## 真实expert三路公平对照
+
+同真实layer0/expert0权重、同设备pack生成的整数A8与scale，native W4/MindIEQ W4/NZ W8，eager与torch.npu.NPUGraph，四组原地更新输入；独立重复两轮，每轮16形状全部数值通过。gate/up M512 Graph约774/138/116us，M1024约1475/210/163us；down M512约471/127/107us。MindIEQ大M相对当前W4的优势两轮可复现；小M当前W4更快，MindIEQ多数仍慢于W8。排除pack/路由/SwiGLU；单矩阵不能外推模型收益。详细数据、捕获入口首次失败及限制见results/w4-three-backends-20261013。下一步先八expert分组/完整MLP，再条件接入Prefill后端。
+
+部署参数第一步集中到configs/tp1-48g-112k.env，入口scripts/run-candidate.sh --check在a2成功，输出制品SHA256。当前算子实验独占结束，无模型服务；未把新wrapper写成已完整部署验收。

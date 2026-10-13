@@ -17,6 +17,19 @@
 
 阅读顺序：[整体思路历程](docs/development-history.md) → [代码入口与维护边界](docs/code-map.md) → [华为会议评审报告](docs/huawei-adaptation-review-20261013.md)。最新N128产品组合对照见[原始记录](results/n128-product-baseline-n64-20261013/README.md)，固定32题质量回归见[结果与限制](results/n128-quality-20261013/README.md)。
 
+## 最新单流部署候选
+
+当前收敛配置为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、4096/512、112K，prefix默认关闭。配置事实源为`configs/tp1-48g-112k.env`；设置MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE后执行：
+
+```bash
+bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json
+bash scripts/run-candidate.sh
+```
+
+`--check`检查本地制品并输出SHA256，不初始化NPU；该输出用于版本追溯，不等于完整模型哈希或兼容性验收。芯片0须独占。GDN固定外部源码/构建方法见[候选说明](docs/gdn-112k-candidate.md)。模型完整性另用validate_checkpoint.py检查。prefix可选设ENABLE_PREFIX_CACHING=1；目前未宣称全面质量等价。此入口仍是实验候选，不支持TP2 C8、32G或多请求批处理。
+
+最新速度、质量和上下文边界以[GDN候选说明](docs/gdn-112k-candidate.md)、[MTP对照](results/pr17640-mtp-20261013/README.md)和[prefix复用](results/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
+
 ## 精度与计算路径
 
 仅routed experts量化为signed INT4，使用ModelSlim对称per-channel SSZ。scale按G128 kernel布局重复存储，**不是独立group-wise量化**。activation为设备端per-token INT8，使用INT4 limbs分解组合Cube整数计算。非专家张量保留原始浮点；MTP保留Qwen3.6自身19个BF16张量。text-only生成已测试，图像能力未验收。来源与社区贡献见[provenance](docs/provenance.md)和[NOTICE](NOTICE)。
