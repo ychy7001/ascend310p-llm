@@ -1,0 +1,626 @@
+{
+  "scope": "按捕获kernel耗时求和，不等于墙钟比例；可读取gzip原始导出。",
+  "kernel_count": 167083,
+  "sum_kernel_us": 7237674.808000002,
+  "top": [
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "count": 480,
+      "sum_us": 2661172.5429999996,
+      "sum_fraction": 0.36768335323086526
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "count": 480,
+      "sum_us": 1576349.334000001,
+      "sum_fraction": 0.21779775629842038
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "count": 5125,
+      "sum_us": 1463944.0110000018,
+      "sum_fraction": 0.20226717141005893
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "count": 3280,
+      "sum_us": 491212.23900000175,
+      "sum_fraction": 0.06786879101794561
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "count": 15006,
+      "sum_us": 187807.41800000094,
+      "sum_fraction": 0.02594858472950625
+    },
+    {
+      "name": "aclnnRecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310",
+      "count": 1230,
+      "sum_us": 119415.88499999997,
+      "sum_fraction": 0.01649920563825364
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCore_Cast",
+      "count": 14733,
+      "sum_us": 112326.37499999761,
+      "sum_fraction": 0.015519676965292798
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "count": 164,
+      "sum_us": 57894.008,
+      "sum_fraction": 0.007998978889740688
+    },
+    {
+      "name": "c8_cache_to_nz_kernel",
+      "count": 12,
+      "sum_us": 39548.350000000006,
+      "sum_fraction": 0.005464234170383853
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "count": 6642,
+      "sum_us": 39489.59899999955,
+      "sum_fraction": 0.00545611678440576
+    },
+    {
+      "name": "RmsNorm",
+      "count": 8405,
+      "sum_us": 38644.8689999997,
+      "sum_fraction": 0.005339403886630062
+    },
+    {
+      "name": "PagedAttentionDecoderNzMaskKernel",
+      "count": 12,
+      "sum_us": 33541.891,
+      "sum_fraction": 0.004634346235468499
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_ReduceSum",
+      "count": 3484,
+      "sum_us": 32397.31199999991,
+      "sum_fraction": 0.004476204424684882
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "count": 5125,
+      "sum_us": 30764.75299999997,
+      "sum_fraction": 0.004250640408159101
+    },
+    {
+      "name": "aclnnMul_MulAiCore_Mul",
+      "count": 10354,
+      "sum_us": 24339.770999999902,
+      "sum_fraction": 0.0033629268578213105
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_MemSet",
+      "count": 3484,
+      "sum_us": 18517.103999999865,
+      "sum_fraction": 0.002558432713712475
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCpu_Cast",
+      "count": 122,
+      "sum_us": 16811.037000000008,
+      "sum_fraction": 0.0023227123967241945
+    },
+    {
+      "name": "aclnnInplaceCopy_SliceAiCore_Slice",
+      "count": 9733,
+      "sum_us": 15314.72300000025,
+      "sum_fraction": 0.002115972795996922
+    },
+    {
+      "name": "aclnnReduceSum_CastAiCore_Cast",
+      "count": 82,
+      "sum_us": 12204.515,
+      "sum_fraction": 0.0016862480456444398
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310",
+      "count": 1640,
+      "sum_us": 12157.583999999993,
+      "sum_fraction": 0.0016797637808432454
+    },
+    {
+      "name": "aclnnAdd_AddAiCore_Add",
+      "count": 6559,
+      "sum_us": 11814.424000000048,
+      "sum_fraction": 0.0016323507636653194
+    },
+    {
+      "name": "CausalConv1dV310",
+      "count": 1230,
+      "sum_us": 11070.980000000016,
+      "sum_fraction": 0.0015296321392835937
+    },
+    {
+      "name": "aclnnInplaceScatter_ScatterElements_ScatterElements",
+      "count": 80,
+      "sum_us": 10983.698,
+      "sum_fraction": 0.0015175727414361605
+    },
+    {
+      "name": "aclnnNeScalar_NotEqualAiCore_NotEqual",
+      "count": 123,
+      "sum_us": 10668.045000000002,
+      "sum_fraction": 0.0014739602542253372
+    },
+    {
+      "name": "aclnnInplaceCopy_ViewCopyAiCpu_ViewCopy",
+      "count": 164,
+      "sum_us": 10025.526999999998,
+      "sum_fraction": 0.0013851861635063385
+    },
+    {
+      "name": "aclnnTopk_CastAiCore_Cast",
+      "count": 1640,
+      "sum_us": 9568.931000000039,
+      "sum_fraction": 0.0013221001570039089
+    },
+    {
+      "name": "aclnnAdds_AddAiCore_Add",
+      "count": 4958,
+      "sum_us": 8704.317999999983,
+      "sum_fraction": 0.0012026401062367239
+    },
+    {
+      "name": "aclnnGtScalar_CastAiCore_Cast",
+      "count": 1322,
+      "sum_us": 8662.094999999994,
+      "sum_fraction": 0.0011968063265878624
+    },
+    {
+      "name": "aclnnSWhere_SelectV2AiCore_SelectV2",
+      "count": 2715,
+      "sum_us": 7958.65299999999,
+      "sum_fraction": 0.0010996146153462256
+    },
+    {
+      "name": "aclnnInplaceCopy_TensorMoveAiCore_TensorMove",
+      "count": 4563,
+      "sum_us": 7776.992999999985,
+      "sum_fraction": 0.0010745153942815805
+    }
+  ],
+  "top_shapes": [
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "shapes": "N/A",
+      "dtypes": "N/A",
+      "count": 480,
+      "sum_us": 2661172.5429999996
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "shapes": "N/A",
+      "dtypes": "N/A",
+      "count": 480,
+      "sum_us": 1576349.334000001
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,15520,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 123,
+      "sum_us": 711358.5170000001
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,768,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 1230,
+      "sum_us": 396645.6539999997
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "shapes": "\"3,1024;3,1024;3,16,8;3,16,8;256,1024,1024;256,1024,16;256,1024,16;256,1024,16;24\"",
+      "dtypes": "INT8;INT8;FLOAT;FLOAT;INT8;FLOAT16;FLOAT16;FLOAT16;INT32",
+      "count": 1600,
+      "sum_us": 330439.8130000005
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"256,1,16,16;256,128,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 1804,
+      "sum_us": 201695.3780000006
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "shapes": "\"24,256;24,256;24,4,8;24,4,8;256,2048,256;256,2048,4;256,2048,4;256,2048,4;24\"",
+      "dtypes": "INT8;INT8;FLOAT;FLOAT;INT8;FLOAT16;FLOAT16;FLOAT16;INT32",
+      "count": 1600,
+      "sum_us": 155705.108
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,576,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 492,
+      "sum_us": 144359.13099999994
+    },
+    {
+      "name": "aclnnRecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310",
+      "shapes": "\"3,16,128;3,16,128;3,32,128;3,32;116,32,128,128;1;3;3,32;1\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;FLOAT16;FLOAT16;INT32;INT32;FLOAT;INT32",
+      "count": 1200,
+      "sum_us": 118239.135
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCore_Cast",
+      "shapes": "\"1\"",
+      "dtypes": "INT64",
+      "count": 245,
+      "sum_us": 88475.19900000001
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"1024,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 1640,
+      "sum_us": 82651.2739999999
+    },
+    {
+      "name": "c8_cache_to_nz_kernel",
+      "shapes": "N/A",
+      "dtypes": "N/A",
+      "count": 12,
+      "sum_us": 39548.350000000006
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "shapes": "\"24,2048;256,2048,1024;;;;;;256\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;UINT64;FLOAT;FLOAT16;FLOAT16;INT64",
+      "count": 80,
+      "sum_us": 37714.341000000015
+    },
+    {
+      "name": "PagedAttentionDecoderNzMaskKernel",
+      "shapes": "\"1,256,16,16;1792,32,64,16;1792,32,64,16;1,1792;1;2048,2048;\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;INT32;INT32;FLOAT16;UNDEFINED",
+      "count": 12,
+      "sum_us": 33541.891
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"256,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 1640,
+      "sum_us": 27994.891000000003
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"3,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 4880,
+      "sum_us": 27719.10099999984
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"2048,512\"",
+      "dtypes": "FLOAT16",
+      "count": 1640,
+      "sum_us": 27596.44799999997
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "shapes": "\"24,512;256,512,2048;;;;;;256\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;UINT64;FLOAT;FLOAT16;FLOAT16;INT64",
+      "count": 80,
+      "sum_us": 19487.748999999996
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_ReduceSum",
+      "shapes": "\"1,3;1\"",
+      "dtypes": "FLOAT;INT64",
+      "count": 80,
+      "sum_us": 19298.334000000003
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_MemSet",
+      "shapes": "N/A",
+      "dtypes": "N/A",
+      "count": 3484,
+      "sum_us": 18517.103999999865
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,64,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 1640,
+      "sum_us": 17199.800000000017
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCpu_Cast",
+      "shapes": "\"1\"",
+      "dtypes": "FLOAT",
+      "count": 122,
+      "sum_us": 16811.037000000008
+    },
+    {
+      "name": "RmsNorm",
+      "shapes": "\"3,2048;2048\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 3640,
+      "sum_us": 16684.34000000009
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "shapes": "\"3,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 3080,
+      "sum_us": 15974.24999999997
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "shapes": "\"3,4096\"",
+      "dtypes": "FLOAT16",
+      "count": 1760,
+      "sum_us": 13582.295000000015
+    },
+    {
+      "name": "aclnnReduceSum_CastAiCore_Cast",
+      "shapes": "\"1,3\"",
+      "dtypes": "BOOL",
+      "count": 80,
+      "sum_us": 12201.624
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310",
+      "shapes": "\"24,1024\"",
+      "dtypes": "FLOAT16",
+      "count": 1600,
+      "sum_us": 11999.799999999996
+    },
+    {
+      "name": "CausalConv1dV310",
+      "shapes": "\"3,8192;4,8192;;116,5,8192;2;1,3;;1\"",
+      "dtypes": "FLOAT16;FLOAT16;DT_UNDEFINED;FLOAT16;INT32;INT32;DT_UNDEFINED;INT32",
+      "count": 1200,
+      "sum_us": 10913.24100000001
+    },
+    {
+      "name": "RmsNorm",
+      "shapes": "\"48,128;128\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 2400,
+      "sum_us": 10778.203000000016
+    },
+    {
+      "name": "aclnnNeScalar_NotEqualAiCore_NotEqual",
+      "shapes": "\"1,3;\"",
+      "dtypes": "INT32;INT32",
+      "count": 80,
+      "sum_us": 10586.065
+    }
+  ],
+  "reference_comparison": [
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "count": 480,
+      "sum_us": 2661172.5429999996,
+      "sum_fraction": 0.36768335323086526,
+      "reference_sum_fraction": 0.06552947059602295,
+      "reference_mean_us": 415.09075813008116,
+      "mean_us": 5544.109464583333
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "count": 480,
+      "sum_us": 1576349.334000001,
+      "sum_fraction": 0.21779775629842038,
+      "reference_sum_fraction": 0.0387266157000997,
+      "reference_mean_us": 245.3103943089432,
+      "mean_us": 3284.061112500002
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "count": 5125,
+      "sum_us": 1463944.0110000018,
+      "sum_fraction": 0.20226717141005893,
+      "reference_sum_fraction": 0.47124390760671364,
+      "reference_mean_us": 286.56515843902366,
+      "mean_us": 285.6476119024394
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "count": 3280,
+      "sum_us": 491212.23900000175,
+      "sum_fraction": 0.06786879101794561,
+      "reference_sum_fraction": 0.15698272392573046,
+      "reference_mean_us": 149.15902103658559,
+      "mean_us": 149.75982896341517
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "count": 15006,
+      "sum_us": 187807.41800000094,
+      "sum_fraction": 0.02594858472950625,
+      "reference_sum_fraction": 0.0596082368243004,
+      "reference_mean_us": 12.379777555644493,
+      "mean_us": 12.515488337998196
+    },
+    {
+      "name": "aclnnRecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310",
+      "count": 1230,
+      "sum_us": 119415.88499999997,
+      "sum_fraction": 0.01649920563825364,
+      "reference_sum_fraction": 0.038905697162036394,
+      "reference_mean_us": 98.5779081300813,
+      "mean_us": 97.08608536585363
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCore_Cast",
+      "count": 14733,
+      "sum_us": 112326.37499999761,
+      "sum_fraction": 0.015519676965292798,
+      "reference_sum_fraction": 0.008897282717706902,
+      "reference_mean_us": 1.8734315924599692,
+      "mean_us": 7.624134595805173
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "count": 164,
+      "sum_us": 57894.008,
+      "sum_fraction": 0.007998978889740688,
+      "reference_sum_fraction": 0.01898569253114448,
+      "reference_mean_us": 360.7896768292681,
+      "mean_us": 353.012243902439
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "count": 6642,
+      "sum_us": 39489.59899999955,
+      "sum_fraction": 0.00545611678440576,
+      "reference_sum_fraction": 0.012853403610368234,
+      "reference_mean_us": 6.031020174646123,
+      "mean_us": 5.945437970490748
+    },
+    {
+      "name": "RmsNorm",
+      "count": 8405,
+      "sum_us": 38644.8689999997,
+      "sum_fraction": 0.005339403886630062,
+      "reference_sum_fraction": 0.012308327119940605,
+      "reference_mean_us": 4.563865318262907,
+      "mean_us": 4.597842831647793
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_ReduceSum",
+      "count": 3484,
+      "sum_us": 32397.31199999991,
+      "sum_fraction": 0.004476204424684882,
+      "reference_sum_fraction": 0.004380657285364539,
+      "reference_mean_us": 3.917490961262543,
+      "mean_us": 9.298884041331776
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "count": 5125,
+      "sum_us": 30764.75299999997,
+      "sum_fraction": 0.004250640408159101,
+      "reference_sum_fraction": 0.009693653964540623,
+      "reference_mean_us": 5.894746731707302,
+      "mean_us": 6.002878634146336
+    },
+    {
+      "name": "aclnnMul_MulAiCore_Mul",
+      "count": 10354,
+      "sum_us": 24339.770999999902,
+      "sum_fraction": 0.0033629268578213105,
+      "reference_sum_fraction": 0.00893153136986643,
+      "reference_mean_us": 2.6728824659112584,
+      "mean_us": 2.3507601892988124
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_MemSet",
+      "count": 3484,
+      "sum_us": 18517.103999999865,
+      "sum_fraction": 0.002558432713712475,
+      "reference_sum_fraction": 0.002187311506391607,
+      "reference_mean_us": 1.9560473457675707,
+      "mean_us": 5.314897818599272
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCpu_Cast",
+      "count": 122,
+      "sum_us": 16811.037000000008,
+      "sum_fraction": 0.0023227123967241945,
+      "reference_sum_fraction": 0.005202491455465535,
+      "reference_mean_us": 131.81892682926824,
+      "mean_us": 137.7953852459017
+    },
+    {
+      "name": "aclnnInplaceCopy_SliceAiCore_Slice",
+      "count": 9733,
+      "sum_us": 15314.72300000025,
+      "sum_fraction": 0.002115972795996922,
+      "reference_sum_fraction": 0.0048652636647714305,
+      "reference_mean_us": 1.5281946180205885,
+      "mean_us": 1.5734843316552192
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310",
+      "count": 1640,
+      "sum_us": 12157.583999999993,
+      "sum_fraction": 0.0016797637808432454,
+      "reference_sum_fraction": 0.003929396631229972,
+      "reference_mean_us": 7.467126829268294,
+      "mean_us": 7.4131609756097525
+    },
+    {
+      "name": "aclnnAdd_AddAiCore_Add",
+      "count": 6559,
+      "sum_us": 11814.424000000048,
+      "sum_fraction": 0.0016323507636653194,
+      "reference_sum_fraction": 0.00368380789786518,
+      "reference_mean_us": 1.7501071646341537,
+      "mean_us": 1.8012538496722135
+    },
+    {
+      "name": "CausalConv1dV310",
+      "count": 1230,
+      "sum_us": 11070.980000000016,
+      "sum_fraction": 0.0015296321392835937,
+      "reference_sum_fraction": 0.003495094253187902,
+      "reference_mean_us": 8.855748780487817,
+      "mean_us": 9.000796747967494
+    },
+    {
+      "name": "aclnnInplaceScatter_ScatterElements_ScatterElements",
+      "count": 80,
+      "sum_us": 10983.698,
+      "sum_fraction": 0.0015175727414361605,
+      "reference_sum_fraction": 0.0033122194715417045,
+      "reference_mean_us": 125.88580487804875,
+      "mean_us": 137.296225
+    },
+    {
+      "name": "aclnnInplaceCopy_ViewCopyAiCpu_ViewCopy",
+      "count": 164,
+      "sum_us": 10025.526999999998,
+      "sum_fraction": 0.0013851861635063385,
+      "reference_sum_fraction": 0.003139136665667308,
+      "reference_mean_us": 59.65376829268296,
+      "mean_us": 61.13126219512194
+    },
+    {
+      "name": "aclnnTopk_CastAiCore_Cast",
+      "count": 1640,
+      "sum_us": 9568.931000000039,
+      "sum_fraction": 0.0013221001570039089,
+      "reference_sum_fraction": 0.0030749804053635077,
+      "reference_mean_us": 5.843459146341472,
+      "mean_us": 5.8347140243902675
+    },
+    {
+      "name": "aclnnAdds_AddAiCore_Add",
+      "count": 4958,
+      "sum_us": 8704.317999999983,
+      "sum_fraction": 0.0012026401062367239,
+      "reference_sum_fraction": 0.0032615612302041414,
+      "reference_mean_us": 2.048933279580744,
+      "mean_us": 1.7556107301331147
+    },
+    {
+      "name": "aclnnGtScalar_CastAiCore_Cast",
+      "count": 1322,
+      "sum_us": 8662.094999999994,
+      "sum_fraction": 0.0011968063265878624,
+      "reference_sum_fraction": 0.0027650967960533347,
+      "reference_mean_us": 6.369187730968214,
+      "mean_us": 6.552265506807863
+    },
+    {
+      "name": "aclnnInplaceCopy_TensorMoveAiCore_TensorMove",
+      "count": 4563,
+      "sum_us": 7776.992999999985,
+      "sum_fraction": 0.0010745153942815805,
+      "reference_sum_fraction": 0.0023797870255633713,
+      "reference_mean_us": 1.615130879790939,
+      "mean_us": 1.704359631821167
+    }
+  ]
+}
