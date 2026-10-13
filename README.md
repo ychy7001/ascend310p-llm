@@ -79,6 +79,8 @@ sanity只检查服务可用性、非空输出与明显异常，不替代准确�
 
 [详细技术评审报告](docs/huawei-report.md)记录完整适配路径、初版TP1/TP2/MTP与C8测试数据、失败证据和待补门禁。最新Graph与长上下文数据见[C8记录](docs/c8.md)；此前已转发的DOCX/PDF为冻结版本，并未自动同步后续实验。
 
+[Graph上游交接记录](docs/graph-upstream-patch.md)说明了310P Graph生命周期的版本差异、当前诊断开关和提交上游前必须核对的最小代码边界；当前不把实验monkeypatch冒充正式backend修复。
+
 给硬件/算子评审的参数决策、C8/C16 和 MTP0/1/2 取舍见[参数选择与华为评审记录](docs/parameter-selection-20261012.md)。其中明确区分已验证结果、当前产品候选和待补实验，避免把容量估算或单次启动结果当作性能承诺。
 
 最新同配置MTP1/2与长输入性能见[Prefill/Decode实验记录](docs/prefill.md)和[C8记录](docs/c8.md)。112K Graph、32K输入/256输出的同协议对照为：MTP1 Prefill/Decode `339.28/23.20 tok/s`，MTP2 `336.56/28.94 tok/s`，Decode约提升24.8%，Prefill约下降0.8%。并发2/4的MTP2总输出吞吐均约5.06 tok/s，说明并发瓶颈仍在Prefill/调度；固定协议结果不是P95或W8/W4严格等价对照。
