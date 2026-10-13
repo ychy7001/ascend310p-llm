@@ -30,6 +30,7 @@ def main():
     p.add_argument('--retain-native-inputs',action='store_true',help='诊断：保留native pack/matmul参数，定位混合路径生命周期')
     p.add_argument('--backends',nargs='+',choices=['native_w4','mindieq_w4','w8','hybrid_128','hybrid_256'])
     p.add_argument('--graph',action='store_true',help='固定分组完整MLP Graph；3次激活更新与eager同后端输出比较')
+    p.add_argument('--progress',action='store_true',help='验证阶段打印进度及每60秒Python栈，定位停滞')
     p.add_argument('--queued-repeats',type=int,default=0,help='完整MLP连续异步提交次数；统一同步后逐输出检查')
     p.add_argument('--activation-draw',type=int,default=0,help='跳过指定次4096x2048 CPU随机输入，重现原三分布测试的第3次输入用2')
     p.add_argument('--retain-intermediates',action='store_true',help='诊断张量生命周期：完整MLP同步前保留中间张量')
@@ -40,6 +41,12 @@ def main():
     p.add_argument('--hybrid',action='store_true',help='静态CPU分组诊断：小专家走native，128/256行以上走MindIEQ')
     p.add_argument('--route-trace',type=Path,help='真实256专家计数；完整真实权重需配合--real-expert-weights，不能代替端到端测试')
     a=p.parse_args()
+    if a.progress:
+        import faulthandler
+        faulthandler.enable()
+        faulthandler.dump_traceback_later(60,repeat=True)
+    def progress(*parts):
+        if a.progress: print('PROGRESS',*parts,flush=True)
     if a.route_trace and a.experts!=256:
         p.error('--route-trace requires --experts 256')
     torch.set_num_threads(4);torch.manual_seed(310)
@@ -164,9 +171,13 @@ def main():
                         return torch.cat(outputs).index_select(0,inverse)
                     funcs[f'hybrid_{threshold}']=hybrid
             if a.backends:funcs={name:funcs[name] for name in a.backends}
+            progress(routing,'reference begin')
             reference=native_mlp().cpu().float();errors={}
+            progress(routing,'reference done')
             for name,fn in funcs.items():
+                progress(routing,name,'single begin')
                 output=fn().cpu().float()
+                progress(routing,name,'single done')
                 errors[name]={'max_abs':(output-reference).abs().max().item(),
                               'relative_l2':((output-reference).norm()/reference.norm().clamp_min(1e-12)).item(),
                               'finite':bool(torch.isfinite(output).all())}
@@ -183,8 +194,14 @@ def main():
                 # Independent per-token quantizers can differ at rounding boundaries.
                 assert errors[name]['relative_l2']<.03,errors[name]
                 if a.queued_repeats:
-                    pending=[fn() for _ in range(a.queued_repeats)]
+                    pending=[]
+                    for queued_index in range(a.queued_repeats):
+                        progress(routing,name,'queued begin',queued_index)
+                        pending.append(fn())
+                        progress(routing,name,'queued submitted',queued_index)
+                    progress(routing,name,'queued synchronize begin')
                     torch.npu.synchronize()
+                    progress(routing,name,'queued synchronize done')
                     queue_errors=[];queue_replay_error=[]
                     for queued in pending:
                         queued=queued.cpu().float()

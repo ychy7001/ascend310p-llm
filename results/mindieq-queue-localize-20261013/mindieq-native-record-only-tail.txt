@@ -1,0 +1,48 @@
+[W1013 14:32:21.457816937 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+.PROGRESS real_occupancy_p95 reference begin
+PROGRESS real_occupancy_p95 reference done
+PROGRESS real_occupancy_p95 hybrid_128 single begin
+..PROGRESS real_occupancy_p95 hybrid_128 single done
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 0
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 0
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 1
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 1
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 2
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 2
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 3
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 3
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 4
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 4
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 5
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 5
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 6
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 6
+PROGRESS real_occupancy_p95 hybrid_128 queued begin 7
+PROGRESS real_occupancy_p95 hybrid_128 queued submitted 7
+PROGRESS real_occupancy_p95 hybrid_128 queued synchronize begin
+PROGRESS real_occupancy_p95 hybrid_128 queued synchronize done
+PROGRESS real_occupancy_p95 hybrid_256 single begin
+PROGRESS real_occupancy_p95 hybrid_256 single done
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 0
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 0
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 1
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 1
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 2
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 2
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 3
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 3
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 4
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 4
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 5
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 5
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 6
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 6
+PROGRESS real_occupancy_p95 hybrid_256 queued begin 7
+PROGRESS real_occupancy_p95 hybrid_256 queued submitted 7
+PROGRESS real_occupancy_p95 hybrid_256 queued synchronize begin
+PROGRESS real_occupancy_p95 hybrid_256 queued synchronize done
+{"kind": "validation", "routing": "real_occupancy_p95", "rows": 4096, "status": "PASS", "timing_valid": false, "errors_vs_native": {"hybrid_128": {"max_abs": 5.1021575927734375e-05, "relative_l2": 0.00595670472830534, "finite": true, "queued_relative_l2": [0.00595670472830534, 0.00595670472830534, 0.00595670472830534, 0.00595670472830534, 0.00595670472830534, 0.00595670472830534, 0.00595670472830534, 0.00595670472830534], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "hybrid_256": {"max_abs": 5.1021575927734375e-05, "relative_l2": 0.005296399816870689, "finite": true, "queued_relative_l2": [0.005296399816870689, 0.005296399816870689, 0.005296399816870689, 0.005296399816870689, 0.005296399816870689, 0.005296399816870689, 0.005296399816870689, 0.005296399816870689], "queued_max_abs_vs_first": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}}, "graph_checks": {}}

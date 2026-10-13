@@ -1,0 +1,29 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning at /usr/local/python3.12.13/lib/python3.12/site-packages/torch/share/cmake/Torch/TorchConfig.cmake:22 (message):
+  static library kineto_LIBRARY-NOTFOUND not found.
+Call Stack (most recent call first):
+  /usr/local/python3.12.13/lib/python3.12/site-packages/torch/share/cmake/Torch/TorchConfig.cmake:125 (append_torchlib_if_found)
+  CMakeLists.txt:8 (find_package)
+
+
+-- Found Torch: /usr/local/python3.12.13/lib/python3.12/site-packages/torch/lib/libtorch.so
+-- CANN_ROOT: /usr/local/Ascend/cann-9.1.0
+-- VENDOR: /work/ops-nn/build
+-- Configuring done (3.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /work/caller-workspace-build-v3
+[ 50%] Building CXX object CMakeFiles/qmm_v5_ext.dir/qmm_v5_ext.cpp.o
+[100%] Linking CXX shared library libqmm_v5_ext.so
+[100%] Built target qmm_v5_ext
+6f9c09a5b0ba41af26d5badf7b2b0b0370c69ffee86628afe9178b91d6d371a7  /work/caller-workspace-build-v3/libqmm_v5_ext.so

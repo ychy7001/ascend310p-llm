@@ -206,3 +206,7 @@ MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组�
 ## 2026-10-13：生命周期与投入收敛
 
 MindIEQ记录inputs/output/workspace stream后的两轮完整MLP混合≥128行，相比原W4在两份counts上省约9%/18%，更分散样本慢约2%～3%；全量MindIEQ两份更慢。仍无端到端收益。异步混合的特定输入还可NaN，定位失败行来自原W4小专家分支；隔离原W4生命周期候选单样本通过，但连续提交测试停滞并停止，未采用。继续投入限于混合数值与设备端grouped门禁，默认服务保持原后端。详见[原始结果与判断](../results/mindieq-lifetime-20261013/README.md)。
+
+## 异步门禁推进
+
+原W4仅recordStream、MindIEQ调用线程分配workspace的隔离组合，三真实counts分布120连续提交输出和16shape/4输入Graph均通过；仍未接入真实服务。混合MLP收益约10%/19%，分散样本慢2.7%，不全量替换。详见[证据](../results/mindieq-queue-localize-20261013/README.md)。

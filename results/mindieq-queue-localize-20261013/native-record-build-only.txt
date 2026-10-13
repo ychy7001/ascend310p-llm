@@ -1,0 +1,56 @@
+[1/3] c++ -MMD -MF NPUBridge.o.d -DTORCH_EXTENSION_NAME=qwen36_int4_custom -DTORCH_API_INCLUDE_EXTENSION_H -I/community/csrc -I/community/csrc/common/include -I/usr/local/Ascend/ascend-toolkit/latest/include -I/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/python3.12.13/include/python3.12 -fPIC -std=c++17 -O2 -fvisibility=hidden -c /community/csrc/aclnn_torch_adapter/NPUBridge.cpp -o NPUBridge.o
+[2/3] c++ -MMD -MF qwen36_int4_custom.o.d -DTORCH_EXTENSION_NAME=qwen36_int4_custom -DTORCH_API_INCLUDE_EXTENSION_H -I/community/csrc -I/community/csrc/common/include -I/usr/local/Ascend/ascend-toolkit/latest/include -I/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/python3.12.13/include/python3.12 -fPIC -std=c++17 -O2 -fvisibility=hidden -c /work/native-record-source-only/qwen36_int4_custom.cpp -o qwen36_int4_custom.o
+In file included from /work/native-record-source-only/qwen36_int4_custom.cpp:8:
+/community/csrc/gmm/qwen_w4_a8_pack_v310/qwen_w4_a8_pack_310_torch_adpt.h: In function ‘std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor> vllm_ascend::npu_qwen_w4_a8_pack_310(const at::Tensor&)’:
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/community/csrc/gmm/qwen_w4_a8_swiglu_pack_v310/qwen_w4_a8_swiglu_pack_310_torch_adpt.h: In function ‘std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor> vllm_ascend::npu_qwen_w4_a8_swiglu_pack_310(const at::Tensor&)’:
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/community/csrc/gmm/qwen_w4_a8_int4_matmul_v310/qwen_w4_a8_int4_matmul_310_torch_adpt.h: In function ‘at::Tensor vllm_ascend::npu_qwen_w4_a8_int4_matmul_310(const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&)’:
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/community/csrc/gmm/qwen_w4_a8_int4_down_reduce_v310/qwen_w4_a8_int4_down_reduce_310_torch_adpt.h: In function ‘at::Tensor vllm_ascend::npu_qwen_w4_a8_int4_down_reduce_310(const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&)’:
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/native-record-source-only/op_api_common.h:733:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  733 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+[3/3] c++ qwen36_int4_custom.o NPUBridge.o -shared -L/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/lib -ltorch_npu -L/usr/local/python3.12.13/lib/python3.12/site-packages/torch/lib -lc10 -ltorch_cpu -ltorch -ltorch_python -o qwen36_int4_custom.so

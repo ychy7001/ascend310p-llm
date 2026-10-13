@@ -7,6 +7,8 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--adapter-source', type=Path, required=True)
 parser.add_argument('--extension-source', type=Path, required=True)
 parser.add_argument('--output-dir', type=Path, required=True)
+parser.add_argument('--mode', choices=['all', 'record-only', 'keep-only'], default='all',
+                    help='生命周期消融：record-only避免在任务线程销毁持有Tensor')
 args = parser.parse_args()
 source = args.adapter_source.read_text()
 for header in ('NPUBridge.h', 'NPUStorageImpl.h'):
@@ -34,6 +36,15 @@ source = source.replace(needle, needle + ''' \\
 needle = '                     acl_stream, executor]() -> int {'
 assert source.count(needle) == 1
 source = source.replace(needle, '                     acl_stream, executor, qwen_keep, workspace_tensor]() -> int {')
+if args.mode == 'record-only':
+    source = source.replace(', qwen_keep, workspace_tensor]() -> int {', ']() -> int {')
+elif args.mode == 'keep-only':
+    start = source.index('    std::apply([&](const auto&... tensors)')
+    end = source.index('    at::Tensor workspace_tensor;', start)
+    source = source[:start] + source[end:]
+    start = source.index('      c10_npu::NPUCachingAllocator::recordStream(')
+    end = source.index('    }', start)
+    source = source[:start] + source[end:]
 args.output_dir.mkdir(parents=True, exist_ok=False)
 adapter = args.output_dir / 'op_api_common.h'
 adapter.write_text(source)

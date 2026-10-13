@@ -1,0 +1,13 @@
+{
+  "native_record_only_sha256": "c950b3545ea30c8af34188d9fe7204fbe5a76daf5312ae3abba0f2c41bb6217b",
+  "mindieq_caller_workspace_sha256": "6f9c09a5b0ba41af26d5badf7b2b0b0370c69ffee86628afe9178b91d6d371a7",
+  "mindieq_original_commit": "d9c9871aa335f7b5638e9a2679a45bb3e7561d3a",
+  "native_opp": "release n128 candidate; unchanged",
+  "exit_status": {
+    "record_only_full_mlp_command": 124,
+    "record_only_tail": 0,
+    "caller_workspace_full_mlp": 0,
+    "caller_workspace_16shape_eager_graph": 0,
+    "caller_workspace_matched_tail_32queued": 0
+  }
+}

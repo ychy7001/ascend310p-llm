@@ -87,7 +87,7 @@
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
     "scripts/run-candidate.sh": "8bea6b00c72dcbf8bea47b4153f745b692667977841ccabdee472ae6c09f6354",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
-    "tools/bench_mindieq_mlp_310.py": "2787e92dfa1a5677fb59853eb006fc01eb5c0df5c37830d2e934a67595d1257c",
+    "tools/bench_mindieq_mlp_310.py": "f4419bc9f5c60c4d96d53272575c2544b223301fe31ee07a65dbcb33908ae515",
     "tools/bench_mtp_chat.py": "a6e4408ed9a5ca33cda45d19da870f508640fcb41bde3d2895c4b4683982840a",
     "tools/bench_prefix_reuse.py": "97885a47181add37fd44cd28a7ff610d5ef4be5e1d4b380890be468273523f06",
     "tools/bench_w4_backends_310.py": "1c5805ed101c11fa2e7bb499f3487bb93f7d8288eb743872e24d7ffd04e558f8",
@@ -99,9 +99,9 @@
     "tools/check_prefix_state.py": "c29062c193af484990a81aed3cf55e432a6f95afec3dcff9ae8edbc2191a4150",
     "tools/check_w4_repeatability_310.py": "7de8fb61802e7699fd1091baa3b2654f5f0de88e18a8c1699c44706e28a036c1",
     "tools/collect_route_occupancy.py": "9e1ff06331b6adae9e8e15d670a0d3dfe734a2f90bb29faa01438103f4c83719",
-    "tools/patch_mindieq_queue_binding.py": "d21121d0f3d802ec60edf631ecf0aa0fc1580e921d8b8d928a32f57f0361d381",
+    "tools/patch_mindieq_queue_binding.py": "d0d7df3b555ebef897c306a8c97cbb82517a9e0a764ba35b63e6a107d5401ef1",
     "tools/qwen36_int4_custom.cpp": "f6e3f4a46b4a28898050883da0341ca45545ab9d160852c631cf1ed93f91d7c7",
     "tools/summarize_route_occupancy.py": "99892f488bfe315281a61a5479b891c98592bfa6c2c5d7e5e7fd1ea705918b08",
-    "tools/patch_native_queue_lifetime.py": "1f250a590c4c013ddb31e4f987e596cb4ccb799f54e0f5f79df787135124b039"
+    "tools/patch_native_queue_lifetime.py": "a2fbeb90102e511385af2c2991b2ffeb0c03d994d5a1478f275f8e8220a50bd1"
   }
 }
