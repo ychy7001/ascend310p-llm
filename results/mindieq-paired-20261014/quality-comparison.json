@@ -1,0 +1,30 @@
+{
+  "reference": {
+    "kind": "summary",
+    "label": "A1",
+    "samples": 64,
+    "correct": 63,
+    "parse_missing": 1,
+    "truncated": 1
+  },
+  "candidate": {
+    "kind": "summary",
+    "label": "B0",
+    "samples": 64,
+    "correct": 62,
+    "parse_missing": 2,
+    "truncated": 2
+  },
+  "answer_changes": [
+    {
+      "index": 711,
+      "gold": "6",
+      "reference": "6",
+      "candidate": null,
+      "reference_finish": "stop",
+      "candidate_finish": "length"
+    }
+  ],
+  "identical_texts": 22,
+  "limitation": "small fixed subset; not comprehensive quality or statistical equivalence"
+}

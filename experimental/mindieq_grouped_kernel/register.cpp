@@ -5,6 +5,7 @@
 #include "torch_npu/csrc/core/npu/NPUCachingAllocator.h"
 #include "torch_npu/csrc/framework/OpCommand.h"
 #include "aclrtlaunch_mindieq_grouped_kernel.h"
+#include "aclrtlaunch_qwen36_a8_quant_kernel.h"
 at::Tensor grouped(const at::Tensor& a,const at::Tensor& as,const at::Tensor& w,const at::Tensor& ws,const at::Tensor& ends,int64_t minimum_rows){
  TORCH_CHECK(a.device().type()==c10::DeviceType::PrivateUse1 && a.scalar_type()==at::kChar && a.dim()==2 && a.is_contiguous(),"contiguous NPU int8 activation required");
  TORCH_CHECK(w.scalar_type()==at::kInt && w.dim()==2 && w.is_contiguous() && ws.scalar_type()==at::kFloat && ws.dim()==2 && ws.is_contiguous(),"packed int32 [E,N*K/8], fp32 scale [E,N] required");
@@ -17,5 +18,17 @@ at::Tensor grouped(const at::Tensor& a,const at::Tensor& as,const at::Tensor& w,
  auto handler=[=]() -> int {return ACLRT_LAUNCH_KERNEL(mindieq_grouped_kernel)(8,aclstream,ap,asp,wp,wsp,ep,op,e,k,n,minimum_rows);};
  at_npu::native::OpCommand::RunOpApiV2("MindIEQGrouped",handler);return o;
 }
-TORCH_LIBRARY(qwen36_mindieq_grouped,m){m.def("matmul(Tensor a,Tensor ascale,Tensor packed,Tensor wscale,Tensor ends,int minimum_rows=0) -> Tensor");}
-TORCH_LIBRARY_IMPL(qwen36_mindieq_grouped,PrivateUse1,m){m.impl("matmul",&grouped);}
+std::tuple<at::Tensor,at::Tensor> quantize(const at::Tensor& x){
+ TORCH_CHECK(x.device().type()==c10::DeviceType::PrivateUse1 && x.scalar_type()==at::kHalf && x.dim()==2 && x.is_contiguous(),"contiguous NPU FP16 activation required");
+ int64_t m=x.size(0),k=x.size(1),padded=(m+7)/8*8+16;
+ TORCH_CHECK(m>0 && (k==512 || k==2048),"A8 prototype supports K512/2048");
+ auto q=at::empty({padded,k},x.options().dtype(at::kChar));auto s=at::empty({padded},x.options().dtype(at::kFloat));
+ auto stream=c10_npu::getCurrentNPUStream();
+ for(const auto& t:{x,q,s})c10_npu::NPUCachingAllocator::recordStream(t.storage().data_ptr(),stream);
+ void *xp=x.data_ptr(),*qp=q.data_ptr(),*sp=s.data_ptr();auto aclstream=stream.stream(false);
+ auto handler=[=]() -> int {return ACLRT_LAUNCH_KERNEL(qwen36_a8_quant_kernel)(8,aclstream,xp,qp,sp,m,k,padded);};
+ at_npu::native::OpCommand::RunOpApiV2("Qwen36A8Quant",handler);
+ return {q.narrow(0,0,m+16),s.narrow(0,0,m+16)};
+}
+TORCH_LIBRARY(qwen36_mindieq_grouped,m){m.def("quantize(Tensor input) -> (Tensor, Tensor)");m.def("matmul(Tensor a,Tensor ascale,Tensor packed,Tensor wscale,Tensor ends,int minimum_rows=0) -> Tensor");}
+TORCH_LIBRARY_IMPL(qwen36_mindieq_grouped,PrivateUse1,m){m.impl("matmul",&grouped);m.impl("quantize",&quantize);}

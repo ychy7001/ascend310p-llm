@@ -32,7 +32,7 @@ if os.environ.get('QWEN36_MINDIEQ_ENABLED','0')=='1':
     files['MINDIEQ_LIBRARY']={'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 files['MODEL_INDEX']={'sha256':hashlib.sha256((Path(os.environ['MODEL_DIR'])/'model.safetensors.index.json').read_bytes()).hexdigest()}
 print(json.dumps({'profile':(root/'configs/tp1-48g-112k.env').read_text(),'artifacts':files,
-                  'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
+                  'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'mindieq_custom_quant':os.environ.get('QWEN36_MINDIEQ_CUSTOM_QUANT','0'),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
 PY
 if [[ ${1:-} == --check ]]; then exit 0; fi
 exec bash "$root/experimental/run-gdn-112k-product.sh"

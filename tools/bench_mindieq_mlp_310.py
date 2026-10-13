@@ -20,6 +20,7 @@ from check_w4_grouped_prefill_310 import signed_nibbles
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--grouped-custom-quant',action='store_true',help='grouped调用自定义FP32算术A8准备')
     p.add_argument('--grouped-native-layout',action='store_true',help='grouped扩展直接读取native signed权重布局')
     p.add_argument('--grouped-library',help='独立MindIEQ设备端分组原型扩展')
     p.add_argument('--model',type=Path,required=True)
@@ -88,7 +89,7 @@ def main():
     with a.out.open('x') as f:
         f.write(json.dumps({'kind':'config','scope':__doc__,'warmup':0 if a.validate_only else 5,'repeats':0 if a.validate_only else 20,'experts':a.experts,
                             'weight_scope':f'real layer0 expert0..{weight_experts-1}; repeated if weight_experts<experts',
-                            'activations':'native fused pack vs torch_npu.npu_dynamic_quant','grouped_native_layout':a.grouped_native_layout,
+                            'activations':'native fused pack vs torch_npu.npu_dynamic_quant','grouped_custom_quant':a.grouped_custom_quant,'grouped_native_layout':a.grouped_native_layout,
                             'retain_native_inputs':a.retain_native_inputs,'graph':a.graph,'queued_repeats':a.queued_repeats,'activation_draw':a.activation_draw,'retain_intermediates':a.retain_intermediates,'validate_only':a.validate_only,'diagnose_finite':a.diagnose_finite,'synchronize_producers':a.synchronize_producers,'route_trace':str(a.route_trace) if a.route_trace else None,
                             'non_native_swiglu':'FP32 silu and multiply -> FP16 -> dynamic quant'})+'\n');f.flush()
         cases=[]
@@ -162,10 +163,13 @@ def main():
             funcs={'native_w4':native_mlp,'mindieq_w4':lambda:alternate_mlp('mindieq'),'w8':lambda:alternate_mlp('w8')}
             if a.grouped_library:
                 def grouped_projection(inputs,bank):
-                    q,s=torch_npu.npu_dynamic_quant(inputs)
-                    q=torch_npu.npu_format_cast(q,2).contiguous()
-                    q=torch.cat([q,torch.zeros((16,q.shape[1]),device=q.device,dtype=q.dtype)])
-                    s=torch.cat([s.float(),torch.zeros(16,device=s.device,dtype=torch.float32)])
+                    if a.grouped_custom_quant:
+                        q,s=torch.ops.qwen36_mindieq_grouped.quantize(inputs)
+                    else:
+                        q,s=torch_npu.npu_dynamic_quant(inputs)
+                        q=torch_npu.npu_format_cast(q,2).contiguous()
+                        q=torch.cat([q,torch.zeros((16,q.shape[1]),device=q.device,dtype=q.dtype)])
+                        s=torch.cat([s.float(),torch.zeros(16,device=s.device,dtype=torch.float32)])
                     return torch.ops.qwen36_mindieq_grouped.matmul(q,s,*bank,boundaries)
                 def grouped_mlp():
                     gate=grouped_projection(x,grouped_banks[0])

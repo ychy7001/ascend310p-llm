@@ -1,0 +1,14 @@
+{
+  "library_sha256": "246cc4656cf401cc01586628bf018c2132251d9e22db2fb93ad17ddba8685de0",
+  "external_commit": "d9c9871aa335f7b5638e9a2679a45bb3e7561d3a",
+  "sources": {
+    "experimental/mindieq_grouped_kernel/CMakeLists.txt": "e7d5ab9b7014ef74de3061eb446ef45450c375f6790d2dc51ce599574845461e",
+    "experimental/mindieq_grouped_kernel/activation_quant.cpp": "f3fd79ac96c8d8ee85697bb0e8fa47419126771fd6001c5160c42fcb75072627",
+    "experimental/mindieq_grouped_kernel/register.cpp": "3e2d59bd2f14d8bed3400d752386fbb018c07994f6651a38146f71f04329e20d",
+    "experimental/mindieq_prefill_adapter.py": "0460a171cb7d464cecf57199622dd163da71c6dfcaed19cfbcf96b2a4dddd783",
+    "tools/check_a8_quant_310.py": "cdece994567267d4929437b3ee7d88a5b9cc5281b83e01238cfac78e7a1d6cdb",
+    "tools/bench_mindieq_mlp_310.py": "5aa0b5c8a6d2ef312664a34e851dec345bb764d5e9873b1985d96da850ca1711",
+    "experimental/run-c8-service.sh": "e9b03802ae44ec2a69f186bd0de679f6065905d6191d32f51d65834d020d74dc",
+    "scripts/run-candidate.sh": "9ed97fafd49814f0e30ca8d75226beb942ec6e253f4797be7a11f1aeb23187e6"
+  }
+}

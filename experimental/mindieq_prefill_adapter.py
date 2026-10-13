@@ -8,15 +8,19 @@ from vllm_ascend.models.qwen4_exp.w4_moe import W4SparseMoE, build_grouped_exper
 torch.ops.load_library(os.environ['QWEN36_MINDIEQ_LIBRARY'])
 original=W4SparseMoE._forward_grouped
 reported=False
+custom_quant=os.environ.get("QWEN36_MINDIEQ_CUSTOM_QUANT","0")=="1"
 
 def projection(inputs,bank,ends):
     e,n,k2=bank.weight.shape
     if k2*2 not in (512,2048) or n not in (1024,2048):
         raise RuntimeError('MindIEQ prototype requires Qwen3.6 TP1 expert shapes')
-    q,s=torch_npu.npu_dynamic_quant(inputs)
-    q=torch_npu.npu_format_cast(q,2).contiguous()
-    q=torch.cat([q,torch.zeros((16,q.shape[1]),device=q.device,dtype=q.dtype)])
-    s=torch.cat([s.float(),torch.zeros(16,device=s.device,dtype=torch.float32)])
+    if custom_quant:
+        q,s=torch.ops.qwen36_mindieq_grouped.quantize(inputs)
+    else:
+        q,s=torch_npu.npu_dynamic_quant(inputs)
+        q=torch_npu.npu_format_cast(q,2).contiguous()
+        q=torch.cat([q,torch.zeros((16,q.shape[1]),device=q.device,dtype=q.dtype)])
+        s=torch.cat([s.float(),torch.zeros(16,device=s.device,dtype=torch.float32)])
     packed=bank.weight.view(torch.int32).reshape(e,-1)
     # native scale [N/16,K/128,16]；SSZ checkpoint各group重复相同scale。
     scale=bank.weight_scale.reshape(e,n//16,k2//64,16)[:,:,0,:].reshape(e,n).float().contiguous()
@@ -48,4 +52,4 @@ def forward(self,block_input,weights,ids):
     return result
 
 W4SparseMoE._forward_grouped=forward
-print('[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; native Decode retained',flush=True)
+print(f'[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant={custom_quant}; native Decode retained',flush=True)
