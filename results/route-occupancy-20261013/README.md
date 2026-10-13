@@ -64,3 +64,5 @@ python3 /project/tools/summarize_route_occupancy.py /work/route-occupancy/combin
 ## 工程决定
 
 保持TP1/48G/112K、W4A8+C8+MTP2+Graph+GDN、4096/512、prefix关闭的部署候选。本轮未改变推理默认值，也未生成新模型权重。继续投入方向是先解决MindIEQ异步完整MLP数值门禁，再做设备端按专家行数选择或融合GMM，避免每层读取CPU counts/逐专家提交。再次通过完整MLP、Graph、模型质量后才开展端到端集成。
+
+实验结束后已关闭路由诊断并恢复a2端口18024常规候选，health HTTP200；英语/中文/代码/数学/重复文本5项64-token生成检查PASS（candidate-restored-sanity.json）。这是基本生成检查，不是完整质量评估或本轮长上下文复测。
