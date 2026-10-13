@@ -13,6 +13,8 @@
 
 模型制品：[ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P)。发布状态及独立加载证据以[验证记录](docs/release-validation.md)为准。
 
+后续实验原始数据、关键日志和复现记录保存在本仓库的 `results/`，结论与参数选择更新到 `docs/`。此前群聊对接文档已交付；不再向 `/home/ychy/workspace/data/ascend` 写入或同步新报告。关键日志使用可追踪的 `.txt` 文件，避免被 `*.log` 忽略规则排除。
+
 ## 精度与计算路径
 
 仅routed experts量化为signed INT4，使用ModelSlim对称per-channel SSZ。scale按G128 kernel布局重复存储，**不是独立group-wise量化**。activation为设备端per-token INT8，使用INT4 limbs分解组合Cube整数计算。非专家张量保留原始浮点；MTP保留Qwen3.6自身19个BF16张量。text-only生成已测试，图像能力未验收。来源与社区贡献见[provenance](docs/provenance.md)和[NOTICE](NOTICE)。
