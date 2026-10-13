@@ -49,6 +49,9 @@ bash experimental/run-gdn-112k-product.sh
 
 ## 后续边界
 
-这轮收敛目标是已有112K单流候选。已完成新GDN下MTP1/2固定输入对照，prefix初测见results/pr17640-prefix-20261013；尚需MTP0对照、prefix更多质量/压力测试、并发2/4/8、TTFT/TPOT尾延迟、更多任务精度、长文decode128以上稳定性。48G以外的32G硬件、TP2及官方main迁移不能由本轮结果外推。MindIEQ W4存储INT8计算路径尚无稳定加速，未替换权重后端。
+这轮收敛目标是已有112K单流候选。已完成新GDN下MTP1/2固定输入对照，prefix初测见results/pr17640-prefix-20261013；尚需MTP0对照、prefix更多质量/压力测试、并发2/4/8、TTFT/TPOT尾延迟、更多任务精度、长文decode128以上稳定性。48G以外的32G硬件、TP2及官方main迁移不能由本轮结果外推。MindIEQ可选Prefill路径已完成独立服务性能及小子集门禁，后续新A8/阈值128/Gate量化共享结果见results/mindieq-shared-gate-20261014；仍默认off，8K接受率及Decode差异未消除。
 
 本轮工程结论：采用4096/512作为新的单流实验基线，服务保留a2的18024端口；仍保留原启动器用于回归。未将这一小样本门禁写成正式产品验收。
+
+
+E5共享Gate组合新增114560token检索通过、297.832秒、后续sanity5/5；追加114560输入+128输出持续生成三次正在执行。不能把canary或vLLM缓存估计作为持续速度/最大上下文证明。

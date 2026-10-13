@@ -1,0 +1,10 @@
+{
+  "scope": "同SHA单次检索总时间；非持续Decode/最大上下文或全面长文质量",
+  "input_tokens": 114560,
+  "E5_elapsed_s": 297.831945330021,
+  "C3_elapsed_s": 303.26394517399604,
+  "native_historical_elapsed_s": 348.94114446797175,
+  "relative_vs_C3": -0.017911789154027136,
+  "relative_vs_native": -0.14646939734171116,
+  "post_sanity": "PASS 5/5"
+}

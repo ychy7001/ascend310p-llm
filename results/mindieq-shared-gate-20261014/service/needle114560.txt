@@ -1,0 +1,1 @@
+{"kind": "result", "elapsed_s": 297.831945330021, "text": "\n\n<think>\n\n</think>\n\nASCEND732941", "expected": "ASCEND732941", "retrieved": true, "usage": {"prompt_tokens": 114560, "total_tokens": 114574, "completion_tokens": 14, "prompt_tokens_details": null}, "finish_reason": "stop"}
