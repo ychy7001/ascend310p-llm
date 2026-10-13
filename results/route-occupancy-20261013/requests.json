@@ -1,0 +1,77 @@
+[
+  {
+    "case": "technical",
+    "prompt_tokens": 8192,
+    "prompt_ids_sha256": "0eb2f8d88c2be4f59047c7f0300c0e2989bee073b98e513c6af82ca3d15b0e39",
+    "usage": {
+      "prompt_tokens": 8192,
+      "total_tokens": 8200,
+      "completion_tokens": 8,
+      "prompt_tokens_details": null
+    },
+    "output": [
+      {
+        "index": 0,
+        "text": " and numerical precision. Explain how quantization",
+        "logprobs": null,
+        "finish_reason": "length",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "timing_valid": false
+  },
+  {
+    "case": "meeting",
+    "prompt_tokens": 8192,
+    "prompt_ids_sha256": "62b2bcf03609590559949304c6fba6e74a0af1a28223cbbe53c7d5c708b6c4b7",
+    "usage": {
+      "prompt_tokens": 8192,
+      "total_tokens": 8200,
+      "completion_tokens": 8,
+      "prompt_tokens_details": null
+    },
+    "output": [
+      {
+        "index": 0,
+        "text": "芳负责测试112K上下文",
+        "logprobs": null,
+        "finish_reason": "length",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "timing_valid": false
+  },
+  {
+    "case": "code",
+    "prompt_tokens": 8192,
+    "prompt_ids_sha256": "726c0e5438212c88651b2bd17d4b5bb60a18a10d3f38d626513d83b45b14c1c2",
+    "usage": {
+      "prompt_tokens": 8192,
+      "total_tokens": 8200,
+      "completion_tokens": 8,
+      "prompt_tokens_details": null
+    },
+    "output": [
+      {
+        "index": 0,
+        "text": " if result and start <= result[-1",
+        "logprobs": null,
+        "finish_reason": "length",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "timing_valid": false
+  }
+]

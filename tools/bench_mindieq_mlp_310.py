@@ -5,6 +5,7 @@
 import argparse
 import importlib.util
 import json
+from itertools import accumulate
 import time
 from pathlib import Path
 from statistics import median
@@ -25,17 +26,28 @@ def main():
     p.add_argument('--synchronize-producers',action='store_true')
     p.add_argument('--experts',type=int,choices=[8,64,256],default=8)
     p.add_argument('--rows',type=int,nargs='+',default=[8,128,512,1024,4096])
+    p.add_argument('--activation-draw',type=int,default=0,help='跳过指定次4096x2048 CPU随机输入，重现原三分布测试的第3次输入用2')
+    p.add_argument('--retain-intermediates',action='store_true',help='诊断张量生命周期：完整MLP同步前保留中间张量')
+    p.add_argument('--validate-only',action='store_true',help='仅检查输出数值，故障诊断不执行warmup/计时')
+    p.add_argument('--route-percentiles',type=float,nargs='+',default=[.05,.5,.95])
+    p.add_argument('--diagnose-finite',action='store_true',help='逐投影同步检查，仅用于故障定位，不得用于测速')
+    p.add_argument('--real-expert-weights',action='store_true',help='加载层0全部专家，避免重复8个专家带来的权重缓存偏差')
+    p.add_argument('--hybrid',action='store_true',help='静态CPU分组诊断：小专家走native，128/256行以上走MindIEQ')
+    p.add_argument('--route-trace',type=Path,help='真实256专家计数；权重仍为8专家重复，不能代替端到端测试')
     a=p.parse_args()
+    if a.route_trace and a.experts!=256:
+        p.error('--route-trace requires --experts 256')
     torch.set_num_threads(4);torch.manual_seed(310)
     torch.ops.load_library(a.library)
     spec=importlib.util.spec_from_file_location('external_qmm',a.upstream_test)
     external=importlib.util.module_from_spec(spec);spec.loader.exec_module(external)
     index=json.loads((a.model/'model.safetensors.index.json').read_text())['weight_map']
-    native=[load_bank(a.model,names) for names in [('gate_proj','up_proj'),('down_proj',)]]
+    weight_experts=a.experts if a.real_expert_weights else 8
+    native=[load_bank(a.model,names,experts=weight_experts) for names in [('gate_proj','up_proj'),('down_proj',)]]
     other=[]
     for names in [('gate_proj','up_proj'),('down_proj',)]:
         banks=[]
-        for expert in range(8):
+        for expert in range(weight_experts):
             parts=[]
             for name in names:
                 ts=[]
@@ -51,74 +63,126 @@ def main():
             w8=torch_npu.npu_format_cast(weight.npu(),29).T
             banks.append((packed,w8,scales[:,0].float().npu()))
         other.append(banks)
-    if a.experts!=8:
+    if a.experts!=8 and not a.real_expert_weights:
         native=[[t.repeat(a.experts//8,1,1) for t in bank] for bank in native]
         other=[bank*(a.experts//8) for bank in other]
     with a.out.open('x') as f:
         f.write(json.dumps({'kind':'config','scope':__doc__,'warmup':5,'repeats':20,'experts':a.experts,
-                            'weight_scope':'real expert0..7 repeated if experts>8; synthetic occupancy',
+                            'weight_scope':f'real layer0 expert0..{weight_experts-1}; repeated if weight_experts<experts',
                             'activations':'native fused pack vs torch_npu.npu_dynamic_quant',
-                            'synchronize_producers':a.synchronize_producers,
+                            'activation_draw':a.activation_draw,'retain_intermediates':a.retain_intermediates,'validate_only':a.validate_only,'diagnose_finite':a.diagnose_finite,'synchronize_producers':a.synchronize_producers,'route_trace':str(a.route_trace) if a.route_trace else None,
                             'non_native_swiglu':'FP32 silu and multiply -> FP16 -> dynamic quant'})+'\n');f.flush()
-        for rows in a.rows:
-            for routing in ['balanced','one_expert']:
-                ends=[rows*(i+1)//a.experts for i in range(a.experts)] if routing=='balanced' else [rows]*a.experts
-                boundaries=torch.tensor(ends,dtype=torch.int64).npu()
-                x=(torch.randn(rows,2048)*.2).half().npu()
-                def native_mlp():
-                    pack=torch.ops.qwen36_int4.pack(x)
-                    gate=torch.ops.qwen36_int4.matmul(*pack,*native[0],boundaries)
-                    if rows<=128:
-                        pack=torch.ops.qwen36_int4.swiglu_pack(gate)
-                    else:
-                        g,u=gate.float().chunk(2,dim=-1)
-                        pack=torch.ops.qwen36_int4.pack((torch.nn.functional.silu(g)*u).half())
-                    return torch.ops.qwen36_int4.matmul(*pack,*native[1],boundaries)
-                def alternate_mlp(backend):
-                    outputs=[];start=0
-                    # Each expert slice resident; counts fixed on host for this diagnostic.
+        cases=[]
+        if a.route_trace:
+            traces=[json.loads(line) for line in a.route_trace.read_text().splitlines()]
+            traces=[r for r in traces if r['chunk_tokens']==512]
+            if not traces:
+                raise ValueError('route trace has no full 512-token chunk')
+            traces.sort(key=lambda r:max(r['counts']))
+            for position in a.route_percentiles:
+                if not 0<=position<=1:raise ValueError('route percentile must be in [0,1]')
+                label=f'p{round(position*100):02d}'
+                trace=traces[int((len(traces)-1)*position)]
+                counts=trace['counts']
+                assert len(counts)==a.experts and sum(counts)==4096
+                cases.append((sum(counts),'real_occupancy_'+label,list(accumulate(counts))))
+        else:
+            for rows in a.rows:
+                for routing in ['balanced','one_expert']:
+                    ends=[rows*(i+1)//a.experts for i in range(a.experts)] if routing=='balanced' else [rows]*a.experts
+                    cases.append((rows,routing,ends))
+        for _ in range(a.activation_draw):torch.randn(4096,2048)
+        for rows,routing,ends in cases:
+            boundaries=torch.tensor(ends,dtype=torch.int64).npu()
+            x=(torch.randn(rows,2048)*.2).half().npu()
+            def native_for(inputs,group_ends):
+                pack=torch.ops.qwen36_int4.pack(inputs)
+                gate=torch.ops.qwen36_int4.matmul(*pack,*native[0],group_ends)
+                if inputs.shape[0]<=128:
+                    pack=torch.ops.qwen36_int4.swiglu_pack(gate)
+                else:
+                    g,u=gate.float().chunk(2,dim=-1)
+                    pack=torch.ops.qwen36_int4.pack((torch.nn.functional.silu(g)*u).half())
+                return torch.ops.qwen36_int4.matmul(*pack,*native[1],group_ends)
+            def native_mlp():
+                return native_for(x,boundaries)
+            def alternate_mlp(backend,selected=None):
+                outputs=[];start=0;retained=[]
+                # Each expert slice resident; counts fixed on host for this diagnostic.
+                for expert,end in enumerate(ends):
+                    if end==start:continue
+                    if selected is not None and expert not in selected:
+                        start=end;continue
+                    q,s=torch_npu.npu_dynamic_quant(x[start:end])
+                    s=s.float().contiguous()
+                    q=torch_npu.npu_format_cast(q,2).contiguous()
+                    w,w8,ws=other[0][expert]
+                    if backend=='mindieq' and a.synchronize_producers:torch.npu.synchronize()
+                    gate=external.OP(q,s,w,ws) if backend=='mindieq' else torch_npu.npu_quant_matmul(q,w8,ws,pertoken_scale=s,output_dtype=torch.float16)
+                    if a.diagnose_finite:
+                        assert torch.isfinite(gate).all().item(),('gate',backend,expert,end-start)
+                    if a.retain_intermediates:retained.extend([q,s,gate])
+                    g,u=gate.float().chunk(2,dim=-1)
+                    hidden=(torch.nn.functional.silu(g)*u).half()
+                    q,s=torch_npu.npu_dynamic_quant(hidden)
+                    s=s.float().contiguous()
+                    q=torch_npu.npu_format_cast(q,2).contiguous()
+                    w,w8,ws=other[1][expert]
+                    if backend=='mindieq' and a.synchronize_producers:torch.npu.synchronize()
+                    out=external.OP(q,s,w,ws) if backend=='mindieq' else torch_npu.npu_quant_matmul(q,w8,ws,pertoken_scale=s,output_dtype=torch.float16)
+                    if a.diagnose_finite:
+                        assert torch.isfinite(out).all().item(),('down',backend,expert,end-start)
+                    if a.retain_intermediates:retained.extend([hidden,q,s,out])
+                    outputs.append(out);start=end
+                result=torch.cat(outputs)
+                if a.retain_intermediates:torch.npu.synchronize()
+                return result
+            funcs={'native_w4':native_mlp,'mindieq_w4':lambda:alternate_mlp('mindieq'),'w8':lambda:alternate_mlp('w8')}
+            if a.hybrid:
+                counts=[end-(ends[i-1] if i else 0) for i,end in enumerate(ends)]
+                for threshold in [128,256]:
+                    large={i for i,count in enumerate(counts) if count>=threshold}
+                    small_indices=[];large_indices=[];small_counts=[];begin=0
                     for expert,end in enumerate(ends):
-                        if end==start:continue
-                        q,s=torch_npu.npu_dynamic_quant(x[start:end])
-                        s=s.float().contiguous()
-                        q=torch_npu.npu_format_cast(q,2).contiguous()
-                        w,w8,ws=other[0][expert]
-                        if backend=='mindieq' and a.synchronize_producers:torch.npu.synchronize()
-                        gate=external.OP(q,s,w,ws) if backend=='mindieq' else torch_npu.npu_quant_matmul(q,w8,ws,pertoken_scale=s,output_dtype=torch.float16)
-                        g,u=gate.float().chunk(2,dim=-1)
-                        hidden=(torch.nn.functional.silu(g)*u).half()
-                        q,s=torch_npu.npu_dynamic_quant(hidden)
-                        s=s.float().contiguous()
-                        q=torch_npu.npu_format_cast(q,2).contiguous()
-                        w,w8,ws=other[1][expert]
-                        if backend=='mindieq' and a.synchronize_producers:torch.npu.synchronize()
-                        out=external.OP(q,s,w,ws) if backend=='mindieq' else torch_npu.npu_quant_matmul(q,w8,ws,pertoken_scale=s,output_dtype=torch.float16)
-                        outputs.append(out);start=end
-                    return torch.cat(outputs)
-                funcs={'native_w4':native_mlp,'mindieq_w4':lambda:alternate_mlp('mindieq'),'w8':lambda:alternate_mlp('w8')}
-                reference=native_mlp().cpu().float();errors={}
-                for name,fn in funcs.items():
-                    output=fn().cpu().float()
-                    errors[name]={'max_abs':(output-reference).abs().max().item(),
-                                  'relative_l2':((output-reference).norm()/reference.norm().clamp_min(1e-12)).item(),
-                                  'finite':bool(torch.isfinite(output).all())}
-                    assert errors[name]['finite'], (rows,routing,name,errors[name])
-                    # Independent per-token quantizers can differ at rounding boundaries.
-                    assert errors[name]['relative_l2']<.03,errors[name]
+                        (large_indices if expert in large else small_indices).extend(range(begin,end))
+                        small_counts.append(0 if expert in large else end-begin);begin=end
+                    small_ids=torch.tensor(small_indices,dtype=torch.int64).npu()
+                    small_ends=torch.tensor(list(accumulate(small_counts)),dtype=torch.int64).npu()
+                    inverse=torch.argsort(torch.tensor(small_indices+large_indices,dtype=torch.int64)).npu()
+                    def hybrid(large=large,small_ids=small_ids,small_ends=small_ends,inverse=inverse):
+                        outputs=[]
+                        if small_ids.numel():outputs.append(native_for(x.index_select(0,small_ids),small_ends))
+                        if large:outputs.append(alternate_mlp('mindieq',large))
+                        return torch.cat(outputs).index_select(0,inverse)
+                    funcs[f'hybrid_{threshold}']=hybrid
+            reference=native_mlp().cpu().float();errors={}
+            for name,fn in funcs.items():
+                output=fn().cpu().float()
+                errors[name]={'max_abs':(output-reference).abs().max().item(),
+                              'relative_l2':((output-reference).norm()/reference.norm().clamp_min(1e-12)).item(),
+                              'finite':bool(torch.isfinite(output).all())}
+                assert errors[name]['finite'], (rows,routing,name,errors[name])
+                # Independent per-token quantizers can differ at rounding boundaries.
+                assert errors[name]['relative_l2']<.03,errors[name]
+                if not a.validate_only:
                     for _ in range(5):fn()
-                torch.npu.synchronize();samples={name:[] for name in funcs}
-                for repeat in range(20):
-                    order=list(funcs);order=order[repeat%3:]+order[:repeat%3]
-                    for name in order:
-                        begin=time.perf_counter();funcs[name]();torch.npu.synchronize()
-                        samples[name].append((time.perf_counter()-begin)*1000)
-                row={'kind':'measurement','rows':rows,'routing':routing,'group_ends':ends,
-                     'status':'PASS','errors_vs_native':errors,'latency_ms':samples,
-                     'median_ms':{name:median(v) for name,v in samples.items()},
-                     'scope':'synchronized full MLP fixed grouping; no router/combine'}
-                f.write(json.dumps(row)+'\n');f.flush()
-                print(json.dumps({k:v for k,v in row.items() if k!='latency_ms'}),flush=True)
-        f.write(json.dumps({'kind':'summary','status':'PASS','cases':2*len(a.rows)})+'\n')
+            if a.validate_only:
+                row={'kind':'validation','routing':routing,'rows':rows,'status':'PASS','timing_valid':False,'errors_vs_native':errors}
+                f.write(json.dumps(row)+'\n');f.flush();print(json.dumps(row),flush=True)
+                continue
+            torch.npu.synchronize();samples={name:[] for name in funcs}
+            for repeat in range(20):
+                order=list(funcs);order=order[repeat%len(order):]+order[:repeat%len(order)]
+                for name in order:
+                    begin=time.perf_counter();funcs[name]();torch.npu.synchronize()
+                    samples[name].append((time.perf_counter()-begin)*1000)
+            row={'kind':'measurement','rows':rows,'routing':routing,'group_ends':ends,
+                 'status':'PASS','errors_vs_native':errors,'latency_ms':samples,
+                 'median_ms':{name:median(v) for name,v in samples.items()},
+                 'timing_valid':not a.diagnose_finite,'scope':'synchronized full MLP fixed grouping; no router/combine'}
+            f.write(json.dumps(row)+'\n');f.flush()
+            print(json.dumps({k:v for k,v in row.items() if k!='latency_ms'}),flush=True)
+        f.write(json.dumps({'kind':'summary','status':'PASS','cases':len(cases)})+'\n')
 
 
 if __name__=='__main__':main()

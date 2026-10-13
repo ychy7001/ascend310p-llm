@@ -30,6 +30,8 @@ bash scripts/run-candidate.sh
 
 最新速度、质量和上下文边界以[GDN候选说明](docs/gdn-112k-candidate.md)、[MTP对照](results/pr17640-mtp-20261013/README.md)和[prefix复用](results/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
 
+最新 Prefill 路由与 MindIEQ 混合后端门禁见[实测记录](results/route-occupancy-20261013/README.md)：已覆盖三类8K输入和真实专家权重，出现异步完整MLP数值阻塞，尚未改变默认后端。
+
 ## 精度与计算路径
 
 仅routed experts量化为signed INT4，使用ModelSlim对称per-channel SSZ。scale按G128 kernel布局重复存储，**不是独立group-wise量化**。activation为设备端per-token INT8，使用INT4 limbs分解组合Cube整数计算。非专家张量保留原始浮点；MTP保留Qwen3.6自身19个BF16张量。text-only生成已测试，图像能力未验收。来源与社区贡献见[provenance](docs/provenance.md)和[NOTICE](NOTICE)。

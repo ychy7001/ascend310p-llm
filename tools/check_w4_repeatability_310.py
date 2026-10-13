@@ -27,10 +27,10 @@ def native_metadata(tensor):
     return tensor.reshape(tensor.shape[0]//16, 16, -1).transpose(1, 2).contiguous().view_as(tensor)
 
 
-def load_bank(root, projections):
+def load_bank(root, projections, experts=8):
     index = json.loads((root/'model.safetensors.index.json').read_text())['weight_map']
     columns = [[], [], [], []]
-    for expert in range(8):
+    for expert in range(experts):
         parts = []
         for projection in projections:
             tensors = []
