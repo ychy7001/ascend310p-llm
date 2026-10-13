@@ -107,6 +107,8 @@ C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段
 
 随后完成同协议 MTP1 对照：仍为 112K Graph、W4A8+C8、32256输入/256输出、unique prompt。MTP1 Prefill/Decode 中位为`339.28/23.20 tok/s`，MTP2为`336.56/28.94 tok/s`；MTP2 Decode提升约`24.8%`，Prefill下降约`0.8%`。这是当前最可信的 MTP1/MTP2 方向性收益数据，建议产品提供 MTP2 高Decode档，同时默认保留 MTP1 作为兼容/低波动档。
 
+并发探针补充：112K Graph/MTP2、8K输入/128输出、prefix cache关闭时，concurrency=2总输出吞吐约`5.06 tok/s`、TTFT中位`34.51s`，concurrency=4仍约`5.06 tok/s`、TTFT中位`59.83s`，TPOT均约`26.95ms`。并发扩展没有提高总吞吐，当前瓶颈是Prefill/调度而不是MTP2单token Decode；因此TP1产品规格需单独公布并发TTFT/总吞吐，不能用单流Decode代替。
+
 ## 长上下文与显存口径
 
 vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C8 自己所有物理池的字节数，也不是当前请求已经使用的 token 数。C8 还要为 hybrid state、页对齐、scale 和共享 FP16 NZ scratch 保留空间。因此容量评估必须同时记录：启动配置上限、scheduler KV token 数、`C8_BUDGET`、实际请求长度、`npu-smi` 采样峰值和是否发生 OOM。
