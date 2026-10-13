@@ -14,3 +14,12 @@
 MindIEQ 的 Prefill 优势随上下文增长而收窄，但在 112K 产品规格仍保持约 14.7% 的单流 Prefill 收益；Decode 基本相同。因此可以把 MindIEQ 定位为长 Prefill 分流优化，默认阈值建议继续保留为 128 token 以上的实验开关，并在产品压测中分别报告 C8/原始 W4 的长 Prefill 与 Decode。
 
 原始数据：`long64-pair.out`、`long112-pair.out`；服务日志：`mindieq-112k-service.log`、`original-112k-service.log`。
+
+## 112K needle 正确性
+
+同一 `needle_fraction=0.73`、`114560` token 文档在两个服务各执行一次，均返回目标 `ASCEND732941`，usage 均为 `114560 + 14`，finish reason 为 `stop`：
+
+- MindIEQ：`298.080 s`，`retrieved=true`；
+- 原始 W4：`348.150 s`，`retrieved=true`。
+
+该结果只证明一个固定位置的检索 canary，不等价于完整长上下文质量评估；原始 JSON 保存在 `needle-mindieq-112k.json` 和 `needle-original-112k.json`。
