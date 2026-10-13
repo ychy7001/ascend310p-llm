@@ -23,3 +23,14 @@
 每次均通过计数器和 usage 校验。MTP 计数完全一致：draft 44 轮、draft token 88、accepted token 84，接受率 95.45%，平均接受长度 2.909。原始记录见 `current-8k-20261014.jsonl`。
 
 该结果只证明当前服务在本次复测中运行正常。它不能单独构成 MindIEQ 相对 W4/W8A8 的因果加速结论，因为服务同时启用了 GDN、C8、MTP2 和 Graph；正式比较仍以 `results/mindieq-native-layout-20261013/` 的配对记录为准。
+
+## 32K/128 结果
+
+同一服务继续执行 32256 token、输出 128、warmup 1 + 正式 3 次：
+
+| 指标 | 三次结果 | 中位数 |
+|---|---:|---:|
+| Prefill tok/s | 546.851 / 546.397 / 545.844 | **546.397** |
+| Decode tok/s | 29.185 / 29.153 / 29.136 | **29.153** |
+
+三次请求均通过计数器/usage 校验；MTP 每次 43 drafts、86 drafted、86 accepted，接受率 100%，平均接受长度 3。相对本次 8K 复测，32K Prefill 下降约 12.6%，Decode 下降约 18.7%；这反映长 KV/注意力成本，不能归因于 MindIEQ 单独开销。
