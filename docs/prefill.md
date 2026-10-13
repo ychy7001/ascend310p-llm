@@ -127,3 +127,26 @@ MTP1的8K/256三轮完成，与无MTP相同32K上限/FP16KV/eager/.90/1024:512/p
 | 3072 | 376.06 | 33.70 |
 
 这是eager路径，不是Graph收益结论。该段历史记录中的 MTP2 Graph 失败日志仍保留；后续通过 pinned 镜像兼容开关和`COMPILATION_MODE=0`完成了 C8+MTP2+Graph 的4K/32K/112K门禁。当前产品候选和最新数据见`docs/c8.md`与`docs/parameter-selection-20261012.md`；默认仍建议MTP1，MTP2作为显式实验档。
+
+## W4 MatMul tile candidates (2026-10-13)
+
+The detailed TP1 profile identified `QwenW4A8Int4MatmulV310` as the main
+kernel cost: 400 calls and 3980.758 ms for the 4096-token prefill workload.
+The stable dispatch uses M=32 for this routed-prefill range and already
+prefetches the next G128 weight group during the first limb's Cube operation.
+
+Two isolated dispatch candidates were tested as complete OPP packages:
+
+| Candidate | Workload | Median Prefill | Result |
+| --- | --- | ---: | --- |
+| M=16 | TP1/eager/MTP0/FP16 KV, 4096 tokens | 328.8313 tok/s | Rejected, about 13% slower |
+| M=64 | TP1/eager/MTP0/FP16 KV, 4096 tokens | 376.7562 tok/s | Rejected, no improvement |
+
+Both candidates preserved the source numerical path and passed request usage
+checks. Their dispatch changes were reverted; the stable source remains M=32
+for the measured prefill range. Raw M=16 data and the detailed profile are in
+`results/m16-prefill-candidate-20261013/` and
+`results/tp1-prefill-profile-20261012/`; M=64 is in
+`results/m64-prefill-candidate-20261013/`. Further optimization should target
+the full routed-expert schedule and its surrounding route/layout work, rather
+than selecting a smaller or larger M tile from this simple dispatch change.
