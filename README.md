@@ -19,7 +19,7 @@
 
 ## 最新单流部署候选
 
-当前收敛配置为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、4096/512、112K，prefix默认关闭。配置事实源为`configs/tp1-48g-112k.env`；设置MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE后执行：
+当前收敛配置为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、4096/512、112K，prefix默认关闭。 现行参数矩阵与最新 8K/32K/114560 门禁见[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为`configs/tp1-48g-112k.env`；设置MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json
