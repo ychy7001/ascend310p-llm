@@ -1,0 +1,30 @@
+==== graph case (16,2048,2048) [decode] ====
+[W1013 08:52:44.824829973 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+  capture OK handle=94938465726288
+  debug json -> /tmp/r3_ext_modelri_16.json
+  replay#0 mismatch=0/32768 bitSameFirst=YES
+  replay#1 mismatch=0/32768 bitSameFirst=YES
+  replay#2 mismatch=0/32768 bitSameFirst=YES
+  replay#3 mismatch=0/32768 bitSameFirst=YES
+  replay#4 mismatch=0/32768 bitSameFirst=YES
+  replay#5 mismatch=0/32768 bitSameFirst=YES
+  replay#6 mismatch=0/32768 bitSameFirst=YES
+  replay#7 mismatch=0/32768 bitSameFirst=YES
+  verdict: PASS (8/8)
+==== graph case (1024,2048,2048) [big] ====
+  capture OK handle=94938467363024
+  debug json -> /tmp/r3_ext_modelri_1024.json
+  replay#0 mismatch=0/2097152 bitSameFirst=YES
+  replay#1 mismatch=0/2097152 bitSameFirst=YES
+  replay#2 mismatch=0/2097152 bitSameFirst=YES
+  replay#3 mismatch=0/2097152 bitSameFirst=YES
+  replay#4 mismatch=0/2097152 bitSameFirst=YES
+  replay#5 mismatch=0/2097152 bitSameFirst=YES
+  replay#6 mismatch=0/2097152 bitSameFirst=YES
+  replay#7 mismatch=0/2097152 bitSameFirst=YES
+  verdict: PASS (8/8)
+ALL PASSED
+==== perf (16,2048,2048) ====
+  direct(python 全链) median=107.0us   replay(ri_execute+sync) median=81.1us   speedup=1.32x
+==== perf (1,2048,2048) ====
+  direct(python 全链) median=104.8us   replay(ri_execute+sync) median=78.9us   speedup=1.33x

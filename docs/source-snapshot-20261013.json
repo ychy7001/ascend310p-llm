@@ -41,6 +41,7 @@
     "experimental/run-c8-graph-sweep.sh": "199d46b988d1e005b0d3294db95a8a6dea33f009bf560e86828bd2dbef77bdb3",
     "experimental/run-c8-service.sh": "e99695f06ed9ea362a8dfda6f28c4dc86d74f14bc801f25a4fdf7d1a286e6314",
     "experimental/run-long-context-sweep.sh": "75990d84f24a084dd6b9f387b540b982a29833278bf5d7d91806ae86b62f9567",
+    "experimental/run-mindieq-qmm-check.sh": "477f8b092687fc43038c103148d4e3ef3280d31b386317085373be2ac39a818b",
     "experimental/run-mtp-sweep.sh": "29be314c04162a37c50558e9c12b10b8d124face0ba3d90645494e8f97cbd83f",
     "experimental/run-prefill-sweep.sh": "847c363e1d6253e2efad0de70adc8a98c63b40fd3cf382411635e19a62211687",
     "experimental/run-w4-prefill-check.sh": "3dbe11d4465ceace6705656636f4008fb8f886919a3447f9b1516063c9f6772c",
@@ -81,7 +82,10 @@
     "runtime/vllm_ascend/models/qwen4_exp/weight_mapping.py": "e807cdd7e07f03b606c7d9d9921ef1bde9c9fa1ea695aca939cbac6ce82530d6",
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
+    "tools/build_pr17640_wy_extension.py": "942d633e9c2a0e63ee6435de2c5faa1a28658839669b69daa314836ce19cec96",
     "tools/build_qwen36_int4_extension.py": "4c4475e67ae99c2cfa3c332e3caf0c91069bda131193b6f409f629728bc6f2d3",
+    "tools/check_mindieq_qmm_310.py": "baebc5725219dd6402f8962605eb15aabfaf6b1286cfb7f42a36114b6f84301d",
+    "tools/check_pr17640_wy_310.py": "977e3a55c7ca50aba46a023bb11d00e2bfb7d6eae1d1b5d51b33dd65df82a170",
     "tools/qwen36_int4_custom.cpp": "f6e3f4a46b4a28898050883da0341ca45545ab9d160852c631cf1ed93f91d7c7"
   }
 }

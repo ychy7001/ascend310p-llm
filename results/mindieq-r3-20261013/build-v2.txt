@@ -1,0 +1,1635 @@
+[2026-10-13 08:46:20] COMPUTE_UNIT: ascend310p
+[2026-10-13 08:46:20] CMAKE_ARGS: -DBUILD_PATH=/work/ops-nn/build -DENABLE_VALGRIND=FALSE -DCMAKE_BUILD_TYPE=Release -DENABLE_MSSANITIZER=FALSE -DENABLE_OOM=FALSE -DENABLE_DUMP_CCE=FALSE -DENABLE_COVERAGE=FALSE -DENABLE_TEST=FALSE -DENABLE_UT_EXEC=TRUE -DENABLE_CUSTOM=TRUE -DENABLE_STATIC=FALSE -DMODULE_EXT= -DASCEND_OP_NAME=quant_batch_matmul_v4 -UVENDOR_NAME -DENABLE_BINARY=TRUE -DENABLE_PACKAGE=TRUE -DENABLE_EXPERIMENTAL=FALSE -DNO_FORCE=FALSE -DBUILD_MODE= -DENABLE_CCACHE=TRUE -DOP_HOST_UT=FALSE -DOP_GRAPH_UT=FALSE -DOP_API_UT=FALSE -DOP_KERNEL_UT=FALSE -DOP_KERNEL_AICPU_UT=FALSE -DUT_TEST_ALL=FALSE -DASCEND_COMPUTE_UNIT=ascend310p -DCANN_3RD_LIB_PATH=/work/ops-nn/third_party
+[2026-10-13 08:46:20] -- The C compiler identification is GNU 11.4.0
+[2026-10-13 08:46:20] -- The CXX compiler identification is GNU 11.4.0
+[2026-10-13 08:46:21] -- Detecting C compiler ABI info
+[2026-10-13 08:46:21] -- Detecting C compiler ABI info - done
+[2026-10-13 08:46:21] -- Check for working C compiler: /usr/bin/cc - skipped
+[2026-10-13 08:46:21] -- Detecting C compile features
+[2026-10-13 08:46:21] -- Detecting C compile features - done
+[2026-10-13 08:46:21] -- Detecting CXX compiler ABI info
+[2026-10-13 08:46:21] -- Detecting CXX compiler ABI info - done
+[2026-10-13 08:46:21] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[2026-10-13 08:46:21] -- Detecting CXX compile features
+[2026-10-13 08:46:21] -- Detecting CXX compile features - done
+[2026-10-13 08:46:21] -- Enable ccache TRUE
+[2026-10-13 08:46:21] -- Enable ccache
+[2026-10-13 08:46:21] -- compile project with library
+[2026-10-13 08:46:21] -- Find opbase source dir: /work/ops-nn/third_party/opbase
+[2026-10-13 08:46:21] -- Find ops-tensor source dir: /work/ops-nn/third_party/ops-tensor
+[2026-10-13 08:46:22] -- ops-tensor fetched 85220bdb3d1b5c2d256c4e6080633714af3d5a04
+[2026-10-13 08:46:22] -- Search libs under install path /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:22] -- CMAKE_MODULE_PATH            :/work/ops-nn/cmake/modules
+[2026-10-13 08:46:22] -- compile option:  -O2 -Wall -Wextra -Wshadow -Wformat=2 -fno-common -fPIC -Wformat-signedness
+[2026-10-13 08:46:22] -- [add_es_library] Module loaded from: /usr/local/Ascend/cann-9.1.0/include/ge/cmake
+[2026-10-13 08:46:22] -- Found dlog: /usr/local/Ascend/cann-9.1.0/pkg_inc/base
+[2026-10-13 08:46:22] -- Variables in dlog module:
+[2026-10-13 08:46:23] -- dlog_INCLUDE_DIR="/usr/local/Ascend/cann-9.1.0/pkg_inc/base"
+[2026-10-13 08:46:23] -- dlog_SHARED_LIBRARY="/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:46:23] -- 
+[2026-10-13 08:46:23]  Properties for TARGET dlog:
+[2026-10-13 08:46:23]    dlog.INTERFACE_COMPILE_DEFINITIONS = "LOG_CPP;PROCESS_LOG"
+[2026-10-13 08:46:23]    dlog.INTERFACE_LINK_LIBRARIES = "dlog_headers"
+[2026-10-13 08:46:23]    dlog.IMPORTED_LOCATION = "/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:46:23] 
+[2026-10-13 08:46:23] -- 
+[ThirdParty][protobuf] /work/ops-nn/third_party/protobuf/protobuf-25.1.tar.gz not found, need download.
+[2026-10-13 08:46:23]  Properties for TARGET dlog_headers:
+[2026-10-13 08:46:23]    dlog_headers.INTERFACE_INCLUDE_DIRECTORIES = "/usr/local/Ascend/cann-9.1.0/pkg_inc/base;/usr/local/Ascend/cann-9.1.0/pkg_inc/base/../"
+[2026-10-13 08:46:23] 
+[2026-10-13 08:46:23] -- Found securec: /usr/local/Ascend/cann-9.1.0/include
+[ThirdParty][protobuf] shared use cache.
+[2026-10-13 08:46:23] -- Found OPBASE: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:46:23] -- Found OPABSE include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:23] -- Found platform: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:46:23] -- Found platform include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:23] -- Found register library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libregister.so
+[ThirdParty][protobuf] static use cache.
+[ThirdParty][protobuf] host static use cache.
+[2026-10-13 08:46:23] -- Found opp_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libopp_registry.so
+[2026-10-13 08:46:23] -- Found exe_graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libexe_graph.so
+[2026-10-13 08:46:23] -- Found error_manager library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/liberror_manager.so
+[2026-10-13 08:46:23] -- Found metadef library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmetadef.so
+[ThirdParty][eigen] package needs to be downloaded.
+[2026-10-13 08:46:23] -- Found graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph.so
+[2026-10-13 08:46:23] -- Found graph_base library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph_base.so
+[2026-10-13 08:46:23] -- Found rt2_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/librt2_registry.a
+[2026-10-13 08:46:23] -- Found metadef: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:46:23] -- Found source metadef include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/exe_graph
+[2026-10-13 08:46:23] -- Found mmpa library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmmpa.so
+[2026-10-13 08:46:23] -- Found source acl include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:23] -- [nn]Found source npuruntime include dir: /usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/runtime
+[2026-10-13 08:46:23] -- Found aclnn include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:23] -- Found opdev include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aclnn
+[2026-10-13 08:46:23] -- Found tilingapi include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:23] -- TILINGAPI_INC_DIRS: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/lib;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/impl;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/tiling
+[2026-10-13 08:46:23] -- Found tilingapi lib:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libtiling_api.a
+[2026-10-13 08:46:23] -- Using AICPU include dirs: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/msprof;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/datagw/aicpu/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu
+[2026-10-13 08:46:23] -- Found json: /work/ops-nn/third_party/json/include
+[2026-10-13 08:46:23] -- [ThirdPartyLib][json] build json end, JSON_SOURCE_PATH: /work/ops-nn/third_party/json.
+[2026-10-13 08:46:23] -- Found abseil-cpp: /work/ops-nn/third_party/lib_cache/abseil-cpp
+[2026-10-13 08:46:23] -- [ThirdPartyLib][abseil-cpp] Found abseil-cpp in: /work/ops-nn/third_party/lib_cache/abseil-cpp
+[2026-10-13 08:46:23] -- System processor: x86_64
+[2026-10-13 08:46:23] -- Package dlog has been found.
+[2026-10-13 08:46:23] -- Initialization summary: Ccache not found, TARGET_ARCH: x86_64
+[2026-10-13 08:46:23] -- Found Python3: /usr/local/python3.12.13/bin/python3.12 (found version "3.12.13") found components: Interpreter
+[2026-10-13 08:46:23] -- Found Python3: /usr/local/python3.12.13/bin/python3.12
+[2026-10-13 08:46:23] -- _add_es_library_impl: OUTPUT_PATH is /work/ops-nn/build/es_packages_math
+[2026-10-13 08:46:23] -- _add_es_library_impl: EXCLUDE_OPS is not provided
+[2026-10-13 08:46:23] -- add_es_package: Using default output directory: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:23] -- add_es_package: OPP_PROTO_TARGET output directory: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:23] -- add_es_package: Derived ASCEND_OPP_PATH: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:23] --   - Created standard OPP path: /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:23] -- _add_es_library_impl: gen_esb target not found, searching in environment...
+[2026-10-13 08:46:23] --     Found gen_esb in PATH (environment variables configured)
+[2026-10-13 08:46:23] --     - gen_esb path: /usr/local/Ascend/cann-9.1.0/bin/gen_esb
+[2026-10-13 08:46:23] --     - library path: /usr/local/Ascend/cann-9.1.0/lib64
+[2026-10-13 08:46:23] -- Using proto library path (derived from OPP_PROTO_TARGET): /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:23] -- add_es_package: Module name for gen_esb: math
+[2026-10-13 08:46:23] -- [add_es_library] No history registry found at /usr/local/Ascend/cann-9.1.0/opp/history_registry/math, skipping
+[2026-10-13 08:46:23] -- Trying to locate eager_style_graph_builder_base library from run package...
+[2026-10-13 08:46:23] --   Found library in run package: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so
+[2026-10-13 08:46:23] -- Configuring ES package: es_math
+[2026-10-13 08:46:23] --   - Exported target: es_math (public interface)
+[2026-10-13 08:46:23] --   - Internal .obj target: es_math_obj (compile once)
+[2026-10-13 08:46:23] --   - Internal .so target: es_math_so
+[2026-10-13 08:46:23] --   - Internal .a target: es_math_a
+[2026-10-13 08:46:23] --   - Module name (for gen_esb): math
+[2026-10-13 08:46:23] --   - OPP proto target: proto_math (type: SHARED_LIBRARY)
+[2026-10-13 08:46:23] --   - OPP proto path: /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:23] --   - Output path: /work/ops-nn/build/es_packages_math (artifacts will be copied)
+[2026-10-13 08:46:23] --   - Library files: libes_math.so, libes_math.a
+[2026-10-13 08:46:23] --   - Python package: es_math
+[2026-10-13 08:46:23] -- ES package 'es_math' using single-file compilation mode
+[2026-10-13 08:46:23] --   - Wrapper file: /work/ops-nn/build/common/stub/op_graph/es_math_build/generated_code/es_math_all_in_one.cpp
+[2026-10-13 08:46:23] --   - Module name: math
+[2026-10-13 08:46:23] -- add_es_library: Using default compile options: -fPIC;-Wall;-fstack-protector-all;-std=c++17;-D_GLIBCXX_USE_CXX11_ABI=0;-O2;-Wno-free-nonheap-object
+[2026-10-13 08:46:23] -- add_es_library: Set _GLIBCXX_USE_CXX11_ABI=0 for ABI compatibility
+[2026-10-13 08:46:23] -- add_es_library: Deduced header base path from cmake file: /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:23] -- add_es_library: metadef_headers target not found, skipping
+[2026-10-13 08:46:23] -- add_es_library: Found c_sec target
+[2026-10-13 08:46:23] -- add_es_library: Linking with CANN libraries: c_sec
+[2026-10-13 08:46:23] -- add_es_package: 'build_es_math' is the first ES package (will be built first)
+[2026-10-13 08:46:23] -- ES package 'es_math' configured successfully (single-file mode):
+[2026-10-13 08:46:23] --   - Exported target (for linking): es_math
+[2026-10-13 08:46:23] --   - Build target: build_es_math
+[2026-10-13 08:46:23] --   - Wrapper file: /work/ops-nn/build/common/stub/op_graph/es_math_build/generated_code/es_math_all_in_one.cpp
+[2026-10-13 08:46:23] --   - Internal targets:
+[2026-10-13 08:46:23] --     * Code generation: generate_es_math_code
+[2026-10-13 08:46:23] --     * Object library: es_math_obj (compiled once)
+[2026-10-13 08:46:23] --     * Shared library: es_math_so
+[2026-10-13 08:46:23] --     * Static library: es_math_a
+[2026-10-13 08:46:23] --     * Wheel generation: generate_es_math_whl
+[2026-10-13 08:46:23] --     * Install: install_es_math
+[2026-10-13 08:46:23] --   - Library files: libes_math.so, libes_math.a
+[2026-10-13 08:46:23] --   - Python package: es_math
+[2026-10-13 08:46:23] --   - ES base library: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so (from library)
+[2026-10-13 08:46:23] -- 
+[2026-10-13 08:46:23] -- Build mode: Single-file compilation (no reconfiguration needed)
+[2026-10-13 08:46:23] -- 
+[2026-10-13 08:46:23] -- Quick start:
+[2026-10-13 08:46:23] --   1. Link:    target_link_libraries(your_target PRIVATE es_math)
+[2026-10-13 08:46:23] --   2. Build:   make your_target  (recommended, triggers automatically)
+[2026-10-13 08:46:23] -- 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.batch_mat_mul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.dual_level_quant_batch_matmul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.fused_mat_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.fused_quant_mat_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.gemm_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.mat_mul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.quant_batch_matmul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.quant_batch_matmul_v4.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.quant_matmul_reduce_sum.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start rotate_quant.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.rotate_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.sparse_tensor_dense_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.transpose_batch_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.transpose_quant_batch_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.matmul.weight_quant_batch_matmul_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.common.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.conv2d_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.conv3d_backprop_filter_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.conv3d_backprop_input_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.conv3d_transpose_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.conv3d_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.deformable_offsets.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.extend_conv2d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.extend_conv_transpose.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.conv.quant_conv3d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.fusedop.clipped_swiglu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: CURRENT_DIRS =CMakeLists.txt;README.md;docs;examples;op_graph;op_host;op_kernel 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.confusion_softmax_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.elu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- add_aicpu_cust_kernel_modules for elu_cust_obj
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.elu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.elu_grad_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.fatrelu_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.ge_glu_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.ge_glu_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.gelu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.gelu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.gelu_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.gelu_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.gelu_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.gelu_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.glu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.hard_shrink.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.hard_swish_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.heaviside.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.leaky_relu.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.leaky_relu.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.log_softmax_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.log_softmax_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.logsigmoid_grad.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.logsigmoid_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.mish.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.mish_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.p_relu_grad_update.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.relu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.relu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.relu_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.relu_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.selu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.selu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.sigmoid.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.softmax_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.softmax_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.squared_relu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.fusedop.swi_glu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: CURRENT_DIRS =CMakeLists.txt;README.md;docs;examples;op_graph;op_host;op_kernel 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.swi_glu_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: CURRENT_DIRS =CMakeLists.txt;README.md;docs;examples;op_graph;op_host;op_kernel 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.swiglu_group_quant_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start activation.swiglu_group_quant_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.activation.leaky_relu.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_a_cos_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_a_cos_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_abs.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_abs.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_acos.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_acos.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_add_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcdiv_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcdiv_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcdiv_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcdiv_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcdiv_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcdiv_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcmul_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcmul_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcmul_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcmul_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcmul_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_addcmul_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_asin.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_asin.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_asin.op_kernel.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_atan.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_atan.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_copy.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_copy.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_cos.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_cos.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_cosh.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_cosh.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_div_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_erf.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_erf.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_erfc.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_erfc.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_exp.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_exp.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_expm1.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_expm1.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_lerp_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_lerp_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_lerp_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_lerp_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log10.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log10.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log1p.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log1p.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_log_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_maximum_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_maximum_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_maximum_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_maximum_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_maximum_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_maximum_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_minimum_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_minimum_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_minimum_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_minimum_scalar.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_minimum_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_minimum_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_scalar_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_scalar_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_mul_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_neg.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_neg.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_non_finite_check_and_unscale.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_non_finite_check_and_unscale.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_norm.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_scalar_and_tensor.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_scalar_and_tensor.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_pow_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_reciprocal.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_reciprocal.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_round_off_number.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_round_off_number.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sigmoid.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sigmoid.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sign.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sin.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sin.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sinh.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sinh.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sqrt.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sqrt.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_scalar_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_scalar_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_sub_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_tan.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_tan.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_tanh.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_tanh.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_utils.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_zero_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.foreach.foreach_zero_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.apply_top_k_top_p_with_sorted.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.broadcast_gradient_args.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.bucketize_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.concat_offset.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.embedding_bag.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.gather_elements_v2.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.gather_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- add_aicpu_cust_kernel_modules for gather_v2_cust_obj
+[2026-10-13 08:46:23] -- === Debug: start ops.index.index.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.index_fill.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.index_put_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.inplace_index_add_with_sorted.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.index_fill.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.masked_scatter.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.masked_scatter_with_position.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.non_zero.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.repeat_interleave.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.math.is_finite.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- add_aicpu_cust_kernel_modules for reverse_sequence_cust_obj
+[2026-10-13 08:46:23] -- === Debug: start ops.index.scatter_add.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- add_aicpu_cust_kernel_modules for scatter_elements_cust_obj
+[2026-10-13 08:46:23] -- === Debug: start ops.index.scatter_nd_add.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.scatter_nd_max.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.scatter_nd_min.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.scatter_sub.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.scatter_update.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.segment_sum.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.sorted_sparse_segment_mean_grad.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.sparse_segment_mean.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:23] -- aicpu or host aicpu no need aclnn.
+[2026-10-13 08:46:23] -- add_aicpu_cust_kernel_modules for tensor_scatter_update_cust_obj
+[2026-10-13 08:46:23] -- === Debug: start ops.index.top_k_top_p_sample.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.index.top_k_top_p_sample.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.top_k_top_p_sample_v2.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.index.top_k_top_p_sample_v2.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.unsorted_segment_max.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.unsorted_segment_min.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.unsorted_segment_prod.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start index.where.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.index.where.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- [where] Found aicpu sources: /work/ops-nn/index/where/op_kernel_aicpu/where_aicpu.cpp, ascend dir: /usr/local/Ascend/cann-9.1.0, ophsot name: ophost_nn
+[2026-10-13 08:46:23] -- add_aicpu_cust_kernel_modules for where_cust_obj
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.chamfer_distance_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.cross_entropy_loss.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.cross_entropy_loss.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.cross_entropy_loss_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.cross_entropy_loss_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.logit.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.logit.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.logit_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.logit_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === DEBUG: start ops.loss.mse_loss_grad.graph_plugin.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.mse_loss_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.nll_loss.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.nll_loss_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.sigmoid_cross_entropy_with_logits.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.sigmoid_cross_entropy_with_logits.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.soft_margin_loss_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.loss.sparse_softmax_cross_entropy_with_logits.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.ada_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.ada_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.ada_layer_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.ada_layer_norm_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.ada_layer_norm_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.ada_layer_norm_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_layer_norm_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm_cast.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm_dynamic_mx_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm_dynamic_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm_dynamic_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.add_rms_norm_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.batch_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.batch_norm_elemt.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.batch_norm_grad_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.batch_norm_grad_v3.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.batch_norm_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.batch_norm_v3.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.bn_training_reduce.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.deep_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.deep_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.deep_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.deep_norm_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.dual_quantize_add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.dua_quantize_add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.gemma_rms_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.gemma_rms_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_silu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_silu.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_silu_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_swish.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_swish.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_swish_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.group_norm_swish_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.inplace_add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.inplace_add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.inplace_add_rms_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.inplace_add_rms_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.instance_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.instance_norm_v3.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.layer_norm.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.layer_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.layer_norm_grad_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.layer_norm_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.layer_norm_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.layer_norm_v4.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.lp_norm_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.masked_softmax_with_rel_pos_bias.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.multi_add_rms_norm_dynamic_quant.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.multi_add_rms_norm_dynamic_quant.op_host.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.norm_common.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.quantize_add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.quantize_add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.renorm.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.deep_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_dynamic_mx_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_dynamic_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_grad_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.rms_norm_quant_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.sync_batch_norm_backward_elemt.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.sync_batch_norm_backward_reduce.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.sync_batch_norm_gather_stats.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.sync_batch_norm_gather_stats_with_counts.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.norm.sync_bn_training_update.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.adam_apply_one.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.adam_apply_one_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.adam_apply_one_with_decay.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.adam_apply_one_with_decay_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.advance_step.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.advance_step.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adagrad_d.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adam.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adam_w.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adam_w_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adam_w_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adam_w_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_adam_w_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_ftrl.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_ftrl.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_fused_ema_adam.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_fused_ema_adam.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_gradient_descent.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_momentum.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_momentum.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.apply_proximal_adagrad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start fused_sgd.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.fused_sgd.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_apply_optimizer_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_apply_weight_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_next_m_v.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_next_m_v_with_decay.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_next_right.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_update_with_lr.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.optim.lamb_update_with_lr_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.adaptive_avg_pool2d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.adaptive_avg_pool2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.adaptive_avg_pool3d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.adaptive_avg_pool3d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.adaptive_max_pool2d.tests.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: CURRENT_DIRS =CMakeLists.txt;st;ut 
+[2026-10-13 08:46:23] -- === Debug: CURRENT_DIRS =CMakeLists.txt;op_api;op_host 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.adaptive_max_pool3d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.avg_pool3_d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.avg_pool3_d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.max_pool3d_with_argmax_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.max_pool_grad_with_argmax.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.max_pool_with_argmax.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.pooling.max_pool_with_argmax.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.acts_ulq.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.anti_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start quant.ascend_anti_quant_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.ascend_dequant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.ascend_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ascend.quant.v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ascend.quant.v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start dequant.bias.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start dequant.bias.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.op_graph.dequant_swiglu_quant.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dequant_swiglu_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_block_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_block_quant.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_block_quant.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_dual_level_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_mx_quant_with_dual_axis.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_quant.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_quant.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug:start ops.quant.dynamic_quant_update_scatter.graph_plugin.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_quant_update_scatter.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug:start ops.quant.dynamic_quant_update_scatter_v2.op_graph.CMakeLists.txt
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_quant_update_scatter_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_quant_v2.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.dynamic_quant_v2.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_affine_cachemask.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_affine_cachemask.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_with_min_max_vars.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_with_min_max_vars.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel_gradient.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel_gradient.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start flat.quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start flat.quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ascend.quant.v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ascend.quant.v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.grouped_dynamic_block_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.grouped_dynamic_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.grouped_quant_max.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ifmr.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.ifmr.op_host.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.quant_max.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.quantize.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start ops.quant.swi_glu_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:23] -- === Debug: start quant.swi_glu_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.fusedop.swiglu_mx_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.quant.trans_quant_param.op_host.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.quant.trans_quant_param_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.quant.trans_quant_param_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start bidirection.lstm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start bidirection.lstmv2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.rnn.dynamic_rnn.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.rnn.dynamic_rnn_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.control.assert.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:24] -- === Debug: start ops.control.assert.op_host.CMakeLists.txt 
+[2026-10-13 08:46:24] -- [assert] Found aicpu sources: /work/ops-nn/control/assert/op_kernel_aicpu/assert_aicpu.cpp, ascend dir: /usr/local/Ascend/cann-9.1.0, ophsot name: ophost_nn
+[2026-10-13 08:46:24] -- add_aicpu_cust_kernel_modules for assert_cust_obj
+[2026-10-13 08:46:24] -- Ops for this compilation contains: addmv;batch_mat_mul_v3;batch_matmul_quant;convert_weight_to_int4_pack;dual_level_quant_batch_matmul;fused_linear_cross_entropy_loss_grad;fused_linear_online_max_sum;fused_mat_mul;fused_quant_mat_mul;gemm;gemm_v2;gemm_v3;mat_mul_v3;matmul_compress;matmul_v2_compress_dequant;mv;quant_batch_matmul_inplace_add;quant_batch_matmul_v3;quant_batch_matmul_v4;quant_matmul;quant_matmul_dequant;quant_matmul_reduce_sum;rotate_quant;sparse4to2quant_matmul;sparse_tensor_dense_mat_mul;transpose_batch_mat_mul;transpose_quant_batch_mat_mul;weight_quant_batch_matmul;weight_quant_batch_matmul_v2;conv2d_v2;conv3d_backprop_filter_v2;conv3d_backprop_input_v2;conv3d_transpose_v2;conv3d_v2;convolution_backward;convolution_forward;deformable_conv2d;deformable_offsets;deformable_offsets_grad;extend_conv2d;extend_conv_transpose;quant_conv3d;bnll;celu;celu_v2;clipped_swiglu;confusion_softmax_grad;elu;elu_grad;elu_grad_v2;erfinv;fast_gelu;fast_gelu_grad;fast_gelu_v2;fatrelu_mul;ge_glu_grad_v2;ge_glu_v2;gelu;gelu_grad;gelu_grad_v2;gelu_mul;gelu_quant;gelu_v2;glu;hard_shrink;hard_shrink_grad;hard_sigmoid;hard_sigmoid_grad;hard_swish;hard_swish_grad;hard_swish_grad_v2;hardtanh_grad;heaviside;leaky_relu;leaky_relu_grad;log_sigmoid;log_softmax_grad;log_softmax_v2;logsigmoid_grad;mish;mish_grad;p_relu;p_relu_grad_reduce;p_relu_grad_update;relu;relu6;relu6_grad;relu_grad;relu_grad_v2;relu_v2;selu;selu_grad;shrink;sigmoid;sigmoid_grad;silu_grad;softmax_cross_entropy_with_logits;softmax_grad;softmax_grad_ext;softmax_v2;softplus;softplus_v2;softplus_v2_grad;softshrink;softshrink_grad;softsign;softsign_grad;squared_relu;swi_glu;swi_glu_grad;swiglu_group;swiglu_group_quant_grad;swish;swish_grad;threshold;threshold_grad_v2_d;threshold_v2;foreach_a_cos_inplace;foreach_abs;foreach_acos;foreach_add_list;foreach_add_list_inplace;foreach_add_scalar;foreach_add_scalar_list;foreach_addcdiv_list;foreach_addcdiv_scalar;foreach_addcdiv_scalar_list;foreach_addcmul_list;foreach_addcmul_scalar;foreach_addcmul_scalar_list;foreach_asin;foreach_atan;foreach_copy;foreach_cos;foreach_cosh;foreach_div_list;foreach_div_list_inplace;foreach_div_scalar;foreach_div_scalar_list;foreach_erf;foreach_erfc;foreach_exp;foreach_expm1;foreach_lerp_list;foreach_lerp_scalar;foreach_log;foreach_log10;foreach_log1p;foreach_log2;foreach_log_inplace;foreach_maximum_list;foreach_maximum_scalar;foreach_maximum_scalar_list;foreach_minimum_list;foreach_minimum_scalar;foreach_minimum_scalar_list;foreach_mul_list;foreach_mul_list_inplace;foreach_mul_scalar;foreach_mul_scalar_inplace;foreach_mul_scalar_list;foreach_neg;foreach_non_finite_check_and_unscale;foreach_norm;foreach_pow_list;foreach_pow_scalar;foreach_pow_scalar_and_tensor;foreach_pow_scalar_list;foreach_reciprocal;foreach_round_off_number;foreach_sigmoid;foreach_sign;foreach_sin;foreach_sinh;foreach_sqrt;foreach_sub_list;foreach_sub_list_inplace;foreach_sub_scalar;foreach_sub_scalar_inplace;foreach_sub_scalar_list;foreach_tan;foreach_tanh;foreach_utils;foreach_zero_inplace;embedding_hash_table_apply_adam_w;embedding_hash_table_export;embedding_hash_table_import;embedding_hash_table_lookup_or_insert;init_embedding_hash_table;modulate;modulate_grad;multi_scale_deformable_attention_grad;multi_scale_deformable_attn_function;scaled_masked_softmax_grad_v2;scaled_masked_softmax_v2;apply_top_k_top_p_with_sorted;broadcast_gradient_args;bucketize_v2;concat_offset;data_format_dim_map;embedding;embedding_bag;embedding_dense_grad;embedding_dense_grad_v2;expand_into_jagged_permute;gather_elements;gather_elements_v2;gather_nd;gather_v2;gather_v3;index;index_check;index_fill;index_fill_d;index_put;index_put_v2;index_put_with_sort;index_put_with_sort_v2;inplace_index_add;inplace_index_add_with_sorted;inplace_index_fill;inplace_scatter_add;inplace_update;linear_index;linear_index_v2;map_index;masked_scatter;masked_scatter_with_position;matrix_inverse;median_dim;non_zero;quant_update_scatter;repeat_interleave;repeat_interleave_grad;reverse_sequence;reverse_v2;scatter;scatter_add;scatter_add_with_sorted;scatter_div;scatter_elements;scatter_elements_v2;scatter_list;scatter_max;scatter_min;scatter_mul;scatter_nd;scatter_nd_add;scatter_nd_common;scatter_nd_max;scatter_nd_min;scatter_nd_sub;scatter_nd_update;scatter_non_aliasing_add;scatter_reduce_common;scatter_sub;scatter_update;segment_sum;sorted_sparse_segment_mean_grad;sparse_segment_mean;sparse_segment_sum_grad;sparse_slice;sparse_to_dense;tensor_scatter_update;tf_scatter_add;top_k_top_p_sample;top_k_top_p_sample_v2;unique_consecutive;unique_dim;unique_with_counts_and_sorting;unique_with_counts_ext2;unsorted_segment_common;unsorted_segment_max;unsorted_segment_min;unsorted_segment_prod;unsorted_segment_sum;where;binary_cross_entropy;binary_cross_entropy_grad;chamfer_distance_grad;cross_entropy_loss;cross_entropy_loss_grad;cross_v2;ctc_loss_v2;ctc_loss_v2_grad;ctc_loss_v3;ctc_loss_v3_grad;fused_cross_entropy_loss_with_max_sum;kl_div_loss_grad;kl_div_target_loss_grad;l1_loss_grad;l2_loss;logit;logit_grad;lp_loss;mse_loss;mse_loss_grad;mse_loss_grad_v2;mse_loss_v2;multilabel_margin_loss;nll_loss;nll_loss_grad;sigmoid_cross_entropy_with_logits;sigmoid_cross_entropy_with_logits_grad_v2;sigmoid_cross_entropy_with_logits_v2;smooth_l1_loss_grad_v2;smooth_l1_loss_v2;soft_margin_loss;soft_margin_loss_grad;sparse_softmax_cross_entropy_with_logits;ada_layer_norm;ada_layer_norm_grad;ada_layer_norm_quant;ada_layer_norm_v2;add_layer_norm;add_layer_norm_grad;add_layer_norm_quant;add_layer_norm_quant_v2;add_rms_norm;add_rms_norm_cast;add_rms_norm_dynamic_mx_quant;add_rms_norm_dynamic_quant;add_rms_norm_dynamic_quant_v2;add_rms_norm_quant;add_rms_norm_quant_v2;batch_norm;batch_norm_elemt;batch_norm_grad;batch_norm_grad_v3;batch_norm_v3;bn_infer_grad;bn_training_reduce;deep_norm;deep_norm_grad;dua_quantize_add_layer_norm;euclidean_norm;gemma_rms_norm;group_norm;group_norm_grad;group_norm_silu;group_norm_silu_quant;group_norm_swish;group_norm_swish_grad;group_norm_v2;inplace_add_layer_norm;inplace_add_rms_norm;instance_norm;instance_norm_v3;layer_norm;layer_norm_grad;layer_norm_grad_v3;layer_norm_quant;layer_norm_v3;layer_norm_v4;lp_norm_v2;masked_softmax_with_rel_pos_bias;multi_add_rms_norm_dynamic_quant;norm_common;quantize_add_layer_norm;quantized_batch_norm;renorm;rms_norm;rms_norm_dynamic_mx_quant;rms_norm_dynamic_quant;rms_norm_grad;rms_norm_grad_quant;rms_norm_quant;rms_norm_quant_v2;rms_norm_quant_v3;sync_batch_norm_backward_elemt;sync_batch_norm_backward_reduce;sync_batch_norm_gather_stats;sync_batch_norm_gather_stats_fused;sync_batch_norm_gather_stats_with_counts;sync_bn_training_update;adam_apply_one;adam_apply_one_assign;adam_apply_one_with_decay;adam_apply_one_with_decay_assign;advance_step;apply_adadelta;apply_adagrad_d;apply_adam;apply_adam_d;apply_adam_w;apply_adam_w_quant;apply_adam_w_v2;apply_adamax;apply_add_sign;apply_ftrl;apply_fused_ema_adam;apply_gradient_descent;apply_momentum;apply_proximal_adagrad;apply_proximal_gradient_descent;apply_rms_prop;fused_sgd;lamb_apply_optimizer_assign;lamb_apply_weight_assign;lamb_next_m_v;lamb_next_m_v_with_decay;lamb_next_right;lamb_update_with_lr;lamb_update_with_lr_v2;sparse_apply_adadelta;sparse_apply_adagrad_v2;sparse_apply_ftrl;sparse_apply_ftrl_v2;sparse_apply_proximal_adagrad;sparse_apply_rms_prop;adaptive_avg_pool2d;adaptive_avg_pool2d_grad;adaptive_avg_pool3d;adaptive_avg_pool3d_grad;adaptive_max_pool2d;adaptive_max_pool3d;adaptive_max_pool3d_grad;adaptive_pool3d_common;avg_pool;avg_pool3_d;avg_pool3_d_grad;avg_pool_grad;avg_pool_v2;avg_pool_v2_grad;max_pool3_d;max_pool3d_grad;max_pool3d_grad_with_argmax;max_pool3d_with_argmax_v2;max_pool_grad;max_pool_grad_with_argmax;max_pool_grad_with_argmax_v3;max_pool_v2;max_pool_v3;max_pool_with_argmax;max_pool_with_argmax_v3;pool_3d_common;pool_3d_common;pool_grad_common;acts_ulq;anti_mx_quant;ascend_anti_quant;ascend_anti_quant_v2;ascend_dequant;ascend_quant;ascend_quant_v2;dequant_bias;dequant_swiglu_quant;dynamic_block_mx_quant;dynamic_block_quant;dynamic_dual_level_mx_quant;dynamic_mx_quant;dynamic_mx_quant_with_dual_axis;dynamic_quant;dynamic_quant_update_scatter;dynamic_quant_update_scatter_v2;dynamic_quant_v2;fake_quant_affine_cachemask;fake_quant_with_min_max_args;fake_quant_with_min_max_args_gradient;fake_quant_with_min_max_vars;fake_quant_with_min_max_vars_gradient;fake_quant_with_min_max_vars_per_channel;fake_quant_with_min_max_vars_per_channel_gradient;flat_quant;group_quant;grouped_dynamic_block_quant;grouped_dynamic_mx_quant;grouped_quant_max;ifmr;quant_max;quantize;swi_glu_quant;swiglu_backward_mx_quant_with_dual_axis;swiglu_group_quant;swiglu_mx_quant;swiglu_mx_quant_with_dual_axis;trans_quant_param;trans_quant_param_v2;bidirection_lstm;bidirection_lstmv2;dynamic_rnn;dynamic_rnnv2;gru;single_layer_lstm_grad;thnn_fused_lstm_cell;thnn_fused_lstm_cell_grad;assert
+[2026-10-13 08:46:24] -- No aclnn srcs, skip aclnn
+[2026-10-13 08:46:24] -- No aclnnInner srcs, skip aclnnInner
+[2026-10-13 08:46:24] -- No aclnnExc srcs, skip aclnnExc
+[2026-10-13 08:46:24] -- create aclnn master header file: /work/ops-nn/build/aclnn_ops_nn.h
+[2026-10-13 08:46:24] -- Found Python3: /usr/local/python3.12.13/bin/python3.12
+[2026-10-13 08:46:24] -- _add_es_library_impl: OUTPUT_PATH is /work/ops-nn/build/es_packages
+[2026-10-13 08:46:24] -- _add_es_library_impl: EXCLUDE_OPS is not provided
+[2026-10-13 08:46:24] -- add_es_package: Using default output directory: /work/ops-nn/build
+[2026-10-13 08:46:24] -- add_es_package: OPP_PROTO_TARGET output directory: /work/ops-nn/build
+[2026-10-13 08:46:24] -- add_es_package: Derived ASCEND_OPP_PATH: /work/ops-nn/build
+[2026-10-13 08:46:24] --   - Created standard OPP path: /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn
+[2026-10-13 08:46:24] -- _add_es_library_impl: gen_esb target not found, searching in environment...
+[2026-10-13 08:46:24] --     Found gen_esb in PATH (environment variables configured)
+[2026-10-13 08:46:24] --     - gen_esb path: /usr/local/Ascend/cann-9.1.0/bin/gen_esb
+[2026-10-13 08:46:24] --     - library path: /usr/local/Ascend/cann-9.1.0/lib64
+[2026-10-13 08:46:24] -- Using proto library path (derived from OPP_PROTO_TARGET): /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn
+[2026-10-13 08:46:24] -- add_es_package: Module name for gen_esb: nn
+[2026-10-13 08:46:24] -- [add_es_library] No history registry found at /usr/local/Ascend/cann-9.1.0/opp/history_registry/nn, skipping
+[2026-10-13 08:46:24] -- Trying to locate eager_style_graph_builder_base library from run package...
+[2026-10-13 08:46:24] --   Found library in run package: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so
+[2026-10-13 08:46:24] -- Configuring ES package: es_nn
+[2026-10-13 08:46:24] --   - Exported target: es_nn (public interface)
+[2026-10-13 08:46:24] --   - Internal .obj target: es_nn_obj (compile once)
+[2026-10-13 08:46:24] --   - Internal .so target: es_nn_so
+[2026-10-13 08:46:24] --   - Internal .a target: es_nn_a
+[2026-10-13 08:46:24] --   - Module name (for gen_esb): nn
+[2026-10-13 08:46:24] --   - OPP proto target: proto_nn (type: SHARED_LIBRARY)
+[2026-10-13 08:46:24] --   - OPP proto path: /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn
+[2026-10-13 08:46:24] --   - Output path: /work/ops-nn/build/es_packages (artifacts will be copied)
+[2026-10-13 08:46:24] --   - Library files: libes_nn.so, libes_nn.a
+[2026-10-13 08:46:24] --   - Python package: es_nn
+[2026-10-13 08:46:24] -- ES package 'es_nn' using single-file compilation mode
+[2026-10-13 08:46:24] --   - Wrapper file: /work/ops-nn/build/es_nn_build/generated_code/es_nn_all_in_one.cpp
+[2026-10-13 08:46:24] --   - Module name: nn
+[2026-10-13 08:46:24] -- add_es_library: Using default compile options: -fPIC;-Wall;-fstack-protector-all;-std=c++17;-D_GLIBCXX_USE_CXX11_ABI=0;-O2;-Wno-free-nonheap-object
+[2026-10-13 08:46:24] -- add_es_library: Set _GLIBCXX_USE_CXX11_ABI=0 for ABI compatibility
+[2026-10-13 08:46:24] -- add_es_library: Deduced header base path from cmake file: /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:24] -- add_es_library: metadef_headers target not found, skipping
+[2026-10-13 08:46:24] -- add_es_library: Found c_sec target
+[2026-10-13 08:46:24] -- add_es_library: Linking with CANN libraries: c_sec
+[2026-10-13 08:46:24] -- add_es_package: 'build_es_nn' depends on 'build_es_math' to avoid concurrent builds of shared dependencies
+[2026-10-13 08:46:24] -- ES package 'es_nn' configured successfully (single-file mode):
+[2026-10-13 08:46:24] --   - Exported target (for linking): es_nn
+[2026-10-13 08:46:24] --   - Build target: build_es_nn
+[2026-10-13 08:46:24] --   - Wrapper file: /work/ops-nn/build/es_nn_build/generated_code/es_nn_all_in_one.cpp
+[2026-10-13 08:46:24] --   - Internal targets:
+[2026-10-13 08:46:24] --     * Code generation: generate_es_nn_code
+[2026-10-13 08:46:24] --     * Object library: es_nn_obj (compiled once)
+[2026-10-13 08:46:24] --     * Shared library: es_nn_so
+[2026-10-13 08:46:24] --     * Static library: es_nn_a
+[2026-10-13 08:46:24] --     * Wheel generation: generate_es_nn_whl
+[2026-10-13 08:46:24] --     * Install: install_es_nn
+[2026-10-13 08:46:24] --   - Library files: libes_nn.so, libes_nn.a
+[2026-10-13 08:46:24] --   - Python package: es_nn
+[2026-10-13 08:46:24] --   - ES base library: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so (from library)
+[2026-10-13 08:46:24] -- 
+[2026-10-13 08:46:24] -- Build mode: Single-file compilation (no reconfiguration needed)
+[2026-10-13 08:46:24] -- 
+[2026-10-13 08:46:24] -- Quick start:
+[2026-10-13 08:46:24] --   1. Link:    target_link_libraries(your_target PRIVATE es_nn)
+[2026-10-13 08:46:24] --   2. Build:   make your_target  (recommended, triggers automatically)
+[2026-10-13 08:46:24] -- 
+[2026-10-13 08:46:24] -- All host targets: 
+[2026-10-13 08:46:24] -- No builtin host aicpu targets found, skipping.
+[2026-10-13 08:46:24] -- Configuring done (3.4s)
+[2026-10-13 08:46:24] -- Generating done (0.7s)
+[2026-10-13 08:46:24] -- Build files have been written to: /work/ops-nn/build
+[2026-10-13 08:46:25] ----------------------------------------------------------------
+[2026-10-13 08:46:25] Start to parse op dependencies for quant_batch_matmul_v4
+[2026-10-13 08:46:25] INFO:root:op_dependencies:quant_batch_matmul_v4;quant_batch_matmul_v3;trans_quant_param_v2;convert_weight_to_int4_pack;weight_quant_batch_matmul_v2;matmul.common;transpose_batch_mat_mul;batch_mat_mul_v3;mat_mul_v3;fused_mat_mul, reverse_op_dependencies:quant_batch_matmul_v4;fused_quant_mat_mul;quant_batch_matmul_v3;quant_batch_matmul_inplace_add;quant_matmul
+[2026-10-13 08:46:25] -- Enable ccache TRUE
+[2026-10-13 08:46:25] -- Enable ccache
+[2026-10-13 08:46:25] -- compile project with library
+[2026-10-13 08:46:25] -- Find opbase source dir: /work/ops-nn/third_party/opbase
+[2026-10-13 08:46:25] -- Find ops-tensor source dir: /work/ops-nn/third_party/ops-tensor
+[2026-10-13 08:46:26] -- ops-tensor fetched 85220bdb3d1b5c2d256c4e6080633714af3d5a04
+[2026-10-13 08:46:26] -- Search libs under install path /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:26] -- CMAKE_MODULE_PATH            :/work/ops-nn/cmake/modules
+[2026-10-13 08:46:26] -- compile option:  -O2 -Wall -Wextra -Wshadow -Wformat=2 -fno-common -fPIC -Wformat-signedness
+[2026-10-13 08:46:26] -- [add_es_library] Module loaded from: /usr/local/Ascend/cann-9.1.0/include/ge/cmake
+[2026-10-13 08:46:26] -- Variables in dlog module:
+[2026-10-13 08:46:26] -- dlog_INCLUDE_DIR="/usr/local/Ascend/cann-9.1.0/pkg_inc/base"
+[2026-10-13 08:46:26] -- dlog_SHARED_LIBRARY="/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:46:26] -- 
+[2026-10-13 08:46:26]  Properties for TARGET dlog:
+[2026-10-13 08:46:26]    dlog.INTERFACE_COMPILE_DEFINITIONS = "LOG_CPP;PROCESS_LOG"
+[2026-10-13 08:46:26]    dlog.INTERFACE_LINK_LIBRARIES = "dlog_headers"
+[ThirdParty][protobuf] /work/ops-nn/third_party/protobuf/protobuf-25.1.tar.gz not found, need download.
+[2026-10-13 08:46:26]    dlog.IMPORTED_LOCATION = "/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:46:26] 
+[2026-10-13 08:46:26] -- 
+[2026-10-13 08:46:26]  Properties for TARGET dlog_headers:
+[ThirdParty][protobuf] shared use cache.
+[2026-10-13 08:46:26]    dlog_headers.INTERFACE_INCLUDE_DIRECTORIES = "/usr/local/Ascend/cann-9.1.0/pkg_inc/base;/usr/local/Ascend/cann-9.1.0/pkg_inc/base/../"
+[2026-10-13 08:46:26] 
+[2026-10-13 08:46:26] -- Found OPABSE include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:26] -- Found platform include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:26] -- Found register library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libregister.so
+[ThirdParty][protobuf] static use cache.
+[ThirdParty][protobuf] host static use cache.
+[2026-10-13 08:46:26] -- Found opp_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libopp_registry.so
+[2026-10-13 08:46:26] -- Found exe_graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libexe_graph.so
+[2026-10-13 08:46:26] -- Found error_manager library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/liberror_manager.so
+[ThirdParty][eigen] package needs to be downloaded.
+[2026-10-13 08:46:26] -- Found metadef library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmetadef.so
+[2026-10-13 08:46:26] -- Found graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph.so
+[2026-10-13 08:46:26] -- Found graph_base library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph_base.so
+[2026-10-13 08:46:26] -- Found rt2_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/librt2_registry.a
+[2026-10-13 08:46:26] -- Found source metadef include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/exe_graph
+[2026-10-13 08:46:26] -- Found mmpa library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmmpa.so
+[2026-10-13 08:46:26] -- Found source acl include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:26] -- [nn]Found source npuruntime include dir: /usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/runtime
+[2026-10-13 08:46:26] -- Found aclnn include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:26] -- Found opdev include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aclnn
+[2026-10-13 08:46:26] -- Found tilingapi include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:26] -- TILINGAPI_INC_DIRS: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/lib;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/impl;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/tiling
+[2026-10-13 08:46:26] -- Found tilingapi lib:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libtiling_api.a
+[2026-10-13 08:46:26] -- Using AICPU include dirs: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/msprof;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/datagw/aicpu/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu
+[2026-10-13 08:46:26] -- [ThirdPartyLib][json] build json end, JSON_SOURCE_PATH: /work/ops-nn/third_party/json.
+[2026-10-13 08:46:26] -- [ThirdPartyLib][abseil-cpp] Found abseil-cpp in: /work/ops-nn/third_party/lib_cache/abseil-cpp
+[2026-10-13 08:46:26] -- System processor: x86_64
+[2026-10-13 08:46:26] -- Package dlog has been found.
+[2026-10-13 08:46:26] -- Initialization summary: Ccache not found, TARGET_ARCH: x86_64
+[2026-10-13 08:46:27] -- Found Python3: /usr/local/python3.12.13/bin/python3.12
+[2026-10-13 08:46:27] -- _add_es_library_impl: OUTPUT_PATH is /work/ops-nn/build/es_packages_math
+[2026-10-13 08:46:27] -- _add_es_library_impl: EXCLUDE_OPS is not provided
+[2026-10-13 08:46:27] -- add_es_package: Using default output directory: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:27] -- add_es_package: OPP_PROTO_TARGET output directory: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:27] -- add_es_package: Derived ASCEND_OPP_PATH: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:27] --   - Created standard OPP path: /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:27] -- _add_es_library_impl: gen_esb target not found, searching in environment...
+[2026-10-13 08:46:27] --     Found gen_esb in PATH (environment variables configured)
+[2026-10-13 08:46:27] --     - gen_esb path: /usr/local/Ascend/cann-9.1.0/bin/gen_esb
+[2026-10-13 08:46:27] --     - library path: /usr/local/Ascend/cann-9.1.0/lib64
+[2026-10-13 08:46:27] -- Using proto library path (derived from OPP_PROTO_TARGET): /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:27] -- add_es_package: Module name for gen_esb: math
+[2026-10-13 08:46:27] -- [add_es_library] No history registry found at /usr/local/Ascend/cann-9.1.0/opp/history_registry/math, skipping
+[2026-10-13 08:46:27] -- Trying to locate eager_style_graph_builder_base library from run package...
+[2026-10-13 08:46:27] --   Found library in run package: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so
+[2026-10-13 08:46:27] -- Configuring ES package: es_math
+[2026-10-13 08:46:27] --   - Exported target: es_math (public interface)
+[2026-10-13 08:46:27] --   - Internal .obj target: es_math_obj (compile once)
+[2026-10-13 08:46:27] --   - Internal .so target: es_math_so
+[2026-10-13 08:46:27] --   - Internal .a target: es_math_a
+[2026-10-13 08:46:27] --   - Module name (for gen_esb): math
+[2026-10-13 08:46:27] --   - OPP proto target: proto_math (type: SHARED_LIBRARY)
+[2026-10-13 08:46:27] --   - OPP proto path: /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:27] --   - Output path: /work/ops-nn/build/es_packages_math (artifacts will be copied)
+[2026-10-13 08:46:27] --   - Library files: libes_math.so, libes_math.a
+[2026-10-13 08:46:27] --   - Python package: es_math
+[2026-10-13 08:46:27] -- ES package 'es_math' using single-file compilation mode
+[2026-10-13 08:46:27] --   - Wrapper file: /work/ops-nn/build/common/stub/op_graph/es_math_build/generated_code/es_math_all_in_one.cpp
+[2026-10-13 08:46:27] --   - Module name: math
+[2026-10-13 08:46:27] -- add_es_library: Using default compile options: -fPIC;-Wall;-fstack-protector-all;-std=c++17;-D_GLIBCXX_USE_CXX11_ABI=0;-O2;-Wno-free-nonheap-object
+[2026-10-13 08:46:27] -- add_es_library: Set _GLIBCXX_USE_CXX11_ABI=0 for ABI compatibility
+[2026-10-13 08:46:27] -- add_es_library: Deduced header base path from cmake file: /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:27] -- add_es_library: metadef_headers target not found, skipping
+[2026-10-13 08:46:27] -- add_es_library: Found c_sec target
+[2026-10-13 08:46:27] -- add_es_library: Linking with CANN libraries: c_sec
+[2026-10-13 08:46:27] -- add_es_package: 'build_es_math' depends on 'build_es_math' to avoid concurrent builds of shared dependencies
+[2026-10-13 08:46:27] -- ES package 'es_math' configured successfully (single-file mode):
+[2026-10-13 08:46:27] --   - Exported target (for linking): es_math
+[2026-10-13 08:46:27] --   - Build target: build_es_math
+[2026-10-13 08:46:27] --   - Wrapper file: /work/ops-nn/build/common/stub/op_graph/es_math_build/generated_code/es_math_all_in_one.cpp
+[2026-10-13 08:46:27] --   - Internal targets:
+[2026-10-13 08:46:27] --     * Code generation: generate_es_math_code
+[2026-10-13 08:46:27] --     * Object library: es_math_obj (compiled once)
+[2026-10-13 08:46:27] --     * Shared library: es_math_so
+[2026-10-13 08:46:27] --     * Static library: es_math_a
+[2026-10-13 08:46:27] --     * Wheel generation: generate_es_math_whl
+[2026-10-13 08:46:27] --     * Install: install_es_math
+[2026-10-13 08:46:27] --   - Library files: libes_math.so, libes_math.a
+[2026-10-13 08:46:27] --   - Python package: es_math
+[2026-10-13 08:46:27] --   - ES base library: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so (from library)
+[2026-10-13 08:46:27] -- 
+[2026-10-13 08:46:27] -- Build mode: Single-file compilation (no reconfiguration needed)
+[2026-10-13 08:46:27] -- 
+[2026-10-13 08:46:27] -- Quick start:
+[2026-10-13 08:46:27] --   1. Link:    target_link_libraries(your_target PRIVATE es_math)
+[2026-10-13 08:46:27] --   2. Build:   make your_target  (recommended, triggers automatically)
+[2026-10-13 08:46:27] -- 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.batch_mat_mul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.dual_level_quant_batch_matmul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.fused_mat_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.fused_quant_mat_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.gemm_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.mat_mul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.quant_batch_matmul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.quant_batch_matmul_v4.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.quant_matmul_reduce_sum.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start rotate_quant.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.rotate_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.sparse_tensor_dense_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.transpose_batch_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.transpose_quant_batch_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.matmul.weight_quant_batch_matmul_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.common.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.conv2d_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.conv3d_backprop_filter_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.conv3d_backprop_input_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.conv3d_transpose_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.conv3d_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.deformable_offsets.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.extend_conv2d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.extend_conv_transpose.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.conv.quant_conv3d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.fusedop.clipped_swiglu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: CURRENT_DIRS =CMakeLists.txt;README.md;docs;examples;op_graph;op_host;op_kernel 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.confusion_softmax_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.elu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for elu_cust_obj
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.elu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.elu_grad_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.fatrelu_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.ge_glu_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.ge_glu_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.gelu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.gelu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.gelu_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.gelu_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.gelu_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.gelu_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.glu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.hard_shrink.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.hard_swish_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.heaviside.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.leaky_relu.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.leaky_relu.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.log_softmax_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.log_softmax_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.logsigmoid_grad.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.logsigmoid_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.mish.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.mish_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.p_relu_grad_update.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.relu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.relu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.relu_grad_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.relu_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.selu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.selu_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.sigmoid.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.softmax_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.softmax_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.squared_relu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.fusedop.swi_glu.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: CURRENT_DIRS =CMakeLists.txt;README.md;docs;examples;op_graph;op_host;op_kernel 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.swi_glu_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: CURRENT_DIRS =CMakeLists.txt;README.md;docs;examples;op_graph;op_host;op_kernel 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.swiglu_group_quant_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start activation.swiglu_group_quant_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.activation.leaky_relu.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_a_cos_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_a_cos_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_abs.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_abs.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_acos.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_acos.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_add_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcdiv_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcdiv_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcdiv_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcdiv_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcdiv_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcdiv_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcmul_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcmul_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcmul_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcmul_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcmul_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_addcmul_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_asin.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_asin.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_asin.op_kernel.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_atan.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_atan.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_copy.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_copy.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_cos.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_cos.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_cosh.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_cosh.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_scalar_list.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_div_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_erf.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_erf.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_erfc.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_erfc.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_exp.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_exp.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_expm1.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_expm1.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_lerp_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_lerp_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_lerp_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_lerp_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log10.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log10.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log1p.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log1p.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_log_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_maximum_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_maximum_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_maximum_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_maximum_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_maximum_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_maximum_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_minimum_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_minimum_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_minimum_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_minimum_scalar.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_minimum_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_minimum_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_scalar_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_scalar_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_mul_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_neg.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_neg.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_non_finite_check_and_unscale.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_non_finite_check_and_unscale.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_norm.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_scalar_and_tensor.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_scalar_and_tensor.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_pow_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_reciprocal.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_reciprocal.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_round_off_number.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_round_off_number.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sigmoid.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sigmoid.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sign.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sin.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sin.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sinh.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sinh.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sqrt.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sqrt.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_list_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_list_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_scalar.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_scalar.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_scalar_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_scalar_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_scalar_list.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_sub_scalar_list.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_tan.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_tan.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_tanh.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_tanh.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_utils.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_zero_inplace.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.foreach.foreach_zero_inplace.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.apply_top_k_top_p_with_sorted.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.broadcast_gradient_args.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.bucketize_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.concat_offset.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.embedding_bag.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.gather_elements_v2.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.gather_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for gather_v2_cust_obj
+[2026-10-13 08:46:27] -- === Debug: start ops.index.index.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.index_fill.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.index_put_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.inplace_index_add_with_sorted.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.index_fill.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.masked_scatter.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.masked_scatter_with_position.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.non_zero.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.repeat_interleave.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.math.is_finite.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for reverse_sequence_cust_obj
+[2026-10-13 08:46:27] -- === Debug: start ops.index.scatter_add.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for scatter_elements_cust_obj
+[2026-10-13 08:46:27] -- === Debug: start ops.index.scatter_nd_add.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.scatter_nd_max.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.scatter_nd_min.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.scatter_sub.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.scatter_update.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.segment_sum.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.sorted_sparse_segment_mean_grad.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.sparse_segment_mean.op_gragh.CMakeLists.txt 
+[2026-10-13 08:46:27] -- aicpu or host aicpu no need aclnn.
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for tensor_scatter_update_cust_obj
+[2026-10-13 08:46:27] -- === Debug: start ops.index.top_k_top_p_sample.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.index.top_k_top_p_sample.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.top_k_top_p_sample_v2.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.index.top_k_top_p_sample_v2.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.unsorted_segment_max.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.unsorted_segment_min.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.unsorted_segment_prod.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start index.where.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.index.where.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- [where] Found aicpu sources: /work/ops-nn/index/where/op_kernel_aicpu/where_aicpu.cpp, ascend dir: /usr/local/Ascend/cann-9.1.0, ophsot name: ophost_nn
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for where_cust_obj
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.chamfer_distance_grad.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.cross_entropy_loss.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.cross_entropy_loss.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.cross_entropy_loss_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.cross_entropy_loss_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.logit.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.logit.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.logit_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.logit_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === DEBUG: start ops.loss.mse_loss_grad.graph_plugin.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.image.upsample_bicubic2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.mse_loss_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.nll_loss.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.nll_loss_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.sigmoid_cross_entropy_with_logits.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.sigmoid_cross_entropy_with_logits.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.soft_margin_loss_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.loss.sparse_softmax_cross_entropy_with_logits.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.ada_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.ada_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.ada_layer_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.ada_layer_norm_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.ada_layer_norm_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.ada_layer_norm_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_layer_norm_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm_cast.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm_dynamic_mx_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm_dynamic_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm_dynamic_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.add_rms_norm_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.batch_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.batch_norm_elemt.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.batch_norm_grad_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.batch_norm_grad_v3.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.batch_norm_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.batch_norm_v3.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.bn_training_reduce.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.deep_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.deep_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.deep_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.deep_norm_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.dual_quantize_add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.dua_quantize_add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.gemma_rms_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.gemma_rms_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_silu.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_silu.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_silu_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_swish.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_swish.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_swish_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.group_norm_swish_grad.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.inplace_add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.inplace_add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.inplace_add_rms_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.inplace_add_rms_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.instance_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.instance_norm_v3.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.layer_norm.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.layer_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.layer_norm_grad_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.layer_norm_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.layer_norm_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.layer_norm_v4.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.lp_norm_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.masked_softmax_with_rel_pos_bias.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.multi_add_rms_norm_dynamic_quant.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.multi_add_rms_norm_dynamic_quant.op_host.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.norm_common.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.quantize_add_layer_norm.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.quantize_add_layer_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.renorm.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.deep_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_dynamic_mx_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_dynamic_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_grad_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_quant_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.rms_norm_quant_v3.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.sync_batch_norm_backward_elemt.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.sync_batch_norm_backward_reduce.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.sync_batch_norm_gather_stats.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.sync_batch_norm_gather_stats_with_counts.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.norm.sync_bn_training_update.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.adam_apply_one.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.adam_apply_one_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.adam_apply_one_with_decay.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.adam_apply_one_with_decay_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.advance_step.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.advance_step.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adagrad_d.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adam.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === DEBUG: start ops.XXX.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adam_w.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adam_w_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adam_w_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adam_w_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_adam_w_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_ftrl.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_ftrl.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_fused_ema_adam.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_fused_ema_adam.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_gradient_descent.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_momentum.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_momentum.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.apply_proximal_adagrad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start fused_sgd.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.fused_sgd.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_apply_optimizer_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_apply_weight_assign.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_next_m_v.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_next_m_v_with_decay.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_next_right.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_update_with_lr.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.optim.lamb_update_with_lr_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.adaptive_avg_pool2d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.adaptive_avg_pool2d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.adaptive_avg_pool3d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.adaptive_avg_pool3d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.adaptive_max_pool2d.tests.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: CURRENT_DIRS =CMakeLists.txt;st;ut 
+[2026-10-13 08:46:27] -- === Debug: CURRENT_DIRS =CMakeLists.txt;op_api;op_host 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.adaptive_max_pool3d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.avg_pool3_d.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.avg_pool3_d_grad.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.max_pool3d_with_argmax_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.max_pool_grad_with_argmax.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.max_pool_with_argmax.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.pooling.max_pool_with_argmax.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.acts_ulq.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.anti_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start quant.ascend_anti_quant_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.ascend_dequant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.ascend_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ascend.quant.v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ascend.quant.v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start dequant.bias.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start dequant.bias.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.op_graph.dequant_swiglu_quant.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dequant_swiglu_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_block_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_block_quant.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_block_quant.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_dual_level_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_mx_quant_with_dual_axis.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_quant.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_quant.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug:start ops.quant.dynamic_quant_update_scatter.graph_plugin.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_quant_update_scatter.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug:start ops.quant.dynamic_quant_update_scatter_v2.op_graph.CMakeLists.txt
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_quant_update_scatter_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_quant_v2.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.dynamic_quant_v2.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_affine_cachemask.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_affine_cachemask.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_with_min_max_vars.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_with_min_max_vars.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel_gradient.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.fake_quant_with_min_max_vars_per_channel_gradient.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start flat.quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start flat.quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ascend.quant.v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ascend.quant.v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.grouped_dynamic_block_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.grouped_dynamic_mx_quant.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.grouped_quant_max.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ifmr.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.ifmr.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.quant_max.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.quantize.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.swi_glu_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start quant.swi_glu_quant.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.fusedop.swiglu_mx_quant.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.trans_quant_param.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.trans_quant_param_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.quant.trans_quant_param_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start bidirection.lstm.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start bidirection.lstmv2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.rnn.dynamic_rnn.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.rnn.dynamic_rnn_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.control.assert.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:27] -- === Debug: start ops.control.assert.op_host.CMakeLists.txt 
+[2026-10-13 08:46:27] -- [assert] Found aicpu sources: /work/ops-nn/control/assert/op_kernel_aicpu/assert_aicpu.cpp, ascend dir: /usr/local/Ascend/cann-9.1.0, ophsot name: ophost_nn
+[2026-10-13 08:46:27] -- add_aicpu_cust_kernel_modules for assert_cust_obj
+[2026-10-13 08:46:27] -- Ops for this compilation contains: addmv;batch_mat_mul_v3;batch_matmul_quant;convert_weight_to_int4_pack;dual_level_quant_batch_matmul;fused_linear_cross_entropy_loss_grad;fused_linear_online_max_sum;fused_mat_mul;fused_quant_mat_mul;gemm;gemm_v2;gemm_v3;mat_mul_v3;matmul_compress;matmul_v2_compress_dequant;mv;quant_batch_matmul_inplace_add;quant_batch_matmul_v3;quant_batch_matmul_v4;quant_matmul;quant_matmul_dequant;quant_matmul_reduce_sum;rotate_quant;sparse4to2quant_matmul;sparse_tensor_dense_mat_mul;transpose_batch_mat_mul;transpose_quant_batch_mat_mul;weight_quant_batch_matmul;weight_quant_batch_matmul_v2;conv2d_v2;conv3d_backprop_filter_v2;conv3d_backprop_input_v2;conv3d_transpose_v2;conv3d_v2;convolution_backward;convolution_forward;deformable_conv2d;deformable_offsets;deformable_offsets_grad;extend_conv2d;extend_conv_transpose;quant_conv3d;bnll;celu;celu_v2;clipped_swiglu;confusion_softmax_grad;elu;elu_grad;elu_grad_v2;erfinv;fast_gelu;fast_gelu_grad;fast_gelu_v2;fatrelu_mul;ge_glu_grad_v2;ge_glu_v2;gelu;gelu_grad;gelu_grad_v2;gelu_mul;gelu_quant;gelu_v2;glu;hard_shrink;hard_shrink_grad;hard_sigmoid;hard_sigmoid_grad;hard_swish;hard_swish_grad;hard_swish_grad_v2;hardtanh_grad;heaviside;leaky_relu;leaky_relu_grad;log_sigmoid;log_softmax_grad;log_softmax_v2;logsigmoid_grad;mish;mish_grad;p_relu;p_relu_grad_reduce;p_relu_grad_update;relu;relu6;relu6_grad;relu_grad;relu_grad_v2;relu_v2;selu;selu_grad;shrink;sigmoid;sigmoid_grad;silu_grad;softmax_cross_entropy_with_logits;softmax_grad;softmax_grad_ext;softmax_v2;softplus;softplus_v2;softplus_v2_grad;softshrink;softshrink_grad;softsign;softsign_grad;squared_relu;swi_glu;swi_glu_grad;swiglu_group;swiglu_group_quant_grad;swish;swish_grad;threshold;threshold_grad_v2_d;threshold_v2;foreach_a_cos_inplace;foreach_abs;foreach_acos;foreach_add_list;foreach_add_list_inplace;foreach_add_scalar;foreach_add_scalar_list;foreach_addcdiv_list;foreach_addcdiv_scalar;foreach_addcdiv_scalar_list;foreach_addcmul_list;foreach_addcmul_scalar;foreach_addcmul_scalar_list;foreach_asin;foreach_atan;foreach_copy;foreach_cos;foreach_cosh;foreach_div_list;foreach_div_list_inplace;foreach_div_scalar;foreach_div_scalar_list;foreach_erf;foreach_erfc;foreach_exp;foreach_expm1;foreach_lerp_list;foreach_lerp_scalar;foreach_log;foreach_log10;foreach_log1p;foreach_log2;foreach_log_inplace;foreach_maximum_list;foreach_maximum_scalar;foreach_maximum_scalar_list;foreach_minimum_list;foreach_minimum_scalar;foreach_minimum_scalar_list;foreach_mul_list;foreach_mul_list_inplace;foreach_mul_scalar;foreach_mul_scalar_inplace;foreach_mul_scalar_list;foreach_neg;foreach_non_finite_check_and_unscale;foreach_norm;foreach_pow_list;foreach_pow_scalar;foreach_pow_scalar_and_tensor;foreach_pow_scalar_list;foreach_reciprocal;foreach_round_off_number;foreach_sigmoid;foreach_sign;foreach_sin;foreach_sinh;foreach_sqrt;foreach_sub_list;foreach_sub_list_inplace;foreach_sub_scalar;foreach_sub_scalar_inplace;foreach_sub_scalar_list;foreach_tan;foreach_tanh;foreach_utils;foreach_zero_inplace;embedding_hash_table_apply_adam_w;embedding_hash_table_export;embedding_hash_table_import;embedding_hash_table_lookup_or_insert;init_embedding_hash_table;modulate;modulate_grad;multi_scale_deformable_attention_grad;multi_scale_deformable_attn_function;scaled_masked_softmax_grad_v2;scaled_masked_softmax_v2;apply_top_k_top_p_with_sorted;broadcast_gradient_args;bucketize_v2;concat_offset;data_format_dim_map;embedding;embedding_bag;embedding_dense_grad;embedding_dense_grad_v2;expand_into_jagged_permute;gather_elements;gather_elements_v2;gather_nd;gather_v2;gather_v3;index;index_check;index_fill;index_fill_d;index_put;index_put_v2;index_put_with_sort;index_put_with_sort_v2;inplace_index_add;inplace_index_add_with_sorted;inplace_index_fill;inplace_scatter_add;inplace_update;linear_index;linear_index_v2;map_index;masked_scatter;masked_scatter_with_position;matrix_inverse;median_dim;non_zero;quant_update_scatter;repeat_interleave;repeat_interleave_grad;reverse_sequence;reverse_v2;scatter;scatter_add;scatter_add_with_sorted;scatter_div;scatter_elements;scatter_elements_v2;scatter_list;scatter_max;scatter_min;scatter_mul;scatter_nd;scatter_nd_add;scatter_nd_common;scatter_nd_max;scatter_nd_min;scatter_nd_sub;scatter_nd_update;scatter_non_aliasing_add;scatter_reduce_common;scatter_sub;scatter_update;segment_sum;sorted_sparse_segment_mean_grad;sparse_segment_mean;sparse_segment_sum_grad;sparse_slice;sparse_to_dense;tensor_scatter_update;tf_scatter_add;top_k_top_p_sample;top_k_top_p_sample_v2;unique_consecutive;unique_dim;unique_with_counts_and_sorting;unique_with_counts_ext2;unsorted_segment_common;unsorted_segment_max;unsorted_segment_min;unsorted_segment_prod;unsorted_segment_sum;where;binary_cross_entropy;binary_cross_entropy_grad;chamfer_distance_grad;cross_entropy_loss;cross_entropy_loss_grad;cross_v2;ctc_loss_v2;ctc_loss_v2_grad;ctc_loss_v3;ctc_loss_v3_grad;fused_cross_entropy_loss_with_max_sum;kl_div_loss_grad;kl_div_target_loss_grad;l1_loss_grad;l2_loss;logit;logit_grad;lp_loss;mse_loss;mse_loss_grad;mse_loss_grad_v2;mse_loss_v2;multilabel_margin_loss;nll_loss;nll_loss_grad;sigmoid_cross_entropy_with_logits;sigmoid_cross_entropy_with_logits_grad_v2;sigmoid_cross_entropy_with_logits_v2;smooth_l1_loss_grad_v2;smooth_l1_loss_v2;soft_margin_loss;soft_margin_loss_grad;sparse_softmax_cross_entropy_with_logits;ada_layer_norm;ada_layer_norm_grad;ada_layer_norm_quant;ada_layer_norm_v2;add_layer_norm;add_layer_norm_grad;add_layer_norm_quant;add_layer_norm_quant_v2;add_rms_norm;add_rms_norm_cast;add_rms_norm_dynamic_mx_quant;add_rms_norm_dynamic_quant;add_rms_norm_dynamic_quant_v2;add_rms_norm_quant;add_rms_norm_quant_v2;batch_norm;batch_norm_elemt;batch_norm_grad;batch_norm_grad_v3;batch_norm_v3;bn_infer_grad;bn_training_reduce;deep_norm;deep_norm_grad;dua_quantize_add_layer_norm;euclidean_norm;gemma_rms_norm;group_norm;group_norm_grad;group_norm_silu;group_norm_silu_quant;group_norm_swish;group_norm_swish_grad;group_norm_v2;inplace_add_layer_norm;inplace_add_rms_norm;instance_norm;instance_norm_v3;layer_norm;layer_norm_grad;layer_norm_grad_v3;layer_norm_quant;layer_norm_v3;layer_norm_v4;lp_norm_v2;masked_softmax_with_rel_pos_bias;multi_add_rms_norm_dynamic_quant;norm_common;quantize_add_layer_norm;quantized_batch_norm;renorm;rms_norm;rms_norm_dynamic_mx_quant;rms_norm_dynamic_quant;rms_norm_grad;rms_norm_grad_quant;rms_norm_quant;rms_norm_quant_v2;rms_norm_quant_v3;sync_batch_norm_backward_elemt;sync_batch_norm_backward_reduce;sync_batch_norm_gather_stats;sync_batch_norm_gather_stats_fused;sync_batch_norm_gather_stats_with_counts;sync_bn_training_update;adam_apply_one;adam_apply_one_assign;adam_apply_one_with_decay;adam_apply_one_with_decay_assign;advance_step;apply_adadelta;apply_adagrad_d;apply_adam;apply_adam_d;apply_adam_w;apply_adam_w_quant;apply_adam_w_v2;apply_adamax;apply_add_sign;apply_ftrl;apply_fused_ema_adam;apply_gradient_descent;apply_momentum;apply_proximal_adagrad;apply_proximal_gradient_descent;apply_rms_prop;fused_sgd;lamb_apply_optimizer_assign;lamb_apply_weight_assign;lamb_next_m_v;lamb_next_m_v_with_decay;lamb_next_right;lamb_update_with_lr;lamb_update_with_lr_v2;sparse_apply_adadelta;sparse_apply_adagrad_v2;sparse_apply_ftrl;sparse_apply_ftrl_v2;sparse_apply_proximal_adagrad;sparse_apply_rms_prop;adaptive_avg_pool2d;adaptive_avg_pool2d_grad;adaptive_avg_pool3d;adaptive_avg_pool3d_grad;adaptive_max_pool2d;adaptive_max_pool3d;adaptive_max_pool3d_grad;adaptive_pool3d_common;avg_pool;avg_pool3_d;avg_pool3_d_grad;avg_pool_grad;avg_pool_v2;avg_pool_v2_grad;max_pool3_d;max_pool3d_grad;max_pool3d_grad_with_argmax;max_pool3d_with_argmax_v2;max_pool_grad;max_pool_grad_with_argmax;max_pool_grad_with_argmax_v3;max_pool_v2;max_pool_v3;max_pool_with_argmax;max_pool_with_argmax_v3;pool_3d_common;pool_3d_common;pool_grad_common;acts_ulq;anti_mx_quant;ascend_anti_quant;ascend_anti_quant_v2;ascend_dequant;ascend_quant;ascend_quant_v2;dequant_bias;dequant_swiglu_quant;dynamic_block_mx_quant;dynamic_block_quant;dynamic_dual_level_mx_quant;dynamic_mx_quant;dynamic_mx_quant_with_dual_axis;dynamic_quant;dynamic_quant_update_scatter;dynamic_quant_update_scatter_v2;dynamic_quant_v2;fake_quant_affine_cachemask;fake_quant_with_min_max_args;fake_quant_with_min_max_args_gradient;fake_quant_with_min_max_vars;fake_quant_with_min_max_vars_gradient;fake_quant_with_min_max_vars_per_channel;fake_quant_with_min_max_vars_per_channel_gradient;flat_quant;group_quant;grouped_dynamic_block_quant;grouped_dynamic_mx_quant;grouped_quant_max;ifmr;quant_max;quantize;swi_glu_quant;swiglu_backward_mx_quant_with_dual_axis;swiglu_group_quant;swiglu_mx_quant;swiglu_mx_quant_with_dual_axis;trans_quant_param;trans_quant_param_v2;bidirection_lstm;bidirection_lstmv2;dynamic_rnn;dynamic_rnnv2;gru;single_layer_lstm_grad;thnn_fused_lstm_cell;thnn_fused_lstm_cell_grad;assert
+[2026-10-13 08:46:27] -- No aclnn srcs, skip aclnn
+[2026-10-13 08:46:27] -- No aclnnInner srcs, skip aclnnInner
+[2026-10-13 08:46:27] -- No aclnnExc srcs, skip aclnnExc
+[2026-10-13 08:46:27] -- create aclnn master header file: /work/ops-nn/build/aclnn_ops_nn.h
+[2026-10-13 08:46:27] -- Found Python3: /usr/local/python3.12.13/bin/python3.12
+[2026-10-13 08:46:27] -- _add_es_library_impl: OUTPUT_PATH is /work/ops-nn/build/es_packages
+[2026-10-13 08:46:27] -- _add_es_library_impl: EXCLUDE_OPS is not provided
+[2026-10-13 08:46:27] -- add_es_package: Using default output directory: /work/ops-nn/build
+[2026-10-13 08:46:27] -- add_es_package: OPP_PROTO_TARGET output directory: /work/ops-nn/build
+[2026-10-13 08:46:27] -- add_es_package: Derived ASCEND_OPP_PATH: /work/ops-nn/build
+[2026-10-13 08:46:27] --   - Created standard OPP path: /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn
+[2026-10-13 08:46:27] -- _add_es_library_impl: gen_esb target not found, searching in environment...
+[2026-10-13 08:46:27] --     Found gen_esb in PATH (environment variables configured)
+[2026-10-13 08:46:27] --     - gen_esb path: /usr/local/Ascend/cann-9.1.0/bin/gen_esb
+[2026-10-13 08:46:27] --     - library path: /usr/local/Ascend/cann-9.1.0/lib64
+[2026-10-13 08:46:27] -- Using proto library path (derived from OPP_PROTO_TARGET): /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn
+[2026-10-13 08:46:27] -- add_es_package: Module name for gen_esb: nn
+[2026-10-13 08:46:27] -- [add_es_library] No history registry found at /usr/local/Ascend/cann-9.1.0/opp/history_registry/nn, skipping
+[2026-10-13 08:46:27] -- Trying to locate eager_style_graph_builder_base library from run package...
+[2026-10-13 08:46:27] --   Found library in run package: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so
+[2026-10-13 08:46:27] -- Configuring ES package: es_nn
+[2026-10-13 08:46:27] --   - Exported target: es_nn (public interface)
+[2026-10-13 08:46:27] --   - Internal .obj target: es_nn_obj (compile once)
+[2026-10-13 08:46:27] --   - Internal .so target: es_nn_so
+[2026-10-13 08:46:27] --   - Internal .a target: es_nn_a
+[2026-10-13 08:46:27] --   - Module name (for gen_esb): nn
+[2026-10-13 08:46:27] --   - OPP proto target: proto_nn (type: SHARED_LIBRARY)
+[2026-10-13 08:46:27] --   - OPP proto path: /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn
+[2026-10-13 08:46:27] --   - Output path: /work/ops-nn/build/es_packages (artifacts will be copied)
+[2026-10-13 08:46:27] --   - Library files: libes_nn.so, libes_nn.a
+[2026-10-13 08:46:27] --   - Python package: es_nn
+[2026-10-13 08:46:27] -- ES package 'es_nn' using single-file compilation mode
+[2026-10-13 08:46:27] --   - Wrapper file: /work/ops-nn/build/es_nn_build/generated_code/es_nn_all_in_one.cpp
+[2026-10-13 08:46:27] --   - Module name: nn
+[2026-10-13 08:46:27] -- add_es_library: Using default compile options: -fPIC;-Wall;-fstack-protector-all;-std=c++17;-D_GLIBCXX_USE_CXX11_ABI=0;-O2;-Wno-free-nonheap-object
+[2026-10-13 08:46:27] -- add_es_library: Set _GLIBCXX_USE_CXX11_ABI=0 for ABI compatibility
+[2026-10-13 08:46:27] -- add_es_library: Deduced header base path from cmake file: /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:27] -- add_es_library: metadef_headers target not found, skipping
+[2026-10-13 08:46:27] -- add_es_library: Found c_sec target
+[2026-10-13 08:46:27] -- add_es_library: Linking with CANN libraries: c_sec
+[2026-10-13 08:46:27] -- add_es_package: 'build_es_nn' depends on 'build_es_math' to avoid concurrent builds of shared dependencies
+[2026-10-13 08:46:27] -- ES package 'es_nn' configured successfully (single-file mode):
+[2026-10-13 08:46:27] --   - Exported target (for linking): es_nn
+[2026-10-13 08:46:27] --   - Build target: build_es_nn
+[2026-10-13 08:46:27] --   - Wrapper file: /work/ops-nn/build/es_nn_build/generated_code/es_nn_all_in_one.cpp
+[2026-10-13 08:46:27] --   - Internal targets:
+[2026-10-13 08:46:27] --     * Code generation: generate_es_nn_code
+[2026-10-13 08:46:27] --     * Object library: es_nn_obj (compiled once)
+[2026-10-13 08:46:27] --     * Shared library: es_nn_so
+[2026-10-13 08:46:27] --     * Static library: es_nn_a
+[2026-10-13 08:46:27] --     * Wheel generation: generate_es_nn_whl
+[2026-10-13 08:46:27] --     * Install: install_es_nn
+[2026-10-13 08:46:27] --   - Library files: libes_nn.so, libes_nn.a
+[2026-10-13 08:46:27] --   - Python package: es_nn
+[2026-10-13 08:46:27] --   - ES base library: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so (from library)
+[2026-10-13 08:46:27] -- 
+[2026-10-13 08:46:27] -- Build mode: Single-file compilation (no reconfiguration needed)
+[2026-10-13 08:46:27] -- 
+[2026-10-13 08:46:27] -- Quick start:
+[2026-10-13 08:46:27] --   1. Link:    target_link_libraries(your_target PRIVATE es_nn)
+[2026-10-13 08:46:27] --   2. Build:   make your_target  (recommended, triggers automatically)
+[2026-10-13 08:46:27] -- 
+[2026-10-13 08:46:27] -- All host targets: 
+[2026-10-13 08:46:27] -- No builtin host aicpu targets found, skipping.
+[2026-10-13 08:46:27] -- Configuring done (2.5s)
+[2026-10-13 08:46:28] -- Generating done (0.7s)
+[2026-10-13 08:46:28] -- Build files have been written to: /work/ops-nn/build
+[2026-10-13 08:46:28] End to parse op dependencies
+[2026-10-13 08:46:28] ----------------------------------------------------------------
+[2026-10-13 08:46:28] -- Enable ccache TRUE
+[2026-10-13 08:46:28] -- Enable ccache
+[2026-10-13 08:46:28] -- compile project with library
+[2026-10-13 08:46:28] -- Find opbase source dir: /work/ops-nn/third_party/opbase
+[2026-10-13 08:46:28] -- Find ops-tensor source dir: /work/ops-nn/third_party/ops-tensor
+[2026-10-13 08:46:30] -- ops-tensor fetched 85220bdb3d1b5c2d256c4e6080633714af3d5a04
+[2026-10-13 08:46:30] -- Search libs under install path /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:30] -- CMAKE_MODULE_PATH            :/work/ops-nn/cmake/modules
+[2026-10-13 08:46:30] -- compile option:  -O2 -Wall -Wextra -Wshadow -Wformat=2 -fno-common -fPIC -Wformat-signedness
+[2026-10-13 08:46:30] -- [add_es_library] Module loaded from: /usr/local/Ascend/cann-9.1.0/include/ge/cmake
+[2026-10-13 08:46:30] -- Variables in dlog module:
+[2026-10-13 08:46:30] -- dlog_INCLUDE_DIR="/usr/local/Ascend/cann-9.1.0/pkg_inc/base"
+[2026-10-13 08:46:30] -- dlog_SHARED_LIBRARY="/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:46:30] -- 
+[2026-10-13 08:46:30]  Properties for TARGET dlog:
+[2026-10-13 08:46:30]    dlog.INTERFACE_COMPILE_DEFINITIONS = "LOG_CPP;PROCESS_LOG"
+[ThirdParty][protobuf] /work/ops-nn/third_party/protobuf/protobuf-25.1.tar.gz not found, need download.
+[2026-10-13 08:46:30]    dlog.INTERFACE_LINK_LIBRARIES = "dlog_headers"
+[2026-10-13 08:46:30]    dlog.IMPORTED_LOCATION = "/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:46:30] 
+[2026-10-13 08:46:30] -- 
+[2026-10-13 08:46:30]  Properties for TARGET dlog_headers:
+[2026-10-13 08:46:30]    dlog_headers.INTERFACE_INCLUDE_DIRECTORIES = "/usr/local/Ascend/cann-9.1.0/pkg_inc/base;/usr/local/Ascend/cann-9.1.0/pkg_inc/base/../"
+[ThirdParty][protobuf] shared use cache.
+[2026-10-13 08:46:30] 
+[2026-10-13 08:46:30] -- Found OPABSE include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:30] -- Found platform include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:30] -- Found register library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libregister.so
+[2026-10-13 08:46:30] -- Found opp_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libopp_registry.so
+[ThirdParty][protobuf] static use cache.
+[ThirdParty][protobuf] host static use cache.
+[2026-10-13 08:46:30] -- Found exe_graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libexe_graph.so
+[2026-10-13 08:46:30] -- Found error_manager library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/liberror_manager.so
+[ThirdParty][eigen] package needs to be downloaded.
+[2026-10-13 08:46:30] -- Found metadef library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmetadef.so
+[2026-10-13 08:46:30] -- Found graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph.so
+[2026-10-13 08:46:30] -- Found graph_base library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph_base.so
+[2026-10-13 08:46:30] -- Found rt2_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/librt2_registry.a
+[2026-10-13 08:46:30] -- Found source metadef include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/exe_graph
+[2026-10-13 08:46:30] -- Found mmpa library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmmpa.so
+[2026-10-13 08:46:30] -- Found source acl include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:30] -- [nn]Found source npuruntime include dir: /usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/runtime
+[2026-10-13 08:46:30] -- Found aclnn include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:30] -- Found opdev include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aclnn
+[2026-10-13 08:46:30] -- Found tilingapi include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:46:30] -- TILINGAPI_INC_DIRS: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/lib;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/impl;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/tiling
+[2026-10-13 08:46:30] -- Found tilingapi lib:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libtiling_api.a
+[2026-10-13 08:46:30] -- Using AICPU include dirs: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/msprof;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/datagw/aicpu/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu
+[2026-10-13 08:46:30] -- [ThirdPartyLib][json] build json end, JSON_SOURCE_PATH: /work/ops-nn/third_party/json.
+[2026-10-13 08:46:30] -- [ThirdPartyLib][abseil-cpp] Found abseil-cpp in: /work/ops-nn/third_party/lib_cache/abseil-cpp
+[2026-10-13 08:46:30] -- System processor: x86_64
+[2026-10-13 08:46:30] -- Package dlog has been found.
+[2026-10-13 08:46:30] -- Initialization summary: Ccache not found, TARGET_ARCH: x86_64
+[2026-10-13 08:46:30] -- Found Python3: /usr/local/python3.12.13/bin/python3.12
+[2026-10-13 08:46:30] -- _add_es_library_impl: OUTPUT_PATH is /work/ops-nn/build/es_packages_math
+[2026-10-13 08:46:30] -- _add_es_library_impl: EXCLUDE_OPS is not provided
+[2026-10-13 08:46:30] -- add_es_package: Using default output directory: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:30] -- add_es_package: OPP_PROTO_TARGET output directory: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:30] -- add_es_package: Derived ASCEND_OPP_PATH: /work/ops-nn/build/common/stub/op_graph
+[2026-10-13 08:46:30] --   - Created standard OPP path: /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:30] -- _add_es_library_impl: gen_esb target not found, searching in environment...
+[2026-10-13 08:46:30] --     Found gen_esb in PATH (environment variables configured)
+[2026-10-13 08:46:30] --     - gen_esb path: /usr/local/Ascend/cann-9.1.0/bin/gen_esb
+[2026-10-13 08:46:30] --     - library path: /usr/local/Ascend/cann-9.1.0/lib64
+[2026-10-13 08:46:30] -- Using proto library path (derived from OPP_PROTO_TARGET): /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:30] -- add_es_package: Module name for gen_esb: math
+[2026-10-13 08:46:30] -- [add_es_library] No history registry found at /usr/local/Ascend/cann-9.1.0/opp/history_registry/math, skipping
+[2026-10-13 08:46:30] -- Trying to locate eager_style_graph_builder_base library from run package...
+[2026-10-13 08:46:30] --   Found library in run package: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so
+[2026-10-13 08:46:30] -- Configuring ES package: es_math
+[2026-10-13 08:46:30] --   - Exported target: es_math (public interface)
+[2026-10-13 08:46:30] --   - Internal .obj target: es_math_obj (compile once)
+[2026-10-13 08:46:30] --   - Internal .so target: es_math_so
+[2026-10-13 08:46:30] --   - Internal .a target: es_math_a
+[2026-10-13 08:46:30] --   - Module name (for gen_esb): math
+[2026-10-13 08:46:30] --   - OPP proto target: proto_math (type: SHARED_LIBRARY)
+[2026-10-13 08:46:30] --   - OPP proto path: /work/ops-nn/build/common/stub/op_graph/es_math_build/opp_standard_path_proto_math
+[2026-10-13 08:46:30] --   - Output path: /work/ops-nn/build/es_packages_math (artifacts will be copied)
+[2026-10-13 08:46:30] --   - Library files: libes_math.so, libes_math.a
+[2026-10-13 08:46:30] --   - Python package: es_math
+[2026-10-13 08:46:30] -- ES package 'es_math' using single-file compilation mode
+[2026-10-13 08:46:30] --   - Wrapper file: /work/ops-nn/build/common/stub/op_graph/es_math_build/generated_code/es_math_all_in_one.cpp
+[2026-10-13 08:46:30] --   - Module name: math
+[2026-10-13 08:46:30] -- add_es_library: Using default compile options: -fPIC;-Wall;-fstack-protector-all;-std=c++17;-D_GLIBCXX_USE_CXX11_ABI=0;-O2;-Wno-free-nonheap-object
+[2026-10-13 08:46:30] -- add_es_library: Set _GLIBCXX_USE_CXX11_ABI=0 for ABI compatibility
+[2026-10-13 08:46:30] -- add_es_library: Deduced header base path from cmake file: /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:30] -- add_es_library: metadef_headers target not found, skipping
+[2026-10-13 08:46:30] -- add_es_library: Found c_sec target
+[2026-10-13 08:46:30] -- add_es_library: Linking with CANN libraries: c_sec
+[2026-10-13 08:46:30] -- add_es_package: 'build_es_math' depends on 'build_es_math' to avoid concurrent builds of shared dependencies
+[2026-10-13 08:46:30] -- ES package 'es_math' configured successfully (single-file mode):
+[2026-10-13 08:46:30] --   - Exported target (for linking): es_math
+[2026-10-13 08:46:30] --   - Build target: build_es_math
+[2026-10-13 08:46:30] --   - Wrapper file: /work/ops-nn/build/common/stub/op_graph/es_math_build/generated_code/es_math_all_in_one.cpp
+[2026-10-13 08:46:30] --   - Internal targets:
+[2026-10-13 08:46:30] --     * Code generation: generate_es_math_code
+[2026-10-13 08:46:30] --     * Object library: es_math_obj (compiled once)
+[2026-10-13 08:46:30] --     * Shared library: es_math_so
+[2026-10-13 08:46:30] --     * Static library: es_math_a
+[2026-10-13 08:46:30] --     * Wheel generation: generate_es_math_whl
+[2026-10-13 08:46:30] --     * Install: install_es_math
+[2026-10-13 08:46:30] --   - Library files: libes_math.so, libes_math.a
+[2026-10-13 08:46:30] --   - Python package: es_math
+[2026-10-13 08:46:30] --   - ES base library: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so (from library)
+[2026-10-13 08:46:30] -- 
+[2026-10-13 08:46:30] -- Build mode: Single-file compilation (no reconfiguration needed)
+[2026-10-13 08:46:30] -- 
+[2026-10-13 08:46:30] -- Quick start:
+[2026-10-13 08:46:30] --   1. Link:    target_link_libraries(your_target PRIVATE es_math)
+[2026-10-13 08:46:30] --   2. Build:   make your_target  (recommended, triggers automatically)
+[2026-10-13 08:46:30] -- 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.batch_mat_mul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.fused_mat_mul.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.mat_mul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.quant_batch_matmul_v3.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.quant_batch_matmul_v4.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.transpose_batch_mat_mul.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.matmul.weight_quant_batch_matmul_v2.op_graph.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.quant.trans_quant_param_v2.graph_plugin.CMakeLists.txt 
+[2026-10-13 08:46:30] -- === Debug: start ops.quant.trans_quant_param_v2.op_host.CMakeLists.txt 
+[2026-10-13 08:46:30] -- Ops for this compilation contains: batch_mat_mul_v3;convert_weight_to_int4_pack;fused_mat_mul;mat_mul_v3;quant_batch_matmul_v3;quant_batch_matmul_v4;transpose_batch_mat_mul;weight_quant_batch_matmul_v2;trans_quant_param_v2
+[2026-10-13 08:46:30] -- No aclnn srcs, skip aclnn
+[2026-10-13 08:46:30] -- Opbuild generating sources
+[2026-10-13 08:46:31] -- Opbuild generating sources - done
+[2026-10-13 08:46:31] -- Opbuild generating sources
+[2026-10-13 08:46:31] -- Opbuild generating sources - done
+[2026-10-13 08:46:31] -- create aclnn master header file: /work/ops-nn/build/aclnn_ops_nn_custom.h
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [batch_mat_mul_v3] compile binary with self config.
+[2026-10-13 08:46:31] -- [INFO] The op_kernel folder does not exist, [convert_weight_to_int4_pack] not need to compile.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [fused_mat_mul] not supported.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [mat_mul_v3] compile binary with self config.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [quant_batch_matmul_v3] compile binary with self config.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [quant_batch_matmul_v4] not supported.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [transpose_batch_mat_mul] not supported.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [weight_quant_batch_matmul_v2] compile binary with self config.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [trans_quant_param_v2] compile binary with self config.
+[2026-10-13 08:46:31] -- start generate_bin_scripts for op: batch_mat_mul_v3
+[2026-10-13 08:46:31] -- start to compile op: batch_mat_mul_v3, op_type: BatchMatMulV3
+[2026-10-13 08:46:31] -- _ASCENDC_ENV_VAR: export;HI_PYTHON=python3;&&
+[2026-10-13 08:46:31] -- [INFO] The op_kernel folder does not exist, [convert_weight_to_int4_pack] not need to compile.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [fused_mat_mul] not supported.
+[2026-10-13 08:46:31] -- start generate_bin_scripts for op: mat_mul_v3
+[2026-10-13 08:46:31] -- start to compile op: mat_mul_v3, op_type: MatMulV3
+[2026-10-13 08:46:31] -- _ASCENDC_ENV_VAR: export;HI_PYTHON=python3;&&
+[2026-10-13 08:46:31] -- start generate_bin_scripts for op: quant_batch_matmul_v3
+[2026-10-13 08:46:31] -- start to compile op: quant_batch_matmul_v3, op_type: QuantBatchMatmulV3
+[2026-10-13 08:46:31] -- _ASCENDC_ENV_VAR: export;HI_PYTHON=python3;&&
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [quant_batch_matmul_v4] not supported.
+[2026-10-13 08:46:31] -- [INFO] On [ascend310p], [transpose_batch_mat_mul] not supported.
+[2026-10-13 08:46:31] -- start generate_bin_scripts for op: weight_quant_batch_matmul_v2
+[2026-10-13 08:46:31] -- start to compile op: weight_quant_batch_matmul_v2, op_type: WeightQuantBatchMatmulV2
+[2026-10-13 08:46:31] -- _ASCENDC_ENV_VAR: export;HI_PYTHON=python3;&&
+[2026-10-13 08:46:31] -- start generate_bin_scripts for op: trans_quant_param_v2
+[2026-10-13 08:46:31] -- start to compile op: trans_quant_param_v2, op_type: TransQuantParamV2
+[2026-10-13 08:46:31] -- _ASCENDC_ENV_VAR: export;HI_PYTHON=python3;&&
+INFO target name: cust_opapi
+INFO target name: cust_proto
+[2026-10-13 08:46:31] -- Directory does not exist. Create: /work/ops-nn/build/binary/ascend310p/bin/config
+INFO target name: cust_opmaster
+CMake Warning (policy) at /usr/local/Ascend/cann-9.1.0/compiler/tikcpp/ascendc_kernel_cmake/fwk_modules/func.cmake:1252 (install):
+  Policy CMP0177 is not set: install() DESTINATION paths are normalized.  Run
+  "cmake --help-policy CMP0177" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  cmake/package.cmake:41 (npu_op_package_add)
+  CMakeLists.txt:212 (pack_custom)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+CMake Warning (policy) at /usr/local/Ascend/cann-9.1.0/compiler/tikcpp/ascendc_kernel_cmake/fwk_modules/func.cmake:1305 (install):
+  Policy CMP0177 is not set: install() DESTINATION paths are normalized.  Run
+  "cmake --help-policy CMP0177" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  cmake/package.cmake:41 (npu_op_package_add)
+  CMakeLists.txt:212 (pack_custom)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+CMake Warning (policy) at /usr/local/Ascend/cann-9.1.0/compiler/tikcpp/ascendc_kernel_cmake/fwk_modules/func.cmake:1374 (install):
+  Policy CMP0177 is not set: install() DESTINATION paths are normalized.  Run
+  "cmake --help-policy CMP0177" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  cmake/package.cmake:41 (npu_op_package_add)
+  CMakeLists.txt:212 (pack_custom)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+[2026-10-13 08:46:31] -- _add_es_library_impl: OUTPUT_PATH is /work/ops-nn/build/es_packages
+[2026-10-13 08:46:31] -- _add_es_library_impl: EXCLUDE_OPS is not provided
+[2026-10-13 08:46:31] -- add_es_package: Using default output directory: /work/ops-nn/build
+[2026-10-13 08:46:31] -- add_es_package: OPP_PROTO_TARGET output directory: /work/ops-nn/build
+[2026-10-13 08:46:31] -- add_es_package: Derived ASCEND_OPP_PATH: /work/ops-nn/build
+[2026-10-13 08:46:31] --   - Created standard OPP path: /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn_cust
+[2026-10-13 08:46:31] -- _add_es_library_impl: gen_esb target not found, searching in environment...
+[2026-10-13 08:46:31] --     Found gen_esb in PATH (environment variables configured)
+[2026-10-13 08:46:31] --     - gen_esb path: /usr/local/Ascend/cann-9.1.0/bin/gen_esb
+[2026-10-13 08:46:31] --     - library path: /usr/local/Ascend/cann-9.1.0/lib64
+[2026-10-13 08:46:31] -- Using proto library path (derived from OPP_PROTO_TARGET): /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn_cust
+[2026-10-13 08:46:31] -- add_es_package: Module name for gen_esb: nn
+[2026-10-13 08:46:31] -- [add_es_library] No history registry found at /usr/local/Ascend/cann-9.1.0/opp/history_registry/nn, skipping
+[2026-10-13 08:46:31] -- Trying to locate eager_style_graph_builder_base library from run package...
+[2026-10-13 08:46:31] --   Found library in run package: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so
+[2026-10-13 08:46:31] -- Configuring ES package: es_nn
+[2026-10-13 08:46:31] --   - Exported target: es_nn (public interface)
+[2026-10-13 08:46:31] --   - Internal .obj target: es_nn_obj (compile once)
+[2026-10-13 08:46:31] --   - Internal .so target: es_nn_so
+[2026-10-13 08:46:31] --   - Internal .a target: es_nn_a
+[2026-10-13 08:46:31] --   - Module name (for gen_esb): nn
+[2026-10-13 08:46:31] --   - OPP proto target: proto_nn_cust (type: SHARED_LIBRARY)
+[2026-10-13 08:46:31] --   - OPP proto path: /work/ops-nn/build/es_nn_build/opp_standard_path_proto_nn_cust
+[2026-10-13 08:46:31] --   - Output path: /work/ops-nn/build/es_packages (artifacts will be copied)
+[2026-10-13 08:46:31] --   - Library files: libes_nn.so, libes_nn.a
+[2026-10-13 08:46:31] --   - Python package: es_nn
+[2026-10-13 08:46:31] -- ES package 'es_nn' using single-file compilation mode
+[2026-10-13 08:46:31] --   - Wrapper file: /work/ops-nn/build/es_nn_build/generated_code/es_nn_all_in_one.cpp
+[2026-10-13 08:46:31] --   - Module name: nn
+[2026-10-13 08:46:31] -- add_es_library: Using default compile options: -fPIC;-Wall;-fstack-protector-all;-std=c++17;-D_GLIBCXX_USE_CXX11_ABI=0;-O2;-Wno-free-nonheap-object
+[2026-10-13 08:46:31] -- add_es_library: Set _GLIBCXX_USE_CXX11_ABI=0 for ABI compatibility
+[2026-10-13 08:46:31] -- add_es_library: Deduced header base path from cmake file: /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:46:31] -- add_es_library: metadef_headers target not found, skipping
+[2026-10-13 08:46:31] -- add_es_library: Found c_sec target
+[2026-10-13 08:46:31] -- add_es_library: Linking with CANN libraries: c_sec
+[2026-10-13 08:46:31] -- add_es_package: 'build_es_nn' depends on 'build_es_math' to avoid concurrent builds of shared dependencies
+[2026-10-13 08:46:31] -- ES package 'es_nn' configured successfully (single-file mode):
+[2026-10-13 08:46:31] --   - Exported target (for linking): es_nn
+[2026-10-13 08:46:31] --   - Build target: build_es_nn
+[2026-10-13 08:46:31] --   - Wrapper file: /work/ops-nn/build/es_nn_build/generated_code/es_nn_all_in_one.cpp
+[2026-10-13 08:46:31] --   - Internal targets:
+[2026-10-13 08:46:31] --     * Code generation: generate_es_nn_code
+[2026-10-13 08:46:31] --     * Object library: es_nn_obj (compiled once)
+[2026-10-13 08:46:31] --     * Shared library: es_nn_so
+[2026-10-13 08:46:31] --     * Static library: es_nn_a
+[2026-10-13 08:46:31] --     * Wheel generation: generate_es_nn_whl
+[2026-10-13 08:46:31] --     * Install: install_es_nn
+[2026-10-13 08:46:31] --   - Library files: libes_nn.so, libes_nn.a
+[2026-10-13 08:46:31] --   - Python package: es_nn
+[2026-10-13 08:46:31] --   - ES base library: /usr/local/Ascend/cann-9.1.0/lib64/libeager_style_graph_builder_base.so (from library)
+[2026-10-13 08:46:31] -- 
+[2026-10-13 08:46:31] -- Build mode: Single-file compilation (no reconfiguration needed)
+[2026-10-13 08:46:31] -- 
+[2026-10-13 08:46:31] -- Quick start:
+[2026-10-13 08:46:31] --   1. Link:    target_link_libraries(your_target PRIVATE es_nn)
+[2026-10-13 08:46:31] --   2. Build:   make your_target  (recommended, triggers automatically)
+[2026-10-13 08:46:31] -- 
+[2026-10-13 08:46:31] -- No aicpu opdef/json files to merge, skipping.
+[2026-10-13 08:46:31] -- No aicpu cust obj targets found, skipping.
+[2026-10-13 08:46:31] -- set package config: ENABLE_SOURCE_PACKAGE;True;ENABLE_BINARY_PACKAGE;True;INSTALL_PATH;/work/ops-nn/build_out/;VENDOR_NAME;custom_nn;ENABLE_DEFAULT_PACKAGE_NAME_RULE;False
+[2026-10-13 08:46:31] -- Configuring done (3.3s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    BUILD_PATH
+
+
+[2026-10-13 08:46:31] -- Generating done (0.1s)
+[2026-10-13 08:46:31] -- Build files have been written to: /work/ops-nn/build
+[ThirdParty][protobuf] /work/ops-nn/third_party/protobuf/protobuf-25.1.tar.gz not found, need download.
+[ThirdParty][protobuf] shared use cache.
+[ThirdParty][protobuf] static use cache.
+[ThirdParty][protobuf] host static use cache.
+[ThirdParty][eigen] package needs to be downloaded.
+INFO target name: cust_opapi
+INFO target name: cust_proto
+INFO target name: cust_opmaster
+CMake Warning (policy) at /usr/local/Ascend/cann-9.1.0/compiler/tikcpp/ascendc_kernel_cmake/fwk_modules/func.cmake:1252 (install):
+  Policy CMP0177 is not set: install() DESTINATION paths are normalized.  Run
+  "cmake --help-policy CMP0177" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  cmake/package.cmake:41 (npu_op_package_add)
+  CMakeLists.txt:212 (pack_custom)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+CMake Warning (policy) at /usr/local/Ascend/cann-9.1.0/compiler/tikcpp/ascendc_kernel_cmake/fwk_modules/func.cmake:1305 (install):
+  Policy CMP0177 is not set: install() DESTINATION paths are normalized.  Run
+  "cmake --help-policy CMP0177" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  cmake/package.cmake:41 (npu_op_package_add)
+  CMakeLists.txt:212 (pack_custom)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+CMake Warning (policy) at /usr/local/Ascend/cann-9.1.0/compiler/tikcpp/ascendc_kernel_cmake/fwk_modules/func.cmake:1374 (install):
+  Policy CMP0177 is not set: install() DESTINATION paths are normalized.  Run
+  "cmake --help-policy CMP0177" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  cmake/package.cmake:41 (npu_op_package_add)
+  CMakeLists.txt:212 (pack_custom)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+[2026-10-13 08:46:34] ----------------------------------------------------------------
+[2026-10-13 08:46:34] Start to build binary
+[2026-10-13 08:46:34] --------------- build tiling start ---------------
+[2026-10-13 08:46:34] ----------------------------------------------------------------
+[2026-10-13 08:46:34] Start to build libs ophost_nn
+[ThirdParty][protobuf] /work/ops-nn/third_party/protobuf/protobuf-25.1.tar.gz not found, need download.
+[ThirdParty][protobuf] shared use cache.
+[ThirdParty][protobuf] static use cache.
+[ThirdParty][protobuf] host static use cache.
+[ThirdParty][eigen] package needs to be downloaded.
+[2026-10-13 08:46:37] Building target ophost_nn
+[2026-10-13 08:46:37] [  2%] Built target opbase_util_objs
+[2026-10-13 08:46:37] [  4%] Built target opbase_infer_objs
+[2026-10-13 08:46:37] [  9%] Built target opbase_tiling_objs
+[2026-10-13 08:46:37] [ 17%] Built target ophost_nn_infer_obj
+[2026-10-13 08:46:37] [ 19%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/op_host/op_cache_tiling.cpp.o
+[2026-10-13 08:46:37] [ 19%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/legacy_common_manager.cpp.o
+[2026-10-13 08:46:37] [ 19%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/op_host/cache_runinfo.cpp.o
+[2026-10-13 08:46:37] [ 19%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/op_tiling/arch35/batch_matmul_v3_asw_al1_full_load_basic_tiling.cpp.o
+[2026-10-13 08:46:37] [ 19%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/op_host/hash.cpp.o
+[2026-10-13 08:46:37] [ 21%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/op_host/lock.cpp.o
+[2026-10-13 08:46:37] [ 24%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/op_host/tbe_tiling_api.cpp.o
+[2026-10-13 08:46:37] [ 24%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/__/__/__/common/src/op_host/runtime_kb_api.cpp.o
+[2026-10-13 08:46:37] [ 24%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/op_tiling/arch35/batch_matmul_v3_asw_basic_tiling.cpp.o
+[2026-10-13 08:46:37] [ 26%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/op_tiling/arch35/batch_matmul_v3_asw_bl1_full_load_basic_tiling.cpp.o
+[2026-10-13 08:46:38] [ 26%] Building CXX object matmul/batch_mat_mul_v3/op_host/CMakeFiles/ophost_nn_tiling_obj.dir/op_tiling/arch35/batch_matmul_v3_asw_tiling.cpp.o

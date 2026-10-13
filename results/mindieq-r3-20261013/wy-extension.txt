@@ -1,0 +1,17 @@
+[1/3] c++ -MMD -MF NPUBridge.o.d -DTORCH_EXTENSION_NAME=pr17640_wy -DTORCH_API_INCLUDE_EXTENSION_H -I/work/pr17640/csrc -I/work/pr17640/csrc/common/include -I/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/include -I/usr/local/Ascend/ascend-toolkit/latest/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/python3.12.13/include/python3.12 -fPIC -std=c++17 -O2 -fvisibility=hidden -c /work/pr17640/csrc/aclnn_torch_adapter/NPUBridge.cpp -o NPUBridge.o 
+[2/3] c++ -MMD -MF wy.o.d -DTORCH_EXTENSION_NAME=pr17640_wy -DTORCH_API_INCLUDE_EXTENSION_H -I/work/pr17640/csrc -I/work/pr17640/csrc/common/include -I/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/include -I/usr/local/Ascend/ascend-toolkit/latest/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include -isystem /usr/local/python3.12.13/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/python3.12.13/include/python3.12 -fPIC -std=c++17 -O2 -fvisibility=hidden -c /work/wy-extension/wy.cpp -o wy.o 
+In file included from /work/wy-extension/wy.cpp:21:
+/work/wy-extension/wy.cpp: In function ‘std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor, at::Tensor> chunk_gated_delta_rule_compute_wy(const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, const at::Tensor&, std::optional<long int>)’:
+/work/pr17640/csrc/aclnn_torch_adapter/op_api_common.h:743:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  743 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/pr17640/csrc/aclnn_torch_adapter/op_api_common.h:743:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  743 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/pr17640/csrc/aclnn_torch_adapter/op_api_common.h:743:22: warning: narrowing conversion of ‘workspace_size’ from ‘uint64_t’ {aka ‘long unsigned int’} to ‘long int’ [-Wnarrowing]
+  743 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+/work/pr17640/csrc/aclnn_torch_adapter/op_api_common.h:743:22: note: in definition of macro ‘EXEC_NPU_CMD’
+  743 |           at::empty({workspace_size}, options.dtype(kByte));                  \
+      |                      ^~~~~~~~~~~~~~
+[3/3] c++ wy.o NPUBridge.o -shared -L/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/lib -ltorch_npu -L/usr/local/python3.12.13/lib/python3.12/site-packages/torch/lib -lc10 -ltorch_cpu -ltorch -ltorch_python -o pr17640_wy.so

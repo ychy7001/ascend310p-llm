@@ -1,0 +1,917 @@
+CMake Warning (author) at /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject/shared_internal_commands.cmake:1277 (message):
+  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
+  not set.  The policy's OLD behavior will be used.  When using a URL
+  download, the timestamps of extracted files should preferably be that of
+  the time of extraction, otherwise code that depends on the extracted
+  contents might not be rebuilt if the URL changes.  The OLD behavior
+  preserves the timestamps from the archive instead, but this is usually not
+  what you want.  Update your project to the NEW behavior or specify the
+  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
+  robustness issue.
+Call Stack (most recent call first):
+  /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject.cmake:3283 (_ep_add_download_command)
+  cmake/third_party/abseil-cpp.cmake:46 (ExternalProject_Add)
+  CMakeLists.txt:129 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+CMake Warning (author) at /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject/shared_internal_commands.cmake:1277 (message):
+  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
+  not set.  The policy's OLD behavior will be used.  When using a URL
+  download, the timestamps of extracted files should preferably be that of
+  the time of extraction, otherwise code that depends on the extracted
+  contents might not be rebuilt if the URL changes.  The OLD behavior
+  preserves the timestamps from the archive instead, but this is usually not
+  what you want.  Update your project to the NEW behavior or specify the
+  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
+  robustness issue.
+Call Stack (most recent call first):
+  /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject.cmake:3283 (_ep_add_download_command)
+  cmake/third_party/ascend_protobuf.cmake:87 (ExternalProject_Add)
+  CMakeLists.txt:130 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+CMake Warning (author) at /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/FetchContent.cmake:1386 (message):
+  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
+  not set.  The policy's OLD behavior will be used.  When using a URL
+  download, the timestamps of extracted files should preferably be that of
+  the time of extraction, otherwise code that depends on the extracted
+  contents might not be rebuilt if the URL changes.  The OLD behavior
+  preserves the timestamps from the archive instead, but this is usually not
+  what you want.  Update your project to the NEW behavior or specify the
+  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
+  robustness issue.
+Call Stack (most recent call first):
+  cmake/third_party/makeself-fetch.cmake:20 (FetchContent_Declare)
+  CMakeLists.txt:132 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+/work/pr17640/csrc/cmake/scripts/util/ascendc_impl_build.py:212: SyntaxWarning: invalid escape sequence '\d'
+  ascendc_api_version = re.findall(r"#define ASCENDC_API_VERSION (\d+)", ascendc_api_version_file.read())
+[2026-10-13 08:56:11] [2026-10-13 08:56:08] Info: use CMake generator Ninja
+[2026-10-13 08:56:11] [2026-10-13 08:56:08] Info: cmake config generator=-G Ninja -DBUILD_OPEN_PROJECT=ON -DASCEND_OP_NAME=chunk_gated_delta_rule_compute_wy;chunk_gated_delta_rule_fwd_h_vllm;chunk_fwd_o_vllm -DCANN_3RD_LIB_PATH=/work/pr17640/csrc/third_party -DCUSTOM_ASCEND_CANN_PACKAGE_PATH=/usr/local/Ascend/cann-9.1.0 -DCHECK_COMPATIBLE=true -DASCEND_COMPUTE_UNIT=ascend310p; -DENABLE_BUILT_IN=OFF -DENABLE_OPS_HOST=ON -DENABLE_OPS_KERNEL=ON -DENABLE_BUILD_PKG=ON build_cache=/work/pr17640/csrc/build_cache .
+[2026-10-13 08:56:11] -- The C compiler identification is GNU 11.4.0
+[2026-10-13 08:56:11] -- The CXX compiler identification is GNU 11.4.0
+[2026-10-13 08:56:11] -- Detecting C compiler ABI info
+[2026-10-13 08:56:11] -- Detecting C compiler ABI info - done
+[2026-10-13 08:56:11] -- Check for working C compiler: /usr/bin/cc - skipped
+[2026-10-13 08:56:11] -- Detecting C compile features
+[2026-10-13 08:56:11] -- Detecting C compile features - done
+[2026-10-13 08:56:11] -- Detecting CXX compiler ABI info
+[2026-10-13 08:56:11] -- Detecting CXX compiler ABI info - done
+[2026-10-13 08:56:11] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[2026-10-13 08:56:11] -- Detecting CXX compile features
+[2026-10-13 08:56:11] -- Detecting CXX compile features - done
+[2026-10-13 08:56:11] -- compile project with library
+[2026-10-13 08:56:11] -- Found Python3: /usr/local/python3.12.13/bin/python3.12 (found version "3.12.13") found components: Interpreter
+[2026-10-13 08:56:11] -- ASCEND_CANN_PACKAGE_PATH=/usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:56:11] -- ENABLE_CCACHE=ON, CUSTOM_CCACHE=
+[2026-10-13 08:56:11] -- CCACHE_PROGRAM=CCACHE_PROGRAM-NOTFOUND
+[2026-10-13 08:56:11] -- ASCEND_COMPUTE_UNIT=ascend310p;
+[2026-10-13 08:56:11] -- ASCEND_OP_NAME=chunk_gated_delta_rule_compute_wy;chunk_gated_delta_rule_fwd_h_vllm;chunk_fwd_o_vllm
+[2026-10-13 08:56:11] -- TILING_KEY=
+[2026-10-13 08:56:11] -- TESTS_UT_OPS_TEST=
+[2026-10-13 08:56:11] -- TESTS_EXAMPLE_OPS_TEST=
+[2026-10-13 08:56:11] -- CMAKE_BUILD_TYPE=Release
+[2026-10-13 08:56:11] -- VERSION=
+[2026-10-13 08:56:11] -- Could NOT find json (missing: JSON_INCLUDE) 
+[2026-10-13 08:56:11] -- Start building custom package.
+[2026-10-13 08:56:11] -- Search libs under install path /usr/local/Ascend/cann-9.1.0
+[2026-10-13 08:56:11] -- CMAKE_MODULE_PATH            :/work/pr17640/csrc/cmake/modules
+[2026-10-13 08:56:11] -- compile option:   -Wall -Wextra -Wshadow -Wformat=2 -fno-common -fPIC -Wformat-signedness -Wno-missing-include-dirs -Wno-write-strings
+[2026-10-13 08:56:11] -- Found dlog: /usr/local/Ascend/cann-9.1.0/pkg_inc/base
+[2026-10-13 08:56:11] -- Transformer Variables in dlog module:
+[2026-10-13 08:56:11] -- dlog_TRANSFORMER_INCLUDE_DIR="/usr/local/Ascend/cann-9.1.0/pkg_inc/base"
+[2026-10-13 08:56:11] -- dlog_SHARED_LIBRARY="/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:56:11] -- 
+[2026-10-13 08:56:11]  Properties for TARGET dlog:
+[2026-10-13 08:56:11]    dlog.INTERFACE_COMPILE_DEFINITIONS = "LOG_CPP;PROCESS_LOG"
+[2026-10-13 08:56:11]    dlog.INTERFACE_LINK_LIBRARIES = "dlog_headers"
+[2026-10-13 08:56:11]    dlog.IMPORTED_LOCATION = "/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:56:11] 
+[2026-10-13 08:56:11] -- 
+[2026-10-13 08:56:11]  Properties for TARGET dlog_headers:
+[2026-10-13 08:56:11]    dlog_headers.INTERFACE_INCLUDE_DIRECTORIES = "/usr/local/Ascend/cann-9.1.0/pkg_inc/base"
+[2026-10-13 08:56:11] 
+[2026-10-13 08:56:11] -- Found securec: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:56:11] -- Found OPBASE: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:56:11] -- Found OPABSE include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:56:11] -- Found OPABSE lib:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libops_base.so
+[2026-10-13 08:56:11] -- Found platform: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:56:11] -- Found platform include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:56:11] -- Found register lCMake Warning (author) at /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject/shared_internal_commands.cmake:1277 (message):
+  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
+  not set.  The policy's OLD behavior will be used.  When using a URL
+  download, the timestamps of extracted files should preferably be that of
+  the time of extraction, otherwise code that depends on the extracted
+  contents might not be rebuilt if the URL changes.  The OLD behavior
+  preserves the timestamps from the archive instead, but this is usually not
+  what you want.  Update your project to the NEW behavior or specify the
+  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
+  robustness issue.
+Call Stack (most recent call first):
+  /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject.cmake:3283 (_ep_add_download_command)
+  cmake/third_party/abseil-cpp.cmake:46 (ExternalProject_Add)
+  CMakeLists.txt:129 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+CMake Warning (author) at /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject/shared_internal_commands.cmake:1277 (message):
+  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
+  not set.  The policy's OLD behavior will be used.  When using a URL
+  download, the timestamps of extracted files should preferably be that of
+  the time of extraction, otherwise code that depends on the extracted
+  contents might not be rebuilt if the URL changes.  The OLD behavior
+  preserves the timestamps from the archive instead, but this is usually not
+  what you want.  Update your project to the NEW behavior or specify the
+  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
+  robustness issue.
+Call Stack (most recent call first):
+  /usr/local/python3.12.13/lib/python3.12/site-packages/cmake/data/share/cmake-4.4/Modules/ExternalProject.cmake:3283 (_ep_add_download_command)
+  cmake/third_party/ascend_protobuf.cmake:87 (ExternalProject_Add)
+  CMakeLists.txt:130 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+ibrary:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libregister.so
+[2026-10-13 08:56:11] -- Found opp_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libopp_registry.so
+[2026-10-13 08:56:11] -- Found exe_graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libexe_graph.so
+[2026-10-13 08:56:11] -- Found graph_base library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph_base.so
+[2026-10-13 08:56:11] -- Found error_manager library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/liberror_manager.so
+[2026-10-13 08:56:11] -- Found metadef library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libmetadef.so
+[2026-10-13 08:56:11] -- Found rt2_registry library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/librt2_registry.a
+[2026-10-13 08:56:11] -- Found metadef: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:56:11] -- Found source metadef include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/exe_graph
+[2026-10-13 08:56:11] -- Found graph library:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libgraph.so
+[2026-10-13 08:56:11] -- Found source acl include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:56:11] -- Found source npuruntime include dir: /usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/runtime
+[2026-10-13 08:56:12] -- Found aclnn include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:56:12] -- Found opdev include dir:  /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aclnn
+[2026-10-13 08:56:12] -- Found tilingapi include:/usr/local/Ascend/cann-9.1.0/x86_64-linux/include
+[2026-10-13 08:56:12] -- TILINGAPI_INC_DIRS: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/lib;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/impl;/usr/local/Ascend/cann-9.1.0/x86_64-linux/ascendc/include/highlevel_api/tiling
+[2026-10-13 08:56:12] -- Found tilingapi lib:/usr/local/Ascend/cann-9.1.0/x86_64-linux/lib64/libtiling_api.a
+[2026-10-13 08:56:12] -- Using AICPU include dirs: /usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/cce;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/msprof;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/pkg_inc/aicpu_common/context/utils;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/cpu_proto;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/experiment/datagw/aicpu/common;/usr/local/Ascend/cann-9.1.0/x86_64-linux/include/aicpu_common/context/utils
+[2026-10-13 08:56:12] -- Could NOT find abseil-cpp (missing: ABSL_SOURCE_DIR) 
+[2026-10-13 08:56:12] -- [ThirdPartyLib][abseil-cpp] https://gitcode.com/cann-src-third-party/abseil-cpp/releases/download/20230802.1/abseil-cpp-20230802.1.tar.gz not found, need download.
+[2026-10-13 08:56:12] -- Could NOT find ascend_protobuf_build_transformer (missing: ASCEND_PROTOBUF_SHARED_INCLUDE) 
+[2026-10-13 08:56:12] -- [ThirdPartyLib][ascend protobuf] ascend protobuf shared not found, finding binary file.
+[2026-10-13 08:56:12] -- [ThirdPartyLib][ascend protobuf] https://gitcode.com/cann-src-third-party/protobuf/releases/download/v25.1/protobuf-25.1.tar.gz not found, need download.
+[2026-10-13 08:56:12] -- Found alog: /usr/local/Ascend/cann-9.1.0/include
+[2026-10-13 08:56:12] -- Variables in alog module:
+[2026-10-13 08:56:12] -- alog_a_INCLUDE_DIR="/usr/local/Ascend/cann-9.1.0/include"
+[2026-10-13 08:56:12] -- slog_a_SHARED_LIBRARY="/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:56:12] -- alog_a_SHARED_LIBRARY="/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:56:12] -- 
+[2026-10-13 08:56:12]  Properties for TARGET slog_a:
+[2026-10-13 08:56:12]    slog_a.INTERFACE_COMPILE_DEFINITIONS = "LOG_CPP;PROCESS_LOG"
+[2026-10-13 08:56:12]    slog_a.INTERFACE_LINK_LIBRARIES = "alog_headers"
+[2026-10-13 08:56:12]    slog_a.IMPORTED_LOCATION = "/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:56:12] 
+[2026-10-13 08:56:12] -- 
+[2026-10-13 08:56:12]  Properties for TARGET alog_a:
+[2026-10-13 08:56:12]    alog_a.INTERFACE_COMPILE_DEFINITIONS = "LOG_CPP;PROCESS_LOG"
+[2026-10-13 08:56:12]    alog_a.INTERFACE_LINK_LIBRARIES = "alog_headers"
+[2026-10-13 08:56:12]    alog_a.IMPORTED_LOCATION = "/usr/local/Ascend/cann-9.1.0/lib64/libascendalog.so"
+[2026-10-13 08:56:12] 
+[2026-10-13 08:56:12] -- 
+[2026-10-13 08:56:12]  Properties for TARGET alog_headers:
+[2026-10-13 08:56:12]    alog_headers.INTERFACE_INCLUDE_DIRECTORIES = "/usr/local/Ascend/cann-9.1.0/include;/usr/local/Ascend/cann-9.1.0/include/base"
+[2026-10-13 08:56:12] 
+[2026-10-13 08:56:12] -- Could NOT find unified_dlog (missing: _INCLUDE_ROOT_DIR) 
+[2026-10-13 08:56:12] -- Detected architecture: x86_64
+[2026-10-13 08:56:12] -- End building custom package.
+[2026-10-13 08:56:12] -- create aclnn master header file: /work/pr17640/csrc/build/aclnn_ops_transformer_custom.h
+[2026-10-13 08:56:12] -- no operator info to generate
+[2026-10-13 08:56:12] -- Configuring done (3.3s)
+[2026-10-13 08:56:12] -- Generating done (0.0s)
+[2026-10-13 08:56:12] -- Build files have been written to: /work/pr17640/csrc/build
+[2026-10-13 08:56:12] [0/2] Re-checking globbed directories...
+[2026-10-13 08:56:12] [1/116] Generating op_host_aclnn_stub.cpp
+[2026-10-13 08:56:12] [2/116] Generating op_host_aclnn_inner_stub.cpp
+[2026-10-13 08:56:12] [3/116] Creating directories for 'abseil_build_transformer'
+[2026-10-13 08:56:12] [4/116] Creating directories for 'third_party_json'
+[2026-10-13 08:56:12] [5/116] Creating directories for 'tiling_sink_task'
+[2026-10-13 08:56:12] [6/116] Building CXX object CMakeFiles/op_host_aclnn.dir/op_host_aclnn_stub.cpp.o
+[2026-10-13 08:56:12] [7/116] No download step for 'tiling_sink_task'
+[2026-10-13 08:56:12] [8/116] Building CXX object CMakeFiles/op_host_aclnnInner.dir/op_host_aclnn_inner_stub.cpp.o
+[2026-10-13 08:56:12] [9/116] No update step for 'tiling_sink_task'
+[2026-10-13 08:56:12] [10/116] Linking CXX shared library libop_host_aclnn.so
+[2026-10-13 08:56:12] [11/116] Linking CXX shared library libop_host_aclnnInner.so
+[2026-10-13 08:56:12] [12/116] Generating ops_aclnn_src_stub.cpp
+[2026-10-13 08:56:12] [13/116] Building CXX object CMakeFiles/ops_aclnn.dir/ops_aclnn_src_stub.cpp.o
+[2026-10-13 08:56:12] [14/116] Performing download step (download and verify) for 'third_party_json'
+[2026-10-13 08:56:12] -- Downloading...
+[2026-10-13 08:56:12]    dst='/work/pr17640/csrc/third_party/pkg/include.zip'
+[2026-10-13 08:56:12]    timeout='none'
+[2026-10-13 08:56:12]    inactivity timeout='none'
+[2026-10-13 08:56:12] -- Using src='https://gitcode.com/cann-src-third-party/json/releases/download/v3.11.3/include.zip'
+[2026-10-13 08:56:12] -- [download 5% complete]
+[2026-10-13 08:56:12] -- [download 11% complete]
+[2026-10-13 08:56:12] -- [download 16% complete]
+[2026-10-13 08:56:12] -- [download 22% complete]
+[2026-10-13 08:56:12] -- [download 27% complete]
+[2026-10-13 08:56:12] -- [download 32% complete]
+[2026-10-13 08:56:12] -- [download 38% complete]
+[2026-10-13 08:56:12] -- [download 49% complete]
+[2026-10-13 08:56:12] -- [download 54% complete]
+[2026-10-13 08:56:12] -- [download 60% complete]
+[2026-10-13 08:56:12] -- [download 71% complete]
+[2026-10-13 08:56:12] -- [download 87% complete]
+[2026-10-13 08:56:12] -- [download 100% complete]
+[2026-10-13 08:56:12] -- Downloading... done
+[2026-10-13 08:56:12] [15/116] No update step for 'third_party_json'
+[2026-10-13 08:56:12] [16/116] No patch step for 'third_party_json'
+[2026-10-13 08:56:12] [17/116] No configure step for 'third_party_json'
+[2026-10-13 08:56:12] [18/116] No build step for 'third_party_json'
+[2026-10-13 08:56:12] [19/116] Performing install step for 'third_party_json'
+[2026-10-13 08:56:12] [20/116] Completed 'third_party_json'
+[2026-10-13 08:56:12] [21/116] Performing download step (download, verify and extract) for 'abseil_build_transformer'
+[2026-10-13 08:56:12] -- Downloading...
+[2026-10-13 08:56:12]    dst='/work/pr17640/csrc/third_party/pkg/abseil-cpp-20230802.1.tar.gz'
+[2026-10-13 08:56:12]    timeout='none'
+[2026-10-13 08:56:12]    inactivity timeout='none'
+[2026-10-13 08:56:12] -- Using src='https://gitcode.com/cann-src-third-party/abseil-cpp/releases/download/20230802.1/abseil-cpp-20230802.1.tar.gz'
+[2026-10-13 08:56:12] -- [download 1% complete]
+[2026-10-13 08:56:12] -- [download 2% complete]
+[2026-10-13 08:56:12] -- [download 3% complete]
+[2026-10-13 08:56:12] -- [download 4% complete]
+[2026-10-13 08:56:12] -- [download 5% complete]
+[2026-10-13 08:56:12] -- [download 6% complete]
+[2026-10-13 08:56:12] -- [download 7% complete]
+[2026-10-13 08:56:12] -- [download 8% complete]
+[2026-10-13 08:56:12] -- [download 9% complete]
+[2026-10-13 08:56:12] -- [download 10% complete]
+[2026-10-13 08:56:12] -- [download 11% complete]
+[2026-10-13 08:56:12] -- [download 12% complete]
+[2026-10-13 08:56:12] -- [download 13% complete]
+[2026-10-13 08:56:12] -- [download 14% complete]
+[2026-10-13 08:56:12] -- [download 15% complete]
+[2026-10-13 08:56:12] -- [download 16% complete]
+[2026-10-13 08:56:12] -- [download 17% complete]
+[2026-10-13 08:56:12] -- [download 18% complete]
+[2026-10-13 08:56:12] -- [download 19% complete]
+[2026-10-13 08:56:12] -- [download 20% complete]
+[2026-10-13 08:56:12] -- [download 21% complete]
+[2026-10-13 08:56:12] -- [download 25% complete]
+[2026-10-13 08:56:12] -- [download 28% complete]
+[2026-10-13 08:56:12] -- [download 32% complete]
+[2026-10-13 08:56:12] -- [download 36% complete]
+[2026-10-13 08:56:12] -- [download 39% complete]
+[2026-10-13 08:56:12] -- [download 42% complete]
+[2026-10-13 08:56:12] -- [download 46% complete]
+[2026-10-13 08:56:12] -- [download 50% complete]
+[2026-10-13 08:56:12] -- [download 52% complete]
+[2026-10-13 08:56:12] -- [download 55% complete]
+[2026-10-13 08:56:12] -- [download 59% complete]
+[2026-10-13 08:56:12] -- [download 68% complete]
+[2026-10-13 08:56:12] -- [download 74% complete]
+[2026-10-13 08:56:12] -- [download 79% complete]
+[2026-10-13 08:56:12] -- [download 84% complete]
+[2026-10-13 08:56:12] -- [download 86% complete]
+[2026-10-13 08:56:12] -- [download 90% complete]
+[2026-10-13 08:56:12] -- [download 98% complete]
+[2026-10-13 08:56:12] -- [download 100% complete]
+[2026-10-13 08:56:12] -- Downloading... done
+[2026-10-13 08:56:12] -- extracting...
+[2026-10-13 08:56:12]      src='/work/pr17640/csrc/third_party/pkg/abseil-cpp-20230802.1.tar.gz'
+[2026-10-13 08:56:12]      dst='/work/pr17640/csrc/third_party/abseil-cpp'
+[2026-10-13 08:56:12] -- extracting... [tar xf]
+[2026-10-13 08:56:12] -- extracting... [analysis]
+[2026-10-13 08:56:12] -- extracting... [rename]
+[2026-10-13 08:56:12] -- extracting... [clean up]
+[2026-10-13 08:56:12] -- extracting... done
+[2026-10-13 08:56:12] [22/116] No update step for 'abseil_build_transformer'
+[2026-10-13 08:56:12] [23/116] Performing patch step for 'abseil_build_transformer'
+[2026-10-13 08:56:12] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:12] patching file CMakeLists.txt
+[2026-10-13 08:56:12] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:12] patching file absl/base/options.h
+[2026-10-13 08:56:12] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:12] patching file absl/hash/internal/hash.cc
+[2026-10-13 08:56:12] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:12] patching file absl/hash/internal/hash.h
+[2026-10-13 08:56:12] patch unexpectedly ends in middle of line
+[2026-10-13 08:56:12] Hunk #1 succeeded at 1159 with fuzz 1.
+[2026-10-13 08:56:12] [24/116] No configure step for 'abseil_build_transformer'
+[2026-10-13 08:56:12] [25/116] No build step for 'abseil_build_transformer'
+[2026-10-13 08:56:12] [26/116] No install step for 'abseil_build_transformer'
+[2026-10-13 08:56:12] [27/116] Completed 'abseil_build_transformer'
+[2026-10-13 08:56:12] [28/116] Building CXX object common/CMakeFiles/common_transformer_obj.dir/src/fallback_comm.cpp.o
+[2026-10-13 08:56:13] [29/116] Creating directories for 'ascend_protobuf_build_transformer'
+[2026-10-13 08:56:13] [30/116] Building CXX object common/CMakeFiles/common_transformer_obj.dir/src/fallback_comm_2stages.cpp.o
+[2026-10-13 08:56:13] [31/116] Building CXX object CMakeFiles/op_host_aclnnExc.dir/moe/chunk_fwd_o_vllm/op_host/chunk_fwd_o_vllm_def.cpp.o
+[2026-10-13 08:56:13] [32/116] Building CXX object CMakeFiles/op_host_aclnnExc.dir/moe/chunk_gated_delta_rule_compute_wy/op_host/chunk_gated_delta_rule_compute_wy_def.cpp.o
+[2026-10-13 08:56:13] [33/116] No patch step for 'tiling_sink_task'
+[2026-10-13 08:56:13] [34/116] Building CXX object common/CMakeFiles/common_transformer_obj.dir/src/tiling_base/tiling_util.cpp.o
+[2026-10-13 08:56:13] [35/116] Building CXX object CMakeFiles/op_host_aclnnExc.dir/moe/chunk_gated_delta_rule_fwd_h_vllm/op_host/chunk_gated_delta_rule_fwd_h_vllm_def.cpp.o
+[2026-10-13 08:56:13] [36/116] Linking CXX shared library libop_host_aclnnExc.so
+[2026-10-13 08:56:13] [37/116] Building CXX object common/stub/op_tiling/CMakeFiles/optiling.dir/op_cache_tiling.cpp.o
+[2026-10-13 08:56:13] [38/116] Linking CXX static library libops_aclnn.a
+[2026-10-13 08:56:13] [39/116] Generating autogen/exc/chunk_fwd_o_vllm_proto.cpp, autogen/exc/chunk_gated_delta_rule_compute_wy_proto.cpp, autogen/exc/chunk_gated_delta_rule_fwd_h_vllm_proto.cpp
+[2026-10-13 08:56:13] [40/116] Performing download step (download, verify and extract) for 'ascend_protobuf_build_transformer'
+[2026-10-13 08:56:13] -- Downloading...
+[2026-10-13 08:56:13]    dst='/work/pr17640/csrc/third_party/pkg/protobuf-25.1.tar.gz'
+[2026-10-13 08:56:13]    timeout='none'
+[2026-10-13 08:56:13]    inactivity timeout='none'
+[2026-10-13 08:56:13] -- Using src='https://gitcode.com/cann-src-third-party/protobuf/releases/download/v25.1/protobuf-25.1.tar.gz'
+[2026-10-13 08:56:13] -- [download 0% complete]
+[2026-10-13 08:56:13] -- [download 1% complete]
+[2026-10-13 08:56:13] -- [download 2% complete]
+[2026-10-13 08:56:13] -- [download 3% complete]
+[2026-10-13 08:56:13] -- [download 4% complete]
+[2026-10-13 08:56:13] -- [download 5% complete]
+[2026-10-13 08:56:13] -- [download 6% complete]
+[2026-10-13 08:56:13] -- [download 7% complete]
+[2026-10-13 08:56:13] -- [download 8% complete]
+[2026-10-13 08:56:13] -- [download 9% complete]
+[2026-10-13 08:56:13] -- [download 10% complete]
+[2026-10-13 08:56:13] -- [download 11% complete]
+[2026-10-13 08:56:13] -- [download 12% complete]
+[2026-10-13 08:56:13] -- [download 13% complete]
+[2026-10-13 08:56:13] -- [download 14% complete]
+[2026-10-13 08:56:13] -- [download 15% complete]
+[2026-10-13 08:56:13] -- [download 16% complete]
+[2026-10-13 08:56:13] -- [download 18% complete]
+[2026-10-13 08:56:13] -- [download 19% complete]
+[2026-10-13 08:56:13] -- [download 20% complete]
+[2026-10-13 08:56:13] -- [download 21% complete]
+[2026-10-13 08:56:13] -- [download 22% complete]
+[2026-10-13 08:56:13] -- [download 23% complete]
+[2026-10-13 08:56:13] -- [download 24% complete]
+[2026-10-13 08:56:13] -- [download 25% complete]
+[2026-10-13 08:56:13] -- [download 26% complete]
+[2026-10-13 08:56:13] -- [download 27% complete]
+[2026-10-13 08:56:13] -- [download 28% complete]
+[2026-10-13 08:56:13] -- [download 29% complete]
+[2026-10-13 08:56:13] -- [download 30% complete]
+[2026-10-13 08:56:13] -- [download 31% complete]
+[2026-10-13 08:56:13] -- [download 32% complete]
+[2026-10-13 08:56:13] -- [download 33% complete]
+[2026-10-13 08:56:13] -- [download 34% complete]
+[2026-10-13 08:56:13] -- [download 35% complete]
+[2026-10-13 08:56:13] -- [download 36% complete]
+[2026-10-13 08:56:13] -- [download 37% complete]
+[2026-10-13 08:56:13] -- [download 38% complete]
+[2026-10-13 08:56:13] -- [download 39% complete]
+[2026-10-13 08:56:13] -- [download 40% complete]
+[2026-10-13 08:56:13] -- [download 41% complete]
+[2026-10-13 08:56:13] -- [download 42% complete]
+[2026-10-13 08:56:13] -- [download 43% complete]
+[2026-10-13 08:56:13] -- [download 44% complete]
+[2026-10-13 08:56:13] -- [download 45% complete]
+[2026-10-13 08:56:13] -- [download 46% complete]
+[2026-10-13 08:56:13] -- [download 47% complete]
+[2026-10-13 08:56:13] -- [download 48% complete]
+[2026-10-13 08:56:13] -- [download 49% complete]
+[2026-10-13 08:56:13] -- [download 51% complete]
+[2026-10-13 08:56:13] -- [download 52% complete]
+[2026-10-13 08:56:13] -- [download 55% complete]
+[2026-10-13 08:56:13] -- [download 57% complete]
+[2026-10-13 08:56:13] -- [download 60% complete]
+[2026-10-13 08:56:13] -- [download 64% complete]
+[2026-10-13 08:56:13] -- [download 67% complete]
+[2026-10-13 08:56:13] -- [download 70% complete]
+[2026-10-13 08:56:13] -- [download 73% complete]
+[2026-10-13 08:56:13] -- [download 76% complete]
+[2026-10-13 08:56:13] -- [download 79% complete]
+[2026-10-13 08:56:13] -- [download 82% complete]
+[2026-10-13 08:56:13] -- [download 85% complete]
+[2026-10-13 08:56:13] -- [download 88% complete]
+[2026-10-13 08:56:13] -- [download 89% complete]
+[2026-10-13 08:56:13] -- [download 91% complete]
+[2026-10-13 08:56:13] -- [download 94% complete]
+[2026-10-13 08:56:13] -- [download 97% complete]
+[2026-10-13 08:56:13] -- [download 100% complete]
+[2026-10-13 08:56:13] -- Downloading... done
+[2026-10-13 08:56:13] -- extracting...
+[2026-10-13 08:56:13]      src='/work/pr17640/csrc/third_party/pkg/protobuf-25.1.tar.gz'
+[2026-10-13 08:56:13]      dst='/work/pr17640/csrc/third_party/ascend_protobuf'
+[2026-10-13 08:56:13] -- extracting... [tar xf]
+[2026-10-13 08:56:13] -- extracting... [analysis]
+[2026-10-13 08:56:13] -- extracting... [rename]
+[2026-10-13 08:56:13] -- extracting... [clean up]
+[2026-10-13 08:56:13] -- extracting... done
+[2026-10-13 08:56:13] [41/116] No update step for 'ascend_protobuf_build_transformer'
+[2026-10-13 08:56:13] [42/116] Performing patch step for 'ascend_protobuf_build_transformer'
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file CMakeLists.txt
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/arenastring.cc
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/arenastring.h
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/compiler/cpp/field_generators/string_field.cc
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/compiler/cpp/helpers.cc
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/compiler/cpp/helpers.h
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/compiler/csharp/csharp_helpers.cc
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/compiler/java/names.cc
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/extension_set.h
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/message_lite.h
+[2026-10-13 08:56:13] (Stripping trailing CRs from patch; use --binary to disable.)
+[2026-10-13 08:56:13] patching file src/google/protobuf/port_def.inc
+[2026-10-13 08:56:13] patch unexpectedly ends in middle of line
+[2026-10-13 08:56:13] Hunk #1 succeeded at 572 with fuzz 1.
+[2026-10-13 08:56:13] [43/116] Building CXX object common/stub/op_tiling/CMakeFiles/optiling.dir/tbe_tiling_api.cpp.o
+[2026-10-13 08:56:13] [44/116] Generating binary/ascend310p/src/ascendc/common
+[2026-10-13 08:56:13] [45/116] Generating tbe/graph/ops_proto_transformer.h
+[2026-10-13 08:56:13] merged op transformer proto file: /work/pr17640/csrc/build/tbe/graph/ops_proto_transformer.h
+[2026-10-13 08:56:13] [46/116] Building CXX object common/stub/op_api/CMakeFiles/opapi_math.dir/opapi_stub.cpp.o
+[2026-10-13 08:56:13] [47/116] Linking CXX shared library libopapi_math.so
+[2026-10-13 08:56:13] [48/116] Building CXX object common/stub/op_tiling/CMakeFiles/optiling.dir/runtime_kb_api.cpp.o
+[2026-10-13 08:56:13] [49/116] Linking CXX shared library liboptiling.so
+[2026-10-13 08:56:13] [50/116] Performing configure step for 'tiling_sink_task'
+[2026-10-13 08:56:13] -- The C compiler identification is GNU 7.3.0
+[2026-10-13 08:56:13] -- The CXX compiler identification is GNU 7.3.0
+[2026-10-13 08:56:13] -- Detecting C compiler ABI info
+[2026-10-13 08:56:13] -- Detecting C compiler ABI info - done
+[2026-10-13 08:56:13] -- Check for working C compiler: /usr/local/Ascend/cann-9.1.0/toolkit/toolchain/hcc/bin/aarch64-target-linux-gnu-gcc - skipped
+[2026-10-13 08:56:13] -- Detecting C compile features
+[2026-10-13 08:56:13] -- Detecting C compile features - done
+[2026-10-13 08:56:13] -- Detecting CXX compiler ABI info
+[2026-10-13 08:56:13] -- Detecting CXX compiler ABI info - done
+[2026-10-13 08:56:13] -- Check for working CXX compiler: /usr/local/Ascend/cann-9.1.0/toolkit/toolchain/hcc/bin/aarch64-target-linux-gnu-g++ - skipped
+[2026-10-13 08:56:13] -- Detecting CXX compile features
+[2026-10-13 08:56:13] -- Detecting CXX compile features - done
+[2026-10-13 08:56:13] CMake Warning at CMakeLists.txt:45 (message):
+[2026-10-13 08:56:13]   File not found:
+[2026-10-13 08:56:13]   /work/pr17640/csrc/common/src/tiling_sink/../../../attention/common/op_host/fia_tiling_info.cpp
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] -- Configuring done (0.4s)
+[2026-10-13 08:56:13] -- Generating done (0.0s)
+[2026-10-13 08:56:13] CMake Warning (unused-cli):
+[2026-10-13 08:56:13]   Manually-specified variables were not used by the project:
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13]     ENABLE_BUILT_IN
+[2026-10-13 08:56:13]     SYS_VERSION
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] -- Build files have been written to: /work/pr17640/csrc/build/common/tiling_sink_task-prefix/src/tiling_sink_task-build
+[2026-10-13 08:56:13] [51/116] Performing configure step for 'ascend_protobuf_build_transformer'
+[2026-10-13 08:56:13] CMake Warning (deprecated) at CMakeLists.txt:7 (cmake_policy):
+[2026-10-13 08:56:13]   The OLD behavior for policy CMP0141 will be removed from a future version
+[2026-10-13 08:56:13]   of CMake.
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13]   The cmake-policies(7) manual explains that the OLD behaviors of all
+[2026-10-13 08:56:13]   policies are deprecated and that a policy should be set to OLD only under
+[2026-10-13 08:56:13]   specific short-term circumstances.  Projects should be ported to the NEW
+[2026-10-13 08:56:13]   behavior and not rely on setting a policy to OLD.
+[2026-10-13 08:56:13] This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+[2026-10-13 08:56:13] to suppress it.
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] CMake Warning (deprecated) at third_party/utf8_range/CMakeLists.txt:1 (cmake_minimum_required):
+[2026-10-13 08:56:13]   Compatibility with CMake < 3.10 will be removed from a future version of
+[2026-10-13 08:56:13]   CMake.
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[2026-10-13 08:56:13]   to tell CMake that the project requires at least <min> but has been updated
+[2026-10-13 08:56:13]   to work with policies introduced by <max> or earlier.
+[2026-10-13 08:56:13] This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+[2026-10-13 08:56:13] to suppress it.
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] -- Configuring done (0.5s)
+[2026-10-13 08:56:13] -- Generating done (0.1s)
+[2026-10-13 08:56:13] CMake Warning (unused-cli):
+[2026-10-13 08:56:13]   Manually-specified variables were not used by the project:
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13]     CMAKE_CXX_LDFLAGS
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] -- Build files have been written to: /work/pr17640/csrc/build/ascend_protobuf_build_transformer-prefix/src/ascend_protobuf_build_transformer-build
+[2026-10-13 08:56:13] [52/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_opapi_obj.dir/op_api/aclnn_chunk_fwd_o_vllm.cpp.o
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/op_api/aclnn_chunk_fwd_o_vllm.cpp: In function ‘aclnnStatus CheckFormat(ChunkFwdOVllmParams)’:
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/op_api/aclnn_chunk_fwd_o_vllm.cpp:63:52: warning: unused parameter ‘params’ [-Wunused-parameter]
+[2026-10-13 08:56:13]    63 | static aclnnStatus CheckFormat(ChunkFwdOVllmParams params)
+[2026-10-13 08:56:13]       |                                ~~~~~~~~~~~~~~~~~~~~^~~~~~
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/op_api/aclnn_chunk_fwd_o_vllm.cpp: In function ‘aclnnStatus CheckShape(ChunkFwdOVllmParams)’:
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/op_api/aclnn_chunk_fwd_o_vllm.cpp:68:51: warning: unused parameter ‘params’ [-Wunused-parameter]
+[2026-10-13 08:56:13]    68 | static aclnnStatus CheckShape(ChunkFwdOVllmParams params)
+[2026-10-13 08:56:13]       |                               ~~~~~~~~~~~~~~~~~~~~^~~~~~
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/op_api/aclnn_chunk_fwd_o_vllm.cpp: In function ‘aclnnStatus CheckDtype(ChunkFwdOVllmParams)’:
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/op_api/aclnn_chunk_fwd_o_vllm.cpp:96:51: warning: unused parameter ‘params’ [-Wunused-parameter]
+[2026-10-13 08:56:13]    96 | static aclnnStatus CheckDtype(ChunkFwdOVllmParams params)
+[2026-10-13 08:56:13]       |                               ~~~~~~~~~~~~~~~~~~~~^~~~~~
+[2026-10-13 08:56:13] [53/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_opapi_obj.dir/op_api/chunk_fwd_o_vllm.cpp.o
+[2026-10-13 08:56:13] [54/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_tiling_obj.dir/__/__/chunk_gated_delta_rule_compute_wy/op_host/chunk_gated_delta_rule_compute_wy_tiling.cpp.o
+[2026-10-13 08:56:13] [55/116] Generating tbe/graph/ops_proto_transformer.cpp
+[2026-10-13 08:56:13] [56/116] Generating autogen/aic-ascend310p-ops-info.json
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] ==============check valid for ops info start==============
+[2026-10-13 08:56:13] ==============check valid for ops info end================
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] 
+[2026-10-13 08:56:13] Compile op info cfg successfully.
+[2026-10-13 08:56:13] [57/116] Generating binary/ascend310p/src/chunk_fwd_o_vllm/chunk_fwd_o_vllm_ascend310p_src_copy.done
+[2026-10-13 08:56:13] [58/116] Generating binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py
+[2026-10-13 08:56:13] [59/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_tiling_obj.dir/chunk_fwd_o_vllm_tiling.cpp.o
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/chunk_fwd_o_vllm_tiling.cpp: In function ‘void optiling::ChunkFwdOVllmTilingDataPrint(gert::TilingContext*, optiling::ChunkFwdOVllmTilingData&)’:
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/chunk_fwd_o_vllm_tiling.cpp:40:10: warning: unused variable ‘nodeName’ [-Wunused-variable]
+[2026-10-13 08:56:13]    40 |     auto nodeName = context->GetNodeName();
+[2026-10-13 08:56:13]       |          ^~~~~~~~
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/chunk_fwd_o_vllm_tiling.cpp:38:97: warning: unused parameter ‘tiling’ [-Wunused-parameter]
+[2026-10-13 08:56:13]    38 | static void ChunkFwdOVllmTilingDataPrint(gert::TilingContext *context, ChunkFwdOVllmTilingData &tiling)
+[2026-10-13 08:56:13]       |                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/chunk_fwd_o_vllm_tiling.cpp: In function ‘ge::graphStatus optiling::Tiling4ChunkFwdOVllm(gert::TilingContext*)’:
+[2026-10-13 08:56:13] /work/pr17640/csrc/moe/chunk_fwd_o_vllm/op_host/chunk_fwd_o_vllm_tiling.cpp:82:19: warning: conversion from ‘double’ to ‘float’ may change value [-Wfloat-conversion]
+[2026-10-13 08:56:13]    82 |     float scale = *(attrPtr->GetAttrPointer<double>(ATTR_SCALE_IDX));
+[2026-10-13 08:56:13]       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:13] [60/116] Generating binary/ascend310p/bin/chunk_fwd_o_vllm
+[2026-10-13 08:56:13] [61/116] Generating binary/ascend310p/src/chunk_gated_delta_rule_compute_wy/ChunkGatedDeltaRuleComputeWy.py
+[2026-10-13 08:56:13] [62/116] Generating binary/ascend310p/bin/chunk_gated_delta_rule_compute_wy
+[2026-10-13 08:56:15] [63/116] Generating binary/ascend310p/src/chunk_gated_delta_rule_compute_wy/chunk_gated_delta_rule_compute_wy_ascend310p_src_copy.done
+[2026-10-13 08:56:15] [64/116] Generating binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py
+[2026-10-13 08:56:15] [65/116] Generating binary/ascend310p/bin/chunk_gated_delta_rule_fwd_h_vllm
+[2026-10-13 08:56:15] [66/116] Generating binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/chunk_gated_delta_rule_fwd_h_vllm_ascend310p_src_copy.done
+[2026-10-13 08:56:15] [67/116] 
+[2026-10-13 08:56:15] [68/116] Performing build step for 'tiling_sink_task'
+[2026-10-13 08:56:15] ninja: no work to do.
+[2026-10-13 08:56:15] [69/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_tiling_obj.dir/__/__/chunk_gated_delta_rule_fwd_h_vllm/op_host/chunk_gated_delta_rule_fwd_h_vllm_tiling.cpp.o
+[2026-10-13 08:56:15] /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm/op_host/chunk_gated_delta_rule_fwd_h_vllm_tiling.cpp: In function ‘void optiling::ChunkGatedDeltaRuleFwdHVllmTilingDataPrint(gert::TilingContext*, optiling::ChunkGatedDeltaRuleFwdHVllmTilingData&)’:
+[2026-10-13 08:56:15] /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm/op_host/chunk_gated_delta_rule_fwd_h_vllm_tiling.cpp:59:10: warning: unused variable ‘nodeName’ [-Wunused-variable]
+[2026-10-13 08:56:15]    59 |     auto nodeName = context->GetNodeName();
+[2026-10-13 08:56:15]       |          ^~~~~~~~
+[2026-10-13 08:56:15] /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm/op_host/chunk_gated_delta_rule_fwd_h_vllm_tiling.cpp:57:125: warning: unused parameter ‘tiling’ [-Wunused-parameter]
+[2026-10-13 08:56:15]    57 | static void ChunkGatedDeltaRuleFwdHVllmTilingDataPrint(gert::TilingContext *context, ChunkGatedDeltaRuleFwdHVllmTilingData &tiling)
+[2026-10-13 08:56:15]       |                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+[2026-10-13 08:56:15] [70/116] Linking CXX shared library libcust_opmaster_rt2.0.so
+[2026-10-13 08:56:15] [71/116] Generating compat/liboptiling.so
+[2026-10-13 08:56:15] [72/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_opapi_obj.dir/__/__/chunk_gated_delta_rule_compute_wy/op_host/op_api/chunk_gated_delta_rule_compute_wy.cpp.o
+[2026-10-13 08:56:15] [73/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_opapi_obj.dir/__/__/chunk_gated_delta_rule_compute_wy/op_host/op_api/aclnn_chunk_gated_delta_rule_compute_wy.cpp.o
+[2026-10-13 08:56:15] [74/116] Building CXX object CMakeFiles/cust_proto.dir/autogen/exc/chunk_fwd_o_vllm_proto.cpp.o
+[2026-10-13 08:56:15] [75/116] Building CXX object CMakeFiles/cust_proto.dir/autogen/exc/chunk_gated_delta_rule_compute_wy_proto.cpp.o
+[2026-10-13 08:56:15] [76/116] Building CXX object CMakeFiles/cust_proto.dir/autogen/exc/chunk_gated_delta_rule_fwd_h_vllm_proto.cpp.o
+[2026-10-13 08:56:15] [77/116] Building CXX object CMakeFiles/cust_proto.dir/tbe/graph/ops_proto_transformer.cpp.o
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/tbe/graph/ops_proto_transformer.cpp:10:1: warning: macro "OP_TRANSFORMER_PROTO_H_" is not used [-Wunused-macros]
+[2026-10-13 08:56:15]    10 | }  // namespace ge
+[2026-10-13 08:56:15]       | ^
+[2026-10-13 08:56:15] [78/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_opapi_obj.dir/__/__/chunk_gated_delta_rule_fwd_h_vllm/op_host/op_api/chunk_gated_delta_rule_fwd_h_vllm.cpp.o
+[2026-10-13 08:56:15] [79/116] Building CXX object moe/chunk_fwd_o_vllm/op_host/CMakeFiles/ophost_transformer_opapi_obj.dir/__/__/chunk_gated_delta_rule_fwd_h_vllm/op_host/op_api/aclnn_chunk_gated_delta_rule_fwd_h_vllm.cpp.o
+[2026-10-13 08:56:15] /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm/op_host/op_api/aclnn_chunk_gated_delta_rule_fwd_h_vllm.cpp: In function ‘aclnnStatus CheckFormat(ChunkGatedDeltaRuleFwdHVllmParams)’:
+[2026-10-13 08:56:15] /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm/op_host/op_api/aclnn_chunk_gated_delta_rule_fwd_h_vllm.cpp:74:66: warning: unused parameter ‘params’ [-Wunused-parameter]
+[2026-10-13 08:56:15]    74 | static aclnnStatus CheckFormat(ChunkGatedDeltaRuleFwdHVllmParams params)
+[2026-10-13 08:56:15]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+[2026-10-13 08:56:15] [80/116] Generating cust_opapi_stub.cpp
+[2026-10-13 08:56:15] [81/116] Building CXX object CMakeFiles/cust_opapi.dir/cust_opapi_stub.cpp.o
+[2026-10-13 08:56:15] [82/116] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-0 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-0 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-0.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-0.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-0
+[2026-10-13 08:56:15] FAILED: [code=1] CMakeFiles/chunk_fwd_o_vllm_ascend310p_0 /work/pr17640/csrc/build/CMakeFiles/chunk_fwd_o_vllm_ascend310p_0 
+[2026-10-13 08:56:15] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-0 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-0 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-0.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-0.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-0
+[2026-10-13 08:56:15] [build-cache] MISS domain=custom_operator unit=chunk_fwd_o_vllm key=b1024ab64c25431fd2a43bf55bcdafbdefe3c5267c34e176a3e5522d09a6aa36
+[2026-10-13 08:56:15] [ascend310p] Generating ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8 ...
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.522.440 [repository_manager_log.py:30][log] [log_utils.py:185][repository_manager] [ascend310p]  ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] Opc tool start working now, please wait for a moment.
+[2026-10-13 08:56:15] [2026-10-13 08:56:15] [ERROR] [ascend310p] ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] 
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.522.571 [op_compilation.py:344][__single_op_compile] Exception occured, An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.695 [opc_common.py:232][_log_error] Traceback (most recent call last):
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/op_compilation.py", line 336, in __single_op_compile
+[2026-10-13 08:56:15]     json_file_path = single_op_obj.op_compile()
+[2026-10-13 08:56:15]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 277, in op_compile
+[2026-10-13 08:56:15]     json_file_path = self.__call_op()
+[2026-10-13 08:56:15]                      ^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 171, in __call_op
+[2026-10-13 08:56:15]     op_func(*inputs, *outputs, *new_attrs, self.__op_info.get(OpcOptions.KERNEL_NAME), **kwargs)
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.707 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/register/operation_func_mgr.py", line 214, in wrapper
+[2026-10-13 08:56:15]     return func(*args, **kwargs)
+[2026-10-13 08:56:15]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/utils/para_check.py", line 548, in _in_wrapper
+[2026-10-13 08:56:15]     return func(*args, **kwargs)
+[2026-10-13 08:56:15]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py", line 249, in chunk_fwd_o_vllm
+[2026-10-13 08:56:15]     compile_op(src, origin_func_name, op_info, options, code_channel, '{}', {'valueDepend': {5: 'optional', 6: 'optional'}})
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.713 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/compile_op.py", line 1428, in compile_op
+[2026-10-13 08:56:15]     infered_info_from_ifile = KernelInfoInfer.get_tiling_key_list_and_simple_infer_code_channel(op_info, cce_file, \
+[2026-10-13 08:56:15]                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/kernel_info_infer.py", line 594, in get_tiling_key_list_and_simple_infer_code_channel
+[2026-10-13 08:56:15]     CommonUtility.run_cmd_inner(pre_compile_cmd, CompileStage.PRECOMPILE, compile_log_path)
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 331, in run_cmd_inner
+[2026-10-13 08:56:15]     CommonUtility.dump_build_log(output.decode(), cmds, stage, ret_code)
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.717 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 604, in dump_build_log
+[2026-10-13 08:56:15]     raise Exception("An error occurred during compile phases of {}, msg is {}".\
+[2026-10-13 08:56:15] Exception: An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] 
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.724 [op_compilation.py:214][record_compile_error_info] Op[ChunkFwdOVllm] of index[0] compile failed, kernelName: ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8.
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.770 [opc_common.py:542][opc_log_full] [op_compilation.py:216][record_compile_error_info] reason is:[An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] ].
+[2026-10-13 08:56:15] [ERROR] TBE(1048,python3):2026-10-13-08:56:15.526.941 [opc.py:763][main] Opc tool compile failed.
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-0/ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8.json not generated!
+[2026-10-13 08:56:15] [83/116] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-2 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-2 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-2.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-2.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-2
+[2026-10-13 08:56:15] FAILED: [code=1] CMakeFiles/chunk_fwd_o_vllm_ascend310p_2 /work/pr17640/csrc/build/CMakeFiles/chunk_fwd_o_vllm_ascend310p_2 
+[2026-10-13 08:56:15] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-2 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-2 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-2.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-2.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-2
+[2026-10-13 08:56:15] [build-cache] MISS domain=custom_operator unit=chunk_fwd_o_vllm key=f62c48ecfba8f6b9d40d33d50114c7606b747fc259a3b32f8a4465abfd6dd553
+[2026-10-13 08:56:15] [ascend310p] Generating ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a ...
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.688.544 [repository_manager_log.py:30][log] [log_utils.py:185][repository_manager] [ascend310p]  ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] Opc tool start working now, please wait for a moment.
+[2026-10-13 08:56:15] [2026-10-13 08:56:15] [ERROR] [ascend310p] ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] 
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.688.693 [op_compilation.py:344][__single_op_compile] Exception occured, An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.331 [opc_common.py:232][_log_error] Traceback (most recent call last):
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/op_compilation.py", line 336, in __single_op_compile
+[2026-10-13 08:56:15]     json_file_path = single_op_obj.op_compile()
+[2026-10-13 08:56:15]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 277, in op_compile
+[2026-10-13 08:56:15]     json_file_path = self.__call_op()
+[2026-10-13 08:56:15]                      ^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 171, in __call_op
+[2026-10-13 08:56:15]     op_func(*inputs, *outputs, *new_attrs, self.__op_info.get(OpcOptions.KERNEL_NAME), **kwargs)
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.341 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/register/operation_func_mgr.py", line 214, in wrapper
+[2026-10-13 08:56:15]     return func(*args, **kwargs)
+[2026-10-13 08:56:15]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/utils/para_check.py", line 548, in _in_wrapper
+[2026-10-13 08:56:15]     return func(*args, **kwargs)
+[2026-10-13 08:56:15]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py", line 249, in chunk_fwd_o_vllm
+[2026-10-13 08:56:15]     compile_op(src, origin_func_name, op_info, options, code_channel, '{}', {'valueDepend': {5: 'optional', 6: 'optional'}})
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.347 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/compile_op.py", line 1428, in compile_op
+[2026-10-13 08:56:15]     infered_info_from_ifile = KernelInfoInfer.get_tiling_key_list_and_simple_infer_code_channel(op_info, cce_file, \
+[2026-10-13 08:56:15]                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/kernel_info_infer.py", line 594, in get_tiling_key_list_and_simple_infer_code_channel
+[2026-10-13 08:56:15]     CommonUtility.run_cmd_inner(pre_compile_cmd, CompileStage.PRECOMPILE, compile_log_path)
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 331, in run_cmd_inner
+[2026-10-13 08:56:15]     CommonUtility.dump_build_log(output.decode(), cmds, stage, ret_code)
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.351 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 604, in dump_build_log
+[2026-10-13 08:56:15]     raise Exception("An error occurred during compile phases of {}, msg is {}".\
+[2026-10-13 08:56:15] Exception: An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] 
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.358 [op_compilation.py:214][record_compile_error_info] Op[ChunkFwdOVllm] of index[0] compile failed, kernelName: ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a.
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.407 [opc_common.py:542][opc_log_full] [op_compilation.py:216][record_compile_error_info] reason is:[An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] ].
+[2026-10-13 08:56:15] [ERROR] TBE(1072,python3):2026-10-13-08:56:15.690.580 [opc.py:763][main] Opc tool compile failed.
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-2/ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a.json not generated!
+[2026-10-13 08:56:15] [84/116] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-1 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-1 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-1.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-1.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-1
+[2026-10-13 08:56:15] FAILED: [code=1] CMakeFiles/chunk_fwd_o_vllm_ascend310p_1 /work/pr17640/csrc/build/CMakeFiles/chunk_fwd_o_vllm_ascend310p_1 
+[2026-10-13 08:56:15] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-1 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-1 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-1.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-1.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-1
+[2026-10-13 08:56:15] [build-cache] MISS domain=custom_operator unit=chunk_fwd_o_vllm key=a65e280eea2b798bc96b151f4294d578a73c51a80ab550cf663a0148c57efe39
+[2026-10-13 08:56:15] [ascend310p] Generating ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53 ...
+[2026-10-13 08:56:15] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.681.554 [repository_manager_log.py:30][log] [log_utils.py:185][repository_manager] [ascend310p]  ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] Opc tool start working now, please wait for a moment.
+[2026-10-13 08:56:15] [2026-10-13 08:56:15] [ERROR] [ascend310p] ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] 
+[2026-10-13 08:56:15] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.681.707 [op_compilation.py:344][__single_op_compile] Exception occured, An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:15] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:15]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:15] 1 error generated.
+[2026-10-13 08:56:15] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.359 [opc_common.py:232][_log_error] Traceback (most recent call last):
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/op_compilation.py", line 336, in __single_op_compile
+[2026-10-13 08:56:15]     json_file_path = single_op_obj.op_compile()
+[2026-10-13 08:56:15]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 277, in op_compile
+[2026-10-13 08:56:15]     json_file_path = self.__call_op()
+[2026-10-13 08:56:15]                      ^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 171, in __call_op
+[2026-10-13 08:56:15]     op_func(*inputs, *outputs, *new_attrs, self.__op_info.get(OpcOptions.KERNEL_NAME), **kwargs)
+[2026-10-13 08:56:15] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.369 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/register/operation_func_mgr.py", line 214, in wrapper
+[2026-10-13 08:56:15]     return func(*args, **kwargs)
+[2026-10-13 08:56:15]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/utils/para_check.py", line 548, in _in_wrapper
+[2026-10-13 08:56:15]     return func(*args, **kwargs)
+[2026-10-13 08:56:15]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py", line 249, in chunk_fwd_o_vllm
+[2026-10-13 08:56:15]     compile_op(src, origin_func_name, op_info, options, code_channel, '{}', {'valueDepend': {5: 'optional', 6: 'optional'}})
+[2026-10-13 08:56:15] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.374 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/compile_op.py", line 1428, in compile_op
+[2026-10-13 08:56:15]     infered_info_from_ifile = KernelInfoInfer.get_tiling_key_list_and_simple_infer_code_channel(op_info, cce_file, \
+[2026-10-13 08:56:15]                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/kernel_info_infer.py", line 594, in get_tiling_key_list_and_simple_infer_code_channel
+[2026-10-13 08:56:15]     CommonUtility.run_cmd_inner(pre_compile_cmd, CompileStage.PRECOMPILE, compile_log_path)
+[2026-10-13 08:56:15]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 331, in run_cmd_inner
+[2026-10-13 08:56:15]     CommonUtility.dump_build_log(output.decode(), cmds, stage, ret_code)
+[2026-10-13 08:56:15] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.378 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 604, in dump_build_log
+[2026-10-13 08:56:15]     raise Exception("An error occurred during compile phases of {}, msg is {}".\
+[2026-10-13 08:56:15] Exception: An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:15] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] 
+[2026-10-13 08:56:16] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.385 [op_compilation.py:214][record_compile_error_info] Op[ChunkFwdOVllm] of index[0] compile failed, kernelName: ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53.
+[2026-10-13 08:56:16] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.432 [opc_common.py:542][opc_log_full] [op_compilation.py:216][record_compile_error_info] reason is:[An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] ].
+[2026-10-13 08:56:16] [ERROR] TBE(1065,python3):2026-10-13-08:56:15.683.596 [opc.py:763][main] Opc tool compile failed.
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-1/ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53.json not generated!
+[2026-10-13 08:56:16] [85/116] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-3 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-3 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-3.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-3.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-3
+[2026-10-13 08:56:16] FAILED: [code=1] CMakeFiles/chunk_fwd_o_vllm_ascend310p_3 /work/pr17640/csrc/build/CMakeFiles/chunk_fwd_o_vllm_ascend310p_3 
+[2026-10-13 08:56:16] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_fwd_o_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-3 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_fwd_o_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/publish_state --soc ascend310p --operator chunk_fwd_o_vllm --action ChunkFwdOVllm-3 --operator-source /work/pr17640/csrc/moe/chunk_fwd_o_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-3.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkFwdOVllm-chunk_fwd_o_vllm-3.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-3
+[2026-10-13 08:56:16] [build-cache] MISS domain=custom_operator unit=chunk_fwd_o_vllm key=c078ada09d99f3a0648d0d13dffe5a977d5a2aad4d751a0b666bb3d5749b35b2
+[2026-10-13 08:56:16] [ascend310p] Generating ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a ...
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.824.304 [repository_manager_log.py:30][log] [log_utils.py:185][repository_manager] [ascend310p]  ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] Opc tool start working now, please wait for a moment.
+[2026-10-13 08:56:16] [2026-10-13 08:56:15] [ERROR] [ascend310p] ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] 
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.824.450 [op_compilation.py:344][__single_op_compile] Exception occured, An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.066 [opc_common.py:232][_log_error] Traceback (most recent call last):
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/op_compilation.py", line 336, in __single_op_compile
+[2026-10-13 08:56:16]     json_file_path = single_op_obj.op_compile()
+[2026-10-13 08:56:16]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 277, in op_compile
+[2026-10-13 08:56:16]     json_file_path = self.__call_op()
+[2026-10-13 08:56:16]                      ^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 171, in __call_op
+[2026-10-13 08:56:16]     op_func(*inputs, *outputs, *new_attrs, self.__op_info.get(OpcOptions.KERNEL_NAME), **kwargs)
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.075 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/register/operation_func_mgr.py", line 214, in wrapper
+[2026-10-13 08:56:16]     return func(*args, **kwargs)
+[2026-10-13 08:56:16]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/utils/para_check.py", line 548, in _in_wrapper
+[2026-10-13 08:56:16]     return func(*args, **kwargs)
+[2026-10-13 08:56:16]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/ChunkFwdOVllm.py", line 249, in chunk_fwd_o_vllm
+[2026-10-13 08:56:16]     compile_op(src, origin_func_name, op_info, options, code_channel, '{}', {'valueDepend': {5: 'optional', 6: 'optional'}})
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.080 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/compile_op.py", line 1428, in compile_op
+[2026-10-13 08:56:16]     infered_info_from_ifile = KernelInfoInfer.get_tiling_key_list_and_simple_infer_code_channel(op_info, cce_file, \
+[2026-10-13 08:56:16]                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/kernel_info_infer.py", line 594, in get_tiling_key_list_and_simple_infer_code_channel
+[2026-10-13 08:56:16]     CommonUtility.run_cmd_inner(pre_compile_cmd, CompileStage.PRECOMPILE, compile_log_path)
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 331, in run_cmd_inner
+[2026-10-13 08:56:16]     CommonUtility.dump_build_log(output.decode(), cmds, stage, ret_code)
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.084 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 604, in dump_build_log
+[2026-10-13 08:56:16]     raise Exception("An error occurred during compile phases of {}, msg is {}".\
+[2026-10-13 08:56:16] Exception: An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] 
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.091 [op_compilation.py:214][record_compile_error_info] Op[ChunkFwdOVllm] of index[0] compile failed, kernelName: ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a.
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.137 [opc_common.py:542][opc_log_full] [op_compilation.py:216][record_compile_error_info] reason is:[An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/chunk_fwd_o_vllm.cpp:18:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] ].
+[2026-10-13 08:56:16] [ERROR] TBE(1102,python3):2026-10-13-08:56:15.826.319 [opc.py:763][main] Opc tool compile failed.
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_fwd_o_vllm/stages/ChunkFwdOVllm-3/ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a.json not generated!
+[2026-10-13 08:56:16] [86/116] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_gated_delta_rule_fwd_h_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-0 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_gated_delta_rule_fwd_h_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/publish_state --soc ascend310p --operator chunk_gated_delta_rule_fwd_h_vllm --action ChunkGatedDeltaRuleFwdHVllm-0 --operator-source /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-0.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-0.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-0
+[2026-10-13 08:56:16] FAILED: [code=1] CMakeFiles/chunk_gated_delta_rule_fwd_h_vllm_ascend310p_0 /work/pr17640/csrc/build/CMakeFiles/chunk_gated_delta_rule_fwd_h_vllm_ascend310p_0 
+[2026-10-13 08:56:16] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_gated_delta_rule_fwd_h_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-0 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_gated_delta_rule_fwd_h_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/publish_state --soc ascend310p --operator chunk_gated_delta_rule_fwd_h_vllm --action ChunkGatedDeltaRuleFwdHVllm-0 --operator-source /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-0.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-0.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-0
+[2026-10-13 08:56:16] [build-cache] MISS domain=custom_operator unit=chunk_gated_delta_rule_fwd_h_vllm key=a68a1657c0f7f74cb684e2326e80bc675f691146943736808cbcf7fe576ae0fc
+[2026-10-13 08:56:16] [ascend310p] Generating ChunkGatedDeltaRuleFwdHVllm_b7d4fb53873673469181120e94891830 ...
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.872.859 [repository_manager_log.py:30][log] [log_utils.py:185][repository_manager] [ascend310p]  ChunkGatedDeltaRuleFwdHVllm_b7d4fb53873673469181120e94891830 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] Opc tool start working now, please wait for a moment.
+[2026-10-13 08:56:16] [2026-10-13 08:56:15] [ERROR] [ascend310p] ChunkGatedDeltaRuleFwdHVllm_b7d4fb53873673469181120e94891830 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] 
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.873.114 [op_compilation.py:344][__single_op_compile] Exception occured, An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.070 [opc_common.py:232][_log_error] Traceback (most recent call last):
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/op_compilation.py", line 336, in __single_op_compile
+[2026-10-13 08:56:16]     json_file_path = single_op_obj.op_compile()
+[2026-10-13 08:56:16]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 277, in op_compile
+[2026-10-13 08:56:16]     json_file_path = self.__call_op()
+[2026-10-13 08:56:16]                      ^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 171, in __call_op
+[2026-10-13 08:56:16]     op_func(*inputs, *outputs, *new_attrs, self.__op_info.get(OpcOptions.KERNEL_NAME), **kwargs)
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.089 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/register/operation_func_mgr.py", line 214, in wrapper
+[2026-10-13 08:56:16]     return func(*args, **kwargs)
+[2026-10-13 08:56:16]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/utils/para_check.py", line 548, in _in_wrapper
+[2026-10-13 08:56:16]     return func(*args, **kwargs)
+[2026-10-13 08:56:16]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py", line 249, in chunk_gated_delta_rule_fwd_h_vllm
+[2026-10-13 08:56:16]     compile_op(src, origin_func_name, op_info, options, code_channel, '{}', {'valueDepend': {6: 'optional', 7: 'optional'}})
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.103 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/compile_op.py", line 1428, in compile_op
+[2026-10-13 08:56:16]     infered_info_from_ifile = KernelInfoInfer.get_tiling_key_list_and_simple_infer_code_channel(op_info, cce_file, \
+[2026-10-13 08:56:16]                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/kernel_info_infer.py", line 594, in get_tiling_key_list_and_simple_infer_code_channel
+[2026-10-13 08:56:16]     CommonUtility.run_cmd_inner(pre_compile_cmd, CompileStage.PRECOMPILE, compile_log_path)
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 331, in run_cmd_inner
+[2026-10-13 08:56:16]     CommonUtility.dump_build_log(output.decode(), cmds, stage, ret_code)
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.115 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/ascendc_common_utility.py", line 604, in dump_build_log
+[2026-10-13 08:56:16]     raise Exception("An error occurred during compile phases of {}, msg is {}".\
+[2026-10-13 08:56:16] Exception: An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] 
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.131 [op_compilation.py:214][record_compile_error_info] Op[ChunkGatedDeltaRuleFwdHVllm] of index[0] compile failed, kernelName: ChunkGatedDeltaRuleFwdHVllm_b7d4fb53873673469181120e94891830.
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.270 [opc_common.py:542][opc_log_full] [op_compilation.py:216][record_compile_error_info] reason is:[An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] ].
+[2026-10-13 08:56:16] [ERROR] TBE(1116,python3):2026-10-13-08:56:15.876.611 [opc.py:763][main] Opc tool compile failed.
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-0/ChunkGatedDeltaRuleFwdHVllm_b7d4fb53873673469181120e94891830.json not generated!
+[2026-10-13 08:56:16] [87/116] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_gated_delta_rule_fwd_h_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-1 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_gated_delta_rule_fwd_h_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/publish_state --soc ascend310p --operator chunk_gated_delta_rule_fwd_h_vllm --action ChunkGatedDeltaRuleFwdHVllm-1 --operator-source /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-1.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-1.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-1
+[2026-10-13 08:56:16] FAILED: [code=1] CMakeFiles/chunk_gated_delta_rule_fwd_h_vllm_ascend310p_1 /work/pr17640/csrc/build/CMakeFiles/chunk_gated_delta_rule_fwd_h_vllm_ascend310p_1 
+[2026-10-13 08:56:16] cd /work/pr17640/csrc/build/binary/ascend310p/gen && /usr/local/python3.12.13/bin/python3.12 /work/pr17640/csrc/scripts/build_cache.py run --cache-root /work/pr17640/csrc/build_cache --domain custom_operator --unit chunk_gated_delta_rule_fwd_h_vllm --output-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-1 --environment-profile ascendc --publish-dir /work/pr17640/csrc/build/binary/ascend310p/bin/chunk_gated_delta_rule_fwd_h_vllm --publish-state-dir /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/publish_state --soc ascend310p --operator chunk_gated_delta_rule_fwd_h_vllm --action ChunkGatedDeltaRuleFwdHVllm-1 --operator-source /work/pr17640/csrc/moe/chunk_gated_delta_rule_fwd_h_vllm --repo-root /work/pr17640/csrc --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm --prepared-input /work/pr17640/csrc/build/binary/ascend310p/src/ascendc/common --prepared-input /work/pr17640/csrc/common/include/cann_compat.h --recipe-file /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-1.sh --normalize-path /work/pr17640/csrc --normalize-path /work/pr17640/csrc/build --normalize-path /usr/local/Ascend/cann-9.1.0 --set-env HI_PYTHON=python3 --set-env TILINGKEY_PAR_COMPILE=1 --set-env BIN_FILENAME_HASHED=1 --set-env ASCEND_CUSTOM_OPP_PATH=/work/pr17640/csrc/build/custom -- bash /work/pr17640/csrc/build/binary/ascend310p/gen/ChunkGatedDeltaRuleFwdHVllm-chunk_gated_delta_rule_fwd_h_vllm-1.sh /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py /work/pr17640/csrc/build/binary/ascend310p/cache_actions/chunk_gated_delta_rule_fwd_h_vllm/stages/ChunkGatedDeltaRuleFwdHVllm-1
+[2026-10-13 08:56:16] [build-cache] MISS domain=custom_operator unit=chunk_gated_delta_rule_fwd_h_vllm key=2181a77dbc8c812ee64f620e2ea3911fe8fea22d917eaaaa24e5f866c4049bcf
+[2026-10-13 08:56:16] [ascend310p] Generating ChunkGatedDeltaRuleFwdHVllm_697b00ca76a27640a52cd32c3ee23de6 ...
+[2026-10-13 08:56:16] [ERROR] TBE(1163,python3):2026-10-13-08:56:16.071.907 [repository_manager_log.py:30][log] [log_utils.py:185][repository_manager] [ascend310p]  ChunkGatedDeltaRuleFwdHVllm_697b00ca76a27640a52cd32c3ee23de6 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] Opc tool start working now, please wait for a moment.
+[2026-10-13 08:56:16] [2026-10-13 08:56:16] [ERROR] [ascend310p] ChunkGatedDeltaRuleFwdHVllm_697b00ca76a27640a52cd32c3ee23de6 In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] 
+[2026-10-13 08:56:16] [ERROR] TBE(1163,python3):2026-10-13-08:56:16.072.067 [op_compilation.py:344][__single_op_compile] Exception occured, An error occurred during compile phases of CompileStage.PRECOMPILE, msg is In file included from /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/chunk_gated_delta_rule_fwd_h_vllm.cpp:17:
+[2026-10-13 08:56:16] /work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_h_kernel.hpp:13:10: fatal error: 'catlass/arch/arch.hpp' file not found
+[2026-10-13 08:56:16] #include "catlass/arch/arch.hpp"
+[2026-10-13 08:56:16]          ^~~~~~~~~~~~~~~~~~~~~~~
+[2026-10-13 08:56:16] 1 error generated.
+[2026-10-13 08:56:16] [ERROR] TBE(1163,python3):2026-10-13-08:56:16.073.706 [opc_common.py:232][_log_error] Traceback (most recent call last):
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/op_compilation.py", line 336, in __single_op_compile
+[2026-10-13 08:56:16]     json_file_path = single_op_obj.op_compile()
+[2026-10-13 08:56:16]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 277, in op_compile
+[2026-10-13 08:56:16]     json_file_path = self.__call_op()
+[2026-10-13 08:56:16]                      ^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/opc_tool/single_op_compile.py", line 171, in __call_op
+[2026-10-13 08:56:16]     op_func(*inputs, *outputs, *new_attrs, self.__op_info.get(OpcOptions.KERNEL_NAME), **kwargs)
+[2026-10-13 08:56:16] [ERROR] TBE(1163,python3):2026-10-13-08:56:16.073.715 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/register/operation_func_mgr.py", line 214, in wrapper
+[2026-10-13 08:56:16]     return func(*args, **kwargs)
+[2026-10-13 08:56:16]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/common/utils/para_check.py", line 548, in _in_wrapper
+[2026-10-13 08:56:16]     return func(*args, **kwargs)
+[2026-10-13 08:56:16]            ^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/work/pr17640/csrc/build/binary/ascend310p/src/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm.py", line 249, in chunk_gated_delta_rule_fwd_h_vllm
+[2026-10-13 08:56:16]     compile_op(src, origin_func_name, op_info, options, code_channel, '{}', {'valueDepend': {6: 'optional', 7: 'optional'}})
+[2026-10-13 08:56:16] [ERROR] TBE(1163,python3):2026-10-13-08:56:16.073.720 [opc_common.py:232][_log_error]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/compile_op.py", line 1428, in compile_op
+[2026-10-13 08:56:16]     infered_info_from_ifile = KernelInfoInfer.get_tiling_key_list_and_simple_infer_code_channel(op_info, cce_file, \
+[2026-10-13 08:56:16]                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-13 08:56:16]   File "/usr/local/Ascend/cann-9.1.0/python/site-packages/tbe/tikcpp/kernel_info_infer.py", line 594, in get_tiling_key_list_and_simple_infer_code_channel
+[2026-10-13 08:56:23]     CommonUtility.run_cmd_inner(pre_compile_cmd, CompileStage.PRECOMPILE, compile_lo

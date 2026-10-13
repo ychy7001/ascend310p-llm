@@ -1,0 +1,8 @@
+[pack-check] vectorized 3-step biased pack == naive mirror (byte-exact)
+[W1013 08:52:25.735837612 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+case (16,2048,2048) [decode]: shape=(16, 2048) mismatch=0/32768 -> PASSED
+case (1,2048,2048) [decode-m1]: shape=(1, 2048) mismatch=0/2048 -> PASSED
+case (1024,2048,2048) [big]: shape=(1024, 2048) mismatch=0/2097152 -> PASSED
+ALL PASSED
+perf (16,2048,2048): median=105.6us  min=94.7  max=114.9
+perf (1,2048,2048): median=104.5us  min=92.4  max=111.7

@@ -1,0 +1,14 @@
+[pack-check] vectorized 3-step biased pack == naive mirror (byte-exact)
+[W1013 08:50:23.684892639 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+Traceback (most recent call last):
+  File "/work/test-source/test_qmm_v5_ext.py", line 121, in <module>
+    ok &= run_case(16, 2048, 2048, "decode")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/test-source/test_qmm_v5_ext.py", line 60, in run_case
+    out = OP(t_x1, t_x1s, t_packed, t_x2s)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_ops.py", line 1209, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: aclnnQuantMatmulV5 failed: 561103
+[ERROR] 2026-10-13-08:50:25 (PID:167, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

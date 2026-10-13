@@ -1,0 +1,14 @@
+==== graph case (16,2048,2048) [decode] ====
+[W1013 08:50:32.229750862 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+Traceback (most recent call last):
+  File "/work/test-source/test_qmm_v5_ext_graph.py", line 138, in <module>
+    ok &= capture_replay_case(16, 2048, 2048, "decode", json_path="/tmp/r3_ext_modelri_16.json")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/test-source/test_qmm_v5_ext_graph.py", line 58, in capture_replay_case
+    out_warm = OP(t_x1, t_x1s, t_packed, t_x2s)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_ops.py", line 1209, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: aclnnQuantMatmulV5 failed: 561103
+[ERROR] 2026-10-13-08:50:33 (PID:410, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception
