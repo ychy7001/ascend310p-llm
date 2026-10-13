@@ -1,0 +1,14 @@
+[W1013 13:53:36.699501306 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+..........Traceback (most recent call last):
+  File "/project/tools/bench_mindieq_mlp_310.py", line 223, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 166, in main
+    assert errors[name]['finite'], (rows,routing,name,errors[name])
+           ~~~~~~~~~~~~^^^^^^^^^^
+AssertionError: (4096, 'real_occupancy_p95', 'hybrid_128', {'max_abs': nan, 'relative_l2': nan, 'finite': False})
+[ERROR] 2026-10-13-13:55:21 (PID:164, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

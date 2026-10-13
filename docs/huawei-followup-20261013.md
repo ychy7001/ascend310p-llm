@@ -202,3 +202,7 @@ MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组�
 统一run-candidate.sh正在恢复TP1/48G/W4/C8/MTP2/GDN/Graph/4096:512/112K服务，prefix off；首次远端workcopy缺少wrapper所需GDN启动脚本，已同步该现有文件并重启，尚待完成生成与8K复测。
 
 统一run-candidate入口服务启动并完成生成sanity5/5；8K/128三次Prefill中位507.211、Decode36.944tok/s，prompt hashes全部与原基线匹配，输出3/3全文匹配。服务保留18024，prefix关闭。该回归不替代完整质量/长文测试，也不是MindIEQ模型集成。
+
+## 2026-10-13：生命周期与投入收敛
+
+MindIEQ记录inputs/output/workspace stream后的两轮完整MLP混合≥128行，相比原W4在两份counts上省约9%/18%，更分散样本慢约2%～3%；全量MindIEQ两份更慢。仍无端到端收益。异步混合的特定输入还可NaN，定位失败行来自原W4小专家分支；隔离原W4生命周期候选单样本通过，但连续提交测试停滞并停止，未采用。继续投入限于混合数值与设备端grouped门禁，默认服务保持原后端。详见[原始结果与判断](../results/mindieq-lifetime-20261013/README.md)。

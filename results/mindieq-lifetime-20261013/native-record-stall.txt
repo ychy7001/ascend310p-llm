@@ -1,0 +1,42 @@
+Tue Oct 13 14:16:12 UTC 2026
+    PID %CPU     ELAPSED COMMAND
+      1  0.0       05:14 bash -lc   set -e  source /usr/local/Ascend/ascend-toolkit/set_env.sh  source /opp/bin/set_env.bash  export ASCEND_CUSTOM_OPP_PATH="$ASCEND_HOME_PATH/opp/vendors/custom_nn:/opp"  export LD_LIBRARY_PATH="$ASCEND_HOME_PATH/opp/vendors/custom_nn/op_api/lib:$LD_LIBRARY_PATH"  python3 /project/tools/bench_mindieq_mlp_310.py --model /model --library /custom/qwen36_int4_custom.so --upstream-test /work/test-source/test_qmm_v5_record.py --experts 256 --hybrid --real-expert-weights --queued-repeats 8 --route-trace /work/route-occupancy/combined.jsonl --out /work/mindieq-native-record-full-mlp.jsonl > /work/mindieq-native-record-full-mlp.txt 2>&1  cat /work/mindieq-native-record-full-mlp.txt  
+    164 36.0       05:14 python3 /project/tools/bench_mindieq_mlp_310.py --model /model --library /custom/qwen36_int4_custom.so --upstream-test /work/test-source/test_qmm_v5_record.py --experts 256 --hybrid --real-expert-weights --queued-repeats 8 --route-trace /work/route-occupancy/combined.jsonl --out /work/mindieq-native-record-full-mlp.jsonl
+    181  0.3       05:06 python3 /project/tools/bench_mindieq_mlp_310.py --model /model --library /custom/qwen36_int4_custom.so --upstream-test /work/test-source/test_qmm_v5_record.py --experts 256 --hybrid --real-expert-weights --queued-repeats 8 --route-trace /work/route-occupancy/combined.jsonl --out /work/mindieq-native-record-full-mlp.jsonl
+    237  0.0       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.resource_tracker import main;main(16)
+    238  0.0       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    239  0.3       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    240  0.3       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    241  0.2       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    242  0.2       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    243  0.4       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    244  0.3       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    245  0.2       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    246  0.3       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    247  0.3       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    248  1.9       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    249  4.3       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    250  3.9       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    251  1.7       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    252  2.2       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    253  2.0       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    254  2.0       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+    255  3.2       05:06 /usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(16, 19, [], **{})
+  32426  0.0       00:00 ps -eo pid,pcpu,etime,args
++--------------------------------------------------------------------------------------------------------+
+| npu-smi 26.1.1                                   Version: 26.1.1                                       |
++-------------------------------+-----------------+------------------------------------------------------+
+| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |
+| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |
++===============================+=================+======================================================+
+| 8       310P3                 | OK              | NA           54                1789  / 1789          |
+| 0       0                     | 0000:01:00.0    | 0            5336 / 44277                            |
++-------------------------------+-----------------+------------------------------------------------------+
+| 8       310P3                 | OK              | NA           52                0     / 0             |
+| 1       1                     | 0000:01:00.0    | 0            1233 / 43693                            |
++===============================+=================+======================================================+
++-------------------------------+-----------------+------------------------------------------------------+
+| NPU     Chip                  | Process id      | Process name             | Process memory(MB)        |
++===============================+=================+======================================================+
+| 8       0                     | 3552092         | python3                  | 3663                      |
++===============================+=================+======================================================+

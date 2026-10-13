@@ -1,0 +1,20 @@
+{
+  "OpCommand.cpp": {
+    "url": "https://raw.githubusercontent.com/Ascend/pytorch/v2.10.0/torch_npu/csrc/framework/OpCommand.cpp",
+    "sha256": "570b1dbe19ce6a039cf768ddc1f89bf4e24f4d2ced8a19ab098acbe015272255",
+    "scope": "tag v2.10.0 source reference; runtime wheel 2.10.0.post4 is not proven identical"
+  },
+  "NPUCachingAllocator.cpp": {
+    "url": "https://raw.githubusercontent.com/Ascend/pytorch/v2.10.0/torch_npu/csrc/core/npu/NPUCachingAllocator.cpp",
+    "sha256": "3f82ce7e6fbfed74fb054956f4213664ce10d48af51e79b3ba3192a920c7e6c8",
+    "scope": "tag v2.10.0 source reference; runtime wheel 2.10.0.post4 is not proven identical"
+  },
+  "extensions": {
+    "queue_previous": "741bc86867e42b3d068e0797ca2a4dd730f0b3de1be070cb25671a658b7ffdfa",
+    "record_all": "ae2f8b46a5c858759222afe92dd80c9a1e37f370f0a4c9acd6c24c81767a2a18",
+    "record_inputs": "13e56e4a9eff636d2900fca4b0a763f145bddc85d06d3bfab205f1b6481c3cd2",
+    "record_workspace": "41cf4832f350d5859ccadca371bc1265e2d0d52d6753b9e705c417ffc4843677",
+    "stream_only": "8b65f830c20e0d1fd4c01cffee37c1655be05a95c61598e73531e58dea37f305",
+    "native_record_v3": "99a20d006b41f56081010fd608cc1b932e55b72b5d121f1ef727f9f234f2e3a4"
+  }
+}

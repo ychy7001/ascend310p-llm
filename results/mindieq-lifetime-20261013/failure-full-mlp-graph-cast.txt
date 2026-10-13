@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/project/tools/bench_mindieq_mlp_310.py", line 235, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 204, in main
+    with torch.npu.graph(graph):captured[name]=fn()
+                                               ^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 111, in native_mlp
+    return native_for(x,boundaries)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 107, in native_for
+    g,u=gate.float().chunk(2,dim=-1)
+        ^^^^^^^^^^^^
+RuntimeError: Cannot run aclop operators during NPU graph capture. Current working aclop is Cast. If you need this call to be captured, please try to set torch.npu.config.allow_internal_format = False. If still fail, the operator needs aclnn implementation and please file an issue. Current npuStreamCaptureStatus: npuStreamCaptureStatusActive
+[ERROR] 2026-10-13-13:58:58 (PID:164, Device:0, RankID:-1) ERR00007 PTA feature not supported
