@@ -74,7 +74,9 @@ def main():
                   'protocol': 'warmup each endpoint; alternate order; Prometheus phase counters'}
         f.write(json.dumps(config) + '\n')
         for name, base in (('mindieq', a.mindieq_url), ('original', a.original_url)):
-            warm = request(base, a.model, tokens, min(32, a.output_tokens))
+            # 服务已在启动阶段完成 Graph warmup；用短前缀清理请求状态，
+            # 不把一次完整 64K/112K Prefill 重复计入正式样本。
+            warm = request(base, a.model, tokens[:min(1024, len(tokens))], 8)
             f.write(json.dumps({'kind': 'warmup', 'service': name,
                                 'usage': warm.get('usage'), 'elapsed_s': warm['elapsed_s']}) + '\n')
         f.flush()
