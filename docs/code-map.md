@@ -49,3 +49,5 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 旧dynamic_quant版本B/A/B已证明Prefill收益但出现额外截断和8K接受率下降，保留实验选项；新A8版本的模型结果见results/mindieq-a8-service-20261014，不根据单算子测试宣称默认采用。
 
 输入规模分流通过`QWEN36_MINDIEQ_MIN_TOKENS`配置：默认17保留历史行为，必须≥17以保留native Decode；本轮128仅为实验值。阈值比较的是进入MoE的实际block_input行数，可能含调度padding，不等于用户原始prompt长度，也不按上下文总长度选择。启动器记录阈值并传递容器。
+
+`QWEN36_MINDIEQ_SHARED_GATE=1`可选在Gate/Up路由复制前量化，再用`mindieq_activation.py`和AscendC `gather`复制A8及scale/padding。需custom_quant与新版库，默认off；Down与Decode不改。单层微测试已通过，E5整模型门禁仍执行，详见results/mindieq-shared-gate-20261014。

@@ -1,0 +1,12 @@
+{
+  "source_base_commit": "87d166a6d6290c4efb2397b851819ac3eb069774",
+  "library_sha256": "9fd97f447613997189e2a473d3e374cf485275d60e376b50cf7c1c8ca50595ba",
+  "sources": {
+    "experimental/mindieq_grouped_kernel/register.cpp": "463fbc553e5e40bdb556700a2b3f5100a04a5b45acca898e01fe9d4f05a43a7a",
+    "experimental/mindieq_grouped_kernel/activation_gather.cpp": "86e25d746f0adb104e1735719594e4576d5f276b26eb97309fe8349962e72fa8",
+    "experimental/mindieq_activation.py": "a21c2993b4f2303d9aa8b190b9d207188033c1f7fc57c78063e89ac939f57ec0",
+    "experimental/mindieq_prefill_adapter.py": "520c2c5cf34391646442467b36ca51e1449d7153e7c77793c287d0a3dc614ab4",
+    "tools/check_mindieq_shared_gate_310.py": "70743bb588cf4781b4236f71bd14069a5177faf5f138f3a66e89e979322761d9"
+  },
+  "scope": "E5新库独立目录，旧D4库未覆盖；主服务切换新库，完整门禁正在执行"
+}

@@ -1,6 +1,6 @@
 {
   "description": "2026-10-13核心运行、构建与实验适配源码；不含二进制、不代表所有实验均验收",
-  "base_commit": "b90413190df61520200ecbaf59ac0cbe4ba74966",
+  "base_commit": "87d166a6d6290c4efb2397b851819ac3eb069774",
   "files": {
     "bootstrap/sitecustomize.py": "77d5888394944b06826bf30b999486769f05b5b40d11d564397e28975eb78268",
     "bootstrap/w4_fake.py": "bf1267c4049892c1b166f788a1a88ab5ecdae3c24674147a084c3630ff23231c",
@@ -38,16 +38,16 @@
     "experimental/check_c8_rejected_slots_310.py": "ff17a9ec3a4dfdce4bbabc58d3df6313b44c1cbe1979bdddba94e6e8b3ee1d8b",
     "experimental/check_c8_selected_nz_310.py": "5d8e3b14833244ab7f5ebfef9060433d4e082f158c482a759e7b4fad59df1e26",
     "experimental/direct_graph_310.py": "232691c5adf740351a7309eb5210dfa1acd4b3c4b9893a8f2b8e0689e19d82d5",
-    "experimental/mindieq_grouped_kernel/CMakeLists.txt": "e7d5ab9b7014ef74de3061eb446ef45450c375f6790d2dc51ce599574845461e",
+    "experimental/mindieq_grouped_kernel/CMakeLists.txt": "2ab9e6189900fcaea544b89d533767c253a9a851dacd17b46ea8defb7f592cca",
     "experimental/mindieq_grouped_kernel/activation_quant.cpp": "f3fd79ac96c8d8ee85697bb0e8fa47419126771fd6001c5160c42fcb75072627",
     "experimental/mindieq_grouped_kernel/grouped.cpp": "852451a027eac8e88ac80a113c9f2cca9db1ba3186c4039ff967309886eaf872",
-    "experimental/mindieq_grouped_kernel/register.cpp": "3e2d59bd2f14d8bed3400d752386fbb018c07994f6651a38146f71f04329e20d",
-    "experimental/mindieq_prefill_adapter.py": "44357a1359994cb9d132f41b704f0bddd8ec2bf6cf3325adece20c93f2e98e55",
+    "experimental/mindieq_grouped_kernel/register.cpp": "463fbc553e5e40bdb556700a2b3f5100a04a5b45acca898e01fe9d4f05a43a7a",
+    "experimental/mindieq_prefill_adapter.py": "520c2c5cf34391646442467b36ca51e1449d7153e7c77793c287d0a3dc614ab4",
     "experimental/pr17640_gdn_adapter.py": "3b410ab5ea40c029d1ded8f759a9eca4659892d3bf529ca6f8499b8a53342800",
     "experimental/route_occupancy_trace.py": "c51d969cd5f4e6362eb8b0f3f7bc540379d2a1e2ae786bac7fd2e525cfb852e9",
     "experimental/run-c8-112k-product.sh": "6e7bdefca9170349ada685857986ec3a85f0d5e6ebb8aa33bcc37f2cc196894f",
     "experimental/run-c8-graph-sweep.sh": "199d46b988d1e005b0d3294db95a8a6dea33f009bf560e86828bd2dbef77bdb3",
-    "experimental/run-c8-service.sh": "7e9a7e83f95982312eea9f83fef36dd6ad3bad2dfa27a3eee165ef2f9aaaeaa7",
+    "experimental/run-c8-service.sh": "2786ca149067ad8091464e5a8e55b4e32c136cb40e6bb3a43c17853ef65be610",
     "experimental/run-gdn-112k-product.sh": "93fbbab46bbbe32713eb7369a06d1f2b7caf98870e2deef514478e64a7aea1af",
     "experimental/run-long-context-sweep.sh": "75990d84f24a084dd6b9f387b540b982a29833278bf5d7d91806ae86b62f9567",
     "experimental/run-mindieq-qmm-check.sh": "477f8b092687fc43038c103148d4e3ef3280d31b386317085373be2ac39a818b",
@@ -90,7 +90,7 @@
     "runtime/vllm_ascend/models/qwen4_exp/w4a8_int4.py": "d79755f02e705ef527448b92350fb31448d8db8170363ebb5041addf084ea31c",
     "runtime/vllm_ascend/models/qwen4_exp/weight_mapping.py": "e807cdd7e07f03b606c7d9d9921ef1bde9c9fa1ea695aca939cbac6ce82530d6",
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
-    "scripts/run-candidate.sh": "f86e6ce297fd5949468322e59046a99d0f70aa03a6abbe6bb0887474527ba9c6",
+    "scripts/run-candidate.sh": "fd57e173e8df78630506bb4bd549542c911a491e83b49d2eab75327b05f942c7",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
     "tools/bench_mindieq_grouped_310.py": "9842cadbdb64b0114c1b1e1232d7a18d9a8c89524b2110d0c5832257fbd5343d",
     "tools/bench_mindieq_mlp_310.py": "5aa0b5c8a6d2ef312664a34e851dec345bb764d5e9873b1985d96da850ca1711",
@@ -115,6 +115,9 @@
     "tools/prepare_mindieq_grouped_header.py": "9b4ff99c7c874748985fa85994c93d8fb833902b9d29268082dfeb341b9f0790",
     "tools/qwen36_int4_custom.cpp": "f6e3f4a46b4a28898050883da0341ca45545ab9d160852c631cf1ed93f91d7c7",
     "tools/summarize_route_occupancy.py": "99892f488bfe315281a61a5479b891c98592bfa6c2c5d7e5e7fd1ea705918b08",
-    "tools/check_mindieq_projection_parity_310.py": "22794e129b423920296ccf75a53a3402dca5caecfa4f22fde3d9e42e4162f3c8"
+    "tools/check_mindieq_projection_parity_310.py": "22794e129b423920296ccf75a53a3402dca5caecfa4f22fde3d9e42e4162f3c8",
+    "experimental/mindieq_activation.py": "a21c2993b4f2303d9aa8b190b9d207188033c1f7fc57c78063e89ac939f57ec0",
+    "experimental/mindieq_grouped_kernel/activation_gather.cpp": "86e25d746f0adb104e1735719594e4576d5f276b26eb97309fe8349962e72fa8",
+    "tools/check_mindieq_shared_gate_310.py": "70743bb588cf4781b4236f71bd14069a5177faf5f138f3a66e89e979322761d9"
   }
 }

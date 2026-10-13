@@ -6,6 +6,7 @@
 #include "torch_npu/csrc/framework/OpCommand.h"
 #include "aclrtlaunch_mindieq_grouped_kernel.h"
 #include "aclrtlaunch_qwen36_a8_quant_kernel.h"
+#include "aclrtlaunch_qwen36_a8_gather_kernel.h"
 at::Tensor grouped(const at::Tensor& a,const at::Tensor& as,const at::Tensor& w,const at::Tensor& ws,const at::Tensor& ends,int64_t minimum_rows){
  TORCH_CHECK(a.device().type()==c10::DeviceType::PrivateUse1 && a.scalar_type()==at::kChar && a.dim()==2 && a.is_contiguous(),"contiguous NPU int8 activation required");
  TORCH_CHECK(w.scalar_type()==at::kInt && w.dim()==2 && w.is_contiguous() && ws.scalar_type()==at::kFloat && ws.dim()==2 && ws.is_contiguous(),"packed int32 [E,N*K/8], fp32 scale [E,N] required");
@@ -30,5 +31,19 @@ std::tuple<at::Tensor,at::Tensor> quantize(const at::Tensor& x){
  at_npu::native::OpCommand::RunOpApiV2("Qwen36A8Quant",handler);
  return {q.narrow(0,0,m+16),s.narrow(0,0,m+16)};
 }
-TORCH_LIBRARY(qwen36_mindieq_grouped,m){m.def("quantize(Tensor input) -> (Tensor, Tensor)");m.def("matmul(Tensor a,Tensor ascale,Tensor packed,Tensor wscale,Tensor ends,int minimum_rows=0) -> Tensor");}
-TORCH_LIBRARY_IMPL(qwen36_mindieq_grouped,PrivateUse1,m){m.impl("matmul",&grouped);m.impl("quantize",&quantize);}
+std::tuple<at::Tensor,at::Tensor> gather(const at::Tensor& q,const at::Tensor& s,const at::Tensor& indices){
+ TORCH_CHECK(q.device().type()==c10::DeviceType::PrivateUse1 && q.scalar_type()==at::kChar && q.dim()==2 && q.is_contiguous(),"contiguous NPU INT8 codes required");
+ TORCH_CHECK(s.device()==q.device() && s.scalar_type()==at::kFloat && s.dim()==1 && s.numel()==q.size(0) && s.is_contiguous(),"matching FP32 scale required");
+ TORCH_CHECK(indices.device()==q.device() && indices.scalar_type()==at::kLong && indices.dim()==1 && indices.is_contiguous(),"contiguous NPU INT64 route indices required");
+ int64_t m=indices.numel(),k=q.size(1),padded=(m+7)/8*8+16;
+ TORCH_CHECK(m>0 && (k==512 || k==2048),"gather requires routes and K512/2048");
+ auto output=at::empty({padded,k},q.options());auto scale=at::empty({padded},s.options());
+ auto stream=c10_npu::getCurrentNPUStream();
+ for(const auto& t:{q,s,indices,output,scale})c10_npu::NPUCachingAllocator::recordStream(t.storage().data_ptr(),stream);
+ void *qp=q.data_ptr(),*sp=s.data_ptr(),*ip=indices.data_ptr(),*op=output.data_ptr(),*osp=scale.data_ptr();auto aclstream=stream.stream(false);
+ auto handler=[=]() -> int {return ACLRT_LAUNCH_KERNEL(qwen36_a8_gather_kernel)(8,aclstream,qp,sp,ip,op,osp,m,k,padded);};
+ at_npu::native::OpCommand::RunOpApiV2("Qwen36A8Gather",handler);
+ return {output.narrow(0,0,m+16),scale.narrow(0,0,m+16)};
+}
+TORCH_LIBRARY(qwen36_mindieq_grouped,m){m.def("gather(Tensor codes, Tensor scale, Tensor indices) -> (Tensor, Tensor)");m.def("quantize(Tensor input) -> (Tensor, Tensor)");m.def("matmul(Tensor a,Tensor ascale,Tensor packed,Tensor wscale,Tensor ends,int minimum_rows=0) -> Tensor");}
+TORCH_LIBRARY_IMPL(qwen36_mindieq_grouped,PrivateUse1,m){m.impl("gather",&gather);m.impl("matmul",&grouped);m.impl("quantize",&quantize);}

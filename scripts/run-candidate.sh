@@ -15,13 +15,17 @@ export ENABLE_PREFIX_CACHING="$prefix" PORT="$port" CONTAINER_NAME="$name"
 [[ "$prefix" == 0 || "$prefix" == 1 ]] || { echo "ENABLE_PREFIX_CACHING must be 0 or 1" >&2; exit 2; }
 mindieq=${QWEN36_MINDIEQ_ENABLED:-0}
 custom_quant=${QWEN36_MINDIEQ_CUSTOM_QUANT:-0}
+shared_gate=${QWEN36_MINDIEQ_SHARED_GATE:-0}
 export QWEN36_MINDIEQ_MIN_TOKENS=${QWEN36_MINDIEQ_MIN_TOKENS:-17}
 [[ "$QWEN36_MINDIEQ_MIN_TOKENS" =~ ^[0-9]{1,7}$ ]] && (( 10#$QWEN36_MINDIEQ_MIN_TOKENS >= 17 )) || { echo "QWEN36_MINDIEQ_MIN_TOKENS must be an integer >= 17" >&2; exit 2; }
-for flag in "$mindieq" "$custom_quant"; do
+for flag in "$mindieq" "$custom_quant" "$shared_gate"; do
   [[ "$flag" == 0 || "$flag" == 1 ]] || { echo 'MindIEQ flags must be 0 or 1' >&2; exit 2; }
 done
 if [[ "$custom_quant" == 1 && "$mindieq" != 1 ]]; then
   echo 'QWEN36_MINDIEQ_CUSTOM_QUANT=1 requires QWEN36_MINDIEQ_ENABLED=1' >&2; exit 2
+fi
+if [[ "$shared_gate" == 1 && "$custom_quant" != 1 ]]; then
+  echo 'QWEN36_MINDIEQ_SHARED_GATE=1 requires QWEN36_MINDIEQ_CUSTOM_QUANT=1' >&2; exit 2
 fi
 if [[ "$mindieq" == 1 ]]; then
   : "${MINDIEQ_LIBRARY:?set MindIEQ experiment library}"
@@ -46,7 +50,7 @@ if os.environ.get('QWEN36_MINDIEQ_ENABLED','0')=='1':
     files['MINDIEQ_LIBRARY']={'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 files['MODEL_INDEX']={'sha256':hashlib.sha256((Path(os.environ['MODEL_DIR'])/'model.safetensors.index.json').read_bytes()).hexdigest()}
 print(json.dumps({'profile':(root/'configs/tp1-48g-112k.env').read_text(),'artifacts':files,
-                  'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'mindieq_custom_quant':os.environ.get('QWEN36_MINDIEQ_CUSTOM_QUANT','0'),'mindieq_min_tokens':int(os.environ['QWEN36_MINDIEQ_MIN_TOKENS']),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
+                  'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'mindieq_custom_quant':os.environ.get('QWEN36_MINDIEQ_CUSTOM_QUANT','0'),'mindieq_min_tokens':int(os.environ['QWEN36_MINDIEQ_MIN_TOKENS']),'mindieq_shared_gate':os.environ.get('QWEN36_MINDIEQ_SHARED_GATE','0'),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
 PY
 if [[ ${1:-} == --check ]]; then exit 0; fi
 exec bash "$root/experimental/run-gdn-112k-product.sh"

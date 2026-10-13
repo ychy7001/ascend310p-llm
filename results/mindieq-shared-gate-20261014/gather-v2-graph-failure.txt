@@ -1,0 +1,24 @@
+[W1013 17:50:43.393295572 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+{"kind": "config", "scope": "Gate/Up token\u7ea7\u91cf\u5316\u5171\u4eab\uff1a\u51c6\u5907\u6570\u503c/\u5f02\u6b65/Graph\u548c\u771f\u5b9e\u4e13\u5bb6\u6295\u5f71\u8ba1\u65f6\u3002", "warmup": 5, "repeats": 30, "timing": "host dispatch+synchronize; paired alternating; preparation/full Gate projection", "experts": 8, "weights": "real layer0 expert0..7 gate+up", "activations": "synthetic FP16", "top_k": 8}
+..NPUGraph: ERROR — capture failed: RuntimeError: Cannot run aclop operators during NPU graph capture. Current working aclop is GatherV2. If you need this call to be captured, please try to set torch.npu.config.allow_internal_format = False. If still fail, the operator needs aclnn implementation and please file an issue. Current npuStreamCaptureStatus: npuStreamCaptureStatusActive
+[ERROR] 2026-10-13-17:51:06 (PID:164, Device:0, RankID:-1) ERR00007 PTA feature not supported, graph_id=135953233172560, stream=<torch_npu.npu.Stream device=npu:0 npu_stream=0x5618c295bf28>, pool=(), device=0
+NPUGRAPH DFX common causes: default stream, CPU ops, multi-device tensors, dynamic control flow on tensor values
+Traceback (most recent call last):
+  File "/project/tools/check_mindieq_shared_gate_310.py", line 34, in <module>
+    with torch.npu.graph(graph):captured=project(shared)
+                                         ^^^^^^^^^^^^^^^
+  File "/project/tools/check_mindieq_shared_gate_310.py", line 26, in project
+    q,s=fn();return torch.ops.qwen36_mindieq_grouped.matmul(q,s,weight,scale,ends)
+        ^^^^
+  File "/project/tools/check_mindieq_shared_gate_310.py", line 24, in shared
+    def shared():return quantize_shared_routes(x,indices)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/experimental/mindieq_activation.py", line 8, in quantize_shared_routes
+    q = q.index_select(0, sorted_tokens)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Cannot run aclop operators during NPU graph capture. Current working aclop is GatherV2. If you need this call to be captured, please try to set torch.npu.config.allow_internal_format = False. If still fail, the operator needs aclnn implementation and please file an issue. Current npuStreamCaptureStatus: npuStreamCaptureStatusActive
+[ERROR] 2026-10-13-17:51:06 (PID:164, Device:0, RankID:-1) ERR00007 PTA feature not supported
