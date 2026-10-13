@@ -60,6 +60,16 @@ QWEN36_MINDIEQ_MIN_TOKENS=128 \
 
 `QWEN36_MINDIEQ_MIN_TOKENS=128` 是根据短输入开销选择的阈值；短请求走原 W4，长 Prefill 才走 grouped 路径。MindIEQ 当前仍需与原 W4 做 A/B 和更广文本质量比较，不能无条件打开。
 
+FP16 KV 并发备选可以复用同一入口，将 C8 关闭并显式指定设备和并发数；默认脚本值仍为 chip0、单请求和 C8：
+
+```bash
+QWEN36_C8_ENABLED=0 MAX_NUM_SEQS=8 NPU_DEVICE=/dev/davinci1 \
+MAX_MODEL_LEN=32768 MEMORY_UTILIZATION=0.90 ENFORCE_EAGER=1 \
+...同上启动参数... bash experimental/run-c8-112k-product.sh
+```
+
+这组参数只打开可复现入口，不代表 FP16 KV 已支持 112K 或 Graph 并发；当前实测门禁是 32K 和短请求并发。
+
 ## 取舍和未完成门禁
 
 - MindIEQ native-layout grouped 在真实 256 expert MLP 和完整服务中显示出 Prefill 潜力，8K/32K 历史配对约有 22%～25% 提升；当前复测组合不提供独立因果证明。

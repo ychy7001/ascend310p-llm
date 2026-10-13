@@ -13,6 +13,10 @@ COMPILATION_MODE=${COMPILATION_MODE:-3}
 GRAPH_CAPTURE_SIZES=${GRAPH_CAPTURE_SIZES:-1}
 ENABLE_PREFIX_CACHING=${ENABLE_PREFIX_CACHING:-0}
 MAX_BATCHED_TOKENS=${MAX_BATCHED_TOKENS:-256}
+MAX_NUM_SEQS=${MAX_NUM_SEQS:-1}
+NPU_DEVICE=${NPU_DEVICE:-/dev/davinci0}
+[[ "$MAX_NUM_SEQS" =~ ^[1-9][0-9]*$ ]] || { echo 'MAX_NUM_SEQS must be a positive integer' >&2; exit 2; }
+[[ "$NPU_DEVICE" == /dev/davinci* ]] || { echo 'NPU_DEVICE must be an Ascend device path' >&2; exit 2; }
 if [[ "$MTP" != 0 && "$MTP" != 1 ]]; then echo 'MTP must be 0 or 1' >&2; exit 2; fi
 if [[ "$NUM_SPECULATIVE_TOKENS" != 1 && "$NUM_SPECULATIVE_TOKENS" != 2 ]]; then
   echo 'NUM_SPECULATIVE_TOKENS must be 1 or 2' >&2; exit 2
@@ -77,6 +81,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e PORT="${PORT:-18016}" -e MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}" \
   -e MEMORY_UTILIZATION="${MEMORY_UTILIZATION:-0.90}" \
   -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" \
+  -e MAX_NUM_SEQS="$MAX_NUM_SEQS" \
   -e ENABLE_PREFIX_CACHING="$ENABLE_PREFIX_CACHING" \
   -v "$MODEL_DIR:/model:ro" -v "$root/runtime:/w4only:ro" \
   -v "$root/bootstrap:/bootstrap:ro" -v "$root/experimental:/c8adapter:ro" \
@@ -86,7 +91,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -v /usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro \
   -v /usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro \
   -v /usr/local/dcmi:/usr/local/dcmi:ro -v /etc/ascend_install.info:/etc/ascend_install.info:ro \
-  --device /dev/davinci0 --device /dev/davinci_manager --device /dev/devmm_svm --device /dev/hisi_hdc \
+  --device "$NPU_DEVICE" --device /dev/davinci_manager --device /dev/devmm_svm --device /dev/hisi_hdc \
   quay.io/ascend/vllm-ascend:v0.23.0.post1-310p bash -lc '
     set -e
     triton_path=/usr/local/python3.12.13/lib/python3.12/site-packages/triton
@@ -119,6 +124,6 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     exec vllm serve /model "${args[@]}" --served-model-name qwen36-w4a8-c8 \
       --tensor-parallel-size 1 --dtype float16 --block-size 64 \
       --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$MEMORY_UTILIZATION" \
-      --max-num-seqs 1 --max-num-batched-tokens "$MAX_BATCHED_TOKENS" \
+      --max-num-seqs "$MAX_NUM_SEQS" --max-num-batched-tokens "$MAX_BATCHED_TOKENS" \
       --host 0.0.0.0 --port "$PORT"
   '
