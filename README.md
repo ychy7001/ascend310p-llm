@@ -30,7 +30,7 @@ bash scripts/run-candidate.sh
 
 最新速度、质量和上下文边界以[GDN候选说明](docs/gdn-112k-candidate.md)、[MTP对照](results/pr17640-mtp-20261013/README.md)和[prefix复用](results/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
 
-最新 Prefill 路由与 MindIEQ 混合后端门禁见[实测记录](results/route-occupancy-20261013/README.md)：已覆盖三类8K输入和真实专家权重，出现异步完整MLP数值阻塞，尚未改变默认后端。最新[生命周期诊断与投入判断](results/mindieq-lifetime-20261013/README.md)记录混合候选局部收益和残余失败。
+最新 Prefill 路由与 MindIEQ 混合后端门禁见[实测记录](results/route-occupancy-20261013/README.md)：已覆盖三类8K输入和真实专家权重，出现异步完整MLP数值阻塞，尚未改变默认后端。最新[生命周期诊断与投入判断](results/mindieq-lifetime-20261013/README.md)记录混合候选局部收益和残余失败。 最新[MindIEQ异步门禁推进](results/mindieq-queue-localize-20261013/README.md)。
 
 ## 精度与计算路径
 
@@ -109,5 +109,3 @@ sanity只检查服务可用性、非空输出与明显异常，不替代准确�
 `tools/convert_modelslim_w4a8.py`与`modelslim_ssz_adapter.py`复用已安装ModelSlim SSZ，只输出expert sidecar；`prepare_hybrid_model.py`组合源模型与sidecar的实验目录，仍需导出自包含checkpoint。该组工具不会覆盖原始权重。ModelSlim版本应随重新转换单独锁定；当前公开制品的不可变标识为文件SHA256。
 
 `python3 tools/export_checkpoint.py /path/to/hybrid /path/to/new-standalone`只复制index引用的tensor payload，逐tensor核对拷贝前后SHA256并生成新文件哈希；不重新量化、不保留源软链接。目标必须不存在。导出后运行`validate_checkpoint.py --verify-hashes`，再用隔离服务验证MTP和生成。
-
-最新[MindIEQ异步门禁推进](results/mindieq-queue-localize-20261013/README.md)。

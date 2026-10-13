@@ -33,3 +33,5 @@ caller-workspace与record-only组合：gate_up/down × M1/2/4/8/128/512/1024/409
 本轮完成异步组合的关键诊断和最小验证，仍不宣称全部生命周期根因已经证明。混合诊断仍预知CPU counts、逐专家Python调用，不能直接进入正式动态Prefill。下一步设备端grouped/选择，避免每层CPU同步与大量逐专家launch，再验证真实服务质量与Prefill收益。默认服务和模型制品保持不变。
 
 相同p95/activation-draw2的caller-workspace+record-only独立进程压力测试：hybrid128/256分别连续32次提交，64输出全部有限、逐值一致，退出0。此轮未见原失败NaN，验证范围仍限定这些样本。
+
+实验结束后a2原候选端口18024恢复，health HTTP200；5项64-token基本生成检查PASS。默认服务仍用原扩展，实验绑定未采用；此恢复验证不替代新候选完整模型质量或长上下文评估。

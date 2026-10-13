@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "model": "qwen36-w4a8-c8",
+  "cases": 5,
+  "issues": [],
+  "rows": [
+    {
+      "label": "english",
+      "elapsed_s": 2.6072576890001073,
+      "text": "INT4 weights are half the size of standard INT8 weights, allowing significantly more data to fit within the same memory capacity. This reduction in weight size directly decreases the total volume of data that must be transferred from memory to the processor during inference. Consequently, the system spends less time waiting for data retrieval, thereby lowering overall",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "中文",
+      "elapsed_s": 2.437701578019187,
+      "text": "INT4 将模型权重的精度从传统的 16 位或 32 位大幅压缩至 4 位，使得单个权重的数据体积缩小为原来的四分之一或八分之一。\n\n这种数据量的显著减少直接降低了模型参数在存储器和计算单元之间传输所需的字节数，",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "code",
+      "elapsed_s": 1.195512363978196,
+      "text": "```python\ndef sum_list(numbers: list[int]) -> int:\n    \"\"\"Return the sum of a list of integers.\"\"\"\n    return sum(numbers)\n```",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 61,
+        "completion_tokens": 35,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "issues": []
+    },
+    {
+      "label": "math",
+      "elapsed_s": 2.0127524359850213,
+      "text": "To compute $37 \\times 19$, we can use the standard vertical multiplication method or the distributive property. Below is the step-by-step arithmetic using the vertical multiplication method.\n\n### Step 1: Set up the multiplication\n\n$$\n\\begin{array}{r}\n   37 \\\\",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "repeat",
+      "elapsed_s": 2.2651686270255595,
+      "text": "It appears that your input consists of a repeated phrase: **\"quantization bandwidth precision\"**.\n\nThis phrase combines three key concepts in signal processing, communications, and digital systems:\n\n1. **Quantization**: The process of mapping a large set of input values to a smaller set (e.g., converting analog signals to",
+      "usage": {
+        "prompt_tokens": 140,
+        "total_tokens": 204,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    }
+  ]
+}
