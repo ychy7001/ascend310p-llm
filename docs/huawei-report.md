@@ -3,7 +3,21 @@
 
 > 更新说明（2026-10-13）：本文早期章节保留历史门禁口径；最新完整模型证据以 [C8记录](c8.md)、[参数选择记录](parameter-selection-20261012.md) 和 [release-validation](release-validation.md) 为准。当前已在真实310P3完成 TP1/W4A8+C8+MTP1/MTP2+Graph 的4K、32K、112K启动与长needle；MTP1/MTP2同协议持续生成对照见参数记录。Graph仍依赖实验性updatable-graph诊断开关，不能描述为官方默认支持。
 
-技术评审版 v0.2 · 2026-10-12 · 联系人：ychy7001
+技术评审版 v0.3 · 2026-10-13 · 联系人：ychy7001
+
+## 00　最新产品候选与 2026-10-13 证据
+
+本节覆盖旧版章节的最新状态，作为本次转发报告的首要结论。实验配置为单颗 310P3、TP1、W4A8、KV-C8、Decode Graph、`max_model_len=114688`、`gpu_memory_utilization=0.95`，其余参数和原始日志见公开仓库 `data/` 目录。
+
+| 配置 | 112K 长上下文结果 | 解释 |
+| --- | --- | --- |
+| MTP=1 | `32256/256`：Prefill 339.28、Decode 23.20 tok/s；`114560+128` needle 通过，431.94 s | 稳定基线，兼容性风险较低 |
+| MTP=2 | `32256/256`：Prefill 336.56、Decode 28.94 tok/s；`114560+128` needle 通过，435.29 s | 相同协议下 Decode +24.8%、Prefill -0.8%；需继续观察长请求 P95 |
+| 并发 2 / 4 | 聚合输出约 5.06 tok/s；TTFT 中位数约 34.51 / 59.83 s | 当前脚本为端到端长 Prefill 压力测试，不等同短请求吞吐 |
+
+4K 和 32K 的完整模型 sanity、固定答案 A/B/A、needle 测试均通过。112K 结果说明当前 48G 设备候选可以完成产品目标上下文，但不能外推到 TP2、32G、长时间 P95 或多模态请求。C8 主要收益是容量；MTP2 是目前更有希望的默认候选，但仍应保留 MTP1 回退开关。
+
+当前 Graph 依赖实验性 updatable-graph 诊断开关。对固定镜像的 MRO 检查显示 310P backend 仍落在旧 `AscendAttentionBackendImpl310` 合约，`use_updatable_graph` 在该镜像中不能从 `vllm_ascend.utils` 导入；因此报告把它列为明确的上游修复边界，而不是声称已完成官方 Graph 支持。推荐启动器为 `experimental/run-c8-112k-product.sh`，默认 MTP1，可用 `QWEN36_PROFILE=mtp2` 做 MTP2 对照。
 
 ## 01　结论与评审目标
 
