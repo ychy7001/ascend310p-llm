@@ -17,4 +17,4 @@ MatmulWeightNz形状分组显示最大一项123次、708.216ms，权重NZ[128,15
 
 结论：真实Graph内部采集有效。8K的C8转换仅约3.9%，不应据单层112K测试把全部Decode成本归因C8。下一步采集长上下文对照，核对LM head与其他浮点投影来源，再用独立候选验证量化/计算优化和精度。当前未改动任何生产计算路径，未将候选设为默认。
 
-run.sh记录采集控制与EXIT恢复；start-service由results/mindieq-shared-gate-20261014/start-service.sh复制到远端start-shared-profile-base.sh。启动命令：PROFILE_DIR=$work/decode-profile-20261014 nohup bash $work/start-shared-profile-base.sh > $work/decode-profile-20261014/start.txt 2>&1，然后nohup bash $work/run-decode-profile.sh。原始完整trace保留a2同目录，未上传大体积trace JSON。采集控制器结束后已启动无profiler恢复进程4019591；提交时仍加载，不能声称恢复健康检查完成。
+run.sh记录采集控制与EXIT恢复；start-service由results/mindieq-shared-gate-20261014/start-service.sh复制到远端start-shared-profile-base.sh。启动命令：PROFILE_DIR=$work/decode-profile-20261014 nohup bash $work/start-shared-profile-base.sh > $work/decode-profile-20261014/start.txt 2>&1，然后nohup bash $work/run-decode-profile.sh。原始完整trace保留a2同目录，未上传大体积trace JSON。采集控制器结束后无profiler恢复进程4019591已启动，随后health HTTP200、基础生成sanity5/5通过，结果restored-sanity.json。
