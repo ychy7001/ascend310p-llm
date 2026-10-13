@@ -1,0 +1,37 @@
+{
+  "scope": "跨机器/TP/软件/KV/MTP配置的部署参考，不是纯W4vsW8或同DUO验收",
+  "results": [
+    {
+      "tokens": 8192,
+      "a1_w8_tp2": {
+        "prefill_tok_s": 1298.567908221637,
+        "decode_tok_s": 31.947890529696146
+      },
+      "a2_w4_tp1_c8_mtp2": {
+        "prefill_tok_s": 624.7683491351276,
+        "decode_tok_s": 34.68047334617428
+      },
+      "cache_hits_each": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "tokens": 32256,
+      "a1_w8_tp2": {
+        "prefill_tok_s": 1094.3360368149717,
+        "decode_tok_s": 29.16176581766839
+      },
+      "a2_w4_tp1_c8_mtp2": {
+        "prefill_tok_s": 546.6180827079583,
+        "decode_tok_s": 28.96140935781487
+      },
+      "cache_hits_each": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

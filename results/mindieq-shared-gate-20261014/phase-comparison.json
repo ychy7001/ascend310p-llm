@@ -1,0 +1,27 @@
+{
+  "scope": "已完成性能阶段，64题仍运行，不包含完整服务门禁",
+  "performance": {
+    "8192": {
+      "E5": {
+        "prefill_tok_s": 624.7683491351276,
+        "decode_tok_s": 34.68047334617428
+      },
+      "previous": {
+        "prefill_tok_s": 607.4571963462313,
+        "decode_tok_s": 34.8205359530168
+      },
+      "identical_texts": 3
+    },
+    "32256": {
+      "E5": {
+        "prefill_tok_s": 546.6180827079583,
+        "decode_tok_s": 28.96140935781487
+      },
+      "previous": {
+        "prefill_tok_s": 533.0574801418268,
+        "decode_tok_s": 28.952975593031628
+      },
+      "identical_texts": 3
+    }
+  }
+}

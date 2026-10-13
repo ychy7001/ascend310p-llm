@@ -1,0 +1,37 @@
+{
+  "name": "qwen36-tp1-48g-112k",
+  "image": "quay.io/ascend/vllm-ascend:v0.23.0.post1-310p",
+  "env": {
+    "GRAPH_CAPTURE_SIZES": "1,2,3",
+    "QWEN36_ROUTE_TRACE_CALLS": "256",
+    "QWEN36_C8_FORCE_UPDATABLE_GRAPH": "1",
+    "QWEN36_GDN_SOURCE": "/gdn-source.py",
+    "QWEN36_C8_ALLOW_GRAPH": "1",
+    "ENABLE_PREFIX_CACHING": "0",
+    "QWEN36_GDN_LIBRARY": "/custom/pr17640_gdn.so",
+    "QWEN36_MINDIEQ_ENABLED": "1",
+    "QWEN36_MINDIEQ_MIN_TOKENS": "128",
+    "QWEN36_GROUPED_CHUNK_TOKENS": "512",
+    "QWEN36_C8_ALLOW_MTP2": "1",
+    "QWEN36_GDN_ENABLED": "1",
+    "MAX_BATCHED_TOKENS": "4096",
+    "QWEN36_MINDIEQ_LIBRARY": "/custom/mindieq_grouped.so",
+    "NUM_SPECULATIVE_TOKENS": "2",
+    "MAX_MODEL_LEN": "114688",
+    "GRAPH_MODE": "FULL_DECODE_ONLY",
+    "QWEN36_MINDIEQ_SHARED_GATE": "1",
+    "QWEN36_C8_LIBRARY": "/custom/libqwen36_c8.so",
+    "QWEN36_C8_POOL_MODE": "split_by_type",
+    "QWEN36_C8_FUSED_WRITE": "1",
+    "QWEN36_ROUTE_TRACE_PATH": "",
+    "QWEN36_C8_ENABLED": "1",
+    "QWEN36_C8_DEVICE_LENGTH": "1",
+    "MEMORY_UTILIZATION": "0.95",
+    "QWEN36_MINDIEQ_CUSTOM_QUANT": "1"
+  },
+  "cmd": [
+    "bash",
+    "-lc",
+    "\n    set -e\n    triton_path=/usr/local/python3.12.13/lib/python3.12/site-packages/triton\n    if [[ -d \"$triton_path\" ]]; then mv \"$triton_path\" /opt/triton-disabled; fi\n    source /usr/local/Ascend/ascend-toolkit/set_env.sh\n    source /opp/bin/set_env.bash\n    export ASCEND_CUSTOM_OPP_PATH=/opp\n    if [[ \"$QWEN36_GDN_ENABLED\" == 1 ]]; then\n      export ASCEND_CUSTOM_OPP_PATH=\"/gdn-opp:/opp\"\n      export LD_LIBRARY_PATH=\"/gdn-opp/op_api/lib:$LD_LIBRARY_PATH\"\n    fi\n    python3 -c \"import sitecustomize; print(sitecustomize.__file__)\"\n    args=()\n    if [[ \"$ENABLE_PROFILER\" == 1 ]]; then\n      args+=(--profiler-config '{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}')\n    fi\n    if [[ \"$ENFORCE_EAGER\" == 1 ]]; then\n      args+=(--enforce-eager)\n    else\n      args+=(--compilation-config \"{\\\"mode\\\":$COMPILATION_MODE,\\\"cudagraph_mode\\\":\\\"$GRAPH_MODE\\\",\\\"cudagraph_capture_sizes\\\":[$GRAPH_CAPTURE_SIZES]}\")\n    fi\n    if [[ \"$MTP\" == 1 ]]; then\n      args+=(--speculative-config \"{\\\"method\\\":\\\"mtp\\\",\\\"num_speculative_tokens\\\":$NUM_SPECULATIVE_TOKENS}\")\n    fi\n    if [[ \"$ENABLE_PREFIX_CACHING\" == 1 ]]; then\n      args+=(--enable-prefix-caching)\n    else\n      args+=(--no-enable-prefix-caching)\n    fi\n    exec vllm serve /model \"${args[@]}\" --served-model-name qwen36-w4a8-c8 \\\n      --tensor-parallel-size 1 --dtype float16 --block-size 64 \\\n      --max-model-len \"$MAX_MODEL_LEN\" --gpu-memory-utilization \"$MEMORY_UTILIZATION\" \\\n      --max-num-seqs 1 --max-num-batched-tokens \"$MAX_BATCHED_TOKENS\" \\\n      --host 0.0.0.0 --port \"$PORT\"\n  "
+  ]
+}

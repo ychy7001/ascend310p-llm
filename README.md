@@ -30,7 +30,7 @@ bash scripts/run-candidate.sh
 
 最新速度、质量和上下文边界以[GDN候选说明](docs/gdn-112k-candidate.md)、[MTP对照](results/pr17640-mtp-20261013/README.md)和[prefix复用](results/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
 
-最新 Prefill 路由与 MindIEQ 混合后端门禁见[实测记录](results/route-occupancy-20261013/README.md)：已覆盖三类8K输入和真实专家权重，出现异步完整MLP数值阻塞，尚未改变默认后端。最新[生命周期诊断与投入判断](results/mindieq-lifetime-20261013/README.md)记录混合候选局部收益和残余失败。 最新[MindIEQ异步门禁推进](results/mindieq-queue-localize-20261013/README.md)。 [设备端分组原型](results/mindieq-grouped-20261013/README.md)已完成独立真实专家MLP重复对照。最新[native布局与可选服务实验](results/mindieq-native-layout-20261013/README.md)直接复用现有权重，已启动TP1服务并通过小规模质量检查；仍为默认关闭的实验后端。
+MindIEQ最新可选Prefill路径直接读取现有native W4权重，使用独立FP32算术A8量化；[服务门禁](results/mindieq-a8-service-20261014/README.md)和[输入规模分流](results/mindieq-input-dispatch-20261014/README.md)已完成固定64题及性能对照。阈值128消除短输入开销，长输入Prefill约18%～21%收益，但8K MTP接受率和Decode仍有差异，因此默认关闭。[投影数值定位](results/mindieq-projection-parity-20261014/README.md)确认一项差异来自scale累加顺序，尚不能解释全部模型差异。最新[Gate/Up量化共享](results/mindieq-shared-gate-20261014/README.md)通过单层数值/异步/Graph微测试，整模型已完成8K/32K与64题门禁，额外Prefill约2.5%～2.9%收益，近112K组合验证仍待补齐。
 
 ## 精度与计算路径
 

@@ -1,0 +1,232 @@
+{
+  "scope": "E5与前轮同配置D4及C3独立启动对照，非交替A/B；prefix off；warmup1/repeat3",
+  "performance": [
+    {
+      "tokens": 8192,
+      "reference": "mindieq-input-dispatch-20261014",
+      "stats": {
+        "previous": {
+          "prefill_tok_s": 607.4571963462313,
+          "decode_tok_s": 34.8205359530168,
+          "acceptance_rate": 0.9296296296296296
+        },
+        "E5": {
+          "prefill_tok_s": 624.7683491351276,
+          "decode_tok_s": 34.68047334617428,
+          "acceptance_rate": 0.9296296296296296
+        }
+      },
+      "relative_change": {
+        "prefill_tok_s": 0.028497732668277598,
+        "decode_tok_s": -0.004022413871845765
+      },
+      "identical_texts": 3
+    },
+    {
+      "tokens": 32256,
+      "reference": "mindieq-a8-service-20261014",
+      "stats": {
+        "previous": {
+          "prefill_tok_s": 533.0574801418268,
+          "decode_tok_s": 28.952975593031628,
+          "acceptance_rate": 1.0
+        },
+        "E5": {
+          "prefill_tok_s": 546.6180827079583,
+          "decode_tok_s": 28.96140935781487,
+          "acceptance_rate": 1.0
+        }
+      },
+      "relative_change": {
+        "prefill_tok_s": 0.02543928764028136,
+        "decode_tok_s": 0.0002912918140707266
+      },
+      "identical_texts": 3
+    }
+  ],
+  "business": [
+    {
+      "case": "dialogue",
+      "stats": {
+        "D4": {
+          "ttft_s": 0.39332580601330847,
+          "decode_tok_s": 31.628230320069857,
+          "acceptance_rate": 0.6371681415929203
+        },
+        "E5": {
+          "ttft_s": 0.39161366800544783,
+          "decode_tok_s": 31.405287048107944,
+          "acceptance_rate": 0.6383928571428571
+        }
+      },
+      "identical_texts": 0,
+      "finish_reason": {
+        "D4": [
+          "length",
+          "length",
+          "length"
+        ],
+        "E5": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "completion_tokens": {
+        "D4": [
+          256,
+          256,
+          256
+        ],
+        "E5": [
+          256,
+          256,
+          256
+        ]
+      }
+    },
+    {
+      "case": "meeting",
+      "stats": {
+        "D4": {
+          "ttft_s": 1.9212082569720224,
+          "decode_tok_s": 39.18028826037584,
+          "acceptance_rate": 0.95
+        },
+        "E5": {
+          "ttft_s": 1.8708378259907477,
+          "decode_tok_s": 38.91760033826123,
+          "acceptance_rate": 0.95
+        }
+      },
+      "identical_texts": 3,
+      "finish_reason": {
+        "D4": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "E5": [
+          "stop",
+          "stop",
+          "stop"
+        ]
+      },
+      "completion_tokens": {
+        "D4": [
+          145,
+          145,
+          145
+        ],
+        "E5": [
+          145,
+          145,
+          145
+        ]
+      }
+    },
+    {
+      "case": "code",
+      "stats": {
+        "D4": {
+          "ttft_s": 0.3370855849934742,
+          "decode_tok_s": 39.00215895200952,
+          "acceptance_rate": 0.9222222222222223
+        },
+        "E5": {
+          "ttft_s": 0.33633877197280526,
+          "decode_tok_s": 38.82044714434055,
+          "acceptance_rate": 0.9222222222222223
+        }
+      },
+      "identical_texts": 2,
+      "finish_reason": {
+        "D4": [
+          "length",
+          "length",
+          "length"
+        ],
+        "E5": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "completion_tokens": {
+        "D4": [
+          256,
+          256,
+          256
+        ],
+        "E5": [
+          256,
+          256,
+          256
+        ]
+      }
+    },
+    {
+      "case": "analysis",
+      "stats": {
+        "D4": {
+          "ttft_s": 0.3856337019824423,
+          "decode_tok_s": 33.94821665771993,
+          "acceptance_rate": 0.7259615384615384
+        },
+        "E5": {
+          "ttft_s": 0.38931333099026233,
+          "decode_tok_s": 33.80526176957943,
+          "acceptance_rate": 0.7259615384615384
+        }
+      },
+      "identical_texts": 1,
+      "finish_reason": {
+        "D4": [
+          "length",
+          "length",
+          "length"
+        ],
+        "E5": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "completion_tokens": {
+        "D4": [
+          256,
+          256,
+          256
+        ],
+        "E5": [
+          256,
+          256,
+          256
+        ]
+      }
+    }
+  ],
+  "quality": {
+    "summaries": {
+      "D4": {
+        "kind": "summary",
+        "label": "D4-min128",
+        "samples": 64,
+        "correct": 63,
+        "parse_missing": 1,
+        "truncated": 1
+      },
+      "E5": {
+        "kind": "summary",
+        "label": "E5-shared-gate",
+        "samples": 64,
+        "correct": 63,
+        "parse_missing": 1,
+        "truncated": 1
+      }
+    },
+    "answer_changes": [],
+    "identical_texts": 37,
+    "limitation": "固定64题子集，非全面精度证明"
+  }
+}

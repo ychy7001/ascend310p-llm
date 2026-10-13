@@ -19,17 +19,20 @@ def post(base, path, body):
     )
 
 
-def request(base, model, tokens, output_tokens):
+def request(base, model, tokens, output_tokens, *, cache_salt=None):
     start = time.perf_counter()
     first = None
     events = []
     usage = None
     text = ''
-    with post(base, '/v1/completions', {
+    body = {
         'model': model, 'prompt': tokens, 'max_tokens': output_tokens,
         'temperature': 0, 'ignore_eos': True, 'stream': True,
         'stream_options': {'include_usage': True},
-    }) as response:
+    }
+    if cache_salt is not None:
+        body['cache_salt'] = cache_salt
+    with post(base, '/v1/completions', body) as response:
         for line in response:
             if not line.startswith(b'data: '):
                 continue

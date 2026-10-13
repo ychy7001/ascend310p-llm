@@ -46,6 +46,18 @@ def snapshot(base, include_spec=False):
     return values
 
 
+def prefix_snapshot(base):
+    with urllib.request.urlopen(base.rstrip('/')+'/metrics',timeout=30) as response:
+        raw=response.read().decode()
+    keys=('vllm:prefix_cache_queries_total','vllm:prefix_cache_hits_total')
+    values={key:0.0 for key in keys};found=set()
+    for line in raw.splitlines():
+        name=line.split('{',1)[0].split()[0] if line and not line.startswith('#') else None
+        if name in values:values[name]+=float(line.split()[-1]);found.add(name)
+    if found!=set(keys):raise RuntimeError('Missing prefix-cache counters')
+    return values
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base-url', required=True)
@@ -60,6 +72,7 @@ def main():
              'required for cold-Prefill measurements when prefix caching is enabled')
     parser.add_argument('--spec-metrics', action='store_true',
                         help='Record per-request speculative draft/acceptance counters')
+    parser.add_argument('--cache-salt-prefix', help='Each request uses a distinct salt; record and require zero prefix-cache hits')
     args = parser.parse_args()
     if min(args.prompt_tokens, args.output_tokens, args.repeats) < 1:
         parser.error('token counts and repeats must be positive')
@@ -91,14 +104,16 @@ def main():
             'unique_prompts': args.unique_prompts,
         }) + '\n')
         warmup_tokens = prompt_sets[0] if prompt_sets else tokens
-        warmup = request(args.base_url, args.model, warmup_tokens, min(32, args.output_tokens))
+        warmup = request(args.base_url, args.model, warmup_tokens, min(32, args.output_tokens), cache_salt=f'{args.cache_salt_prefix}-warmup' if args.cache_salt_prefix else None)
         output.write(json.dumps({'kind': 'warmup', 'prompt_ids_sha256': prompt_hash(warmup_tokens),
                                  **warmup}) + '\n')
         output.flush()
         for repeat in range(args.repeats):
             request_tokens = prompt_sets[repeat + 1] if prompt_sets else tokens
+            cache_before = prefix_snapshot(args.base_url) if args.cache_salt_prefix else None
             before = snapshot(args.base_url, args.spec_metrics)
-            result = request(args.base_url, args.model, request_tokens, args.output_tokens)
+            salt=f'{args.cache_salt_prefix}-{repeat}' if args.cache_salt_prefix else None
+            result = request(args.base_url, args.model, request_tokens, args.output_tokens, cache_salt=salt)
             after = snapshot(args.base_url, args.spec_metrics)
             delta = {name: after[name] - before[name] for name in before}
             prefill = delta[METRICS[1]]
@@ -122,6 +137,11 @@ def main():
                     'acceptance_rate': accepted / drafted if drafted else None,
                     'mean_acceptance_length': 1 + accepted / drafts if drafts else None,
                 }
+            if args.cache_salt_prefix:
+                cache_after=prefix_snapshot(args.base_url)
+                row['cache_salt']=salt
+                row['prefix_cache_delta']={key:cache_after[key]-cache_before[key] for key in cache_before}
+                row['valid']=valid=valid and row['prefix_cache_delta']['vllm:prefix_cache_hits_total']==0
             output.write(json.dumps(row) + '\n')
             output.flush()
             print(json.dumps({k: v for k, v in row.items()

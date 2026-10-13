@@ -1,0 +1,25 @@
+{
+  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+  "npu_devices": [
+    0,
+    1
+  ],
+  "parameters": {
+    "--served-model-name": "Qwen3.6-35B-A3B-w8a8",
+    "--port": "18081",
+    "--tensor-parallel-size": "2",
+    "--quantization": "ascend",
+    "--max-model-len": "262144",
+    "--gpu-memory-utilization": "0.9",
+    "--max-num-seqs": "1",
+    "--kv-cache-dtype": "auto",
+    "--max-num-batched-tokens": "4096",
+    "--enable-prefix-caching": true,
+    "--compilation-config": "{\"cudagraph_mode\": \"FULL_DECODE_ONLY\", \"cudagraph_capture_sizes\": [1]}"
+  },
+  "observed_api_model": "Qwen3.6-35B-A3B-w8a8",
+  "max_model_len_api": 262144,
+  "driver": "26.0.rc1",
+  "cann_path": "/usr/local/Ascend/cann-9.1.0-beta.1",
+  "scope": "read-only reference config; no service restart or parameter changes"
+}

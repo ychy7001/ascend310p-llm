@@ -60,3 +60,6 @@ experimentally verified：TP1/W4A8/C8 fused write/split_by_type/MTP1/eager/32K/.
 
 
 2026-10-14 D4输入阈值128完整64题与A1均63/64，答案变化0、全文一致39/64；共同205受512输出上限截断。短输入分流恢复TTFT，但8K接受率仍92.96%，不能据此宣称全量默认安全。原始协议/索引/输出及配对统计见results/mindieq-input-dispatch-20261014。
+
+
+E5 Gate/Up量化共享固定64题与D4均63/64，数字答案变化0、全文37/64一致；共同205输出长度截断，会议输入3/3全文一致。其余业务样本多触及256上限，不当完整质量评分；E5近112K及更广质量仍需验证。详见results/mindieq-shared-gate-20261014/service-comparison.json。

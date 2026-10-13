@@ -1,6 +1,6 @@
 {
   "description": "2026-10-13核心运行、构建与实验适配源码；不含二进制、不代表所有实验均验收",
-  "base_commit": "87d166a6d6290c4efb2397b851819ac3eb069774",
+  "base_commit": "0ecaeb2db49877326e9666c93728e4cf781d1bbf",
   "files": {
     "bootstrap/sitecustomize.py": "77d5888394944b06826bf30b999486769f05b5b40d11d564397e28975eb78268",
     "bootstrap/w4_fake.py": "bf1267c4049892c1b166f788a1a88ab5ecdae3c24674147a084c3630ff23231c",
@@ -96,7 +96,7 @@
     "tools/bench_mindieq_mlp_310.py": "5aa0b5c8a6d2ef312664a34e851dec345bb764d5e9873b1985d96da850ca1711",
     "tools/bench_mtp_chat.py": "a6e4408ed9a5ca33cda45d19da870f508640fcb41bde3d2895c4b4683982840a",
     "tools/bench_prefix_reuse.py": "97885a47181add37fd44cd28a7ff610d5ef4be5e1d4b380890be468273523f06",
-    "tools/bench_server_phases.py": "b3cc12064808e192d53aff5c9d6d11c94ed198794220eba49f52495500995540",
+    "tools/bench_server_phases.py": "42f78697a83e11914d29d5e068d655f898754b5a407a98199abd72387d791f32",
     "tools/bench_w4_backends_310.py": "1c5805ed101c11fa2e7bb499f3487bb93f7d8288eb743872e24d7ffd04e558f8",
     "tools/build_pr17640_wy_extension.py": "e109a088753fc1aee1761bc7a454792977c48a3f7dd6e5d9125a6d50cebf1af9",
     "tools/build_qwen36_int4_extension.py": "4c4475e67ae99c2cfa3c332e3caf0c91069bda131193b6f409f629728bc6f2d3",
