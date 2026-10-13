@@ -70,3 +70,5 @@ QWEN36_MINDIEQ_MIN_TOKENS=128 \
 ## 并发边界
 
 2026-10-14 在 a2 chip1 用隔离服务尝试 `max_num_seqs=8`，并发2即触发 C8 adapter 的 `C8 requires real four-tensor storage and one request`，EngineCore退出。当前 C8 后端因此明确只支持单请求；不能将单流吞吐外推为并发2/4/8。完整失败证据见 `results/concurrency-c8-limit-20261014/`。并发支持需要重新设计按 sequence 分离的四张 cache storage 和 batch attention 路径。
+
+作为替代路线，关闭 C8 后的 W4A8+FP16 KV 在 chip1 的 eager/max_num_seqs=8 服务上并发2/4/8均正常：短512/32请求总吞吐中位分别为19.873/23.790/25.227 tok/s，但TTFT升至2.13/4.10/8.08s，且该路径放弃C8的KV节省与112K单流容量。原始数据见 `results/fp16kv-concurrency-20261014/`，只能作为并发备选探针。
