@@ -35,3 +35,24 @@
 | Decode tok/s | 29.126 / 29.130 / 29.111 | **29.126** |
 
 三次均通过 counter/usage 校验；MTP 每次 43 drafts、86 drafted、86 accepted，接受率100%，平均接受长度3。当前 FP16 KV 服务启动时设置 `max_model_len=32768`，因此本结果只能证明 32K 备选档位，不能外推到更长上下文。
+
+## 64K FP16-KV single-stream validation (2026-10-14)
+
+An isolated chip1 service was started on port `18027` with the same W4A8/MTP2/GDN path as the 32K fallback, but with `--max-model-len 65536`, `--max-num-seqs 1`, `--enforce-eager`, and C8 disabled (FP16 KV). The service reached `/health` successfully. Startup profiling reported:
+
+- model weights: 27.29 GiB;
+- available KV cache memory: 3.20 GiB (workspace-halved budget);
+- vLLM reported GPU KV cache size: 131,072 tokens.
+
+A cold 64K-equivalent request (`prompt_tokens=64512`, `output_tokens=128`, unique prompt, no prefix-cache hit) completed successfully:
+
+| metric | result |
+|---|---:|
+| TTFT | 162.696 s |
+| request prefill phase | 162.670 s |
+| prefill throughput | 396.4 tok/s |
+| request decode phase | 5.118 s / 127 tokens |
+| decode throughput | 24.81 tok/s |
+| usage | 64,512 prompt + 128 completion |
+
+The raw one-shot record is `fp16kv-64k-once-20261014.json`; the service log and the earlier stream benchmark attempt are preserved beside it. The stream benchmark helper waited for a `[DONE]` marker after the server had already completed the request, so its partial file is not used for the rate numbers above.

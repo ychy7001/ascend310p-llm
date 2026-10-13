@@ -84,3 +84,11 @@ MAX_MODEL_LEN=32768 MEMORY_UTILIZATION=0.90 ENFORCE_EAGER=1 \
 作为替代路线，关闭 C8 后的 W4A8+FP16 KV 在 chip1 的 eager/max_num_seqs=8 服务上并发2/4/8均正常：短512/32请求总吞吐中位分别为19.873/23.790/25.227 tok/s，但TTFT升至2.13/4.10/8.08s，且该路径放弃C8的KV节省与112K单流容量。原始数据见 `results/fp16kv-concurrency-20261014/`，只能作为并发备选探针。
 
 FP16 KV 并发备选的单流 32K/128 复测为 Prefill **453.303 tok/s**、Decode **29.126 tok/s**，MTP 接受率100%；服务 `max_model_len=32768`，因此该结果支持“约32K并发备选”，不支持更长上下文外推。
+
+### FP16 KV 64K 单流边界（新增）
+
+为验证并发备选是否只能停留在 32K，a2 chip1 启动了独立 `18027` 服务：W4A8、FP16 KV（C8 关闭）、MTP2、GDN、eager、`max_num_seqs=1`、`max_model_len=65536`。服务健康检查通过，启动 profiling 报告模型权重 27.29GiB、可用 KV budget 3.20GiB、GPU KV cache size 131072 tokens。
+
+对冷前缀 `64512/128` 做一次修正后的单次采集（服务端已返回 usage，绕开流式 `[DONE]` 结束标记问题）得到：TTFT 162.696s，prefill phase 162.670s，即 **396.4 tok/s**；decode phase 5.118s/127 tokens，即 **24.81 tok/s**。请求完整返回 64512 prompt + 128 completion，无 OOM 和错误。原始记录、服务日志和采集器输出在 `results/fp16kv-concurrency-20261014/`。
+
+因此当前规格判断是：C8 单流仍采用 112K 产品基线；FP16 KV 可作为保留并发/兼容路线，单流 64K 已有实证，但其长 prefill（约 396 tok/s）不适合直接替代 C8 的长上下文产品路径。64K 结果也不能外推到并发 2/4/8。
