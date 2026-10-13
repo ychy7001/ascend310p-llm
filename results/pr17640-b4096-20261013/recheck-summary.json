@@ -1,0 +1,11 @@
+{
+  "scope": "长请求之后相同输入复测，不是交替baseline A/B",
+  "repeats": 3,
+  "prefill_median_tok_s": 503.2260631182063,
+  "decode_median_tok_s": 37.07930837856694,
+  "exact_text_matches": [
+    true,
+    true,
+    true
+  ]
+}

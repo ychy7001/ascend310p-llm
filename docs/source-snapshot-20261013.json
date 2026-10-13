@@ -41,6 +41,7 @@
     "experimental/run-c8-112k-product.sh": "7896b322b0bab1908736ed2ce00955b52852d32855aa77531547650f4bb1a9f9",
     "experimental/run-c8-graph-sweep.sh": "199d46b988d1e005b0d3294db95a8a6dea33f009bf560e86828bd2dbef77bdb3",
     "experimental/run-c8-service.sh": "16d01e93d7771bc77efd2fea3fde2af838d60bdad567339e6a63d70e81b7fa37",
+    "experimental/run-gdn-112k-product.sh": "93fbbab46bbbe32713eb7369a06d1f2b7caf98870e2deef514478e64a7aea1af",
     "experimental/run-long-context-sweep.sh": "75990d84f24a084dd6b9f387b540b982a29833278bf5d7d91806ae86b62f9567",
     "experimental/run-mindieq-qmm-check.sh": "477f8b092687fc43038c103148d4e3ef3280d31b386317085373be2ac39a818b",
     "experimental/run-mtp-sweep.sh": "29be314c04162a37c50558e9c12b10b8d124face0ba3d90645494e8f97cbd83f",
