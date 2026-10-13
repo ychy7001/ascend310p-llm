@@ -7,3 +7,7 @@ E5参数、制品不变，114560输入/128输出，独立PROFILE_DIR。工具首
 复现使用../decode-profile-20261014/run.sh，设置PROFILE_OUTPUT_DIR=$work/decode-profile-112k-20261014 PROMPT_TOKENS=114560 OUTPUT_TOKENS=128；启动服务额外PROFILE_DIR指向同目录，其余沿用../mindieq-shared-gate-20261014/start-service.sh。先停止同芯片容器，再启动profiler服务，最后启动run.sh控制器。当前配置无需转换或下载权重。
 
 只读检查已确认容器实际Qwen3_5主模型及MTP都创建ParallelLMHead(vocab_size,hidden_size,quant_config=self.quant_config)，compute_logits经LogitsProcessor调用；容器路径/vllm-workspace/vllm/vllm/model_executor/models/qwen3_5.py:477及qwen3_5_mtp.py:381。运行日志quantization=None；现有W4替换集中routed experts，LM head未量化。该证据支持8K trace的2048×248320浮点矩阵乘来自LM head，但此轮未添加模块栈标记，仍不对每条kernel做绝对归属。
+
+补充源码证据：inspected-source-sha256.txt锁定实际容器版本。310P现有W8A8动态Linear使用npu_dynamic_quant+npu_quant_matmul及对称per-channel scale，process_weights_after_loading做NZ/transpose；源码包含激活动态量化精度问题注释，不能因此直接把LM head改为默认量化。若长trace证实其优化价值，下一阶段优先真实LM head小矩阵batch1/2/3测试与logits/top1误差，随后完整生成/MTP接受率门禁。
+
+分析工具用8K原始167731条kernel重新计算总和3116531.404us，并自对照原summary全部30项比例/均值一致。当前112K请求已发出，尚处Prefill；后续不以此请求的profile耗时报告产品吞吐。
