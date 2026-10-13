@@ -1,6 +1,8 @@
 # Ascend 310P3 · Qwen3.6-35B-A3B
 # W4A8 / MTP / KV-C8 适配与初版测试报告
 
+> 更新说明（2026-10-13）：本文早期章节保留历史门禁口径；最新完整模型证据以 [C8记录](c8.md)、[参数选择记录](parameter-selection-20261012.md) 和 [release-validation](release-validation.md) 为准。当前已在真实310P3完成 TP1/W4A8+C8+MTP1/MTP2+Graph 的4K、32K、112K启动与长needle；MTP1/MTP2同协议持续生成对照见参数记录。Graph仍依赖实验性updatable-graph诊断开关，不能描述为官方默认支持。
+
 技术评审版 v0.2 · 2026-10-12 · 联系人：ychy7001
 
 ## 01　结论与评审目标
