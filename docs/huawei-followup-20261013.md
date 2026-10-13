@@ -250,3 +250,6 @@ C3业务补测已完成：962token会议TTFT2.169→1.921秒（-11.4%）、Decod
 
 
 D4输入规模分流（阈值128）已重新启动并完成业务/8K复测：短输入TTFT恢复至0.393/0.337/0.386秒，会议1.921秒收益保留；8K607.457/34.821tok/s、MTP92.963%重复C3结果。完整64题仍执行中，默认17/off未改，详见[分流实验](../results/mindieq-input-dispatch-20261014/README.md)。
+
+
+D4完整固定64题完成，A1/D4均63/64、答案变化0、全文39/64一致。芯片1真实8专家逐投影定位：新旧A8码/scale一致，MindIEQ对完整K整数CPU参考10案例逐位一致；native较大M少量FP16差异被CPU G128逐组scale累加参考精确复现。小M native存在channel accumulation分支，因此不能统一用groupwise参考。证据见[逐投影定位](../results/mindieq-projection-parity-20261014/README.md)；尚未证明整模型全部接受率差异来自此处，不将合成投影精度当全面模型质量结论。

@@ -57,3 +57,6 @@ experimentally verified：TP1/W4A8/C8 fused write/split_by_type/MTP1/eager/32K/.
 ## 2026-10-14 MindIEQ固定64题配对
 
 旧dynamic_quant路径B0与原native A1分别62/64、63/64，新增711因512输出上限截断，不能据Prefill收益直接默认采用。随后新FP32算术A8准备C3在相同dataset SHA、seed310/64indices/512上限、零样本提示协议下达到63/64，与A1数字答案变化0；711正常输出6，唯一共同205仍截断。全文26/64一致；这属于小样本配对，非完整GSM8K或精度完全等价。证据见results/mindieq-paired-20261014与results/mindieq-a8-service-20261014。
+
+
+2026-10-14 D4输入阈值128完整64题与A1均63/64，答案变化0、全文一致39/64；共同205受512输出上限截断。短输入分流恢复TTFT，但8K接受率仍92.96%，不能据此宣称全量默认安全。原始协议/索引/输出及配对统计见results/mindieq-input-dispatch-20261014。

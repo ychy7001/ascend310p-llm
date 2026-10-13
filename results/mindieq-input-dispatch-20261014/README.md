@@ -2,7 +2,7 @@
 
 基于C3长输入受益、短输入TTFT增加70～80ms，引入QWEN36_MINDIEQ_MIN_TOKENS。历史默认17保持不变，D4设128；仅当进入MoE的block_input行数达到阈值时采用MindIEQ。它可能包含调度padding，不能解释成用户prompt长度或累计上下文阈值。阈值至少17，Decode仍native；总开关默认off。
 
-D4沿用C3全部配置与新A8库，TP1/48G/W4A8/C8/MTP2/Decode Graph/GDN/4096:512/112K/.95/maxseq1/prefix off，权重和依赖不变。源代码/库hash在artifacts.json，启动前preflight记录阈值128/custom_quant1及库hash。业务和8K复测、两题诊断已完成；完整64题复测正在执行，尚不判定全部分流门禁通过。
+D4沿用C3全部配置与新A8库，TP1/48G/W4A8/C8/MTP2/Decode Graph/GDN/4096:512/112K/.95/maxseq1/prefix off，权重和依赖不变。源代码/库hash在artifacts.json，启动前preflight记录阈值128/custom_quant1及库hash。业务和8K复测、两题诊断已完成；完整64题复测也已完成；该固定子集门禁通过，不代表全面质量验收。
 
 start-service.sh与run-service-gates.sh为本轮实验机命令；需替换work/code/release路径。后者先health等待，再sanity5例、4类业务warmup1/repeat3、8K/128warmup1/repeat3及spec counters、第711/205题同512上限诊断。
 
@@ -28,6 +28,8 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 
 两题诊断711正确6、自然结束；205仍共同512上限截断。基础sanity5/5。最初诊断CLI索引误用空格导致请求前退出，原失败日志保留，修正逗号分隔后补跑；未重启服务或重复已完成性能测试。
 
-下一步完整64题复测已启动，远端PID3996511，gsm64.jsonl/gsm64.txt；本提交不计入尚未完成的结果。当前可选部署阈值128适合作为候选，默认17及总开关off保持不变。剩余长输入MTP接受率差异需独立定位，不能靠提高阈值回避长输入收益与精度目标。
+完整64题复测已完成，D4/A1均63/64，答案变化0、全文一致39/64；共同205受512输出上限截断。gsm64.jsonl/gsm64.txt及quality-comparison.json保留原始结果。当前可选部署阈值128适合作为候选，默认17及总开关off保持不变。剩余长输入MTP接受率差异需独立定位，不能靠提高阈值回避长输入收益与精度目标。
 
-metrics-final.txt/npu-smi.txt为业务、8K及边界题结束后的记录，采集于64题复测前；state.txt表示发布时仍在gsm64阶段，不作为进程存活证据。
+metrics-final.txt/npu-smi.txt为业务、8K及边界题结束后的记录，采集于64题复测前；state.txt已更新为DONE；状态文件不作为进程存活证据。
+
+64题测试期间空闲芯片1执行投影数值诊断，有CPU/IO并行活动；质量计分有效，本次64题耗时不用于性能对比。

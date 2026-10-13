@@ -234,7 +234,27 @@
       "identical_to_native": 1
     }
   ],
-  "full_gsm64": "pending; not included in this analysis",
+  "full_gsm64": {
+    "A1": {
+      "kind": "summary",
+      "label": "A1",
+      "samples": 64,
+      "correct": 63,
+      "parse_missing": 1,
+      "truncated": 1
+    },
+    "D4": {
+      "kind": "summary",
+      "label": "D4-min128",
+      "samples": 64,
+      "correct": 63,
+      "parse_missing": 1,
+      "truncated": 1
+    },
+    "answer_changes": [],
+    "identical_texts": 39,
+    "limitation": "固定64题子集，不是全面模型质量验收"
+  },
   "p8192": {
     "A1_native": {
       "prefill_tok_s": 502.9361100986431,

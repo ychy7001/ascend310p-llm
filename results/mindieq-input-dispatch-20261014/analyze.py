@@ -17,7 +17,7 @@ sources = {
 chats = {name: read(path) for name, path in sources.items()}
 for key in ('repeats', 'warmup', 'max_tokens', 'temperature', 'enable_thinking'):
     assert len({rows[0][key] for rows in chats.values()}) == 1, key
-result = {'scope': 'D4与C3连续独立启动及历史native对照；非交替A/B，非完整质量评分', 'chat': [], 'full_gsm64': 'pending; not included in this analysis'}
+result = {'scope': 'D4与C3连续独立启动及历史native对照；非交替A/B，非完整质量评分', 'chat': [], 'full_gsm64': 'checked below'}
 for case in ('dialogue', 'meeting', 'code', 'analysis'):
     data = {name: [row for row in rows if row['kind'] == 'request' and row['case'] == case] for name, rows in chats.items()}
     assert all(len(rows) == 3 and all(row['valid'] for row in rows) for rows in data.values())
@@ -40,5 +40,14 @@ assert {row['index'] for row in answers} == {711, 205}
 result['quality_boundary'] = [{'index': row['index'], 'gold': row['gold'], 'predicted': row['predicted'], 'correct': row['correct'], 'finish_reason': row['finish_reason']} for row in answers]
 result['sanity'] = json.loads((root / 'sanity.json').read_text())['status']
 assert result['sanity'] == 'PASS'
+quality=read(root/'gsm64.jsonl')
+reference=read(root.parent/'mindieq-paired-20261014'/'A1-gsm64.jsonl')
+for key in ('dataset_sha256','dataset_rows','indices','max_tokens','temperature','enable_thinking','prompt_suffix','protocol'):
+    assert quality[0][key]==reference[0][key],key
+assert quality[-1]['kind']==reference[-1]['kind']=='summary'
+qr={row['index']:row for row in quality if row['kind']=='answer'}
+rr={row['index']:row for row in reference if row['kind']=='answer'}
+assert len(qr)==len(rr)==64
+result['full_gsm64']={'A1':reference[-1],'D4':quality[-1],'answer_changes':[i for i in rr if qr[i]['predicted']!=rr[i]['predicted'] or qr[i]['correct']!=rr[i]['correct']],'identical_texts':sum(qr[i]['text']==rr[i]['text'] for i in rr),'limitation':'固定64题子集，不是全面模型质量验收'}
 (root / 'comparison.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -1,0 +1,8 @@
+{
+  "source_base_commit": "b90413190df61520200ecbaf59ac0cbe4ba74966",
+  "sources": {
+    "tools/check_mindieq_projection_parity_310.py": "22794e129b423920296ccf75a53a3402dca5caecfa4f22fde3d9e42e4162f3c8"
+  },
+  "native_library_scope": "native-record-build-only; 主服务未替换",
+  "mindieq_library_sha256": "246cc4656cf401cc01586628bf018c2132251d9e22db2fb93ad17ddba8685de0"
+}
