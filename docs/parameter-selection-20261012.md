@@ -103,6 +103,8 @@ C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段
 
 112K门禁已完成：同一 MTP2 Graph 配置、`max_model_len=114688`、`.95` 成功启动，C8分配116 blocks，vLLM报告KV cache `191507 tokens`，Graph约0.31GiB。8K/128三轮中位 Prefill/Decode为`365.23/37.21 tok/s`；`114560+128`长请求正确返回 canary，实际输出14 tokens，总耗时`435.29s`。MTP2在4K/32K/112K均能运行，短中历史Decode收益稳定，但超长请求总耗时与MTP1接近；产品默认仍以MTP1为主，MTP2可作为显式实验档。
 
+为了避免短输出窗口高估 Decode，追加了同一112K服务、32256输入/256输出的三轮持续生成：Prefill中位`336.56 tok/s`，Decode中位`28.94 tok/s`。该值可作为 MTP2 112K 配置的稳定 Decode 方向性指标；与128输出窗口约37.21 tok/s的差异来自阶段计时和 speculative acceptance，正式对比必须固定输出长度和请求协议。
+
 ## 长上下文与显存口径
 
 vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C8 自己所有物理池的字节数，也不是当前请求已经使用的 token 数。C8 还要为 hybrid state、页对齐、scale 和共享 FP16 NZ scratch 保留空间。因此容量评估必须同时记录：启动配置上限、scheduler KV token 数、`C8_BUDGET`、实际请求长度、`npu-smi` 采样峰值和是否发生 OOM。
