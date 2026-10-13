@@ -83,6 +83,17 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 
 1024/512长输入对照已全部完成、检索通过、实验服务正常停止。32256/256三轮Decode为18.79135/18.83446/18.83199tok/s，中位18.83199；Prefill中位356.80639tok/s。中间needle输入32256+输出14，正确返回验证码，94.11018秒。与4096/640相比，长Decode仅约+0.12%；此顺序跨服务三轮差异不足以判断显著。当前暂保留1024/512候选。5秒设备内存采样结果见本地memory-samples.jsonl，采样最大值不能作为精确峰值。后续MTP1/2顺序对照已自动启动，FP16 KV/eager/32K/1024:512保持一致。
 
+## W4A8+C8+MTP1 长上下文 batch4096 对照（2026-10-13）
+
+为判断调度batch是否能弥补TP1/W4A8相对A1 TP2/W8A8的Prefill差距，固定TP1、W4A8、C8、MTP1、eager、`max_model_len=114688`、`.95`、`QWEN36_GROUPED_CHUNK_TOKENS=512`，只将`MAX_BATCHED_TOKENS`从1024提高到4096。使用unique prompt避免prefix cache命中，warmup后各三轮，结果全部有效：
+
+| 输入/输出 | Prefill中位 | Decode中位 |
+| --- | ---: | ---: |
+| 8192/256 | 363.23 tok/s | 25.03 tok/s |
+| 32256/256 | 334.65 tok/s | 19.97 tok/s |
+
+本次结果低于已有1024/512的C8+MTP1 Graph候选（8K约379、32K约351 tok/s），也没有显示长上下文收益。它不能与Graph和eager直接作严格因果比较，但足以说明继续增大调度batch不是当前Prefill优化的首要杠杆。原始结果在`data/ascend/experiment-results/c8-mtp1-b4096/`。
+
 MTP1/2后续对照已启动：`experimental/run-mtp-sweep.sh`使用FP16KV/eager/32K/.90/1024:512，先检查8题+A/B/A复用，再对128/8192/32256输入、输出256测warmup1+三轮，保存完整metrics前后以分析按位置接受数，最后长检索门禁。目前MTP1已加载原始MTP张量，模型加载27.288GiB，正在初始化；MTP2没有设备结果。全部证据写入新目录mtp-sweep-20261012，失败保留服务，不自动越过质量门禁。
 
 MTP1候选已启动成功并通过8/8 toy严格答案和A/B/A复用（文本一致、无标记泄漏）。相同32K上限/FP16KV/eager/.90/1024:512，p128/o256三轮Decode 26.75564/26.76552/26.77896tok/s，中位26.76552；Prefill中位194.83565tok/s。TTFT中位0.65988秒，HTTP请求平均TPOT中位37.3611ms。此结果不是C8/Graph组合，也不与无MTP的8K输入做直接收益比较；8K及近32K同条件配对测量继续执行，MTP2仍无设备结果。
