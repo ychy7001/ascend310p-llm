@@ -1,0 +1,48 @@
+diff --git a/experimental/ascend_c8_kernel/csrc/CMakeLists.txt b/experimental/ascend_c8_kernel/csrc/CMakeLists.txt
+index 6dc78a6..89aa502 100644
+--- a/experimental/ascend_c8_kernel/csrc/CMakeLists.txt
++++ b/experimental/ascend_c8_kernel/csrc/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ option(C8_NZ_BROADCAST "Experimental Brcb/Gather NZ conversion (slower on tested 310P)" OFF)
+ option(C8_NZ_TRANSDATA "Experimental two-pass vector transpose NZ conversion" OFF)
+ option(C8_NZ_COMPACT_SCALE "Experimental compact per-head scale broadcast" OFF)
++option(C8_NZ_SPLIT_KV "Experimental disjoint core groups for K/V" OFF)
+ option(C8_NZ_PIPELINE "Experimental double-buffered NZ writeback" OFF)
+ set(C8_NZ_MAX_TILE 16 CACHE STRING "Maximum page-local transdata token tile: 16,32,64")
+ if(NOT C8_NZ_MAX_TILE MATCHES "^(16|32|64)$")
+@@ -16,6 +17,9 @@ elseif(C8_NZ_TRANSDATA)
+   if(C8_NZ_COMPACT_SCALE)
+     set(C8_NZ_SCALE_DEFINE "#define C8_NZ_COMPACT_SCALE 1\n")
+   endif()
++  if(C8_NZ_SPLIT_KV)
++    string(APPEND C8_NZ_SCALE_DEFINE "#define C8_NZ_SPLIT_KV 1\n")
++  endif()
+   if(C8_NZ_PIPELINE)
+     string(APPEND C8_NZ_SCALE_DEFINE "#define C8_NZ_PIPELINE 1\n")
+   endif()
+diff --git a/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp b/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp
+index 53c76f4..f58e94c 100644
+--- a/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp
++++ b/experimental/ascend_c8_kernel/csrc/c8_cache_to_nz_transdata.cpp
+@@ -64,11 +64,19 @@ extern "C" __global__ __aicore__ void c8_cache_to_nz_kernel(
+     if(tokens<0 || tokens>slots)return;
+     active_slots=((tokens+block_size-1)/block_size)*block_size;
+   }
+-  for(int64_t t=GetBlockIdx()*tile;t<active_slots;t+=GetBlockNum()*tile){
++#ifdef C8_NZ_SPLIT_KV
++  int64_t cores=GetBlockNum()/2;
++  int64_t core=GetBlockIdx()%cores;
++  int side_begin=GetBlockIdx()/cores,side_end=side_begin+1;
++#else
++  int64_t cores=GetBlockNum(),core=GetBlockIdx();
++  int side_begin=0,side_end=2;
++#endif
++  for(int64_t t=core*tile;t<active_slots;t+=cores*tile){
+     int64_t physical=selected?pages.GetValue(t/block_size):t/block_size;
+     bool valid=physical>=0 && physical<physical_blocks;
+     int64_t source=physical*block_size+t%block_size;
+-    for(int side=0;side<2;++side){
++    for(int side=side_begin;side<side_end;++side){
+ #ifdef C8_NZ_PIPELINE
+       packed=buffer==0?ob.Get<half>():alternate;
+       if(pending[buffer]){

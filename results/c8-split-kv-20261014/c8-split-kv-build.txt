@@ -1,0 +1,230 @@
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /work/c8-split-kv-build
+[  2%] Creating directories for 'c8_page_device_precompile'
+[  4%] No download step for 'c8_page_device_precompile'
+[  6%] No update step for 'c8_page_device_precompile'
+[  9%] No patch step for 'c8_page_device_precompile'
+[ 11%] Performing configure step for 'c8_page_device_precompile'
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    DYNAMIC_MODE
+    INCLUDE_DIR
+
+
+-- Build files have been written to: /work/c8-split-kv-build/csrc/c8_page_device_precompile-prefix/src/c8_page_device_precompile-build
+[ 13%] Performing build step for 'c8_page_device_precompile'
+[ 11%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_page_dequant.cpp.o
+[ 22%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_table_dequant.cpp.o
+[ 33%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_page_scatter.cpp.o
+[ 44%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_quant_scatter.cpp.o
+[ 55%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_attention.cpp.o
+[ 66%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_qk_cube.cpp.o
+[ 77%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_attention_cube.cpp.o
+[ 88%] Building CXX object CMakeFiles/precompile_obj.dir/source/csrc/c8_nz_layout.cpp.o
+[100%] Building CXX object CMakeFiles/precompile_obj.dir/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o
+[100%] Built target precompile_obj
+[100%] Built target check_src_template
+[ 15%] No install step for 'c8_page_device_precompile'
+[ 18%] Completed 'c8_page_device_precompile'
+[ 18%] Built target c8_page_device_precompile
+[ 20%] Creating directories for 'c8_page_device_preprocess'
+[ 22%] No download step for 'c8_page_device_preprocess'
+[ 25%] No update step for 'c8_page_device_preprocess'
+[ 27%] No patch step for 'c8_page_device_preprocess'
+[ 29%] Performing configure step for 'c8_page_device_preprocess'
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build
+[ 31%] Performing build step for 'c8_page_device_preprocess'
+[  5%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_page_dequant.cpp.o
+[ 11%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_page_scatter.cpp.o
+[ 16%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_page_scatter.cpp.o
+[ 22%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_page_dequant.cpp.o
+[ 27%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_quant_scatter.cpp.o
+[ 33%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_table_dequant.cpp.o
+[ 44%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_attention.cpp.o
+[ 44%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_qk_cube.cpp.o
+[ 55%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_quant_scatter.cpp.o
+[ 55%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_attention_cube.cpp.o
+[ 61%] Building CXX object CMakeFiles/preprocess_obj.dir/source/csrc/c8_nz_layout.cpp.o
+[ 66%] Building CXX object CMakeFiles/preprocess_obj.dir/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o
+[ 66%] Built target preprocess_obj
+[ 72%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_table_dequant.cpp.o
+[ 77%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_attention.cpp.o
+[ 83%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_qk_cube.cpp.o
+[ 88%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_attention_cube.cpp.o
+[ 94%] Building CXX object CMakeFiles/m200_obj.dir/source/csrc/c8_nz_layout.cpp.o
+[100%] Building CXX object CMakeFiles/m200_obj.dir/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o
+[100%] Built target m200_obj
+/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_page_dequant.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_page_dequant.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_page_scatter.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_page_scatter.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_quant_scatter.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_quant_scatter.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_table_dequant.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_table_dequant.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_attention.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_attention.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_qk_cube.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_qk_cube.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_attention_cube.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_attention_cube.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_nz_layout.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/source/csrc/c8_nz_layout.cpp.o/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -m aicorelinux -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o -o /work/c8-split-kv-build/csrc/c8_page_device_preprocess-prefix/src/c8_page_device_preprocess-build/CMakeFiles/m200_obj.dir/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o[100%] Built target merge_m200_obj_text
+[WARNING]: Multiple kernel functions are detected. It is recommended to define only one kernel function per file.
+[100%] Built target _host_cpp
+[ 34%] No install step for 'c8_page_device_preprocess'
+[ 36%] Completed 'c8_page_device_preprocess'
+[ 36%] Built target c8_page_device_preprocess
+[ 38%] Creating directories for 'c8_page_device_aic_device'
+[ 40%] Creating directories for 'c8_page_device_aiv_device'
+[ 43%] Creating directories for 'c8_page_device_host'
+[ 45%] No download step for 'c8_page_device_aic_device'
+[ 47%] No download step for 'c8_page_device_host'
+[ 50%] No download step for 'c8_page_device_aiv_device'
+[ 52%] No update step for 'c8_page_device_aic_device'
+[ 54%] No update step for 'c8_page_device_host'
+[ 56%] No update step for 'c8_page_device_aiv_device'
+[ 59%] No patch step for 'c8_page_device_aic_device'
+[ 61%] No patch step for 'c8_page_device_aiv_device'
+[ 63%] No patch step for 'c8_page_device_host'
+[ 65%] Performing configure step for 'c8_page_device_aic_device'
+[ 68%] Performing configure step for 'c8_page_device_host'
+[ 70%] Performing configure step for 'c8_page_device_aiv_device'
+-- The C compiler identification is GNU 11.4.0
+-- The C compiler identification is GNU 11.4.0
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compiler ABI info - done
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.3s)
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Generating done (0.0s)
+-- Build files have been written to: /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build
+-- Configuring done (0.3s)
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    BUILD_MODE
+
+
+-- Build files have been written to: /work/c8-split-kv-build/csrc/c8_page_device_aiv_device-prefix/src/c8_page_device_aiv_device-build
+-- Configuring done (0.3s)
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    ASCEND_PYTHON_EXECUTABLE
+
+
+-- Build files have been written to: /work/c8-split-kv-build/csrc/c8_page_device_host-prefix/src/c8_page_device_host-build
+[ 72%] Performing build step for 'c8_page_device_aic_device'
+[ 75%] Performing build step for 'c8_page_device_aiv_device'
+[ 77%] Performing build step for 'c8_page_device_host'
+[ 79%] No install step for 'c8_page_device_aiv_device'
+[ 11%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_page_dequant.cpp.o
+[ 22%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_page_scatter.cpp.o
+[ 81%] Completed 'c8_page_device_aiv_device'
+[ 11%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_page_dequant.cpp.o
+[ 81%] Built target c8_page_device_aiv_device
+[ 22%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_page_scatter.cpp.o
+[ 33%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_quant_scatter.cpp.o
+[ 33%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_quant_scatter.cpp.o
+[ 44%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_table_dequant.cpp.o
+[ 55%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_attention.cpp.o
+[ 44%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_table_dequant.cpp.o
+[ 66%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_qk_cube.cpp.o
+[ 55%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_attention.cpp.o
+[ 77%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_attention_cube.cpp.o
+[ 66%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_qk_cube.cpp.o
+[ 88%] Building CXX object CMakeFiles/host_bisheng_obj.dir/source/csrc/c8_nz_layout.cpp.o
+[100%] Building CXX object CMakeFiles/host_bisheng_obj.dir/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o
+[100%] Built target host_bisheng_obj
+[ 84%] Performing install step for 'c8_page_device_host'
+[ 77%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_attention_cube.cpp.o
+[100%] Built target host_bisheng_obj
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_page_dequant.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_page_scatter.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_quant_scatter.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_table_dequant.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_attention.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_qk_cube.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_attention_cube.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/source/csrc/c8_nz_layout.cpp.o
+-- Installing: /work/c8-split-kv-build/csrc/c8_page_device_host_dir/./objects-Release/host_bisheng_obj/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o
+[ 86%] Completed 'c8_page_device_host'
+[ 86%] Built target c8_page_device_host
+[ 88%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_nz_layout.cpp.o
+[100%] Building CXX object CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_cache_to_nz_transdata_generated.cpp.o
+[100%] Built target device_aic_obj
+/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld  -m aicorelinux -r  -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_page_dequant.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_page_scatter.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_quant_scatter.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_table_dequant.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_attention.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_qk_cube.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_attention_cube.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_nz_layout.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_aic_device-prefix/src/c8_page_device_aic_device-build/CMakeFiles/device_aic_obj.dir/work/c8-split-kv-build/auto_gen/c8_page_device/auto_gen_c8_cache_to_nz_transdata_generated.cpp.o -static -o /work/c8-split-kv-build/csrc/c8_page_device_aic_device_dir/device_aic.o
+[100%] Built target merge_aic_device_obj
+[ 88%] No install step for 'c8_page_device_aic_device'
+[ 90%] Completed 'c8_page_device_aic_device'
+[ 90%] Built target c8_page_device_aic_device
+/usr/local/Ascend/cann-9.1.0/x86_64-linux/ccec_compiler/bin/ld.lld -x -m aicorelinux   -Ttext=0 /work/c8-split-kv-build/csrc/c8_page_device_aic_device_dir/device_aic.o -static -o /work/c8-split-kv-build/csrc/c8_page_device_merge_obj_dir/device_aic.o
+[ 90%] Built target c8_page_device_merge_obj
+[ 93%] Building CXX object csrc/CMakeFiles/c8_page_device_host_stub_obj.dir/__/auto_gen/c8_page_device/host_stub.cpp.o
+<command-line>: warning: "_GLIBCXX_USE_CXX11_ABI" redefined
+<command-line>: note: this is the location of the previous definition
+[ 93%] Built target c8_page_device_host_stub_obj
+[ 95%] Linking CXX static library ../lib/libc8_page_device.a
+/usr/local/Ascend/cann-9.1.0/bin/ascendc_pack_kernel /work/c8-split-kv-build/csrc/CMakeFiles/c8_page_device_host_stub_obj.dir/__/auto_gen/c8_page_device/host_stub.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_merge_obj_dir/device_aic.o 2 /work/c8-split-kv-build/csrc/CMakeFiles/c8_page_device_host_stub_obj.dir/__/auto_gen/c8_page_device/host_stub.cpp.o
+recompile: /usr/bin/ar qc ../lib/libc8_page_device.a CMakeFiles/c8_page_device_host_stub_obj.dir/__/auto_gen/c8_page_device/host_stub.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_attention.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_attention_cube.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_nz_layout.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_page_dequant.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_page_scatter.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_qk_cube.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_quant_scatter.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/source/csrc/c8_table_dequant.cpp.o /work/c8-split-kv-build/csrc/c8_page_device_host_dir/objects-Release/host_bisheng_obj/work/c8-split-kv-build/csrc/c8_cache_to_nz_transdata_generated.cpp.o  ../ascendc_runtime.cpp.o ../aicpu_rt.cpp.o ../ascendc_elf_tool.c.o
+recompile: /usr/bin/ranlib ../lib/libc8_page_device.a
+[ 95%] Built target c8_page_device
+[ 97%] Building CXX object csrc/CMakeFiles/qwen36_c8.dir/register.cpp.o
+[100%] Linking CXX shared library ../output/libqwen36_c8.so
+[100%] Built target qwen36_c8
