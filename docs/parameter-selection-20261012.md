@@ -105,6 +105,8 @@ C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段
 
 为了避免短输出窗口高估 Decode，追加了同一112K服务、32256输入/256输出的三轮持续生成：Prefill中位`336.56 tok/s`，Decode中位`28.94 tok/s`。该值可作为 MTP2 112K 配置的稳定 Decode 方向性指标；与128输出窗口约37.21 tok/s的差异来自阶段计时和 speculative acceptance，正式对比必须固定输出长度和请求协议。
 
+随后完成同协议 MTP1 对照：仍为 112K Graph、W4A8+C8、32256输入/256输出、unique prompt。MTP1 Prefill/Decode 中位为`339.28/23.20 tok/s`，MTP2为`336.56/28.94 tok/s`；MTP2 Decode提升约`24.8%`，Prefill下降约`0.8%`。这是当前最可信的 MTP1/MTP2 方向性收益数据，建议产品提供 MTP2 高Decode档，同时默认保留 MTP1 作为兼容/低波动档。
+
 ## 长上下文与显存口径
 
 vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C8 自己所有物理池的字节数，也不是当前请求已经使用的 token 数。C8 还要为 hybrid state、页对齐、scale 和共享 FP16 NZ scratch 保留空间。因此容量评估必须同时记录：启动配置上限、scheduler KV token 数、`C8_BUDGET`、实际请求长度、`npu-smi` 采样峰值和是否发生 OOM。
