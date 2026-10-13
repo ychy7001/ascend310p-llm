@@ -184,3 +184,22 @@ alternating validation. Decode at 8192/256 was 21.0576 vs 21.2181 tok/s
 (+0.76%, not claimed as a material improvement). Keep the N=128 source as a
 candidate for product-combination checks; do not treat these eager/MTP0/FP16
 KV results as C8/MTP/Graph performance. See the candidate README for raw paths.
+
+## N=128 的112K产品组合初步回归（2026-10-13）
+
+同一候选OPP已在TP1/W4A8/C8/MTP2/FULL_DECODE_ONLY、mode=0、
+capture `[1,2,3]`、诊断性updatable-graph修复、112K/.95、batch1024、
+chunk512、prefix off下真实启动并完成初步回归。严格答案8/8、A/B/A一致
+且无标记泄漏；warmup后unique prompt三轮均usage有效：
+
+| 输入/输出 | Prefill中位tok/s | Decode中位tok/s |
+| --- | ---: | ---: |
+| 8192/128 | 391.5909 | 37.0124 |
+| 32256/128 | 357.5768 | 29.0453 |
+
+114560输入、实际14输出的中间needle正确返回验证码，耗时415.3063秒。
+这证明该候选组合完成了一个近满112K请求，不是完整质量、并发或P95
+门禁。产品组合尚未完成同版本稳定N=64 OPP的匹配对照，不能把历史差值
+全部归因于tile改动。原始JSONL、metrics和服务日志存于仓库
+`results/n128-product-20261013/`；复现用
+`experimental/check-n128-product.sh`，不再写入对接文档目录。
