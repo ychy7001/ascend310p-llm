@@ -27,4 +27,4 @@ E5参数、制品不变，114560输入/128输出，独立PROFILE_DIR。工具首
 
 工程次序：先保留缓存量化精度和Graph正确性，对转换做实际候选优化；再评估分块融合/直接C8 Attention（已有早期候选不代表性能通过）。LM head更适合短上下文Decode优化，可并行准备但不干扰基准。所有新路径须过真实生成/MTP接受率/长请求门禁，默认不变。
 
-采集控制器已结束，state CAPTURE_DONE；无profiler恢复进程4025309已启动，独立恢复验证4022919仍等待health/sanity，本次报告不声称恢复验收已完成。
+采集控制器已结束，state CAPTURE_DONE；无profiler恢复进程4025309已启动；独立恢复验证4022919随后terminal，restoration-state DONE，health通过、sanity5/5，原始结果restored-sanity.json。
