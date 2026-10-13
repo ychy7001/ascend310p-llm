@@ -22,12 +22,12 @@ MindIEQ 的实现位于 `experimental/mindieq_grouped_kernel/` 和 `experimental
 
 ## 决策
 
-MindIEQ **值得保留和继续做小范围优化，但当前不应作为默认后端或产品卖点**。当前最可靠的产品基线仍是原 W4A8 + C8 + GDN + MTP2 + Decode Graph；MindIEQ 作为可选长 Prefill A/B 开关，默认关闭。
+MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退基线仍是原 W4A8 + C8 + GDN + MTP2 + Decode Graph；MindIEQ 作为 `MIN_TOKENS=128` 的长 Prefill 分流，短输入回退原 W4。由于 P95、完整质量集、TP2/C8 和并发门禁尚未完成，暂不把它写成无条件默认后端。
 
 继续投入的理由是：
 
-- 真实模型服务上没有观察到 Decode 回退；
-- 长 Prefill 有可重复的约 2.5% 增量，局部 Gate 准备收益更明显；
+- 真实模型服务上没有观察到有意义的 Decode 回退；
+- 相对原始 W4 的交替五次复测，8K/32K Prefill 中位提升 20.69%～23.29%，64K/近112K单次提升 17.59%/14.66%；相对前一 grouped 版本的 E5 shared-gate 增量约 2.5%～2.9%只是增量优化，不能替代原始 W4 对照；
 - 量化共享路径已有 bitwise parity 和固定题集门禁；
 - 后续可以把收益转化为更少的 launch、一次性 expert dispatch 或更好的大 token 数布局。
 
@@ -42,7 +42,7 @@ MindIEQ **值得保留和继续做小范围优化，但当前不应作为默认�
 
 只有同时满足以下条件，才考虑将 MindIEQ 作为长 Prefill 默认路径或单独提交上游：
 
-- 同一服务交替 A/B，8K/32K/64K/112K 各至少 5 次，Prefill P50 稳定提升 ≥10%；
+- 同一芯片或可控隔离条件下交替 A/B，8K/32K/64K/112K 各至少 5 次，Prefill P50 稳定提升 ≥10%；
 - Decode tok/s、TTFT、MTP 接受率无统计显著退化；
 - 公开质量集合和长上下文 needle 均通过，且无输出漂移；
 - 明确声明 TP1、单流、C8 约束，并补齐制品 hash、许可证和回退路径。

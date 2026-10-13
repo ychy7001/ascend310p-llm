@@ -12,7 +12,7 @@
 | MTP | 2 draft tokens | 当前单流候选；真实文本接受率仍需更广采样 |
 | Graph | FULL_DECODE_ONLY，capture 1/2/3，mode 0 | 实验性 updatable-graph 路径 |
 | GDN | PR #17640 固定版本 | 310P GDN 优化候选 |
-| MindIEQ | native-layout grouped，可选 | 推荐作为 Prefill 实验开关，默认仍关闭 |
+| MindIEQ | native-layout grouped，可选 | 112K 单流长 Prefill 候选；阈值128分流，短输入回退原W4，正式默认仍待质量/P95门禁 |
 | max_model_len | 114688 | 112K 产品规格建议；114560 仅近上限门禁 |
 | gpu_memory_utilization | 0.95 | 48G TP1 已验证 |
 | max_num_batched_tokens | 4096 | GDN 候选已验证；与 512 expert chunk 配套 |
@@ -31,6 +31,19 @@
 | 114560 needle/14 | — | — | `ASCEND732941` 正确返回，297.733s |
 
 114560 token 只证明一次近上限请求和基本检索可用；产品规格使用 112K 是为了给输出、调度和运行时波动留余量。
+
+### MindIEQ 与原始 W4 的最新交替对照
+
+为避免把早期“grouped 相对旧版本约 2.5%～2.9%”误读为最终收益，当前采用两颗同型号 310P 的交替五次复测作为主证据。两端使用相同 token 输入、prefix off、同一 112K 配置；该方法仍不是同一芯片同时运行的严格统计实验，但比单独分批测量更能抑制时间段波动。
+
+| 输入 | MindIEQ Prefill 中位 | 原始 W4 Prefill 中位 | Prefill变化 | Decode变化 | 质量门禁 |
+|---:|---:|---:|---:|---:|---|
+| 8K/128 | 620.27 | 503.09 | **+23.29%** | -0.06% | 5/5文本一致 |
+| 32K/128 | 541.99 | 449.07 | **+20.69%** | -0.48% | 5/5文本一致 |
+| 64K/128 | 463.77 | 394.39 | **+17.59%** | 约0% | 两边完整返回 |
+| 112K近上限 | 377.18 | 328.94 | **+14.66%** | 约0% | needle均正确 |
+
+因此 MindIEQ 已经值得保留为长 Prefill 产品候选，但不能据此宣称 W4 全面加速：它只替换 routed-expert 的 Prefill grouped 路径，Decode、C8 attention 和并发路径仍使用原实现。当前部署策略是 `QWEN36_MINDIEQ_MIN_TOKENS=128`，短输入回退原W4；正式默认开启前还需要 P95、完整质量集、TP2/C8 和多请求门禁。
 
 ## 启动方式
 
@@ -72,10 +85,10 @@ MAX_MODEL_LEN=32768 MEMORY_UTILIZATION=0.90 ENFORCE_EAGER=1 \
 
 ## 取舍和未完成门禁
 
-- MindIEQ native-layout grouped 在真实 256 expert MLP 和完整服务中显示出 Prefill 潜力，8K/32K 历史配对约有 22%～25% 提升；当前复测组合不提供独立因果证明。
+- MindIEQ native-layout grouped 在真实 256 expert MLP 和完整服务中显示出 Prefill 潜力；交替五次复测相对原始 W4 在 8K/32K 提升 20.69%～23.29%，64K/近112K单次长请求提升 17.59%/14.66%。这些是单流阶段吞吐结果，不是并发或 P95 承诺。
 - Decode 的主要成本仍是长 KV/Attention、C8 转换和调度；MindIEQ 没有证明稳定的 Decode 提升。
 - C8、Graph 和 GDN 均依赖实验性外部制品或 monkeypatch；默认启动器保留开关，不能称为官方 backend 支持。
-- 尚未完成：同条件 W8A8 交替 A/B、TP2 C8、32G 实机、并发 2/4/8 的完整矩阵、P50/P95、正式质量集合及多模态。
+- 尚未完成：同条件 W8A8 交替 A/B、TP2 C8、32G 实机、并发 2/4/8 的完整矩阵、P50/P95、正式质量集合及多模态；MindIEQ 目前仍保持可选分流。
 
 ## 并发边界
 
