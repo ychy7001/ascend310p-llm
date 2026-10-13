@@ -38,3 +38,7 @@
 ## 114560 token 近满长检索
 
 当前服务在 `max_model_len=114688` 下执行 114560 token、输出 14、warmup 1 + 正式 1 次，Prefill **378.373 tok/s**，Decode **17.339 tok/s**，Prefill 阶段耗时 302.770 s，Decode 阶段耗时 0.750 s。MTP 为 5 drafts、10 drafted、10 accepted，接受率 100%，平均接受长度 3；计数器和 usage 校验通过。该请求用于容量和阶段性能确认，未注入专门 needle，因此不能作为检索正确性证明；历史同配置 needle 正确性记录仍见 `results/pr17640-b4096-20261013/` 和 `results/mindieq-native-layout-20261013/`。
+
+## 114560 token needle 正确性
+
+使用 `tools/check_long_context_needle.py` 在约一半位置插入唯一验证码 `ASCEND732941`，114560 token 输入、最多 128 输出。实际耗时 **297.733 s**，返回 `ASCEND732941`，`retrieved=true`，usage 为 114560 prompt / 14 completion，正常 stop。该结果证明当前组合在近满上下文下可完成一次基本内容检索；它不是全面长上下文质量评估。
