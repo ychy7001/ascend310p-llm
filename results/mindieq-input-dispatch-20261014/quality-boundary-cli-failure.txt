@@ -1,0 +1,5 @@
+usage: eval_gsm8k_http.py [-h] --base-url BASE_URL --model MODEL --label LABEL
+                          --dataset DATASET --out OUT [--limit LIMIT]
+                          [--seed SEED] [--indices INDICES]
+                          [--max-tokens MAX_TOKENS]
+eval_gsm8k_http.py: error: unrecognized arguments: 205

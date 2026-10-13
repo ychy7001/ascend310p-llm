@@ -1,0 +1,12 @@
+{
+  "source_base_commit": "a457223cd8941f875d20588905b14a6091336ceb",
+  "library_sha256": "246cc4656cf401cc01586628bf018c2132251d9e22db2fb93ad17ddba8685de0",
+  "sources": {
+    "experimental/mindieq_prefill_adapter.py": "44357a1359994cb9d132f41b704f0bddd8ec2bf6cf3325adece20c93f2e98e55",
+    "experimental/run-c8-service.sh": "7e9a7e83f95982312eea9f83fef36dd6ad3bad2dfa27a3eee165ef2f9aaaeaa7",
+    "scripts/run-candidate.sh": "f86e6ce297fd5949468322e59046a99d0f70aa03a6abbe6bb0887474527ba9c6",
+    "tools/bench_mtp_chat.py": "a6e4408ed9a5ca33cda45d19da870f508640fcb41bde3d2895c4b4683982840a",
+    "tools/bench_server_phases.py": "b3cc12064808e192d53aff5c9d6d11c94ed198794220eba49f52495500995540"
+  },
+  "change": "仅实验阈值128；历史默认17，MindIEQ开关默认off"
+}

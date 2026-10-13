@@ -1,0 +1,16 @@
+{"case": "dialogue", "repeat": -1, "decode_tok_s": 32.802146883758454, "acceptance_rate": 0.6851851851851852, "mean_acceptance_length": 2.3703703703703702}
+{"case": "dialogue", "repeat": 0, "decode_tok_s": 31.869588237207196, "acceptance_rate": 0.6473214285714286, "mean_acceptance_length": 2.294642857142857}
+{"case": "dialogue", "repeat": 1, "decode_tok_s": 31.628230320069857, "acceptance_rate": 0.6371681415929203, "mean_acceptance_length": 2.274336283185841}
+{"case": "dialogue", "repeat": 2, "decode_tok_s": 31.359381468727317, "acceptance_rate": 0.6271929824561403, "mean_acceptance_length": 2.254385964912281}
+{"case": "meeting", "repeat": -1, "decode_tok_s": 39.1329156605858, "acceptance_rate": 0.95, "mean_acceptance_length": 2.9}
+{"case": "meeting", "repeat": 0, "decode_tok_s": 39.18028826037584, "acceptance_rate": 0.95, "mean_acceptance_length": 2.9}
+{"case": "meeting", "repeat": 1, "decode_tok_s": 39.165013839204356, "acceptance_rate": 0.95, "mean_acceptance_length": 2.9}
+{"case": "meeting", "repeat": 2, "decode_tok_s": 39.18363183319202, "acceptance_rate": 0.95, "mean_acceptance_length": 2.9}
+{"case": "code", "repeat": -1, "decode_tok_s": 39.03305207351742, "acceptance_rate": 0.9222222222222223, "mean_acceptance_length": 2.8444444444444446}
+{"case": "code", "repeat": 0, "decode_tok_s": 38.94028931996515, "acceptance_rate": 0.9120879120879121, "mean_acceptance_length": 2.824175824175824}
+{"case": "code", "repeat": 1, "decode_tok_s": 39.00215895200952, "acceptance_rate": 0.9222222222222223, "mean_acceptance_length": 2.8444444444444446}
+{"case": "code", "repeat": 2, "decode_tok_s": 39.0361036585981, "acceptance_rate": 0.9222222222222223, "mean_acceptance_length": 2.8444444444444446}
+{"case": "analysis", "repeat": -1, "decode_tok_s": 34.582565602487556, "acceptance_rate": 0.75, "mean_acceptance_length": 2.5}
+{"case": "analysis", "repeat": 0, "decode_tok_s": 33.275072244220546, "acceptance_rate": 0.7028301886792453, "mean_acceptance_length": 2.4056603773584904}
+{"case": "analysis", "repeat": 1, "decode_tok_s": 33.94821665771993, "acceptance_rate": 0.7259615384615384, "mean_acceptance_length": 2.4519230769230766}
+{"case": "analysis", "repeat": 2, "decode_tok_s": 33.99654738303643, "acceptance_rate": 0.7259615384615384, "mean_acceptance_length": 2.4519230769230766}

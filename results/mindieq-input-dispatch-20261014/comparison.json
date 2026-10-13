@@ -1,0 +1,272 @@
+{
+  "scope": "D4与C3连续独立启动及历史native对照；非交替A/B，非完整质量评分",
+  "chat": [
+    {
+      "case": "dialogue",
+      "stats": {
+        "native_historical": {
+          "ttft_s": 0.396490458981134,
+          "decode_tok_s": 31.316484232167802,
+          "elapsed_s": 8.53929559304379,
+          "acceptance_rate": 0.6173913043478261
+        },
+        "C3_min17": {
+          "ttft_s": 0.4661015440360643,
+          "decode_tok_s": 31.547198646581265,
+          "elapsed_s": 8.54888632899383,
+          "acceptance_rate": 0.6371681415929203
+        },
+        "D4_min128": {
+          "ttft_s": 0.39332580601330847,
+          "decode_tok_s": 31.628230320069857,
+          "elapsed_s": 8.455549749021884,
+          "acceptance_rate": 0.6371681415929203
+        }
+      },
+      "finish_reason": {
+        "native_historical": [
+          "length",
+          "length",
+          "length"
+        ],
+        "C3_min17": [
+          "length",
+          "length",
+          "length"
+        ],
+        "D4_min128": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "completion_tokens": {
+        "native_historical": [
+          256,
+          256,
+          256
+        ],
+        "C3_min17": [
+          256,
+          256,
+          256
+        ],
+        "D4_min128": [
+          256,
+          256,
+          256
+        ]
+      },
+      "identical_to_native": 0
+    },
+    {
+      "case": "meeting",
+      "stats": {
+        "native_historical": {
+          "ttft_s": 2.1688442450249568,
+          "decode_tok_s": 39.2246982942934,
+          "elapsed_s": 5.892454807006288,
+          "acceptance_rate": 0.9411764705882353
+        },
+        "C3_min17": {
+          "ttft_s": 1.9205547940218821,
+          "decode_tok_s": 39.071409095371486,
+          "elapsed_s": 5.605017557973042,
+          "acceptance_rate": 0.95
+        },
+        "D4_min128": {
+          "ttft_s": 1.9212082569720224,
+          "decode_tok_s": 39.18028826037584,
+          "elapsed_s": 5.596710407000501,
+          "acceptance_rate": 0.95
+        }
+      },
+      "finish_reason": {
+        "native_historical": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "C3_min17": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "D4_min128": [
+          "stop",
+          "stop",
+          "stop"
+        ]
+      },
+      "completion_tokens": {
+        "native_historical": [
+          147,
+          147,
+          147
+        ],
+        "C3_min17": [
+          145,
+          145,
+          145
+        ],
+        "D4_min128": [
+          145,
+          145,
+          145
+        ]
+      },
+      "identical_to_native": 0
+    },
+    {
+      "case": "code",
+      "stats": {
+        "native_historical": {
+          "ttft_s": 0.33778159599751234,
+          "decode_tok_s": 39.30470027150394,
+          "elapsed_s": 6.825248720007949,
+          "acceptance_rate": 0.9222222222222223
+        },
+        "C3_min17": {
+          "ttft_s": 0.40798237500712276,
+          "decode_tok_s": 38.619790719555546,
+          "elapsed_s": 7.013621886027977,
+          "acceptance_rate": 0.9010989010989011
+        },
+        "D4_min128": {
+          "ttft_s": 0.3370855849934742,
+          "decode_tok_s": 39.00215895200952,
+          "elapsed_s": 6.8753513030242175,
+          "acceptance_rate": 0.9222222222222223
+        }
+      },
+      "finish_reason": {
+        "native_historical": [
+          "length",
+          "length",
+          "length"
+        ],
+        "C3_min17": [
+          "length",
+          "length",
+          "length"
+        ],
+        "D4_min128": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "completion_tokens": {
+        "native_historical": [
+          256,
+          256,
+          256
+        ],
+        "C3_min17": [
+          256,
+          256,
+          256
+        ],
+        "D4_min128": [
+          256,
+          256,
+          256
+        ]
+      },
+      "identical_to_native": 2
+    },
+    {
+      "case": "analysis",
+      "stats": {
+        "native_historical": {
+          "ttft_s": 0.3840049490099773,
+          "decode_tok_s": 34.18879996654973,
+          "elapsed_s": 7.842917917994782,
+          "acceptance_rate": 0.7259615384615384
+        },
+        "C3_min17": {
+          "ttft_s": 0.4643167739850469,
+          "decode_tok_s": 33.793668901925635,
+          "elapsed_s": 8.017778097011615,
+          "acceptance_rate": 0.7238095238095238
+        },
+        "D4_min128": {
+          "ttft_s": 0.3856337019824423,
+          "decode_tok_s": 33.94821665771993,
+          "elapsed_s": 7.896527972014155,
+          "acceptance_rate": 0.7259615384615384
+        }
+      },
+      "finish_reason": {
+        "native_historical": [
+          "length",
+          "length",
+          "length"
+        ],
+        "C3_min17": [
+          "length",
+          "length",
+          "length"
+        ],
+        "D4_min128": [
+          "length",
+          "length",
+          "length"
+        ]
+      },
+      "completion_tokens": {
+        "native_historical": [
+          256,
+          256,
+          256
+        ],
+        "C3_min17": [
+          256,
+          256,
+          256
+        ],
+        "D4_min128": [
+          256,
+          256,
+          256
+        ]
+      },
+      "identical_to_native": 1
+    }
+  ],
+  "full_gsm64": "pending; not included in this analysis",
+  "p8192": {
+    "A1_native": {
+      "prefill_tok_s": 502.9361100986431,
+      "decode_tok_s": 37.03838147950406,
+      "acceptance_rate": 1.0
+    },
+    "C3_min17": {
+      "prefill_tok_s": 607.0191334099732,
+      "decode_tok_s": 34.73363816144907,
+      "acceptance_rate": 0.9296296296296296
+    },
+    "D4_min128": {
+      "prefill_tok_s": 607.4571963462313,
+      "decode_tok_s": 34.8205359530168,
+      "acceptance_rate": 0.9296296296296296
+    }
+  },
+  "quality_boundary": [
+    {
+      "index": 205,
+      "gold": "98",
+      "predicted": null,
+      "correct": false,
+      "finish_reason": "length"
+    },
+    {
+      "index": 711,
+      "gold": "6",
+      "predicted": "6",
+      "correct": true,
+      "finish_reason": "stop"
+    }
+  ],
+  "sanity": "PASS"
+}

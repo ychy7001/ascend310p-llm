@@ -47,3 +47,5 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 两个显式开关：QWEN36_MINDIEQ_ENABLED开启实验后端，QWEN36_MINDIEQ_CUSTOM_QUANT选择FP32算术A8准备；默认均off。新版量化需要含quantize接口的新库。仅已发布SSZ per-channel checkpoint、TP1、FP16输入和K512/2048经过测试；不支持任意独立group-wise权重、TP2 C8、多模态或并发批处理。`scripts/run-candidate.sh --check`拒绝无效开关组合/缺失库，并输出制品hash，不初始化NPU。
 
 旧dynamic_quant版本B/A/B已证明Prefill收益但出现额外截断和8K接受率下降，保留实验选项；新A8版本的模型结果见results/mindieq-a8-service-20261014，不根据单算子测试宣称默认采用。
+
+输入规模分流通过`QWEN36_MINDIEQ_MIN_TOKENS`配置：默认17保留历史行为，必须≥17以保留native Decode；本轮128仅为实验值。阈值比较的是进入MoE的实际block_input行数，可能含调度padding，不等于用户原始prompt长度，也不按上下文总长度选择。启动器记录阈值并传递容器。

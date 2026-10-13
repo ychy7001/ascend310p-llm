@@ -8,6 +8,9 @@ from vllm_ascend.models.qwen4_exp.w4_moe import W4SparseMoE, build_grouped_exper
 torch.ops.load_library(os.environ['QWEN36_MINDIEQ_LIBRARY'])
 original=W4SparseMoE._forward_grouped
 reported=False
+min_tokens=int(os.environ.get("QWEN36_MINDIEQ_MIN_TOKENS","17"))
+if min_tokens<17:
+    raise ValueError("QWEN36_MINDIEQ_MIN_TOKENS must be at least 17")
 custom_quant=os.environ.get("QWEN36_MINDIEQ_CUSTOM_QUANT","0")=="1"
 
 def projection(inputs,bank,ends):
@@ -28,7 +31,7 @@ def projection(inputs,bank,ends):
 
 def forward(self,block_input,weights,ids):
     global reported
-    if block_input.shape[0]<=16:
+    if block_input.shape[0]<min_tokens:
         return original(self,block_input,weights,ids)
     if self.expert_tp_size!=1 or not self.native_int4:
         raise RuntimeError('MindIEQ Prefill prototype currently requires TP1 native W4')
@@ -52,4 +55,4 @@ def forward(self,block_input,weights,ids):
     return result
 
 W4SparseMoE._forward_grouped=forward
-print(f'[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant={custom_quant}; native Decode retained',flush=True)
+print(f'[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant={custom_quant}; min_tokens={min_tokens}; native Decode retained',flush=True)
