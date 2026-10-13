@@ -21,10 +21,18 @@ def prompt_hash(tokens):
     return hashlib.sha256(json.dumps(tokens, separators=(',', ':')).encode()).hexdigest()
 
 
-def snapshot(base):
+SPEC_METRICS = (
+    'vllm:spec_decode_num_drafts_total',
+    'vllm:spec_decode_num_draft_tokens_total',
+    'vllm:spec_decode_num_accepted_tokens_total',
+)
+
+
+def snapshot(base, include_spec=False):
     with urllib.request.urlopen(base.rstrip('/') + '/metrics', timeout=30) as response:
         raw = response.read().decode()
-    values = {name: 0.0 for name in METRICS}
+    required = METRICS + SPEC_METRICS if include_spec else METRICS
+    values = {name: 0.0 for name in required}
     found = set()
     for line in raw.splitlines():
         if not line or line.startswith('#'):
@@ -33,8 +41,8 @@ def snapshot(base):
         if name in values:
             values[name] += float(line.split()[-1])
             found.add(name)
-    if found != set(METRICS):
-        raise RuntimeError(f'Missing phase metrics: {set(METRICS) - found}')
+    if found != set(required):
+        raise RuntimeError(f'Missing requested metrics: {set(required) - found}')
     return values
 
 
@@ -50,6 +58,8 @@ def main():
         '--unique-prompts', action='store_true',
         help='Use a different token prefix for warmup and every measured request; '
              'required for cold-Prefill measurements when prefix caching is enabled')
+    parser.add_argument('--spec-metrics', action='store_true',
+                        help='Record per-request speculative draft/acceptance counters')
     args = parser.parse_args()
     if min(args.prompt_tokens, args.output_tokens, args.repeats) < 1:
         parser.error('token counts and repeats must be positive')
@@ -87,10 +97,10 @@ def main():
         output.flush()
         for repeat in range(args.repeats):
             request_tokens = prompt_sets[repeat + 1] if prompt_sets else tokens
-            before = snapshot(args.base_url)
+            before = snapshot(args.base_url, args.spec_metrics)
             result = request(args.base_url, args.model, request_tokens, args.output_tokens)
-            after = snapshot(args.base_url)
-            delta = {name: after[name] - before[name] for name in METRICS}
+            after = snapshot(args.base_url, args.spec_metrics)
+            delta = {name: after[name] - before[name] for name in before}
             prefill = delta[METRICS[1]]
             decode = delta[METRICS[2]]
             usage = result['usage']
@@ -105,6 +115,13 @@ def main():
                    'decode_tok_s': (usage['completion_tokens'] - 1) / decode
                    if valid and decode > 0 and usage['completion_tokens'] > 1 else None,
                    'response': result}
+            if args.spec_metrics:
+                drafts, drafted, accepted = (delta[name] for name in SPEC_METRICS)
+                row['spec_decode'] = {
+                    'drafts': drafts, 'drafted_tokens': drafted, 'accepted_tokens': accepted,
+                    'acceptance_rate': accepted / drafted if drafted else None,
+                    'mean_acceptance_length': 1 + accepted / drafts if drafts else None,
+                }
             output.write(json.dumps(row) + '\n')
             output.flush()
             print(json.dumps({k: v for k, v in row.items()

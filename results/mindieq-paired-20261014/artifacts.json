@@ -1,0 +1,11 @@
+{
+  "source_base_commit": "a435494",
+  "runtime_library_manifest": "../mindieq-native-layout-20261013/artifacts.json",
+  "files": {
+    "tools/bench_server_phases.py": "b3cc12064808e192d53aff5c9d6d11c94ed198794220eba49f52495500995540",
+    "tools/eval_gsm8k_http.py": "9bbc496fea7825edc9a734135ceff98e7b70652cc97a1f75cfd1214f48f8d0a0",
+    "experimental/mindieq_prefill_adapter.py": "636a2ba8672750fdc430ab1b3ffeb18ec5698a570a2585588d67f0e69231b5ed",
+    "configs/tp1-48g-112k.env": "9aa6c78b8e670c959530e57cc2fefc9f2037e192d4f82acb5df52bab1c5b86f5",
+    "results/mindieq-paired-20261014/run-paired.sh": "7fa8c4305db3c0d185e0099b5660b7e395eaca6e771005ec44afc38bda985d75"
+  }
+}
