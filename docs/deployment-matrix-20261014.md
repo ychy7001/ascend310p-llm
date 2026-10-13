@@ -66,3 +66,7 @@ QWEN36_MINDIEQ_MIN_TOKENS=128 \
 - Decode 的主要成本仍是长 KV/Attention、C8 转换和调度；MindIEQ 没有证明稳定的 Decode 提升。
 - C8、Graph 和 GDN 均依赖实验性外部制品或 monkeypatch；默认启动器保留开关，不能称为官方 backend 支持。
 - 尚未完成：同条件 W8A8 交替 A/B、TP2 C8、32G 实机、并发 2/4/8 的完整矩阵、P50/P95、正式质量集合及多模态。
+
+## 并发边界
+
+2026-10-14 在 a2 chip1 用隔离服务尝试 `max_num_seqs=8`，并发2即触发 C8 adapter 的 `C8 requires real four-tensor storage and one request`，EngineCore退出。当前 C8 后端因此明确只支持单请求；不能将单流吞吐外推为并发2/4/8。完整失败证据见 `results/concurrency-c8-limit-20261014/`。并发支持需要重新设计按 sequence 分离的四张 cache storage 和 batch attention 路径。
