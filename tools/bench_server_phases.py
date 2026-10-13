@@ -4,6 +4,7 @@
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 import urllib.request
 
@@ -29,10 +30,10 @@ SPEC_METRICS = (
 
 
 def snapshot(base, include_spec=False):
-    request = urllib.request.Request(
-        base.rstrip('/') + '/metrics', headers={'Connection': 'close'})
-    with urllib.request.urlopen(request, timeout=30) as response:
-        raw = response.read().decode()
+    raw = subprocess.run(
+        ['curl', '--fail', '--silent', '--show-error', '--max-time', '30',
+         '-H', 'Connection: close', base.rstrip('/') + '/metrics'],
+        check=True, capture_output=True, text=True).stdout
     required = METRICS + SPEC_METRICS if include_spec else METRICS
     values = {name: 0.0 for name in required}
     found = set()
@@ -49,10 +50,10 @@ def snapshot(base, include_spec=False):
 
 
 def prefix_snapshot(base):
-    request = urllib.request.Request(
-        base.rstrip('/') + '/metrics', headers={'Connection': 'close'})
-    with urllib.request.urlopen(request, timeout=30) as response:
-        raw=response.read().decode()
+    raw = subprocess.run(
+        ['curl', '--fail', '--silent', '--show-error', '--max-time', '30',
+         '-H', 'Connection: close', base.rstrip('/') + '/metrics'],
+        check=True, capture_output=True, text=True).stdout
     keys=('vllm:prefix_cache_queries_total','vllm:prefix_cache_hits_total')
     values={key:0.0 for key in keys};found=set()
     for line in raw.splitlines():
