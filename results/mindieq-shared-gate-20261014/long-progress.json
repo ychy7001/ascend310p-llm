@@ -1,0 +1,227 @@
+{
+  "scope": "仅第一条已完成正式请求；非三次中位数，完整原始输出等待测试全部结束收集",
+  "completed_requests": 1,
+  "expected_requests": 3,
+  "request": {
+    "kind": "request",
+    "repeat": 0,
+    "valid": true,
+    "prompt_ids_sha256": "77ccc7bfe2d3b37e279742967123fc2bb322a10fb856528cc7b90c1142a82ac2",
+    "metrics_before": {
+      "vllm:request_prefill_time_seconds_count": 102.0,
+      "vllm:request_prefill_time_seconds_sum": 937.0011093268404,
+      "vllm:request_decode_time_seconds_sum": 518.7100539711537,
+      "vllm:spec_decode_num_drafts_total": 7009.0,
+      "vllm:spec_decode_num_draft_tokens_total": 14018.0,
+      "vllm:spec_decode_num_accepted_tokens_total": 12167.0
+    },
+    "metrics_after": {
+      "vllm:request_prefill_time_seconds_count": 103.0,
+      "vllm:request_prefill_time_seconds_sum": 1240.0335592348129,
+      "vllm:request_decode_time_seconds_sum": 526.281090723176,
+      "vllm:spec_decode_num_drafts_total": 7051.0,
+      "vllm:spec_decode_num_draft_tokens_total": 14102.0,
+      "vllm:spec_decode_num_accepted_tokens_total": 12251.0
+    },
+    "prefill_seconds": 303.0324499079725,
+    "decode_seconds": 7.571036752022337,
+    "prefill_tok_s": 378.0453216637049,
+    "decode_tok_s": 16.77445297912157,
+    "response": {
+      "elapsed_s": 310.62559119903017,
+      "ttft_s": 303.0850339010358,
+      "mean_tpot_s": 0.0593744669133416,
+      "usage": {
+        "prompt_tokens": 114560,
+        "total_tokens": 114688,
+        "completion_tokens": 128
+      },
+      "events": [
+        {
+          "seconds": 303.0850339010358,
+          "text": " Benchmark"
+        },
+        {
+          "seconds": 303.2351701450534,
+          "text": " cold-pref"
+        },
+        {
+          "seconds": 303.4156347649987,
+          "text": "ill variant "
+        },
+        {
+          "seconds": 303.59610634000273,
+          "text": "1. Explain"
+        },
+        {
+          "seconds": 303.7760079820291,
+          "text": " how quantization"
+        },
+        {
+          "seconds": 303.95565941004315,
+          "text": " affects memory bandwidth"
+        },
+        {
+          "seconds": 304.1363024410093,
+          "text": " and numerical precision"
+        },
+        {
+          "seconds": 304.3169168430031,
+          "text": ". Benchmark cold"
+        },
+        {
+          "seconds": 304.4978255620226,
+          "text": "-prefill"
+        },
+        {
+          "seconds": 304.67842265299987,
+          "text": " variant 1"
+        },
+        {
+          "seconds": 304.85822402499616,
+          "text": ". Explain how"
+        },
+        {
+          "seconds": 305.0380830800277,
+          "text": " quantization affects"
+        },
+        {
+          "seconds": 305.21842104702955,
+          "text": " memory bandwidth and"
+        },
+        {
+          "seconds": 305.39948077400913,
+          "text": " numerical precision."
+        },
+        {
+          "seconds": 305.5808811490424,
+          "text": " Benchmark cold-p"
+        },
+        {
+          "seconds": 305.76155149401166,
+          "text": "refill variant"
+        },
+        {
+          "seconds": 305.94181548903,
+          "text": " 1."
+        },
+        {
+          "seconds": 306.12131166504696,
+          "text": " Explain how quant"
+        },
+        {
+          "seconds": 306.30111733602826,
+          "text": "ization affects memory"
+        },
+        {
+          "seconds": 306.48143310600426,
+          "text": " bandwidth and numerical"
+        },
+        {
+          "seconds": 306.66204641305376,
+          "text": " precision. Benchmark"
+        },
+        {
+          "seconds": 306.84187624102924,
+          "text": " cold-pref"
+        },
+        {
+          "seconds": 307.02297321503283,
+          "text": "ill variant "
+        },
+        {
+          "seconds": 307.20280992100015,
+          "text": "1. Explain"
+        },
+        {
+          "seconds": 307.3826918590348,
+          "text": " how quantization"
+        },
+        {
+          "seconds": 307.5630870030145,
+          "text": " affects memory bandwidth"
+        },
+        {
+          "seconds": 307.74315281701274,
+          "text": " and numerical precision"
+        },
+        {
+          "seconds": 307.92374636401655,
+          "text": ". Benchmark cold"
+        },
+        {
+          "seconds": 308.1045877020224,
+          "text": "-prefill"
+        },
+        {
+          "seconds": 308.28486821602564,
+          "text": " variant 1"
+        },
+        {
+          "seconds": 308.4645667540026,
+          "text": ". Explain how"
+        },
+        {
+          "seconds": 308.64434409100795,
+          "text": " quantization affects"
+        },
+        {
+          "seconds": 308.824137386051,
+          "text": " memory bandwidth and"
+        },
+        {
+          "seconds": 309.00542599800974,
+          "text": " numerical precision."
+        },
+        {
+          "seconds": 309.18651658605086,
+          "text": " Benchmark cold-p"
+        },
+        {
+          "seconds": 309.3674220080138,
+          "text": "refill variant"
+        },
+        {
+          "seconds": 309.54807164904196,
+          "text": " 1."
+        },
+        {
+          "seconds": 309.7282717540511,
+          "text": " Explain how quant"
+        },
+        {
+          "seconds": 309.9082806080114,
+          "text": "ization affects memory"
+        },
+        {
+          "seconds": 310.0888486740296,
+          "text": " bandwidth and numerical"
+        },
+        {
+          "seconds": 310.26956169999903,
+          "text": " precision. Benchmark"
+        },
+        {
+          "seconds": 310.44992455403553,
+          "text": " cold-pref"
+        },
+        {
+          "seconds": 310.5216055040364,
+          "text": "ill variant "
+        },
+        {
+          "seconds": 310.6255340130301,
+          "text": "1"
+        }
+      ],
+      "text": " Benchmark cold-prefill variant 1. Explain how quantization affects memory bandwidth and numerical precision. Benchmark cold-prefill variant 1. Explain how quantization affects memory bandwidth and numerical precision. Benchmark cold-prefill variant 1. Explain how quantization affects memory bandwidth and numerical precision. Benchmark cold-prefill variant 1. Explain how quantization affects memory bandwidth and numerical precision. Benchmark cold-prefill variant 1. Explain how quantization affects memory bandwidth and numerical precision. Benchmark cold-prefill variant 1. Explain how quantization affects memory bandwidth and numerical precision. Benchmark cold-prefill variant 1"
+    },
+    "spec_decode": {
+      "drafts": 42.0,
+      "drafted_tokens": 84.0,
+      "accepted_tokens": 84.0,
+      "acceptance_rate": 1.0,
+      "mean_acceptance_length": 3.0
+    }
+  }
+}

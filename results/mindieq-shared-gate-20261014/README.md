@@ -48,3 +48,5 @@ build.sh使用全新SOURCE_DIR/BUILD_DIR；run-micro.sh、start-service.sh、run
 正在追加同组合114560输入+128输出（总114688）的持续生成，warmup1/repeat3、unique prompts、spec counters。远端控制器PID4011690，输出service目录对应p114560-o128.jsonl/txt；run-long-phases.sh记录复现。原基础state DONE不代表这组追加测试完成，追加long-state独立记录；进程存活仍需实际ps核对。本次提交不纳入未完成持续生成结果。
 
 持续生成预热已完成（不计入正式统计）：114560输入、32输出，TTFT302.791秒、总304.591秒，请求平均TPOT0.058070秒。正在执行三条各128输出正式测量。新增analyze-long.py仅在三条有效、输入/输出长度及后sanity/long-state全部通过后生成long-phases-summary.json；三请求P95描述统计不能充当产品尾延迟。sample-long-memory.py每20秒读取npu-smi，仅在指定实际bench进程匹配时采样，未发起推理；采样于预热过程中才开始，不能宣称覆盖启动或全部运行峰值。
+
+首次正式114560/128请求已完整完成并校验有效：Prefill378.045 tok/s、Decode16.774 tok/s、MTP100%（42draft、84/84accepted、平均长度3）。原始请求快照long-progress.json仅记录第一条，不作为三次中位数；剩余两条继续。即使MTP100%，长上下文Decode也明显下降，不能把全部速度差异归因于接受率。当前C8仍转FP16/NZ scratch再调用已有attention，这属于待profile定位的结构性成本，不把源码观察当实测耗时拆分。
