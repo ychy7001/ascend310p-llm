@@ -1,0 +1,21 @@
+{
+  "reference": {
+    "kind": "summary",
+    "label": "pr17640-b4096-n128-c8-mtp2-graph",
+    "samples": 32,
+    "correct": 31,
+    "parse_missing": 1,
+    "truncated": 1
+  },
+  "candidate": {
+    "kind": "summary",
+    "label": "mindieq-native-layout",
+    "samples": 32,
+    "correct": 31,
+    "parse_missing": 1,
+    "truncated": 1
+  },
+  "answer_changes": [],
+  "identical_texts": 7,
+  "limitation": "small fixed subset; not comprehensive quality or statistical equivalence"
+}

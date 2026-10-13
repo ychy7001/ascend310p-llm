@@ -9,6 +9,7 @@ import torch_npu
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--library',required=True);p.add_argument('--upstream-test',required=True)
 p.add_argument('--out',type=Path,required=True);p.add_argument('--route-trace',type=Path)
+p.add_argument('--native-layout',action='store_true')
 p.add_argument('--repeats',type=int,default=20)
 p.add_argument('--cases',nargs='+',help='仅执行指定案例，默认全部')
 a=p.parse_args();torch.manual_seed(20261013);torch.set_num_threads(4)
@@ -21,12 +22,15 @@ if a.route_trace:
 if a.cases:cases=[case for case in cases if case[0] in a.cases]
 if not cases:raise ValueError('no matching case')
 with a.out.open('x') as f:
- f.write(json.dumps({'kind':'config','scope':__doc__,'warmup':5,'repeats':a.repeats,'weights':'synthetic integer W4; activations synthetic integer A8; actual shapes','padding_rows':16})+'\n');f.flush()
+ f.write(json.dumps({'kind':'config','scope':__doc__,'warmup':5,'repeats':a.repeats,'weights':'synthetic integer W4; activations synthetic integer A8; actual shapes','padding_rows':16,'native_layout':a.native_layout})+'\n');f.flush()
  for k,n in [(2048,1024),(512,2048)]:
   for label,counts in cases:
    e=len(counts);m=sum(counts)
    wc=torch.randint(-8,8,(e,n,k),dtype=torch.int8);ws_cpu=torch.rand(e,n)*.01
-   packed=torch.stack([torch.from_numpy(ext.pack_biased_nz_int32_vec(w.T.contiguous().numpy(),k,n).copy()) for w in wc]).npu();ws=ws_cpu.npu()
+   packed=torch.stack([torch.from_numpy(ext.pack_biased_nz_int32_vec(w.T.contiguous().numpy(),k,n).copy()) for w in wc]).npu();ws=ws_cpu.npu();serial_packed=packed
+   if a.native_layout:
+    codes=((wc[:,:,0::2]&15)|((wc[:,:,1::2]&15)<<4)).to(torch.uint8)
+    packed=codes.reshape(e,n//16,16,k//128,2,32).permute(0,1,3,4,2,5).contiguous().view(torch.int32).reshape(e,-1).npu()
    xcpu=torch.randint(-127,128,(m+16,k),dtype=torch.int8);scpu=torch.rand(m+16)*.01
    x=xcpu.npu();scale=scpu.npu();ends_cpu=list(accumulate(counts));ends=torch.tensor(ends_cpu,dtype=torch.int64).npu()
    golden=[];begin=0
@@ -38,7 +42,7 @@ with a.out.open('x') as f:
    def serial():
     out=[];begin=0
     for i,c in enumerate(counts):
-     if c:out.append(ext.OP(x[begin:begin+c],scale[begin:begin+c],packed[i],ws[i]))
+     if c:out.append(ext.OP(x[begin:begin+c],scale[begin:begin+c],serial_packed[i],ws[i]))
      begin+=c
     return torch.cat(out)
    actual=call().cpu().float()

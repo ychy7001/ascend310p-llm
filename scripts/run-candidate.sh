@@ -27,9 +27,12 @@ from pathlib import Path
 root=Path(sys.argv[1])
 files={key:{'path':os.environ[key], 'sha256':hashlib.sha256(Path(os.environ[key]).read_bytes()).hexdigest()}
        for key in ('EXTENSION','C8_LIBRARY','GDN_LIBRARY','GDN_SOURCE')}
+if os.environ.get('QWEN36_MINDIEQ_ENABLED','0')=='1':
+    path=Path(os.environ['MINDIEQ_LIBRARY'])
+    files['MINDIEQ_LIBRARY']={'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 files['MODEL_INDEX']={'sha256':hashlib.sha256((Path(os.environ['MODEL_DIR'])/'model.safetensors.index.json').read_bytes()).hexdigest()}
 print(json.dumps({'profile':(root/'configs/tp1-48g-112k.env').read_text(),'artifacts':files,
-                  'prefix':os.environ['ENABLE_PREFIX_CACHING'],'port':os.environ['PORT']},ensure_ascii=False,indent=2))
+                  'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
 PY
 if [[ ${1:-} == --check ]]; then exit 0; fi
 exec bash "$root/experimental/run-gdn-112k-product.sh"

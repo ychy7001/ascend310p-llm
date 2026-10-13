@@ -40,8 +40,13 @@ if [[ "${QWEN36_GDN_ENABLED:-0}" == 1 ]]; then
   : "${GDN_OPP_DIR:?}" "${GDN_LIBRARY:?}" "${GDN_SOURCE:?}"
   gdn_mount=(-v "$GDN_OPP_DIR:/gdn-opp:ro" -v "$GDN_LIBRARY:/custom/pr17640_gdn.so:ro" -v "$GDN_SOURCE:/gdn-source.py:ro")
 fi
+mindieq_mount=()
+if [[ "${QWEN36_MINDIEQ_ENABLED:-0}" == 1 ]]; then
+  : "${MINDIEQ_LIBRARY:?set native-layout grouped experiment library}"
+  mindieq_mount=(-v "$MINDIEQ_LIBRARY:/custom/mindieq_grouped.so:ro")
+fi
 podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
-  "${profile_mount[@]}" "${gdn_mount[@]}" \
+  "${profile_mount[@]}" "${gdn_mount[@]}" "${mindieq_mount[@]}" \
   --group-add keep-groups --shm-size 16g \
   -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e ATEN_CPU_CAPABILITY=default \
   -e VLLM_WORKER_MULTIPROC_METHOD=spawn -e PYTHONPATH=/c8bootstrap \
@@ -59,6 +64,8 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e ENFORCE_EAGER="$ENFORCE_EAGER" \
   -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
   -e COMPILATION_MODE="$COMPILATION_MODE" \
+  -e QWEN36_MINDIEQ_ENABLED="${QWEN36_MINDIEQ_ENABLED:-0}" \
+  -e QWEN36_MINDIEQ_LIBRARY=/custom/mindieq_grouped.so \
   -e QWEN36_GDN_ENABLED="${QWEN36_GDN_ENABLED:-0}" \
   -e QWEN36_GDN_LIBRARY=/custom/pr17640_gdn.so -e QWEN36_GDN_SOURCE=/gdn-source.py \
   -e MTP="$MTP" \

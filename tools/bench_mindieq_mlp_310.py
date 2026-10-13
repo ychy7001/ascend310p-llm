@@ -20,6 +20,7 @@ from check_w4_grouped_prefill_310 import signed_nibbles
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--grouped-native-layout',action='store_true',help='grouped扩展直接读取native signed权重布局')
     p.add_argument('--grouped-library',help='独立MindIEQ设备端分组原型扩展')
     p.add_argument('--model',type=Path,required=True)
     p.add_argument('--library',required=True)
@@ -81,10 +82,13 @@ def main():
         native=[[t.repeat(a.experts//8,1,1) for t in bank] for bank in native]
         other=[bank*(a.experts//8) for bank in other]
     grouped_banks=[(torch.stack([b[0] for b in bank]),torch.stack([b[2] for b in bank])) for bank in other] if a.grouped_library else None
+    if a.grouped_native_layout:
+        if not a.grouped_library:p.error('--grouped-native-layout requires --grouped-library')
+        grouped_banks=[(bank[0].view(torch.int32).reshape(a.experts,-1),scales) for bank,(_,scales) in zip(native,grouped_banks)]
     with a.out.open('x') as f:
         f.write(json.dumps({'kind':'config','scope':__doc__,'warmup':0 if a.validate_only else 5,'repeats':0 if a.validate_only else 20,'experts':a.experts,
                             'weight_scope':f'real layer0 expert0..{weight_experts-1}; repeated if weight_experts<experts',
-                            'activations':'native fused pack vs torch_npu.npu_dynamic_quant',
+                            'activations':'native fused pack vs torch_npu.npu_dynamic_quant','grouped_native_layout':a.grouped_native_layout,
                             'retain_native_inputs':a.retain_native_inputs,'graph':a.graph,'queued_repeats':a.queued_repeats,'activation_draw':a.activation_draw,'retain_intermediates':a.retain_intermediates,'validate_only':a.validate_only,'diagnose_finite':a.diagnose_finite,'synchronize_producers':a.synchronize_producers,'route_trace':str(a.route_trace) if a.route_trace else None,
                             'non_native_swiglu':'FP32 silu and multiply -> FP16 -> dynamic quant'})+'\n');f.flush()
         cases=[]

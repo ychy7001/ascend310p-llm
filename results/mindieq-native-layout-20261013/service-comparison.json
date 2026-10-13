@@ -1,0 +1,42 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "output_tokens": 128,
+    "repeats": 3,
+    "baseline": {
+      "prefill_tok_s": 503.2260631182063,
+      "decode_tok_s": 37.07930837856694
+    },
+    "mindieq_native_layout": {
+      "prefill_tok_s": 629.614571830275,
+      "decode_tok_s": 35.65493383518875
+    },
+    "relative_change": {
+      "prefill_tok_s": 0.25115652382730524,
+      "decode_tok_s": -0.03841426945820614
+    },
+    "identical_prompt_hashes": true,
+    "identical_texts": 1,
+    "scope": "同日旧结果对照；尚非交替A/B；服务phase counter，单流、prefix off、warmup1"
+  },
+  {
+    "prompt_tokens": 32256,
+    "output_tokens": 128,
+    "repeats": 3,
+    "baseline": {
+      "prefill_tok_s": 450.6518042358596,
+      "decode_tok_s": 29.17377634194237
+    },
+    "mindieq_native_layout": {
+      "prefill_tok_s": 550.3677585478554,
+      "decode_tok_s": 29.070371180462118
+    },
+    "relative_change": {
+      "prefill_tok_s": 0.22127050945924331,
+      "decode_tok_s": -0.003544455824582071
+    },
+    "identical_prompt_hashes": true,
+    "identical_texts": 3,
+    "scope": "同日旧结果对照；尚非交替A/B；服务phase counter，单流、prefix off、warmup1"
+  }
+]

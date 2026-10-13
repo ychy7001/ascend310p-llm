@@ -15,3 +15,6 @@ if os.environ.get("QWEN36_GDN_ENABLED", "0") == "1":
 
 if os.environ.get("QWEN36_ROUTE_TRACE_PATH"):
     import route_occupancy_trace  # noqa: F401,E402
+
+if os.environ.get("QWEN36_MINDIEQ_ENABLED", "0") == "1":
+    import mindieq_prefill_adapter  # noqa: F401,E402

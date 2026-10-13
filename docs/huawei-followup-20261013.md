@@ -201,7 +201,7 @@ MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组�
 
 统一run-candidate.sh正在恢复TP1/48G/W4/C8/MTP2/GDN/Graph/4096:512/112K服务，prefix off；首次远端workcopy缺少wrapper所需GDN启动脚本，已同步该现有文件并重启，尚待完成生成与8K复测。
 
-统一run-candidate入口服务启动并完成生成sanity5/5；8K/128三次Prefill中位507.211、Decode36.944tok/s，prompt hashes全部与原基线匹配，输出3/3全文匹配。服务保留18024，prefix关闭。该回归不替代完整质量/长文测试，也不是MindIEQ模型集成。
+统一run-candidate入口服务启动并完成生成sanity5/5；8K/128三次Prefill中位503.226、Decode37.079tok/s，prompt hashes全部与原基线匹配，输出3/3全文匹配。服务保留18024，prefix关闭。该回归不替代完整质量/长文测试，也不是MindIEQ模型集成。
 
 ## 2026-10-13：生命周期与投入收敛
 
@@ -214,3 +214,16 @@ MindIEQ记录inputs/output/workspace stream后的两轮完整MLP混合≥128行�
 ## MindIEQ设备端分组
 
 复用固定外部类，一次launch读取动态专家边界，固定64/128/256 tile。修正ND单行加载与尾行写回后，12整数案例/动态counts Graph通过；全部层0真实256专家权重的完整MLP独立两轮节省约49%～55%耗时，96连续输出/轮通过。仍无模型端到端数据，接入前需处理与native不同的W4布局避免双份权重驻留。详见[分组证据](../results/mindieq-grouped-20261013/README.md)。
+
+
+## MindIEQ native布局可选Prefill服务
+
+在设备端分组原型基础上，通过GM索引调整与UB signed→biased转换直接读取现有native W4权重，不新增完整专家bank。真实256专家完整MLP三counts约13.262/13.159/10.366ms，原W4约19.176/19.044/17.209ms，耗时减少31%～40%。12整数案例/动态counts Graph与96连续MLP输出通过；native布局目前仅测一轮。
+
+可选TP1服务完成加载、C8缓存规划和Decode Graph capture，权重27.288GB与旧候选相同；基本生成5/5，固定GSM32与旧GDN/4096候选均31/32，答案变化0，既有截断1例，全文一致7/32。小样本不证明全面精度等价。
+
+同一bench_server_phases脚本、8K/128、warmup1/repeats3、三条prompt SHA逐一匹配：Prefill中位629.615tok/s，旧候选503.226；Decode中位35.655 vs37.079。该对照使用同日旧候选结果，尚非交替A/B；当前后端默认关闭，32K与近112K正在验证。初测bench_http_stream的不同提示词结果独立保留，不用于严格加速比。详细代码、原始记录与复现见[本轮实验](../results/mindieq-native-layout-20261013/README.md)。
+
+32K三次已完成：同prompt SHA及旧候选对照，Prefill550.368 vs450.652tok/s（+22.1%），Decode29.070 vs29.174（-0.35%），输出全文3/3一致。8K原始recheck文件实际中位503.226/37.079，候选629.615/35.655，即+25.1%/-3.8%；以service-comparison.json自动计算为准，避免混入其他恢复批次。接近112K检索随后通过。
+
+114560token输入检索同SHA通过，14token输出及答案与旧候选相同，耗时296.351 vs348.941秒（降低15.1%）；长请求后sanity5/5。保留18024实验服务、MindIEQ开关开启，仓库默认关闭。下一步优先配对A/B、8K Decode接受率/输出变化归因及更广质量；不宣布最大上下文或W8对比已完成。

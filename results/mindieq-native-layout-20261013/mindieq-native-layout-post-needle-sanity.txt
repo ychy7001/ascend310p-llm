@@ -1,0 +1,6 @@
+{"label": "english", "usage": {"prompt_tokens": 26, "total_tokens": 90, "completion_tokens": 64, "prompt_tokens_details": null, "completion_tokens_details": null}, "issues": []}
+{"label": "\u4e2d\u6587", "usage": {"prompt_tokens": 26, "total_tokens": 90, "completion_tokens": 64, "prompt_tokens_details": null, "completion_tokens_details": null}, "issues": []}
+{"label": "code", "usage": {"prompt_tokens": 26, "total_tokens": 61, "completion_tokens": 35, "prompt_tokens_details": null, "completion_tokens_details": null}, "issues": []}
+{"label": "math", "usage": {"prompt_tokens": 26, "total_tokens": 90, "completion_tokens": 64, "prompt_tokens_details": null, "completion_tokens_details": null}, "issues": []}
+{"label": "repeat", "usage": {"prompt_tokens": 140, "total_tokens": 204, "completion_tokens": 64, "prompt_tokens_details": null, "completion_tokens_details": null}, "issues": []}
+{"status": "PASS", "cases": 5, "issues": []}
