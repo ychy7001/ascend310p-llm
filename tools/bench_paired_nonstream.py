@@ -50,7 +50,8 @@ def main():
     tokens = tokenize(a.mindieq_url, a.model, a.prompt_tokens)
     a.out.parent.mkdir(parents=True, exist_ok=True)
     with a.out.open('x') as f:
-        f.write(json.dumps({'kind': 'config', **vars(a), 'prompt_ids_sha256': prompt_hash(tokens),
+        config = {k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()}
+        f.write(json.dumps({'kind': 'config', **config, 'prompt_ids_sha256': prompt_hash(tokens),
                             'protocol': 'non-streaming completion; alternating endpoints; wall time plus phase counters'}) + '\n')
         for repeat in range(a.repeats):
             endpoints = [('mindieq', a.mindieq_url), ('original', a.original_url)]
