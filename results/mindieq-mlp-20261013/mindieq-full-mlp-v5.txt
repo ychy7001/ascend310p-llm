@@ -1,0 +1,19 @@
+[W1013 12:11:56.672897498 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+.Traceback (most recent call last):
+  File "/project/tools/bench_mindieq_mlp_310.py", line 114, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 91, in main
+    output=fn().cpu().float()
+           ^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 88, in <lambda>
+    funcs={'native_w4':native_mlp,'mindieq_w4':lambda:alternate_mlp('mindieq'),'w8':lambda:alternate_mlp('w8')}
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/tools/bench_mindieq_mlp_310.py", line 85, in alternate_mlp
+    raise ValueError(('nonfinite_down',expert,hidden.cpu().float().abs().max().item(),s.cpu().tolist(),q.cpu().min().item(),q.cpu().max().item(),ws.cpu().min().item(),ws.cpu().max().item()))
+ValueError: ('nonfinite_down', 0, 0.015899658203125, [0.00012519415759015828], -86, 127, 0.002536773681640625, 0.00897216796875)
+[ERROR] 2026-10-13-12:12:11 (PID:164, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

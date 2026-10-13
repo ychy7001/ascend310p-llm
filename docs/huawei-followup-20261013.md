@@ -192,3 +192,13 @@ MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组�
 同真实layer0/expert0权重、同设备pack生成的整数A8与scale，native W4/MindIEQ W4/NZ W8，eager与torch.npu.NPUGraph，四组原地更新输入；独立重复两轮，每轮16形状全部数值通过。gate/up M512 Graph约774/138/116us，M1024约1475/210/163us；down M512约471/127/107us。MindIEQ大M相对当前W4的优势两轮可复现；小M当前W4更快，MindIEQ多数仍慢于W8。排除pack/路由/SwiGLU；单矩阵不能外推模型收益。详细数据、捕获入口首次失败及限制见results/w4-three-backends-20261013。下一步先八expert分组/完整MLP，再条件接入Prefill后端。
 
 部署参数第一步集中到configs/tp1-48g-112k.env，入口scripts/run-candidate.sh --check在a2成功，输出制品SHA256。当前算子实验独占结束，无模型服务；未把新wrapper写成已完整部署验收。
+
+## 完整MLP门禁与256专家占用
+
+已完成八expert真实权重完整MLP。原直接ACL绑定串联动态量化出现Down非有限，调用前同步可消除；隔离补丁改OpCommand::RunOpApiV2排队后，无显式同步10组通过。单矩阵精确整数与完整MLP的独立动态量化不能混为同精度协议；后者相对native L2约1.0%–1.1%，仅诊断门禁。
+
+8专家/4096路由当前W4/MindIEQ约11.32/2.72ms；扩展为256槽均分后约21.72/25.79ms，512路由/256槽约11.00/23.44ms。256槽是重复前8真实专家形成的合成占用，不是完整实际路由。结论：逐专家Python调用方案暂不通过模型接入门禁，优先设备端grouped算子；当前默认后端不替换。证据、补丁工具、失败与复现见results/mindieq-mlp-20261013。
+
+统一run-candidate.sh正在恢复TP1/48G/W4/C8/MTP2/GDN/Graph/4096:512/112K服务，prefix off；首次远端workcopy缺少wrapper所需GDN启动脚本，已同步该现有文件并重启，尚待完成生成与8K复测。
+
+统一run-candidate入口服务启动并完成生成sanity5/5；8K/128三次Prefill中位507.211、Decode36.944tok/s，prompt hashes全部与原基线匹配，输出3/3全文匹配。服务保留18024，prefix关闭。该回归不替代完整质量/长文测试，也不是MindIEQ模型集成。
