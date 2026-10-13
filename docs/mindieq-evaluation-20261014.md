@@ -59,6 +59,8 @@ MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退�
 
 随后使用非流式 completion 做了一组严格同 token 的 64K 交替补充：MindIEQ `483.46 tok/s`、原始 W4 `395.70 tok/s`，Prefill `+22.18%`；Decode `22.61` vs `22.68 tok/s`，输出哈希一致。当前实验服务在下一轮长请求上出现调度停滞，因此这组数据只作为单轮因果补充，不能替代 64K 的多次 P50/P95 门禁。详见 `results/mindieq-long-paired-20261014/`。
 
+该停滞进一步表现为原始 W4 Engine 在请求返回后仍保持 `Running: 1 reqs`；重启容器后 512/32 恢复探针成功，但这只证明可恢复，不证明连续长请求生命周期已修复。完整记录见 `results/long-request-lifecycle-20261014/`。
+
 ## 112K needle 正确性（新增）
 
 在同样的 114560 token 文档、needle 位于 73% 位置、输出上限 14 的请求中，MindIEQ 和原始 W4 均返回 `ASCEND732941`，usage 和 stop 原因一致。MindIEQ 请求耗时 298.08s，原始 W4 348.15s。该 canary 支持长上下文路径没有明显检索破坏，但不替代完整质量集和多位置 needle 测试。
