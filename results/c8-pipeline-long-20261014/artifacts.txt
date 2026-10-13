@@ -1,0 +1,6 @@
+1d3ded6ebac237a127c8b705dd9e63f005d5c9867c4b734ff124ff511dda56a3  /home/ychy/ascend-lab-runtime/mindieq-r3-20261013/c8-pipeline-long-build/output/libqwen36_c8.so
+C8_NZ_BROADCAST:BOOL=OFF
+C8_NZ_COMPACT_SCALE:BOOL=ON
+C8_NZ_MAX_TILE:STRING=64
+C8_NZ_PIPELINE:BOOL=ON
+C8_NZ_TRANSDATA:BOOL=ON
