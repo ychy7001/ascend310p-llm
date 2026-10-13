@@ -29,7 +29,9 @@ SPEC_METRICS = (
 
 
 def snapshot(base, include_spec=False):
-    with urllib.request.urlopen(base.rstrip('/') + '/metrics', timeout=30) as response:
+    request = urllib.request.Request(
+        base.rstrip('/') + '/metrics', headers={'Connection': 'close'})
+    with urllib.request.urlopen(request, timeout=30) as response:
         raw = response.read().decode()
     required = METRICS + SPEC_METRICS if include_spec else METRICS
     values = {name: 0.0 for name in required}
@@ -47,7 +49,9 @@ def snapshot(base, include_spec=False):
 
 
 def prefix_snapshot(base):
-    with urllib.request.urlopen(base.rstrip('/')+'/metrics',timeout=30) as response:
+    request = urllib.request.Request(
+        base.rstrip('/') + '/metrics', headers={'Connection': 'close'})
+    with urllib.request.urlopen(request, timeout=30) as response:
         raw=response.read().decode()
     keys=('vllm:prefix_cache_queries_total','vllm:prefix_cache_hits_total')
     values={key:0.0 for key in keys};found=set()
