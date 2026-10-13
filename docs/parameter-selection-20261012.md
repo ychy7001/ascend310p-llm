@@ -99,6 +99,8 @@ C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段
 
 补充的 C8+MTP2+Graph 4K 门禁（2026-10-13）已通过：使用`NUM_SPECULATIVE_TOKENS=2`、capture `[1,2,3]`、`COMPILATION_MODE=0`和诊断性updatable-graph开关，sanity 5/5、严格答案8/8、A/B/A一致、3072-token needle通过。3072/128 unique-prompt三轮Prefill中位`370.43 tok/s`、Decode中位`36.03 tok/s`。这是短上下文可运行证据；MTP2仍依赖实验开关，尚未完成8K/32K/112K容量、真实业务接受率和与MTP1交替复测，产品默认暂不切换。
 
+随后完成32K Graph长上下文门禁：8K/128阶段中位 Prefill/Decode `366.54/37.58 tok/s`，32256/128为`337.12/29.28 tok/s`；近32K needle总耗时`96.15s`且正确返回。MTP2相对MTP1保留Decode收益，但Prefill有数个百分点损失。32K结果不代表112K容量，仍需112K启动与长检索后才能决定是否替代MTP1。
+
 ## 长上下文与显存口径
 
 vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C8 自己所有物理池的字节数，也不是当前请求已经使用的 token 数。C8 还要为 hybrid state、页对齐、scale 和共享 FP16 NZ scratch 保留空间。因此容量评估必须同时记录：启动配置上限、scheduler KV token 数、`C8_BUDGET`、实际请求长度、`npu-smi` 采样峰值和是否发生 OOM。
