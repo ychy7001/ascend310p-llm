@@ -16,9 +16,12 @@ from bench_server_phases import METRICS, snapshot, prompt_hash
 
 
 def tokens_for(base, model, count):
+    # 约 8～10 tokens/句；不要按 token 数直接重复，否则 64K 请求会先
+    # 生成数十万到百万 token 的 tokenizer 输入，掩盖真正的 benchmark。
+    repeats = count // 8 + 256
     text = (
         "Benchmark cold long-prefill. Explain how quantization affects memory "
-        "bandwidth and numerical precision. " * (count + 1)
+        "bandwidth and numerical precision. " * repeats
     )
     with post(base, '/tokenize', {
         'model': model, 'prompt': text, 'add_special_tokens': False,
