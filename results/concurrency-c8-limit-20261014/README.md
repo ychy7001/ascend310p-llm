@@ -19,7 +19,7 @@ RuntimeError: C8 requires real four-tensor storage and one request
 
 这说明当前 C8 实现明确要求单请求的四张真实 KV storage；`max_num_seqs>1` 不能仅靠 vLLM 参数打开。并发 4/8 没有继续执行，因为并发 2 已经触发同一结构性门禁。
 
-本次不是性能失败，也不能据此评价 W4A8 的通用并发能力；它证明的是当前 C8 adapter 的并发能力为 **未支持**。chip0 的 18024 服务在实验前后 `/health=200`，显存和进程未变化。完整启动、warmup 和 traceback 见 `service.log`。
+本次不是性能失败，也不能据此评价 W4A8 的通用并发能力；它证明的是当前 C8 adapter 的并发能力为 **未支持**。chip0 的 18024 服务在实验前后 `/health=200`，显存和进程未变化。完整启动、warmup 和 traceback 见 `service.txt`。
 
 ## 工程结论
 
