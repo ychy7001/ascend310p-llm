@@ -46,3 +46,5 @@ warmup5，重复20，分组/逐专家交错，host dispatch+synchronize耗时，
 新目录构建对应提交代码的tail_zero/balanced两投影共4例，整数参考、连续提交、动态counts Graph均通过，退出0。该host约束修改不改变设备代码；完整MLP两轮使用此前host默认minimum_rows=0。
 
 CPU字节关系检验覆盖4形状：native按[K64,N16]转置并对字节XOR0x88，与原MindIEQ pack逐字节一致。该检验不代表设备布局转换或片上读取完成；复现工具check_mindieq_native_layout.py。本机无Torch/NumPy，最终在既有镜像的CPU模式完成，不初始化NPU。
+
+实验结束原候选服务端口18024已恢复，health HTTP200，5项64-token基本生成检查通过。新grouped尚未用于服务；此恢复检查不代表其模型质量验收。
