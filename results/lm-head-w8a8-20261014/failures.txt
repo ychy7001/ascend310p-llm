@@ -3,3 +3,5 @@ FP16分片npu_format_cast(FRACTAL_NZ)失败：TransData unsupported/groups=1（�
 首次错误方向q weight导致NaN，修正为format_cast(q[N,K]).transpose(0,1)后W8结果finite。
 
 修正后真实W8方向为format_cast(q[N,K]).transpose(0,1)，四分片输出finite；batch1 top-k overlap k1/5/10/50均100%。
+
+最新Graph试验：torch.cat对应ConcatD在NPU Graph capture失败，不能按当前四分片Python拼接接入Decode Graph。最新batch1 top-k overlap: top1=100%, top5=80%, top10=90%, top50=96%，质量需进一步校准。
