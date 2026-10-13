@@ -1,0 +1,40 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "output_tokens": 128,
+    "repeats": 3,
+    "baseline": "historical same-day N128 TP1 C8 MTP2 Graph 112K .95 batch1024 chunk512 prefix off",
+    "candidate": "same settings + pinned PR17640 GDN",
+    "metrics": {
+      "prefill_tok_s": {
+        "baseline_median": 391.5909402597231,
+        "candidate_median": 494.50389274363044,
+        "change_pct": 26.280728664368546
+      },
+      "decode_tok_s": {
+        "baseline_median": 37.01237477105787,
+        "candidate_median": 33.49396030094106,
+        "change_pct": -9.506048968433289
+      }
+    }
+  },
+  {
+    "prompt_tokens": 32256,
+    "output_tokens": 128,
+    "repeats": 3,
+    "baseline": "historical same-day N128 TP1 C8 MTP2 Graph 112K .95 batch1024 chunk512 prefix off",
+    "candidate": "same settings + pinned PR17640 GDN",
+    "metrics": {
+      "prefill_tok_s": {
+        "baseline_median": 357.5767551249524,
+        "candidate_median": 446.02790015901206,
+        "change_pct": 24.73626816238408
+      },
+      "decode_tok_s": {
+        "baseline_median": 29.045266156386337,
+        "candidate_median": 28.983288958156383,
+        "change_pct": -0.21338140919850979
+      }
+    }
+  }
+]

@@ -9,3 +9,6 @@ if os.environ.get('QWEN36_C8_ENABLED', '1') == '1':
     import c8_vllm_adapter  # noqa: F401,E402
 elif os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1':
     import direct_graph_310  # noqa: F401,E402
+
+if os.environ.get("QWEN36_GDN_ENABLED", "0") == "1":
+    import pr17640_gdn_adapter  # noqa: F401,E402

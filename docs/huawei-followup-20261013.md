@@ -109,3 +109,33 @@ python /project/tools/check_pr17640_wy_310.py \
 ```
 
 CPU 参考直接提取固定 PR 的原始 torch WY 函数，不复写其数学逻辑；相同函数在 NPU 上作为速度对照。数值用 CPU 比对，速度 warmup 后测量，避免把首次 JIT 编译算入延迟。
+
+
+## 后续完整 GDN 门禁与模型接入
+
+WY 六组（T128/512/1024 × decay .01/1）全部通过。1024 tokens：原生 WY 1.392–1.518 ms，Torch 对照 22.626–22.741 ms。首次 JIT 时间已排除。
+
+完整 GDN 使用归一化 Q/K、非零 FP16 初始 state、decay O(1)、beta .1–.9，符合 Qwen3.6 TP1 的 16/32 heads、dim128。CPU oracle 是固定 PR 的原始 chunked torch 函数，Q/K 扩展至 value heads。T111/128/512/1024 四组均通过：输出/state cosine >.9999998，五次重复逐位一致；输出 max abs ≤7.63e-6，state ≤6.20e-5。
+
+| T | 完整原生 GDN ms | 相同 FwdH/FwdO + Torch WY ms |
+|---:|---:|---:|
+| 111 | .842 | 9.947 |
+| 128 | .755 | 9.792 |
+| 512 | 1.745 | 16.941 |
+| 1024 | 3.042 | 24.398 |
+
+全部为 warmup5、重复20的同步主机调用中位数，不等于模型吞吐。独立扩展必须使用 `ASCEND_PLATFORM_310P` 宏，保留 PR 的 initial state NZ staging；仅替换 kernel 而漏掉该绑定逻辑会违反其 state 布局契约。
+
+首次完整测试的独立 namespace 能力探测仍查询原算子名，导致 WY fallback，已终止并重跑；上述结果来自明确选择原生 WY 的修正入口，未使用首次结果。
+
+模型接入通过可选 `QWEN36_GDN_ENABLED=1`，独立 `pr17640_gdn` namespace 加载固定 PR 的三算子；`experimental/pr17640_gdn_adapter.py` 替换 310P chunk GDN Python 入口。原始固定源码在仓外挂载，关闭开关仍走现有路径。OPP 顺序为 PR vendor、W4 vendor，需用实际生成确认默认算子未发生不兼容替换。
+
+模型服务在 a2 `18024` 启动，组合保持 TP1/N128 W4/C8/MTP2/FULL_DECODE_ONLY/112K/.95/batch1024/chunk512/prefix off；目录 `/home/ychy/ascend-lab-runtime/pr17640-product-20261013`。模型端到端尚待验收，不将以上子算子倍数算作模型收益。
+
+真实模型首次启动发现 `gdn_310.py` 的 from-import 提前保留旧函数引用；已替换 chunk 模块、调用方及 package 导出的入口，并通过源码路径断言检查。首次启动未作为性能结果。服务重启后再次核查调用目标。
+
+模型服务已就绪，初步生成8/8通过，A/B/A一致且未观察到canary泄漏。8K/128三次独立前缀：Prefill 495.233/494.504/494.094 tok/s，中位494.504，相对历史同配置N128基线391.591增加26.28%；Decode 36.868/33.494/32.886 tok/s，中位33.494，相对历史37.012约下降9.5%。后两次日志MTP平均接受率约83–85%，不能宣称Decode无回退。比较使用历史同日基线，尚未重新交替A/B测量；32K测试已启动。正式质量与长上下文仍待验证。
+
+32K/128首条样本Prefill446.028、Decode29.000 tok/s；其余重复与相同seed310的GSM32质量回归正在执行，不能将首条当最终中位数。已安排质量评测前后保存MTP指标快照。
+
+32K三次完成：Prefill中位446.028 tok/s、Decode中位28.983 tok/s。完整对照见 `results/pr17640-product-20261013/comparison.json`；GSM32已经开始。

@@ -35,8 +35,13 @@ if [[ -n "${PROFILE_DIR:-}" ]]; then
   mkdir -p "$PROFILE_DIR"
   profile_mount=(-v "$PROFILE_DIR:/profile:rw")
 fi
+gdn_mount=()
+if [[ "${QWEN36_GDN_ENABLED:-0}" == 1 ]]; then
+  : "${GDN_OPP_DIR:?}" "${GDN_LIBRARY:?}" "${GDN_SOURCE:?}"
+  gdn_mount=(-v "$GDN_OPP_DIR:/gdn-opp:ro" -v "$GDN_LIBRARY:/custom/pr17640_gdn.so:ro" -v "$GDN_SOURCE:/gdn-source.py:ro")
+fi
 podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
-  "${profile_mount[@]}" \
+  "${profile_mount[@]}" "${gdn_mount[@]}" \
   --group-add keep-groups --shm-size 16g \
   -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e ATEN_CPU_CAPABILITY=default \
   -e VLLM_WORKER_MULTIPROC_METHOD=spawn -e PYTHONPATH=/c8bootstrap \
@@ -52,6 +57,8 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e ENFORCE_EAGER="$ENFORCE_EAGER" \
   -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
   -e COMPILATION_MODE="$COMPILATION_MODE" \
+  -e QWEN36_GDN_ENABLED="${QWEN36_GDN_ENABLED:-0}" \
+  -e QWEN36_GDN_LIBRARY=/custom/pr17640_gdn.so -e QWEN36_GDN_SOURCE=/gdn-source.py \
   -e MTP="$MTP" \
   -e NUM_SPECULATIVE_TOKENS="$NUM_SPECULATIVE_TOKENS" \
   -e ENABLE_PROFILER="${PROFILE_DIR:+1}" \
@@ -75,6 +82,10 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
     source /usr/local/Ascend/ascend-toolkit/set_env.sh
     source /opp/bin/set_env.bash
     export ASCEND_CUSTOM_OPP_PATH=/opp
+    if [[ "$QWEN36_GDN_ENABLED" == 1 ]]; then
+      export ASCEND_CUSTOM_OPP_PATH="/gdn-opp:/opp"
+      export LD_LIBRARY_PATH="/gdn-opp/op_api/lib:$LD_LIBRARY_PATH"
+    fi
     python3 -c "import sitecustomize; print(sitecustomize.__file__)"
     args=()
     if [[ "$ENABLE_PROFILER" == 1 ]]; then
