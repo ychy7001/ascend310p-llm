@@ -51,6 +51,19 @@ bash scripts/run-service.sh
 
 `MTP=0`关闭MTP；TP2设置`TP=2`。标准启动器用于W4/FP16-KV基线；C8+Graph必须使用`experimental/run-c8-service.sh`。C8产品候选参数是`MAX_MODEL_LEN=114688 MEMORY_UTILIZATION=0.95 MAX_BATCHED_TOKENS=1024 QWEN36_C8_POOL_MODE=split_by_type QWEN36_C8_FUSED_WRITE=1 QWEN36_C8_DEVICE_LENGTH=1 ENFORCE_EAGER=0 QWEN36_C8_ALLOW_GRAPH=1 QWEN36_C8_FORCE_UPDATABLE_GRAPH=1 COMPILATION_MODE=0 GRAPH_CAPTURE_SIZES=1,2`；MTP2实验档额外设置`QWEN36_C8_ALLOW_MTP2=1 NUM_SPECULATIVE_TOKENS=2 GRAPH_CAPTURE_SIZES=1,2,3`。这些参数依赖当前实验镜像和自定义C8库，不能当作官方通用vLLM参数。容器只挂载自包含模型目录，不依赖原始BF16或sidecar父目录。
 
+可用统一 wrapper 复现已验证的 112K 档位。默认是 MTP1；设置 `QWEN36_PROFILE=mtp2` 切换两枚 draft 的实验档：
+
+```bash
+MODEL_DIR=/absolute/path/weights \
+OPP_DIR=/absolute/path/qwen36-build/artifacts/opp/vendors/custom_transformer \
+EXTENSION=/absolute/path/qwen36-build/artifacts/qwen36_int4_custom.so \
+C8_LIBRARY=/absolute/path/qwen36-build/c8-device-length-build/output/libqwen36_c8.so \
+QWEN36_PROFILE=mtp1 PORT=18020 \
+bash experimental/run-c8-112k-product.sh
+```
+
+`QWEN36_PROFILE=mtp2` 仅改变 draft 数和 Graph capture sizes，仍依赖实验性 updatable-graph 路径；该 wrapper 不声称 TP2 或 32G 支持。
+
 ```bash
 python3 tools/bench_generation_sanity.py --base-url http://127.0.0.1:18015 --model qwen36-w4a8 --out /tmp/generation.json --max-tokens 128
 python3 tools/bench_http_stream.py --base-url http://127.0.0.1:18015 --model qwen36-w4a8 --prompt-tokens 128 --output-tokens 256 --concurrency 1 --repeats 3 --out /tmp/stream.jsonl
