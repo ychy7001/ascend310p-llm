@@ -38,7 +38,7 @@
     "experimental/check_c8_selected_nz_310.py": "5d8e3b14833244ab7f5ebfef9060433d4e082f158c482a759e7b4fad59df1e26",
     "experimental/direct_graph_310.py": "232691c5adf740351a7309eb5210dfa1acd4b3c4b9893a8f2b8e0689e19d82d5",
     "experimental/pr17640_gdn_adapter.py": "3b410ab5ea40c029d1ded8f759a9eca4659892d3bf529ca6f8499b8a53342800",
-    "experimental/run-c8-112k-product.sh": "7896b322b0bab1908736ed2ce00955b52852d32855aa77531547650f4bb1a9f9",
+    "experimental/run-c8-112k-product.sh": "6e7bdefca9170349ada685857986ec3a85f0d5e6ebb8aa33bcc37f2cc196894f",
     "experimental/run-c8-graph-sweep.sh": "199d46b988d1e005b0d3294db95a8a6dea33f009bf560e86828bd2dbef77bdb3",
     "experimental/run-c8-service.sh": "16d01e93d7771bc77efd2fea3fde2af838d60bdad567339e6a63d70e81b7fa37",
     "experimental/run-gdn-112k-product.sh": "93fbbab46bbbe32713eb7369a06d1f2b7caf98870e2deef514478e64a7aea1af",
@@ -85,11 +85,13 @@
     "scripts/build-native.sh": "02214b2867ae67afb61885da3523db464744ad58a049b254201bf5b343d378e4",
     "scripts/run-service.sh": "0b87043b8d719a869391de897fce7e8b905cbd2a19123ac15284596f4cc556e1",
     "tools/bench_mtp_chat.py": "a6e4408ed9a5ca33cda45d19da870f508640fcb41bde3d2895c4b4683982840a",
+    "tools/bench_prefix_reuse.py": "97885a47181add37fd44cd28a7ff610d5ef4be5e1d4b380890be468273523f06",
     "tools/build_pr17640_wy_extension.py": "e109a088753fc1aee1761bc7a454792977c48a3f7dd6e5d9125a6d50cebf1af9",
     "tools/build_qwen36_int4_extension.py": "4c4475e67ae99c2cfa3c332e3caf0c91069bda131193b6f409f629728bc6f2d3",
     "tools/check_mindieq_qmm_310.py": "baebc5725219dd6402f8962605eb15aabfaf6b1286cfb7f42a36114b6f84301d",
     "tools/check_pr17640_gdn_310.py": "e07afebd27b06eb9847ec25b299ce5c4e716b50924563ba5b3a53129f6eb648b",
     "tools/check_pr17640_wy_310.py": "977e3a55c7ca50aba46a023bb11d00e2bfb7d6eae1d1b5d51b33dd65df82a170",
+    "tools/check_prefix_state.py": "c29062c193af484990a81aed3cf55e432a6f95afec3dcff9ae8edbc2191a4150",
     "tools/qwen36_int4_custom.cpp": "f6e3f4a46b4a28898050883da0341ca45545ab9d160852c631cf1ed93f91d7c7"
   }
 }

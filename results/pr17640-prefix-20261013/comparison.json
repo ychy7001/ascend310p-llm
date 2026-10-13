@@ -1,0 +1,54 @@
+{
+  "protocol": "同服务冷一次、热三次；非冷Prefill重复基准；单流MTP2/W4/C8/GDN/Graph/4096/512/112K/.95",
+  "8192": {
+    "cold_ttft_s": 15.839087041968014,
+    "hot_ttft_median_s": 2.6463729619863443,
+    "cold_wall_s": 19.306202375970315,
+    "hot_wall_median_s": 6.1079966890392825,
+    "cold_decode_tok_s": 36.59044326033169,
+    "hot_decode_median_tok_s": 36.66229049947869,
+    "cold_prefill_seconds": 15.814990452956408,
+    "hot_prefill_median_seconds": 2.640075887029525,
+    "all_outputs_equal": true,
+    "all_valid": true,
+    "hits_per_hot": [
+      6912.0,
+      6912.0,
+      6912.0
+    ],
+    "ttft_reduction_pct": 83.29213700906885
+  },
+  "32256": {
+    "cold_ttft_s": 68.47045104799327,
+    "hot_ttft_median_s": 11.137157208984718,
+    "cold_wall_s": 72.85749134095386,
+    "hot_wall_median_s": 15.529048990982119,
+    "cold_decode_tok_s": 28.887976151109715,
+    "hot_decode_median_tok_s": 28.864780524028493,
+    "cold_prefill_seconds": 68.45213103003334,
+    "hot_prefill_median_seconds": 11.119737053988501,
+    "all_outputs_equal": true,
+    "all_valid": true,
+    "hits_per_hot": [
+      27648.0,
+      27648.0,
+      27648.0
+    ],
+    "ttft_reduction_pct": 83.7343598026274
+  },
+  "needle114560": {
+    "correct": true,
+    "elapsed_s": 348.21069206797983,
+    "total_tokens": 114574,
+    "no_prefix_reference_elapsed_s": 348.941144
+  },
+  "postlong": {
+    "all_final_answers_correct": true,
+    "A_texts_equal": true,
+    "B_shared_equals_cold": false,
+    "B_repeat_hot1_hot2_same_as_cold_reference": true,
+    "B_second_cold_full_text_differs": true,
+    "B_final_answers_equal": true
+  },
+  "decision": "prefix保持可选，默认off；性能收益已证明，长请求通过；冷参考本身也有思考措辞变化，尚不能证明全面精度等价。"
+}

@@ -1,10 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 """Measure one cold prefix request followed by repeated prefix hits."""
 import argparse
+import hashlib
 import json
 import time
 import urllib.request
 from pathlib import Path
+from bench_http_stream import post as stream_post
 
 
 PHASE_METRICS = (
@@ -40,26 +42,54 @@ def metrics(base):
     return values, prefix
 
 
-def request(base, model, tokens, output_tokens):
+def request(base, model, tokens, output_tokens, cache_salt=None):
     before, prefix_before = metrics(base)
     start = time.perf_counter()
-    result = post(base, '/v1/completions', {
+    first = None
+    text = ''
+    usage = None
+    finish = None
+    events = []
+    with stream_post(base, '/v1/completions', {
         'model': model, 'prompt': tokens, 'temperature': 0,
-        'max_tokens': output_tokens,
-    })
-    elapsed = time.perf_counter() - start
+        'max_tokens': output_tokens, 'stream': True,
+        **({'cache_salt': cache_salt} if cache_salt is not None else {}),
+        'stream_options': {'include_usage': True},
+    }) as response:
+        for line in response:
+            if not line.startswith(b'data: '):
+                continue
+            data = line[6:].strip()
+            if data == b'[DONE]':
+                break
+            payload = json.loads(data)
+            now = time.perf_counter()
+            for choice in payload.get('choices', []):
+                chunk = choice.get('text') or ''
+                if chunk:
+                    first = now if first is None else first
+                    text += chunk
+                    events.append({'seconds': now - start, 'text': chunk})
+                finish = choice.get('finish_reason') or finish
+            usage = payload.get('usage') or usage
+    end = time.perf_counter()
+    elapsed = end - start
     after, prefix_after = metrics(base)
     delta = {name: after[name] - before[name] for name in PHASE_METRICS}
-    usage = result.get('usage') or {}
     return {
         'wall_seconds': elapsed,
+        'ttft_s': first - start if first else None,
+        'mean_tpot_s': (end - first) / (usage['completion_tokens'] - 1) if first and usage['completion_tokens'] > 1 else None,
+        'events': events,
         'prefill_seconds': delta[PHASE_METRICS[1]],
         'decode_seconds': delta[PHASE_METRICS[2]],
-        'prefill_tok_s': len(tokens) / delta[PHASE_METRICS[1]],
+        'logical_prefill_tok_s': len(tokens) / delta[PHASE_METRICS[1]] if delta[PHASE_METRICS[1]] > 0 else None,
         'decode_tok_s': ((usage.get('completion_tokens', 0) - 1) /
-                         delta[PHASE_METRICS[2]]),
+                         delta[PHASE_METRICS[2]]) if delta[PHASE_METRICS[2]] > 0 else None,
         'usage': usage,
-        'finish_reason': result['choices'][0].get('finish_reason'),
+        'text': text,
+        'valid': delta[PHASE_METRICS[0]] == 1 and usage.get('prompt_tokens') == len(tokens),
+        'finish_reason': finish,
         'prefix_metrics_before': prefix_before,
         'prefix_metrics_after': prefix_after,
     }
@@ -88,12 +118,16 @@ def main():
         'protocol': 'first request is cold; following requests reuse identical token IDs',
         'model': args.model, 'prompt_tokens': len(tokens),
         'output_tokens': args.output_tokens, 'rows': rows,
+        'prompt_ids': tokens,
+        'prompt_sha256': hashlib.sha256(json.dumps(tokens).encode()).hexdigest(),
+        'all_outputs_equal': len({row['text'] for row in rows}) == 1,
+        'all_valid': all(row['valid'] for row in rows),
     }
     with args.out.open('x') as stream:
         json.dump(result, stream, ensure_ascii=False, indent=2)
     for index, row in enumerate(rows):
         print(json.dumps({'request': index, **{
-            key: row[key] for key in ('wall_seconds', 'prefill_tok_s', 'decode_tok_s')
+            key: row[key] for key in ('wall_seconds', 'logical_prefill_tok_s', 'decode_tok_s')
         }}), flush=True)
 
 

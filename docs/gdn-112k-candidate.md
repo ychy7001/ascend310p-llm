@@ -15,7 +15,7 @@
 | gpu_memory_utilization | .95 | 单芯片内存候选；非宣称.90一定不可用 |
 | max_num_batched_tokens | 4096 | 比1024小幅提升Prefill，并恢复8K测试的输出和接受率表现 |
 | 专家 chunk | 512 | 保持已测N128路径，只单独改变调度批量 |
-| Prefix caching | 关闭 | 冷Prefill公平比较；尚未验收GDN新路径的prefix复用 |
+| Prefix caching | 关闭 | 冷Prefill公平比较；prefix可选测试8K/32K TTFT约-83%，112K检索通过，但严格全文等价尚未确认 |
 | max_num_seqs | 1 | 当前只验证单流，不能将数字当并发吞吐 |
 
 ## 性能与质量范围
@@ -49,6 +49,6 @@ bash experimental/run-gdn-112k-product.sh
 
 ## 后续边界
 
-这轮收敛目标是已有112K单流候选。已完成新GDN下MTP1/2固定输入对照，尚需MTP0对照、prefix caching、并发2/4/8、TTFT/TPOT尾延迟、更多任务精度、长文decode128以上稳定性。48G以外的32G硬件、TP2及官方main迁移不能由本轮结果外推。MindIEQ W4存储INT8计算路径尚无稳定加速，未替换权重后端。
+这轮收敛目标是已有112K单流候选。已完成新GDN下MTP1/2固定输入对照，prefix初测见results/pr17640-prefix-20261013；尚需MTP0对照、prefix更多质量/压力测试、并发2/4/8、TTFT/TPOT尾延迟、更多任务精度、长文decode128以上稳定性。48G以外的32G硬件、TP2及官方main迁移不能由本轮结果外推。MindIEQ W4存储INT8计算路径尚无稳定加速，未替换权重后端。
 
 本轮工程结论：采用4096/512作为新的单流实验基线，服务保留a2的18024端口；仍保留原启动器用于回归。未将这一小样本门禁写成正式产品验收。

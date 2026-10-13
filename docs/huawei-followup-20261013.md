@@ -174,3 +174,15 @@ MTP1/2对照已完成，保留MTP2实验默认。四类chat中位Decode：
 会议摘要两组均147tokens正常结束、全部重复及跨配置输出一致；其余三类均256tokens上限截断，两组均有重复文本差异，跨配置文本也不相同。不能据此宣称全面质量等价，或将差异全归因于MTP深度。完整全文、接受率及指标见`results/pr17640-mtp-20261013/comparison.json`和原始jsonl。
 
 MTP1启动KV池191507tokens、4.30GiB，MTP2为186236tokens、4.29GiB；两组权重27.288GiB、Graph约.31GiB。池容量均不作为单请求上下文上限。MTP1的TTFT在这四类chat中更低约43–65ms，但MTP2总耗时均较低；主要取舍是草稿成本与批量验证收益。尚未完成MTP0、prefix复用及并发对照。已启动恢复MTP2服务，端口18024。
+
+## 新GDN组合的prefix复用
+
+显式ENABLE_PREFIX_CACHING=1；默认仍0。框架自动选择mamba align和逻辑block1152。TP1/W4/C8/MTP2/Decode Graph/112K/.95/4096:512/maxseq1保持。8K冷TTFT15.839s、热三次中位2.646s（-83.29%）、每次命中6912tokens；32256输入冷68.470s、热11.137s（-83.73%）、每次命中27648。两长度四条输出各自完全一致，Decode基本不变。热请求的logical token/s不是实际冷Prefill算力。
+
+共享文档A/B/A通过，B用独立cache_salt建立冷参考，最终答案严格检查；A三条全文一致、B共享与冷参考全文一致。首次reset_prefix_cache接口404，未计入；B输出32上限曾截断，扩大到256正常回答，原始失败保留。
+
+开启prefix后C8分配116块、单请求预算最低113块；scratch224MiB、Graph.31GiB；启动KV池估计181248tokens不作为请求上限。接近112K实际检索及其后状态检查正在执行；尚未改默认。复现工具bench_prefix_reuse.py与check_prefix_state.py、数据results/pr17640-prefix-20261013。
+
+实际114560token检索通过，正确输出ASCEND732941、总114574tokens、耗时348.211s，关闭prefix同类单样本348.941s。之后A/B/A全部最终答案正确；A三条全文一致，B共享/冷参考的思考段出现少量措辞差异，最终答案LinMei、两条均232输出tokens。严格B全文一致检查为false，未隐藏。补测同一B冷参考的热请求两次全文完全匹配；另一独立cache_salt冷请求全文也有变化、最终答案相同。因此目前不能将变化单独归因于prefix，但也不宣称严格等价。保留prefix为可选试验，默认off。服务18024暂保留prefix候选用于后续诊断。
+
+服务日志归档只归一化换行及行末空白，a2原始log保留。该轮没有证明全面长文质量、最长上下文、并发批处理或P95。
