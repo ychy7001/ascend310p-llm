@@ -1,0 +1,52 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "output_tokens": 128,
+    "repeats": 3,
+    "comparison_scope": "同日历史baseline；未交替A/B复测",
+    "metrics": {
+      "n128-product-20261013": {
+        "prefill_tok_s": 391.5909402597231,
+        "decode_tok_s": 37.01237477105787
+      },
+      "pr17640-product-20261013": {
+        "prefill_tok_s": 494.50389274363044,
+        "decode_tok_s": 33.49396030094106
+      },
+      "pr17640-b4096-20261013": {
+        "prefill_tok_s": 503.09934403014785,
+        "decode_tok_s": 37.0999787472769
+      }
+    },
+    "exact_text_vs_original": [
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "prompt_tokens": 32256,
+    "output_tokens": 128,
+    "repeats": 3,
+    "comparison_scope": "同日历史baseline；未交替A/B复测",
+    "metrics": {
+      "n128-product-20261013": {
+        "prefill_tok_s": 357.5767551249524,
+        "decode_tok_s": 29.045266156386337
+      },
+      "pr17640-product-20261013": {
+        "prefill_tok_s": 446.02790015901206,
+        "decode_tok_s": 28.983288958156383
+      },
+      "pr17640-b4096-20261013": {
+        "prefill_tok_s": 450.6518042358596,
+        "decode_tok_s": 29.17377634194237
+      }
+    },
+    "exact_text_vs_original": [
+      true,
+      true,
+      true
+    ]
+  }
+]

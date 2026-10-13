@@ -149,3 +149,5 @@ GSM固定32题完成：31/32，与原N128基线相同；仍为index205达到512�
 下一轮仅把MAX_BATCHED_TOKENS从1024调到4096，expert chunk仍512，其他配置保持不变；新目录`/home/ychy/ascend-lab-runtime/pr17640-b4096-20261013`、容器`qwen36-pr17640-b4096`，沿用18024端口。目的为观察降低GDN chunk调用次数的收益、workspace/KV容量代价及Decode/MTP变化。
 
 4096调度批量服务启动、Graph和生成门禁通过；KV容量仍186236tokens，Graph .31GiB。8K/128三次中位Prefill503.099tok/s、Decode37.100tok/s；三个输出与原N128对应输出完全一致。较原N128 Prefill+28.48%、Decode+0.24%；较GDN/b1024 Prefill+1.74%，Decode恢复。此结果提示调度chunk边界可能影响递归数值与MTP接受，尚不能证明已消除所有精度风险。32K、GSM32及实际112K正在顺序验证。
+
+4096调度批量32K/128三次完成：Prefill中位450.652tok/s（相对原N128+26.03%），Decode29.174tok/s（+0.44%）；8K和32K各3条输出全部与原N128对应输出相同。完整三配置比较见`results/pr17640-b4096-20261013/comparison.json`。
