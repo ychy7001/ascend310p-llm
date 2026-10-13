@@ -1,0 +1,2 @@
+v2 wide-PV build: /home/ychy/ascend-lab-runtime/mindieq-r3-20261013/c8-cube-wide-pv-v2-build/output/libqwen36_c8.so
+Candidate changes c8_attention_cube.cpp; candidate.patch preserves exact diff.

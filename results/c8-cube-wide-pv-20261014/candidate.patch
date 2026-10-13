@@ -1,0 +1,44 @@
+diff --git a/experimental/ascend_c8_kernel/csrc/c8_attention_cube.cpp b/experimental/ascend_c8_kernel/csrc/c8_attention_cube.cpp
+index cc83525..c509cd9 100644
+--- a/experimental/ascend_c8_kernel/csrc/c8_attention_cube.cpp
++++ b/experimental/ascend_c8_kernel/csrc/c8_attention_cube.cpp
+@@ -25,11 +25,11 @@ extern "C" __global__ __aicore__ void c8_attention_cube_kernel(
+   pipe.InitBuffer(khb,16*256*2); pipe.InitBuffer(vhb,16*256*2);
+   pipe.InitBuffer(fbuf,16*256*4); pipe.InitBuffer(sb,16*16*2);
+   pipe.InitBuffer(scoreb,256*4); pipe.InitBuffer(probb,256*2);
+-  pipe.InitBuffer(accb,16*256*4); pipe.InitBuffer(resultb,256*4);
++  pipe.InitBuffer(accb,16*256*4); pipe.InitBuffer(resultb,16*256*4);
+   pipe.InitBuffer(redb,32*4); pipe.InitBuffer(tmpb,256*4);
+   pipe.InitBuffer(a1b,16*256*2); pipe.InitBuffer(b1b,16*256*2);
+   pipe.InitBuffer(a2b,16*256*2); pipe.InitBuffer(b2b,16*256*2);
+-  pipe.InitBuffer(c1b,256*4);
++  pipe.InitBuffer(c1b,16*256*4);
+   auto q=qb.Get<half>(); auto xi=ib.Get<int8_t>();
+   auto kh=khb.Get<half>(); auto vh=vhb.Get<half>(); auto xf=fbuf.Get<float>();
+   auto scales=sb.Get<half>(); auto scores=scoreb.Get<float>(); auto prob=probb.Get<half>();
+@@ -112,14 +112,17 @@ extern "C" __global__ __aicore__ void c8_attention_cube_kernel(
+     pipe_barrier(PIPE_V);Cast(vh,xf,RoundMode::CAST_NONE,count*dim);pipe_barrier(PIPE_ALL);
+     DataCopy(a1,prob,256);pipe_barrier(PIPE_ALL);
+     load.repeatTimes=1;load.ifTranspose=false;LoadData(a2,a1,load);
+-    for(int64_t j=0;j<dim/16;++j){
+-      DataCopy(b1,vh[j*16],pack);pipe_barrier(PIPE_ALL);
+-      load.ifTranspose=true;LoadData(b2,b1,load);pipe_barrier(PIPE_ALL);
+-      mm.k=16;Mmad(c1,a2,b2,mm);pipe_barrier(PIPE_ALL);
+-      DataCopy(result,c1,DataCopyParams{1,1,0,0},enhanced);pipe_barrier(PIPE_ALL);
+-      for(int64_t r=0;r<groups;++r)Add(acc[r*dim+j*16],acc[r*dim+j*16],result[r*16],16);
+-      pipe_barrier(PIPE_ALL);
+-    }
++    for(int64_t j=0;j<dim/16;++j)DataCopy(b1[j*256],vh[j*16],pack);
++    pipe_barrier(PIPE_ALL);
++    load.repeatTimes=dim/16;load.ifTranspose=true;LoadData(b2,b1,load);
++    pipe_barrier(PIPE_ALL);
++    mm.n=dim;mm.k=16;Mmad(c1,a2,b2,mm);pipe_barrier(PIPE_ALL);
++    DataCopy(result,c1,DataCopyParams{1,static_cast<uint16_t>(dim/16),0,0},enhanced);
++    pipe_barrier(PIPE_ALL);
++    // L0C readback keeps 16x16 output-column tiles, not row-major N.
++    for(int64_t j=0;j<dim/16;++j)
++      for(int64_t r=0;r<groups;++r)Add(acc[r*dim+j*16],acc[r*dim+j*16],result[j*256+r*16],16);
++    pipe_barrier(PIPE_ALL);
+   }
+   if(splits==1){
+     for(int64_t r=0;r<groups;++r){
