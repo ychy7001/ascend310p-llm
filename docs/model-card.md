@@ -31,7 +31,7 @@ tags:
 | 完整W4A8 TP1/TP2、FP16 KV | 已在真实310P3运行 |
 | BF16 MTP | TP1/TP2、num_speculative_tokens=1已运行 |
 | INT8 KV / C8 | TP1/eager/MTP=0/4K短生成与chunked prefill已通过；32K配置已启动并完成约9.9K输入实测 |
-| W4A8+MTP+C8 | TP1/eager/4K短生成、GSM32、32K配置启动和有限HTTP对照已通过；TP2/全面质量/接近上限长上下文未验收 |
+| W4A8+MTP+C8 | TP1/eager与Graph、MTP1/MTP2在4K/32K/112K已通过启动、sanity、needle和阶段基准；TP2、全面质量与正式P95仍未验收 |
 | 长上下文 | 无MTP TP1实际128K生成已测；256K配置不等于实际请求验收 |
 | 多模态、全面精度、长上下文质量 | 未完成验收 |
 
@@ -85,7 +85,7 @@ python3 tools/bench_generation_sanity.py \
   --out /tmp/qwen36-generation.json --max-tokens 128
 ```
 
-sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库；已在TP1/eager/单请求MTP=0和MTP=1实验配置运行，32K上限配置已完成启动和约9.9K输入实测；TP2、Graph、全面质量和接近上限长上下文尚未验收。不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。
+sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库；TP1/W4A8+C8+Graph已在MTP1/MTP2下完成4K、32K和112K实机门禁，包含近上限needle；这些不是完整准确率集合或P95。TP2、正式上游Graph backend、多模态和32G实卡仍未验收。不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。
 
 ## 发布校验与性能边界
 

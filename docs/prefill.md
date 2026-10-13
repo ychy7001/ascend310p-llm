@@ -55,7 +55,7 @@ C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache�
 
 ## 后续MTP2设备门禁
 
-标准启动器保持`MTP=0/1`作为开关；`MTP=1 NUM_SPECULATIVE_TOKENS=2`选择两次草稿预测，默认草稿数仍为1。实验C8启动器仅在`QWEN36_C8_ENABLED=0`时接受两草稿，C8后端的单草稿限制不变。先测试FP16 KV/eager，再评估Graph/capture形状及C8回退；当前没有MTP2设备运行结果。
+标准启动器保持`MTP=0/1`作为开关；`MTP=1 NUM_SPECULATIVE_TOKENS=2`选择两次草稿预测，默认草稿数仍为1。早期FP16 KV/eager和C8单草稿限制的历史记录保留不变；后续C8 adapter已增加显式`QWEN36_C8_ALLOW_MTP2=1`实验开关，并在C8+Graph下完成4K/32K/112K门禁。正式产品仍需使用112K同协议矩阵和真实业务接受率，不把历史失败记录当作当前能力结论。
 
 固定镜像源码`vllm_ascend/spec_decode/llm_base_proposer.py`在单草稿early exit后具有`num_speculative_tokens-1`次迭代，并更新位置、hidden states和slot mapping。源码路径存在不代表310P的Qwen hybrid state回退已经正确，须记录第二位置接受率、实际拒绝、质量、平均接受长度、同协议TPOT和内存。不要仅以“能启动”宣布MTP2适配完成。
 
@@ -126,4 +126,4 @@ MTP1的8K/256三轮完成，与无MTP相同32K上限/FP16KV/eager/.90/1024:512/p
 | 2048 | 373.12 | 30.19 |
 | 3072 | 376.06 | 33.70 |
 
-这是eager路径，不是Graph收益结论。MTP2 Graph使用capture sizes `[1,2,3]` 仍在capture阶段失败：310P attention `update_graph_params` 读取`None.attn_params`。失败发生在图初始化，不是C8数值输出失败；原始日志`c8-mtp2-graph-4k.log`保留。当前结论：C8+MTP2 eager可运行，C8+MTP2 Graph尚未适配；默认仍为MTP1，需修复Graph参数生命周期并完成质量/长上下文门禁后才可产品化。
+这是eager路径，不是Graph收益结论。该段历史记录中的 MTP2 Graph 失败日志仍保留；后续通过 pinned 镜像兼容开关和`COMPILATION_MODE=0`完成了 C8+MTP2+Graph 的4K/32K/112K门禁。当前产品候选和最新数据见`docs/c8.md`与`docs/parameter-selection-20261012.md`；默认仍建议MTP1，MTP2作为显式实验档。

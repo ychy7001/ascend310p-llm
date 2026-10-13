@@ -7,9 +7,9 @@
 | 技术 | 当前状态 | 验收边界 |
 | --- | --- | --- |
 | Routed Experts W4A8 | 完整模型TP1/TP2启动、生成 | 其它层保持浮点；不保证优于W8A8 |
-| W4A8+MTP | Qwen3.6自身BF16 MTP，TP1/TP2生成与部分benchmark | 一枚草稿TP1/TP2；两枚草稿仅TP1/FP16 KV/eager/32K已测 |
+| W4A8+MTP | Qwen3.6自身BF16 MTP，TP1/TP2生成与benchmark | 两枚草稿已在TP1/C8/Graph完成4K、32K、112K门禁；TP2两枚草稿仍待测 |
 | C8 | 独立page写入、读取、反量化、Attention与mutable Graph已测 | 软件C8持久存储、按需转FP16 NZ后原生PA；不是原生INT8 PA |
-| W4A8+MTP+C8+Decode Graph | TP1/4K真实Graph replay与质量检查，接近128K单次检索通过 | 仅MTP=1；长输入重复质量、正式尾延迟、TP2 C8与32G实卡门禁未完成 |
+| W4A8+MTP+C8+Decode Graph | TP1/MTP1和MTP2真实Graph replay、4K/32K/112K检索通过 | 正式backend上游修复、正式尾延迟、TP2 C8与32G实卡门禁未完成 |
 
 环境：镜像`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`，CANN9.1.0，Torch2.10.0+cpu，torch-npu2.10.0.post4，vLLM基于`0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665`，vLLM-Ascend基于`1cdb8c4db6e50f36f1fb3283b3e3dd618f6821e8`。额外社区W4模块及本地修改见来源说明。
 
@@ -56,6 +56,6 @@ TP1/48G、W4+MTP1+动态C8+Decode Graph的另一轮`.97`服务曾完成130560输
 
 ## MTP2与Graph转换优化补充
 
-experimentally verified：同TP1/FP16KV/eager/32K/.90/1024:512/maxseq1/prefix off，MTP1→MTP2，8K输入/output256 Decode中位26.2373→33.1059tok/s，近32K 22.4596→28.8517tok/s；近32K Prefill352.0753→350.2415tok/s。两组各toy8/8、A/B/A无泄漏且文本一致、近32K单检索通过。固定重复文本长请求两位置接受率100%，非业务普遍收益；p128 MTP2草稿620/接受490，第二位置接受229，实际存在未接受草稿。完整质量与MTP2 Graph/C8仍未验收。
+历史 FP16KV/eager 对照保留：同TP1/32K下MTP1→MTP2，8K Decode中位26.2373→33.1059tok/s，近32K 22.4596→28.8517tok/s。最新 C8/Graph 同协议 112K、32256/256 对照为 MTP1 `339.28/23.20`、MTP2 `336.56/28.94 tok/s`（Prefill/Decode），Decode约提升24.8%，Prefill约下降0.8%。两组均通过阶段计数；完整质量、真实业务接受率和正式P95仍未验收。
 
 C8图内转换候选：新可选NPU INT32 context_length在kernel侧限制有效页，输出extent及Graph shape不变；独立Graph+原生PA测试七个长度/页表变化全部max_abs=0。固定128K extent、warmup5+30次交替同步replay，128实际长度全范围转换3823μs→89μs，8K 3827→329μs，32K 3813→1032μs，128K约3828→3829μs。host计时含replay/synchronize，非纯kernel与完整模型收益。当前正做eager/Graph全范围/Graph有效长度的完整模型匹配对照和GSM32回归；详见c8.md。
