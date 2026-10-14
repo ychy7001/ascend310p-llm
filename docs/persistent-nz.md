@@ -14,6 +14,22 @@ C8_LIBRARY=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so
 
 `C8_PERSISTENT_NZ_ASSUME_STABLE` 是显式实验开关。Graph 路径不使用该增量分支；跨页、chunked prefill、页表变化和非 compact attention state 回退到 full conversion。
 
+## 为什么当前没有接入 Decode Graph
+
+Graph capture 会固定 Python 侧的 `pages` 和 `dst_block`。因此 eager 中可以判断
+“本次新增 token 仍在同一页”并调用 range kernel，Graph replay 却不能安全地把这个
+host 分支改成动态分支。把 Graph 简单改成只更新末页会留下三个正确性问题：
+
+1. 首次 capture 时 NZ 工作区的历史页还没有初始化；
+2. 新请求、prefix-cache 命中后的不同物理页表或页表重排会使旧 NZ 页失效；
+3. MTP verify 可能一次写入并跨越两个页，单页 range 更新会读到旧数据。
+
+要在 Graph 中使用增量 NZ，算子需要额外的设备端状态协议：首次执行的 full/range
+状态、请求或页表 generation、动态末页索引，以及跨页多页更新。状态必须在请求切换
+时由调度器显式失效，并经过 prefix cache、MTP1/2、跨页和 Graph replay 的组合门禁。
+在此协议实现前，Graph 保持每步 device-length full conversion 是正确但较慢的路径，
+eager persistent NZ 只作为研究开关。
+
 ## 算子级证据
 
 在真实 Ascend 310P3/CANN 9.1 上，114688 slots、GQA 2、head dim 256、block 64 的交替同步 benchmark：
