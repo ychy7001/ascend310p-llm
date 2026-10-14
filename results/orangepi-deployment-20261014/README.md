@@ -174,7 +174,7 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 
 ## RC/EP主要配置对齐的三轮对照
 
-临时停止a2的`qwen36-a2.service`，使用保留的CreateCommand生成独立`qwen36-ep-rc-pair`/18030；实验结束停止候选并重新start原服务单元。chip1不动。代码snapshot为本轮公开仓库，主要参数统一TP1/MTP1/batch2048/Graph/GDN/MindIEQ/seq1、prefix on、OMP4、视觉max_pixels1048576/cache0.5GiB；KV显式6GiB（EP worker是否执行该预算需看加载日志，不能只根据CLI断言）。RC使用transdata C8，EP仍原C8；不同SoC/主机/驱动/编译产物不可能消除，因此是主要配置对齐的系统对照，不是只改变RC/EP的因果实验。
+临时停止a2的`qwen36-a2.service`，使用保留的CreateCommand生成独立`qwen36-ep-rc-pair`/18030；实验结束停止候选并重新start原服务单元。chip1不动。代码snapshot为本轮公开仓库，主要参数统一TP1/MTP1/batch2048/Graph/GDN/MindIEQ/seq1、prefix on、OMP4、视觉max_pixels1048576/cache0.5GiB；CLI显式KV6GiB；EP加载日志实际为6.01GiB（worker halved for workspace），GPU KV cache size=260,941 tokens，故两端预算近似但并非逐字节一致。RC使用transdata C8，EP仍原C8；不同SoC/主机/驱动/编译产物不可能消除，因此是主要配置对齐的系统对照，不是只改变RC/EP的因果实验。
 
 同脚本warmup1/repeat3、独立salt、每请求usage/计数器有效且cache hit=0，三轮输入SHA逐一匹配：
 
@@ -191,3 +191,10 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 下一项隔离诊断为RC状态块索引：旧补丁`seq_lens.cpu()`每步产生D2H同步。设备FP32非负除法转INT32替代仅在显式开关`RC_DEVICE_BLOCK_INDICES=1`使用，64/576/1152/1728块尺寸、长度0..114688全部与CPU整数参考一致，且修改输入后的Graph replay通过；不扩展到未经验证的块尺寸/长度。默认仍为原CPU路线，模型性能/质量门禁通过前不宣称收益。
 
 该候选模型8/8/视觉/A-B-A通过；8192/128三轮中位Prefill563.156 vs563.925、Decode23.963 vs23.874（+0.37%），3/3输出全文一致，MTP100%且cache hit=0。收益很小，不作为默认性能优化，后续已关闭`RC_DEVICE_BLOCK_INDICES`。保留仅用于诊断，不能解释RC/EP约20%的Decode差距。下一项是`MTP_DRAFT_EAGER=1`：主模型Graph、MTP2 draft eager，隔离此前draft Graph组合失败；尚未验证。
+
+### MTP2 draft-eager隔离结果：仍失败
+
+日志确认`num_speculative_tokens=2,enforce_eager=true`，主模型保持Graph。15:52:50UTC首个请求再次设备TS exception；device debug明确`aicpu task exception`，stream2/task21711、magic0xac79F，Python仍等待draft回传event。不能归为只由draft Graph导致，也不能将等待函数当触发算子。AI CPU日志尚未暴露具体op，仍需更细task/op关联；证据见`mtp2-draft-eager-{stack,ts,device-debug}.txt`、压缩启动日志。已停止失败候选，恢复MTP1+Graph+GDN+MindIEQ，索引候选关闭；恢复后需health/生成门禁。
+
+
+MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_update_stack_num_spec_norm`（本机1590–1668附近），第二个draft新增`clamped_positions // block_size`与`% block_size`。本机另一个prefix索引路径已因旧AI CPU FloorDiv做CPU兼容补丁，而MTP2此处没有同样处理。它是待隔离验证的候选，不是已证明的异常算子，不能据此宣称修复完成。

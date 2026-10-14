@@ -1,0 +1,180 @@
+<exception_print>HWTS_REG_ACTIVE_TO_SQ_MAP=0x100000021, sq id=33
+<exception_print>HWTS_REG_HWTS_SQ_CFG2_0_REG(pid)=99885
+<exception_print>HWTS_REG_SQ_CFG0(sq_head)=0x3d5
+<exception_print>HWTS_REG_SQ_DB(sq_tail)=0x3d6
+<exception_print>HWTS_REG_CQ_DB(cq_head)=0x385
+<exception_print>HWTS_REG_CQ_CFG0(cq_tail)=0x100000385
+<exception_print>HWTS_SLOT_END: slot_id=9
+[ERROR] TSCH(-1,null):2026-10-14-22:52:15.725.706 1862 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:726 process_hwts_error_exception: stream_id=33 task_id=19413 repeat=0
+[ERROR] TSCH(-1,null):2026-10-14-22:52:15.725.723 1863 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:737 process_hwts_error_exception: task exception handle done, task_type=1
+[EVENT] TSCH(-1,null):2026-10-14-22:55:07.129.085 1864 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=25, pid=99885, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-22:55:57.427.944 1865 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=26, vf_id=0, pid=103267, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-14-22:56:16.607.314 1866 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=26, pid=103267, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-22:57:03.051.177 1867 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=27, vf_id=0, pid=104042, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-14-22:57:16.028.680 1868 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=27, pid=104042, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-23:00:13.144.246 1869 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=28, vf_id=0, pid=105081, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-14-23:29:24.874.320 1870 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=29, vf_id=0, pid=109016, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-14-23:30:02.359.652 1871 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=29, pid=109016, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-23:31:54.500.766 1872 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=30, vf_id=0, pid=110253, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-14-23:32:07.537.520 1873 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=30, pid=110253, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-23:32:20.892.725 1874 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=28, pid=105081, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-23:34:54.806.963 1875 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=31, vf_id=0, pid=111386, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-14-23:44:23.725.972 1876 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=31, pid=111386, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-14-23:47:01.107.411 1877 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=32, vf_id=0, pid=113823, support_log_tohost=0,runtime_version=7
+[ERROR] TSCH(-1,null):2026-10-14-23:52:50.674.634 1878 (dieid:0,cpuid:0) hwts_interrupt_plat.c:759 int_process_hwts_task_exception: aicpu task exception, bitmap=0x80000
+[ERROR] TSCH(-1,null):2026-10-14-23:52:50.674.665 1879 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:620 process_hwts_error_exception: slot_id=19, sq_id=2, value=0x100000002
+<exception_print>Task error, type=1, slot=19
+[ERROR] TSCH(-1,null):2026-10-14-23:52:50.674.744 1881 (dieid:0,cpuid:0) ringbuffer.c:162 trace_proc_tohost_pid: set error vf_id=0, log pid=113823, is_support_log_tohost=0
+[ERROR] TSCH(-1,null):2026-10-14-23:52:50.674.764 1882 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:663 process_hwts_error_exception: HWTS task errror. sqe: PC_start=0xe7ffc9fd3000, param_base=0xe8083a55e840
+<exception_print>TIME:2026-10-14-23:52:50.674.779, device_id=0, stream_id=2, task_id=21711, magic_type=0xac79F
+<exception_print>HWTS_PUBLIC_START
+<exception_print>HWTS_REG_GLB_CTRL0=0x330000011a
+<exception_print>HWTS_REG_GLB_CTRL1=0x1f1e1f00ffffff
+<exception_print>HWTS_REG_GLB_CTRL2=0x1f
+<exception_print>HWTS_REG_PRIORITY_CTRL0=0x701
+<exception_print>HWTS_AIC_BASE_ADDR_CFG=0x150000c2000000
+<exception_print>HWTS_VEC_BASE_ADDR_CFG=0x150000c1000000
+<exception_print>HWTS_SDMA_SQ_BASE_ADDR=0x800d00001004b000
+<exception_print>HWTS_REG_SDMA_GLB_SETTING2=0xff009000ff004c
+<exception_print>HWTS_REG_SDMA_GLB_SETTING1=0xc000000880e0000
+<exception_print>HWTS_REG_SDMA_GLB_SETTING3=0x0
+<exception_print>HWTS_REG_VIRTUALIZATION_GLB_CFG=0x101
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[0]=0x100
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[0]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[0]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[0]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[1]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[1]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[1]=0x1ffffe
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[1]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[2]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[2]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[2]=0x2ffffd
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[2]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[3]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[3]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[3]=0x3ffffc
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[3]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[4]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[4]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[4]=0x4ffffb
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[4]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[5]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[5]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[5]=0x5ffffa
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[5]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[6]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[6]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[6]=0x6ffff9
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[6]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[7]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[7]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[7]=0x7ffff8
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[7]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[8]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[8]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[8]=0x8ffff7
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[8]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[9]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[9]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[9]=0x9ffff6
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[9]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[10]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[10]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[10]=0xaffff5
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[10]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[11]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[11]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[11]=0xbffff4
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[11]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[12]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[12]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[12]=0xcffff3
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[12]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[13]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[13]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[13]=0xdffff2
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[13]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[14]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[14]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[14]=0xeffff1
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[14]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[15]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[15]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[15]=0xfffff0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[15]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[16]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[16]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[16]=0x10fffef
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[16]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[17]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[17]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[17]=0x11fffee
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[17]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[18]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[18]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[18]=0x12fffed
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[18]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[19]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[19]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[19]=0x13fffec
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[19]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[20]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[20]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[20]=0x14fffeb
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[20]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[21]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[21]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[21]=0x15fffea
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[21]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[22]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[22]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[22]=0x16fffe9
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[22]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[23]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[23]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[23]=0x17fffe8
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[23]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[24]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[24]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[24]=0x18fffe7
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[24]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[25]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[25]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[25]=0x19fffe6
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[25]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[26]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[26]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[26]=0x1afffe5
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[26]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[27]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[27]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[27]=0x1bfffe4
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[27]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[28]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[28]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[28]=0x1cfffe3
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[28]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[29]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[29]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[29]=0x1dfffe2
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[29]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[30]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[30]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[30]=0x1efffe1
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[30]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_CFG[31]=0x0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_SHADOW[31]=0xfffff
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_MAX_TOKEN_SHADOW[31]=0x1ffffe0
+<exception_print>HWTS_REG_VIRTUAL_MACHINE_THRESHOLD_REFILL_SHADOW[31]=0xfffff
+<exception_print>HWTS_PUBLIC_END
+<exception_print>HWTS_SLOT_START: slot_id=19
+<exception_print>HWTS_REG_ACTIVE_TO_SQ_MAP=0x100000002, sq id=2
+<exception_print>HWTS_REG_HWTS_SQ_CFG2_0_REG(pid)=113823
+<exception_print>HWTS_REG_SQ_CFG0(sq_head)=0x4cf
+<exception_print>HWTS_REG_SQ_DB(sq_tail)=0x4d0
+<exception_print>HWTS_REG_CQ_DB(cq_head)=0x301
+<exception_print>HWTS_REG_CQ_CFG0(cq_tail)=0x100000301
+<exception_print>HWTS_SLOT_END: slot_id=19
+[ERROR] TSCH(-1,null):2026-10-14-23:52:50.675.811 2033 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:726 process_hwts_error_exception: stream_id=2 task_id=21711 repeat=0
+[ERROR] TSCH(-1,null):2026-10-14-23:52:50.675.829 2034 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:737 process_hwts_error_exception: task exception handle done, task_type=1
