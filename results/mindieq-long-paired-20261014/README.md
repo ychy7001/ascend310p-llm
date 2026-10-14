@@ -55,3 +55,16 @@ python3 tools/bench_fixed_tokens_paired.py \
 Prefill 提升 **14.89%**，Decode 变化 **+0.63%**，总耗时减少 **12.70%**。四个请求均完成 `114560+128=114688` token，输出哈希一致，每次 Prometheus prefill count delta 为 1。最后两个服务均回到 `Running: 0`、`Waiting: 0`，日志显示 MTP 平均接受长度 3、两个位置接受率 100%。原始结果为 `paired-112k-fixed-o128-v1.jsonl`，包含原始阶段计时 delta。
 
 复现时把上面的 `--output-tokens` 改为 `128`、`--repeats` 改为 `2`，并使用新的输出文件。128 token 的 Decode 阶段约 7.5 秒，本次仅支持“较 32-token 请求未观察到明显 Decode 回退”，不能替代长输出质量、业务文本 MTP 接受率、流式 TTFT/TPOT 或并发尾延迟验证。
+
+## 32K 流式对照
+
+在同一份 114560-token 离线样本上使用 `--prompt-limit 32256 --stream --output-tokens 128 --repeats 2`，保持已预热服务、prefix off，完成两轮交替配对。结果在 `paired-32k-stream-v1.jsonl`，包含逐文本事件时间、完整文本、usage、原始阶段 delta。输入是重复合成 benchmark 文本，不是会议摘要质量测试。
+
+| 服务 | Prefill 中位 | Decode 中位 | 首非空文本 TTFT 中位 | 平均 TPOT 中位 |
+|---|---:|---:|---:|---:|
+| MindIEQ | 546.50 tok/s | 29.21 tok/s | 59.051 s | 34.125 ms |
+| 原始 W4 | 451.76 tok/s | 28.82 tok/s | 71.420 s | 34.623 ms |
+
+四次输出哈希一致，TTFT 减少约 12.37 秒。每次 128 个输出 token 以 44 个非空文本事件发送，因此事件间隔不是逐 token TPOT；本文的平均 TPOT 为 `(最终usage到达时间 - 首文本到达时间)/(completion_tokens-1)`，包含 HTTP/收尾开销，不能计算为逐 token P95。TTFT 是首个非空文本事件到达时间，若首 token 不产生可见文本，则不等于引擎首 token 时间。
+
+流式采集器在最终 usage 事件后关闭响应，避免实验镜像不及时发送 DONE/EOF 时把连接等待算入延迟；不请求 continuous usage。离线模拟已验证无 DONE 的完整最终 usage 可以正常结束。此改动只影响 benchmark 客户端。

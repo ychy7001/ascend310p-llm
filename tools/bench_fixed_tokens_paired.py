@@ -54,21 +54,28 @@ def main():
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--output-tokens', type=int, default=32)
     p.add_argument('--repeats', type=int, default=3)
+    p.add_argument('--stream', action='store_true')
+    p.add_argument('--prompt-limit', type=int)
     a = p.parse_args()
     opener = gzip.open if a.prompt_file.suffix == '.gz' else open
     with opener(a.prompt_file, 'rt', encoding='utf-8') as prompt_stream:
         config = json.loads(prompt_stream.readline())
     tokens = config['prompt_ids']
-    prompt_hash = hashlib.sha256(json.dumps(tokens, separators=(',', ':')).encode()).hexdigest()
     if len(tokens) != int(config['prompt_tokens']):
         raise RuntimeError('prompt file token count mismatch')
+    if a.prompt_limit is not None:
+        if not 1 <= a.prompt_limit <= len(tokens):
+            p.error('prompt-limit must be within the stored prompt length')
+        tokens = tokens[:a.prompt_limit]
+    prompt_hash = hashlib.sha256(json.dumps(tokens, separators=(',', ':')).encode()).hexdigest()
     a.out.parent.mkdir(parents=True, exist_ok=True)
     with a.out.open('x') as out:
         out.write(json.dumps({'kind': 'config', 'prompt_tokens': len(tokens),
                               'output_tokens': a.output_tokens, 'repeats': a.repeats,
                               'prompt_ids_sha256': prompt_hash,
-                              'protocol': 'fixed token IDs; alternating endpoints; non-streaming',
-                              'phase_metrics': 'Prometheus deltas; no TTFT because requests are non-streaming'}) + '\n')
+                              'protocol': 'fixed token IDs; alternating endpoints',
+                              'stream': a.stream,
+                              'phase_metrics': 'Prometheus deltas; streaming TTFT is first nonempty text event'}) + '\n')
         out.flush()
         for repeat in range(a.repeats):
             endpoints = [('mindieq', a.mindieq_url), ('original', a.original_url)]
@@ -76,7 +83,13 @@ def main():
                 endpoints.reverse()
             for order, (name, base) in enumerate(endpoints):
                 before = snapshot(base)
-                result, elapsed = complete(base, a.model, tokens, a.output_tokens)
+                if a.stream:
+                    from bench_http_stream import request
+                    streamed = request(base, a.model, tokens, a.output_tokens)
+                    result = {'usage': streamed['usage'], 'choices': [{'text': streamed['text']}]}
+                    elapsed = streamed['elapsed_s']
+                else:
+                    result, elapsed = complete(base, a.model, tokens, a.output_tokens)
                 after = snapshot(base)
                 delta = {key: after[key] - before[key] for key in METRICS}
                 if delta[METRICS[0]] != 1 or delta[METRICS[1]] <= 0 or delta[METRICS[2]] <= 0:
@@ -94,6 +107,8 @@ def main():
                 if usage.get('prompt_tokens') != len(tokens) or usage.get('completion_tokens') != a.output_tokens:
                     raise RuntimeError(f'usage mismatch: {usage}')
                 row['phase_delta'] = delta
+                if a.stream:
+                    row['streaming'] = streamed
                 out.write(json.dumps(row) + '\n')
                 out.flush()
                 print(json.dumps(row), flush=True)

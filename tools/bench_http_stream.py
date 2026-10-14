@@ -14,7 +14,7 @@ def post(base, path, body):
         urllib.request.Request(
             base.rstrip('/') + path,
             data=json.dumps(body).encode(),
-            headers={'Content-Type': 'application/json'},
+            headers={'Content-Type': 'application/json', 'Connection': 'close'},
         ), timeout=1800,
     )
 
@@ -48,6 +48,9 @@ def request(base, model, tokens, output_tokens, *, cache_salt=None):
                 events.append({'seconds': now - start, 'text': chunk})
             if event.get('usage'):
                 usage = event['usage']
+                # include_usage 的最终事件已包含完整输出。显式关闭响应，
+                # 避免实验镜像在 usage 后不发送 DONE/EOF 导致无限等连接。
+                break
     end = time.perf_counter()
     count = usage['completion_tokens'] if usage else None
     return {
