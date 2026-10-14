@@ -1,179 +1,181 @@
-[
-  {
-    "pid": 29662,
-    "cmd": "/usr/local/python3.12.13/bin/python3 /usr/local/python3.12.13/bin/vllm serve /model --served-model-n",
-    "Rss": 1809124,
-    "Pss": 1472600,
-    "Private_Clean": 540,
-    "Private_Dirty": 1384784
-  },
-  {
-    "pid": 30668,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.resource_tracker import main;main(34) ",
-    "Rss": 1073732,
-    "Pss": 748231,
-    "Private_Clean": 0,
-    "Private_Dirty": 671988
-  },
-  {
-    "pid": 30759,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.spawn import spawn_main; spawn_main(tra",
-    "Rss": 1075936,
-    "Pss": 750431,
-    "Private_Clean": 0,
-    "Private_Dirty": 674188
-  },
-  {
-    "pid": 30854,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 1073784,
-    "Pss": 130632,
-    "Private_Clean": 0,
-    "Private_Dirty": 17988
-  },
-  {
-    "pid": 30887,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980912,
-    "Pss": 237441,
-    "Private_Clean": 0,
-    "Private_Dirty": 193940
-  },
-  {
-    "pid": 30888,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980916,
-    "Pss": 237430,
-    "Private_Clean": 0,
-    "Private_Dirty": 193928
-  },
-  {
-    "pid": 30889,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980916,
-    "Pss": 237426,
-    "Private_Clean": 0,
-    "Private_Dirty": 193924
-  },
-  {
-    "pid": 30890,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980916,
-    "Pss": 237426,
-    "Private_Clean": 0,
-    "Private_Dirty": 193924
-  },
-  {
-    "pid": 30891,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 981140,
-    "Pss": 237693,
-    "Private_Clean": 0,
-    "Private_Dirty": 194192
-  },
-  {
-    "pid": 30892,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980792,
-    "Pss": 237325,
-    "Private_Clean": 0,
-    "Private_Dirty": 193824
-  },
-  {
-    "pid": 30893,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980824,
-    "Pss": 237334,
-    "Private_Clean": 0,
-    "Private_Dirty": 193832
-  },
-  {
-    "pid": 30894,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980824,
-    "Pss": 237323,
-    "Private_Clean": 0,
-    "Private_Dirty": 193820
-  },
-  {
-    "pid": 30895,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 980928,
-    "Pss": 237423,
-    "Private_Clean": 0,
-    "Private_Dirty": 193920
-  },
-  {
-    "pid": 30896,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982536,
-    "Pss": 239424,
-    "Private_Clean": 0,
-    "Private_Dirty": 195940
-  },
-  {
-    "pid": 30897,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982760,
-    "Pss": 239648,
-    "Private_Clean": 0,
-    "Private_Dirty": 196164
-  },
-  {
-    "pid": 30898,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982564,
-    "Pss": 239449,
-    "Private_Clean": 0,
-    "Private_Dirty": 195964
-  },
-  {
-    "pid": 30899,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982564,
-    "Pss": 239452,
-    "Private_Clean": 0,
-    "Private_Dirty": 195968
-  },
-  {
-    "pid": 30900,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982564,
-    "Pss": 239455,
-    "Private_Clean": 0,
-    "Private_Dirty": 195972
-  },
-  {
-    "pid": 30901,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982556,
-    "Pss": 239474,
-    "Private_Clean": 0,
-    "Private_Dirty": 195992
-  },
-  {
-    "pid": 30902,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982616,
-    "Pss": 239511,
-    "Private_Clean": 0,
-    "Private_Dirty": 196028
-  },
-  {
-    "pid": 30903,
-    "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
-    "Rss": 982660,
-    "Pss": 239513,
-    "Private_Clean": 0,
-    "Private_Dirty": 196000
-  },
-  {
-    "pid": 31459,
-    "cmd": "bash -c python3 - <<'PY'\nimport pathlib,json\nrows=[]\nfor p in pathlib.Path(\"/proc\").iterdir():\n if n",
-    "Rss": 2792,
-    "Pss": 574,
-    "Private_Clean": 0,
-    "Private_Dirty": 256
-  }
-]
-sum_PSS_GiB 6.823744773864746
+{
+  "processes": [
+    {
+      "pid": 29662,
+      "cmd": "/usr/local/python3.12.13/bin/python3 /usr/local/python3.12.13/bin/vllm serve /model --served-model-n",
+      "Rss": 1809124,
+      "Pss": 1472600,
+      "Private_Clean": 540,
+      "Private_Dirty": 1384784
+    },
+    {
+      "pid": 30668,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.resource_tracker import main;main(34) ",
+      "Rss": 1073732,
+      "Pss": 748231,
+      "Private_Clean": 0,
+      "Private_Dirty": 671988
+    },
+    {
+      "pid": 30759,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.spawn import spawn_main; spawn_main(tra",
+      "Rss": 1075936,
+      "Pss": 750431,
+      "Private_Clean": 0,
+      "Private_Dirty": 674188
+    },
+    {
+      "pid": 30854,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 1073784,
+      "Pss": 130632,
+      "Private_Clean": 0,
+      "Private_Dirty": 17988
+    },
+    {
+      "pid": 30887,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980912,
+      "Pss": 237441,
+      "Private_Clean": 0,
+      "Private_Dirty": 193940
+    },
+    {
+      "pid": 30888,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980916,
+      "Pss": 237430,
+      "Private_Clean": 0,
+      "Private_Dirty": 193928
+    },
+    {
+      "pid": 30889,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980916,
+      "Pss": 237426,
+      "Private_Clean": 0,
+      "Private_Dirty": 193924
+    },
+    {
+      "pid": 30890,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980916,
+      "Pss": 237426,
+      "Private_Clean": 0,
+      "Private_Dirty": 193924
+    },
+    {
+      "pid": 30891,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 981140,
+      "Pss": 237693,
+      "Private_Clean": 0,
+      "Private_Dirty": 194192
+    },
+    {
+      "pid": 30892,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980792,
+      "Pss": 237325,
+      "Private_Clean": 0,
+      "Private_Dirty": 193824
+    },
+    {
+      "pid": 30893,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980824,
+      "Pss": 237334,
+      "Private_Clean": 0,
+      "Private_Dirty": 193832
+    },
+    {
+      "pid": 30894,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980824,
+      "Pss": 237323,
+      "Private_Clean": 0,
+      "Private_Dirty": 193820
+    },
+    {
+      "pid": 30895,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 980928,
+      "Pss": 237423,
+      "Private_Clean": 0,
+      "Private_Dirty": 193920
+    },
+    {
+      "pid": 30896,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982536,
+      "Pss": 239424,
+      "Private_Clean": 0,
+      "Private_Dirty": 195940
+    },
+    {
+      "pid": 30897,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982760,
+      "Pss": 239648,
+      "Private_Clean": 0,
+      "Private_Dirty": 196164
+    },
+    {
+      "pid": 30898,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982564,
+      "Pss": 239449,
+      "Private_Clean": 0,
+      "Private_Dirty": 195964
+    },
+    {
+      "pid": 30899,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982564,
+      "Pss": 239452,
+      "Private_Clean": 0,
+      "Private_Dirty": 195968
+    },
+    {
+      "pid": 30900,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982564,
+      "Pss": 239455,
+      "Private_Clean": 0,
+      "Private_Dirty": 195972
+    },
+    {
+      "pid": 30901,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982556,
+      "Pss": 239474,
+      "Private_Clean": 0,
+      "Private_Dirty": 195992
+    },
+    {
+      "pid": 30902,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982616,
+      "Pss": 239511,
+      "Private_Clean": 0,
+      "Private_Dirty": 196028
+    },
+    {
+      "pid": 30903,
+      "cmd": "/usr/local/python3.12.13/bin/python3 -c from multiprocessing.forkserver import main; main(26, 28, []",
+      "Rss": 982660,
+      "Pss": 239513,
+      "Private_Clean": 0,
+      "Private_Dirty": 196000
+    },
+    {
+      "pid": 31459,
+      "cmd": "bash -c python3 - <<'PY'\nimport pathlib,json\nrows=[]\nfor p in pathlib.Path(\"/proc\").iterdir():\n if n",
+      "Rss": 2792,
+      "Pss": 574,
+      "Private_Clean": 0,
+      "Private_Dirty": 256
+    }
+  ],
+  "sum_PSS_GiB": 6.823744773864746
+}

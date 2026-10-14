@@ -1,0 +1,15 @@
+2.10.0+cpu 2.10.0.post4
+[W1014 10:46:33.998398838 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/ascend-toolkit/latest/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/ascend-toolkit/latest/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+.tensor([[32., 32., 32.,  ..., 32., 32., 32.],
+        [32., 32., 32.,  ..., 32., 32., 32.],
+        [32., 32., 32.,  ..., 32., 32., 32.],
+        ...,
+        [32., 32., 32.,  ..., 32., 32., 32.],
+        [32., 32., 32.,  ..., 32., 32., 32.],
+        [32., 32., 32.,  ..., 32., 32., 32.]])
+(83159257088, 93963665408)
+I1014 10:47:21.158775 14119 ../torch_npu/csrc/core/npu/NPUQueue.cpp:695] Dequeue: taskqueue is empty, wait for efd_read end, device = 0, write_idx = 2, read_idx = 2, status = 2, s = 0
