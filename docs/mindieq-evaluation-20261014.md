@@ -59,7 +59,7 @@ MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退�
 
 随后使用非流式 completion 做了一组严格同 token 的 64K 交替补充：MindIEQ `483.46 tok/s`、原始 W4 `395.70 tok/s`，Prefill `+22.18%`；Decode `22.61` vs `22.68 tok/s`，输出哈希一致。当前实验服务在下一轮长请求上出现调度停滞，因此这组数据只作为单轮因果补充，不能替代 64K 的多次 P50/P95 门禁。详见 `results/mindieq-long-paired-20261014/`。
 
-该停滞进一步表现为原始 W4 Engine 在请求返回后仍保持 `Running: 1 reqs`；重启容器后 512/32 恢复探针成功，但这只证明可恢复，不证明连续长请求生命周期已修复。完整记录见 `results/long-request-lifecycle-20261014/`。
+旧版 benchmark 在下一轮 64K 请求前卡在 metrics/HTTP 读取，日志中的短暂 `Running: 1 reqs` 随后回到 0；不能把它定性为原始 W4 Engine 泄漏。修复 metrics 连接处理后，48K 单轮配对完整返回且两端最终为 `Running: 0`。64K 多轮 P50/P95 仍需用修复后的工具补齐。详见 `results/long-request-lifecycle-20261014/`。
 
 ## 112K needle 正确性（新增）
 

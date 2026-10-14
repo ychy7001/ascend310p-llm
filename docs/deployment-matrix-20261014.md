@@ -43,7 +43,9 @@
 | 64K/128 | 463.77 | 394.39 | **+17.59%** | 约0% | 两边完整返回 |
 | 112K近上限 | 377.18 | 328.94 | **+14.66%** | 约0% | needle均正确 |
 
-另有一组严格同 token 的 64K 非流式单轮配对：MindIEQ `483.46/22.61 tok/s`，原始 W4 `395.70/22.68 tok/s`，Prefill `+22.18%`，输出哈希一致。它补强了长 Prefill 的因果对照，但由于后续重复请求在当前实验服务上出现调度停滞，只作为单轮补充证据，不当作 P50/P95。原始数据见 `results/mindieq-long-paired-20261014/`。
+另有一组严格同 token 的 64K 非流式单轮配对：MindIEQ `483.46/22.61 tok/s`，原始 W4 `395.70/22.68 tok/s`，Prefill `+22.18%`，输出哈希一致。它补强了长 Prefill 的因果对照；后续轮次当时被旧版 benchmark 的长连接/metrics 读取阻塞，因此只作为单轮补充证据，不当作 P50/P95。原始数据见 `results/mindieq-long-paired-20261014/`。
+
+修复 metrics 连接处理后，48K 单轮配对为 MindIEQ `521.49/25.34 tok/s`、原始 W4 `420.77/24.93 tok/s`，Prefill `+23.94%`，两边最终均回到 `Running: 0`。
 
 因此 MindIEQ 已经值得保留为长 Prefill 产品候选，但不能据此宣称 W4 全面加速：它只替换 routed-expert 的 Prefill grouped 路径，Decode、C8 attention 和并发路径仍使用原实现。当前部署策略是 `QWEN36_MINDIEQ_MIN_TOKENS=128`，短输入回退原W4；正式默认开启前还需要 P95、完整质量集、TP2/C8 和多请求门禁。
 
@@ -90,8 +92,8 @@ MAX_MODEL_LEN=32768 MEMORY_UTILIZATION=0.90 ENFORCE_EAGER=1 \
 - MindIEQ native-layout grouped 在真实 256 expert MLP 和完整服务中显示出 Prefill 潜力；交替五次复测相对原始 W4 在 8K/32K 提升 20.69%～23.29%，64K/近112K单次长请求提升 17.59%/14.66%。这些是单流阶段吞吐结果，不是并发或 P95 承诺。
 - Decode 的主要成本仍是长 KV/Attention、C8 转换和调度；MindIEQ 没有证明稳定的 Decode 提升。
 - C8、Graph 和 GDN 均依赖实验性外部制品或 monkeypatch；默认启动器保留开关，不能称为官方 backend 支持。
-- 长请求生命周期仍有独立风险：一次 64K 原始 W4 对照完成后观察到 Engine 保持 `Running: 1 reqs`/约 14.9% KV usage，后续长请求未及时调度；重启容器并完成 512/32 恢复探针后恢复正常。该问题见 `results/long-request-lifecycle-20261014/`，在修复前不能宣称连续长请求稳定。
-- 32K 两轮连续交替（MindIEQ/原始 W4 各 2 次）均完成并回到 `Running: 0 reqs`，因此当前残留风险集中在 64K 及以上路径，但没有足够样本把 64K 写成精确阈值。
+- 旧版 64K 配对中出现过客户端长连接/metrics 读取阻塞；容器日志随后回到 `Running: 0`，不能据此判定服务端泄漏。已修复 phase benchmark 的连接处理，并用 48K 单轮配对验证两端最终回到 `Running: 0`。
+- 32K 两轮连续交替（MindIEQ/原始 W4 各 2 次）均完成并回到 `Running: 0`；48K 单轮交替也完成。64K 多轮 P50/P95 仍待用修复后的工具补齐。
 - 尚未完成：同条件 W8A8 交替 A/B、TP2 C8、32G 实机、并发 2/4/8 的完整矩阵、P50/P95、正式质量集合及多模态；MindIEQ 目前仍保持可选分流。
 
 ## 并发边界
