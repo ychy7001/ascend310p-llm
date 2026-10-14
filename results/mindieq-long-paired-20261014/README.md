@@ -7,7 +7,7 @@
 | MindIEQ | **483.35 tok/s 中位** | **22.60 tok/s 中位** | 139.10 s 中位 | 64512 + 128（5次） |
 | 原始 W4 | **395.66 tok/s 中位** | **22.40 tok/s 中位** | 168.74 s 中位 | 64512 + 128（5次） |
 
-五轮配对的 Prefill 中位提升为 **22.16%**，Decode 变化 **+0.92%**；10 个请求的输出 SHA256 完全一致。P95 分别为 MindIEQ `483.93/22.62 tok/s`、原始 W4 `395.72/22.42 tok/s`（Prefill/Decode）。Prometheus 阶段计时、wall time、usage 和输出哈希保存在 `paired-64k-ns-v4.jsonl`。
+五轮配对的 Prefill 中位提升为 **22.16%**，Decode 变化 **+0.92%**；10 个请求的输出 SHA256 完全一致。五个样本按 nearest-rank 得到的吞吐 P95 分别为 MindIEQ `483.93/22.62 tok/s`、原始 W4 `395.72/22.42 tok/s`；这是快端吞吐值，不能用于证明慢端尾延迟。wall-time 经验 P95 分别为 `139.13/168.78 s`，样本量不足以支撑线上 P95 承诺。Prometheus 阶段计时、wall time、usage 和输出哈希保存在 `paired-64k-ns-v4.jsonl`。
 
 这是单流交替请求的 P50/P95，不等同于并发线上尾延迟。旧版 benchmark 曾在下一轮前被长连接/metrics 读取阻塞；本轮使用修正版客户端，五轮均完整返回，容器日志最终回到 `Running: 0`。
 
@@ -26,7 +26,7 @@ python3 tools/bench_fixed_tokens_paired.py \
   --out /tmp/paired-112k.jsonl --output-tokens 32 --repeats 3
 ```
 
-这组结果是三轮单流阶段吞吐验证，不是线上并发 P95，也不包含流式 TTFT；Prometheus phase delta、wall time 和输出哈希均保留在 JSONL 中。早期客户端在 token 准备/响应期间的缓冲文件和服务访问日志不足以证明 tokenizer 阻塞，不能再据此作故障归因。
+这组结果是三轮单流阶段吞吐验证，不是线上并发 P95，也不包含流式 TTFT；本轮保存了阶段吞吐、wall time、usage 和输出哈希；32-token 历史客户端未保存原始 phase delta，后续 128-token 版本已补齐。早期客户端在 token 准备/响应期间的缓冲文件和服务访问日志不足以证明 tokenizer 阻塞，不能再据此作故障归因。
 
 ## 32K 连续交替补充
 
@@ -42,3 +42,16 @@ python3 tools/bench_fixed_tokens_paired.py \
 ## 48K 单轮交替补充
 
 修正 metrics 连接关闭逻辑后，执行一轮 48K 配对：MindIEQ `521.49/25.34 tok/s`，原始 W4 `420.77/24.93 tok/s`（Prefill/Decode），Prefill 提升 **23.94%**，Decode 变化 **+1.66%**。两边 usage 均为 `49152+128`、输出哈希一致，容器日志最终均为 `Running: 0`。原始数据见 `paired-48k-ns-v3.jsonl`。
+
+## 112K / 128-token 持续 Decode 对照
+
+使用上述同一输入，输出扩大到 128 token，按 MindIEQ→原始 W4→原始 W4→MindIEQ 顺序完成两轮配对。两个服务已由前序长请求预热；本轮未额外计入专用 warmup。prefix cache 仍关闭，两个服务分别固定在不同芯片，因此存在芯片差异的潜在混杂，尚未做交换芯片对照。
+
+| 服务 | Prefill 中位 | Decode 中位 | 总耗时中位 |
+|---|---:|---:|---:|
+| MindIEQ E5 | 378.69 tok/s | 16.87 tok/s | 310.07 s |
+| 原始 W4 | 329.60 tok/s | 16.77 tok/s | 355.17 s |
+
+Prefill 提升 **14.89%**，Decode 变化 **+0.63%**，总耗时减少 **12.70%**。四个请求均完成 `114560+128=114688` token，输出哈希一致，每次 Prometheus prefill count delta 为 1。最后两个服务均回到 `Running: 0`、`Waiting: 0`，日志显示 MTP 平均接受长度 3、两个位置接受率 100%。原始结果为 `paired-112k-fixed-o128-v1.jsonl`，包含原始阶段计时 delta。
+
+复现时把上面的 `--output-tokens` 改为 `128`、`--repeats` 改为 `2`，并使用新的输出文件。128 token 的 Decode 阶段约 7.5 秒，本次仅支持“较 32-token 请求未观察到明显 Decode 回退”，不能替代长输出质量、业务文本 MTP 接受率、流式 TTFT/TPOT 或并发尾延迟验证。

@@ -45,6 +45,8 @@
 
 严格同 token 的 64K 非流式五轮配对为：MindIEQ `483.35/22.60 tok/s` 中位，原始 W4 `395.66/22.40 tok/s` 中位，Prefill `+22.16%`，Decode `+0.92%`，10 个请求输出哈希一致；P95 分别为 `483.93/22.62` 和 `395.72/22.42 tok/s`。原始数据见 `results/mindieq-long-paired-20261014/paired-64k-ns-v4.jsonl`；这是单流交替 P50/P95，不是并发线上尾延迟。
 
+近上限 `114560/128` 的两轮非流式交替已完成：MindIEQ Prefill/Decode 中位 `378.69/16.87 tok/s`，原始 W4 `329.60/16.77 tok/s`；Prefill +14.89%、Decode +0.63%，四次输出哈希一致，服务均恢复空闲。该协议使用预热服务、固定 token IDs、prefix off，原始 phase delta 在 `results/mindieq-long-paired-20261014/paired-112k-fixed-o128-v1.jsonl` 中。仅两次/服务，不作为线上 P95 承诺。
+
 修复 metrics 连接处理后，48K 单轮配对为 MindIEQ `521.49/25.34 tok/s`、原始 W4 `420.77/24.93 tok/s`，Prefill `+23.94%`，两边最终均回到 `Running: 0`。
 
 因此 MindIEQ 已经值得保留为长 Prefill 产品候选，但不能据此宣称 W4 全面加速：它只替换 routed-expert 的 Prefill grouped 路径，Decode、C8 attention 和并发路径仍使用原实现。当前部署策略是 `QWEN36_MINDIEQ_MIN_TOKENS=128`，短输入回退原W4；正式默认开启前还需要 P95、完整质量集、TP2/C8 和多请求门禁。

@@ -68,3 +68,7 @@ MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退�
 ## 32K 多位置 needle（新增）
 
 在 25%、50%、75%、90% 四个位置各放置同一检索码，MindIEQ 和原始 W4 共 8 次请求全部返回正确结果，usage 和 stop 原因一致。该门禁减少了单一 needle 位置的偶然性，但仍不是完整任务质量集。
+
+## 128-token 长 Decode 复测
+
+在同一批 114560-token 输入下，两轮交替的 MindIEQ Prefill/Decode 中位为 **378.69/16.87 tok/s**，原始 W4 为 **329.60/16.77 tok/s**。Prefill 提升 **14.89%**，Decode 变化 **+0.63%**，四次生成输出哈希一致，服务恢复空闲。这补充了短输出对照，支持继续收束 `long-prefill`，但样本量和生成内容仍不足以替代业务质量、流式尾延迟和多请求门禁。原始结果见 `results/mindieq-long-paired-20261014/paired-112k-fixed-o128-v1.jsonl`。
