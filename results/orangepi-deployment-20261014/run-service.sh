@@ -19,7 +19,7 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  -e ENABLE_PROFILER="$ENABLE_PROFILER" -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
  -e QWEN36_C8_ENABLED="$C8" -e QWEN36_C8_ALLOW_MTP2=1 \
  -e QWEN36_C8_ALLOW_GRAPH="$GRAPH" -e QWEN36_C8_FORCE_UPDATABLE_GRAPH="$GRAPH" \
- -e QWEN36_C8_DEVICE_LENGTH=1 -e QWEN36_C8_FUSED_WRITE=1 -e QWEN36_C8_POOL_MODE=split_by_type \
+ -e QWEN36_C8_DEVICE_LENGTH="${QWEN36_C8_DEVICE_LENGTH:-1}" -e QWEN36_C8_FUSED_WRITE=1 -e QWEN36_C8_POOL_MODE=split_by_type \
  -e QWEN36_C8_LIBRARY="$C8_LIBRARY" \
  -e QWEN36_MINDIEQ_ENABLED="$MINDIEQ" \
  -e QWEN36_MINDIEQ_LIBRARY=/work/artifacts/mindieq-arm-build/output/libqwen36_mindieq_grouped.so \
@@ -46,7 +46,15 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  fi
  if [[ "$ASYNC_SCHEDULING" == 0 ]]; then args+=(--no-async-scheduling); fi
  if [[ "$GRAPH" == 0 ]]; then args+=(--enforce-eager); else
-  args+=(--compilation-config "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[1,2,3]}")
+  # max-num-seqs is one on the product profile. Capturing unused batch sizes
+  # makes the MTP0 C8 path enter metadata combinations it never executes.
+  # Keep the capture set explicit and tied to the speculative path.
+  case "$MTP" in
+   0) capture_sizes='[1]' ;;
+   1) capture_sizes='[1,2]' ;;
+   2) capture_sizes='[1,2,3]' ;;
+  esac
+  args+=(--compilation-config "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":$capture_sizes}")
  fi
  if [[ "$MTP" != 0 ]]; then
   draft_extra=""

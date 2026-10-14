@@ -49,6 +49,21 @@ def _graph_candidate_enabled():
 def _mtp2_enabled():
     return _flag('QWEN36_C8_ALLOW_MTP2')
 
+
+def _c8_device_context_length(seq_lens):
+    """Return the scalar shape required by the 310P C8 conversion op.
+
+    The product profile is TP1 with one active request.  During FULL graph
+    capture vLLM can retain a padded/non-contiguous sequence-length vector,
+    while the custom op accepts exactly one contiguous INT32 value.
+    """
+    if seq_lens.numel() < 1:
+        raise RuntimeError('C8 device context length requires one active sequence')
+    if (seq_lens.numel() == 1 and seq_lens.dtype == torch.int32
+            and seq_lens.is_contiguous()):
+        return seq_lens
+    return seq_lens.reshape(-1)[:1].to(dtype=torch.int32).contiguous()
+
 # The pinned image wraps FULL graphs even with compilation mode NONE, but
 # initializes GraphParams only for VLLM_COMPILE. Keep both conditions aligned
 # for the explicit direct-capture probe; never bypass parameter updates.
@@ -258,8 +273,9 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     if graph_candidate and os.environ.get('QWEN36_C8_DEVICE_LENGTH', '0') == '1':
         # Same replay-updated tensor that native PA consumes. Keep output and
         # page table extent fixed; only device-side conversion work varies.
+        device_context_length = _c8_device_context_length(attn_metadata.seq_lens)
         torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected,
-                                   attn_metadata.seq_lens)
+                                   device_context_length)
     else:
         torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected)
     # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
