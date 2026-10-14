@@ -15,3 +15,9 @@
 日志中的最大误差来自 FP16 NPU 结果与 FP32 CPU 参考比较。同组数据在多条执行路径重放，不能将调用数当作独立随机样本数。
 
 旧版主服务的短请求成功不代表未触发场景已安全；本补丁是否解释历史 MTP 接受率下降尚无证据。模型集成结果另见复现报告，不能用单算子测试代替模型验收。
+
+- `review-pytest.log`：64 位写回索引修正后，实机 pytest 三组通过。
+- `http-w8-tp2.log`：官方镜像 W8A8+C16+MTP2、TP2 eager，16/16 通过。
+- `w8-tp2-eager.log`、`w8-tp2-eager-command.json`：W8A8 启动日志及命令。
+- `w8-tp1-oom.log`：TP1 权重 NZ 格式转换显存不足。
+- `w8-tp2-graph-failure.log`：旧镜像 Graph 参数更新空对象失败。

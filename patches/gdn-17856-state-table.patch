@@ -1,13 +1,15 @@
+diff --git a/csrc/attention/recurrent_gated_delta_rule_v310/op_host/recurrent_gated_delta_rule_v310_tiling.cpp b/csrc/attention/recurrent_gated_delta_rule_v310/op_host/recurrent_gated_delta_rule_v310_tiling.cpp
+index 983a5497f..424706111 100644
 --- a/csrc/attention/recurrent_gated_delta_rule_v310/op_host/recurrent_gated_delta_rule_v310_tiling.cpp
 +++ b/csrc/attention/recurrent_gated_delta_rule_v310/op_host/recurrent_gated_delta_rule_v310_tiling.cpp
-@@ -250,8 +250,17 @@
+@@ -250,9 +250,18 @@ ge::graphStatus RecurrentGatedDeltaRuleV310Tiling::CheckShapeDimAndRelation(cons
          !CheckDim(valueShape, QKV_DIM_NUM, "value") || !CheckDim(betaShape, BETA_DIM_NUM, "beta") ||
          !CheckDim(stateShape, STATE_DIM_NUM, "state") ||
          !CheckDim(cuSeqlensShape, CUSEQLENS_DIM_NUM, "actual_seq_lengths") ||
 -        !CheckDim(ssmStateShape, SSM_STATE_INDICES_DIM_NUM, "ssm_state_indices")) {
 +        (ssmStateShape.GetDimNum() != 1 && ssmStateShape.GetDimNum() != 2)) {
          return ge::GRAPH_FAILED;
-+    }
+     }
 +    tilingData_.stateIndexStride = 0;
 +    if (ssmStateShape.GetDimNum() == 2) {
 +        if (ssmStateShape.GetDim(0) != cuSeqlensShape.GetDim(0) ||
@@ -16,12 +18,15 @@
 +            return ge::GRAPH_FAILED;
 +        }
 +        tilingData_.stateIndexStride = ssmStateShape.GetDim(1);
-     }
++    }
  
      if (!CheckDimEqual(queryShape, DIM_0, keyShape, DIM_0, "query", "key", "T dimension") ||
+         !CheckDimEqual(queryShape, DIM_1, keyShape, DIM_1, "query", "key", "Nk dimension") ||
+diff --git a/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310.h b/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310.h
+index 0db8a6e2e..5d969d025 100644
 --- a/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310.h
 +++ b/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310.h
-@@ -197,6 +197,7 @@
+@@ -197,6 +197,7 @@ public:
          realV_ = tilingData->dv;
          scale_ = tilingData->scale;
          hasAcceptedTokens_ = (tilingData->hasAcceptedTokens == 1);
@@ -29,7 +34,7 @@
          hasGama_ = (tilingData->hasGama == 1);
          hasGamaK_ = (tilingData->hasGamaK == 1);
          useAddFoldReduce_ = (RGDR_ENABLE_ADD_FOLD_REDUCE != 0);
-@@ -305,6 +306,11 @@
+@@ -305,6 +306,11 @@ public:
              }
              int32_t seq0 = seq1;
              seq1 += seqLen;
@@ -41,7 +46,7 @@
              uint32_t copyFlag = 0;
              uint64_t stateOffset;
              for (uint64_t head_i = 0; head_i < NV_; head_i++) {
-@@ -313,18 +319,18 @@
+@@ -313,18 +319,18 @@ public:
                  }
                  copyFlag++;
                  if (copyFlag == 1) {
@@ -64,7 +69,7 @@
              }
          }
      }
-@@ -559,7 +565,8 @@
+@@ -559,7 +565,8 @@ private:
          }
      }
  
@@ -74,16 +79,19 @@
      {
          uint64_t vOffset = (seq0 * NV_ + head_i) * realV_;
          uint64_t qkOffset = (seq0 * NK_ + head_i / (NV_ / NK_)) * realK_;
-@@ -589,7 +596,7 @@
+@@ -588,8 +595,9 @@ private:
+                 uint64_t curQKOffset = (seq_i - seq0) * alignK_;
                  uint64_t curVOffset = (seq_i - seq0) * alignV_ + v_i;
                  uint64_t attnOffset = (seq_i * NV_ + head_i) * realV_ + v_i;
-                 uint64_t curStateOutOffset =
+-                uint64_t curStateOutOffset =
 -                    ((ssmStateIndicesGm_.GetValue(seq_i) * NV_ + head_i) * realV_ + v_i) * realK_;
-+                    ((ssmStateIndicesGm_.GetValue(stateRowStart + seq_i - seq0) * NV_ + head_i) * realV_ + v_i) * realK_;
++                uint64_t stateOutIndex =
++                    static_cast<uint64_t>(ssmStateIndicesGm_.GetValue(stateRowStart + seq_i - seq0));
++                uint64_t curStateOutOffset = ((stateOutIndex * NV_ + head_i) * realV_ + v_i) * realK_;
                  gama_ = hasGama_ ? gamaInUb.GetValue(gbOffset) : 1;
                  beta_ = betaInUb.GetValue(gbOffset);
                  Compute(curSingleV, curQKOffset, curVOffset);
-@@ -660,6 +667,7 @@
+@@ -660,6 +668,7 @@ private:
      uint32_t usedblk;
      uint32_t avgload;
      bool hasAcceptedTokens_;
@@ -91,9 +99,11 @@
      bool hasGama_;
      bool hasGamaK_;
      bool useAddFoldReduce_;
+diff --git a/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310_tiling_data.h b/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310_tiling_data.h
+index a579ac977..5e6a9342e 100644
 --- a/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310_tiling_data.h
 +++ b/csrc/attention/recurrent_gated_delta_rule_v310/op_kernel/recurrent_gated_delta_rule_v310_tiling_data.h
-@@ -34,6 +34,7 @@
+@@ -34,6 +34,7 @@ struct alignas(8) RecurrentGatedDeltaRuleV310TilingData { // alignas(8)确保8
      uint32_t hasGama;
      uint32_t hasGamaK;
      uint32_t hasAcceptedTokens;
@@ -101,9 +111,11 @@
  };
  #pragma pack(pop)
  } // RecurrentGatedDeltaRuleV310
+diff --git a/vllm_ascend/_310p/ops/fla/gdn_310.py b/vllm_ascend/_310p/ops/fla/gdn_310.py
+index 77a40c870..d28ded446 100644
 --- a/vllm_ascend/_310p/ops/fla/gdn_310.py
 +++ b/vllm_ascend/_310p/ops/fla/gdn_310.py
-@@ -118,7 +118,13 @@
+@@ -118,7 +118,13 @@ def npu_recurrent_gated_delta_rule_310(
          k = l2norm_310p(k)
  
      total_tokens = v.shape[1]

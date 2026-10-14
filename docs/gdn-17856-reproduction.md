@@ -161,3 +161,34 @@ PR 已提交，尚未合并；产品默认服务仍使用原版本。
 `709a5b7` 改为 `importlib.import_module` 注册；没有修改算子计算逻辑。
 修正后 DCO、pre-commit（含 mypy）通过，CPU UT 正在运行。
 Issue 补充证据：[评论链接](https://github.com/vllm-project/vllm-ascend/issues/17856#issuecomment-6166963847)。
+
+## 自动评审跟进
+
+Gemini 自动评审指出状态写回索引与 NV 的首个乘法可能使用 32 位算术。
+`70ccf5c85` 在乘法前显式转为 uint64_t；历史读取偏移原本已使用 uint64_t。
+真实设备重新编译成功，三组 pytest 通过（126 次输出/状态断言），
+日志为 `review-pytest.log`。普通大小状态池验证没有覆盖理论溢出门槛，不能声称实机复现了超大索引溢出。
+已回复并解决该自动评审线程；人工评审仍待完成。
+以 `50fbb5a95` 合入最新上游 main `8783fc6`，没有 GDN 运行时变更或冲突。
+
+## 官方 W8A8 路径补充验证
+
+复用 a2 已下载的 `Eco-Tech/Qwen3.6-35B-A3B-w8a8`；索引包含 785 项 MTP 参数，
+对应量化描述均为 FLOAT。不借用 Qwen3.5 MTP，也未覆盖或转换原始权重。
+使用官方 `v0.23.0.post1-310p` 镜像、C16 KV，只叠加待提交的 GDN wrapper/OPP，
+不加载 W4/C8/PR17640 monkeypatch。这是官方镜像集成验证，不等于整套当前 main 的运行验证。
+
+- TP1/8K/MTP2/max_num_seqs=4：NZ 格式转换 OOM，已分配 40.89 GiB，
+  额外申请 972 MiB 时只有约 863 MiB 空闲，发生在 GDN 执行前。
+- TP2 同配置：每卡模型占用约 20.59 GB，加载成功；Decode Graph 启动在
+  `attention_v1.update_graph_params` 遇到 `graph_params=None`，没有完成 Graph 服务验收。
+- 首次 eager 启动过早，失败候选 worker 尚未退出，导致 aclInit 507899；
+  清理残留容器后重新启动，不把设备争用算作 GDN 数值失败。
+
+TP2 eager 清理重启后成功：W8A8+C16+MTP2、8K、max_num_seqs=4，
+四客户端变长普通文本 8/8、严格 JSON Schema 8/8，通过答案与结构断言。
+日志 `http-w8-tp2.log`、`w8-tp2-eager.log`；完整启动命令为
+`w8-tp2-eager-command.json`。测试完成后恢复原 W4A8 主服务及 chip1 对照。
+这是短输出冒烟验证，不覆盖长上下文、任务准确率或完整模型 Graph。
+不把输出成功视为强制命中了 accepted_prev > current_len 的证明；
+该边界由确定性的单算子回归覆盖。

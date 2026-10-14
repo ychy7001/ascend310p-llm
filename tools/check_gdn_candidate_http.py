@@ -7,10 +7,10 @@ import time
 import urllib.request
 
 
-def request(url, index, structured):
+def request(url, index, structured, model):
     expected = str(40 + index)
     body = {
-        "model": "qwen36-w4a8-c8",
+        "model": model,
         "temperature": 0,
         "max_tokens": 64,
         "seed": 17856,
@@ -73,13 +73,15 @@ def request(url, index, structured):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:18029")
+    parser.add_argument("--model", default="qwen36-w4a8-c8")
     args = parser.parse_args()
     records = []
     for structured in [False, True]:
         for repeat in range(2):
             with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
                 futures = [
-                    executor.submit(request, args.url, i, structured) for i in range(4)
+                    executor.submit(request, args.url, i, structured, args.model)
+                    for i in range(4)
                 ]
                 for future in concurrent.futures.as_completed(futures):
                     record = future.result()
