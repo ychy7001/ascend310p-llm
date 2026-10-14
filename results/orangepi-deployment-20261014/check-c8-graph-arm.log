@@ -1,0 +1,13 @@
+[W1014 12:43:44.985074813 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+[W1014 12:43:59.585674727 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+{"status": "PASS", "length": 63, "table": [0, 1, 2, 3], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 65, "table": [3, 0, 2, 1], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 127, "table": [1, 3, 0, 2], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 193, "table": [2, 1, 3, 0], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 1, "table": [3, 2, 1, 0], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 256, "table": [1, 0, 3, 2], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}
+{"status": "PASS", "length": 64, "table": [2, 3, 1, 0], "max_abs": 0.0, "device_length": true, "scope": "C8 conversion plus native PA replay, not model or MTP"}

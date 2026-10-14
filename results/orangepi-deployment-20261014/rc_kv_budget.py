@@ -55,3 +55,15 @@ def mamba_block_table_cpu_indices(block_table, seq_lens, kv_cache_spec, mamba_ca
 
 attention_utils.mamba_get_block_table_tensor = mamba_block_table_cpu_indices
 gdn_attn_builder.mamba_get_block_table_tensor = mamba_block_table_cpu_indices
+
+# Optional experiment adapters. Default remains the proven C16/eager path.
+import os
+import sys
+sys.path.insert(0, '/work/repo/experimental')
+if os.environ.get('QWEN36_C8_ENABLED', '0') == '1':
+    import c8_vllm_adapter
+elif os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1':
+    import direct_graph_310
+
+if os.environ.get('GDN', '0') == '1':
+    import pr17640_gdn_adapter

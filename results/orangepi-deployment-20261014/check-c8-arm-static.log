@@ -1,0 +1,12 @@
+[W1014 12:43:05.117985503 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+[W1014 12:43:20.583246474 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+{"status": "PASS", "device_quantization": true, "padding_slot": -1, "decode_append": true, "max_abs_kv_error": [0.01708984375, 0.015350341796875], "cache_bytes": 278528}
+{"status": "PASS", "path": "page-local GQA reference", "head_dim": 128, "query_heads": 16, "kv_heads": 2, "tokens": 1, "near_zero": true, "max_abs": 3.3974647521972656e-06}
+{"status": "PASS", "path": "page-local GQA reference", "head_dim": 128, "query_heads": 16, "kv_heads": 2, "tokens": 65, "near_zero": false, "max_abs": 0.008952096104621887}
+{"status": "PASS", "path": "page-local GQA reference", "head_dim": 128, "query_heads": 16, "kv_heads": 2, "tokens": 129, "near_zero": false, "max_abs": 0.006724298000335693}
+{"status": "PASS", "path": "page-local GQA reference", "head_dim": 256, "query_heads": 16, "kv_heads": 2, "tokens": 1, "near_zero": true, "max_abs": 3.6954879760742188e-06}
+{"status": "PASS", "path": "page-local GQA reference", "head_dim": 256, "query_heads": 16, "kv_heads": 2, "tokens": 65, "near_zero": false, "max_abs": 0.006939828395843506}
+{"status": "PASS", "path": "page-local GQA reference", "head_dim": 256, "query_heads": 16, "kv_heads": 2, "tokens": 129, "near_zero": false, "max_abs": 0.005229081958532333}
+{"status": "PASS", "path": "C8 causal MTP verify reference", "tokens": 3, "queries": 3, "max_abs": 0.022187232971191406}
+{"status": "PASS", "path": "C8 causal MTP verify reference", "tokens": 65, "queries": 2, "max_abs": 0.008573323488235474}
+{"status": "PASS", "path": "C8 causal MTP verify reference", "tokens": 129, "queries": 3, "max_abs": 0.005470015108585358}

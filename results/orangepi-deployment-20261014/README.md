@@ -39,7 +39,7 @@ a2 的 W4+C8+MTP2+Graph 日志参考：权重 27.29 GiB、峰值激活 2.75 GiB�
 
 本机隔离补丁复制到 `/data/qwen36-deploy/repo/bootstrap/rc_kv_budget.py`，并在同目录 `sitecustomize.py` 末尾追加一次 `import rc_kv_budget`。它不应直接移入通用官方主线。
 
-实际服务曾完成启动和 `/health` 200，但首个文本请求触发 AI CPU `FloorDiv` 0x2a，引擎退出。定位到前缀缓存 align 的 `mamba_get_block_table_tensor` 块索引运算；隔离补丁将该小整数索引计算移到 CPU，表 gather 留在 NPU。该补丁增加一次 NPU→CPU 同步，尚需真实生成和热前缀收益测试。原始日志 `startup-first-request-floordiv.log`。截至本记录不能称为服务交付通过。
+实际服务曾完成启动和 `/health` 200，但首个文本请求触发 AI CPU `FloorDiv` 0x2a，引擎退出。定位到前缀缓存 align 的 `mamba_get_block_table_tensor` 块索引运算；隔离补丁将该小整数索引计算移到 CPU，表 gather 留在 NPU。该补丁增加一次 NPU→CPU 同步，尚需真实生成和热前缀收益测试。原始日志 `startup-first-request-floordiv.log`。此为当时的失败状态，后续基础生成通过见下一节。
 
 ### 最新峰值采样
 
@@ -54,3 +54,27 @@ a2 的 W4+C8+MTP2+Graph 日志参考：权重 27.29 GiB、峰值激活 2.75 GiB�
 - 合成 128×128 红色 PNG 返回 `Red`，请求 1.566s。只证明基本视觉输入和生成路径可用，不代表完整视觉质量或高分辨率稳定性。
 
 原始输出 `service-smoke.jsonl`，成功日志 `startup-success.log`。复现探测：`python3 /data/qwen36-deploy/smoke_service.py`（输出追加模式，先运行服务）。下一步是限制默认最大图片画像/预处理缓存预算并重测 RC 常驻与峰值，随后再分阶段扩大上下文和引入 a2 已验证组合。
+
+## 完整组合验证（续）
+
+基础 C16/MTP0/eager 的八项 toy 质量检查 8/8，异内容请求穿插后 A/B/A 文本一致、无干扰标记。真实 Chat 模板关闭思考后的共享文档 A/B/A 与独立 cold salt 共 5/5 正确；原 raw completion 检查因 32-token 思考截断不能作答案失败证据。
+
+C16/MTP0/eager、2304/128、warmup1+repeat3、每轮独立 cache salt、零 cache hit：Prefill 中位 387.959 tok/s、Decode 中位 4.736 tok/s。当前板为 310P1/ARM64/旧固件，不能直接与 a2 的 310P3+MTP2+Graph 相比。
+
+ARM64 C8 原始库按 Ascend310P1 编译，SHA256 `be756591b503c41a4ac0cbcc3fc515879cb56c26948de3a3d45f2d144c4c1ccb`。设备写入/追加/页读取及 GQA、因果 MTP2/MTP3 参考测试通过；KV max-abs 0.01709/0.01535。C8→NZ+原生 PA 在动态长度 1/63/64/65/127/193/256、可变页表、poison scratch 的 Graph replay 全部 max_abs=0。Graph 探针随机输入仅在 CPU 生成，真实转换/PA/capture/replay 均运行于 NPU。
+
+新版启动器可调 `MTP=0|1|2 C8=0|1 GRAPH=0|1 MAX_MODEL_LEN KV_BYTES`；默认视觉和 prefix 开启。图片限制 1 张、1,048,576 pixels，视频暂关；预处理缓存 0.5 GiB/份。该图片边界是部署探测预算，并非图像质量或最终产品规格。
+
+### MTP1 首轮门禁失败
+
+C16/MTP1/eager/prefix-on/受控视觉，8题仅4/8；`703→7033`、`384→3844`、`763→7633`、`2,7,9→2,79`。因此该轮 2304/128 三次 Prefill 中位379.208、Decode5.785 tok/s不属于通过正确性门禁的有效加速结果。真实权重已加载、图片返回Red；原2304token重复输入未命中prefix（计数0），不能称为热缓存收益。下一轮关闭async scheduling作隔离诊断，尚未证明原因。
+
+受控视觉+MTP1首轮内存采样（65样本，含停止服务）：HugeTLB峰值33.412GiB，AnonPages峰值12.534GiB，MemAvailable最低40.029GiB。相较上一轮默认最大图片的HugeTLB47.99GiB明显下降，但不同轮次也改变了MTP/KV预算，不能把全部变化归为单个视觉参数的独立收益。总物理量87.51GiB减最低available约47.48GiB，48G RC仍处边缘，且这只是8K、未包含长上下文/Graph组合；不做48G通过声明。
+
+### MTP1 同步调度门禁通过
+
+仅关闭 async scheduling 后，8题恢复8/8、A/B/A无串扰。2304/128三轮 Prefill中位401.672、Decode6.533 tok/s（构建进程当时在CPU运行，不能称为完全独占主机性能）；不能单独归因于MTP或同步调度。6144-token检索冷/热均精确输出ASCEND732941；冷16.510s、热4.960s，热命中4608tokens，冷prefill phase15.298s，热3.832s。表明该板的当前异步MTP组合不合格，同步调度是已测兼容路线，未证明底层根因或随机采样全面正确。
+
+### C8 / Graph 后续门禁（进行中）
+
+优化 ARM64 C8 库 SHA256 `939ac05a9978f8f99bdd0e4ca6991751ddd64e448c5398113741bb26556e71e4`，使用 transdata、tile64 与 compact scale，7 组动态长度/页表 Graph replay 全部 max_abs=0。模型服务采用显式 `--block-size 64`（hybrid scheduler 可再扩展页尺寸）、关闭异步调度、TE_PARALLEL_COMPILER=2；首次省略显式块尺寸的预加载已停止，未作为真实生成结果。C8/MTP1/32K/eager 模型级门禁仍在执行。GDN 三个目标 Kernel 已编译，完整包/绑定尚未验证；不能把算子探针通过写成完整模型 Graph 通过。
