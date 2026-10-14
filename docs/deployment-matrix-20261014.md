@@ -51,6 +51,12 @@
 
 因此 MindIEQ 已经值得保留为长 Prefill 产品候选，但不能据此宣称 W4 全面加速：它只替换 routed-expert 的 Prefill grouped 路径，Decode、C8 attention 和并发路径仍使用原实现。当前部署策略是 `QWEN36_MINDIEQ_MIN_TOKENS=128`，短输入回退原W4；正式默认开启前还需要 P95、完整质量集、TP2/C8 和多请求门禁。
 
+## 流式用户等待时间
+
+固定token的流式对照补齐了首非空文本TTFT：32K两轮中位为MindIEQ **59.051s**、原始W4 **71.420s**，平均TPOT **34.125/34.623ms**；112K单轮配对为TTFT **302.733/347.651s**，平均TPOT **58.935/59.494ms**。输出哈希均一致，两个端点完成后恢复空闲。TTFT是客户端首文本时间；MTP一次发送多个token，文本事件间隔不能直接作为逐tokenP95。
+
+112K冷Prefill约5分钟，产品规划必须结合prefix命中和增量输入；长上下文容量不等于低等待时间。上述合成输入不是会议质量或业务MTP接受率证据。原始结果见 `results/mindieq-long-paired-20261014/paired-32k-stream-v1.jsonl` 和 `paired-112k-stream-v1.jsonl`。
+
 ## 启动方式
 
 沿用 `scripts/run-candidate.sh`，并显式提供固定制品。基础 W4A8+C8+GDN+MTP2：
