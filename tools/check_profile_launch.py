@@ -48,6 +48,14 @@ def main():
                                   env={**env, **overrides}, capture_output=True, text=True)
             assert proc.returncode == 2, (overrides, proc.stderr)
         print('invalid long-prefill configurations rejected; no NPU initialized')
+        proc = subprocess.run(['bash', str(ROOT / 'scripts/run-candidate.sh'), '--check'],
+                              env=env, capture_output=True, text=True, check=True)
+        default = json.loads(proc.stdout)
+        assert default['profile_name'] == 'long-prefill'
+        assert default['mindieq_prefill'] == default['mindieq_custom_quant'] == default['mindieq_shared_gate'] == '1'
+        assert default['mindieq_min_tokens'] == 128
+        assert default['effective_config']['MAX_BATCHED_TOKENS'] == '4096'
+        print('default candidate selects long-prefill E5; no NPU initialized')
 
 
 if __name__ == '__main__':

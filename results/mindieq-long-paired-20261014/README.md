@@ -106,3 +106,22 @@ python3 tools/check_meeting_long_context.py \
 ```
 
 这条质量请求允许EOS并限制最多128输出token，与性能基准强制输出128 token的协议不同；不混合统计两类Decode吞吐。
+
+## 112K 合成会议决议更新 canary
+
+三条决议位于114560-token输入的11458/57239/103023位置，要求合并最终预算、负责人、日期和状态。MindIEQ 与原 W4 均正确返回相同 JSON，各输出54 token；MTP均为18 drafts/36 drafted/36 accepted。输出未达到128-token上限，未见服务失败；两端完成后Running/Waiting均为0，health均为200。原始计数见 `meeting-update-112k-v1.jsonl`，输入见同名 `.prompt.json.gz`。
+
+| 服务 | Prefill阶段 | Prefill | Decode阶段 | Decode | 总耗时 |
+|---|---:|---:|---:|---:|---:|
+| MindIEQ | 332.363s | 344.68 tok/s | 3.214s | 16.49 tok/s | 335.593s |
+| 原 W4 | 368.284s | 311.06 tok/s | 3.243s | 16.34 tok/s | 371.542s |
+
+该中文canary的Prefill收益约10.8%，低于重复合成吞吐样本的14.9%；它说明输入内容会影响路由和性能。单个canary只验证跨段更新提取，不替代真实会议摘要、广泛质量评测或P95。远端运行脚本尚未包含后来添加的finish_reason字段；本轮日志未记录该字段，不能据此报告精确停止原因。
+
+```bash
+python3 tools/check_meeting_long_context.py \
+  --mindieq-url http://127.0.0.1:18024 \
+  --original-url http://127.0.0.1:18028 --model qwen36-w4a8-c8 \
+  --prompt-file results/mindieq-long-paired-20261014/meeting-update-112k-v1.jsonl.prompt.json.gz \
+  --out /tmp/meeting-update-112k-repeat.jsonl
+```

@@ -119,3 +119,9 @@ FP16 KV 并发备选的单流 32K/128 复测为 Prefill **453.303 tok/s**、Deco
 对冷前缀 `64512/128` 做一次修正后的单次采集（服务端已返回 usage，绕开流式 `[DONE]` 结束标记问题）得到：TTFT 162.696s，prefill phase 162.670s，即 **396.4 tok/s**；decode phase 5.118s/127 tokens，即 **24.81 tok/s**。请求完整返回 64512 prompt + 128 completion，无 OOM 和错误。原始记录、服务日志和采集器输出在 `results/fp16kv-concurrency-20261014/`。
 
 因此当前规格判断是：C8 单流仍采用 112K 产品基线；FP16 KV 可作为保留并发/兼容路线，单流 64K 已有实证，但其长 prefill（约 396 tok/s）不适合直接替代 C8 的长上下文产品路径。64K 结果也不能外推到并发 2/4/8。
+
+## 长上下文默认实验档（2026-10-14）
+
+`run-candidate.sh` 默认已收束为 `long-prefill`，自动启用MindIEQ E5、custom A8、共享Gate/Up、阈值128；短输入内部回退原W4。原W4/MTP1仅作为显式内部诊断。该默认值面向TP1/48G单流112K实验，不扩展TP2/32G/并发支持声明。
+
+新增112K合成会议更新canary：两个端点均返回相同且正确的54-token JSON。MindIEQ/原W4 Prefill为344.68/311.06 tok/s（+10.8%），Decode16.49/16.35 tok/s，两边draft-token接受率100%，结束后健康且空闲。仅一对合成样本，不代表真实会议质量或P95。记录见 `results/mindieq-long-paired-20261014/meeting-update-112k-v1.jsonl`。

@@ -22,7 +22,7 @@ MindIEQ 的实现位于 `experimental/mindieq_grouped_kernel/` 和 `experimental
 
 ## 决策
 
-MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退基线仍是原 W4A8 + C8 + GDN + MTP2 + Decode Graph；MindIEQ 作为 `MIN_TOKENS=128` 的长 Prefill 分流，短输入回退原 W4。由于 P95、完整质量集、TP2/C8 和并发门禁尚未完成，暂不把它写成无条件默认后端。
+MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退基线仍是原 W4A8 + C8 + GDN + MTP2 + Decode Graph；MindIEQ 作为 `MIN_TOKENS=128` 的长 Prefill 分流，短输入回退原 W4。长上下文业务现在将 `long-prefill` 设为唯一默认实验部署档，短输入仍回退原 W4。P95、完整业务质量集、TP2/C8 和并发门禁尚未完成，该默认值不等于正式产品验收。
 
 继续投入的理由是：
 
@@ -31,16 +31,16 @@ MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退�
 - 量化共享路径已有 bitwise parity 和固定题集门禁；
 - 后续可以把收益转化为更少的 launch、一次性 expert dispatch 或更好的大 token 数布局。
 
-暂不默认开启的理由是：
+当前部署范围和待验收项：
 
-- 当前端到端收益小于测量和服务间波动，尚未完成交替 A/B；
+- 交替 A/B 已显示长 Prefill 收益，尚缺足够的业务语料与线上尾延迟样本；
 - 依赖外部 MindIEQ 制品和实验性 monkeypatch；
 - 只验证 TP1、FP16 激活、固定 checkpoint 形状，尚不支持 TP2/C8 多请求；
 - 64 题质量集和有限业务样本不足以覆盖长上下文、多任务和异常路由。
 
 ## 下一道门
 
-只有同时满足以下条件，才考虑将 MindIEQ 作为长 Prefill 默认路径或单独提交上游：
+默认实验档已收束到 long-prefill；正式产品化或单独提交上游前，继续完成以下条件：
 
 - 同一芯片或可控隔离条件下交替 A/B，8K/32K/64K/112K 各至少 5 次，Prefill P50 稳定提升 ≥10%；
 - Decode tok/s、TTFT、MTP 接受率无统计显著退化；
@@ -72,3 +72,9 @@ MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退�
 ## 128-token 长 Decode 复测
 
 在同一批 114560-token 输入下，两轮交替的 MindIEQ Prefill/Decode 中位为 **378.69/16.87 tok/s**，原始 W4 为 **329.60/16.77 tok/s**。Prefill 提升 **14.89%**，Decode 变化 **+0.63%**，四次生成输出哈希一致，服务恢复空闲。这补充了短输出对照，支持继续收束 `long-prefill`，但样本量和生成内容仍不足以替代业务质量、流式尾延迟和多请求门禁。原始结果见 `results/mindieq-long-paired-20261014/paired-112k-fixed-o128-v1.jsonl`。
+
+## 长会议方向的部署收束
+
+候选入口现默认 `long-prefill`，自动选用MindIEQ E5和阈值128；内部原W4/MTP1对照保留。112K合成会议决议更新canary已完成，MindIEQ/原W4均正确合并三段更新，输出相同54token，草稿接受率均100%；Prefill分别344.68/311.06 tok/s（约+10.8%），Decode16.49/16.35 tok/s。该输入收益低于重复合成吞吐样本，说明必须继续以真实业务语料验收。原始输入、计数和命令见 `results/mindieq-long-paired-20261014/README.md`。两端完成后空闲且健康检查200。
+
+下一优先级是同协议真实会议摘要/待办提取质量、prefix增量复用和长输出稳定性；之后再做并发与尾延迟。默认档变更未重启正在提供对照的两端服务，也未改变已测kernel制品。

@@ -19,7 +19,7 @@
 
 ## 最新单流部署候选
 
-当前收敛配置为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、4096/512、112K，prefix默认关闭。业务目标是修复 MindIEQ 后收敛到 `long-prefill`；在门禁完成前仍保留 `compat`/`decode` 对照。现行 profile、参数矩阵与最新 8K/32K/114560 门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为`configs/tp1-48g-112k.env`；设置MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE后执行：
+当前业务候选收敛为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、4096/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json
@@ -30,7 +30,7 @@ bash scripts/run-candidate.sh
 
 最新速度、质量和上下文边界以[GDN候选说明](docs/gdn-112k-candidate.md)、[MTP对照](results/pr17640-mtp-20261013/README.md)和[prefix复用](results/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
 
-MindIEQ最新可选Prefill路径直接读取现有native W4权重，使用独立FP32算术A8量化；[服务门禁](results/mindieq-a8-service-20261014/README.md)和[输入规模分流](results/mindieq-input-dispatch-20261014/README.md)已完成固定64题及性能对照。阈值128消除短输入开销，短输入仍走原W4。需要区分早期 grouped 路径相对旧基线的历史提升与当前增量：在同一批输入、两颗同型号310P交替五次的复测中，MindIEQ 相对原始 W4A8 的 Prefill 中位提升为 8K **23.29%**、32K **20.69%**；Decode 变化为 **-0.06%/-0.48%**。64K 和近112K单次长请求仍分别提升 **17.59%/14.66%**，两边 Decode 差异小于0.1%。[投影数值定位](results/mindieq-projection-parity-20261014/README.md)确认一项差异来自scale累加顺序，尚不能解释全部模型差异。[Gate/Up量化共享](results/mindieq-shared-gate-20261014/README.md)通过单层数值/异步/Graph微测试、64题门禁、112K needle和32K多位置needle；因此当前建议是：将 MindIEQ 作为 **112K 单流长 Prefill 候选分流**，保留 `MIN_TOKENS=128` 阈值和原W4回退，待P95、完整质量集、TP2/C8并发门禁完成后再决定是否默认开启。早期“+2.5%～2.9%”仅指相对前一 grouped 版本的 E5 shared-gate 增量，不是相对原始 W4 的最终对比。
+MindIEQ最新可选Prefill路径直接读取现有native W4权重，使用独立FP32算术A8量化；[服务门禁](results/mindieq-a8-service-20261014/README.md)和[输入规模分流](results/mindieq-input-dispatch-20261014/README.md)已完成固定64题及性能对照。阈值128消除短输入开销，短输入仍走原W4。需要区分早期 grouped 路径相对旧基线的历史提升与当前增量：在同一批输入、两颗同型号310P交替五次的复测中，MindIEQ 相对原始 W4A8 的 Prefill 中位提升为 8K **23.29%**、32K **20.69%**；Decode 变化为 **-0.06%/-0.48%**。64K 和近112K单次长请求仍分别提升 **17.59%/14.66%**，两边 Decode 差异小于0.1%。[投影数值定位](results/mindieq-projection-parity-20261014/README.md)确认一项差异来自scale累加顺序，尚不能解释全部模型差异。[Gate/Up量化共享](results/mindieq-shared-gate-20261014/README.md)通过单层数值/异步/Graph微测试、64题门禁、112K needle和32K多位置needle；因此当前建议是：将 MindIEQ 作为 **112K 单流长 Prefill 候选分流**，保留 `MIN_TOKENS=128` 阈值和原W4回退，现已作为长上下文业务的默认实验档；P95、完整业务质量集和TP2/C8并发门禁仍待完成，不宣称正式产品验收。早期“+2.5%～2.9%”仅指相对前一 grouped 版本的 E5 shared-gate 增量，不是相对原始 W4 的最终对比。
 
 ## 精度与计算路径
 
@@ -70,7 +70,7 @@ bash scripts/run-service.sh
 
 `MTP=0`关闭MTP；TP2设置`TP=2`。标准启动器用于W4/FP16-KV基线；C8+Graph必须使用`experimental/run-c8-service.sh`。C8产品候选参数是`MAX_MODEL_LEN=114688 MEMORY_UTILIZATION=0.95 MAX_BATCHED_TOKENS=1024 QWEN36_C8_POOL_MODE=split_by_type QWEN36_C8_FUSED_WRITE=1 QWEN36_C8_DEVICE_LENGTH=1 ENFORCE_EAGER=0 QWEN36_C8_ALLOW_GRAPH=1 QWEN36_C8_FORCE_UPDATABLE_GRAPH=1 COMPILATION_MODE=0 GRAPH_CAPTURE_SIZES=1,2`；MTP2实验档额外设置`QWEN36_C8_ALLOW_MTP2=1 NUM_SPECULATIVE_TOKENS=2 GRAPH_CAPTURE_SIZES=1,2,3`。这些参数依赖当前实验镜像和自定义C8库，不能当作官方通用vLLM参数。容器只挂载自包含模型目录，不依赖原始BF16或sidecar父目录。
 
-可用统一 wrapper 复现已验证的 112K 档位。默认是 `decode` profile；设置 `QWEN36_PROFILE=compat` 可切换 MTP1 兼容基线，设置 `QWEN36_PROFILE=long-prefill` 可切换长 Prefill 档。旧的 `mtp1`/`mtp2` 名称仍可用作兼容别名：
+以下旧 C8 wrapper 用于内部诊断复现，示例显式选择 MTP1；正式实验候选统一使用上文 `scripts/run-candidate.sh` 的默认 `long-prefill`。旧的 `mtp1`/`mtp2` 名称仍可用作兼容别名：
 
 ```bash
 MODEL_DIR=/absolute/path/weights \
