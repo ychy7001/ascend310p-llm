@@ -30,6 +30,7 @@ from c8_cache_310 import C8Cache310
 
 torch.ops.load_library(os.environ['QWEN36_C8_LIBRARY'])
 _SCRATCH = {}
+_NZ_READY = set()
 
 # Explicit 310P experiment contract: Qwen full-attention geometry and the
 # device-side page size are intentionally named instead of repeated literals.
@@ -48,6 +49,10 @@ def _graph_candidate_enabled():
 
 def _mtp2_enabled():
     return _flag('QWEN36_C8_ALLOW_MTP2')
+
+
+def _persistent_nz_enabled():
+    return _flag('QWEN36_C8_PERSISTENT_NZ')
 
 
 def _c8_device_context_length(seq_lens):
@@ -85,6 +90,8 @@ def get_spec(self, config):
     if spec is None or not isinstance(self.impl, AscendAttentionBackendImpl310):
         return spec
     graph_candidate = _graph_candidate_enabled()
+    if (_persistent_nz_enabled() and not config.model_config.enforce_eager):
+        raise RuntimeError('persistent NZ prototype is eager-only; disable Graph')
     if (config.parallel_config.tensor_parallel_size != 1
             or (not config.model_config.enforce_eager and not graph_candidate)
             or config.kv_transfer_config):
@@ -215,9 +222,19 @@ def allocate(self, config):
 NPUModelRunner310._allocate_kv_cache_tensors = allocate
 
 
-def scratch_buffers(device, context, heads, dim):
-    key = (str(device), context, heads, dim)
+def scratch_buffers(device, context, heads, dim, layer_key=None):
+    # A persistent workspace is one per attention layer. The legacy path
+    # deliberately shares one workspace because it rewrites every page before
+    # each layer; sharing is invalid for incremental page updates.
+    key = (str(device), context, heads, dim, layer_key)
     if key not in _SCRATCH:
+        if layer_key is not None:
+            max_gib = float(os.environ.get('QWEN36_C8_PERSISTENT_NZ_MAX_GIB', '4'))
+            expected = math.ceil(context / C8_BLOCK_SIZE) * (heads * dim // 16) * 64 * 16 * 2 * 2
+            expected *= 41
+            if expected > max_gib * (1 << 30):
+                raise RuntimeError(f'persistent NZ estimate {expected / (1 << 30):.2f} GiB exceeds '
+                                   f'QWEN36_C8_PERSISTENT_NZ_MAX_GIB={max_gib:g}')
         blocks = math.ceil(context / C8_BLOCK_SIZE)
         shape = (blocks, heads*dim//16,64,16)
         k = torch_npu.empty_with_format(size=shape,dtype=torch.float16,device=device,acl_format=29)
@@ -253,7 +270,9 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
               f'scale_dtype={cache.ks.dtype} state={attn_metadata.attn_state}',flush=True)
         self._c8_logged=True
     # First prefill uses current float inputs; all historical reads use C8.
+    layer_key = layer.layer_name
     if attn_metadata.attn_state == AscendAttentionState.PrefillNoCache:
+        _NZ_READY.discard(layer_key)
         return self.forward_prefill_310(query,key,value,attn_metadata,output)
     length = attn_metadata.seq_lens_list[0]
     context = self.vllm_config.model_config.max_model_len
@@ -273,16 +292,35 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
             or selected.dtype != torch.int32
             or not selected.is_contiguous()):
         selected = selected.to(device=query.device, dtype=torch.int32).contiguous()
-    ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim)
-    ko,vo = ko[:pages],vo[:pages]
+    persistent_nz = _flag('QWEN36_C8_PERSISTENT_NZ')
+    layer_workspace_key = layer_key if persistent_nz else None
+    ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim,layer_workspace_key)
+    compact_state = attn_metadata.attn_state == AscendAttentionState.DecodeOnly
+    direct_page = (persistent_nz and not graph_candidate and compact_state
+                   and layer_key in _NZ_READY and count <= 1)
+    # Any chunked prefill or multi-token verify changes more than one page and
+    # invalidates the incremental state; rebuild the full workspace.
+    if not compact_state or not direct_page:
+        _NZ_READY.discard(layer_key)
     if graph_candidate and os.environ.get('QWEN36_C8_DEVICE_LENGTH', '0') == '1':
         # Same replay-updated tensor that native PA consumes. Keep output and
         # page table extent fixed; only device-side conversion work varies.
         device_context_length = _c8_device_context_length(attn_metadata.seq_lens)
-        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected,
-                                   device_context_length)
+        if direct_page:
+            torch.ops.npu.c8_cache_to_nz_range(cache.k,cache.v,cache.ks,cache.vs,ko,vo,
+                                               C8_BLOCK_SIZE,selected[pages-1:pages].contiguous(),pages-1)
+        else:
+            torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected,
+                                         device_context_length)
     else:
-        torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected)
+        if direct_page:
+            torch.ops.npu.c8_cache_to_nz_range(cache.k,cache.v,cache.ks,cache.vs,ko,vo,
+                                               C8_BLOCK_SIZE,selected[pages-1:pages].contiguous(),pages-1)
+        else:
+            torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected)
+    if persistent_nz:
+        _NZ_READY.add(layer_key)
+    ko,vo = ko[:pages],vo[:pages]
     # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
     # discards it and forces an eager device->host copy in every SplitFuse layer.
     # Preserve the builder's full metadata, changing only the compact page table.
