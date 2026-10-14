@@ -29,6 +29,8 @@
 
 这解释了为什么 C8 单算子优化不能直接转化为同等比例的 Decode 提升：C8 转换约占该窗口 4%，而 MatMul、掩码、TransData 和调度链占更大部分。
 
+仓库中已经对 C8 转换做过三种真实 310P 长上下文候选门禁：流水线双缓冲在 114K 将转换从 3.258 ms 增加到 3.481 ms；连续页分配为 3.350 ms；K/V 分核为 3.278 ms。三者均通过数值/Graph 检查，但没有稳定加速证据，因此没有进入主库或服务制品。直接 C8 Attention 的独立实测也显示 114K 为 27.886 ms，而原生 PA 为 3.216 ms。当前瓶颈需要改变数据流或使用新的硬件原语，继续堆叠 tile/core 调度开关没有工程收益。
+
 ## 优先级
 
 1. **先定位掩码和 NotEqual 的等待关系。** `paged_attention_decoder_mask_0` 没有普通 shape 信息，且固定约 423 us；需要把 task timeline 与 stream/event 对齐，确认它是实际计算、同步后的尾部任务，还是 Graph replay 中的固定开销。
@@ -47,9 +49,11 @@
 
 长上下文 profile 中，mask 与 C8 conversion 合计 `58.55%` 的捕获 kernel 时间；普通 MatMul/W4 的单次平均时间基本不变，份额下降主要是历史 KV 处理变重。该结果支持以下工程判断：
 
+进一步按原始 kernel 明细拆分后，`paged_attention_decoder_mask_0` 的 480 次调用分布在 stream 6/7/72，单次耗时中位数 5.544 ms、P99 5.555 ms，等待时间只有约 37 us；它不是 host 等待造成的假占比，而是稳定的设备端工作。C8 转换的 492 次调用分布在相同 stream，单次中位数 3.284 ms。相反，163 次 `NotEqual` 的中位数只有 2.813 us，主要长尾为 stream 30 上的 3 次约 3.2 ms 调用；总量约 10.8 ms，远小于长上下文 mask 和 C8 转换，不能作为首要优化目标。
+
 - `QWEN36_C8_DEVICE_LENGTH=1` 对短请求有价值，但接近最大上下文时有效页数接近全量，不能解决长请求的主要成本。
 - persistent NZ/range update 只减少“新增长度所在页”的转换，不能消除首次长历史的 full conversion。
-- 长上下文的高价值方向是直接在 C8/NZ 目标布局上融合 page conversion 与 attention，或把 mask 生成改成可复用的静态/设备端元数据；必须通过 32K/112K 真实生成和数值门禁后才考虑接入默认路径。
+- 长上下文的高价值方向是复用原生 paged attention 的 mask/reduction 路径，同时减少 C8 转换的重复工作；当前 Direct C8 Attention 原型已经在 4K/32K/114K 上证明比原生 PA 慢，不能接入默认路径。任何新的 mask 或转换方案都必须通过 32K/112K 真实生成和数值门禁后才考虑接入默认路径。
 
 原始摘要与恢复验证见 `results/decode-profile-20261014/`、`results/decode-profile-112k-20261014/`。两个服务在 profile 结束后均恢复并通过 sanity，profile 本身不用于宣称产品吞吐。
 
