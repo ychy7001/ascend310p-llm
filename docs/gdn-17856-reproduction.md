@@ -192,3 +192,8 @@ TP2 eager 清理重启后成功：W8A8+C16+MTP2、8K、max_num_seqs=4，
 这是短输出冒烟验证，不覆盖长上下文、任务准确率或完整模型 Graph。
 不把输出成功视为强制命中了 accepted_prev > current_len 的证明；
 该边界由确定性的单算子回归覆盖。
+
+最新上游 CI：DCO、pre-commit 和 pinned vLLM main/v0.30.0 两组 CPU UT 均通过。
+`ci-gate` 未通过原因是源码改动需维护者加 `ready-precise` 等标签触发后续测试；
+已经在 PR 说明并请求维护者启用，不修改或绕过官方门禁。
+a2 主服务 18024、chip1 对照 18028 已恢复健康。
