@@ -57,9 +57,9 @@ MindIEQ **值得保留并进入产品候选评估**。当前最可靠的回退�
 
 同配置单流长请求显示收益随上下文增长而收窄但仍为正：64K（64512/128）MindIEQ 463.77 vs 原始 W4 394.39 tok/s，+17.59%；近 112K（114560/14）为 377.18 vs 328.94 tok/s，+14.66%。两边 Decode 分别约 22.6 和 17.3 tok/s，差异小于 0.1%，请求均完整返回。该结果支持在 112K 产品规格中保留 MindIEQ 长 Prefill 分流，但仍不覆盖并发和尾延迟。
 
-随后使用非流式 completion 做了一组严格同 token 的 64K 交替补充：MindIEQ `483.46 tok/s`、原始 W4 `395.70 tok/s`，Prefill `+22.18%`；Decode `22.61` vs `22.68 tok/s`，输出哈希一致。当前实验服务在下一轮长请求上出现调度停滞，因此这组数据只作为单轮因果补充，不能替代 64K 的多次 P50/P95 门禁。详见 `results/mindieq-long-paired-20261014/`。
+随后使用非流式 completion 做了严格同 token 的 64K 五轮交替：MindIEQ `483.35 tok/s`、原始 W4 `395.66 tok/s`，Prefill `+22.16%`；Decode `22.60` vs `22.40 tok/s`，输出哈希一致。经验尾部值已记录在结果 README，但不等同线上并发 P95。详见 `results/mindieq-long-paired-20261014/paired-64k-ns-v4.jsonl`。
 
-旧版 benchmark 在下一轮 64K 请求前卡在 metrics/HTTP 读取，日志中的短暂 `Running: 1 reqs` 随后回到 0；不能把它定性为原始 W4 Engine 泄漏。修复 metrics 连接处理后，64K 两轮配对完整返回：Prefill 中位 `483.80` vs `395.69 tok/s`，Decode `22.64` vs `22.36 tok/s`，输出哈希一致。该结果仍不是正式线上 P50/P95。详见 `results/long-request-lifecycle-20261014/`。
+随后使用同样的离线 token-ID 协议完成了 112K 近上限三轮交替：MindIEQ `378.34 tok/s`、原始 W4 `329.53 tok/s`，Prefill `+14.81%`；Decode `16.96` vs `16.83 tok/s`，输出哈希一致。该结果证明长 Prefill 分流在近上限请求仍有收益，但输出仅 32 token，不能替代持续 Decode 或并发尾延迟门禁。早期“tokenizer 阻塞”判断证据不足，已改为离线 token-ID 复测以消除客户端准备阶段歧义。
 
 ## 112K needle 正确性（新增）
 

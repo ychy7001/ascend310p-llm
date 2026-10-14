@@ -47,6 +47,10 @@ esac
 if [[ "${QWEN36_PROFILE:-compat}" == long-prefill && "$mindieq" == 1 ]]; then
   (( 10#$QWEN36_MINDIEQ_MIN_TOKENS >= 128 )) || { echo 'long-prefill requires QWEN36_MINDIEQ_MIN_TOKENS >= 128' >&2; exit 2; }
 fi
+if [[ "${QWEN36_PROFILE:-compat}" == long-prefill && "$mindieq" != 1 ]]; then
+  echo 'long-prefill requires QWEN36_MINDIEQ_ENABLED=1; use decode for the non-MindIEQ baseline' >&2
+  exit 2
+fi
 : "${MODEL_DIR:?}" "${OPP_DIR:?}" "${EXTENSION:?}" "${C8_LIBRARY:?}"
 : "${GDN_OPP_DIR:?}" "${GDN_LIBRARY:?}" "${GDN_SOURCE:?}"
 for path in "$MODEL_DIR/model.safetensors.index.json" "$EXTENSION" "$C8_LIBRARY" "$GDN_LIBRARY" "$GDN_SOURCE"; do

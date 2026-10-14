@@ -13,7 +13,20 @@
 
 ## 112K 复测说明
 
-本轮尝试使用同一套非流式配对脚本做 `114560+32` 的三轮对照，但 tokenizer 准备阶段在两端均长时间停留，服务日志只出现 `/tokenize` 而没有新的 completion；因此没有把这次未完成任务计入性能结果。服务随后保持健康（两个端点均返回 HTTP 200）。此前已完成的 114560 token 单次检索记录仍证明该配置可以完成近满长请求并正确返回 needle；112K 多轮 P50/P95 需要改为离线复用 token ID 后再执行。
+使用离线复用的同一批 `114560` 个 token ID，非流式 completion、输出上限 32、MindIEQ 与原始 W4 交替三轮。MindIEQ Prefill 中位为 **378.34 tok/s**，原始 W4 为 **329.53 tok/s**，提升 **14.81%**；Decode 中位分别为 **16.96/16.83 tok/s**，变化 **+0.75%**。总耗时中位为 **304.64/349.50 s**。六次 usage 均为 `114560+32`，输出 SHA256 完全一致，服务最终均回到 `Running: 0`。原始记录见 `paired-112k-fixed-v1.jsonl`。
+
+可复现实验的确定性输入保存在 `prompt-114560.json.gz`；客户端 `tools/bench_fixed_tokens_paired.py` 同时支持普通 JSON 和 gzip JSON。示例：
+
+```bash
+python3 tools/bench_fixed_tokens_paired.py \
+  --mindieq-url http://127.0.0.1:18024 \
+  --original-url http://127.0.0.1:18028 \
+  --model qwen36-w4a8-c8 \
+  --prompt-file results/mindieq-long-paired-20261014/prompt-114560.json.gz \
+  --out /tmp/paired-112k.jsonl --output-tokens 32 --repeats 3
+```
+
+这组结果是三轮单流阶段吞吐验证，不是线上并发 P95，也不包含流式 TTFT；Prometheus phase delta、wall time 和输出哈希均保留在 JSONL 中。早期客户端在 token 准备/响应期间的缓冲文件和服务访问日志不足以证明 tokenizer 阻塞，不能再据此作故障归因。
 
 ## 32K 连续交替补充
 

@@ -71,6 +71,11 @@ export GRAPH_MODE=FULL_DECODE_ONLY
 export GRAPH_CAPTURE_SIZES="$capture"
 export ENABLE_PREFIX_CACHING="${ENABLE_PREFIX_CACHING:-0}"
 
+if [[ "$profile" == long-prefill && "${QWEN36_MINDIEQ_ENABLED:-0}" != 1 ]]; then
+  echo 'long-prefill requires QWEN36_MINDIEQ_ENABLED=1; use decode for the W4 baseline' >&2
+  exit 2
+fi
+
 echo "QWEN36_PROFILE=$profile ($profile_description) MAX_MODEL_LEN=$MAX_MODEL_LEN " \
   "MTP=$MTP NUM_SPECULATIVE_TOKENS=$NUM_SPECULATIVE_TOKENS " \
   "GRAPH_CAPTURE_SIZES=$GRAPH_CAPTURE_SIZES MAX_BATCHED_TOKENS=$MAX_BATCHED_TOKENS " \
