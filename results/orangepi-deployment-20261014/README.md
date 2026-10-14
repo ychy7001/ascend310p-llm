@@ -231,6 +231,10 @@ MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_upd
 
 将 `MTP_DRAFT_EAGER=1`，只让 MTP draft 分支使用 eager，主模型仍保持 `FULL_DECODE_ONLY` Graph。固定答案 `8/8`、A/B/A 和视觉 smoke 通过，但 8K/256 冷 Decode 为 `22.753 / 22.762 / 22.806 tok/s`，热请求 `22.859 tok/s`；同步 Graph draft 基线约为 `23.975--24.057 tok/s`，下降约 5%。因此当前 310P 上 draft Graph 是有效优化，不能为了规避潜在的 draft 同步问题而默认 eager。结果保存为 `quality-draft-eager.json`、`bench-draft-eager-8192-o256.jsonl`，候选容器已停止并恢复 Graph draft 基线。
 
+### C8 device context length 反事实对照
+
+当前产品档的 `QWEN36_C8_DEVICE_LENGTH=1` 是长上下文 Decode 的关键开关。将它单独关闭、其余参数保持 TP1/W4A8/C8/MTP1/Graph/GDN/MindIEQ/114K/KV6GiB 不变后，8K/256 冷 Decode 为 `17.897 / 17.906 / 17.900 tok/s`，热请求 `17.870 tok/s`；开启设备有效长度的相邻对照约为 `24.04--24.19 tok/s`。Prefill 两组均约 `699 tok/s`，固定答案8/8、A/B/A和视觉门禁仍通过。Decode 下降约26%，说明 `c8_cache_to_nz` 若每步转换整个 max-context 页表会成为主要瓶颈；当前设备端长度路径只处理向上取整的有效页。结果保存为 `quality-c8len-off.json` 和 `bench-c8len-off-8192-o256.jsonl`，实验后已恢复 `QWEN36_C8_DEVICE_LENGTH=1`。
+
 ### C8 int32 元数据复用对照
 
 新增显式开关 `QWEN36_C8_REUSE_INT32_METADATA=1`：只有当 slot/page table 已经是 NPU 上连续的 `int32` 时才复用原张量，否则仍走原来的转换路径。该开关不改变 C8 算子协议和 Graph shape。两轮 8K/256 冷 Decode 分别为 `24.042 / 24.148 / 24.106` 和 `24.188 / 24.189 / 24.177 tok/s`，热请求分别为 `24.157` 和 `24.164 tok/s`；固定答案8/8、A/B/A和视觉 smoke通过。相对原同步基线约 `23.87--24.22 tok/s`，收益约 0.5%--1%，属于小幅但可重复的微优化。默认仍关闭，建议在固定的 C8 Graph 版本上显式开启并继续观察。
