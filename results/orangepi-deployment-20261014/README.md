@@ -197,4 +197,10 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 日志确认`num_speculative_tokens=2,enforce_eager=true`，主模型保持Graph。15:52:50UTC首个请求再次设备TS exception；device debug明确`aicpu task exception`，stream2/task21711、magic0xac79F，Python仍等待draft回传event。不能归为只由draft Graph导致，也不能将等待函数当触发算子。AI CPU日志尚未暴露具体op，仍需更细task/op关联；证据见`mtp2-draft-eager-{stack,ts,device-debug}.txt`、压缩启动日志。已停止失败候选，恢复MTP1+Graph+GDN+MindIEQ，索引候选关闭；恢复后需health/生成门禁。
 
 
+### RC Decode 主机参与度补测
+
+恢复后的 RC/MTP1/C8/Graph/GDN/MindIEQ 服务进行了 8K 输入、256 输出、三轮独占测量。服务端 Decode 阶段为 24.174、24.112、24.225 tok/s（MTP draft/acceptance 均为 128/128，prefix cache hit=0）；HTTP 从请求开始计算的总输出吞吐约 20.4 tok/s，因为它包含 TTFT。同期 `pidstat` 采集 EngineCore 平均 CPU 约 50.91%（usr 45.67%、system 5.24%），磁盘 I/O 为 0。
+
+这说明 Decode 每步确实有明显的 host/runtime 参与，但 CPU 使用率不能直接等价于同步等待比例；它也可能包含 tokenizer、请求循环和 NPU 提交。结合 RC/EP 大矩阵和大块拷贝接近、而小操作测试差异明显，当前优先级是完整 Graph replay trace 中定位小张量更新、AI CPU task、stream/event wait 与 W4 小 GEMM 的墙钟间隔。该补测不能单独证明 RC 的 14%--22% 差距来自某一个 host 函数。原始数据：`rc-stage-8192-o256.jsonl`、`rc-decode-8192-o256.jsonl`、`rc-decode-pidstat.log`。
+
 MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_update_stack_num_spec_norm`（本机1590–1668附近），第二个draft新增`clamped_positions // block_size`与`% block_size`。本机另一个prefix索引路径已因旧AI CPU FloorDiv做CPU兼容补丁，而MTP2此处没有同样处理。它是待隔离验证的候选，不是已证明的异常算子，不能据此宣称修复完成。
