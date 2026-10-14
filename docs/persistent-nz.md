@@ -48,3 +48,14 @@ TP1、W4A8、C8、MTP1、eager、max model length 4096 的服务验证结果：
 ## 当前决策
 
 默认服务继续使用 C8 device-length + Decode Graph + MTP1，persistent NZ 保持关闭。后续如要产品化，需要在同一长上下文、相同接受率和多轮请求协议下补充 P50/P95、跨页比例、页表重排和数值回归；只有端到端 TPOT 稳定改善后才应打开默认开关。
+
+## 稳定产品基线
+
+恢复后的 OrangePi/310P 稳定服务为 TP1、W4A8、C8、MTP1、114688 max model length、Decode Graph、6 GiB KV budget，persistent NZ=0。独占 8192/128 unique-prompt 请求的两条有效样本为：
+
+| 请求 | Prefill | Decode | MTP acceptance |
+| --- | ---: | ---: | ---: |
+| 1 | 567.11 tok/s | 24.15 tok/s | 100% |
+| 2 | 566.22 tok/s | 24.17 tok/s | 100% |
+
+日志确认实际出现 `Replaying aclgraph`，没有加载 persistent NZ range 路径。原始阶段数据保存在 `results/persistent-nz-20261015/stable-114k-p8192-o128.jsonl`；该文件只有两条有效测量，不将中断的第三次请求计入统计。
