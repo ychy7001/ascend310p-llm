@@ -81,3 +81,28 @@ Prefill 提升 **14.89%**，Decode 变化 **+0.63%**，总耗时减少 **12.70%*
 MindIEQ 首文本等待减少44.918秒。原始数据 `paired-112k-stream-v1.jsonl` 保留逐事件时间、usage和阶段delta。这是一对样本，不能报告P50/P95；其作用是确认长流式响应可完整返回且TTFT与Prefill阶段计时一致。模型在该重复合成输入上续写相同文本，MTP接受率不能外推到业务摘要。
 
 产品体验边界：112K冷输入仍需约5分钟才开始输出；即使MindIEQ有稳定方向性收益，也不能称为低延迟长上下文。下一步应评估真实会议文本的摘要/结构化提取质量和MTP接受率，再观察prefix缓存或增量输入减少冷Prefill的实际收益。
+
+## 32K 合成会议决议更新 canary
+
+该样本把三条有依赖关系的正式决议放在约10%、50%、90%的输入位置，并用中文普通讨论填充到32256 token。A给出初始预算/负责人/日期，B只更新预算/负责人，C更新日期和状态；模型需要合并最新字段并返回JSON。两个服务均正确返回 `{"budget_yuan":180000,"owner":"周启","deadline":"2026-11-12","status":"延期上线"}`，自然结束时各生成54 token。
+
+| 服务 | Prefill阶段 | Decode阶段 | draft token 接受率 |
+|---|---:|---:|---:|
+| MindIEQ | 66.303s | 1.840s | 36/36（100%） |
+| 原始 W4 | 76.475s | 1.875s | 36/36（100%） |
+
+原始记录 `meeting-update-32k-v1.jsonl`，输入 `meeting-update-32k-v1.prompt.json.gz`。这只有一个合成任务，正确结果不代表完整会议摘要质量；两边也都使用W4+C8，不能证明相对BF16/W8A8的量化质量无损。该中文输入的Prefill速率与英文重复文本不同，不能将不同prompt的数字直接相减作为算子收益。
+
+历史32K记录的config错误写入 `max_output_tokens=256`，实际请求代码使用128，服务自然结束54 token；本次保留原始文件不改写结果，并修正工具元数据。新的工具同时记录finish_reason。
+
+复现（两个端点均需独占、prefix off）：
+
+```bash
+python3 tools/check_meeting_long_context.py \
+ --mindieq-url http://127.0.0.1:18024 --original-url http://127.0.0.1:18028 \
+ --model qwen36-w4a8-c8 \
+ --prompt-file results/mindieq-long-paired-20261014/meeting-update-32k-v1.prompt.json.gz \
+ --out /tmp/meeting-32k-recheck.jsonl
+```
+
+这条质量请求允许EOS并限制最多128输出token，与性能基准强制输出128 token的协议不同；不混合统计两类Decode吞吐。
