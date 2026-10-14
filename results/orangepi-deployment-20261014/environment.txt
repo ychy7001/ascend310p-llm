@@ -1,0 +1,32 @@
+Linux orangepi 5.10.0+ #32 SMP Tue Sep 2 11:41:05 CST 2025 aarch64 aarch64 aarch64 GNU/Linux
+NAME="openEuler"
+ID="openEuler"
+VERSION_ID="22.03"
+ANSI_COLOR="0;31"
+
+VERSION="22.03 (LTS-SP3) dracut-055-9.oe2203sp3"
+PRETTY_NAME="openEuler 22.03 (LTS-SP3) dracut-055-9.oe2203sp3 (Initramfs)"
+DRACUT_VERSION="055-9.oe2203sp3"
+               total        used        free      shared  buff/cache   available
+Mem:            87Gi       1.8Gi        84Gi        35Mi       1.9Gi        85Gi
+Swap:             0B          0B          0B
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       118G   78G   36G  69% /
++--------------------------------------------------------------------------------------------------------+
+| npu-smi v1.0                                     Version: 24.1.t52.b060                                |
++-------------------------------+-----------------+------------------------------------------------------+
+| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |
+| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |
++===============================+=================+======================================================+
+| 0       310P1                 | OK              | NA           40                0     / 0             |
+| 0       0                     | NA              | 0            NA / 89610                              |
++===============================+=================+======================================================+
+Version=7.6.T7.0.B053
+version_dir=CANN-7.6
+required_firmware_firmware_version=1.0
+package_version=24.1.t52.b060
+Innerversion=V100R001C20B124
+compatible_version=
+Version=7.6.T7.0.B053
+firmware_version=1.0
+package_version=24.1.t52.b060
