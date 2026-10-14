@@ -36,6 +36,23 @@
 3. **继续优化 W4 小 GEMM shape。** W4 自定义算子已占 12.25%，它是 RC/EP 都会付出的主要工作；应按真实 shape 分组测试，而不是只看大矩阵带宽。
 4. **保留 persistent NZ 为实验选项。** range update 已把 C8 转换从约 3384 us 降到约 162 us，但端到端 Decode 尚未证明稳定提升，不能用它掩盖前面三类瓶颈。
 
+## 长上下文 profile 证据
+
+仓库中的真实 Graph profile 对比来自同一套 E5 制品和 MTP2 路径；profile 在首个流式文本之后开启，可能漏掉最初 Decode 步，因此这里只比较捕获窗口的 kernel 求和，不当作墙钟占比。
+
+| 输入/输出 | Paged attention mask | C8 conversion | MatmulWeightNz | W4 expert |
+| --- | ---: | ---: | ---: | ---: |
+| 8192/128 | 6.55% (0.415 ms/call) | 3.87% (0.245 ms/call) | 47.12% | 15.70% |
+| 114560/128 | 36.77% (5.544 ms/call) | 21.78% (3.284 ms/call) | 20.23% | 6.79% |
+
+长上下文 profile 中，mask 与 C8 conversion 合计 `58.55%` 的捕获 kernel 时间；普通 MatMul/W4 的单次平均时间基本不变，份额下降主要是历史 KV 处理变重。该结果支持以下工程判断：
+
+- `QWEN36_C8_DEVICE_LENGTH=1` 对短请求有价值，但接近最大上下文时有效页数接近全量，不能解决长请求的主要成本。
+- persistent NZ/range update 只减少“新增长度所在页”的转换，不能消除首次长历史的 full conversion。
+- 长上下文的高价值方向是直接在 C8/NZ 目标布局上融合 page conversion 与 attention，或把 mask 生成改成可复用的静态/设备端元数据；必须通过 32K/112K 真实生成和数值门禁后才考虑接入默认路径。
+
+原始摘要与恢复验证见 `results/decode-profile-20261014/`、`results/decode-profile-112k-20261014/`。两个服务在 profile 结束后均恢复并通过 sanity，profile 本身不用于宣称产品吞吐。
+
 ## 当前产品决策
 
 稳定默认配置保持 C8 device-length + MTP1 + Decode Graph。`RC_DEVICE_BLOCK_INDICES=1`、`QWEN36_C8_REUSE_INT32_METADATA=1` 和 persistent NZ 继续作为诊断/实验开关；已有真实数据没有显示足够稳定的收益来默认打开。下一轮最有价值的实验是针对 mask/NotEqual 的 stream timeline，而不是重新做相同的 affinity 或 memcpy 微基准。
