@@ -235,6 +235,10 @@ MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_upd
 
 当前产品档的 `QWEN36_C8_DEVICE_LENGTH=1` 是长上下文 Decode 的关键开关。将它单独关闭、其余参数保持 TP1/W4A8/C8/MTP1/Graph/GDN/MindIEQ/114K/KV6GiB 不变后，8K/256 冷 Decode 为 `17.897 / 17.906 / 17.900 tok/s`，热请求 `17.870 tok/s`；开启设备有效长度的相邻对照约为 `24.04--24.19 tok/s`。Prefill 两组均约 `699 tok/s`，固定答案8/8、A/B/A和视觉门禁仍通过。Decode 下降约26%，说明 `c8_cache_to_nz` 若每步转换整个 max-context 页表会成为主要瓶颈；当前设备端长度路径只处理向上取整的有效页。114K单算子探针进一步显示，8K有效长度时转换约从3.38ms降至0.37ms，32K时约1.05ms，满114K时两者约3.36ms。该开关已在C8 Graph启动器中设为默认1；结果保存为 `quality-c8len-off.json`、`bench-c8len-off-8192-o256.jsonl`、`bench-c8-device-length-114688.log`。
 
+### 默认产品档 32K 阶段基线
+
+恢复默认 `QWEN36_C8_DEVICE_LENGTH=1`、C8/MTP1/Graph/GDN/MindIEQ 后，32K/128 冷请求三轮 Prefill 为 `616.73 / 616.83 / 616.13 tok/s`，Decode 为 `19.377 / 19.409 / 19.155 tok/s`；热请求命中 `31,104` token，Prefill `10695.9 tok/s`，Decode `19.435 tok/s`。MTP draft/acceptance 为 `64/64`，没有 Prefix 泄漏。原始结果为 `bench-final-default-32768-o128.jsonl`，可作为 114K 产品档以下的中长上下文基线。
+
 ### C8 int32 元数据复用对照
 
 新增显式开关 `QWEN36_C8_REUSE_INT32_METADATA=1`：只有当 slot/page table 已经是 NPU 上连续的 `int32` 时才复用原张量，否则仍走原来的转换路径。该开关不改变 C8 算子协议和 Graph shape。两轮 8K/256 冷 Decode 分别为 `24.042 / 24.148 / 24.106` 和 `24.188 / 24.189 / 24.177 tok/s`，热请求分别为 `24.157` 和 `24.164 tok/s`；固定答案8/8、A/B/A和视觉 smoke通过。相对原同步基线约 `23.87--24.22 tok/s`，收益约 0.5%--1%，属于小幅但可重复的微优化。默认仍关闭，建议在固定的 C8 Graph 版本上显式开启并继续观察。
