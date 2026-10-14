@@ -171,3 +171,21 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 测试输出使用独占新文件名，重复运行需更换label。关闭MindIEQ只需`MINDIEQ=0`，回到已通过的GDN/MTP1路线。上述启动变量与路径属于本机部署探针，尚未纳入通用产品profile。
 
 112K之后再次执行`check_cache_request_reuse.py`：8/8、A/B/A一致、无canary泄露，health200。当前容器`qwen36-orangepi`/18024保持MTP1+C8+Graph+GDN+MindIEQ、视觉与prefix开启、max114688。配置恢复时以本机`run-service.sh`显式参数为准。
+
+## RC/EP主要配置对齐的三轮对照
+
+临时停止a2的`qwen36-a2.service`，使用保留的CreateCommand生成独立`qwen36-ep-rc-pair`/18030；实验结束停止候选并重新start原服务单元。chip1不动。代码snapshot为本轮公开仓库，主要参数统一TP1/MTP1/batch2048/Graph/GDN/MindIEQ/seq1、prefix on、OMP4、视觉max_pixels1048576/cache0.5GiB；KV显式6GiB（EP worker是否执行该预算需看加载日志，不能只根据CLI断言）。RC使用transdata C8，EP仍原C8；不同SoC/主机/驱动/编译产物不可能消除，因此是主要配置对齐的系统对照，不是只改变RC/EP的因果实验。
+
+同脚本warmup1/repeat3、独立salt、每请求usage/计数器有效且cache hit=0，三轮输入SHA逐一匹配：
+
+|输入/输出|RC Prefill|EP Prefill|RC Decode|EP Decode|
+|---|---:|---:|---:|---:|
+|2304/128|570.290|581.511|23.396|30.111|
+|8192/128|563.925|570.281|23.874|30.024|
+|32000/128|514.875|506.500|19.440|22.586|
+
+单位tok/s，中位数。8K/32K输出每轮逐字相同，2304为2/3相同，基础门禁两端8/8/A-B-A通过。8K/32K MTP接受率均100%，不能用拒绝率解释这两档Decode差距。Prefill差距在约2%内，Decode RC仍低约14%–22%。两端不同C8库意味着残余Decode差异仍混有实现差异，不能声称RC天生低此比例。
+
+原始结果`rc-ep-pair/{rc,ep}/`，复算`python3 summarize-rc-ep-pair.py`。32K本轮提示词与早前`bench-stage.py`不同，621.640与514.875不能当作服务性能回退：此前是另一组输入，本轮两端严格逐条SHA对齐。
+
+下一项隔离诊断为RC状态块索引：旧补丁`seq_lens.cpu()`每步产生D2H同步。设备FP32非负除法转INT32替代仅在显式开关`RC_DEVICE_BLOCK_INDICES=1`使用，64/576/1152/1728块尺寸、长度0..114688全部与CPU整数参考一致，且修改输入后的Graph replay通过；不扩展到未经验证的块尺寸/长度。默认仍为原CPU路线，模型性能/质量门禁通过前不宣称收益。
