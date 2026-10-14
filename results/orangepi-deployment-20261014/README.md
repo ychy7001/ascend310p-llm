@@ -239,6 +239,10 @@ MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_upd
 
 恢复默认 `QWEN36_C8_DEVICE_LENGTH=1`、C8/MTP1/Graph/GDN/MindIEQ 后，32K/128 冷请求三轮 Prefill 为 `616.73 / 616.83 / 616.13 tok/s`，Decode 为 `19.377 / 19.409 / 19.155 tok/s`；热请求命中 `31,104` token，Prefill `10695.9 tok/s`，Decode `19.435 tok/s`。MTP draft/acceptance 为 `64/64`，没有 Prefix 泄漏。原始结果为 `bench-final-default-32768-o128.jsonl`，可作为 114K 产品档以下的中长上下文基线。
 
+### 增量页转换上限探针
+
+在 114K C8 缓存上用现有 selected-page ABI 做单算子上限测量：全量有效页转换中位数约 `3.43 ms`，仅转换一个新页约 `0.285 ms`，理论上可节省约 92%。但将单页结果再用 Python/NPU 普通切片拷贝回持久的完整 NZ workspace 后，中位数约 `5.89 ms`，反而比全量转换慢约 72%。这说明增量方案必须在 Ascend C kernel 内直接写入持久 NZ 页偏移，或设计设备端页状态/双缓冲协议；不能用普通切片拷贝拼接。该探针未修改产品路径，结果保存为 `bench-c8-incremental-page-114688.log`。
+
 ### C8 int32 元数据复用对照
 
 新增显式开关 `QWEN36_C8_REUSE_INT32_METADATA=1`：只有当 slot/page table 已经是 NPU 上连续的 `int32` 时才复用原张量，否则仍走原来的转换路径。该开关不改变 C8 算子协议和 Graph shape。两轮 8K/256 冷 Decode 分别为 `24.042 / 24.148 / 24.106` 和 `24.188 / 24.189 / 24.177 tok/s`，热请求分别为 `24.157` 和 `24.164 tok/s`；固定答案8/8、A/B/A和视觉 smoke通过。相对原同步基线约 `23.87--24.22 tok/s`，收益约 0.5%--1%，属于小幅但可重复的微优化。默认仍关闭，建议在固定的 C8 Graph 版本上显式开启并继续观察。
