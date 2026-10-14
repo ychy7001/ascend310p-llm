@@ -203,4 +203,8 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 
 这说明 Decode 每步确实有明显的 host/runtime 参与，但 CPU 使用率不能直接等价于同步等待比例；它也可能包含 tokenizer、请求循环和 NPU 提交。结合 RC/EP 大矩阵和大块拷贝接近、而小操作测试差异明显，当前优先级是完整 Graph replay trace 中定位小张量更新、AI CPU task、stream/event wait 与 W4 小 GEMM 的墙钟间隔。该补测不能单独证明 RC 的 14%--22% 差距来自某一个 host 函数。原始数据：`rc-stage-8192-o256.jsonl`、`rc-decode-8192-o256.jsonl`、`rc-decode-pidstat.log`。
 
+### MTP0 对照的配置限制
+
+尝试在完全相同的 RC/C8/Graph/GDN/MindIEQ/114K/KV6GiB 配置下关闭 MTP（MTP0）时，模型加载和权重读取完成，但 Decode Graph capture 初始化失败：`device context length requires selected pages and one contiguous INT32 value`。因此没有产生 MTP0 性能数据，不能把该次失败解释成 MTP0 的速度问题。它说明当前实验镜像的 C8 device-length/Graph 路径对无 MTP 的上下文元数据仍有额外约束；MTP1 是当前已通过的可用档。
+
 MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_update_stack_num_spec_norm`（本机1590–1668附近），第二个draft新增`clamped_positions // block_size`与`% block_size`。本机另一个prefix索引路径已因旧AI CPU FloorDiv做CPU兼容补丁，而MTP2此处没有同样处理。它是待隔离验证的候选，不是已证明的异常算子，不能据此宣称修复完成。
