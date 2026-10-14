@@ -267,7 +267,12 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     pages = math.ceil((context if graph_candidate else length) / C8_BLOCK_SIZE)
     if attn_metadata.block_tables.shape[1] < pages:
         raise RuntimeError('C8 graph requires a max-context device block table')
-    selected = attn_metadata.block_tables[0,:pages].to(torch.int32).contiguous()
+    selected = attn_metadata.block_tables[0, :pages]
+    if (os.environ.get('QWEN36_C8_REUSE_INT32_METADATA', '0') != '1'
+            or selected.device.type != 'npu'
+            or selected.dtype != torch.int32
+            or not selected.is_contiguous()):
+        selected = selected.to(device=query.device, dtype=torch.int32).contiguous()
     ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim)
     ko,vo = ko[:pages],vo[:pages]
     if graph_candidate and os.environ.get('QWEN36_C8_DEVICE_LENGTH', '0') == '1':

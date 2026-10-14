@@ -2,7 +2,7 @@
 set -euo pipefail
 base=/data/qwen36-deploy
 : "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}" "${MTP_DRAFT_EAGER:=0}" "${TASK_QUEUE_ENABLE:=1}" "${CPU_AFFINITY_CONF:=0}"
-: "${MAX_MODEL_LEN:=8192}" "${KV_BYTES:=2147483648}" "${MTP:=0}" "${C8:=0}" "${GRAPH:=0}" "${GDN:=0}" "${ASYNC_SCHEDULING:=0}" "${C8_LIBRARY:=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so}"
+: "${MAX_MODEL_LEN:=8192}" "${KV_BYTES:=2147483648}" "${MTP:=0}" "${C8:=0}" "${GRAPH:=0}" "${GDN:=0}" "${ASYNC_SCHEDULING:=0}" "${C8_REUSE_INT32_METADATA:=0}" "${C8_LIBRARY:=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so}"
 [[ "$MTP" =~ ^[012]$ && "$C8" =~ ^[01]$ && "$GRAPH" =~ ^[01]$ ]] || exit 2
 docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --network host \
  --entrypoint bash \
@@ -22,6 +22,7 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  -e QWEN36_C8_ENABLED="$C8" -e QWEN36_C8_ALLOW_MTP2=1 \
  -e QWEN36_C8_ALLOW_GRAPH="$GRAPH" -e QWEN36_C8_FORCE_UPDATABLE_GRAPH="$GRAPH" \
  -e QWEN36_C8_DEVICE_LENGTH="${QWEN36_C8_DEVICE_LENGTH:-1}" -e QWEN36_C8_FUSED_WRITE=1 -e QWEN36_C8_POOL_MODE=split_by_type \
+ -e QWEN36_C8_REUSE_INT32_METADATA="$C8_REUSE_INT32_METADATA" \
  -e QWEN36_C8_LIBRARY="$C8_LIBRARY" \
  -e QWEN36_MINDIEQ_ENABLED="$MINDIEQ" \
  -e QWEN36_MINDIEQ_LIBRARY=/work/artifacts/mindieq-arm-build/output/libqwen36_mindieq_grouped.so \

@@ -9,6 +9,15 @@ import os
 from c8_backend_contract import C8PageSpec, validate_cache_tensors
 
 _FUSED_WRITE = os.environ.get('QWEN36_C8_FUSED_WRITE','0') == '1'
+_REUSE_INT32_METADATA = os.environ.get('QWEN36_C8_REUSE_INT32_METADATA', '0') == '1'
+
+
+def _int32_device_contiguous(value, device):
+    """Avoid a per-layer temporary when vLLM already prepared device metadata."""
+    if (_REUSE_INT32_METADATA and value.device == device
+            and value.dtype == torch.int32 and value.is_contiguous()):
+        return value
+    return value.to(device=device, dtype=torch.int32).contiguous()
 
 
 class C8Cache310:
@@ -32,7 +41,7 @@ class C8Cache310:
             raise ValueError('slot count mismatch or write chunk exceeds 4096 tokens')
         if _FUSED_WRITE:
             torch.ops.npu.c8_quant_scatter(key.contiguous(),value.contiguous(),
-                slots.to(device=key.device,dtype=torch.int32).contiguous(),
+                _int32_device_contiguous(slots, key.device),
                 self.k,self.v,self.ks,self.vs)
             return
         for source, cache, scale_cache in ((key, self.k, self.ks), (value, self.v, self.vs)):
@@ -44,7 +53,7 @@ class C8Cache310:
             scales = torch.zeros((source.shape[0], 16), dtype=torch.float16, device=source.device)
             scales[:, :self.heads] = scale32.half()
             torch.ops.npu.c8_page_scatter(quant.contiguous(), scales,
-                                         slots.to(device=source.device, dtype=torch.int32).contiguous(),
+                                         _int32_device_contiguous(slots, source.device),
                                          cache, scale_cache, source.shape[0], self.heads, self.dim)
 
     def read_page(self, physical_block, count=None):
