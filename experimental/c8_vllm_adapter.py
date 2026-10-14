@@ -31,6 +31,7 @@ from c8_cache_310 import C8Cache310
 torch.ops.load_library(os.environ['QWEN36_C8_LIBRARY'])
 _SCRATCH = {}
 _NZ_READY = set()
+_NZ_PATH_LOGGED = set()
 
 # Explicit 310P experiment contract: Qwen full-attention geometry and the
 # device-side page size are intentionally named instead of repeated literals.
@@ -328,6 +329,11 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
             torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,target_ko,target_vo,C8_BLOCK_SIZE,selected)
     if persistent_nz:
         _NZ_READY.add(layer_key)
+        path = 'range' if direct_page else 'full'
+        log_key = (layer_key, path)
+        if log_key not in _NZ_PATH_LOGGED:
+            print(f'C8_NZ_UPDATE layer={layer_key} mode={path} pages={pages} count={count}', flush=True)
+            _NZ_PATH_LOGGED.add(log_key)
     # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
     # discards it and forces an eager device->host copy in every SplitFuse layer.
     # Preserve the builder's full metadata, changing only the compact page table.
