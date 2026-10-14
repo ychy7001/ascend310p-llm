@@ -1,0 +1,22 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-8.3.2, pluggy-1.6.0 -- /usr/local/python3.12.13/bin/python3
+cachedir: .pytest_cache
+rootdir: /
+plugins: xdist-3.6.1, anyio-4.15.1
+collecting ... collected 3 items
+
+../test_upstream.py::test_recurrent_state_rows[False-False] PASSED       [ 33%]
+../test_upstream.py::test_recurrent_state_rows[True-False] PASSED        [ 66%]
+../test_upstream.py::test_recurrent_state_rows[True-True] PASSED         [100%]
+
+=============================== warnings summary ===============================
+../usr/local/python3.12.13/lib/python3.12/site-packages/torch/jit/_script.py:362: 14 warnings
+  /usr/local/python3.12.13/lib/python3.12/site-packages/torch/jit/_script.py:362: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+test_upstream.py::test_recurrent_state_rows[False-False]
+  /usr/local/python3.12.13/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=1) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 3 passed, 15 warnings in 10.32s ========================

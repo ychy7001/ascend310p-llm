@@ -143,3 +143,16 @@ GDN_WRAPPER_SOURCE=/path/to/patched/vllm_ascend/_310p/ops/fla/gdn_310.py \
 向现有 Issue 补充复现和提交 PR 时应清楚列明上述范围与尚未覆盖项。
 
 当前证据尚不支持性能收益、长上下文精度或此前接受率下降的归因。
+
+## 上游提交记录（2026-10-14）
+
+- PR：[vllm-project/vllm-ascend#18730](https://github.com/vllm-project/vllm-ascend/pull/18730)。
+- Fork 分支：`ychy7001/vllm-ascend:fix/310p-gdn-mtp-state-rows`。
+- 修复提交：`df1c553`，基于官方 main `d27f8e3`，包含 DCO 签署。
+- 五个文件：四个运行时文件和一份 nightly 310P pytest 回归。
+- 提交版本使用真实 wrapper，实机 `3 passed`（126 次输出/状态断言）；日志见 `upstream-pytest.log`。
+- 官方 `bash format.sh ci` 全部通过。
+- 向现有 Issue #17856 补充状态更新异常与压紧索引风险证据，并关联 PR。
+- 上游相关 #18612 修改 FLA 路径，没有覆盖本次 310P 独立算子。
+
+PR 已提交，尚未合并；产品默认服务仍使用原版本。
