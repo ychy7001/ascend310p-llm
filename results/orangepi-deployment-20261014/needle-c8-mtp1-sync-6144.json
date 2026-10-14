@@ -1,0 +1,96 @@
+[
+  {
+    "kind": "cold",
+    "tokens": 6144,
+    "input_sha256": "38c5b7e801bcbaf78f44402287f9aa2f40930d3340a9cb7a2e9226957899c53e",
+    "elapsed_s": 16.701628001001154,
+    "phase_delta": {
+      "vllm:request_prefill_time_seconds_count": 1.0,
+      "vllm:request_prefill_time_seconds_sum": 15.517598885999178,
+      "vllm:request_decode_time_seconds_sum": 1.171054473001277,
+      "vllm:spec_decode_num_drafts_total": 4.0,
+      "vllm:spec_decode_num_draft_tokens_total": 4.0,
+      "vllm:spec_decode_num_accepted_tokens_total": 4.0
+    },
+    "cache_delta": {
+      "vllm:prefix_cache_queries_total": 6144.0,
+      "vllm:prefix_cache_hits_total": 0.0
+    },
+    "correct": true,
+    "response": {
+      "id": "cmpl-8c1f711c0c03d6b8",
+      "object": "text_completion",
+      "created": 1791984527,
+      "model": "qwen36-w4a8",
+      "choices": [
+        {
+          "index": 0,
+          "text": "ASCEND732941",
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "prompt_logprobs": null,
+          "prompt_token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-993aaf62",
+      "usage": {
+        "prompt_tokens": 6144,
+        "total_tokens": 6153,
+        "completion_tokens": 9,
+        "prompt_tokens_details": null
+      },
+      "kv_transfer_params": null
+    }
+  },
+  {
+    "kind": "hot",
+    "tokens": 6144,
+    "input_sha256": "38c5b7e801bcbaf78f44402287f9aa2f40930d3340a9cb7a2e9226957899c53e",
+    "elapsed_s": 5.039944111000295,
+    "phase_delta": {
+      "vllm:request_prefill_time_seconds_count": 1.0,
+      "vllm:request_prefill_time_seconds_sum": 3.851549769000485,
+      "vllm:request_decode_time_seconds_sum": 1.1757657220005058,
+      "vllm:spec_decode_num_drafts_total": 4.0,
+      "vllm:spec_decode_num_draft_tokens_total": 4.0,
+      "vllm:spec_decode_num_accepted_tokens_total": 4.0
+    },
+    "cache_delta": {
+      "vllm:prefix_cache_queries_total": 6144.0,
+      "vllm:prefix_cache_hits_total": 4608.0
+    },
+    "correct": true,
+    "response": {
+      "id": "cmpl-a4ef5783df6ee673",
+      "object": "text_completion",
+      "created": 1791984544,
+      "model": "qwen36-w4a8",
+      "choices": [
+        {
+          "index": 0,
+          "text": "ASCEND732941",
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "prompt_logprobs": null,
+          "prompt_token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-993aaf62",
+      "usage": {
+        "prompt_tokens": 6144,
+        "total_tokens": 6153,
+        "completion_tokens": 9,
+        "prompt_tokens_details": null
+      },
+      "kv_transfer_params": null
+    }
+  }
+]

@@ -78,3 +78,23 @@ C16/MTP1/eager/prefix-on/受控视觉，8题仅4/8；`703→7033`、`384→3844`
 ### C8 / Graph 后续门禁（进行中）
 
 优化 ARM64 C8 库 SHA256 `939ac05a9978f8f99bdd0e4ca6991751ddd64e448c5398113741bb26556e71e4`，使用 transdata、tile64 与 compact scale，7 组动态长度/页表 Graph replay 全部 max_abs=0。模型服务采用显式 `--block-size 64`（hybrid scheduler 可再扩展页尺寸）、关闭异步调度、TE_PARALLEL_COMPILER=2；首次省略显式块尺寸的预加载已停止，未作为真实生成结果。C8/MTP1/32K/eager 模型级门禁仍在执行。GDN 三个目标 Kernel 已编译，完整包/绑定尚未验证；不能把算子探针通过写成完整模型 Graph 通过。
+
+### C8/MTP1/eager 模型级通过
+
+8/8 toy 正确、A/B/A一致且无串扰，小图像Red；2304/128三轮冷请求中位Prefill396.14、Decode6.576 tok/s，warmup1+repeat3且cache hit=0。6144及32000-token中点检索冷/热全部正确：32K冷88.363s（prefill87.130s）、热7.163s（prefill5.931s，hit29952tokens）。以上是单 canary，不代表正式长文质量集。
+
+142个内存样本（含预加载重启和停止）：HugeTLB峰值33.506GiB、AnonPages峰值10.571GiB、最低MemAvailable42.151GiB；整机粗略不可用预算约45.36GiB。此轮仅32K/eager，且该值是采样包络而非48GiB物理限制验证。
+
+GDN完整ARM64扩展SHA256 `24910050c311cb99ab5153e2b557b0e2dbe1567b1ddaec6a116c7d4d2f22fea3`。真实head形状16/32×128、非零初始状态、111/128/512/1024 tokens全通过：cosine均>.9999998，五次逐位重复一致，warmup5/repeat20。全GDN调用中位1.25–2.87ms；仅把WY换为Torch参考后约19.47–22.99ms，局部8.0–15.6倍，不是模型加速比。部署尚未开启GDN，避免混淆Graph对照。
+
+### C8/MTP1/Decode Graph / 112K（通过首轮）
+
+保持视觉与prefix，异步关闭，最大114688、KV6GiB、batch2048、seq1，GDN暂关。8/8 toy正确、A/B/A一致无串扰、小图像Red。日志确认FULL decode capture/replay，Graph0.43GiB。2304/128冷输入三轮中位Prefill395.596、Decode23.873tok/s，零prefix hit；此前eager/C8/MTP1中位6.576，约3.63倍（两轮上下文上限/KV预算不同，不是严格单变量等预算对照）。
+
+|真实输入tokens|冷总秒|冷Prefill tok/s|热总秒|热命中tokens|中点canary|
+|---:|---:|---:|---:|---:|---|
+|32000|88.135|364.99|6.523|29952|冷/热正确|
+|64000|192.316|333.82|6.854|62208|冷/热正确|
+|112000|379.261|295.93|6.846|110592|冷/热正确|
+
+检索仅生成9token，不能将8/decode phase当作稳定长输出吞吐；128token长输出单独测试。热吞吐不除完整输入冒充实际计算吞吐。112000是真实完成输入长度，114688为配置上限，未作绝对最大上下文声明。

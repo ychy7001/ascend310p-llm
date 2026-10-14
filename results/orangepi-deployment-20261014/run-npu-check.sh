@@ -12,7 +12,11 @@ docker run --rm --name qwen36-arm-npu-check --privileged --pid host --ipc host -
  set -e
  source /usr/local/Ascend/ascend-toolkit/set_env.sh
  export PYTHONPATH=/work/repo/experimental:$PYTHONPATH
- if [[ "$CHECK_MODE" == c8 ]]; then
+ if [[ "$CHECK_MODE" == gdn ]]; then
+  export ASCEND_CUSTOM_OPP_PATH=/work/artifacts/gdn-opp/vendors/custom_transformer
+  export LD_LIBRARY_PATH=/work/artifacts/gdn-opp/vendors/custom_transformer/op_api/lib:$LD_LIBRARY_PATH
+  python3 /work/check-gdn-eager.py
+ elif [[ "$CHECK_MODE" == c8 ]]; then
   python3 /work/check-c8-eager.py
  else
   python3 /work/check-c8-graph-cpu-input.py
