@@ -50,6 +50,16 @@ cat ../deployment.json
 
 后端接手真实会议摘要、待办/负责人/日期提取质量、长输出、断连取消、排队、超时与prefix增量复用评估。当前交付是可接入实验候选，尚未宣称并发P95、TP2 C8、32G或多模态生产验收。
 
+## 310P GDN + MTP 结构化输出风险（Issue #17856）
+
+当前 a2 运行时使用的 `recurrent_gated_delta_rule_v310` OPP 源码仍包含如下边界路径：当上一轮接受的 token 数量 `acceptedTokenNum` 大于当前请求的 `seqLen` 时，在 kernel 内直接 `return`。这与上游 [Issue #17856](https://github.com/vllm-project/vllm-ascend/issues/17856) 描述的 310P + GDN + MTP + structured output 问题一致。它属于正确性风险，可能表现为结构化结果截断、缺失或状态未写入，不一定产生 Python 异常。
+
+本交付服务设置 `max_num_seqs=1`，降低了多请求变长 batch 触发该路径的概率，但结构化输出/grammar 仍可能改变每轮实际 query 长度，因此不能宣称已经规避。此前的 8K、32K、112K canary 是普通文本提示，未使用 `response_format` 或 grammar，不能作为该问题的回归测试。后端若需要严格 JSON/Schema，建议在专门修复并重建 310P OPP 前使用 MTP=0/1 的隔离服务，或暂不把该能力作为产品承诺；不要仅删除 `return`，因为状态索引协议仍需验证。
+
+当前普通文本的接受率没有显示出该 bug 的直接证据：a2 最近两次服务窗口记录约 92.0% 和 94.9%，且无错误日志。vLLM 同时会对 `num_speculative_tokens > 1` 给出接受率可能下降的提示；因此此前 MTP 接受率变化应先按 MTP1/MTP2、同一输入输出预算、无 grammar 的交替测试归因，不能直接归因于 #17856。
+
+修复方向应参考 [PR #17839](https://github.com/vllm-project/vllm-ascend/pull/17839) 的状态槽/逐请求边界思想，但不能直接把 910 系列改动套到 310P。下一步应先做不依赖完整模型的 310P 单算子复现：构造当前长度 `[2,4]`、上一轮接受数 `[4,1]`，用可区分状态值检查是否出现提前退出或跨请求状态；之后再修改 v310 kernel、Python flatten/index 协议并重建 OPP，最后做 structured-output、MTP1/2 和 Graph 回归。当前服务不因该 Issue 自动改 kernel。
+
 ## 本次代码收束
 
 默认入口直接调用容器启动器；删去旧Prefill/MTP/Graph/长上下文批量sweep工具（历史版本在3ce8cb9）。保持已测运行适配层与kernel源码，避免交付前无收益地重写底层。保留构建、制品校验、单算子测试、HTTP验收工具和原始结果以便定位问题。历史文档中的已删脚本属于当时实验记录，应在相应提交复现。
