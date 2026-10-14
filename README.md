@@ -17,6 +17,10 @@
 
 阅读顺序：[整体思路历程](docs/development-history.md) → [代码入口与维护边界](docs/code-map.md) → [华为会议评审报告](docs/huawei-adaptation-review-20261013.md)。最新N128产品组合对照见[原始记录](results/n128-product-baseline-n64-20261013/README.md)，固定32题质量回归见[结果与限制](results/n128-quality-20261013/README.md)。
 
+## 后端交付
+
+a2可用服务、权重、调用示例、重启和运行边界统一见[后端交付说明](docs/backend-handoff.md)。后端接入默认只使用18024端口及long-prefill组合。
+
 ## 最新单流部署候选
 
 当前业务候选收敛为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、4096/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：

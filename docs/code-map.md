@@ -27,7 +27,7 @@
 | tools/eval_gsm8k_http.py、compare_gsm8k_runs.py | 固定子集逐题质量与截断比较 |
 | results/ | 后续原始数据、关键日志与实验README |
 
-当前整理没有移动运行入口或大规模改写已验证kernel，避免破坏复现命令。独立探针保留在experimental/，不加载到普通服务。下一步减小主线改动范围的具体清单见[会议评审报告](huawei-adaptation-review-20261013.md)。
+默认服务入口收束为 `scripts/run-candidate.sh → experimental/run-c8-service.sh`，取消GDN/product wrapper的串联；旧wrapper仅用于显式历史基线。已删除四个旧批量sweep脚本，可在提交 `3ce8cb9` 中追溯。独立算子验证保留在experimental/，不加载到普通服务。下一步减小主线改动范围的具体清单见[会议评审报告](huawei-adaptation-review-20261013.md)。
 
 ## 源码与制品追踪
 
@@ -51,3 +51,7 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 输入规模分流通过`QWEN36_MINDIEQ_MIN_TOKENS`配置：默认17保留历史行为，必须≥17以保留native Decode；本轮128仅为实验值。阈值比较的是进入MoE的实际block_input行数，可能含调度padding，不等于用户原始prompt长度，也不按上下文总长度选择。启动器记录阈值并传递容器。
 
 `QWEN36_MINDIEQ_SHARED_GATE=1`可选在Gate/Up路由复制前量化，再用`mindieq_activation.py`和AscendC `gather`复制A8及scale/padding。需custom_quant与新版库，默认off；Down与Decode不改。单层微测试已通过，E5整模型门禁仍执行，详见results/mindieq-shared-gate-20261014。
+
+## 后端交付入口
+
+见 [a2交付说明](backend-handoff.md)。`deploy/a2.env` 固定a2已测制品路径；`deploy/qwen36-a2.service` 提供用户systemd托管。后端只需消费OpenAI兼容HTTP接口，不需参与CANN构建或选择实验开关。历史源码清单必须在对应历史提交校验，清理后HEAD不再包含其全部文件。

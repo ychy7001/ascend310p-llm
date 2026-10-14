@@ -64,4 +64,4 @@ print(json.dumps({'profile_name':os.environ.get('QWEN36_PROFILE','compat'),'effe
                   'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'mindieq_custom_quant':os.environ.get('QWEN36_MINDIEQ_CUSTOM_QUANT','0'),'mindieq_min_tokens':int(os.environ['QWEN36_MINDIEQ_MIN_TOKENS']),'mindieq_shared_gate':os.environ.get('QWEN36_MINDIEQ_SHARED_GATE','0'),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
 PY
 if (( check )); then exit 0; fi
-exec bash "$root/experimental/run-gdn-112k-product.sh"
+exec bash "$root/experimental/run-c8-service.sh"
