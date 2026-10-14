@@ -146,3 +146,28 @@ MindIEQ ARM/Ascend310P1编译产物SHA256 `f1988a042621104837d09cfa4c24477d418cd
 - 6组整数参考：K/N=2048/1024、512/2048，尾块含零专家、均衡1024行、单专家4096行，全部rtol/atol=.002；8次连续提交、修改设备专家边界后Graph replay通过。warmup5/repeat20，主机同步调用中位0.41–2.68ms；无逐专家外部库比较，不称相对native加速。
 - 共享Gate/Up量化：真实layer0专家0..7权重，17/32/128/512输入，codes/scale与投影逐位一致、8次队列和修改输入/路由Graph全部通过。512输入下完整Gate投影中位3.568→2.920ms（本准备路线内部对照，不是原W4模型对照）。warmup5/repeat30，见`mindieq-arm-shared.jsonl`。
 - 完整模型候选仍保持MTP1，仅增加MindIEQ；需要8/8、视觉、A/B/A、冷Prefill三轮和长文检索门禁后才替换可用服务。
+
+### MindIEQ模型阶段结果
+
+保持MTP1/GDN/C8/Graph、batch2048与KV6GiB，增加MindIEQ native-layout、custom A8、shared Gate/Up，阈值128。2304/128三轮冷Prefill分别570.125/569.249/570.324，中位570.125tok/s（对GDN单开+14.87%，对原395.596+44.12%）；Decode中位23.297（对23.821约-2.20%）。输入SHA逐一相同、cache hit=0。该输入MTP接受率从59/69变为57/70，完整回答文本不同；吞吐改善不能充当量化精度等价证明。
+
+基础8/8、A/B/A无串扰与小红图通过。32000/128单冷请求Prefill621.640 vs498.719（+24.65%），Decode19.487 vs19.454，128输出逐字相同且两边MTP接受率100%。warmup1/冷1/热1，热命中29952，hot Decode19.553。GDN单开32K对照曾并行离线导出profiling，且样本量小，因此该长输入加速比仍需独占重复确认。
+
+112000-token中点检索冷/热均准确返回`ASCEND732941`。冷Prefill283.527s、395.025tok/s，冷总284.318s；热命中110592，热总5.543s。同输入SHA的原GDN-off/MindIEQ-off冷Prefill295.927，因此组合优化相对该样本约+33.49%（各单次，非P95）。仅输出9token，不报告稳定长输出Decode或全面长文精度。在长请求期间几次采样停在GDN状态索引，后续采样位置推进，最终正常完成且未新增TS异常；不能把中间等待误判死锁。
+
+内存采样102条，覆盖本候选启动和112K冷热请求：HugeTLB最大35.645GiB、AnonPages最大10.271GiB、MemAvailable最低39.779GiB；整机总87.510减最低available约47.732GiB。仍是系统粗略预算而非模型独占量，且物理48G限制没有实测，余量偏紧，不能宣布48G RC已通过。
+
+复现当前候选（先停止同名服务；变量只影响独立实验容器）：
+
+```bash
+MTP=1 C8=1 GRAPH=1 GDN=1 MINDIEQ=1 \
+MAX_MODEL_LEN=114688 KV_BYTES=6442450944 \
+bash /data/qwen36-deploy/run-service.sh
+bash /data/qwen36-deploy/validate-stage.sh c8-mtp1-graph-gdn-mindieq
+python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
+  --tokens 32000 --repeats 1 --output 128 --spec
+```
+
+测试输出使用独占新文件名，重复运行需更换label。关闭MindIEQ只需`MINDIEQ=0`，回到已通过的GDN/MTP1路线。上述启动变量与路径属于本机部署探针，尚未纳入通用产品profile。
+
+112K之后再次执行`check_cache_request_reuse.py`：8/8、A/B/A一致、无canary泄露，health200。当前容器`qwen36-orangepi`/18024保持MTP1+C8+Graph+GDN+MindIEQ、视觉与prefix开启、max114688。配置恢复时以本机`run-service.sh`显式参数为准。
