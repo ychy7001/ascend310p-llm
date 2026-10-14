@@ -156,3 +156,8 @@ GDN_WRAPPER_SOURCE=/path/to/patched/vllm_ascend/_310p/ops/fla/gdn_310.py \
 - 上游相关 #18612 修改 FLA 路径，没有覆盖本次 310P 独立算子。
 
 PR 已提交，尚未合并；产品默认服务仍使用原版本。
+
+上游 CI 首轮 mypy 检出测试直接导入无类型声明的 C++ 扩展，已以
+`709a5b7` 改为 `importlib.import_module` 注册；没有修改算子计算逻辑。
+修正后 DCO、pre-commit（含 mypy）通过，CPU UT 正在运行。
+Issue 补充证据：[评论链接](https://github.com/vllm-project/vllm-ascend/issues/17856#issuecomment-6166963847)。
