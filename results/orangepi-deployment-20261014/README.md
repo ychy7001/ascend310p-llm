@@ -136,3 +136,13 @@ GDN完整ARM64扩展SHA256 `24910050c311cb99ab5153e2b557b0e2dbe1567b1ddaec6a116c
 - Decode采集虽然有31个主机步，但导出的设备任务只有约50.8ms时间窗，不能冒充完整64-token Decode占比。其MatMul/C8转换记录只作为路径存在证据；需补齐Graph replay采集后才能给出完整设备瓶颈排序。
 
 RC/EP现有服务仍不完全等参：a2为MTP2、batch4096、MindIEQ shared Gate长Prefill、prefix off；本轮RC为MTP1、batch2048、原W4长Prefill、prefix on。因此不能将两端现有端到端比值称为RC模式固有损失。ARM MindIEQ原生布局算子开始隔离构建，先数值与单算子门禁，再决定是否接入模型。
+
+### MTP2失效与MindIEQ单算子门禁
+
+MTP2+C8+Graph+GDN、prefix/视觉保留、同步调度、114688上限/KV6GiB能够加载和capture、health200，但第一条`2+2`请求只累计一个生成token后停顿。14:52:15UTC设备TS exception `0xB406000D`，stream33/task19413；调用栈在`_get_draft_token_ids_cpu → draft_token_ids_event.synchronize`等待。证据见`mtp2-hang-stack.txt`、`mtp2-ts-exception.txt`及失败启动日志。等待位置不是触发异常的Kernel证明，当前不能归因为MTP算法或C8数值错误；该组合未通过，不提供吞吐或默认推荐。停止失败服务后另起NPU探针可正常执行。
+
+MindIEQ ARM/Ascend310P1编译产物SHA256 `f1988a042621104837d09cfa4c24477d418cdbe3e01d13ba9bd3b62f4a97ddfa`。使用固定外部CANN许可头，仅在实验机保留依赖；本仓库仅包含构建入口、自有适配和原始测试数据。
+
+- 6组整数参考：K/N=2048/1024、512/2048，尾块含零专家、均衡1024行、单专家4096行，全部rtol/atol=.002；8次连续提交、修改设备专家边界后Graph replay通过。warmup5/repeat20，主机同步调用中位0.41–2.68ms；无逐专家外部库比较，不称相对native加速。
+- 共享Gate/Up量化：真实layer0专家0..7权重，17/32/128/512输入，codes/scale与投影逐位一致、8次队列和修改输入/路由Graph全部通过。512输入下完整Gate投影中位3.568→2.920ms（本准备路线内部对照，不是原W4模型对照）。warmup5/repeat30，见`mindieq-arm-shared.jsonl`。
+- 完整模型候选仍保持MTP1，仅增加MindIEQ；需要8/8、视觉、A/B/A、冷Prefill三轮和长文检索门禁后才替换可用服务。
