@@ -76,9 +76,12 @@ void cache_to_nz_range(const at::Tensor& k,const at::Tensor& v,const at::Tensor&
   int64_t blocks=slots/block;
   TORCH_CHECK(table.device()==k.device() && table.scalar_type()==at::kInt && table.dim()==1 &&
     table.numel()==1 && table.is_contiguous(),"range conversion requires one page table entry");
+  // The range kernel only writes dst_block.  A persistent workspace may be
+  // shorter than the physical C8 cache, as long as that destination exists.
   TORCH_CHECK(dst_block>=0 && dst_block<blocks && ko.scalar_type()==at::kHalf && vo.scalar_type()==at::kHalf &&
-    ko.sizes()==at::IntArrayRef({blocks,heads*dim/16,block,16}) && vo.sizes()==ko.sizes() &&
-    ko.is_contiguous() && vo.is_contiguous(),"expected full contiguous raw NZ output cache shape");
+    ko.dim()==4 && ko.size(0)>dst_block && ko.size(1)==heads*dim/16 &&
+    ko.size(2)==block && ko.size(3)==16 && vo.sizes()==ko.sizes() &&
+    ko.is_contiguous() && vo.is_contiguous(),"expected contiguous NZ output workspace covering dst block");
   TORCH_CHECK(k.device().type()==c10::DeviceType::PrivateUse1,"requires NPU");
   for(const auto& t:{v,ks,vs,ko,vo,table})TORCH_CHECK(t.device()==k.device(),"requires one NPU");
   auto stream=c10_npu::getCurrentNPUStream().stream(false);
