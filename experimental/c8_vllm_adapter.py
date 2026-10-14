@@ -302,12 +302,10 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
         selected = selected.to(device=query.device, dtype=torch.int32).contiguous()
     persistent_nz = _flag('QWEN36_C8_PERSISTENT_NZ')
     layer_workspace_key = layer_key if persistent_nz else None
-    # The range kernel validates its output against the physical C8 cache
-    # capacity, rather than the request's max-model length.  Persistent mode
-    # therefore allocates the full physical workspace; the normal path keeps
-    # the smaller model-context workspace.
-    scratch_context = cache.capacity if persistent_nz else context
-    ko,vo,identity = scratch_buffers(query.device,scratch_context,cache.heads,cache.dim,layer_workspace_key)
+    # Persistent NZ only needs the model-context workspace. The range wrapper
+    # validates that the destination page exists, while the source remains the
+    # full physical C8 cache.
+    ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim,layer_workspace_key)
     compact_state = attn_metadata.attn_state in (
         AscendAttentionState.DecodeOnly,
         AscendAttentionState.SpecDecoding,
