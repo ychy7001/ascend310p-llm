@@ -307,13 +307,19 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
         AscendAttentionState.DecodeOnly,
         AscendAttentionState.SpecDecoding,
     )
+    # Speculative decoding presents the target model with multiple new tokens.
+    # A range update is safe when those tokens stay within the same final page;
+    # crossing a page boundary requires rebuilding the complete NZ workspace.
+    same_page = count <= 1 or (
+        length >= count and (length - count) // C8_BLOCK_SIZE == (length - 1) // C8_BLOCK_SIZE
+    )
     direct_page = (persistent_nz and _persistent_nz_assume_stable()
                    and not graph_candidate and compact_state
-                   and layer_key in _NZ_READY and count <= 1)
+                   and layer_key in _NZ_READY and same_page)
     if persistent_nz and _NZ_TRACE_CALLS.get(layer_key, 0) < 8:
         print(f'C8_NZ_TRACE layer={layer_key} state={attn_metadata.attn_state} '
-              f'count={count} pages={pages} ready={layer_key in _NZ_READY} '
-              f'direct={direct_page}', flush=True)
+              f'count={count} length={length} pages={pages} ready={layer_key in _NZ_READY} '
+              f'same_page={same_page} direct={direct_page}', flush=True)
         _NZ_TRACE_CALLS[layer_key] = _NZ_TRACE_CALLS.get(layer_key, 0) + 1
     # Any chunked prefill or multi-token verify changes more than one page and
     # invalidates the incremental state; rebuild the full workspace.
