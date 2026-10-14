@@ -4,6 +4,7 @@ import argparse
 import json
 import statistics
 import time
+import numpy as np
 import torch
 import torch_npu
 from c8_cache_310 import C8Cache310
@@ -27,9 +28,15 @@ for length in a.lengths:
     # 310P native PA requires block_size * head_dim <= 128 * 128.
     block, kv, heads, dim = 64, 2, 16, 256
     blocks = length // block
-    keys = torch.randn(length, kv, dim).half().npu()
-    values = torch.randn_like(keys)
-    query = torch.randn(1, heads, dim).half().npu()
+    # Generate on CPU: CANN 9.1/310P may route torch.randn(device=NPU)
+    # through StatelessRandomNormalV2, which is unavailable in some
+    # standalone containers even though the tested attention kernels work.
+    keys = torch.from_numpy(np.random.default_rng(101 + length).standard_normal(
+        (length, kv, dim)).astype(np.float16)).npu()
+    values = torch.from_numpy(np.random.default_rng(202 + length).standard_normal(
+        (length, kv, dim)).astype(np.float16)).npu()
+    query = torch.from_numpy(np.random.default_rng(303 + length).standard_normal(
+        (1, heads, dim)).astype(np.float16)).npu()
     table = torch.arange(blocks, dtype=torch.int32).npu()
     slots = torch.arange(length, dtype=torch.int32).npu()
     context = torch.tensor([length], dtype=torch.int32).npu()
