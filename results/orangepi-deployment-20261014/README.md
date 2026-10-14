@@ -233,7 +233,7 @@ MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_upd
 
 ### C8 device context length 反事实对照
 
-当前产品档的 `QWEN36_C8_DEVICE_LENGTH=1` 是长上下文 Decode 的关键开关。将它单独关闭、其余参数保持 TP1/W4A8/C8/MTP1/Graph/GDN/MindIEQ/114K/KV6GiB 不变后，8K/256 冷 Decode 为 `17.897 / 17.906 / 17.900 tok/s`，热请求 `17.870 tok/s`；开启设备有效长度的相邻对照约为 `24.04--24.19 tok/s`。Prefill 两组均约 `699 tok/s`，固定答案8/8、A/B/A和视觉门禁仍通过。Decode 下降约26%，说明 `c8_cache_to_nz` 若每步转换整个 max-context 页表会成为主要瓶颈；当前设备端长度路径只处理向上取整的有效页。结果保存为 `quality-c8len-off.json` 和 `bench-c8len-off-8192-o256.jsonl`，实验后已恢复 `QWEN36_C8_DEVICE_LENGTH=1`。
+当前产品档的 `QWEN36_C8_DEVICE_LENGTH=1` 是长上下文 Decode 的关键开关。将它单独关闭、其余参数保持 TP1/W4A8/C8/MTP1/Graph/GDN/MindIEQ/114K/KV6GiB 不变后，8K/256 冷 Decode 为 `17.897 / 17.906 / 17.900 tok/s`，热请求 `17.870 tok/s`；开启设备有效长度的相邻对照约为 `24.04--24.19 tok/s`。Prefill 两组均约 `699 tok/s`，固定答案8/8、A/B/A和视觉门禁仍通过。Decode 下降约26%，说明 `c8_cache_to_nz` 若每步转换整个 max-context 页表会成为主要瓶颈；当前设备端长度路径只处理向上取整的有效页。114K单算子探针进一步显示，8K有效长度时转换约从3.38ms降至0.37ms，32K时约1.05ms，满114K时两者约3.36ms。该开关已在C8 Graph启动器中设为默认1；结果保存为 `quality-c8len-off.json`、`bench-c8len-off-8192-o256.jsonl`、`bench-c8-device-length-114688.log`。
 
 ### C8 int32 元数据复用对照
 

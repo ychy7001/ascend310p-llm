@@ -49,6 +49,8 @@ if [[ "${QWEN36_MINDIEQ_ENABLED:-0}" == 1 ]]; then
   : "${MINDIEQ_LIBRARY:?set native-layout grouped experiment library}"
   mindieq_mount=(-v "$MINDIEQ_LIBRARY:/custom/mindieq_grouped.so:ro")
 fi
+# Device-side valid-length conversion is the tested Graph default on 310P;
+# set QWEN36_C8_DEVICE_LENGTH=0 only for an explicit full-conversion baseline.
 podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   "${profile_mount[@]}" "${gdn_mount[@]}" "${mindieq_mount[@]}" \
   --group-add keep-groups --shm-size 16g \
@@ -63,7 +65,7 @@ podman run --rm --name "${CONTAINER_NAME:-qwen36-c8-bringup}" --network host \
   -e QWEN36_ROUTE_TRACE_CALLS="${QWEN36_ROUTE_TRACE_CALLS:-256}" \
   -e QWEN36_C8_ALLOW_GRAPH="$QWEN36_C8_ALLOW_GRAPH" \
   -e QWEN36_C8_FORCE_UPDATABLE_GRAPH="$QWEN36_C8_FORCE_UPDATABLE_GRAPH" \
-  -e QWEN36_C8_DEVICE_LENGTH="${QWEN36_C8_DEVICE_LENGTH:-0}" \
+  -e QWEN36_C8_DEVICE_LENGTH="${QWEN36_C8_DEVICE_LENGTH:-1}" \
   -e QWEN36_C8_ALLOW_MTP2="${QWEN36_C8_ALLOW_MTP2:-0}" \
   -e ENFORCE_EAGER="$ENFORCE_EAGER" \
   -e GRAPH_MODE="$GRAPH_MODE" -e GRAPH_CAPTURE_SIZES="$GRAPH_CAPTURE_SIZES" \
