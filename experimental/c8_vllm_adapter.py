@@ -302,25 +302,25 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     # invalidates the incremental state; rebuild the full workspace.
     if not compact_state or not direct_page:
         _NZ_READY.discard(layer_key)
+    target_ko, target_vo = (ko, vo) if direct_page else (ko[:pages], vo[:pages])
     if graph_candidate and os.environ.get('QWEN36_C8_DEVICE_LENGTH', '0') == '1':
         # Same replay-updated tensor that native PA consumes. Keep output and
         # page table extent fixed; only device-side conversion work varies.
         device_context_length = _c8_device_context_length(attn_metadata.seq_lens)
         if direct_page:
-            torch.ops.npu.c8_cache_to_nz_range(cache.k,cache.v,cache.ks,cache.vs,ko,vo,
+            torch.ops.npu.c8_cache_to_nz_range(cache.k,cache.v,cache.ks,cache.vs,target_ko,target_vo,
                                                C8_BLOCK_SIZE,selected[pages-1:pages].contiguous(),pages-1)
         else:
-            torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected,
+            torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,target_ko,target_vo,C8_BLOCK_SIZE,selected,
                                          device_context_length)
     else:
         if direct_page:
-            torch.ops.npu.c8_cache_to_nz_range(cache.k,cache.v,cache.ks,cache.vs,ko,vo,
+            torch.ops.npu.c8_cache_to_nz_range(cache.k,cache.v,cache.ks,cache.vs,target_ko,target_vo,
                                                C8_BLOCK_SIZE,selected[pages-1:pages].contiguous(),pages-1)
         else:
-            torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,ko,vo,C8_BLOCK_SIZE,selected)
+            torch.ops.npu.c8_cache_to_nz(cache.k,cache.v,cache.ks,cache.vs,target_ko,target_vo,C8_BLOCK_SIZE,selected)
     if persistent_nz:
         _NZ_READY.add(layer_key)
-    ko,vo = ko[:pages],vo[:pages]
     # The 310P builder attaches query_lens_cpu dynamically; dataclasses.replace
     # discards it and forces an eager device->host copy in every SplitFuse layer.
     # Preserve the builder's full metadata, changing only the compact page table.
