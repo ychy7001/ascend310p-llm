@@ -208,3 +208,25 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 尝试在完全相同的 RC/C8/Graph/GDN/MindIEQ/114K/KV6GiB 配置下关闭 MTP（MTP0）时，模型加载和权重读取完成，但 Decode Graph capture 初始化失败：`device context length requires selected pages and one contiguous INT32 value`。因此没有产生 MTP0 性能数据，不能把该次失败解释成 MTP0 的速度问题。它说明当前实验镜像的 C8 device-length/Graph 路径对无 MTP 的上下文元数据仍有额外约束；MTP1 是当前已通过的可用档。
 
 MTP2源码候选位置：`vllm_ascend/spec_decode/llm_base_proposer.py::attn_update_stack_num_spec_norm`（本机1590–1668附近），第二个draft新增`clamped_positions // block_size`与`% block_size`。本机另一个prefix索引路径已因旧AI CPU FloorDiv做CPU兼容补丁，而MTP2此处没有同样处理。它是待隔离验证的候选，不是已证明的异常算子，不能据此宣称修复完成。
+
+### RC async scheduling 正确性门禁
+
+保持 TP1/C8/MTP1/Decode Graph/GDN/MindIEQ、batch2048、114688 上限及 KV6GiB，仅开启 async scheduling。服务正常加载，health 与 smoke 通过，但固定答案检查仅 `strict_matches=4/8`；加减等请求出现错误。原始检查见 `rc-async-quality.json`。由于正确性门禁失败，没有执行吞吐测试，不提供 async 加速比。
+
+此结果与早先 C16/MTP1 的 async 4/8 一致，说明问题不限于本次 C8 配置；仍不能证明底层触发点。已停止并保留失败候选 `qwen36-orangepi-async-ab`，恢复原同步容器 `qwen36-orangepi`。当前默认继续显式关闭 async scheduling。该实验排除了一个可直接启用的调度优化，后续优先定位 LM-head/MTP 跨流事件与 C8 小任务提交，不能把设备任务累计占比直接当作可消除的墙钟时间。
+
+同步恢复后文本、图片 smoke 成功，固定答案重新通过8/8，A/B/A文本一致、无canary泄露，见 `rc-sync-restored-quality.json`。本轮没有得到可发布的 Decode 加速；服务仍保持原同步基线。
+
+### TASK_QUEUE_ENABLE=2 兼容性门禁
+
+在完全相同的 RC/C8/MTP1/Graph/GDN/MindIEQ/114K/KV6GiB 配置下，仅将 `TASK_QUEUE_ENABLE` 从默认1改为2。服务能够进入权重加载，但在 Decode Graph 捕获阶段失败，运行时明确报错：`Do not support TASK_QUEUE_ENABLE = 2 during NPU graph capture, please export TASK_QUEUE_ENABLE=1/0.` 因此没有质量或吞吐数据，不能把该开关用于当前 Graph 产品档。失败日志保留为 `startup-taskq2-failed.log`；测试容器已隔离，`qwen36-orangepi` 已恢复并通过 health、文本/图片 smoke。
+
+这也解释了为什么没有直接尝试用 Level-2 任务队列解决 RC Decode 差距：官方调优文档虽建议 CPU 瓶颈模型尝试该变量，但当前 310P Graph 实现先限制了组合。后续若要继续，只能建立关闭 Graph 的独立对照，不能与当前产品基线直接比较。
+
+### CPU_AFFINITY_CONF=1 对照
+
+在同步调度、C8、MTP1、Decode Graph、GDN、MindIEQ、114K/KV6GiB 全部不变的情况下，单独开启 CANN 文档建议的 `CPU_AFFINITY_CONF=1`。候选通过固定答案 `8/8`、A/B/A 一致性和视觉 smoke；8K/256 冷 Decode 阶段为 `23.975 / 24.032 / 24.057 tok/s`，热请求为 `24.179 tok/s`。恢复基线此前同条件约为 `23.874--24.225 tok/s`，两组重叠，不能证明稳定收益。候选原始数据为 `quality-cpu-affinity1.json` 和 `bench-cpu-affinity1-8192-o256.jsonl`，容器已停止并保留为 `qwen36-orangepi-cpu-affinity1`，默认服务仍不设置该变量。
+
+### MTP draft eager 对照
+
+将 `MTP_DRAFT_EAGER=1`，只让 MTP draft 分支使用 eager，主模型仍保持 `FULL_DECODE_ONLY` Graph。固定答案 `8/8`、A/B/A 和视觉 smoke 通过，但 8K/256 冷 Decode 为 `22.753 / 22.762 / 22.806 tok/s`，热请求 `22.859 tok/s`；同步 Graph draft 基线约为 `23.975--24.057 tok/s`，下降约 5%。因此当前 310P 上 draft Graph 是有效优化，不能为了规避潜在的 draft 同步问题而默认 eager。结果保存为 `quality-draft-eager.json`、`bench-draft-eager-8192-o256.jsonl`，候选容器已停止并恢复 Graph draft 基线。

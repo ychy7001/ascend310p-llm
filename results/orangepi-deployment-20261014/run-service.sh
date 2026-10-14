@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 base=/data/qwen36-deploy
-: "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}" "${MTP_DRAFT_EAGER:=0}"
+: "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}" "${MTP_DRAFT_EAGER:=0}" "${TASK_QUEUE_ENABLE:=1}" "${CPU_AFFINITY_CONF:=0}"
 : "${MAX_MODEL_LEN:=8192}" "${KV_BYTES:=2147483648}" "${MTP:=0}" "${C8:=0}" "${GRAPH:=0}" "${GDN:=0}" "${ASYNC_SCHEDULING:=0}" "${C8_LIBRARY:=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so}"
 [[ "$MTP" =~ ^[012]$ && "$C8" =~ ^[01]$ && "$GRAPH" =~ ^[01]$ ]] || exit 2
 docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --network host \
@@ -14,6 +14,8 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  -v "$base:/work" \
  -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e VLLM_WORKER_MULTIPROC_METHOD=spawn \
  -e TE_PARALLEL_COMPILER=2 -e OMP_NUM_THREADS=4 -e VLLM_ASCEND_FORCE_RC=1 \
+ -e TASK_QUEUE_ENABLE="$TASK_QUEUE_ENABLE" \
+ -e CPU_AFFINITY_CONF="$CPU_AFFINITY_CONF" \
  -e RC_DEVICE_BLOCK_INDICES="$RC_DEVICE_BLOCK_INDICES" \
  -e MTP_DRAFT_EAGER="$MTP_DRAFT_EAGER" \
  -e ENABLE_PROFILER="$ENABLE_PROFILER" -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
