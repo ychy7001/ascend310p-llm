@@ -55,6 +55,12 @@ def _persistent_nz_enabled():
     return _flag('QWEN36_C8_PERSISTENT_NZ')
 
 
+def _persistent_nz_assume_stable():
+    # The prototype has no device-side block-table comparison yet. Require an
+    # explicit opt-in before reusing older NZ pages across Decode calls.
+    return _flag('QWEN36_C8_PERSISTENT_NZ_ASSUME_STABLE')
+
+
 def _c8_device_context_length(seq_lens):
     """Return the scalar shape required by the 310P C8 conversion op.
 
@@ -296,7 +302,8 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     layer_workspace_key = layer_key if persistent_nz else None
     ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim,layer_workspace_key)
     compact_state = attn_metadata.attn_state == AscendAttentionState.DecodeOnly
-    direct_page = (persistent_nz and not graph_candidate and compact_state
+    direct_page = (persistent_nz and _persistent_nz_assume_stable()
+                   and not graph_candidate and compact_state
                    and layer_key in _NZ_READY and count <= 1)
     # Any chunked prefill or multi-token verify changes more than one page and
     # invalidates the incremental state; rebuild the full workspace.
