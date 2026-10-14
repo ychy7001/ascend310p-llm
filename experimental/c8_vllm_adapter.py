@@ -32,6 +32,7 @@ torch.ops.load_library(os.environ['QWEN36_C8_LIBRARY'])
 _SCRATCH = {}
 _NZ_READY = set()
 _NZ_PATH_LOGGED = set()
+_NZ_TRACE_CALLS = {}
 
 # Explicit 310P experiment contract: Qwen full-attention geometry and the
 # device-side page size are intentionally named instead of repeated literals.
@@ -302,10 +303,18 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     persistent_nz = _flag('QWEN36_C8_PERSISTENT_NZ')
     layer_workspace_key = layer_key if persistent_nz else None
     ko,vo,identity = scratch_buffers(query.device,context,cache.heads,cache.dim,layer_workspace_key)
-    compact_state = attn_metadata.attn_state == AscendAttentionState.DecodeOnly
+    compact_state = attn_metadata.attn_state in (
+        AscendAttentionState.DecodeOnly,
+        AscendAttentionState.SpecDecoding,
+    )
     direct_page = (persistent_nz and _persistent_nz_assume_stable()
                    and not graph_candidate and compact_state
                    and layer_key in _NZ_READY and count <= 1)
+    if persistent_nz and _NZ_TRACE_CALLS.get(layer_key, 0) < 8:
+        print(f'C8_NZ_TRACE layer={layer_key} state={attn_metadata.attn_state} '
+              f'count={count} pages={pages} ready={layer_key in _NZ_READY} '
+              f'direct={direct_page}', flush=True)
+        _NZ_TRACE_CALLS[layer_key] = _NZ_TRACE_CALLS.get(layer_key, 0) + 1
     # Any chunked prefill or multi-token verify changes more than one page and
     # invalidates the incremental state; rebuild the full workspace.
     if not compact_state or not direct_page:
@@ -339,7 +348,10 @@ def forward(self, layer, query, key, value, kv_cache, attn_metadata,
     # Preserve the builder's full metadata, changing only the compact page table.
     compact = copy(attn_metadata)
     compact.block_tables = identity[:pages].reshape(1,-1)
-    self.key_cache,self.value_cache = ko,vo
+    if persistent_nz:
+        self.key_cache,self.value_cache = ko,vo
+    else:
+        self.key_cache,self.value_cache = ko[:pages],vo[:pages]
     q = query[:count].reshape(count,self.num_heads,self.head_size)
     if compact.attn_state == AscendAttentionState.DecodeOnly:
         return self.forward_paged_attention(q,compact,output)
