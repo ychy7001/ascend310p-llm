@@ -19,7 +19,7 @@
 
 ## 最新单流部署候选
 
-当前收敛配置为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、4096/512、112K，prefix默认关闭。 现行参数矩阵与最新 8K/32K/114560 门禁见[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为`configs/tp1-48g-112k.env`；设置MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE后执行：
+当前收敛配置为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、4096/512、112K，prefix默认关闭。现行 profile、参数矩阵与最新 8K/32K/114560 门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为`configs/tp1-48g-112k.env`；设置MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json
@@ -70,7 +70,7 @@ bash scripts/run-service.sh
 
 `MTP=0`关闭MTP；TP2设置`TP=2`。标准启动器用于W4/FP16-KV基线；C8+Graph必须使用`experimental/run-c8-service.sh`。C8产品候选参数是`MAX_MODEL_LEN=114688 MEMORY_UTILIZATION=0.95 MAX_BATCHED_TOKENS=1024 QWEN36_C8_POOL_MODE=split_by_type QWEN36_C8_FUSED_WRITE=1 QWEN36_C8_DEVICE_LENGTH=1 ENFORCE_EAGER=0 QWEN36_C8_ALLOW_GRAPH=1 QWEN36_C8_FORCE_UPDATABLE_GRAPH=1 COMPILATION_MODE=0 GRAPH_CAPTURE_SIZES=1,2`；MTP2实验档额外设置`QWEN36_C8_ALLOW_MTP2=1 NUM_SPECULATIVE_TOKENS=2 GRAPH_CAPTURE_SIZES=1,2,3`。这些参数依赖当前实验镜像和自定义C8库，不能当作官方通用vLLM参数。容器只挂载自包含模型目录，不依赖原始BF16或sidecar父目录。
 
-可用统一 wrapper 复现已验证的 112K 档位。默认是 MTP1；设置 `QWEN36_PROFILE=mtp2` 切换两枚 draft 的实验档：
+可用统一 wrapper 复现已验证的 112K 档位。默认是 `decode` profile；设置 `QWEN36_PROFILE=compat` 可切换 MTP1 兼容基线，设置 `QWEN36_PROFILE=long-prefill` 可切换长 Prefill 档。旧的 `mtp1`/`mtp2` 名称仍可用作兼容别名：
 
 ```bash
 MODEL_DIR=/absolute/path/weights \
