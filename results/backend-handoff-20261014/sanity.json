@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "model": "qwen36-w4a8-c8",
+  "cases": 5,
+  "issues": [],
+  "rows": [
+    {
+      "label": "english",
+      "elapsed_s": 2.784657646960113,
+      "text": "INT4 weights are half the size of standard INT8 weights, allowing significantly more data to fit within the same memory capacity. This reduction in weight size directly decreases the total volume of data that must be transferred from memory to the processor during inference. Consequently, the system spends less time waiting for data retrieval, thereby lowering overall memory bandwidth requirements and latency.",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 97,
+        "completion_tokens": 71,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "issues": []
+    },
+    {
+      "label": "中文",
+      "elapsed_s": 4.123878835991491,
+      "text": "INT4 将每个权重的存储精度从传统的 16 位或 32 位大幅压缩至 4 位，使得模型权重在内存中的物理体积显著减小。\n\n由于需要传输的数据总量成比例降低，在相同的硬件带宽下，加载模型权重所需的时间大幅缩短，从而直接减少了内存与处理器之间的数据搬运量。\n\n这种数据量的精简有效缓解了内存带宽瓶颈，使得计算单元能够更快地获取数据，进而提升了整体推理效率并降低了能耗。",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 131,
+        "completion_tokens": 105,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "issues": []
+    },
+    {
+      "label": "code",
+      "elapsed_s": 1.191677860042546,
+      "text": "```python\ndef sum_list(numbers: list[int]) -> int:\n    \"\"\"Return the sum of a list of integers.\"\"\"\n    return sum(numbers)\n```",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 61,
+        "completion_tokens": 35,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "issues": []
+    },
+    {
+      "label": "math",
+      "elapsed_s": 3.7174540190026164,
+      "text": "To compute $37 \\times 19$, we can use the standard vertical multiplication method or the distributive property. Below is the step-by-step arithmetic using the vertical multiplication method.\n\n### Step 1: Set up the multiplication\n\n$$\n\\begin{array}{r}\n37 \\\\\n\\times \\quad 19 \\\\\n\\hline\n\\end{array}\n$$\n\n### Step 2: Multiply 37 by the ones digit (9)\n\nFirst, multiply $37$ by $9$:\n- $7 \\times 9 = 63$. Write down $",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 154,
+        "completion_tokens": 128,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "repeat",
+      "elapsed_s": 4.218799703987315,
+      "text": "It appears that your input consists of the repeated phrase **\"quantization bandwidth precision\"** many times. This looks like a copy-paste error or a glitch.\n\nHowever, if you are asking about the relationship between **quantization**, **bandwidth**, and **precision** in signal processing, communications, or machine learning, here is a concise explanation:\n\n### Key Concepts:\n1. **Quantization**: The process of mapping a large set of input values to a smaller set (e.g., converting continuous analog signals to discrete digital values, or reducing the bit-depth of neural network weights).\n2. **Precision**: Refers to",
+      "usage": {
+        "prompt_tokens": 140,
+        "total_tokens": 268,
+        "completion_tokens": 128,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    }
+  ]
+}

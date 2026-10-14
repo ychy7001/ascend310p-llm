@@ -42,15 +42,15 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 
 ## 可选MindIEQ Prefill路径
 
-`experimental/mindieq_prefill_adapter.py`仅替换TP1大于16token的grouped routed experts，复用现有signed W4权重；Decode仍走native。`experimental/mindieq_grouped_kernel/`提供一次launch设备端专家调度、外部MindIEQ矩阵类及自有A8量化。`tools/prepare_mindieq_grouped_header.py`对固定外部构建树生成隔离头，不把外部代码复制进公开仓库。来源与CANN许可要求见NOTICE。
+`experimental/mindieq_prefill_adapter.py`仅替换TP1满足阈值的grouped routed experts，复用现有signed W4权重；Decode仍走native。`experimental/mindieq_grouped_kernel/`提供一次launch设备端专家调度、外部MindIEQ矩阵类及自有A8量化。`tools/prepare_mindieq_grouped_header.py`对固定外部构建树生成隔离头，不把外部代码复制进公开仓库。来源与CANN许可要求见NOTICE。
 
-两个显式开关：QWEN36_MINDIEQ_ENABLED开启实验后端，QWEN36_MINDIEQ_CUSTOM_QUANT选择FP32算术A8准备；默认均off。新版量化需要含quantize接口的新库。仅已发布SSZ per-channel checkpoint、TP1、FP16输入和K512/2048经过测试；不支持任意独立group-wise权重、TP2 C8、多模态或并发批处理。`scripts/run-candidate.sh --check`拒绝无效开关组合/缺失库，并输出制品hash，不初始化NPU。
+两个显式开关：QWEN36_MINDIEQ_ENABLED开启实验后端，QWEN36_MINDIEQ_CUSTOM_QUANT选择FP32算术A8准备；底层默认off；统一候选入口的long-prefill自动开启已测E5组合。新版量化需要含quantize接口的新库。仅已发布SSZ per-channel checkpoint、TP1、FP16输入和K512/2048经过测试；不支持任意独立group-wise权重、TP2 C8、多模态或并发批处理。`scripts/run-candidate.sh --check`拒绝无效开关组合/缺失库，并输出制品hash，不初始化NPU。
 
 旧dynamic_quant版本B/A/B已证明Prefill收益但出现额外截断和8K接受率下降，保留实验选项；新A8版本的模型结果见results/mindieq-a8-service-20261014，不根据单算子测试宣称默认采用。
 
-输入规模分流通过`QWEN36_MINDIEQ_MIN_TOKENS`配置：默认17保留历史行为，必须≥17以保留native Decode；本轮128仅为实验值。阈值比较的是进入MoE的实际block_input行数，可能含调度padding，不等于用户原始prompt长度，也不按上下文总长度选择。启动器记录阈值并传递容器。
+输入规模分流通过`QWEN36_MINDIEQ_MIN_TOKENS`配置：默认17保留历史行为，必须≥17以保留native Decode；long-prefill固定默认128。阈值比较的是进入MoE的实际block_input行数，可能含调度padding，不等于用户原始prompt长度，也不按上下文总长度选择。启动器记录阈值并传递容器。
 
-`QWEN36_MINDIEQ_SHARED_GATE=1`可选在Gate/Up路由复制前量化，再用`mindieq_activation.py`和AscendC `gather`复制A8及scale/padding。需custom_quant与新版库，默认off；Down与Decode不改。单层微测试已通过，E5整模型门禁仍执行，详见results/mindieq-shared-gate-20261014。
+`QWEN36_MINDIEQ_SHARED_GATE=1`可选在Gate/Up路由复制前量化，再用`mindieq_activation.py`和AscendC `gather`复制A8及scale/padding。需custom_quant与新版库，底层默认off，long-prefill自动开启；Down与Decode不改。单层微测试与E5整模型小样本门禁已通过，详见results/mindieq-shared-gate-20261014。
 
 ## 后端交付入口
 
