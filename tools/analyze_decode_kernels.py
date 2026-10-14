@@ -15,16 +15,25 @@ a = p.parse_args()
 groups = collections.defaultdict(lambda: [0, 0.0])
 shapes = collections.defaultdict(lambda: [0, 0.0])
 rows = 0
+starts, stops = [], []
 opener = gzip.open if a.input.suffix == '.gz' else open
 with opener(a.input, 'rt') as f:
-    for r in csv.DictReader(f):
+    reader = csv.DictReader(f)
+    # torch-npu kernel_details and msprof op_summary use different headers.
+    name_col = 'Name' if 'Name' in reader.fieldnames else 'Op Name'
+    duration_col = 'Duration(us)' if 'Duration(us)' in reader.fieldnames else 'Task Duration(us)'
+    for r in reader:
         rows += 1
-        duration = float(r['Duration(us)'])
-        groups[r['Name']][0] += 1
-        groups[r['Name']][1] += duration
-        key = (r['Name'], r['Input Shapes'], r['Input Data Types'])
+        duration = float(r[duration_col])
+        groups[r[name_col]][0] += 1
+        groups[r[name_col]][1] += duration
+        key = (r[name_col], r['Input Shapes'], r['Input Data Types'])
         shapes[key][0] += 1
         shapes[key][1] += duration
+        if 'Task Start Time(us)' in r:
+            start = float(r['Task Start Time(us)'])
+            starts.append(start)
+            stops.append(start + duration)
 assert rows > 0
 summed = sum(v[1] for v in groups.values())
 summary = {'scope': __doc__, 'kernel_count': rows, 'sum_kernel_us': summed,
@@ -32,6 +41,9 @@ summary = {'scope': __doc__, 'kernel_count': rows, 'sum_kernel_us': summed,
                    for n, v in sorted(groups.items(), key=lambda item: -item[1][1])[:30]],
            'top_shapes': [{'name': k[0], 'shapes': k[1], 'dtypes': k[2], 'count': v[0], 'sum_us': v[1]}
                           for k, v in sorted(shapes.items(), key=lambda item: -item[1][1])[:30]]}
+if starts:
+    summary['device_task_span_us'] = max(stops) - min(starts)
+    summary['span_warning'] = 'Device span may cover only a bounded capture window; validate against HTTP scope. Concurrent task durations overlap.'
 if a.reference:
     reference = json.loads(a.reference.read_text())
     old = {r['name']: r for r in reference['top']}
