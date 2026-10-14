@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 base=/data/qwen36-deploy
-: "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}"
+: "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}" "${MTP_DRAFT_EAGER:=0}"
 : "${MAX_MODEL_LEN:=8192}" "${KV_BYTES:=2147483648}" "${MTP:=0}" "${C8:=0}" "${GRAPH:=0}" "${GDN:=0}" "${ASYNC_SCHEDULING:=0}" "${C8_LIBRARY:=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so}"
 [[ "$MTP" =~ ^[012]$ && "$C8" =~ ^[01]$ && "$GRAPH" =~ ^[01]$ ]] || exit 2
 docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --network host \
@@ -15,6 +15,7 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e VLLM_WORKER_MULTIPROC_METHOD=spawn \
  -e TE_PARALLEL_COMPILER=2 -e OMP_NUM_THREADS=4 -e VLLM_ASCEND_FORCE_RC=1 \
  -e RC_DEVICE_BLOCK_INDICES="$RC_DEVICE_BLOCK_INDICES" \
+ -e MTP_DRAFT_EAGER="$MTP_DRAFT_EAGER" \
  -e ENABLE_PROFILER="$ENABLE_PROFILER" -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
  -e QWEN36_C8_ENABLED="$C8" -e QWEN36_C8_ALLOW_MTP2=1 \
  -e QWEN36_C8_ALLOW_GRAPH="$GRAPH" -e QWEN36_C8_FORCE_UPDATABLE_GRAPH="$GRAPH" \
@@ -47,7 +48,11 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  if [[ "$GRAPH" == 0 ]]; then args+=(--enforce-eager); else
   args+=(--compilation-config "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[1,2,3]}")
  fi
- if [[ "$MTP" != 0 ]]; then args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$MTP}"); fi
+ if [[ "$MTP" != 0 ]]; then
+  draft_extra=""
+  if [[ "$MTP_DRAFT_EAGER" == 1 ]]; then draft_extra=",\"enforce_eager\":true"; fi
+  args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$MTP$draft_extra}")
+ fi
  exec vllm serve /model --served-model-name qwen36-w4a8 \
   --tensor-parallel-size 1 --dtype float16 --block-size 64 --max-model-len "$MAX_MODEL_LEN" \
   --gpu-memory-utilization 0.45 --kv-cache-memory-bytes "$KV_BYTES" \

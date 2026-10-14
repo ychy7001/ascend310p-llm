@@ -189,3 +189,5 @@ python3 /data/qwen36-deploy/bench-stage.py --label c8-mtp1-graph-gdn-mindieq \
 原始结果`rc-ep-pair/{rc,ep}/`，复算`python3 summarize-rc-ep-pair.py`。32K本轮提示词与早前`bench-stage.py`不同，621.640与514.875不能当作服务性能回退：此前是另一组输入，本轮两端严格逐条SHA对齐。
 
 下一项隔离诊断为RC状态块索引：旧补丁`seq_lens.cpu()`每步产生D2H同步。设备FP32非负除法转INT32替代仅在显式开关`RC_DEVICE_BLOCK_INDICES=1`使用，64/576/1152/1728块尺寸、长度0..114688全部与CPU整数参考一致，且修改输入后的Graph replay通过；不扩展到未经验证的块尺寸/长度。默认仍为原CPU路线，模型性能/质量门禁通过前不宣称收益。
+
+该候选模型8/8/视觉/A-B-A通过；8192/128三轮中位Prefill563.156 vs563.925、Decode23.963 vs23.874（+0.37%），3/3输出全文一致，MTP100%且cache hit=0。收益很小，不作为默认性能优化，后续已关闭`RC_DEVICE_BLOCK_INDICES`。保留仅用于诊断，不能解释RC/EP约20%的Decode差距。下一项是`MTP_DRAFT_EAGER=1`：主模型Graph、MTP2 draft eager，隔离此前draft Graph组合失败；尚未验证。
