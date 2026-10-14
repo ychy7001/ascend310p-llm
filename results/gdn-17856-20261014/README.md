@@ -1,28 +1,17 @@
-# 310P GDN + MTP Issue #17856 复现记录
+# 310P GDN + MTP Issue #17856 实机记录
 
-## 当前结论
+完整协议、修复说明和复现命令见 [复现报告](../../docs/gdn-17856-reproduction.md)。
 
-当前 a2 服务仍使用包含 `acceptedTokenNum > seqLen` 后直接 `return` 的
-`recurrent_gated_delta_rule_v310` kernel。该路径与上游
-[Issue #17856](https://github.com/vllm-project/vllm-ascend/issues/17856) 一致，
-尚未修复。
+- `operator-original.log`：旧版算子的确定性异常复现，包含状态预取对照。
+- `eager-v2.log`：修复版直接算子 Eager，42/42。
+- `graph-v2.log`：修复版直接算子 Graph，42/42。
+- `wrapper-graph-v2.log`：修复版 Python wrapper + Graph，42/42。
+- `opp-order-check.log`：框架初始化改变 OPP 优先级时失败，固定优先级后 21/21。
+- `http-baseline.log`：原单请求服务排队处理 16/16 短文本和 JSON Schema。
+- `http-c8-concurrency-failure.log`：C8 四请求候选触发既有单请求限制，失败记录。
+- `http-c16-candidate.log`：修复版 C16 四请求候选，16/16 通过。
+- `model-candidate.log`：完整候选启动记录，含前期失败、最终 Graph 捕获和模型回归。
 
-## 已执行的服务回归
+日志中的最大误差来自 FP16 NPU 结果与 FP32 CPU 参考比较。同组数据在多条执行路径重放，不能将调用数当作独立随机样本数。
 
-- 服务：a2 `qwen36-tp1-48g-112k`，TP1、W4A8、C8、MTP2、Decode Graph、`max_num_seqs=1`
-- 请求：OpenAI `response_format={"type":"json_object"}`，固定提示和 `max_tokens=32`
-- 次数：10 次顺序请求
-- 结果：10/10 返回合法 JSON `{"name": "会议", "count": 3}`，均 `finish_reason=stop`
-- 服务日志：无 `ERROR`、`Traceback`；该窗口 MTP 统计为 drafted 64 / accepted 64，两个位置接受率均 1.000
-
-这个结果只覆盖单请求、短输出、固定 grammar 约束，不能覆盖 Issue 中“上一轮接受数大于当前轮 query 长度”的变长状态场景。
-
-## 单算子复现状态
-
-目标输入是当前长度 `[2, 4]`、上一轮接受数 `[4, 1]`，并将每条请求的 state 槽填入可区分值，观察第一条请求的非法边界是否导致整批提前退出或后续请求状态不更新。
-
-当前服务容器中 Python wrapper 可以看到 `num_accepted_tokens` 原样传入 v310 op，wrapper 的变长 flatten 不会过滤 `acceptedTokenNum > seqLen`。但在脱离服务的独立 Python 进程中，custom OPP 尚未完成注册，`torch.ops._C_ascend.npu_recurrent_gated_delta_rule_310` 不可见，因此还没有把上述输入送入真实 kernel。下一步需复用服务的 OPP 初始化环境，或构建一个只加载该 OPP 的一次性诊断容器；不修改运行中的服务。
-
-## 使用边界
-
-普通文本接受率下降不能由本次 Issue 直接解释。严格 JSON/Schema 在专门修复并重建 310P OPP 前仍是未验收能力。修复方案应参考 [PR #17839](https://github.com/vllm-project/vllm-ascend/pull/17839) 的逐请求状态槽和边界处理思路，但需针对 310P 的 state layout 单独适配。
+旧版主服务的短请求成功不代表未触发场景已安全；本补丁是否解释历史 MTP 接受率下降尚无证据。模型集成结果另见复现报告，不能用单算子测试代替模型验收。

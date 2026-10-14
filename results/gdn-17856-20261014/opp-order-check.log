@@ -1,0 +1,52 @@
+BOOTSTRAP_OPP_BAD /vllm-workspace/vllm-ascend/vllm_ascend/_cann_ops_custom/vendors/custom_transformer:/recurrent-opp:/gdn-opp:/opp
+[W1014 10:26:06.466897826 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+[ERROR] The number of dimensions of ssm_state_indices should be 1, but it is 2
+[ERROR] AnalyzeShapes rule failed: RuleCheckShapeDimAndRelation
+[ERROR] Invalid shapes.
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/check.py", line 104, in <module>
+    main()
+  File "/check.py", line 72, in main
+    call()
+  File "/check.py", line 68, in call
+    return op(qd, kd, vd, bd, state, seq, indices, gd, None, accepted_dev, dim**-0.5)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch/_ops.py", line 1209, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: call aclnnRecurrentGatedDeltaRuleV310 failed, detail:[PID: 165] 2026-10-14-10:26:06.658.288 Execution_Error(EZ1008): Failed to execute operator aclnnRecurrentGatedDeltaRuleV310_2_RecurrentGatedDeltaRuleV310. Reason: Failed to execute tiling.
+        Solution: 1.If the tiling function does not exist, check whether the tiling function is registered successfully. 2.If the tiling function fails to be executed, check the implementation logic of the tiling function.
+TraceBack (most recent call last):
+        Kernel GetWorkspace failed. opType: 5
+        RecurrentGatedDeltaRuleV310 ADD_TO_LAUNCHER_LIST_AICORE failed.
+
+[ERROR] 2026-10-14-10:26:07 (PID:165, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception
+BAD_ORDER_EXIT=1
+BOOTSTRAP_OPP_GOOD /recurrent-opp:/gdn-opp:/opp:/vllm-workspace/vllm-ascend/vllm_ascend/_cann_ops_custom/vendors/custom_transformer
+[W1014 10:26:15.296434764 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [2, 4], "accepted": [4, 1], "repeat": 0, "output_max_abs": 0.0, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [4, 2], "accepted": [1, 4], "repeat": 0, "output_max_abs": 4.76837158203125e-07, "state_max_abs": 6.103515625e-05}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [3, 3], "accepted": [4, 4], "repeat": 0, "output_max_abs": 2.384185791015625e-07, "state_max_abs": 3.0517578125e-05}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [2, 4], "accepted": [4, 1], "repeat": 1, "output_max_abs": 0.0, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [4, 2], "accepted": [1, 4], "repeat": 1, "output_max_abs": 4.76837158203125e-07, "state_max_abs": 6.103515625e-05}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [3, 3], "accepted": [4, 4], "repeat": 1, "output_max_abs": 2.384185791015625e-07, "state_max_abs": 3.0517578125e-05}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [2, 4], "accepted": [4, 1], "repeat": 2, "output_max_abs": 0.0, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [4, 2], "accepted": [1, 4], "repeat": 2, "output_max_abs": 4.76837158203125e-07, "state_max_abs": 6.103515625e-05}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [3, 3], "accepted": [4, 4], "repeat": 2, "output_max_abs": 2.384185791015625e-07, "state_max_abs": 3.0517578125e-05}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [0, 2, 4], "accepted": [0, 4, 1], "repeat": 0, "output_max_abs": 5.960464477539063e-08, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [2, 0, 4], "accepted": [4, 0, 2], "repeat": 0, "output_max_abs": 9.5367431640625e-07, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [3, 3, 0], "accepted": [4, 4, 0], "repeat": 0, "output_max_abs": 9.5367431640625e-07, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [0, 2, 4], "accepted": [0, 4, 1], "repeat": 1, "output_max_abs": 5.960464477539063e-08, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [2, 0, 4], "accepted": [4, 0, 2], "repeat": 1, "output_max_abs": 9.5367431640625e-07, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [3, 3, 0], "accepted": [4, 4, 0], "repeat": 1, "output_max_abs": 9.5367431640625e-07, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [0, 2, 4], "accepted": [0, 4, 1], "repeat": 2, "output_max_abs": 5.960464477539063e-08, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [2, 0, 4], "accepted": [4, 0, 2], "repeat": 2, "output_max_abs": 9.5367431640625e-07, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": false, "lengths": [3, 3, 0], "accepted": [4, 4, 0], "repeat": 2, "output_max_abs": 9.5367431640625e-07, "state_max_abs": 0.0001220703125}
+{"status": "PASS", "graph": false, "legacy": true, "lengths": [3, 3], "accepted": [2, 1], "repeat": 0, "output_max_abs": 7.62939453125e-06, "state_max_abs": 6.103515625e-05}
+{"status": "PASS", "graph": false, "legacy": true, "lengths": [3, 3], "accepted": [2, 1], "repeat": 1, "output_max_abs": 7.62939453125e-06, "state_max_abs": 6.103515625e-05}
+{"status": "PASS", "graph": false, "legacy": true, "lengths": [3, 3], "accepted": [2, 1], "repeat": 2, "output_max_abs": 7.62939453125e-06, "state_max_abs": 6.103515625e-05}
+{"passed": 21, "graph": false}

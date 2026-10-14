@@ -1,0 +1,23 @@
+{"status": "ERROR", "index": 3, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.553858921979554, "repeat": 0}
+{"status": "ERROR", "index": 2, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.5543491030111909, "repeat": 0}
+{"status": "ERROR", "index": 0, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.5554039489943534, "repeat": 0}
+{"status": "ERROR", "index": 1, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.5549638580414467, "repeat": 0}
+{"status": "ERROR", "index": 3, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0022113670129328966, "repeat": 1}
+{"status": "ERROR", "index": 1, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0028567839763127267, "repeat": 1}
+{"status": "ERROR", "index": 0, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.003593370027374476, "repeat": 1}
+{"status": "ERROR", "index": 2, "structured": false, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0029790159896947443, "repeat": 1}
+{"status": "ERROR", "index": 1, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.002564696012996137, "repeat": 0}
+{"status": "ERROR", "index": 2, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0024057819973677397, "repeat": 0}
+{"status": "ERROR", "index": 0, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.002961568010505289, "repeat": 0}
+{"status": "ERROR", "index": 3, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.002427558007184416, "repeat": 0}
+{"status": "ERROR", "index": 0, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0017689050291664898, "repeat": 1}
+{"status": "ERROR", "index": 2, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0017869960283860564, "repeat": 1}
+{"status": "ERROR", "index": 1, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.001992141013033688, "repeat": 1}
+{"status": "ERROR", "index": 3, "structured": true, "error": "HTTP Error 500: Internal Server Error", "seconds": 0.0018040160066448152, "repeat": 1}
+Traceback (most recent call last):
+  File "/home/ychy/ascend-lab-runtime/gdn-17856-20261014/http-check.py", line 104, in <module>
+    main()
+  File "/home/ychy/ascend-lab-runtime/gdn-17856-20261014/http-check.py", line 89, in main
+    assert all(record["status"] == "PASS" for record in records), (
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: generation regression failed

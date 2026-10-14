@@ -51,3 +51,95 @@ python3 /tmp/repro.py
 ```
 
 不要在模型服务容器里启动该诊断进程；本次采用独立容器并暂时停止第二芯片对照服务。
+
+## 二维状态表补丁（2026-10-14 后续）
+
+`patches/gdn-17856-state-table.patch` 修改 4 个文件：Python wrapper、host tiling、
+kernel 与 tiling 数据结构。对应原文件与官方 main
+`bc8115ed7fdc7e500320b5de70742ef049b4c1a2` 的文件内容相同，补丁 dry-run 通过。
+
+- 二维索引不再按当前长度压紧，保留 `[B,W]` 完整请求行。
+- kernel 从 `row_start + accepted_prev - 1` 读取初始状态，接受数上界为 W。
+- 写回使用 `row_start + current_token_offset`，独立于 query 打包偏移。
+- 一维 legacy 索引保留原协议；不更改 ACLNN/Torch 参数列表。
+- 零长度请求在读取状态索引前跳过，支持该行填 `-1`。
+- 无效接受数（非正数且请求非空、超过真实行宽）仍保留原错误防护。
+  本补丁修复合法调度数据被当前长度错误拒绝，不声明可恢复损坏元数据。
+- 修改了内部 tiling 结构，必须配套构建 host 和 kernel，不能混用新旧二进制。
+
+已用独立容器编译为 310P OPP 包。第二版随机回归：
+
+| 路径 | 通过数 | 输出最大绝对误差 | 状态最大绝对误差 |
+| --- | --- | --- | --- |
+| 直接算子 Eager | 42/42 | 7.63e-6 | 1.22e-4 |
+| 直接算子 Graph | 42/42 | 7.63e-6 | 1.22e-4 |
+| Python wrapper + Graph | 42/42 | 7.63e-6 | 1.22e-4 |
+
+共 126 次断言；同组数据分别重放，不能当作 126 个独立随机样本。
+覆盖 W=2/3/4、上轮接受数大于当前长度、随机且不同的请求状态、打乱物理槽号、
+padding 行位于 batch 前/中/尾、变长 batch、query 缓冲尾部 padding、旧版一维索引。
+参考实现比较有效输出及整个状态池，包含未使用槽。Graph 重放更新设备长度、
+接受数和状态表，将输出预置 NaN 防止旧数据假通过。
+
+第一版额外加入的一维索引长度校验过严：Graph 缓冲允许尾部 padding，
+第二版移除该校验，并加入“3 个分配 token、1 个有效 token”回归。
+但不能把模型启动失败全部归因于该检查：第二版仍出现 tiling 错误。
+
+进一步的小张量实验确认了独立 OPP 叠加部署的加载顺序问题。
+`enable_custom_op()` 会把镜像内置 vendor 插入 `ASCEND_CUSTOM_OPP_PATH` 前端，
+从而选择旧版 rank-1 host tiling；此时新的二维 wrapper 无法运行。
+先在环境路径尾端登记内置 vendor，再保留修复版在首位，可阻止重复前插。
+`opp-order-check.log` 记录了错误顺序失败、正确顺序 21/21 通过。
+这属于实验部署问题，未新增通用框架加载补丁；上游应配套重新编译整个算子包。
+
+复现脚本：`tools/check_gdn_state_table_310.py`，启动器：
+`tools/run-gdn-state-table-check.sh`。日志为 `eager-v2.log`、`graph-v2.log`、
+`wrapper-graph-v2.log`，位于同一 results 目录。
+
+```bash
+# 独立源码副本应用 patch 后，在已安装 CANN 的容器中编译：
+cd csrc
+bash build.sh --pkg --soc=ascend310p --ops=recurrent_gated_delta_rule_v310 -j4
+# 将包内 packages/vendors/custom_transformer 提取到独立 OPP 路径。
+# 在空闲设备上从本实验仓库运行：
+GDN_OPP_DIR=/path/to/patched/vendors/custom_transformer \
+  bash tools/run-gdn-state-table-check.sh
+GDN_OPP_DIR=/path/to/patched/vendors/custom_transformer \
+  bash tools/run-gdn-state-table-check.sh --graph
+GDN_OPP_DIR=/path/to/patched/vendors/custom_transformer \
+GDN_WRAPPER_SOURCE=/path/to/patched/vllm_ascend/_310p/ops/fla/gdn_310.py \
+  bash tools/run-gdn-state-table-check.sh --graph --wrapper-source /wrapper.py
+```
+
+## 真实权重集成验证
+
+第一颗芯片 `18024` 主服务保持原版本。第二颗芯片以独立容器、`18029` 测试补丁，
+复用 W4A8 权重、MTP2 和 Decode Graph。
+
+- 原主服务：四客户端并发发起请求，由 `max_num_seqs=1` 排队执行；
+  普通数字输出 8/8、严格 JSON Schema 8/8。不能称为四请求同时模型执行。
+- 修复版 C8 候选：112K、`max_num_seqs=4`，模型加载与 Graph 捕获成功；
+  第一批并发请求触发现有 `C8 requires real four-tensor storage and one request` 检查，
+  engine 退出、请求失败。该检查发生在 C8 attention adapter，不能算作 GDN 数值回归通过。
+- 为隔离 C8 的单请求限制，另用 C16 KV、32K、`max_num_seqs=4` 测试相同补丁。
+  使用 `tools/launch_gdn_state_candidate.py --work /path/to/work --c16` 启动，
+  HTTP 回归脚本为 `tools/check_gdn_candidate_http.py`。
+  模型加载、MTP 和 Graph 捕获成功；四客户端变长并发请求共 16/16 通过：
+  普通文本 8/8、严格 JSON Schema 8/8，答案和结构均有断言。
+  捕获规模仍为单请求的 3 个 token，多请求超出范围会走 eager；
+  不声称所有并发模型请求均通过 Graph 执行。
+  记录见 `http-c16-candidate.log` 和 `model-candidate.log`。
+
+测试完成后停掉独立候选、恢复第二颗芯片原对照容器，主服务未升级补丁。
+本次不是吞吐 benchmark，日志中的时间窗口平均吞吐不能作为 prefill/decode 指标。
+短算术与 schema 通过也不能替代长输出、长上下文或任务准确率评测。
+
+## 上游提交边界
+
+已有证据支持提交一个独立的 310P GDN 状态索引正确性修复：
+保留四文件协议补丁，附旧版异常复现、FP32 参考比较与 Graph 回放测试。
+不把 W4A8、C8 adapter、产品调参或实验 OPP 加载脚本混入该修复。
+完整模型测试是辅助冒烟证据；C8 的单请求限制另行跟踪。
+向现有 Issue 补充复现和提交 PR 时应清楚列明上述范围与尚未覆盖项。
+
+当前证据尚不支持性能收益、长上下文精度或此前接受率下降的归因。
