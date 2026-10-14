@@ -8,7 +8,6 @@ root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 : "${GDN_SOURCE:?set pinned PR chunk_gated_delta_rule.py}"
 export QWEN36_GDN_ENABLED=1
 export QWEN36_PROFILE="${QWEN36_PROFILE:-mtp2}"
-export MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-4096}"
 export QWEN36_GROUPED_CHUNK_TOKENS="${QWEN36_GROUPED_CHUNK_TOKENS:-512}"
 export PORT="${PORT:-18024}"
 export CONTAINER_NAME="${CONTAINER_NAME:-qwen36-gdn-112k-$QWEN36_PROFILE}"

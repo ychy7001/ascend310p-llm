@@ -21,6 +21,8 @@ name=${CONTAINER_NAME:-qwen36-tp1-48g-112k}
 source "$root/configs/tp1-48g-112k.env"
 [[ -n "$profile_override" ]] && export QWEN36_PROFILE="$profile_override"
 export ENABLE_PREFIX_CACHING="$prefix" PORT="$port" CONTAINER_NAME="$name"
+source "$root/configs/tp1-profile.sh"
+export QWEN36_GDN_ENABLED=1
 [[ "$prefix" == 0 || "$prefix" == 1 ]] || { echo "ENABLE_PREFIX_CACHING must be 0 or 1" >&2; exit 2; }
 mindieq=${QWEN36_MINDIEQ_ENABLED:-0}
 custom_quant=${QWEN36_MINDIEQ_CUSTOM_QUANT:-0}
@@ -40,17 +42,6 @@ if [[ "$mindieq" == 1 ]]; then
   : "${MINDIEQ_LIBRARY:?set MindIEQ experiment library}"
   [[ -r "$MINDIEQ_LIBRARY" ]] || { echo "Missing artifact: $MINDIEQ_LIBRARY" >&2; exit 2; }
 fi
-case "${QWEN36_PROFILE:-compat}" in
-  compat|mtp1|decode|mtp2|long-prefill) ;;
-  *) echo "QWEN36_PROFILE must be compat, decode, or long-prefill" >&2; exit 2 ;;
-esac
-if [[ "${QWEN36_PROFILE:-compat}" == long-prefill && "$mindieq" == 1 ]]; then
-  (( 10#$QWEN36_MINDIEQ_MIN_TOKENS >= 128 )) || { echo 'long-prefill requires QWEN36_MINDIEQ_MIN_TOKENS >= 128' >&2; exit 2; }
-fi
-if [[ "${QWEN36_PROFILE:-compat}" == long-prefill && "$mindieq" != 1 ]]; then
-  echo 'long-prefill requires QWEN36_MINDIEQ_ENABLED=1; use decode for the non-MindIEQ baseline' >&2
-  exit 2
-fi
 : "${MODEL_DIR:?}" "${OPP_DIR:?}" "${EXTENSION:?}" "${C8_LIBRARY:?}"
 : "${GDN_OPP_DIR:?}" "${GDN_LIBRARY:?}" "${GDN_SOURCE:?}"
 for path in "$MODEL_DIR/model.safetensors.index.json" "$EXTENSION" "$C8_LIBRARY" "$GDN_LIBRARY" "$GDN_SOURCE"; do
@@ -69,7 +60,7 @@ if os.environ.get('QWEN36_MINDIEQ_ENABLED','0')=='1':
     path=Path(os.environ['MINDIEQ_LIBRARY'])
     files['MINDIEQ_LIBRARY']={'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 files['MODEL_INDEX']={'sha256':hashlib.sha256((Path(os.environ['MODEL_DIR'])/'model.safetensors.index.json').read_bytes()).hexdigest()}
-print(json.dumps({'profile_name':os.environ.get('QWEN36_PROFILE','compat'),'profile_config':(root/'configs/tp1-48g-112k.env').read_text(),'artifacts':files,
+print(json.dumps({'profile_name':os.environ.get('QWEN36_PROFILE','compat'),'effective_config':{key:os.environ[key] for key in ('QWEN36_PROFILE','MAX_MODEL_LEN','MEMORY_UTILIZATION','MAX_BATCHED_TOKENS','QWEN36_GROUPED_CHUNK_TOKENS','MTP','NUM_SPECULATIVE_TOKENS','GRAPH_CAPTURE_SIZES','GRAPH_MODE','COMPILATION_MODE','ENFORCE_EAGER','QWEN36_C8_ENABLED','QWEN36_C8_ALLOW_MTP2','QWEN36_GDN_ENABLED')},'artifacts':files,
                   'prefix':os.environ['ENABLE_PREFIX_CACHING'],'mindieq_prefill':os.environ.get('QWEN36_MINDIEQ_ENABLED','0'),'mindieq_custom_quant':os.environ.get('QWEN36_MINDIEQ_CUSTOM_QUANT','0'),'mindieq_min_tokens':int(os.environ['QWEN36_MINDIEQ_MIN_TOKENS']),'mindieq_shared_gate':os.environ.get('QWEN36_MINDIEQ_SHARED_GATE','0'),'port':os.environ['PORT']},ensure_ascii=False,indent=2))
 PY
 if (( check )); then exit 0; fi
