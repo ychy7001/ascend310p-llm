@@ -98,3 +98,41 @@ GDN完整ARM64扩展SHA256 `24910050c311cb99ab5153e2b557b0e2dbe1567b1ddaec6a116c
 |112000|379.261|295.93|6.846|110592|冷/热正确|
 
 检索仅生成9token，不能将8/decode phase当作稳定长输出吞吐；128token长输出单独测试。热吞吐不除完整输入冒充实际计算吞吐。112000是真实完成输入长度，114688为配置上限，未作绝对最大上下文声明。
+
+## RC / EP 瓶颈对照（新增）
+
+当前不能仅把差距归因RC：a2为310P3/x86 i7-14700/较新驱动，OrangePi为310P1/ARM/旧驱动；a2启用GDN、MindIEQ Prefill和MTP2，OrangePi当时原GDN、MTP1。CANN/torch大版本相同也不能消除算子/主机/固件差异。
+
+同一 `bench-rc-ep-primitives.py`，FP16数值检查通过、warmup5/repeat30、真实NPU copy/MatMul。EP在空闲服务容器另起探针进程，RC停止服务后执行；两者内存占用背景不同。copy有效带宽按读+写字节计算，不是硬件带宽计数器。Event bracket含队列/依赖开销，不能称纯Kernel计时。
+
+|探针|EP|RC|意义|
+|---|---:|---:|---|
+|128MiB copy eager有效GB/s|168.96|161.92|RC约低4%，不支持带宽数倍下降解释|
+|FP16 1024×2048×1024 Graph event ms|0.16531|0.16534|本形状设备区间接近|
+|同MatMul Graph host ms|0.26266|0.37993|RC主机区间较长|
+|small add eager host ms|0.17878|0.36416|小操作路径约2倍|
+|1MiB copy eager host ms|0.1761|0.3914|小搬运发射/同步开销明显|
+
+这些结果优先支持继续调查小算子/主机与运行时开销，不能证明所有MoE/Attention硬件性能相同。Prefill进程20秒pidstat平均CPU43.95%（100%=单核）、wait另见日志；不支持仅凭ARM架构判定单核饱和。下一轮同参数只开启已测GDN，并启用profiler，测完非profile性能后再采集trace。
+
+112000/128固定输出已测（warmup1+冷1+热1，样本不足以报P95）：冷Prefill314.03tok/s、Decode11.818tok/s；热Decode11.811tok/s、hit110592。与短上下文23.873存在明显下降；MTP接受率此样本100%，不能归因拒绝率。
+
+### 已落地：ARM GDN Prefill 加速
+
+保持同一112K配置、KV6GiB、batch2048、MTP1、C8、Graph、同步调度、视觉和prefix，仅开启已通过数值检查的GDN路径。2304/128 warmup1/repeat3且零prefix hit，中位Prefill **496.336** vs395.596 tok/s（+25.46%），Decode **23.821** vs23.873（-0.22%）。三轮Prefill分别496.336/496.045/496.414，8/8 toy、A/B/A无串扰、小红图正确。原始记录`bench-c8-mtp1-graph-gdn.jsonl`、`quality-c8-mtp1-graph-gdn.json`。
+
+32000/128 warmup1/冷1/热1：冷Prefill498.719、Decode19.454 tok/s，零prefix hit；热命中29952，Decode19.488。warmup输出32token，不能与128输出阶段混算。此轮离线profiler导出曾在同一主机运行，长输入数据作为初测；短输入三轮没有这项干扰。原GDN-off的32K canary输出只有9token、提示词不同，不能用它计算严格长输入加速比。
+
+### 设备trace与明确限制
+
+当前CANN9.1包的`msprof --export=on`参数不兼容torch-npu分析入口，原始采集成功但自动导出失败。通过同包`msprof.py import`和`export summary`离线解析成功，无需升级驱动或改模型服务。复现脚本`export-profile.sh`；日志`profile-export-cold.log`、`profile-export-manual.log`。
+
+修复`tools/profile_http_prefill.py`的热前缀干扰：warmup/profile分别使用独立cache salt，并断言profile请求prefix hit=0。首轮未隔离salt的Prefill trace不用于瓶颈结论。新的3072-token冷Prefill原始记录`profile-prefill-gdn-cold.jsonl`，设备CSV在`profile-prefill-cold/`，可运行`python3 summarize-profile.py profile-prefill-cold`复算。
+
+- 冷Prefill设备任务时间窗5.882秒（profiling开销，不作为服务吞吐）；stream33 AI_CORE累计5.504秒。
+- `QwenW4A8Int4MatmulV310`560次、累计3.593秒，占该stream AI_CORE累计时间约65.3%。各投影的mac_ratio中位0.033、vec_ratio中位0.587、mte2_ratio中位0.236。它们是本次计数器值，不是精确的端到端利用率。证据优先指向原W4路径中的Vector/解包与分组处理；不是只缺理论带宽。
+- GDN WY/H/O累计约195/49/37ms；GDN已优化后，继续优化W4 Prefill比继续盲调GDN优先级更高。
+- `EVENT_WAIT`等任务跨stream重叠，不能把全部task_time简单求和称为模型墙钟；汇总脚本明确排除这些事件。
+- Decode采集虽然有31个主机步，但导出的设备任务只有约50.8ms时间窗，不能冒充完整64-token Decode占比。其MatMul/C8转换记录只作为路径存在证据；需补齐Graph replay采集后才能给出完整设备瓶颈排序。
+
+RC/EP现有服务仍不完全等参：a2为MTP2、batch4096、MindIEQ shared Gate长Prefill、prefix off；本轮RC为MTP1、batch2048、原W4长Prefill、prefix on。因此不能将两端现有端到端比值称为RC模式固有损失。ARM MindIEQ原生布局算子开始隔离构建，先数值与单算子门禁，再决定是否接入模型。

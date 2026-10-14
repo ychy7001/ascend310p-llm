@@ -67,3 +67,6 @@ elif os.environ.get('QWEN36_C8_ALLOW_GRAPH', '0') == '1':
 
 if os.environ.get('GDN', '0') == '1':
     import pr17640_gdn_adapter
+
+if os.environ.get('QWEN36_MINDIEQ_ENABLED', '0') == '1':
+    import mindieq_prefill_adapter

@@ -2,9 +2,11 @@
 """独占端点采集一次Prefill；profile请求耗时不能作为常规性能结果。"""
 import argparse
 import json
+import uuid
 from pathlib import Path
 
 from bench_http_stream import post, request
+from bench_server_phases import prefix_snapshot
 
 
 def main():
@@ -26,13 +28,18 @@ def main():
         output.write(json.dumps({'kind': 'config', 'prompt_ids': tokens,
                                  'model': args.model, 'base_url': args.base_url,
                                  'protocol': 'one warmup then one profiled output=1 request; not throughput benchmark'}) + '\n')
-        warmup = request(args.base_url, args.model, tokens, 1)
+        salt = uuid.uuid4().hex
+        warmup = request(args.base_url, args.model, tokens, 1, cache_salt=salt + '-warmup')
         output.write(json.dumps({'kind': 'warmup', **warmup}) + '\n')
         output.flush()
         with post(args.base_url, '/start_profile', {}) as response:
             response.read()
         try:
-            result = request(args.base_url, args.model, tokens, 1)
+            before = prefix_snapshot(args.base_url)
+            result = request(args.base_url, args.model, tokens, 1, cache_salt=salt + '-profile')
+            after = prefix_snapshot(args.base_url)
+            result['prefix_cache_hits'] = after['vllm:prefix_cache_hits_total'] - before['vllm:prefix_cache_hits_total']
+            assert result['prefix_cache_hits'] == 0, 'Prefill profile unexpectedly hit the prefix cache'
             output.write(json.dumps({'kind': 'profiled_request', **result}) + '\n')
             output.flush()
         finally:

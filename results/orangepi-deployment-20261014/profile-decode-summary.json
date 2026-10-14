@@ -1,0 +1,521 @@
+{
+  "source": "task_time_20261014143921.csv.gz",
+  "scope": "汇总已导出的设备任务；排除事件等待，不能用重叠任务求和代替墙钟。",
+  "device_task_span_us": 50779.0,
+  "duration_by_type_us": {
+    "AI_CORE": 39364.78500000003,
+    "MEMCPY_ASYNC": 15.024,
+    "EVENT_RECORD": 0.052,
+    "AI_CPU": 492.005,
+    "EVENT_WAIT": 6423.828,
+    "EVENT_RESET": 0.104,
+    "PLACE_HOLDER_SQE": 0.0
+  },
+  "kernels": [
+    {
+      "name": "MatMulV2_NZ_ND_FP16_FP16_false_true_all_32962",
+      "count": 15,
+      "duration_us": 15557.265000000001
+    },
+    {
+      "name": "NotEqual_db689a08d53f9c09c59c06b9caeb956b_high_performance_223000000",
+      "count": 2,
+      "duration_us": 4080.651
+    },
+    {
+      "name": "MatMulV2_NZ_ND_FP16_FP16_false_true_all_32977",
+      "count": 46,
+      "duration_us": 4010.447
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310_f445ca91b09a2d95f71de7992df42bfd_0",
+      "count": 36,
+      "duration_us": 3477.5519999999988
+    },
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "count": 6,
+      "duration_us": 2494.1400000000003
+    },
+    {
+      "name": "TransData_1f7d09915723c246d8ed94ed83374eb7_high_performance_2002221104",
+      "count": 56,
+      "duration_us": 1581.928
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "count": 6,
+      "duration_us": 1461.511
+    },
+    {
+      "name": "RecurrentGatedDeltaRuleV310_6aff7d75e8b2117fc8ad1f974495c0d0_0",
+      "count": 13,
+      "duration_us": 896.405
+    },
+    {
+      "name": "TransData_1f7d09915723c246d8ed94ed83374eb7_high_performance_2000001104",
+      "count": 132,
+      "duration_us": 587.6080000000001
+    },
+    {
+      "name": "GroupedMatmul_e0efac215767a9a365f7c04ddf725f2d_65793",
+      "count": 2,
+      "duration_us": 508.906
+    },
+    {
+      "name": "Cast",
+      "count": 2,
+      "duration_us": 492.005
+    },
+    {
+      "name": "N/A",
+      "count": 143,
+      "duration_us": 442.856
+    },
+    {
+      "name": "MatMulV2_NZ_ND_FP16_FP16_false_true_all_32897",
+      "count": 52,
+      "duration_us": 312.39899999999994
+    },
+    {
+      "name": "Cast_e87590d11ccda8b259ab6b1ea7212319_high_performance_210000000",
+      "count": 42,
+      "duration_us": 297.78700000000003
+    },
+    {
+      "name": "RmsNorm_1_high_performance_0",
+      "count": 54,
+      "duration_us": 264.9990000000001
+    },
+    {
+      "name": "Slice_cf62034947577763b2b546efd5444507_high_performance_524000000",
+      "count": 165,
+      "duration_us": 239.59299999999993
+    },
+    {
+      "name": "TransData_1f7d09915723c246d8ed94ed83374eb7_high_performance_2001111104",
+      "count": 26,
+      "duration_us": 179.556
+    },
+    {
+      "name": "RmsNorm_1_high_performance_2",
+      "count": 39,
+      "duration_us": 174.16700000000003
+    },
+    {
+      "name": "MemSet_1a6864193b99ef93ef38616f04a712ab_high_performance__kernel0",
+      "count": 77,
+      "duration_us": 164.0429999999999
+    },
+    {
+      "name": "Mul_93b3f8e9594b4018902b635fff3a83c5_high_performance_212000002",
+      "count": 46,
+      "duration_us": 120.7
+    },
+    {
+      "name": "Cast_1fb1c1a33856de01862630399320fff3_high_performance_210000000",
+      "count": 75,
+      "duration_us": 117.73100000000004
+    },
+    {
+      "name": "TransData_509de9f2748823849891713dab6edd0f_high_performance_5110000004",
+      "count": 20,
+      "duration_us": 113.33300000000001
+    },
+    {
+      "name": "CausalConv1dV310_f8799e506fced51951fa40429a30b893_0",
+      "count": 13,
+      "duration_us": 111.562
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310_0c8463ee165768b988d5c30a454c5fd0_0",
+      "count": 18,
+      "duration_us": 106.89799999999998
+    },
+    {
+      "name": "Add_93b3f8e9594b4018902b635fff3a83c5_high_performance_223000000",
+      "count": 54,
+      "duration_us": 98.53999999999999
+    },
+    {
+      "name": "TensorMove_d2db1a80c523e7e59a032c95969880af_high_performance__kernel0",
+      "count": 47,
+      "duration_us": 97.70200000000003
+    },
+    {
+      "name": "ReduceSum_7a09f5b7af4126487a7f726a9aac7548_high_performance_10002100900",
+      "count": 18,
+      "duration_us": 91.846
+    },
+    {
+      "name": "Mul_ee98c6628030785f610b924ab1557b31_high_performance_212000001",
+      "count": 18,
+      "duration_us": 90.10699999999999
+    },
+    {
+      "name": "Cast_15ccf3aee15572ed7572778d4afbef60_high_performance_210000000",
+      "count": 52,
+      "duration_us": 80.017
+    },
+    {
+      "name": "QwenW4A8PackV310_27bb22b665b89060a6ab8d99f12c3b1f_0",
+      "count": 18,
+      "duration_us": 75.185
+    },
+    {
+      "name": "Transpose_bc5cf444592b20be060ce8af4eb55c56_high_performance_13",
+      "count": 13,
+      "duration_us": 72.735
+    },
+    {
+      "name": "ArgMaxV2_f3780183a9611019cb56bfe7365d2656_high_performance_3",
+      "count": 2,
+      "duration_us": 70.911
+    },
+    {
+      "name": "Cast_39a266ce9a8d7d9ead33f6686e936b72_high_performance_210000000",
+      "count": 23,
+      "duration_us": 70.757
+    },
+    {
+      "name": "Add_93b3f8e9594b4018902b635fff3a83c5_high_performance_210000000",
+      "count": 40,
+      "duration_us": 68.589
+    },
+    {
+      "name": "MatMulV2_NZ_NZ_FP16_FP32_false_true_all_49665",
+      "count": 20,
+      "duration_us": 65.182
+    },
+    {
+      "name": "Mul_93b3f8e9594b4018902b635fff3a83c5_high_performance_210000000",
+      "count": 38,
+      "duration_us": 60.96099999999999
+    },
+    {
+      "name": "Sub_41dadce325b0f810d03359af2a38990b_high_performance_223000000",
+      "count": 18,
+      "duration_us": 60.883
+    },
+    {
+      "name": "Range_int32_double_high_performance__kernel0",
+      "count": 26,
+      "duration_us": 54.35
+    },
+    {
+      "name": "ConcatD_8460c4b727ab5cc93a9595333a3fd571_high_performance_4000001",
+      "count": 13,
+      "duration_us": 50.676
+    },
+    {
+      "name": "ReduceSum_7a09f5b7af4126487a7f726a9aac7548_high_performance_10000000400",
+      "count": 20,
+      "duration_us": 47.765
+    },
+    {
+      "name": "Greater_1ea4da630f56dc1c2d6e7c9a9dd17b11_high_performance_210000000",
+      "count": 14,
+      "duration_us": 46.29900000000001
+    },
+    {
+      "name": "Sub_9342884c99c006e21fc9d5d9260b8bef_high_performance_210000000",
+      "count": 40,
+      "duration_us": 45.191
+    },
+    {
+      "name": "ClipByValueV2_3bc53d14ff7dfecd0ed0c69136ab471a_high_performance_220000000",
+      "count": 13,
+      "duration_us": 41.97899999999999
+    },
+    {
+      "name": "Less_db689a08d53f9c09c59c06b9caeb956b_high_performance_223000000",
+      "count": 26,
+      "duration_us": 41.665
+    },
+    {
+      "name": "BroadcastTo_9a632dc5b6be9e1b4215e3cf2b1aff0d_high_performance_221000000",
+      "count": 26,
+      "duration_us": 38.413000000000004
+    },
+    {
+      "name": "Fill_1eab21a4a12b71b6f5608d6b86f68af5_high_performance_223000000",
+      "count": 26,
+      "duration_us": 37.476
+    },
+    {
+      "name": "Cast_9c43a2159df30b81b4f0be7b57558657_high_performance_210000000",
+      "count": 26,
+      "duration_us": 33.019999999999996
+    },
+    {
+      "name": "Index_503c10ee20671d8e44ea6a90f978bfce_high_performance__kernel0",
+      "count": 4,
+      "duration_us": 32.292
+    },
+    {
+      "name": "TransData_cb4c683189d13c2ea9554d47def0c40b_high_performance_3002221114",
+      "count": 6,
+      "duration_us": 32.266
+    },
+    {
+      "name": "ApplyRotaryPosEmb_249f7d4fb076847392effee980d31130_1",
+      "count": 6,
+      "duration_us": 32.083999999999996
+    },
+    {
+      "name": "Exp_a8527d1416fd434d3e07ce502c2544ab_high_precision_210000000",
+      "count": 26,
+      "duration_us": 31.198999999999998
+    },
+    {
+      "name": "c8_quant_scatter_kernel_2",
+      "count": 6,
+      "duration_us": 30.625
+    },
+    {
+      "name": "Mul_ee98c6628030785f610b924ab1557b31_high_performance_223000000",
+      "count": 26,
+      "duration_us": 30.238
+    },
+    {
+      "name": "SelectV2_9bb0969ab50036eba4428cd9974a5c0b_high_performance_210000000",
+      "count": 15,
+      "duration_us": 30.050999999999995
+    },
+    {
+      "name": "Add_79e66c1294019a7d2cd0617ea696923a_high_performance_210000000",
+      "count": 19,
+      "duration_us": 27.02699999999999
+    },
+    {
+      "name": "Slice_cf62034947577763b2b546efd5444507_high_performance_534000000",
+      "count": 12,
+      "duration_us": 24.684999999999995
+    },
+    {
+      "name": "SelectV2_bad39ec50a3854a750466c42b6ef8078_high_performance_210000000",
+      "count": 13,
+      "duration_us": 24.298000000000005
+    },
+    {
+      "name": "ConcatD_ac0081dab05f1e5cef852acb8d7e866f_high_performance_4100000",
+      "count": 13,
+      "duration_us": 24.142
+    },
+    {
+      "name": "Log1p_ded454bb24ee75ab163f0270f46319a4_high_performance_210000000",
+      "count": 13,
+      "duration_us": 22.581000000000003
+    },
+    {
+      "name": "LessEqual_3efaad932f458d7892fdb0715ec85b2b_high_performance_223000000",
+      "count": 13,
+      "duration_us": 22.19
+    },
+    {
+      "name": "ArgMaxV2_bc5cf444592b20be060ce8af4eb55c56_high_performance_3",
+      "count": 1,
+      "duration_us": 19.818
+    },
+    {
+      "name": "ZerosLike_d2db1a80c523e7e59a032c95969880af_high_performance_210000000",
+      "count": 13,
+      "duration_us": 18.747
+    },
+    {
+      "name": "ZerosLike_8098b79498645e9c0da095babdeaf862_high_performance_210000000",
+      "count": 14,
+      "duration_us": 18.67
+    },
+    {
+      "name": "Neg_5c5e58e043224cccf51a06108010ae13_high_performance_210000000",
+      "count": 13,
+      "duration_us": 17.991999999999997
+    },
+    {
+      "name": "Mul_ee98c6628030785f610b924ab1557b31_high_performance_210000000",
+      "count": 13,
+      "duration_us": 17.862
+    },
+    {
+      "name": "Add_ee98c6628030785f610b924ab1557b31_high_performance_210000000",
+      "count": 13,
+      "duration_us": 16.173000000000002
+    },
+    {
+      "name": "MoeGatingTopKSoftmax_15a99765412b04b8ae5de7f9e86d9410_18",
+      "count": 1,
+      "duration_us": 13.464
+    },
+    {
+      "name": "SwiGlu_1_high_performance_1",
+      "count": 2,
+      "duration_us": 11.432
+    },
+    {
+      "name": "Transpose_1d2fd313763487259859439d7e9b41cf_high_performance_5",
+      "count": 1,
+      "duration_us": 10.859
+    },
+    {
+      "name": "MoeInitRoutingV2_ac22b736d69cd9bcecf5657f517fc2d7_20000",
+      "count": 1,
+      "duration_us": 9.609
+    },
+    {
+      "name": "Fill_1fbc7ee619b707282bbfd034093621df_high_performance_223000000",
+      "count": 5,
+      "duration_us": 8.595
+    },
+    {
+      "name": "Cast_1fb1c1a33856de01862630399320fff3_high_performance_210010000",
+      "count": 3,
+      "duration_us": 8.203
+    },
+    {
+      "name": "Transpose_1d2fd313763487259859439d7e9b41cf_high_performance_6",
+      "count": 1,
+      "duration_us": 7.135
+    },
+    {
+      "name": "ClipByValueV2_a32d70ed63082227463347a44bd5a08e_high_performance_210000000",
+      "count": 1,
+      "duration_us": 6.562
+    },
+    {
+      "name": "MoeTokenUnpermute_ccf25f2492c70bc8cea565517d2caec8_3",
+      "count": 1,
+      "duration_us": 6.432
+    },
+    {
+      "name": "Transpose_f3780183a9611019cb56bfe7365d2656_high_performance_13",
+      "count": 1,
+      "duration_us": 6.146
+    },
+    {
+      "name": "Sub_41dadce325b0f810d03359af2a38990b_high_performance_210000000",
+      "count": 3,
+      "duration_us": 6.068
+    },
+    {
+      "name": "TensorMove_5c5e58e043224cccf51a06108010ae13_high_performance__kernel0",
+      "count": 2,
+      "duration_us": 5.6770000000000005
+    },
+    {
+      "name": "Less_1ea4da630f56dc1c2d6e7c9a9dd17b11_high_performance_223000000",
+      "count": 1,
+      "duration_us": 4.661
+    },
+    {
+      "name": "Index_18d3ce49cd18b896ecbd4791ac24cb7a_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 4.479
+    },
+    {
+      "name": "GatherElements_084655047edb72b366482aa51e18034b_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 4.193
+    },
+    {
+      "name": "ReduceSum_03c0542f2023bc999d5085c3cf4d9b0b_high_performance_400",
+      "count": 1,
+      "duration_us": 3.828
+    },
+    {
+      "name": "Cast_df2b778f1b80e749bd4242386ec57ab9_high_performance_210000000",
+      "count": 2,
+      "duration_us": 3.723
+    },
+    {
+      "name": "ViewCopy_f9503aba4b049bd0a00ec9dd64dc915a_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 3.49
+    },
+    {
+      "name": "Index_6c4c8a656742ea5f9c9c8714c8a01fe7_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 3.307
+    },
+    {
+      "name": "Fill_279daeaf6b659300647aba3935d90048_high_performance_210000000",
+      "count": 2,
+      "duration_us": 3.2560000000000002
+    },
+    {
+      "name": "Index_174d54802d599459e9ebdb7c2d30e100_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 3.255
+    },
+    {
+      "name": "Index_f34e8f0e5e2c96109aa0460550023804_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 3.203
+    },
+    {
+      "name": "Equal_1ea4da630f56dc1c2d6e7c9a9dd17b11_high_performance_210000000",
+      "count": 1,
+      "duration_us": 2.917
+    },
+    {
+      "name": "GatherV2_7869a97190b9b4d296d9414a005b954b_high_precision_900015010",
+      "count": 1,
+      "duration_us": 2.865
+    },
+    {
+      "name": "NotEqual_1ea4da630f56dc1c2d6e7c9a9dd17b11_high_performance_210000000",
+      "count": 1,
+      "duration_us": 2.656
+    },
+    {
+      "name": "IndexPutV2_b7c8516ac179f5cd830c497b369d5be2_high_performance__kernel0",
+      "count": 1,
+      "duration_us": 2.448
+    },
+    {
+      "name": "Cast_a9b7af94359fc7c19da07ad0790f065c_high_performance_210000000",
+      "count": 1,
+      "duration_us": 2.005
+    },
+    {
+      "name": "Transpose_f3780183a9611019cb56bfe7365d2656_high_performance_0",
+      "count": 1,
+      "duration_us": 1.979
+    },
+    {
+      "name": "Cast_9fc020fd54590bb5fe6cf6eabcf7b473_high_performance_210000000",
+      "count": 1,
+      "duration_us": 1.901
+    },
+    {
+      "name": "SelectV2_a32d70ed63082227463347a44bd5a08e_high_performance_210000000",
+      "count": 1,
+      "duration_us": 1.849
+    },
+    {
+      "name": "Add_9342884c99c006e21fc9d5d9260b8bef_high_performance_210000000",
+      "count": 1,
+      "duration_us": 1.797
+    },
+    {
+      "name": "BroadcastTo_c71434db8135ff9089d65053721e3417_high_performance_232000000",
+      "count": 1,
+      "duration_us": 1.745
+    },
+    {
+      "name": "Abs_8098b79498645e9c0da095babdeaf862_high_performance_210000000",
+      "count": 1,
+      "duration_us": 1.667
+    },
+    {
+      "name": "BroadcastTo_c71434db8135ff9089d65053721e3417_high_performance_210000000",
+      "count": 1,
+      "duration_us": 1.641
+    },
+    {
+      "name": "LogicalAnd_c5fb21ce50d8471d9b8df5001b9dc9a5_high_performance_210000000",
+      "count": 1,
+      "duration_us": 1.536
+    }
+  ]
+}

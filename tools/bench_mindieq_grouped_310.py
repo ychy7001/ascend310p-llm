@@ -7,14 +7,19 @@ from statistics import median
 import torch
 import torch_npu
 p=argparse.ArgumentParser(description=__doc__)
-p.add_argument('--library',required=True);p.add_argument('--upstream-test',required=True)
+p.add_argument('--library',required=True);p.add_argument('--upstream-test')
+p.add_argument('--skip-serial',action='store_true',help='native布局独立测试，不加载外部逐专家算子')
 p.add_argument('--out',type=Path,required=True);p.add_argument('--route-trace',type=Path)
 p.add_argument('--native-layout',action='store_true')
 p.add_argument('--repeats',type=int,default=20)
 p.add_argument('--cases',nargs='+',help='仅执行指定案例，默认全部')
 a=p.parse_args();torch.manual_seed(20261013);torch.set_num_threads(4)
 torch.ops.load_library(a.library)
-spec=importlib.util.spec_from_file_location('qmm',a.upstream_test);ext=importlib.util.module_from_spec(spec);spec.loader.exec_module(ext)
+if a.skip_serial:
+ if not a.native_layout:raise ValueError('--skip-serial requires --native-layout')
+else:
+ if not a.upstream_test:raise ValueError('--upstream-test required for serial comparison')
+ spec=importlib.util.spec_from_file_location('qmm',a.upstream_test);ext=importlib.util.module_from_spec(spec);spec.loader.exec_module(ext)
 cases=[('tail_zero',[1,0,2,15,16,17,63,129]),('balanced',[128]*8),('one_expert',[4096]+[0]*7)]
 if a.route_trace:
  traces=[json.loads(s) for s in a.route_trace.read_text().splitlines()];traces=[r for r in traces if r['chunk_tokens']==512];traces.sort(key=lambda r:max(r['counts']))
@@ -27,7 +32,9 @@ with a.out.open('x') as f:
   for label,counts in cases:
    e=len(counts);m=sum(counts)
    wc=torch.randint(-8,8,(e,n,k),dtype=torch.int8);ws_cpu=torch.rand(e,n)*.01
-   packed=torch.stack([torch.from_numpy(ext.pack_biased_nz_int32_vec(w.T.contiguous().numpy(),k,n).copy()) for w in wc]).npu();ws=ws_cpu.npu();serial_packed=packed
+   ws=ws_cpu.npu()
+   if not a.skip_serial:
+    packed=torch.stack([torch.from_numpy(ext.pack_biased_nz_int32_vec(w.T.contiguous().numpy(),k,n).copy()) for w in wc]).npu();serial_packed=packed
    if a.native_layout:
     codes=((wc[:,:,0::2]&15)|((wc[:,:,1::2]&15)<<4)).to(torch.uint8)
     packed=codes.reshape(e,n//16,16,k//128,2,32).permute(0,1,3,4,2,5).contiguous().view(torch.int32).reshape(e,-1).npu()
@@ -49,15 +56,17 @@ with a.out.open('x') as f:
    max_abs=(actual-golden).abs().max().item()
    if not torch.isfinite(actual).all() or not torch.allclose(actual,golden,rtol=.002,atol=.002):
     row={'kind':'failure','case':label,'k':k,'n':n,'max_abs':max_abs,'bad_rows':((actual-golden).abs().amax(1)>.01).nonzero().flatten()[:64].tolist(),'finite':bool(torch.isfinite(actual).all())};f.write(json.dumps(row)+'\n');f.flush();raise AssertionError(row)
-   torch.testing.assert_close(serial().cpu().float(),golden,rtol=.002,atol=.002)
+   if not a.skip_serial:torch.testing.assert_close(serial().cpu().float(),golden,rtol=.002,atol=.002)
    pending=[call() for _ in range(8)];torch.npu.synchronize()
    for o in pending:torch.testing.assert_close(o.cpu().float(),golden,rtol=.002,atol=.002)
-   samples={'grouped':[],'serial':[]};functions={'grouped':call,'serial':serial}
+   functions={'grouped':call}
+   if not a.skip_serial:functions['serial']=serial
+   samples={name:[] for name in functions}
    for fn in functions.values():
     for _ in range(5):fn()
    torch.npu.synchronize()
    for rep in range(a.repeats):
-    for name in (['grouped','serial'] if rep%2==0 else ['serial','grouped']):
+    for name in (list(functions) if rep%2==0 else list(reversed(functions))):
      begin=time.perf_counter();functions[name]();torch.npu.synchronize();samples[name].append((time.perf_counter()-begin)*1e3)
    graph=torch.npu.NPUGraph()
    with torch.npu.graph(graph):captured=call()

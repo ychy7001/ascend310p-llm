@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 base=/data/qwen36-deploy
+: "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}"
 : "${MAX_MODEL_LEN:=8192}" "${KV_BYTES:=2147483648}" "${MTP:=0}" "${C8:=0}" "${GRAPH:=0}" "${GDN:=0}" "${ASYNC_SCHEDULING:=0}" "${C8_LIBRARY:=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so}"
 [[ "$MTP" =~ ^[012]$ && "$C8" =~ ^[01]$ && "$GRAPH" =~ ^[01]$ ]] || exit 2
 docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --network host \
@@ -13,11 +14,14 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  -v "$base:/work" \
  -e TORCH_DEVICE_BACKEND_AUTOLOAD=0 -e VLLM_WORKER_MULTIPROC_METHOD=spawn \
  -e TE_PARALLEL_COMPILER=2 -e OMP_NUM_THREADS=4 -e VLLM_ASCEND_FORCE_RC=1 \
- -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
+ -e ENABLE_PROFILER="$ENABLE_PROFILER" -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
  -e QWEN36_C8_ENABLED="$C8" -e QWEN36_C8_ALLOW_MTP2=1 \
  -e QWEN36_C8_ALLOW_GRAPH="$GRAPH" -e QWEN36_C8_FORCE_UPDATABLE_GRAPH="$GRAPH" \
  -e QWEN36_C8_DEVICE_LENGTH=1 -e QWEN36_C8_FUSED_WRITE=1 -e QWEN36_C8_POOL_MODE=split_by_type \
  -e QWEN36_C8_LIBRARY="$C8_LIBRARY" \
+ -e QWEN36_MINDIEQ_ENABLED="$MINDIEQ" \
+ -e QWEN36_MINDIEQ_LIBRARY=/work/artifacts/mindieq-arm-build/output/libqwen36_mindieq_grouped.so \
+ -e QWEN36_MINDIEQ_MIN_TOKENS=128 -e QWEN36_MINDIEQ_CUSTOM_QUANT=1 -e QWEN36_MINDIEQ_SHARED_GATE=1 \
  local/vllm-ascend:v0.23.0-310p-openeuler-orangepi-rcfix -lc '
  set -e
  source /usr/local/Ascend/ascend-toolkit/set_env.sh
@@ -35,6 +39,9 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  triton_path=/usr/local/python3.12.13/lib/python3.12/site-packages/triton
  if [[ -d "$triton_path" ]]; then mv "$triton_path" /opt/triton-disabled; fi
  args=()
+ if [[ "$ENABLE_PROFILER" == 1 ]]; then
+  args+=(--profiler-config "{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/work/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}")
+ fi
  if [[ "$ASYNC_SCHEDULING" == 0 ]]; then args+=(--no-async-scheduling); fi
  if [[ "$GRAPH" == 0 ]]; then args+=(--enforce-eager); else
   args+=(--compilation-config "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[1,2,3]}")
@@ -46,6 +53,6 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
   --enable-prefix-caching --mm-processor-cache-gb 0.5 \
   --mm-processor-kwargs '\''{"max_pixels":1048576}'\'' \
   --limit-mm-per-prompt '\''{"image":1,"video":0}'\'' \
-  --max-num-seqs 1 --max-num-batched-tokens 2048 "${args[@]}" \
+  --max-num-seqs 1 --max-num-batched-tokens "$MAX_BATCHED_TOKENS" "${args[@]}" \
   --host 0.0.0.0 --port 18024
  '

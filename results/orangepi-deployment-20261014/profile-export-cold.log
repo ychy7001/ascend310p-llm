@@ -1,0 +1,15 @@
+Wed 14 Oct 2026 14:41:53 [WARNING] [MSVP] [98787] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 14 Oct 2026 14:41:53 [INFO] [MSVP] [98787] msprof_common.py: Start analyzing data in "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/host" ...
+Wed 14 Oct 2026 14:41:53 [INFO] [MSVP] [98787] msprof_common.py: It may take few minutes, please be patient ...
+Wed 14 Oct 2026 14:41:54 [INFO] [MSVP] [98787] msprof_common.py: Analysis data in "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/host" finished.
+Wed 14 Oct 2026 14:41:54 [INFO] [MSVP] [98787] msprof_common.py: Start analyzing data in "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/device_0" ...
+Wed 14 Oct 2026 14:41:54 [INFO] [MSVP] [98787] msprof_common.py: It may take few minutes, please be patient ...
+Wed 14 Oct 2026 14:41:54 [INFO] [MSVP] [98787] msprof_common.py: Analysis data in "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/device_0" finished.
+Wed 14 Oct 2026 14:41:55 [WARNING] [MSVP] [98519] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 14 Oct 2026 14:41:55 [INFO] [MSVP] [98896] msprof_export.py: The data in "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/host" has been analyzed. Parsing phase will be skipped.
+Wed 14 Oct 2026 14:41:55 [INFO] [MSVP] [98896] msprof_export.py: The data in "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 14 Oct 2026 14:41:55 [INFO] [MSVP] [98896] msprof_export.py: All collected data will be exported, path is: /work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/device_0.
+Wed 14 Oct 2026 14:42:01 [INFO] [MSVP] [98896] msprof_export.py: There is no summary data to export for "/work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/host"
+Wed 14 Oct 2026 14:42:01 [INFO] [MSVP] [98896] msprof_export.py: All collected data will be exported, path is: /work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/device_0.
+Wed 14 Oct 2026 14:42:03 [INFO] [MSVP] [98896] msprof_common.py: Start exporting summary output_file.
+Wed 14 Oct 2026 14:42:03 [INFO] [MSVP] [98896] msprof_common.py: End exporting summary output_file.The file is stored in the /work/profile/dp0_pp0_tp0_dcp0_ep0_rank0_91345_20261014144108253_ascend_pt/PROF_000003_20261014144108328_00091345AEGKAHBO/mindstudio_profiler_output path.

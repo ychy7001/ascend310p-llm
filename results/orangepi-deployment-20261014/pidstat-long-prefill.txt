@@ -1,0 +1,127 @@
+Linux 5.10.0+ (orangepi) 	10/14/26 	_aarch64_	(16 CPU)
+
+22:02:46      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:47        0     84855   44.00    5.00    0.00    0.00   49.00     9  VLLM::EngineCor
+
+22:02:46      UID       PID   cswch/s nvcswch/s  Command
+22:02:47        0     84855      9.00      0.00  VLLM::EngineCor
+
+22:02:47      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:48        0     84855   35.00    6.00    0.00    0.00   41.00    10  VLLM::EngineCor
+
+22:02:47      UID       PID   cswch/s nvcswch/s  Command
+22:02:48        0     84855    253.00      1.00  VLLM::EngineCor
+
+22:02:48      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:49        0     84855   42.00    6.00    0.00    0.00   48.00    10  VLLM::EngineCor
+
+22:02:48      UID       PID   cswch/s nvcswch/s  Command
+22:02:49        0     84855     12.00      0.00  VLLM::EngineCor
+
+22:02:49      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:50        0     84855   39.00    8.00    0.00    0.00   47.00    10  VLLM::EngineCor
+
+22:02:49      UID       PID   cswch/s nvcswch/s  Command
+22:02:50        0     84855     11.00      0.00  VLLM::EngineCor
+
+22:02:50      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:51        0     84855   32.00    7.00    0.00    0.00   39.00    10  VLLM::EngineCor
+
+22:02:50      UID       PID   cswch/s nvcswch/s  Command
+22:02:51        0     84855      8.00      0.00  VLLM::EngineCor
+
+22:02:51      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:52        0     84855   40.00    4.00    0.00    0.00   44.00    10  VLLM::EngineCor
+
+22:02:51      UID       PID   cswch/s nvcswch/s  Command
+22:02:52        0     84855    207.00      0.00  VLLM::EngineCor
+
+22:02:52      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:53        0     84855   39.00    6.00    0.00    0.00   45.00    10  VLLM::EngineCor
+
+22:02:52      UID       PID   cswch/s nvcswch/s  Command
+22:02:53        0     84855     57.00      0.00  VLLM::EngineCor
+
+22:02:53      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:54        0     84855   40.00    6.00    0.00    0.00   46.00    10  VLLM::EngineCor
+
+22:02:53      UID       PID   cswch/s nvcswch/s  Command
+22:02:54        0     84855     10.00      0.00  VLLM::EngineCor
+
+22:02:54      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:55        0     84855   41.00    7.00    0.00    0.00   48.00    10  VLLM::EngineCor
+
+22:02:54      UID       PID   cswch/s nvcswch/s  Command
+22:02:55        0     84855     12.00      0.00  VLLM::EngineCor
+
+22:02:55      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:56        0     84855   34.00    4.00    0.00    0.00   38.00    10  VLLM::EngineCor
+
+22:02:55      UID       PID   cswch/s nvcswch/s  Command
+22:02:56        0     84855     10.00      0.00  VLLM::EngineCor
+
+22:02:56      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:57        0     84855   45.00    5.00    0.00    0.00   50.00    11  VLLM::EngineCor
+
+22:02:56      UID       PID   cswch/s nvcswch/s  Command
+22:02:57        0     84855    260.00      0.00  VLLM::EngineCor
+
+22:02:57      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:58        0     84855   34.00    4.00    0.00    0.00   38.00    11  VLLM::EngineCor
+
+22:02:57      UID       PID   cswch/s nvcswch/s  Command
+22:02:58        0     84855      9.00      1.00  VLLM::EngineCor
+
+22:02:58      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:02:59        0     84855   35.00    4.00    0.00    0.00   39.00    11  VLLM::EngineCor
+
+22:02:58      UID       PID   cswch/s nvcswch/s  Command
+22:02:59        0     84855      9.00      0.00  VLLM::EngineCor
+
+22:02:59      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:00        0     84855   42.00    6.00    0.00    0.00   48.00    11  VLLM::EngineCor
+
+22:02:59      UID       PID   cswch/s nvcswch/s  Command
+22:03:00        0     84855     11.00      0.00  VLLM::EngineCor
+
+22:03:00      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:01        0     84855   42.00    5.00    0.00    0.00   47.00    11  VLLM::EngineCor
+
+22:03:00      UID       PID   cswch/s nvcswch/s  Command
+22:03:01        0     84855     39.00      5.00  VLLM::EngineCor
+
+22:03:01      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:02        0     84855   38.00    4.00    0.00    0.00   42.00    11  VLLM::EngineCor
+
+22:03:01      UID       PID   cswch/s nvcswch/s  Command
+22:03:02        0     84855    230.00      0.00  VLLM::EngineCor
+
+22:03:02      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:03        0     84855   42.00    6.00    0.00    0.00   48.00    11  VLLM::EngineCor
+
+22:03:02      UID       PID   cswch/s nvcswch/s  Command
+22:03:03        0     84855     11.00     10.00  VLLM::EngineCor
+
+22:03:03      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:04        0     84855   33.00    6.00    0.00    0.00   39.00    11  VLLM::EngineCor
+
+22:03:03      UID       PID   cswch/s nvcswch/s  Command
+22:03:04        0     84855      9.00      5.00  VLLM::EngineCor
+
+22:03:04      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:05        0     84855   33.00    5.00    0.00    0.00   38.00    11  VLLM::EngineCor
+
+22:03:04      UID       PID   cswch/s nvcswch/s  Command
+22:03:05        0     84855     10.00      0.00  VLLM::EngineCor
+
+22:03:05      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:03:06        0     84855   41.00    4.00    0.00    0.00   45.00    11  VLLM::EngineCor
+
+22:03:05      UID       PID   cswch/s nvcswch/s  Command
+22:03:06        0     84855    214.00      0.00  VLLM::EngineCor
+
+Average:      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+Average:        0     84855   38.55    5.40    0.00    0.00   43.95     -  VLLM::EngineCor
+
+Average:      UID       PID   cswch/s nvcswch/s  Command
+Average:        0     84855     69.55      1.10  VLLM::EngineCor
