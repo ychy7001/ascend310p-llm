@@ -1,0 +1,34 @@
++--------------------------------------------------------------------------------------------------------+
+| npu-smi v1.0                                     Version: 24.1.t52.b060                                |
++-------------------------------+-----------------+------------------------------------------------------+
+| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |
+| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |
++===============================+=================+======================================================+
+| 0       310P1                 | OK              | NA           44                0     / 0             |
+| 0       0                     | NA              | 0            NA / 89610                              |
++===============================+=================+======================================================+
+               total        used        free      shared  buff/cache   available
+Mem:     93963665408  2764279808 57762185216    88961024 34469011456 91199385600
+Swap:              0           0           0
+Linux orangepi 5.10.0+ #32 SMP Tue Sep 2 11:41:05 CST 2025 aarch64 aarch64 aarch64 GNU/Linux
+sha256:a9a8d356f62c7bbdf29fd7a44000d2bc930f124d4a48478e086ddb32a1e4c351
+0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665
+5cb98caaadeff42b5b62b996e34bb2aaa29d20fd
+package_name=Ascend-cann-toolkit
+version=9.1.0
+innerversion=V100R001C11SPC001B243
+compatible_version=[V100R001C15],[V100R001C21],[V100R001C23],[V100R001C10]
+arch=aarch64
+os=linux
+path=/usr/local/Ascend/cann-9.1.0
+package_name=Ascend-cann-toolkit
+version=9.1.0
+innerversion=V100R001C11SPC001B243
+compatible_version=[V100R001C15],[V100R001C21],[V100R001C23],[V100R001C10]
+arch=aarch64
+os=linux
+path=/usr/local/Ascend/cann-9.1.0
+9af6c2527a0529ef22620b52fe9cd697981bc239252610e94ee4dbb03a0ecba0  /work/repo/experimental/c8_vllm_adapter.py
+a9e7516aa030607a3d59da0558b8fab52d1f9af26e223b2549f7d7eeecee76cc  /work/artifacts/c8-transdata-build/output/libqwen36_c8.so
+e90b76dc8d3bc72b40e86d52a9fa158a911088e83c23665364ecadb35289e1af  /work/artifacts/extension-build/qwen36_int4_custom.so
+f1988a042621104837d09cfa4c24477d418cdbe3e01d13ba9bd3b62f4a97ddfa  /work/artifacts/mindieq-arm-build/output/libqwen36_mindieq_grouped.so
