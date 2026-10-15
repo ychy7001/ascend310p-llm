@@ -27,5 +27,25 @@ for folder in sorted(root.glob('mtp*-b*')):
             'mean_tpot_seconds': [r['response']['mean_tpot_s'] for r in requests],
         }
     summary[folder.name] = cells
+comparisons = {}
+for label, baseline, candidate in (
+    ('mtp1_batch_2048_to_4096', 'mtp1-b2048', 'mtp1-b4096'),
+    ('mtp2_batch_2048_to_4096', 'mtp2-b2048', 'mtp2-b4096'),
+    ('batch2048_mtp1_to_2', 'mtp1-b2048', 'mtp2-b2048'),
+    ('batch4096_mtp1_to_2', 'mtp1-b4096', 'mtp2-b4096'),
+):
+    pairs = {}
+    for shape in summary.get(baseline, {}).keys() & summary.get(candidate, {}).keys():
+        a, b = summary[baseline][shape], summary[candidate][shape]
+        pairs[shape] = {
+            'baseline': baseline, 'candidate': candidate,
+            'counts': [a['count'], b['count']],
+            'same_inputs': a['prompt_hashes'] == b['prompt_hashes'],
+            'same_outputs_per_repeat': [x == y for x, y in zip(a['output_hashes'], b['output_hashes'])],
+            'prefill_change_percent': 100 * (b['prefill_median'] / a['prefill_median'] - 1),
+            'decode_change_percent': 100 * (b['decode_median'] / a['decode_median'] - 1),
+        }
+    comparisons[label] = pairs
+(root / 'comparisons.json').write_text(json.dumps(comparisons, ensure_ascii=False, indent=2) + '\n')
 (root / 'summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps(summary, ensure_ascii=False, indent=2))

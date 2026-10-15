@@ -1,0 +1,130 @@
+{
+  "mtp1_batch_2048_to_4096": {
+    "p32768-o128": {
+      "baseline": "mtp1-b2048",
+      "candidate": "mtp1-b4096",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        true,
+        true
+      ],
+      "prefill_change_percent": -0.25398238594516176,
+      "decode_change_percent": 0.11468999444779193
+    },
+    "p8192-o128": {
+      "baseline": "mtp1-b2048",
+      "candidate": "mtp1-b4096",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        false,
+        false
+      ],
+      "prefill_change_percent": 0.6282369679103228,
+      "decode_change_percent": -0.4844360324233632
+    }
+  },
+  "mtp2_batch_2048_to_4096": {
+    "p32768-o128": {
+      "baseline": "mtp2-b2048",
+      "candidate": "mtp2-b4096",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        true,
+        true
+      ],
+      "prefill_change_percent": 0.025032387485213192,
+      "decode_change_percent": 0.03211350904697152
+    },
+    "p8192-o128": {
+      "baseline": "mtp2-b2048",
+      "candidate": "mtp2-b4096",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        false,
+        true
+      ],
+      "prefill_change_percent": 1.1026070366629614,
+      "decode_change_percent": 4.261661395529437
+    }
+  },
+  "batch2048_mtp1_to_2": {
+    "p32768-o128": {
+      "baseline": "mtp1-b2048",
+      "candidate": "mtp2-b2048",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        true,
+        true
+      ],
+      "prefill_change_percent": -0.9258560203181276,
+      "decode_change_percent": 23.216813069578212
+    },
+    "p8192-o128": {
+      "baseline": "mtp1-b2048",
+      "candidate": "mtp2-b2048",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        false,
+        true
+      ],
+      "prefill_change_percent": -1.467761273967827,
+      "decode_change_percent": 16.980116202061303
+    }
+  },
+  "batch4096_mtp1_to_2": {
+    "p32768-o128": {
+      "baseline": "mtp1-b4096",
+      "candidate": "mtp2-b4096",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        true,
+        true
+      ],
+      "prefill_change_percent": -0.648720646931511,
+      "decode_change_percent": 23.115181517144336
+    },
+    "p8192-o128": {
+      "baseline": "mtp1-b4096",
+      "candidate": "mtp2-b4096",
+      "counts": [
+        2,
+        2
+      ],
+      "same_inputs": true,
+      "same_outputs_per_repeat": [
+        false,
+        false
+      ],
+      "prefill_change_percent": -1.003271919218185,
+      "decode_change_percent": 22.559133257213748
+    }
+  }
+}

@@ -23,14 +23,10 @@ a2可用服务、权重、调用示例、重启和运行边界统一见[后端�
 
 ## 最新单流部署候选
 
-下面的 `TP1/48G/MTP2` 配置属于 **ychy-a2 EP**。`orangepi` 是另一台
-单颗 310P1 的 RC 共享内存设备，其已验证基线为 **MTP1、C8、Decode Graph、
-GDN、MindIEQ、prefix 开启、batch2048、114688 上限和固定6GiB KV**；
-当前显存比例为0.45，不能直接套用EP的0.90/0.95。RC的四档重复数据见
-[RC基线](results/orangepi-rc-baseline-20261015/README.md)，MTP兼容性和调优进展见
-[RC MTP对照](results/orangepi-rc-mtp-20261015/README.md)。 当前RC候选已升级为C16、MTP1、batch4096、标称KV3GiB，并通过112K会议/真实图片/prefix复用；[C16/C8记录](results/orangepi-rc-kv-20261015/README.md)明确标注重启与预算差异，未宣称物理48G RC验证。
+下面的 `TP1/48G/MTP2` 配置属于 **ychy-a2 EP**。`clt`是另一台EP310P1，其已交付C16/MTP1/batch2048，并通过112000+128；`orangepi`是RC310P1共享内存设备，当前已验证C16/MTP1/batch4096、prefix开启、标称KV3GiB及blocking multimodal H2D适配，不能当作物理48G RC验证。三台机器的验证范围与统一候选见[Profile说明](docs/profiles-20261014.md)。
 
-当前EP业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、4096/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](results/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
+[a2的MTP×batch四组对照](results/a2-profile-matrix-20261015/README.md)已完成：32K同输出下MTP2带来约23% Decode收益；2048/4096在固定MTP后速度接近。用户确认三台均无业务后，已将统一候选调整为2048/512并重建三台服务；[本轮验收状态](results/unified-2048-20261015/README.md)独立记录，旧112K结果不冒充新组合验证。
+当前EP业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](results/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json

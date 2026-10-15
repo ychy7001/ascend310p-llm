@@ -4,6 +4,9 @@ Description=Qwen3.6 W4A8 MTP2 long-prefill on a2
 [Service]
 Type=simple
 WorkingDirectory=/home/ychy/services/qwen36/repo
+Environment=MAX_BATCHED_TOKENS=2048
+# rm without force only clears a stopped record; it never stops a running container.
+ExecStartPre=-/usr/bin/podman rm qwen36-tp1-48g-112k
 ExecStart=/bin/bash -c 'source /home/ychy/services/qwen36/repo/deploy/a2.env; exec bash scripts/run-candidate.sh'
 ExecStop=/usr/bin/podman stop -t 90 qwen36-tp1-48g-112k
 Restart=on-failure

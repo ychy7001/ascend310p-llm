@@ -26,7 +26,7 @@ case "$profile" in
     capture=1,2,3
     allow_mtp2=1
     profile_description='long-prefill candidate: MTP2, grouped prefill, MindIEQ E5'
-    default_batched_tokens=4096
+    default_batched_tokens=2048
     export QWEN36_MINDIEQ_ENABLED="${QWEN36_MINDIEQ_ENABLED:-1}"
     export QWEN36_MINDIEQ_CUSTOM_QUANT="${QWEN36_MINDIEQ_CUSTOM_QUANT:-1}"
     export QWEN36_MINDIEQ_SHARED_GATE="${QWEN36_MINDIEQ_SHARED_GATE:-1}"

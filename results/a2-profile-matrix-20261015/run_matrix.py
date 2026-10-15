@@ -72,6 +72,15 @@ try:
                 process.wait(timeout=120)
 finally:
     status('restoring qwen36-a2.service')
+    managed_name = 'qwen36-tp1-48g-112k'
+    if subprocess.run(['podman', 'container', 'exists', managed_name]).returncode == 0:
+        saved = run(['podman', 'inspect', managed_name], capture_output=True, text=True).stdout
+        info = json.loads(saved)[0]
+        if info['State']['Status'] == 'exited' and not info['State']['Running']:
+            (OUT / 'managed-stopped-before-recovery.json').write_text(saved)
+            with (OUT / 'managed-stopped-before-recovery.txt').open('w') as log:
+                run(['podman', 'logs', managed_name], stdout=log, stderr=subprocess.STDOUT)
+            run(['podman', 'rm', managed_name])
     run(['systemctl','--user','start','qwen36-a2.service'])
     wait_health()
     status('managed service restored')

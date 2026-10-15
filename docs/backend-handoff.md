@@ -7,9 +7,13 @@
 - 服务：a2 TCP18024，模型名 `qwen36-w4a8-c8`。Tailscale：`http://100.92.170.57:18024/v1`；同局域网：`http://192.168.3.133:18024/v1`。客户端需能连通相应网络。
 - 用户systemd：`qwen36-a2.service`；rootless Podman容器 `qwen36-tp1-48g-112k`，只使用davinci0。芯片1保留原W4对照，18028不是业务入口。
 
-固定组合为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、GDN、MindIEQ E5，4096/512，最大总序列114688 token，显存利用率0.95。单请求调度；多客户端会排队，不代表已支持并发批处理。请求输入与输出预算合计需≤114688。prefix默认关闭，图像输入未验收。
+固定组合为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、GDN、MindIEQ E5，2048/512，最大总序列114688 token，显存利用率0.95。单请求调度；多客户端会排队，不代表已支持并发批处理。请求输入与输出预算合计需≤114688。prefix默认关闭，图像输入未验收。
 
 2026-10-15更新：公开候选入口优先C16；测试结果与切换记录见[a2 C16/C8配对报告](../results/a2-kv-comparison-20261015/README.md)。API模型名保留`qwen36-w4a8-c8`兼容已有客户端，不能据名称推断KV格式。显式`QWEN36_C8_ENABLED=1`可重建C8。独立实验前先停systemd管理单元，避免它按旧参数自动拉起容器；不要同时管理同一设备/端口。当前实际容器与管理状态以该报告最后快照为准。
+
+## MTP与Prefill batch选择依据
+
+[a2四组参数对照](../results/a2-profile-matrix-20261015/README.md)已完成16个正式请求。32K同输入/同输出/接受率100%下，MTP2比MTP1提高Decode约23%，Prefill下降不足1%；固定MTP后2048与4096速度接近。用户授权后三台统一候选为MTP2/2048/512，a2通过systemd dropin显式设置batch2048；[新组合验收](../results/unified-2048-20261015/README.md)仍需独立核实，不沿用旧4096长测作为新参数验收。业务接受率和质量、structured output边界仍须按下文处理；此对照不扩展任何生产承诺。
 
 ## HTTP调用
 
@@ -40,6 +44,7 @@ curl --fail http://127.0.0.1:18024/health
 ```bash
 cd /home/ychy/services/qwen36/c16-20261015/repo
 source deploy/a2.env
+export MAX_BATCHED_TOKENS=2048
 bash scripts/run-candidate.sh --check
 cat /home/ychy/services/qwen36/deployment.json
 ```

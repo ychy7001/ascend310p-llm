@@ -24,7 +24,7 @@ def main():
         env['PATH'] = directory + ':' + env['PATH']
         env.update({key: directory for key in ('MODEL_DIR', 'OPP_DIR', 'GDN_OPP_DIR')})
         env.update({key: str(artifact) for key in ('EXTENSION', 'C8_LIBRARY', 'GDN_LIBRARY', 'GDN_SOURCE', 'MINDIEQ_LIBRARY')})
-        for profile, drafts, batch in (('compat', 1, 1024), ('decode', 2, 4096), ('long-prefill', 2, 4096)):
+        for profile, drafts, batch in (('compat', 1, 1024), ('decode', 2, 4096), ('long-prefill', 2, 2048)):
             selected = {**env, 'QWEN36_MINDIEQ_ENABLED': '1' if profile == 'long-prefill' else '0'}
             proc = subprocess.run(['bash', str(ROOT / 'scripts/run-candidate.sh'), '--profile', profile],
                                   env=selected, capture_output=True, text=True, check=True)
@@ -54,7 +54,7 @@ def main():
         assert default['profile_name'] == 'long-prefill'
         assert default['mindieq_prefill'] == default['mindieq_custom_quant'] == default['mindieq_shared_gate'] == '1'
         assert default['mindieq_min_tokens'] == 128
-        assert default['effective_config']['MAX_BATCHED_TOKENS'] == '4096'
+        assert default['effective_config']['MAX_BATCHED_TOKENS'] == '2048'
         assert default['effective_config']['QWEN36_C8_ENABLED'] == '0'
         proc = subprocess.run(['bash', str(ROOT / 'scripts/run-candidate.sh'), '--check'],
                               env={**env, 'QWEN36_C8_ENABLED': '1'}, capture_output=True,
