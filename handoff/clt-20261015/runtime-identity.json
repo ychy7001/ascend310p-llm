@@ -1,0 +1,44 @@
+{
+  "models": {
+    "object": "list",
+    "data": [
+      {
+        "id": "qwen36-w4a8-c8",
+        "object": "model",
+        "created": 1792035879,
+        "owned_by": "vllm",
+        "root": "/model",
+        "parent": null,
+        "max_model_len": 114688,
+        "permission": [
+          {
+            "id": "modelperm-9770faa809953849",
+            "object": "model_permission",
+            "created": 1792035879,
+            "allow_create_engine": false,
+            "allow_sampling": true,
+            "allow_logprobs": true,
+            "allow_search_indices": false,
+            "allow_view": true,
+            "allow_fine_tuning": false,
+            "organization": "*",
+            "group": null,
+            "is_blocking": false
+          }
+        ]
+      }
+    ]
+  },
+  "container": "qwen36-c16-112k-20261015",
+  "image_id": "sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+  "service": "http://127.0.0.1:18016",
+  "single_request_only": true,
+  "prefix_cache": false,
+  "async_scheduling": false,
+  "restart_policy": "unless-stopped",
+  "final_health_http_status": 200,
+  "kv_cache_storage": "float16",
+  "quantization": "W4A8",
+  "mtp_tokens": 1,
+  "decode_graph": true
+}
