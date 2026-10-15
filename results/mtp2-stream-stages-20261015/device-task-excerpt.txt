@@ -1,0 +1,6 @@
+[EVENT] TSCH(-1,null):2026-10-15-20:27:23.672.684 1847 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=17, vf_id=0, pid=73083, support_log_tohost=0,runtime_version=7
+[ERROR] TSCH(-1,null):2026-10-15-20:33:31.801.787 1851 (dieid:0,cpuid:0) ringbuffer.c:162 trace_proc_tohost_pid: set error vf_id=0, log pid=73083, is_support_log_tohost=0
+<exception_print>TIME:2026-10-15-20:33:31.801.821, device_id=0, stream_id=34, task_id=21701, magic_type=0xac79F
+<exception_print>HWTS_REG_HWTS_SQ_CFG2_0_REG(pid)=73083
+[ERROR] TSCH(-1,null):2026-10-15-20:33:31.802.849 2003 (dieid:0,cpuid:0) hwts_interrupt_plat_extend.c:726 process_hwts_error_exception: stream_id=34 task_id=21701 repeat=0
+[EVENT] TSCH(-1,null):2026-10-15-20:33:32.693.817 2005 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=17, pid=73083, trace cq_cnt=0

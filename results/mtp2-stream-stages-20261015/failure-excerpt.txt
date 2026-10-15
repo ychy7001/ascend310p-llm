@@ -1,0 +1,6 @@
+(EngineCore pid=73083) RC_DRAFT_STAGE producer_sync_begin
+(EngineCore pid=73083) ERROR 10-15 12:33:31 [core.py:1197] RuntimeError: synchronize:../torch_npu/csrc/core/npu/NPUStream.cpp:414 NPU function error: c10_npu::acl::AclrtSynchronizeStreamWithTimeout(stream()), error code is 507018
+(EngineCore pid=73083) ERROR 10-15 12:33:31 [core.py:1197] [Error]: The aicpu execution is abnormal. 
+(EngineCore pid=73083) ERROR 10-15 12:33:31 [core.py:1197] E39999[PID: 73083] 2026-10-15-12:33:31.868.425 (E39999):  An error occurred in the kernel task, retCode=0x2a, [aicpu exception].[FUNC:PreCheckTaskErr][FILE:davinci_kernel_task.cc][LINE:1262]
+(EngineCore pid=73083) ERROR 10-15 12:33:31 [core.py:1197]        AI CPU kernel execution failed, device_id=0, stream_id=34, task_id=21701, soName=libtf_kernels.so, funcName=TFOperateAPI, kernelName=FloorDiv, errorCode=0x2a.[FUNC:PrintAicpuErrorInfo][FILE:davinci_kernel_task.cc][LINE:988]
+(EngineCore pid=73083) ERROR 10-15 12:33:31 [core.py:1197]        AI CPU kernel execution failed, device_id=0, stream_id=34,task_id=21701, soName=libtf_kernels.so, funcName=TFOperateAPI, kernelName=FloorDiv.[FUNC:PrintAicpuErrorInfo][FILE:davinci_kernel_task.cc][LINE:1013]

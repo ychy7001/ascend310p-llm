@@ -1,0 +1,2 @@
+bc10524f8e920dd7ad06a730c94bca39764a3539bc22ba2376e228400cede173  /vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py
+a7a8fe730acd7468dd803e4560089b29d0426eb6641eab5894090920e085d14d  /vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py

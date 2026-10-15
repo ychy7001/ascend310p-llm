@@ -1,0 +1,35 @@
+            self.slot_mapping_group[draft_index][batch_size * self.pcp_size :].fill_(PADDING_SLOT_ID)
+            common_attn_metadata.slot_mapping = self.slot_mapping_group[draft_index]
+        else:
+            # NOTE: In vllm, `block_size = attn_metadata_builder.kv_cache_spec.block_size`.
+            # However, in vllm-ascend, the above value can be multiple of `kernel_block_size`,
+            # which is not correct for computing `slot_mapping` below.
+            if self.has_gdn:
+                block_size = self.kernel_block_size
+            else:
+                block_size = self.block_size
+
+            # Compute the slot mapping.
+            if self.uses_mrope:
+                block_numbers = clamped_positions[0] // block_size
+            else:
+                block_numbers = clamped_positions // block_size
+            block_ids = old_common_metadata.block_table_tensor.gather(dim=1, index=block_numbers.view(-1, 1))
+            block_ids = block_ids.view(-1)
+            if self.uses_mrope:
+                slot_mapping = block_ids * block_size + clamped_positions[0] % block_size
+            else:
+                slot_mapping = block_ids * block_size + clamped_positions % block_size
+
+            # Mask out the slot mappings that exceed the max model length.
+            # Otherwise, the KV cache will be inadvertently updated with the
+            # padding tokens.
+            slot_mapping.masked_fill_(exceeds_max_model_len, PADDING_SLOT_ID)
+            self.slot_mapping_group[draft_index][: slot_mapping.shape[0]].copy_(slot_mapping.to(torch.int32))
+            self.slot_mapping_group[draft_index][slot_mapping.shape[0] :].fill_(PADDING_SLOT_ID)
+            # Set the address of the attn_metadata.slot_mapping to the self.slot_mapping_group[idx]
+            common_attn_metadata.slot_mapping = self.slot_mapping_group[draft_index]
+
+        self.seq_lens_group[draft_index][: common_attn_metadata.seq_lens.shape[0]].copy_(common_attn_metadata.seq_lens)
+        self.seq_lens_group[draft_index][common_attn_metadata.seq_lens.shape[0] :].fill_(0)
+        common_attn_metadata.seq_lens = self.seq_lens_group[draft_index][: common_attn_metadata.seq_lens.shape[0]]

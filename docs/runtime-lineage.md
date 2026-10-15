@@ -135,3 +135,14 @@ copies draft IDs to pinned host memory, then records an event. Only the event
 reader is inherited from vLLM. The wait does not distinguish an unfinished
 producer kernel from a stream dependency or a copy failure. The candidate is
 not eligible for performance or deployment recommendations.
+
+A diagnostic follow-up inserted explicit barriers before the draft-copy
+producer wait, after the cross-stream wait, and after the copy event. The first
+short request failed at the **first producer-stream barrier**, before the copy
+was submitted. Runtime error 507018 named an AI CPU `FloorDiv` failure
+(stream 34, task 21701, PID 73083). This is stronger evidence than the prior
+event-wait stack: an upstream task was already failing in this run. It still
+does not identify the Python call that submitted FloorDiv or prove every
+historical stall has the same cause. The second-draft slot calculation in
+`attn_update_stack_num_spec_norm` is a source candidate to isolate next.
+See `results/mtp2-stream-stages-20261015/` for the diagnostic patch and logs.

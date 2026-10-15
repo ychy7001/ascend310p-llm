@@ -1,0 +1,31 @@
+--- a/vllm_ascend/worker/model_runner_v1.py
++++ b/vllm_ascend/worker/model_runner_v1.py
+@@ -1936,15 +1936,28 @@
+         assert self.draft_token_ids_cpu is not None
+         default_stream = torch.npu.current_stream()
+         num_reqs = draft_token_ids.shape[0]
++        # Diagnostic-only barriers: deliberately serialize the three stages.
++        # Passing this probe does not validate the original concurrent ordering.
++        print("RC_DRAFT_STAGE producer_sync_begin", flush=True)
++        default_stream.synchronize()
++        print("RC_DRAFT_STAGE producer_sync_done", flush=True)
+         with torch.npu.stream(self.draft_token_ids_copy_stream):
+             if not zeros_only:
++                print("RC_DRAFT_STAGE wait_begin", flush=True)
+                 self.draft_token_ids_copy_stream.wait_stream(default_stream)
++                self.draft_token_ids_copy_stream.synchronize()
++                print("RC_DRAFT_STAGE wait_done", flush=True)
++                print("RC_DRAFT_STAGE copy_begin", flush=True)
+                 self.draft_token_ids_cpu[:num_reqs].copy_(
+                     draft_token_ids, non_blocking=True
+                 )
+             else:
+                 self.draft_token_ids_cpu[:num_reqs] = 0
++            print("RC_DRAFT_STAGE copy_enqueued", flush=True)
+             self.draft_token_ids_event.record()
++        print("RC_DRAFT_STAGE event_sync_begin", flush=True)
++        self.draft_token_ids_event.synchronize()
++        print("RC_DRAFT_STAGE event_sync_done", flush=True)
+ 
+     @torch.inference_mode()
+     def execute_model(
