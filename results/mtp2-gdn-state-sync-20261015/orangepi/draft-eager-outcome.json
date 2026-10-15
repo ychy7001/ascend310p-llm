@@ -1,0 +1,17 @@
+{
+  "container": "qwen36-mtp2-snapshot-draft-eager-20261015",
+  "parent": "qwen36-mtp2-snapshot-graph-32k-20261015",
+  "changed_env": {"MTP_DRAFT_EAGER": "1"},
+  "retains_accepted_token_snapshot_patch": true,
+  "max_model_len": 32768,
+  "graph_capture_gib": 0.21,
+  "health_http_status": 200,
+  "quality_gate_timeout_seconds": 180,
+  "quality_gate_exit_code": 124,
+  "completed_quality_questions": 0,
+  "stack_samples": 2,
+  "observed_wait": "_get_draft_token_ids_cpu -> draft_token_ids_event.synchronize",
+  "throughput_test_run": false,
+  "candidate_stopped": true,
+  "conclusion": "Disabling draft Graph alone does not resolve the wait; producer/stream/copy root cause remains unproven."
+}

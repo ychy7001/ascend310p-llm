@@ -125,3 +125,13 @@ kernel/stream dependency; no Graph speed or accuracy result exists for this
 candidate. The snapshot change alone is insufficient to make RC MTP2 Graph
 usable. Next isolate draft Graph from target Graph and inspect the draft-token
 copy stream dependency before changing the event protocol.
+
+The follow-up changed only `MTP_DRAFT_EAGER=1` while retaining the snapshot
+patch and target Graph. Capture completed (0.21 GiB), but the first short
+request timed out after 180 seconds. Both stack samples showed the same wait.
+Disabling draft Graph alone is therefore insufficient. The actual copy method
+is the Ascend runner override: an NPU copy stream waits on the producer stream,
+copies draft IDs to pinned host memory, then records an event. Only the event
+reader is inherited from vLLM. The wait does not distinguish an unfinished
+producer kernel from a stream dependency or a copy failure. The candidate is
+not eligible for performance or deployment recommendations.
