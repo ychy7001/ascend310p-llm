@@ -4,6 +4,7 @@
 import argparse
 import hashlib
 import json
+import math
 import subprocess
 from pathlib import Path
 import urllib.request
@@ -82,11 +83,17 @@ def main():
     if min(args.prompt_tokens, args.output_tokens, args.repeats) < 1:
         parser.error('token counts and repeats must be positive')
     def tokenize(variant):
-        prompt = (
+        # The tokenizer endpoint enforces the model's own maximum length. The
+        # old ``prompt_tokens + 1`` repetition made a 32K request expand to
+        # hundreds of thousands of tokens before slicing, causing HTTP 400
+        # even when the requested benchmark length was valid. Keep a bounded
+        # character-to-token margin instead of constructing an oversized
+        # prompt, then verify the exact token count below.
+        unit = (
             f'Benchmark cold-prefill variant {variant}. '
             'Explain how quantization affects memory bandwidth and numerical precision. '
-            * (args.prompt_tokens + 1)
         )
+        prompt = unit * max(1, math.ceil(args.prompt_tokens / 16))
         with post(args.base_url, '/tokenize', {
             'model': args.model,
             'prompt': prompt,
