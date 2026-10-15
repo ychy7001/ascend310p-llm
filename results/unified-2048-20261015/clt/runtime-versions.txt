@@ -1,0 +1,21 @@
+INFO 10-15 07:45:40 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 07:45:40 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 07:45:40 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 07:45:40 [__init__.py:238] Platform plugin ascend is activated
+INFO 10-15 07:45:44 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 07:45:49 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+{
+  "architecture": "x86_64",
+  "packages": {
+    "torch": "2.10.0+cpu",
+    "torch-npu": "2.10.0.post4",
+    "vllm": "0.23.0+empty",
+    "vllm-ascend": "0.23.0.post1",
+    "transformers": "5.5.4"
+  },
+  "versions": {
+    "/usr/local/Ascend/driver/version.info": "Version=26.0.t1\nascendhal_version=7.35.23\naicpu_version=1.0\ntdt_version=1.0\nlog_version=1.0\nprof_version=2.0\ndvppkernels_version=1.1\ntsfw_version=1.0\nInnerversion=V100R001C20B124\ncompatible_version=[V100R001C15],[V100R001C17],[V100R001C18],[V100R001C19],[V100R001C20]\ncompatible_version_fw=[6.4.0,6.4.99],[7.0.0,7.5.99]\npackage_version=26.0.t1\n"
+  }
+}

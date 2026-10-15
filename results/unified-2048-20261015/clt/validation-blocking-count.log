@@ -1,0 +1,17 @@
+2026-10-15 07:11:57 waiting for health
+2026-10-15 07:15:12 health=200; quality before long requests
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": false}
+{"label": "subtract", "strict_match": false}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": false}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 5, "answers_present": 5}
+{"identical_text": true, "canary_leaked": false}
+Traceback (most recent call last):
+  File "/home/clt/qwen36-unified-2048-20261015/tools/validate.py", line 44, in <module>
+    assert quality['strict_matches'] == 8 and quality['reuse']['identical_text'] and not quality['reuse']['canary_leaked']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

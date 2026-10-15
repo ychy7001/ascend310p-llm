@@ -1,0 +1,30 @@
+2026-10-15 15:14:28 waiting for health
+2026-10-15 15:22:59 health=200; quality before long requests
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+2026-10-15 15:23:13 fixed output benchmark 32768, warmup1 + repeats2
+{"kind": "request", "repeat": 0, "valid": true, "prompt_ids_sha256": "f449a4aff8539fa75f4fa84c8dce303819cebb7004730319ce62fc97fae006ae", "prefill_seconds": 63.64266080099878, "decode_seconds": 5.896395952000603, "prefill_tok_s": 514.8747646246392, "decode_tok_s": 21.538580691296666, "spec_decode": {"drafts": 64.0, "drafted_tokens": 64.0, "accepted_tokens": 64.0, "acceptance_rate": 1.0, "mean_acceptance_length": 2.0}, "cache_salt": "unified2048-32768-0", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 32768.0, "vllm:prefix_cache_hits_total": 0.0}}
+{"kind": "request", "repeat": 1, "valid": true, "prompt_ids_sha256": "b7c9089881cea2b232e3381c42695d0c7b10fd8d359435e4f368b230d87cb9c9", "prefill_seconds": 63.48844179600019, "decode_seconds": 5.884109377000641, "prefill_tok_s": 516.1254406792577, "decode_tok_s": 21.583555277950463, "spec_decode": {"drafts": 64.0, "drafted_tokens": 64.0, "accepted_tokens": 64.0, "acceptance_rate": 1.0, "mean_acceptance_length": 2.0}, "cache_salt": "unified2048-32768-1", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 32768.0, "vllm:prefix_cache_hits_total": 0.0}}
+2026-10-15 15:26:51 fixed output benchmark 112000, warmup1 + repeats1
+{"kind": "request", "repeat": 0, "valid": true, "prompt_ids_sha256": "ee5d5ebabfa461a9fe99a68305b1c5edf05e48d7bd516051f10c55b4ed7b6188", "prefill_seconds": 287.49465028399936, "decode_seconds": 8.599093205000827, "prefill_tok_s": 389.5724664419379, "decode_tok_s": 14.768999122621766, "spec_decode": {"drafts": 64.0, "drafted_tokens": 64.0, "accepted_tokens": 64.0, "acceptance_rate": 1.0, "mean_acceptance_length": 2.0}, "cache_salt": "unified2048-112000-0", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 112000.0, "vllm:prefix_cache_hits_total": 0.0}}
+2026-10-15 15:37:09 112K meeting decision canary
+2026-10-15 15:42:36 quality after long requests
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+2026-10-15 15:42:50 all validation gates passed

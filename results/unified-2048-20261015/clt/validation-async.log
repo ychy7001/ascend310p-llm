@@ -1,0 +1,40 @@
+2026-10-15 06:58:55 waiting for health
+2026-10-15 07:03:25 health=200; quality before long requests
+Traceback (most recent call last):
+  File "/home/clt/qwen36-unified-2048-20261015/tools/check_cache_request_reuse.py", line 90, in <module>
+    main()
+  File "/home/clt/qwen36-unified-2048-20261015/tools/check_cache_request_reuse.py", line 63, in main
+    row=answer(args.base_url,args.model,*case)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/clt/qwen36-unified-2048-20261015/tools/check_cache_request_reuse.py", line 31, in answer
+    response = post(base, '/v1/chat/completions', {
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/clt/qwen36-unified-2048-20261015/tools/check_cache_request_reuse.py", line 25, in post
+    with urllib.request.urlopen(request, timeout=1800) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+Traceback (most recent call last):
+  File "/home/clt/qwen36-unified-2048-20261015/tools/validate.py", line 41, in <module>
+    invoke('check_cache_request_reuse.py', '--base-url', base, '--model', a.model,
+  File "/home/clt/qwen36-unified-2048-20261015/tools/validate.py", line 25, in invoke
+    subprocess.run(['python3', str(Path(__file__).parent / script), *arguments], check=True)
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', '/home/clt/qwen36-unified-2048-20261015/tools/check_cache_request_reuse.py', '--base-url', 'http://127.0.0.1:18016', '--model', 'qwen36-w4a8-c8', '--out', '/home/clt/qwen36-unified-2048-20261015/validation-async/quality-before.json']' returned non-zero exit status 1.

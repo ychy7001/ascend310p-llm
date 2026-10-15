@@ -1,0 +1,4 @@
+{
+  "passed": true,
+  "protocol": "health;8 toy questions+A/B/A;32K warmup+2;112K warmup+1;112K meeting;8 toy questions+A/B/A"
+}

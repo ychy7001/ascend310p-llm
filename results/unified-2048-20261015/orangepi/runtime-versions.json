@@ -1,0 +1,13 @@
+{
+  "architecture": "aarch64",
+  "packages": {
+    "torch": "2.10.0+cpu",
+    "torch-npu": "2.10.0.post4",
+    "vllm": "0.23.0+empty",
+    "vllm-ascend": "0.23.0",
+    "transformers": "5.5.4"
+  },
+  "versions": {
+    "/usr/local/Ascend/driver/version.info": "Version=7.6.T7.0.B053\nversion_dir=CANN-7.6\nrequired_firmware_firmware_version=1.0\npackage_version=24.1.t52.b060\nInnerversion=V100R001C20B124\ncompatible_version=\n"
+  }
+}

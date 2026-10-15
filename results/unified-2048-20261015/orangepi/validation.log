@@ -1,0 +1,38 @@
+2026-10-15 14:50:50 waiting for health
+2026-10-15 14:58:00 health=200; quality before long requests
+Traceback (most recent call last):
+  File "/data/qwen36-deploy/results/unified-2048-20261015/tools/check_cache_request_reuse.py", line 90, in <module>
+    main()
+  File "/data/qwen36-deploy/results/unified-2048-20261015/tools/check_cache_request_reuse.py", line 63, in main
+    row=answer(args.base_url,args.model,*case)
+  File "/data/qwen36-deploy/results/unified-2048-20261015/tools/check_cache_request_reuse.py", line 31, in answer
+    response = post(base, '/v1/chat/completions', {
+  File "/data/qwen36-deploy/results/unified-2048-20261015/tools/check_cache_request_reuse.py", line 25, in post
+    with urllib.request.urlopen(request, timeout=1800) as response:
+  File "/usr/lib64/python3.9/urllib/request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "/usr/lib64/python3.9/urllib/request.py", line 517, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python3.9/urllib/request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/usr/lib64/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python3.9/urllib/request.py", line 1375, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+  File "/usr/lib64/python3.9/urllib/request.py", line 1350, in do_open
+    r = h.getresponse()
+  File "/usr/lib64/python3.9/http/client.py", line 1377, in getresponse
+    response.begin()
+  File "/usr/lib64/python3.9/http/client.py", line 320, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib64/python3.9/http/client.py", line 289, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+Traceback (most recent call last):
+  File "/data/qwen36-deploy/results/unified-2048-20261015/tools/validate.py", line 41, in <module>
+    invoke('check_cache_request_reuse.py', '--base-url', base, '--model', a.model,
+  File "/data/qwen36-deploy/results/unified-2048-20261015/tools/validate.py", line 25, in invoke
+    subprocess.run(['python3', str(Path(__file__).parent / script), *arguments], check=True)
+  File "/usr/lib64/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', '/data/qwen36-deploy/results/unified-2048-20261015/tools/check_cache_request_reuse.py', '--base-url', 'http://127.0.0.1:18024', '--model', 'qwen36-w4a8', '--out', '/data/qwen36-deploy/results/unified-2048-20261015/validation/quality-before.json']' returned non-zero exit status 1.

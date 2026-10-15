@@ -1,0 +1,18 @@
+{
+  "files": {
+    "vllm_ascend/sample/rejection_sampler.py": {
+      "sha256": "2cceaf9e09bb1b9752cb9ac1d8a44ebdb5bdb92f0b3533811d91c9d2b2c36534"
+    },
+    "vllm_ascend/_310p/sample/rejection_sampler.py": {
+      "sha256": "442db37a2619571a8a0a9807b3def652d78f29ebd35abee46f15e4e81cfe0637"
+    },
+    "vllm_ascend/worker/model_runner_v1.py": {
+      "sha256": "60b10f97333df49c4bb2a6b5673d13d2d3b964056564c50681984b16fd84d049"
+    }
+  },
+  "cann": {
+    "/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/ascend_toolkit_install.info": "package_name=Ascend-cann-toolkit\nversion=9.1.0\ninnerversion=V100R001C11SPC001B243\ncompatible_version=[V100R001C15],[V100R001C21],[V100R001C23],[V100R001C10]\narch=x86_64\nos=linux\npath=/usr/local/Ascend/cann-9.1.0\n",
+    "/usr/local/Ascend/ascend-toolkit/latest/compiler/version.info": "Version=9.1.0\nversion_dir=cann\nrequired_package_runtime_version=\"9.1\"\nrequired_package_ge-executor_version=\"9.1\"\nrequired_package_metadef_version=\"9.1\"\nrequired_package_bisheng-compiler_version=\"9.1\"\nrequired_package_tbe-tik_version=\"9.1\"\ntimestamp=20260730_231653901\n",
+    "/usr/local/Ascend/ascend-toolkit/latest/opp/version.info": "Version=9.1.0\nversion_dir=cann\nrequired_package_runtime_version=\">=8.5\"\nrequired_package_ge-executor_version=\">=8.5\"\nrequired_package_metadef_version=\">=8.5\"\nrequired_package_asc-devkit_version=\">=8.5\"\nrequired_package_bisheng-compiler_version=\">=8.5\"\ntimestamp=20260730_231653901\n"
+  }
+}
