@@ -92,3 +92,17 @@ The subsequent 32K attempt was rejected by the benchmark helper with HTTP 400
 because the request generator produced a 655,381-token prompt while the
 candidate was intentionally started with `MAX_MODEL_LEN=32768`; the model
 itself completed startup. The stable RC MTP1 service was restored afterward.
+
+A corrected retry tokenized only a short text unit and repeated its token IDs
+to exactly 32,256 input tokens (128 output tokens, max length 32,768). With the
+stable container stopped, the same MTP2 eager candidate completed warmup plus
+two cold requests: Prefill 507.11/509.80 tok/s, Decode 8.31/8.67 tok/s,
+draft acceptance 78.0%/83.3%, and zero prefix-cache hits. After these requests,
+the 8-question probe again passed 8/8, A/B/A output was identical, and no canary
+leaked. These are correctness/progress observations, not evidence of a speedup
+over the MTP1 Graph baseline. See
+`results/mtp2-gdn-state-sync-20261015/orangepi/` for raw results and protocol.
+The 32,256-token meeting-update canary also passed all four fields (54 output
+tokens, Prefill 442.76 tok/s, Decode 9.52 tok/s). A separate container now tests
+the same snapshot candidate with Graph enabled; no stable MTP policy changes
+follow from the eager result alone.

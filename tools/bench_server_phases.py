@@ -4,7 +4,6 @@
 import argparse
 import hashlib
 import json
-import math
 import subprocess
 from pathlib import Path
 import urllib.request
@@ -83,26 +82,23 @@ def main():
     if min(args.prompt_tokens, args.output_tokens, args.repeats) < 1:
         parser.error('token counts and repeats must be positive')
     def tokenize(variant):
-        # The tokenizer endpoint enforces the model's own maximum length. The
-        # old ``prompt_tokens + 1`` repetition made a 32K request expand to
-        # hundreds of thousands of tokens before slicing, causing HTTP 400
-        # even when the requested benchmark length was valid. Keep a bounded
-        # character-to-token margin instead of constructing an oversized
-        # prompt, then verify the exact token count below.
+        # Tokenize a small unit, then repeat token IDs to the exact length.
+        # Tokenizing an estimated oversized string can itself exceed the
+        # endpoint's context limit before we get a chance to slice it.
         unit = (
             f'Benchmark cold-prefill variant {variant}. '
             'Explain how quantization affects memory bandwidth and numerical precision. '
         )
-        prompt = unit * max(1, math.ceil(args.prompt_tokens / 16))
         with post(args.base_url, '/tokenize', {
             'model': args.model,
-            'prompt': prompt,
+            'prompt': unit,
             'add_special_tokens': False,
         }) as response:
-            tokens = json.load(response)['tokens'][:args.prompt_tokens]
-        if len(tokens) != args.prompt_tokens:
-            raise RuntimeError('Insufficient prompt tokens')
-        return tokens
+            unit_tokens = json.load(response)['tokens']
+        if not unit_tokens:
+            raise RuntimeError('Tokenizer returned an empty benchmark unit')
+        return (unit_tokens * ((args.prompt_tokens + len(unit_tokens) - 1)
+                              // len(unit_tokens)))[:args.prompt_tokens]
 
     prompt_sets = [tokenize(i) for i in range(args.repeats + 1)] if args.unique_prompts else None
     tokens = prompt_sets[0] if prompt_sets else tokenize(0)

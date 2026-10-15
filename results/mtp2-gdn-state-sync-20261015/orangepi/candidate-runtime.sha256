@@ -1,0 +1,4 @@
+a7a8fe730acd7468dd803e4560089b29d0426eb6641eab5894090920e085d14d  /vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py
+94d75dbeb5d23ab5b383cdc69114167392b967994bb21342cf748b733ba9a968  /vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py
+e90b76dc8d3bc72b40e86d52a9fa158a911088e83c23665364ecadb35289e1af  /work/artifacts/extension-build/qwen36_int4_custom.so
+24910050c311cb99ab5153e2b557b0e2dbe1567b1ddaec6a116c7d4d2f22fea3  /work/artifacts/gdn-extension/pr17640_gdn.so
