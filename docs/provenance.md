@@ -13,3 +13,9 @@
 仅40层routed experts使用W4；共享专家、attention、embedding、LM head及vision等原始浮点张量保留，由runtime按其策略消费。Qwen3.6自身19个MTP tensor保留BF16，包含两个stacked expert张量，非借用Qwen3.5 MTP。text-only生成已测；图像输入、完整质量和全部长上下文场景未验收。
 
 模型官方[README](https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/README.md)声明Apache-2.0。本仓库以Apache-2.0提供代码；CANN构建依赖从固定社区checkout及用户已安装SDK获得，不打包SDK或driver。
+
+当前 orangepi 的实验镜像及其来源边界、以及后续统一镜像的分层构建方案，见
+[`docs/runtime-lineage.md`](runtime-lineage.md)。当前镜像仍包含不可从 Docker
+metadata 完整恢复的本地构建内容，不能把 `local/vllm-ascend` tag 单独当作可复现
+版本；正式发布前必须使用源码 commit、镜像 digest、CANN/driver/SOC 和算子制品
+哈希共同标识运行时。
