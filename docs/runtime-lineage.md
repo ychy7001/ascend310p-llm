@@ -76,3 +76,19 @@ steps are completed:
 This is a source and packaging correction, not evidence that the current MTP2
 state-sync candidate is correct. The candidate remains isolated until its
 quality and long-context gates pass.
+
+## Accepted-token candidate status
+
+On 2026-10-15 a temporary RC container mounted only a one-line change in
+`patch_mamba_utils.py`: state-index computation used the accepted-count tensor
+copied from the current GPU result instead of the mutable InputBatch view.
+The container kept the existing W4A8, GDN, MindIEQ and RC image unchanged.
+
+The candidate passed the 8-question and A/B/A short gate on RC with MTP2:
+8/8 strict matches, identical reuse output, and 53/53 accepted draft tokens in
+the probe window. This is a useful confirmation that the candidate does not
+immediately break the path; it is not a long-context or throughput result.
+The subsequent 32K attempt was rejected by the benchmark helper with HTTP 400
+because the request generator produced a 655,381-token prompt while the
+candidate was intentionally started with `MAX_MODEL_LEN=32768`; the model
+itself completed startup. The stable RC MTP1 service was restored afterward.
