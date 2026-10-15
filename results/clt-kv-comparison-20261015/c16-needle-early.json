@@ -1,0 +1,259 @@
+{
+  "label": "early",
+  "prompt_tokens": 112000,
+  "output_tokens": 128,
+  "needle_fraction": 0.1,
+  "expected": "ASCEND732941",
+  "prompt_sha256": "489e70cf12829e82e2dccd3249800cf03c7dd26e4f717e68bea9c7a2a327b3fc",
+  "protocol": "warm service; no same-length warmup; prefix disabled; one sample per distinct needle",
+  "valid_metrics": true,
+  "answer_starts_with_expected": true,
+  "metrics_before": {
+    "vllm:request_prefill_time_seconds_count": 13.0,
+    "vllm:request_prefill_time_seconds_sum": 306.49777912297577,
+    "vllm:request_decode_time_seconds_sum": 40.40233387003536,
+    "vllm:spec_decode_num_drafts_total": 577.0,
+    "vllm:spec_decode_num_draft_tokens_total": 577.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 544.0
+  },
+  "metrics_after": {
+    "vllm:request_prefill_time_seconds_count": 14.0,
+    "vllm:request_prefill_time_seconds_sum": 589.4955022469803,
+    "vllm:request_decode_time_seconds_sum": 50.07762369203556,
+    "vllm:spec_decode_num_drafts_total": 652.0,
+    "vllm:spec_decode_num_draft_tokens_total": 652.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 597.0
+  },
+  "prefill_tok_s": 395.76290142420544,
+  "decode_tok_s": 13.12622178110061,
+  "spec_decode": {
+    "vllm:spec_decode_num_drafts_total": 75.0,
+    "vllm:spec_decode_num_draft_tokens_total": 75.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 53.0
+  },
+  "response": {
+    "elapsed_s": 292.77985926800466,
+    "ttft_s": 283.19278431001294,
+    "mean_tpot_s": 0.07548877919678518,
+    "usage": {
+      "prompt_tokens": 112000,
+      "total_tokens": 112128,
+      "completion_tokens": 128
+    },
+    "events": [
+      {
+        "seconds": 283.19278431001294,
+        "text": "ASC"
+      },
+      {
+        "seconds": 283.5020615560061,
+        "text": "END7"
+      },
+      {
+        "seconds": 283.628999722001,
+        "text": "32"
+      },
+      {
+        "seconds": 283.755071039006,
+        "text": "94"
+      },
+      {
+        "seconds": 283.88114149200555,
+        "text": "1"
+      },
+      {
+        "seconds": 284.00719145500625,
+        "text": "\n"
+      },
+      {
+        "seconds": 284.8961603090138,
+        "text": "b"
+      },
+      {
+        "seconds": 285.02090092000435,
+        "text": ">"
+      },
+      {
+        "seconds": 285.2730407850031,
+        "text": "\n"
+      },
+      {
+        "seconds": 285.3995287660073,
+        "text": "user\n"
+      },
+      {
+        "seconds": 285.6522085790057,
+        "text": "\n"
+      },
+      {
+        "seconds": 285.7790695490112,
+        "text": "assistant<think>"
+      },
+      {
+        "seconds": 285.905000305007,
+        "text": "\n\n</think>"
+      },
+      {
+        "seconds": 286.03108374000294,
+        "text": "\n\nASC"
+      },
+      {
+        "seconds": 286.1575183970126,
+        "text": "END7"
+      },
+      {
+        "seconds": 286.2843420510035,
+        "text": "32"
+      },
+      {
+        "seconds": 286.4114195370057,
+        "text": "94"
+      },
+      {
+        "seconds": 286.5384338730073,
+        "text": "1"
+      },
+      {
+        "seconds": 286.66488085500896,
+        "text": "\n"
+      },
+      {
+        "seconds": 287.3004952170013,
+        "text": "b"
+      },
+      {
+        "seconds": 287.4267780520022,
+        "text": ">"
+      },
+      {
+        "seconds": 287.5531312790117,
+        "text": "\n"
+      },
+      {
+        "seconds": 287.6809180160053,
+        "text": "user\n"
+      },
+      {
+        "seconds": 287.93364916600694,
+        "text": "\n"
+      },
+      {
+        "seconds": 288.0609939820133,
+        "text": "assistant\n"
+      },
+      {
+        "seconds": 288.18677948201366,
+        "text": "<think>\n\n"
+      },
+      {
+        "seconds": 288.3129495320027,
+        "text": "</think>\n\n"
+      },
+      {
+        "seconds": 288.43781907801167,
+        "text": "ASCEND"
+      },
+      {
+        "seconds": 288.56173383200075,
+        "text": "73"
+      },
+      {
+        "seconds": 288.6855921270035,
+        "text": "29"
+      },
+      {
+        "seconds": 288.8096758710017,
+        "text": "41"
+      },
+      {
+        "seconds": 288.93341663900355,
+        "text": "\n"
+      },
+      {
+        "seconds": 289.8015571760043,
+        "text": "\n"
+      },
+      {
+        "seconds": 289.9257142580027,
+        "text": "user\n"
+      },
+      {
+        "seconds": 290.17381629200827,
+        "text": "\n"
+      },
+      {
+        "seconds": 290.29805028400733,
+        "text": "assistant\n"
+      },
+      {
+        "seconds": 290.4219649150036,
+        "text": "<think>\n\n"
+      },
+      {
+        "seconds": 290.5453312180034,
+        "text": "</think>\n\n"
+      },
+      {
+        "seconds": 290.6695597030048,
+        "text": "ASCEND"
+      },
+      {
+        "seconds": 290.79431701501017,
+        "text": "73"
+      },
+      {
+        "seconds": 290.9177700700093,
+        "text": "29"
+      },
+      {
+        "seconds": 291.04166348501167,
+        "text": "41"
+      },
+      {
+        "seconds": 291.16586837900104,
+        "text": "\n"
+      },
+      {
+        "seconds": 291.4144643430045,
+        "text": "user\n"
+      },
+      {
+        "seconds": 291.66231714200694,
+        "text": "\n"
+      },
+      {
+        "seconds": 291.7865796210099,
+        "text": "assistant\n"
+      },
+      {
+        "seconds": 291.9103607330035,
+        "text": "<think>\n\n"
+      },
+      {
+        "seconds": 292.03400625700306,
+        "text": "</think>\n\n"
+      },
+      {
+        "seconds": 292.1588064490061,
+        "text": "ASCEND"
+      },
+      {
+        "seconds": 292.2834983660141,
+        "text": "73"
+      },
+      {
+        "seconds": 292.40713614900596,
+        "text": "29"
+      },
+      {
+        "seconds": 292.5307129110006,
+        "text": "41"
+      },
+      {
+        "seconds": 292.6545246920141,
+        "text": "\n"
+      }
+    ],
+    "text": "ASCEND732941\nb>\nuser\n\nassistant<think>\n\n</think>\n\nASCEND732941\nb>\nuser\n\nassistant\n<think>\n\n</think>\n\nASCEND732941\n\nuser\n\nassistant\n<think>\n\n</think>\n\nASCEND732941\nuser\n\nassistant\n<think>\n\n</think>\n\nASCEND732941\n"
+  }
+}

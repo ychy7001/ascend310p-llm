@@ -1,0 +1,128 @@
+{
+  "protocol": "TP1, W4A8, MTP1, FULL_DECODE_ONLY Graph, max_model_len=114688, util=.90, prefix off; 128 output tokens",
+  "short": [
+    {
+      "prompt_tokens": 8192,
+      "c8": {
+        "samples": 3,
+        "prefill_tok_s": 586.8378825750963,
+        "decode_tok_s": 28.721389764336152,
+        "prompt_hashes": [
+          "3538e340737f26d7f5ddf0901a81626edecdf02403a003bd83ab8d954586990a",
+          "d589937e62467949dbd7feb0f06dfa4d9de8c32bb997f3b03d27ebe899de819e",
+          "4f8562e8c92fba5c93c84a14f8b993ccea27834b7b9061fb625ce85406d0d8e9"
+        ],
+        "acceptance_rates": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "c16": {
+        "samples": 3,
+        "prefill_tok_s": 589.5428353491229,
+        "decode_tok_s": 30.10654364899288,
+        "prompt_hashes": [
+          "3538e340737f26d7f5ddf0901a81626edecdf02403a003bd83ab8d954586990a",
+          "d589937e62467949dbd7feb0f06dfa4d9de8c32bb997f3b03d27ebe899de819e",
+          "4f8562e8c92fba5c93c84a14f8b993ccea27834b7b9061fb625ce85406d0d8e9"
+        ],
+        "acceptance_rates": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "c8_decode_loss_percent": 4.600839939668944,
+      "c8_prefill_loss_percent": 0.45882209261771667
+    },
+    {
+      "prompt_tokens": 32768,
+      "c8": {
+        "samples": 3,
+        "prefill_tok_s": 523.3442458273086,
+        "decode_tok_s": 21.281423461783906,
+        "prompt_hashes": [
+          "f449a4aff8539fa75f4fa84c8dce303819cebb7004730319ce62fc97fae006ae",
+          "b7c9089881cea2b232e3381c42695d0c7b10fd8d359435e4f368b230d87cb9c9",
+          "e7f9f5d57e874eb37e7d9535c902f3bb6cf6c162fef2d6610e975b039ed3b47c"
+        ],
+        "acceptance_rates": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "c16": {
+        "samples": 3,
+        "prefill_tok_s": 527.0545924000762,
+        "decode_tok_s": 24.35331612778059,
+        "prompt_hashes": [
+          "f449a4aff8539fa75f4fa84c8dce303819cebb7004730319ce62fc97fae006ae",
+          "b7c9089881cea2b232e3381c42695d0c7b10fd8d359435e4f368b230d87cb9c9",
+          "e7f9f5d57e874eb37e7d9535c902f3bb6cf6c162fef2d6610e975b039ed3b47c"
+        ],
+        "acceptance_rates": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "c8_decode_loss_percent": 12.61385780022164,
+      "c8_prefill_loss_percent": 0.7039776573944057
+    }
+  ],
+  "long": [
+    {
+      "label": "early",
+      "prompt_tokens": 112000,
+      "c8": {
+        "prefill_tok_s": 392.620257574372,
+        "decode_tok_s": 10.784466958337957,
+        "answer_starts_with_expected": true,
+        "acceptance_rate": 0.8142857142857143
+      },
+      "c16": {
+        "prefill_tok_s": 395.76290142420544,
+        "decode_tok_s": 13.12622178110061,
+        "answer_starts_with_expected": true,
+        "acceptance_rate": 0.7066666666666667
+      },
+      "c8_decode_loss_percent": 17.84028078920895,
+      "c8_prefill_loss_percent": 0.7940723697254737
+    },
+    {
+      "label": "late",
+      "prompt_tokens": 112000,
+      "c8": {
+        "prefill_tok_s": 394.2290418136383,
+        "decode_tok_s": 10.628922724451723,
+        "answer_starts_with_expected": true,
+        "acceptance_rate": 0.7887323943661971
+      },
+      "c16": {
+        "prefill_tok_s": 397.6917094455705,
+        "decode_tok_s": 13.815824757857309,
+        "answer_starts_with_expected": true,
+        "acceptance_rate": 0.7887323943661971
+      },
+      "c8_decode_loss_percent": 23.06704152130431,
+      "c8_prefill_loss_percent": 0.870691429992243
+    }
+  ],
+  "c8_restored_8192": {
+    "samples": 3,
+    "prefill_tok_s": 586.7387151597788,
+    "decode_tok_s": 28.805402667656075,
+    "prompt_hashes": [
+      "3538e340737f26d7f5ddf0901a81626edecdf02403a003bd83ab8d954586990a",
+      "d589937e62467949dbd7feb0f06dfa4d9de8c32bb997f3b03d27ebe899de819e",
+      "4f8562e8c92fba5c93c84a14f8b993ccea27834b7b9061fb625ce85406d0d8e9"
+    ],
+    "acceptance_rates": [
+      1.0,
+      1.0,
+      0.8955223880597015
+    ]
+  }
+}

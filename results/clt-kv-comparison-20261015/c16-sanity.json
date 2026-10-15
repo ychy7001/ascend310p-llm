@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "model": "qwen36-w4a8-c8",
+  "cases": 5,
+  "issues": [],
+  "rows": [
+    {
+      "label": "english",
+      "elapsed_s": 2.6572661559912376,
+      "text": "INT4 weights are half the size of standard INT8 weights, allowing significantly more data to fit within the same memory capacity. This reduction in weight size directly decreases the total volume of data that must be transferred from memory to the processor during inference. Consequently, the system spends less time waiting for data retrieval, thereby lowering overall",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "中文",
+      "elapsed_s": 2.5610028009978123,
+      "text": "INT4 将每个权重的存储精度从传统的 16 位或 32 位大幅压缩至 4 位，使得模型权重在内存中的物理体积显著减小。\n\n由于数据总量减少，在模型加载或推理过程中需要从内存读取到计算单元的数据量相应降低，",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "code",
+      "elapsed_s": 1.3801401620003162,
+      "text": "```python\ndef sum_list(numbers: list[int]) -> int:\n    \"\"\"Return the sum of a list of integers.\"\"\"\n    return sum(numbers)\n```",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 61,
+        "completion_tokens": 35,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "issues": []
+    },
+    {
+      "label": "math",
+      "elapsed_s": 2.360361212005955,
+      "text": "To compute $37 \\times 19$, we can use the standard vertical multiplication method or the distributive property. Below is the step-by-step arithmetic using the vertical multiplication method.\n\n### Method: Vertical Multiplication\n\n**Step 1: Set up the problem**\n$$\n\\begin{array}{",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 90,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    },
+    {
+      "label": "repeat",
+      "elapsed_s": 2.8280409619910643,
+      "text": "It appears that your input consists of the repeated phrase **\"quantization bandwidth precision\"** many times. This looks like a copy-paste error or a glitch.\n\nHowever, if you are asking about the relationship between **quantization**, **bandwidth**, and **precision** in signal processing, communications, or machine learning,",
+      "usage": {
+        "prompt_tokens": 140,
+        "total_tokens": 204,
+        "completion_tokens": 64,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "length",
+      "issues": []
+    }
+  ]
+}

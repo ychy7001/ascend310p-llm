@@ -1,0 +1,13 @@
+{"stage": "waiting", "container": "qwen36-c16-112k-20261015", "attempt": 0}
+{"stage": "waiting", "container": "qwen36-c16-112k-20261015", "attempt": 12}
+{"stage": "waiting", "container": "qwen36-c16-112k-20261015", "attempt": 24}
+{"stage": "waiting", "container": "qwen36-c16-112k-20261015", "attempt": 36}
+{"stage": "c16_healthy"}
+{"stage": "c16_complete", "pass": true}
+{"stage": "waiting", "container": "qwen36-optimized-112k-20261015", "attempt": 0}
+{"stage": "waiting", "container": "qwen36-optimized-112k-20261015", "attempt": 12}
+{"stage": "waiting", "container": "qwen36-optimized-112k-20261015", "attempt": 24}
+{"stage": "waiting", "container": "qwen36-optimized-112k-20261015", "attempt": 36}
+{"stage": "waiting", "container": "qwen36-optimized-112k-20261015", "attempt": 48}
+{"stage": "c8_restored_healthy"}
+{"stage": "comparison_complete"}

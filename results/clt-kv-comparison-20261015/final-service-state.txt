@@ -1,0 +1,3 @@
+/qwen36-optimized-112k-20261015 running=true restart_count=0
+/qwen36-c16-112k-20261015 running=false restart_count=0
+health_http=200

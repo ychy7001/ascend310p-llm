@@ -1,0 +1,18 @@
+{
+  "c16_auto_blocks": 223,
+  "c16_auto_unique_storage_bytes": 11048583168,
+  "c8_auto_blocks": 148,
+  "c8_auto_pool_bytes": 5532254208,
+  "c8_shared_scratch_bytes": 234881024,
+  "scheduler_required_blocks": 107,
+  "c16_actual_bytes_per_scheduler_block": 49545216,
+  "c8_actual_bytes_per_scheduler_block": 37380096,
+  "same_minimum_capacity_accounting": {
+    "blocks": 107,
+    "c16_pool_bytes": 5301338112,
+    "c8_pool_bytes": 3999670272,
+    "c8_pool_plus_scratch_bytes": 4234551296,
+    "saving_bytes": 1066786816,
+    "method": "derived from measured native unique storage and observed C8 allocation coefficients; not a minimum-budget service measurement"
+  }
+}

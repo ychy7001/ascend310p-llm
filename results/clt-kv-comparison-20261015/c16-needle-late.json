@@ -1,0 +1,287 @@
+{
+  "label": "late",
+  "prompt_tokens": 112000,
+  "output_tokens": 128,
+  "needle_fraction": 0.9,
+  "expected": "MEETING586203",
+  "prompt_sha256": "6996c5a03f512e79d750095763df6417c94f20f94b152450bb081cd206cb452e",
+  "protocol": "warm service; no same-length warmup; prefix disabled; one sample per distinct needle",
+  "valid_metrics": true,
+  "answer_starts_with_expected": true,
+  "metrics_before": {
+    "vllm:request_prefill_time_seconds_count": 14.0,
+    "vllm:request_prefill_time_seconds_sum": 589.4955022469803,
+    "vllm:request_decode_time_seconds_sum": 50.07762369203556,
+    "vllm:spec_decode_num_drafts_total": 652.0,
+    "vllm:spec_decode_num_draft_tokens_total": 652.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 597.0
+  },
+  "metrics_after": {
+    "vllm:request_prefill_time_seconds_count": 15.0,
+    "vllm:request_prefill_time_seconds_sum": 871.1206841149688,
+    "vllm:request_decode_time_seconds_sum": 59.26998116803588,
+    "vllm:spec_decode_num_drafts_total": 723.0,
+    "vllm:spec_decode_num_draft_tokens_total": 723.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 653.0
+  },
+  "prefill_tok_s": 397.6917094455705,
+  "decode_tok_s": 13.815824757857309,
+  "spec_decode": {
+    "vllm:spec_decode_num_drafts_total": 71.0,
+    "vllm:spec_decode_num_draft_tokens_total": 71.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 56.0
+  },
+  "response": {
+    "elapsed_s": 290.93117228000483,
+    "ttft_s": 281.8683144950046,
+    "mean_tpot_s": 0.07136108492126168,
+    "usage": {
+      "prompt_tokens": 112000,
+      "total_tokens": 112128,
+      "completion_tokens": 128
+    },
+    "events": [
+      {
+        "seconds": 281.8683144950046,
+        "text": "ME"
+      },
+      {
+        "seconds": 282.1404370429955,
+        "text": "ETING5"
+      },
+      {
+        "seconds": 282.2677633860003,
+        "text": "86"
+      },
+      {
+        "seconds": 282.3937465909985,
+        "text": "20"
+      },
+      {
+        "seconds": 282.51993217000563,
+        "text": "3"
+      },
+      {
+        "seconds": 282.6466068599984,
+        "text": "\n"
+      },
+      {
+        "seconds": 283.5362352030061,
+        "text": "box"
+      },
+      {
+        "seconds": 283.6611049149942,
+        "text": "\n"
+      },
+      {
+        "seconds": 283.78801383999235,
+        "text": "box"
+      },
+      {
+        "seconds": 283.9143818159937,
+        "text": "\n"
+      },
+      {
+        "seconds": 284.04070885099645,
+        "text": "box"
+      },
+      {
+        "seconds": 284.2933001049969,
+        "text": "\n"
+      },
+      {
+        "seconds": 284.8010868889978,
+        "text": "box"
+      },
+      {
+        "seconds": 284.92759799800115,
+        "text": "\n"
+      },
+      {
+        "seconds": 285.05448943599185,
+        "text": "box"
+      },
+      {
+        "seconds": 285.3066519090062,
+        "text": "\n"
+      },
+      {
+        "seconds": 285.433024072001,
+        "text": "user\n"
+      },
+      {
+        "seconds": 285.6853112349927,
+        "text": "\n"
+      },
+      {
+        "seconds": 285.81173491799564,
+        "text": "user"
+      },
+      {
+        "seconds": 285.93802022399905,
+        "text": "\n"
+      },
+      {
+        "seconds": 286.065230401,
+        "text": "user"
+      },
+      {
+        "seconds": 286.1907856809994,
+        "text": "\n"
+      },
+      {
+        "seconds": 286.31729265999456,
+        "text": "user"
+      },
+      {
+        "seconds": 286.44336051000573,
+        "text": "\n"
+      },
+      {
+        "seconds": 286.5703162080026,
+        "text": "user"
+      },
+      {
+        "seconds": 286.6972989009955,
+        "text": "\n"
+      },
+      {
+        "seconds": 286.823369567006,
+        "text": "user"
+      },
+      {
+        "seconds": 286.9477254959929,
+        "text": "\n"
+      },
+      {
+        "seconds": 287.0726821989956,
+        "text": "user"
+      },
+      {
+        "seconds": 287.1959515100025,
+        "text": "\n"
+      },
+      {
+        "seconds": 287.3207634480059,
+        "text": "user"
+      },
+      {
+        "seconds": 287.44443858700106,
+        "text": "\n"
+      },
+      {
+        "seconds": 287.56928626699664,
+        "text": "user"
+      },
+      {
+        "seconds": 287.69333516999905,
+        "text": "\n"
+      },
+      {
+        "seconds": 287.8178410440014,
+        "text": "user"
+      },
+      {
+        "seconds": 287.9421239049989,
+        "text": "\n"
+      },
+      {
+        "seconds": 288.06642822700087,
+        "text": "user"
+      },
+      {
+        "seconds": 288.19081504100177,
+        "text": "\n"
+      },
+      {
+        "seconds": 288.31499210400216,
+        "text": "user"
+      },
+      {
+        "seconds": 288.43950104799296,
+        "text": "\n"
+      },
+      {
+        "seconds": 288.5640852929937,
+        "text": "user"
+      },
+      {
+        "seconds": 288.68776026800333,
+        "text": "\n"
+      },
+      {
+        "seconds": 288.81227016300545,
+        "text": "user"
+      },
+      {
+        "seconds": 288.93699323700275,
+        "text": "\n"
+      },
+      {
+        "seconds": 289.0615425290016,
+        "text": "user"
+      },
+      {
+        "seconds": 289.18583179700363,
+        "text": "\n"
+      },
+      {
+        "seconds": 289.31058318600117,
+        "text": "user"
+      },
+      {
+        "seconds": 289.43517778899695,
+        "text": "\n"
+      },
+      {
+        "seconds": 289.5596437990025,
+        "text": "user"
+      },
+      {
+        "seconds": 289.6840085790027,
+        "text": "\n"
+      },
+      {
+        "seconds": 289.80892855000275,
+        "text": "user"
+      },
+      {
+        "seconds": 289.9331478130043,
+        "text": "\n"
+      },
+      {
+        "seconds": 290.0583460399939,
+        "text": "user"
+      },
+      {
+        "seconds": 290.1825747279945,
+        "text": "\n"
+      },
+      {
+        "seconds": 290.30746907999855,
+        "text": "user"
+      },
+      {
+        "seconds": 290.4321181999985,
+        "text": "\n"
+      },
+      {
+        "seconds": 290.55684181700053,
+        "text": "user"
+      },
+      {
+        "seconds": 290.6807799770031,
+        "text": "\n"
+      },
+      {
+        "seconds": 290.8053507470031,
+        "text": "user"
+      },
+      {
+        "seconds": 290.93096644899924,
+        "text": "\n"
+      }
+    ],
+    "text": "MEETING586203\nbox\nbox\nbox\nbox\nbox\nuser\n\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\nuser\n"
+  }
+}
