@@ -1,5 +1,5 @@
 [Unit]
-Description=Qwen3.6 W4A8 C8 MTP2 long-prefill on a2
+Description=Qwen3.6 W4A8 MTP2 long-prefill on a2
 
 [Service]
 Type=simple

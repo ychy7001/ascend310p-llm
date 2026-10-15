@@ -1,0 +1,33 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "samples": 3,
+    "prefill_tok_s_median": 627.6891760768989,
+    "decode_tok_s_median": 34.91984055574526,
+    "acceptance": [
+      1.0,
+      0.8913043478260869,
+      0.9021739130434783
+    ]
+  },
+  {
+    "prompt_tokens": 32768,
+    "samples": 3,
+    "prefill_tok_s_median": 547.6867171051273,
+    "decode_tok_s_median": 29.10549130114276,
+    "acceptance": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  {
+    "prompt_tokens": 112000,
+    "samples": 1,
+    "prefill_tok_s_median": 382.2184260274205,
+    "decode_tok_s_median": 17.121019300105573,
+    "acceptance": [
+      1.0
+    ]
+  }
+]

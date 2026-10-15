@@ -1,0 +1,64 @@
+{
+  "scope": "one synthetic meeting-update canary, not formal accuracy/P95",
+  "prompt_tokens": 112000,
+  "prompt_ids_sha256": "31114e2cc2a49fb01e1c8feb0312a41d236fe741d219ed8c237c6da37ce9932f",
+  "result": {
+    "id": "cmpl-bbf8e06476096566",
+    "object": "text_completion",
+    "created": 1792036759,
+    "model": "qwen36-w4a8-c8",
+    "choices": [
+      {
+        "index": 0,
+        "text": "{\n  \"budget_yuan\": 180000,\n  \"owner\": \"周启\",\n  \"deadline\": \"2026-11-12\",\n  \"status\": \"延期上线\"\n}",
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-6150614e",
+    "usage": {
+      "prompt_tokens": 112000,
+      "total_tokens": 112054,
+      "completion_tokens": 54,
+      "prompt_tokens_details": null
+    },
+    "kv_transfer_params": null
+  },
+  "elapsed_s": 325.3314207189833,
+  "score": {
+    "passed": true,
+    "parsed": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    },
+    "expected": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    }
+  },
+  "metric_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 322.043255719007,
+    "vllm:request_decode_time_seconds_sum": 3.151233788987156,
+    "vllm:spec_decode_num_drafts_total": 18.0,
+    "vllm:spec_decode_num_draft_tokens_total": 36.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 36.0
+  },
+  "prefix_cache_delta": {
+    "vllm:prefix_cache_queries_total": 0.0,
+    "vllm:prefix_cache_hits_total": 0.0
+  },
+  "prefill_tok_s": 347.779368178179,
+  "decode_tok_s": 16.818809250276168,
+  "mtp_acceptance": 1.0
+}

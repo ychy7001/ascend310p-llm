@@ -1,0 +1,79 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "samples_per_kv": 3,
+    "output_tokens": 128,
+    "c16_source": "clean rerun after stopping old systemd retry loop",
+    "outputs_identical_pairs": 1,
+    "c8": {
+      "prefill_tok_s_median": 627.6891760768989,
+      "decode_tok_s_median": 34.91984055574526,
+      "mtp_acceptance": [
+        1.0,
+        0.8913043478260869,
+        0.9021739130434783
+      ]
+    },
+    "c16": {
+      "prefill_tok_s_median": 627.6310988841938,
+      "decode_tok_s_median": 38.07540806844028,
+      "mtp_acceptance": [
+        0.9883720930232558,
+        1.0,
+        1.0
+      ]
+    },
+    "c8_decode_loss_percent_vs_c16": 8.28767877424429,
+    "c8_prefill_change_percent_vs_c16": 0.009253396271846626
+  },
+  {
+    "prompt_tokens": 32768,
+    "samples_per_kv": 3,
+    "output_tokens": 128,
+    "c16_source": "clean rerun after stopping old systemd retry loop",
+    "outputs_identical_pairs": 3,
+    "c8": {
+      "prefill_tok_s_median": 547.6867171051273,
+      "decode_tok_s_median": 29.10549130114276,
+      "mtp_acceptance": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "c16": {
+      "prefill_tok_s_median": 548.2546642296336,
+      "decode_tok_s_median": 32.310004427919715,
+      "mtp_acceptance": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "c8_decode_loss_percent_vs_c16": 9.918021317285463,
+    "c8_prefill_change_percent_vs_c16": -0.10359184546188116
+  },
+  {
+    "prompt_tokens": 112000,
+    "samples_per_kv": 1,
+    "output_tokens": 128,
+    "c16_source": "clean rerun after stopping old systemd retry loop",
+    "outputs_identical_pairs": 1,
+    "c8": {
+      "prefill_tok_s_median": 382.2184260274205,
+      "decode_tok_s_median": 17.121019300105573,
+      "mtp_acceptance": [
+        1.0
+      ]
+    },
+    "c16": {
+      "prefill_tok_s_median": 383.59612261905005,
+      "decode_tok_s_median": 21.657793896566197,
+      "mtp_acceptance": [
+        1.0
+      ]
+    },
+    "c8_decode_loss_percent_vs_c16": 20.947537953899918,
+    "c8_prefill_change_percent_vs_c16": -0.35915289816360607
+  }
+]

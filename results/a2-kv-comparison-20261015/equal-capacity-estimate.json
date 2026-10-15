@@ -1,0 +1,12 @@
+{
+  "scope": "same 110-block scheduler-contract estimate, not minimum-budget runtime validation; excludes model/activations/runtime/rounding",
+  "blocks": 110,
+  "c16_actual_current_bytes": 8769503232,
+  "c16_current_blocks": 177,
+  "c8_actual_current_bytes": 4336091136,
+  "c8_current_blocks": 116,
+  "c8_extra_nz_bytes": 234881024,
+  "equal_capacity_c16_bytes": 5449973760,
+  "equal_capacity_c8_bytes_including_workspace": 4346691584,
+  "equal_capacity_c8_saving_gib": 1.0275115966796875
+}

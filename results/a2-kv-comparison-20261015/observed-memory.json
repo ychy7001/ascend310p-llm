@@ -1,0 +1,12 @@
+{
+  "scope": "10-second observed device0 sample maximum; C8 coverage only late meeting tail, C16 startup and original long tests; clean rerun not sampled; not a complete peak comparison",
+  "samples": 174,
+  "c8_tail": {
+    "samples": 16,
+    "max_npu_smi_MB": 35736
+  },
+  "c16_original": {
+    "samples": 158,
+    "max_npu_smi_MB": 39801
+  }
+}

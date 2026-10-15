@@ -30,12 +30,14 @@ GDN、MindIEQ、prefix 开启、batch2048、114688 上限和固定6GiB KV**；
 [RC基线](results/orangepi-rc-baseline-20261015/README.md)，MTP兼容性和调优进展见
 [RC MTP对照](results/orangepi-rc-mtp-20261015/README.md)。
 
-当前业务候选收敛为TP1/48G、W4A8、动态C8、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、4096/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
+当前EP业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、4096/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](results/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json
 bash scripts/run-candidate.sh
 ```
+
+需要C8时执行 `QWEN36_C8_ENABLED=1 scripts/run-candidate.sh`；修改配置后需要重建容器，直接start旧容器不会改变参数。
 
 `--check`检查本地制品并输出SHA256，不初始化NPU；该输出用于版本追溯，不等于完整模型哈希或兼容性验收。芯片0须独占。GDN固定外部源码/构建方法见[候选说明](docs/gdn-112k-candidate.md)。模型完整性另用validate_checkpoint.py检查。prefix可选设ENABLE_PREFIX_CACHING=1；目前未宣称全面质量等价。此入口仍是实验候选，不支持TP2 C8、32G或多请求批处理。
 
