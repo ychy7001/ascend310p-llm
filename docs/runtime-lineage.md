@@ -160,3 +160,12 @@ The CPU copy can also change ordering, so the experiment does not prove a pure
 FloorDiv implementation defect. Keep this patch separate from defaults and
 next validate a device-only exact index alternative. Results and patch:
 `results/mtp2-slot-cpu-20261015/`.
+
+The bounded device slot arithmetic probe passed 2,097,153 positions and changed-input
+Graph replay. With the accepted-count snapshot patch retained, both target and draft
+Graph now pass short/reuse quality gates and two cold 32K requests: Prefill
+508.39/510.17 tok/s, Decode 23.91/22.90 tok/s. These use the fixed benchmark
+and match the draft-eager input hashes; one output has wording differences.
+112K, meeting canary and a matched MTP1 comparison remain required before defaulting
+to MTP2 on RC. Stable MTP1 was restored and passed its quality gate.
+See `results/mtp2-slot-device-20261015/README.md`.

@@ -1,0 +1,8 @@
+[W1015 13:19:54.867396531 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+[W1015 13:20:10.399199413 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+{"stage": "eager", "positions_checked": 2097153, "min": -1048576, "max": 1048576, "status": "PASS"}
+{"stage": "graph", "size": 1, "changed_inputs": 2, "status": "PASS"}
+{"stage": "graph", "size": 2, "changed_inputs": 2, "status": "PASS"}
+{"stage": "graph", "size": 4, "changed_inputs": 2, "status": "PASS"}
+{"stage": "graph", "size": 8, "changed_inputs": 2, "status": "PASS"}
+ALL_SLOT_INDEX_CASES_PASSED

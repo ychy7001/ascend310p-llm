@@ -36,3 +36,31 @@ max32768、KV3GiB、batch2048。差异见`proposer-slot-device.patch`。
 
 后续独立候选`qwen36-mtp2-slot-device-fullgraph-32k-20261015`只改
 `MTP_DRAFT_EAGER=0`，先重新短质量检查，再决定是否测试吞吐。
+
+## 主模型与草稿均启用 Graph
+
+独立容器 `qwen36-mtp2-slot-device-fullgraph-32k-20261015` 仅改
+`MTP_DRAFT_EAGER=0`，捕获0.19GiB，日志确认replay。短题8/8、A/B/A通过，
+32K后同样通过。设备slot替代加accepted-token快照使此前卡住的路径可运行；
+这仍不能单独证明驱动是根因。
+
+固定版脚本 `bench_server_phases-fixed.py`、warmup1+冷请求2次、32256/128、
+独立cache salt且prefix hit增量0：
+
+| 轮次 | Prefill tok/s | Decode tok/s | draft接受率 |
+|---|---:|---:|---:|
+| 1 | 508.39 | 23.91 | 85.1% |
+| 2 | 510.17 | 22.90 | 80.6% |
+
+见 `fullgraph-fixed-p32256.jsonl`。两轮输入哈希与draft eager候选一致；
+第一轮输出有少量措辞差异，第二轮逐字一致，不能声称输出完全一致或正式精度通过。
+尚无匹配MTP1 A/B和112K结果，不能据此切换默认。
+
+`fullgraph-p32256.jsonl` 是先前误用旧模板脚本的完整数据，输入哈希不同，
+仅保留作记录，不纳入跨候选A/B。一次尝试调用主机旧脚本的补测在warmup阶段
+终止、无计时轮次，也不纳入结果。正式补测明确使用fixed版，配置和各轮哈希已核对。
+
+候选停止保留，稳定 `qwen36-orangepi` MTP1 Graph已恢复：health200、8/8、
+A/B/A一致且无canary泄漏，见 `restored-mtp1-quality.json`。
+下一步先做全Graph 32K会议canary及112K验收，再做匹配MTP1对照，
+最后才将最小补丁整理到可复用运行时。
