@@ -1,0 +1,4 @@
+9fd97f447613997189e2a473d3e374cf485275d60e376b50cf7c1c8ca50595ba  /home/clt/qwen36-optimized-20261015/artifacts/libqwen36_mindieq_grouped.so
+7a8004d28f5f488f36a142b3ec453ea1df5ac8396e7244d787ffa10bfbb92047  /home/clt/qwen36-optimized-20261015/artifacts/pr17640_gdn.so
+a8ac855968ddc3a56db676c1ac8dd9a8657dbae2fffb28c4276ddb7fef4b5950  /home/clt/qwen36-optimized-20261015/artifacts/qwen36_int4_custom.so
+85f383cfab4e1f5595394bb1317febfcc65b7b04815c55e8a39ab8b94c3f05e1  /home/clt/qwen36-optimized-20261015/artifacts/libqwen36_c8.so

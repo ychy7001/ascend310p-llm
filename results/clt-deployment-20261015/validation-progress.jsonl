@@ -1,0 +1,9 @@
+{"stage": "benchmark_start", "prompt_tokens": 8192}
+{"stage": "benchmark_complete", "prompt_tokens": 8192}
+{"stage": "benchmark_start", "prompt_tokens": 32768}
+{"stage": "benchmark_complete", "prompt_tokens": 32768}
+{"stage": "needle_start", "label": "early", "prompt_tokens": 112000}
+{"label": "early", "prefill_tok_s": 392.620257574372, "decode_tok_s": 10.784466958337957, "valid_metrics": true, "answer_starts_with_expected": true}
+{"stage": "needle_start", "label": "late", "prompt_tokens": 112000}
+{"label": "late", "prefill_tok_s": 394.2290418136383, "decode_tok_s": 10.628922724451723, "valid_metrics": true, "answer_starts_with_expected": true}
+{"stage": "complete", "pass": true, "post_long_fixed_matches": 9, "post_long_fixed_cases": 9}

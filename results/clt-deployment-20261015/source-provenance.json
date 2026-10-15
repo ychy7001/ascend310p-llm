@@ -1,0 +1,11 @@
+{
+  "runtime_matches_commit": "e3fc3f9e85d7cd372d8a225317f24abea6f67861",
+  "verified_source_files": 94,
+  "deployment_overrides": [
+    "experimental/run-c8-service.sh",
+    "experimental/c8_bootstrap/sitecustomize.py",
+    "experimental/clt_sync_metadata.py",
+    "tools/bench_http_stream.py"
+  ],
+  "method": "Git blob SHA1 over remote Python/shell sources excluding results and listed overrides; docs not checked"
+}

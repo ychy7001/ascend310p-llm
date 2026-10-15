@@ -1,0 +1,50 @@
+[
+  {
+    "expression": "37 * 19",
+    "expected": "703",
+    "actual": "703",
+    "pass": true
+  },
+  {
+    "expression": "18 * 7",
+    "expected": "126",
+    "actual": "126",
+    "pass": true
+  },
+  {
+    "expression": "384 + 256",
+    "expected": "640",
+    "actual": "640",
+    "pass": true
+  },
+  {
+    "expression": "1000 - 237",
+    "expected": "763",
+    "actual": "763",
+    "pass": true
+  },
+  {
+    "expression": "81 / 9",
+    "expected": "9",
+    "actual": "9",
+    "pass": true
+  },
+  {
+    "expression": "17 + 26",
+    "expected": "43",
+    "actual": "43",
+    "pass": true
+  },
+  {
+    "expression": "12 * 12",
+    "expected": "144",
+    "actual": "144",
+    "pass": true
+  },
+  {
+    "expression": "2 + 2",
+    "expected": "4",
+    "actual": "4",
+    "pass": true
+  }
+]

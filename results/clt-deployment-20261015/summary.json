@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "phase_benchmarks": [
+    {
+      "input_tokens": 8192,
+      "output_tokens": 128,
+      "samples": 3,
+      "prefill_tok_s_median": 586.8378825750963,
+      "decode_tok_s_median": 28.721389764336152,
+      "ttft_s_median": 13.987365776993101,
+      "prefill_tok_s_range": [
+        584.3773909657077,
+        587.9525008870949
+      ],
+      "decode_tok_s_range": [
+        28.697903356309475,
+        29.03061558870537
+      ],
+      "synthetic_prompt": true,
+      "prefix_cache_enabled": false,
+      "all_metrics_valid": true
+    },
+    {
+      "input_tokens": 32768,
+      "output_tokens": 128,
+      "samples": 3,
+      "prefill_tok_s_median": 523.3442458273086,
+      "decode_tok_s_median": 21.281423461783906,
+      "ttft_s_median": 62.70418559398968,
+      "prefill_tok_s_range": [
+        520.5426187181336,
+        524.4179221656556
+      ],
+      "decode_tok_s_range": [
+        21.243954772959587,
+        21.415436681201516
+      ],
+      "synthetic_prompt": true,
+      "prefix_cache_enabled": false,
+      "all_metrics_valid": true
+    }
+  ],
+  "long_context_samples": [
+    {
+      "label": "early",
+      "prompt_tokens": 112000,
+      "output_tokens": 128,
+      "needle_fraction": 0.1,
+      "prefill_tok_s": 392.620257574372,
+      "decode_tok_s": 10.784466958337957,
+      "valid_metrics": true,
+      "answer_starts_with_expected": true,
+      "ttft_s": 285.45905128799495,
+      "mtp_acceptance_rate": 0.8142857142857143
+    },
+    {
+      "label": "late",
+      "prompt_tokens": 112000,
+      "output_tokens": 128,
+      "needle_fraction": 0.9,
+      "prefill_tok_s": 394.2290418136383,
+      "decode_tok_s": 10.628922724451723,
+      "valid_metrics": true,
+      "answer_starts_with_expected": true,
+      "ttft_s": 284.31424686999526,
+      "mtp_acceptance_rate": 0.7887323943661971
+    }
+  ],
+  "post_long_fixed_answers": {
+    "matched": 9,
+    "cases": 9
+  },
+  "sampled_device_memory": {
+    "samples": 56,
+    "interval_seconds": 10,
+    "min_mb": 35514,
+    "max_mb": 35518,
+    "total_mb": 44215,
+    "scope": "long requests only; not full startup peak"
+  },
+  "model_max_len": 114688,
+  "tested_input_output": [
+    112000,
+    128
+  ],
+  "context_boundary_rejection_status": 400,
+  "limits": [
+    "single request only",
+    "prefix cache disabled",
+    "two synthetic long-context needles; not a formal accuracy evaluation",
+    "not the maximum supported by hardware",
+    "no paired W8A8 speedup claim",
+    "existing PMBus hardware warning remains"
+  ]
+}
