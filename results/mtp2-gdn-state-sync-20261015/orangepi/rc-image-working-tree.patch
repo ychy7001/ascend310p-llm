@@ -1,0 +1,40 @@
+diff --git a/vllm_ascend/patch/worker/patch_mamba_utils.py b/vllm_ascend/patch/worker/patch_mamba_utils.py
+index 54c66b6e3..279c86188 100644
+--- a/vllm_ascend/patch/worker/patch_mamba_utils.py
++++ b/vllm_ascend/patch/worker/patch_mamba_utils.py
+@@ -138,7 +138,10 @@ def _postprocess_mamba_align_gpu_cpu_fallback(
+     # block. Preserve that default so the next preprocess keeps the right
+     # accept_token_bias when multiple draft tokens were accepted.
+     num_accepted_tokens_cpu_tensor[:num_reqs].copy_(num_accepted_tokens_gpu[:num_reqs])
+-    num_accepted_tokens = input_batch.num_accepted_tokens_cpu
++    # Keep state-index computation on the accepted-count snapshot produced by
++    # this model execution. InputBatch can be condensed/reordered before this
++    # fallback runs, so its view may belong to a different request row.
++    num_accepted_tokens = num_accepted_tokens_cpu_tensor
+     for i in range(num_reqs):
+         num_tokens_running_state = num_computed_tokens[i] + num_scheduled_tokens[i] - num_draft_tokens[i]
+         new_num_computed_tokens = num_tokens_running_state + num_accepted_tokens[i] - 1
+diff --git a/vllm_ascend/utils.py b/vllm_ascend/utils.py
+index 42e66bf28..dc3c85f6d 100644
+--- a/vllm_ascend/utils.py
++++ b/vllm_ascend/utils.py
+@@ -162,6 +162,19 @@ def is_rc_device() -> bool:
+     global _IS_RC_DEVICE
+     if not is_310p():
+         return False
++
++    # Containers for OrangePi RC mode may not include pciutils/lspci.  The
++    # original lspci heuristic then falls through to False and incorrectly
++    # uses the EP memory accounting path.  An explicit deployment override
++    # takes precedence while preserving the existing auto-detection default.
++    rc_override = os.getenv("VLLM_ASCEND_FORCE_RC", "").strip().lower()
++    if rc_override in {"1", "true", "yes", "on"}:
++        _IS_RC_DEVICE = True
++        return True
++    if rc_override in {"0", "false", "no", "off"}:
++        _IS_RC_DEVICE = False
++        return False
++
+     if _IS_RC_DEVICE is not None:
+         return _IS_RC_DEVICE
+ 

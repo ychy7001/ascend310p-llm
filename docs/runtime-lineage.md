@@ -10,6 +10,16 @@ runtime is not yet a single reproducible image:
    `sha256:a9a8d356f62c7bbdf29fd7a44000d2bc930f124d4a48478e086ddb32a1e4c351`.
    It has no registry digest or image labels, so the image build provenance is
    not recoverable from Docker metadata alone.
+   Inspection of the retained Git checkouts inside the image recovered the
+   actual source baselines: vLLM `0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665`
+   and vLLM-Ascend `5cb98caaadeff42b5b62b996e34bb2aaa29d20fd`
+   (v0.23.0 release branch). The vLLM working tree is clean. With the snapshot
+   candidate mounted, the Ascend tree differs only in `utils.py` (explicit
+   RC detection override) and `patch_mamba_utils.py` (candidate snapshot read
+   and comments). The full working-tree diff is retained at
+   `results/mtp2-gdn-state-sync-20261015/orangepi/rc-image-working-tree.patch`.
+   This recovers source provenance, but does not recover all image build
+   steps or the independently mounted kernels and Python overlays.
 2. `/work/repo` is bind-mounted at runtime and supplies the Qwen W4 loader,
    C8 adapter, GDN adapter, MindIEQ adapter, RC guards, launch scripts and
    bootstrap imports. The container image and checked-out repository are two

@@ -1,0 +1,24 @@
+diff --git a/vllm_ascend/utils.py b/vllm_ascend/utils.py
+index 42e66bf28..dc3c85f6d 100644
+--- a/vllm_ascend/utils.py
++++ b/vllm_ascend/utils.py
+@@ -162,6 +162,19 @@ def is_rc_device() -> bool:
+     global _IS_RC_DEVICE
+     if not is_310p():
+         return False
++
++    # Containers for OrangePi RC mode may not include pciutils/lspci.  The
++    # original lspci heuristic then falls through to False and incorrectly
++    # uses the EP memory accounting path.  An explicit deployment override
++    # takes precedence while preserving the existing auto-detection default.
++    rc_override = os.getenv("VLLM_ASCEND_FORCE_RC", "").strip().lower()
++    if rc_override in {"1", "true", "yes", "on"}:
++        _IS_RC_DEVICE = True
++        return True
++    if rc_override in {"0", "false", "no", "off"}:
++        _IS_RC_DEVICE = False
++        return False
++
+     if _IS_RC_DEVICE is not None:
+         return _IS_RC_DEVICE
+ 
