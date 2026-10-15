@@ -1,0 +1,96 @@
+{
+  "scope": "one synthetic meeting-update canary; no warmup/repeat; not formal quality or P95",
+  "prompt_tokens": 112000,
+  "record_positions": [
+    11202,
+    55959,
+    100719
+  ],
+  "records": [
+    "正式决议记录A：云桥项目原计划预算120000元，由李雯负责，2026-11-05上线。",
+    "正式决议记录B：云桥项目预算更新为180000元，负责人改为周启；日期和状态暂时沿用原计划。B取代A中的预算和负责人。",
+    "最终决议记录C：云桥项目延期上线，最新截止日期为2026-11-12；预算180000元、负责人周启保持不变。C中的日期和状态取代先前计划。"
+  ],
+  "expected": {
+    "budget_yuan": 180000,
+    "owner": "周启",
+    "deadline": "2026-11-12",
+    "status": "延期上线"
+  },
+  "prompt_ids_sha256": "31114e2cc2a49fb01e1c8feb0312a41d236fe741d219ed8c237c6da37ce9932f",
+  "elapsed_s": 301.91410480299965,
+  "result": {
+    "id": "cmpl-96f7325e0855fcdb",
+    "object": "text_completion",
+    "created": 1792034098,
+    "model": "qwen36-w4a8",
+    "choices": [
+      {
+        "index": 0,
+        "text": "{\n  \"budget_yuan\": 180000,\n  \"owner\": \"周启\",\n  \"deadline\": \"2026-11-12\",\n  \"status\": \"延期上线\"\n}",
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-c9b7d9d9",
+    "usage": {
+      "prompt_tokens": 112000,
+      "total_tokens": 112054,
+      "completion_tokens": 54,
+      "prompt_tokens_details": null
+    },
+    "kv_transfer_params": null
+  },
+  "score": {
+    "passed": true,
+    "parsed": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    },
+    "expected": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    }
+  },
+  "metrics_before": {
+    "vllm:request_prefill_time_seconds_count": 19.0,
+    "vllm:request_prefill_time_seconds_sum": 293.3106445519952,
+    "vllm:request_decode_time_seconds_sum": 42.999294432011084,
+    "vllm:spec_decode_num_drafts_total": 473.0,
+    "vllm:spec_decode_num_draft_tokens_total": 473.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 464.0
+  },
+  "metrics_after": {
+    "vllm:request_prefill_time_seconds_count": 20.0,
+    "vllm:request_prefill_time_seconds_sum": 590.2017286539922,
+    "vllm:request_decode_time_seconds_sum": 47.57003488500777,
+    "vllm:spec_decode_num_drafts_total": 500.0,
+    "vllm:spec_decode_num_draft_tokens_total": 500.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 491.0
+  },
+  "metric_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 296.89108410199697,
+    "vllm:request_decode_time_seconds_sum": 4.570740452996688,
+    "vllm:spec_decode_num_drafts_total": 27.0,
+    "vllm:spec_decode_num_draft_tokens_total": 27.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 27.0
+  },
+  "prefix_cache_delta": {
+    "vllm:prefix_cache_queries_total": 112000.0,
+    "vllm:prefix_cache_hits_total": 0.0
+  },
+  "prefill_tok_s": 377.2427196281933,
+  "decode_tok_s": 11.595495422465286,
+  "mtp_acceptance": 1.0
+}
