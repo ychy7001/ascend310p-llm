@@ -43,7 +43,8 @@ def complete(base, model, tokens, output_tokens):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('--mindieq-url', required=True); p.add_argument('--original-url', required=True)
+    p.add_argument('--mindieq-url', required=True)
+    p.add_argument('--original-url', help='Second endpoint for alternating A/B mode')
     p.add_argument('--model', required=True); p.add_argument('--out', type=Path, required=True)
     p.add_argument('--prompt-tokens', type=int, required=True); p.add_argument('--output-tokens', type=int, default=128)
     p.add_argument('--repeats', type=int, default=3); a = p.parse_args()
@@ -53,8 +54,9 @@ def main():
         config = {k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()}
         f.write(json.dumps({'kind': 'config', **config, 'prompt_ids_sha256': prompt_hash(tokens),
                             'protocol': 'non-streaming completion; alternating endpoints; wall time plus phase counters'}) + '\n')
+        endpoints_for_repeat = [('mindieq', a.mindieq_url)] if not a.original_url else None
         for repeat in range(a.repeats):
-            endpoints = [('mindieq', a.mindieq_url), ('original', a.original_url)]
+            endpoints = endpoints_for_repeat or [('mindieq', a.mindieq_url), ('original', a.original_url)]
             if repeat % 2: endpoints.reverse()
             for order, (name, base) in enumerate(endpoints):
                 before = snapshot(base)

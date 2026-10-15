@@ -11,8 +11,11 @@ prefix-cache hits were zero.
 | ---: | ---: | ---: | ---: |
 | 8,192 / 128 | 564.84 median (562.49--565.17) | 23.98 median (23.93--24.02) | 100% |
 | 32,256 / 128 | 511.49 median (508.87--513.03) | 19.35 median (19.11--19.44) | 100% |
+| 114,560 / 32 | 399.55 (single sample) | 11.24 (single sample) | 100% |
 
 The 32K request is about 9.4% slower in Prefill and 20.3% slower in Decode
 than the 8K request. These are current service phase-counter measurements, not
 pure kernel timings or P95 results. Raw request records are in the two JSONL
-files in this directory.
+files in this directory. The 114K row is a single long-context gate sample and
+must not be reported as P50/P95; it confirms the current service can complete a
+near-maximum request with the configured 6 GiB KV budget.

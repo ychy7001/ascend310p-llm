@@ -75,3 +75,8 @@
 接受率均为 100%。32K 相对 8K 的下降约为 Prefill 9.4%、Decode 20.3%。
 原始记录见 `results/current-baseline-20261015/`；这组数据作为当前服务基线，
 与旧 profiler kernel 累计时间分开解释。
+
+同一稳定服务的近满上下文单次门禁（114560/32、非 streaming JSON 响应）也已
+完成：Prefill `399.55 tok/s`、Decode `11.24 tok/s`，usage 和 MTP 接受率均
+正确。它只证明近 114K 请求可完成，不能替代多次样本的 P50/P95；原始记录为
+`results/current-baseline-20261015/p114560-o32.jsonl`。
