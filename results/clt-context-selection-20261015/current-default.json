@@ -1,0 +1,10 @@
+{
+  "container": "qwen36-c16-112k-20261015",
+  "port": 18016,
+  "context_limit": 114688,
+  "api_model_name": "qwen36-w4a8-c8",
+  "kv_dtype": "float16",
+  "default_start": "start-candidate.sh",
+  "parameters": "W4A8 / TP1 / MTP1 / Decode Graph / batch2048 / util.90 / sync / prefix off",
+  "historical_summary": "summary.json is previous C8 result; current C16 evidence is in qwen36-kv-comparison-20261015"
+}

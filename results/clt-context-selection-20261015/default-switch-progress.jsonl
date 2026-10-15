@@ -1,0 +1,7 @@
+{"stage": "waiting", "attempt": 0}
+{"stage": "waiting", "attempt": 12}
+{"stage": "waiting", "attempt": 24}
+{"stage": "waiting", "attempt": 36}
+{"stage": "waiting", "attempt": 48}
+{"stage": "c16_healthy"}
+{"stage": "default_c16_complete", "container": "qwen36-c16-112k-20261015", "port": 18016}

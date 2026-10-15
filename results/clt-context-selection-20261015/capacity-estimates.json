@@ -1,0 +1,63 @@
+{
+  "status": "capacity estimates; no service run at these minimum block counts",
+  "device_total_mb": 44215,
+  "sampled_peaks_mb": {
+    "c16": 40561,
+    "c8": 35518
+  },
+  "memory_unit_convention": "npu-smi MB / 1024 used for GiB planning; raw MB retained",
+  "non_pool_baseline_gib": 29.320556640625,
+  "assumed_safety_margin_gib": 2.0,
+  "profiles": [
+    {
+      "label": "8K",
+      "total_context_cap": 8320,
+      "scheduler_blocks_assumed": 15,
+      "c16_planning_reservation_gib": 32.0126953125,
+      "c16_uncommitted_gib": 11.166015625,
+      "c8_planning_reservation_gib": 31.858619689941406,
+      "c8_uncommitted_gib": 11.320091247558594,
+      "c8_saving_gib": 0.15407562255859375
+    },
+    {
+      "label": "32K",
+      "total_context_cap": 32896,
+      "scheduler_blocks_assumed": 36,
+      "c16_planning_reservation_gib": 32.981689453125,
+      "c16_uncommitted_gib": 10.197021484375,
+      "c8_planning_reservation_gib": 32.636566162109375,
+      "c8_uncommitted_gib": 10.542144775390625,
+      "c8_saving_gib": 0.345123291015625
+    },
+    {
+      "label": "64K",
+      "total_context_cap": 65664,
+      "scheduler_blocks_assumed": 64,
+      "c16_planning_reservation_gib": 34.273681640625,
+      "c16_uncommitted_gib": 8.905029296875,
+      "c8_planning_reservation_gib": 33.673828125,
+      "c8_uncommitted_gib": 9.5048828125,
+      "c8_saving_gib": 0.599853515625
+    },
+    {
+      "label": "96K",
+      "total_context_cap": 98432,
+      "scheduler_blocks_assumed": 93,
+      "c16_planning_reservation_gib": 35.61181640625,
+      "c16_uncommitted_gib": 7.56689453125,
+      "c8_planning_reservation_gib": 34.74590301513672,
+      "c8_uncommitted_gib": 8.432807922363281,
+      "c8_saving_gib": 0.8659133911132812
+    },
+    {
+      "label": "112K",
+      "total_context_cap": 114688,
+      "scheduler_blocks_assumed": 107,
+      "c16_planning_reservation_gib": 36.2578125,
+      "c16_uncommitted_gib": 6.9208984375,
+      "c8_planning_reservation_gib": 35.26428985595703,
+      "c8_uncommitted_gib": 7.914421081542969,
+      "c8_saving_gib": 0.9935226440429688
+    }
+  ]
+}
