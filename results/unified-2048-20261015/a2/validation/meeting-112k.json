@@ -1,0 +1,63 @@
+{
+  "prompt_tokens": 112000,
+  "prompt_hash": "31114e2cc2a49fb01e1c8feb0312a41d236fe741d219ed8c237c6da37ce9932f",
+  "positions": [
+    11202,
+    55959,
+    100719
+  ],
+  "response": {
+    "id": "cmpl-98fe2dff95f06e9e",
+    "object": "text_completion",
+    "created": 1792048311,
+    "model": "qwen36-w4a8-c8",
+    "choices": [
+      {
+        "index": 0,
+        "text": "{\n  \"budget_yuan\": 180000,\n  \"owner\": \"周启\",\n  \"deadline\": \"2026-11-12\",\n  \"status\": \"延期上线\"\n}",
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-3308221e",
+    "usage": {
+      "prompt_tokens": 112000,
+      "total_tokens": 112054,
+      "completion_tokens": 54,
+      "prompt_tokens_details": null
+    },
+    "kv_transfer_params": null
+  },
+  "score": {
+    "passed": true,
+    "parsed": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    },
+    "expected": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    }
+  },
+  "elapsed_s": 322.9991844720207,
+  "metrics_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 320.49925418401835,
+    "vllm:request_decode_time_seconds_sum": 2.4808035109890625,
+    "vllm:spec_decode_num_drafts_total": 18.0,
+    "vllm:spec_decode_num_draft_tokens_total": 36.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 36.0
+  },
+  "prefill_tok_s": 349.45479135403514,
+  "decode_tok_s": 21.36404586869906
+}

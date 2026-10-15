@@ -14,6 +14,7 @@ p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--base-url', required=True)
 p.add_argument('--model', required=True)
 p.add_argument('--out', type=Path, required=True)
+p.add_argument('--smoke-only', action='store_true', help='恢复原参数后只检查短请求；不标记长测通过')
 a = p.parse_args()
 a.out.mkdir(parents=True, exist_ok=True)
 base = a.base_url.rstrip('/')
@@ -42,6 +43,10 @@ invoke('check_cache_request_reuse.py', '--base-url', base, '--model', a.model,
        '--out', str(a.out/'quality-before.json'))
 quality = json.loads((a.out/'quality-before.json').read_text())
 assert quality['strict_matches'] == 8 and quality['reuse']['identical_text'] and not quality['reuse']['canary_leaked']
+if a.smoke_only:
+    (a.out/'smoke-passed.json').write_text(json.dumps({'passed':True, 'scope':'health + 8 toy questions + A/B/A; long tests not rerun'}, indent=2))
+    status('restoration short gates passed; long tests not rerun')
+    raise SystemExit(0)
 for tokens, repeats in [(32768, 2), (112000, 1)]:
     status(f'fixed output benchmark {tokens}, warmup1 + repeats{repeats}')
     invoke('bench_server_phases.py', '--base-url', base, '--model', a.model,

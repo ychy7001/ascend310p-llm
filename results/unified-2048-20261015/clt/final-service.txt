@@ -1,0 +1,2 @@
+aisbench Up 50 minutes 
+qwen36-c16-112k-20261015 Up 7 minutes 

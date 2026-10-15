@@ -1,0 +1,465 @@
+[
+    {
+        "Id": "ffbbeb066f3dd49e28ceb5eb3294c5aff62f11a03dc01abcd55f5e76bb0a6da9",
+        "Created": "2026-10-15T03:05:27.997850738Z",
+        "Path": "/usr/local/bin/entrypoint.sh",
+        "Args": [
+            "bash",
+            "-lc",
+            "\n    set -e\n    triton_path=/usr/local/python3.12.13/lib/python3.12/site-packages/triton\n    if [[ -d \"$triton_path\" ]]; then mv \"$triton_path\" /opt/triton-disabled; fi\n    source /usr/local/Ascend/ascend-toolkit/set_env.sh\n    source /opp/bin/set_env.bash\n    export ASCEND_CUSTOM_OPP_PATH=/opp\n    if [[ \"$QWEN36_GDN_ENABLED\" == 1 ]]; then\n      export ASCEND_CUSTOM_OPP_PATH=\"/gdn-opp:/opp\"\n      export LD_LIBRARY_PATH=\"/gdn-opp/op_api/lib:$LD_LIBRARY_PATH\"\n    fi\n    python3 -c \"import sitecustomize; print(sitecustomize.__file__)\"\n    args=()\n    if [[ \"$ENABLE_PROFILER\" == 1 ]]; then\n      args+=(--profiler-config '{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}')\n    fi\n    if [[ \"$ENFORCE_EAGER\" == 1 ]]; then\n      args+=(--enforce-eager)\n    else\n      args+=(--compilation-config \"{\\\"mode\\\":$COMPILATION_MODE,\\\"cudagraph_mode\\\":\\\"$GRAPH_MODE\\\",\\\"cudagraph_capture_sizes\\\":[$GRAPH_CAPTURE_SIZES]}\")\n    fi\n    if [[ \"$MTP\" == 1 ]]; then\n      args+=(--speculative-config \"{\\\"method\\\":\\\"mtp\\\",\\\"num_speculative_tokens\\\":$NUM_SPECULATIVE_TOKENS}\")\n    fi\n    if [[ \"$ENABLE_PREFIX_CACHING\" == 1 ]]; then\n      args+=(--enable-prefix-caching)\n    else\n      args+=(--no-enable-prefix-caching)\n    fi\n    exec vllm serve /model \"${args[@]}\" --served-model-name qwen36-w4a8-c8 \\\n      --tensor-parallel-size 1 --dtype float16 --block-size 64 \\\n      --max-model-len \"$MAX_MODEL_LEN\" --gpu-memory-utilization \"$MEMORY_UTILIZATION\" \\\n      --max-num-seqs \"$MAX_NUM_SEQS\" --max-num-batched-tokens \"$MAX_BATCHED_TOKENS\" \\\n      --no-async-scheduling --language-model-only --host 0.0.0.0 --port \"$PORT\"\n  "
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 69089,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-15T07:21:45.776573277Z",
+            "FinishedAt": "2026-10-15T06:49:36.536892989Z"
+        },
+        "Image": "sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+        "ResolvConfPath": "/var/lib/docker/containers/ffbbeb066f3dd49e28ceb5eb3294c5aff62f11a03dc01abcd55f5e76bb0a6da9/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/ffbbeb066f3dd49e28ceb5eb3294c5aff62f11a03dc01abcd55f5e76bb0a6da9/hostname",
+        "HostsPath": "/var/lib/docker/containers/ffbbeb066f3dd49e28ceb5eb3294c5aff62f11a03dc01abcd55f5e76bb0a6da9/hosts",
+        "LogPath": "/var/lib/docker/containers/ffbbeb066f3dd49e28ceb5eb3294c5aff62f11a03dc01abcd55f5e76bb0a6da9/ffbbeb066f3dd49e28ceb5eb3294c5aff62f11a03dc01abcd55f5e76bb0a6da9-json.log",
+        "Name": "/qwen36-c16-112k-20261015",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "/home/clt/qwen36-optimized-20261015/artifacts/pr17640_gdn.so:/custom/pr17640_gdn.so:ro",
+                "/home/clt/qwen36-optimized-20261015/artifacts/w4-opp:/opp:ro",
+                "/usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro",
+                "/home/clt/qwen36-optimized-20261015/artifacts/gdn-opp:/gdn-opp:ro",
+                "/home/clt/qwen36-optimized-20261015/artifacts/gdn-source.py:/gdn-source.py:ro",
+                "/home/clt/qwen36-optimized-20261015/repo/runtime:/w4only:ro",
+                "/home/clt/qwen36-optimized-20261015/artifacts/libqwen36_c8.so:/custom/libqwen36_c8.so:ro",
+                "/home/clt/qwen36-optimized-20261015/artifacts/libqwen36_mindieq_grouped.so:/custom/mindieq_grouped.so:ro",
+                "/home/clt/qwen36-w4-deploy/model:/model:ro",
+                "/home/clt/qwen36-optimized-20261015/repo/bootstrap:/bootstrap:ro",
+                "/home/clt/qwen36-optimized-20261015/repo/experimental/c8_bootstrap:/c8bootstrap:ro",
+                "/home/clt/qwen36-optimized-20261015/artifacts/qwen36_int4_custom.so:/custom/qwen36_int4_custom.so:ro",
+                "/usr/local/dcmi:/usr/local/dcmi:ro",
+                "/etc/ascend_install.info:/etc/ascend_install.info:ro",
+                "/home/clt/qwen36-optimized-20261015/repo/experimental:/c8adapter:ro",
+                "/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "host",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "unless-stopped",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 17179869184,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [
+                {
+                    "PathOnHost": "/dev/davinci0",
+                    "PathInContainer": "/dev/davinci0",
+                    "CgroupPermissions": "rwm"
+                },
+                {
+                    "PathOnHost": "/dev/davinci_manager",
+                    "PathInContainer": "/dev/davinci_manager",
+                    "CgroupPermissions": "rwm"
+                },
+                {
+                    "PathOnHost": "/dev/devmm_svm",
+                    "PathInContainer": "/dev/devmm_svm",
+                    "CgroupPermissions": "rwm"
+                },
+                {
+                    "PathOnHost": "/dev/hisi_hdc",
+                    "PathInContainer": "/dev/hisi_hdc",
+                    "CgroupPermissions": "rwm"
+                }
+            ],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware",
+                "/sys/devices/system/cpu/cpu0/thermal_throttle",
+                "/sys/devices/system/cpu/cpu1/thermal_throttle",
+                "/sys/devices/system/cpu/cpu2/thermal_throttle",
+                "/sys/devices/system/cpu/cpu3/thermal_throttle",
+                "/sys/devices/system/cpu/cpu4/thermal_throttle",
+                "/sys/devices/system/cpu/cpu5/thermal_throttle",
+                "/sys/devices/system/cpu/cpu6/thermal_throttle",
+                "/sys/devices/system/cpu/cpu7/thermal_throttle",
+                "/sys/devices/system/cpu/cpu8/thermal_throttle",
+                "/sys/devices/system/cpu/cpu9/thermal_throttle",
+                "/sys/devices/system/cpu/cpu10/thermal_throttle",
+                "/sys/devices/system/cpu/cpu11/thermal_throttle",
+                "/sys/devices/system/cpu/cpu12/thermal_throttle",
+                "/sys/devices/system/cpu/cpu13/thermal_throttle",
+                "/sys/devices/system/cpu/cpu14/thermal_throttle",
+                "/sys/devices/system/cpu/cpu15/thermal_throttle",
+                "/sys/devices/system/cpu/cpu16/thermal_throttle",
+                "/sys/devices/system/cpu/cpu17/thermal_throttle",
+                "/sys/devices/system/cpu/cpu18/thermal_throttle",
+                "/sys/devices/system/cpu/cpu19/thermal_throttle",
+                "/sys/devices/system/cpu/cpu20/thermal_throttle",
+                "/sys/devices/system/cpu/cpu21/thermal_throttle",
+                "/sys/devices/system/cpu/cpu22/thermal_throttle",
+                "/sys/devices/system/cpu/cpu23/thermal_throttle",
+                "/sys/devices/system/cpu/cpu24/thermal_throttle",
+                "/sys/devices/system/cpu/cpu25/thermal_throttle",
+                "/sys/devices/system/cpu/cpu26/thermal_throttle",
+                "/sys/devices/system/cpu/cpu27/thermal_throttle",
+                "/sys/devices/system/cpu/cpu28/thermal_throttle",
+                "/sys/devices/system/cpu/cpu29/thermal_throttle",
+                "/sys/devices/system/cpu/cpu30/thermal_throttle",
+                "/sys/devices/system/cpu/cpu31/thermal_throttle"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/qwen36_int4_custom.so",
+                "Destination": "/custom/qwen36_int4_custom.so",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/pr17640_gdn.so",
+                "Destination": "/custom/pr17640_gdn.so",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/usr/local/Ascend/driver/version.info",
+                "Destination": "/usr/local/Ascend/driver/version.info",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/libqwen36_c8.so",
+                "Destination": "/custom/libqwen36_c8.so",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/repo/bootstrap",
+                "Destination": "/bootstrap",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/repo/experimental/c8_bootstrap",
+                "Destination": "/c8bootstrap",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/usr/local/Ascend/driver/lib64",
+                "Destination": "/usr/local/Ascend/driver/lib64",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/gdn-opp",
+                "Destination": "/gdn-opp",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/gdn-source.py",
+                "Destination": "/gdn-source.py",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/repo/runtime",
+                "Destination": "/w4only",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/etc/ascend_install.info",
+                "Destination": "/etc/ascend_install.info",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/repo/experimental",
+                "Destination": "/c8adapter",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/usr/local/dcmi",
+                "Destination": "/usr/local/dcmi",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/w4-opp",
+                "Destination": "/opp",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-optimized-20261015/artifacts/libqwen36_mindieq_grouped.so",
+                "Destination": "/custom/mindieq_grouped.so",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/clt/qwen36-w4-deploy/model",
+                "Destination": "/model",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "clt",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "OMP_NUM_THREADS=4",
+                "QWEN36_MINDIEQ_LIBRARY=/custom/mindieq_grouped.so",
+                "PORT=18016",
+                "MAX_BATCHED_TOKENS=2048",
+                "MAX_NUM_SEQS=1",
+                "QWEN36_C8_POOL_MODE=split_by_type",
+                "QWEN36_ROUTE_TRACE_CALLS=256",
+                "ENFORCE_EAGER=0",
+                "QWEN36_GDN_LIBRARY=/custom/pr17640_gdn.so",
+                "VLLM_WORKER_MULTIPROC_METHOD=spawn",
+                "QWEN36_C8_ENABLED=0",
+                "QWEN36_MINDIEQ_SHARED_GATE=1",
+                "QWEN36_MINDIEQ_ENABLED=1",
+                "ATEN_CPU_CAPABILITY=default",
+                "CLT_KV_AUDIT=1",
+                "PYTHONPATH=/c8bootstrap",
+                "QWEN36_C8_PERSISTENT_NZ_MAX_GIB=4",
+                "QWEN36_C8_DEVICE_LENGTH=1",
+                "QWEN36_MINDIEQ_MIN_TOKENS=128",
+                "ENABLE_PREFIX_CACHING=0",
+                "QWEN36_C8_LIBRARY=/custom/libqwen36_c8.so",
+                "QWEN36_C8_PERSISTENT_NZ=0",
+                "QWEN36_C8_PERSISTENT_NZ_ASSUME_STABLE=0",
+                "GRAPH_MODE=FULL_DECODE_ONLY",
+                "QWEN36_GDN_ENABLED=1",
+                "QWEN36_GDN_SOURCE=/gdn-source.py",
+                "MAX_MODEL_LEN=114688",
+                "QWEN36_MINDIEQ_CUSTOM_QUANT=1",
+                "ENABLE_PROFILER=",
+                "TORCH_DEVICE_BACKEND_AUTOLOAD=0",
+                "QWEN36_C8_FUSED_WRITE=1",
+                "QWEN36_ROUTE_TRACE_PATH=",
+                "QWEN36_C8_ALLOW_GRAPH=1",
+                "GRAPH_CAPTURE_SIZES=1,2",
+                "COMPILATION_MODE=0",
+                "MTP=1",
+                "MEMORY_UTILIZATION=0.90",
+                "MKL_NUM_THREADS=4",
+                "QWEN36_GROUPED_CHUNK_TOKENS=512",
+                "QWEN36_C8_FORCE_UPDATABLE_GRAPH=1",
+                "QWEN36_C8_ALLOW_MTP2=0",
+                "NUM_SPECULATIVE_TOKENS=1",
+                "PATH=/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/bin:/usr/local/Ascend/ascend-toolkit/latest/bin:/usr/local/Ascend/ascend-toolkit/latest/compiler/ccec_compiler/bin:/usr/local/Ascend/ascend-toolkit/latest/tools/ccec_compiler/bin:/usr/local/Ascend/cann-9.1.0/tools/show_kernel_debug_data:/usr/local/Ascend/cann-9.1.0/tools/msobjdump:/usr/local/Ascend/cann-9.1.0/bin:/usr/local/Ascend/cann-9.1.0/tools/ccec_compiler/bin:/usr/local/Ascend/cann-9.1.0/tools/profiler/bin:/usr/local/Ascend/cann-9.1.0/tools/ascend_system_advisor/asys:/usr/local/python3.12.13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LD_LIBRARY_PATH=/usr/local/Ascend/cann-9.1.0/lib64:/usr/local/Ascend/cann-9.1.0/lib64/plugin/opskernel:/usr/local/Ascend/cann-9.1.0/lib64/plugin/nnengine:/usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/op_tiling:/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64/common:/usr/local/Ascend/driver/lib64/driver:/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/lib:/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/examples:/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/tests/atbopstest:/usr/local/Ascend/ascend-toolkit/latest/tools/aml/lib64:/usr/local/Ascend/ascend-toolkit/latest/tools/aml/lib64/plugin:/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/lib64/plugin/opskernel:/usr/local/Ascend/ascend-toolkit/latest/lib64/plugin/nnengine:/usr/local/Ascend/ascend-toolkit/latest/opp/built-in/op_impl/ai_core/tbe/op_tiling:/usr/local/python3.12.13/lib:",
+                "ASCEND_TOOLKIT_HOME=/usr/local/Ascend/cann-9.1.0",
+                "ASCEND_TOOLKIT_LATEST_HOME=/usr/local/Ascend/ascend-toolkit/latest",
+                "ASCEND_AICPU_PATH=/usr/local/Ascend/cann-9.1.0",
+                "ASCEND_OPP_PATH=/usr/local/Ascend/cann-9.1.0/opp",
+                "TOOLCHAIN_HOME=/usr/local/Ascend/cann-9.1.0/toolkit",
+                "ASCEND_HOME_PATH=/usr/local/Ascend/cann-9.1.0",
+                "CMAKE_PREFIX_PATH=/usr/local/Ascend/cann-9.1.0/toolkit/tools/tikicpulib/lib/cmake:/usr/local/Ascend/cann-9.1.0/lib64/cmake",
+                "ATB_HOME_PATH=/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1",
+                "ATB_STREAM_SYNC_EVERY_KERNEL_ENABLE=0",
+                "ATB_STREAM_SYNC_EVERY_RUNNER_ENABLE=0",
+                "ATB_STREAM_SYNC_EVERY_OPERATION_ENABLE=0",
+                "ATB_OPSRUNNER_KERNEL_CACHE_LOCAL_COUNT=1",
+                "ATB_OPSRUNNER_KERNEL_CACHE_GLOABL_COUNT=5",
+                "ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=1",
+                "ATB_COMPARE_TILING_EVERY_KERNEL=0",
+                "ATB_SHARE_MEMORY_NAME_SUFFIX=",
+                "ATB_MATMUL_SHUFFLE_K_ENABLE=1",
+                "LCCL_DETERMINISTIC=0",
+                "LCCL_PARALLEL=0",
+                "ATB_CXX_ABI=1",
+                "DEBIAN_FRONTEND=noninteractive",
+                "SOC_VERSION=ascend310p1",
+                "TASK_QUEUE_ENABLE=1"
+            ],
+            "Cmd": [
+                "bash",
+                "-lc",
+                "\n    set -e\n    triton_path=/usr/local/python3.12.13/lib/python3.12/site-packages/triton\n    if [[ -d \"$triton_path\" ]]; then mv \"$triton_path\" /opt/triton-disabled; fi\n    source /usr/local/Ascend/ascend-toolkit/set_env.sh\n    source /opp/bin/set_env.bash\n    export ASCEND_CUSTOM_OPP_PATH=/opp\n    if [[ \"$QWEN36_GDN_ENABLED\" == 1 ]]; then\n      export ASCEND_CUSTOM_OPP_PATH=\"/gdn-opp:/opp\"\n      export LD_LIBRARY_PATH=\"/gdn-opp/op_api/lib:$LD_LIBRARY_PATH\"\n    fi\n    python3 -c \"import sitecustomize; print(sitecustomize.__file__)\"\n    args=()\n    if [[ \"$ENABLE_PROFILER\" == 1 ]]; then\n      args+=(--profiler-config '{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}')\n    fi\n    if [[ \"$ENFORCE_EAGER\" == 1 ]]; then\n      args+=(--enforce-eager)\n    else\n      args+=(--compilation-config \"{\\\"mode\\\":$COMPILATION_MODE,\\\"cudagraph_mode\\\":\\\"$GRAPH_MODE\\\",\\\"cudagraph_capture_sizes\\\":[$GRAPH_CAPTURE_SIZES]}\")\n    fi\n    if [[ \"$MTP\" == 1 ]]; then\n      args+=(--speculative-config \"{\\\"method\\\":\\\"mtp\\\",\\\"num_speculative_tokens\\\":$NUM_SPECULATIVE_TOKENS}\")\n    fi\n    if [[ \"$ENABLE_PREFIX_CACHING\" == 1 ]]; then\n      args+=(--enable-prefix-caching)\n    else\n      args+=(--no-enable-prefix-caching)\n    fi\n    exec vllm serve /model \"${args[@]}\" --served-model-name qwen36-w4a8-c8 \\\n      --tensor-parallel-size 1 --dtype float16 --block-size 64 \\\n      --max-model-len \"$MAX_MODEL_LEN\" --gpu-memory-utilization \"$MEMORY_UTILIZATION\" \\\n      --max-num-seqs \"$MAX_NUM_SEQS\" --max-num-batched-tokens \"$MAX_BATCHED_TOKENS\" \\\n      --no-async-scheduling --language-model-only --host 0.0.0.0 --port \"$PORT\"\n  "
+            ],
+            "Image": "quay.io/ascend/vllm-ascend:v0.23.0.post1-310p",
+            "Volumes": null,
+            "WorkingDir": "/workspace",
+            "Entrypoint": [
+                "/usr/local/bin/entrypoint.sh"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "78c6f77a7a6d0bddbab816ce235a1a7523f7bda124859a615414d46a3a62653d",
+            "SandboxKey": "/var/run/docker/netns/default",
+            "Ports": {},
+            "Networks": {
+                "host": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "35b47db55d323b47ec8aede55dd41240e3bad4aee07cd07fed06df6ec69bf25d",
+                    "EndpointID": "d1acbbdd7389ae4cdd57af7035124c1bbcbdda4b8ab9dce1f3ffc24fca6f45e9",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:aa625af28af09b0a4d001dcd227820bd8e4c0ad023d3c33c64d36d4bc367fd73",
+            "size": 3737,
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]

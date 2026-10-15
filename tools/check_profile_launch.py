@@ -19,7 +19,7 @@ def main():
         podman.write_text('#!/usr/bin/env python3\nimport sys,json\nprint(json.dumps(sys.argv[1:]))\n')
         podman.chmod(0o755)
         env = {k: v for k, v in os.environ.items() if not k.startswith('QWEN36_')}
-        for key in ('MAX_MODEL_LEN', 'MAX_BATCHED_TOKENS', 'MEMORY_UTILIZATION', 'ENFORCE_EAGER'):
+        for key in ('MAX_MODEL_LEN', 'MAX_BATCHED_TOKENS', 'MEMORY_UTILIZATION', 'ENFORCE_EAGER', 'NUM_SPECULATIVE_TOKENS'):
             env.pop(key, None)
         env['PATH'] = directory + ':' + env['PATH']
         env.update({key: directory for key in ('MODEL_DIR', 'OPP_DIR', 'GDN_OPP_DIR')})
@@ -41,7 +41,21 @@ def main():
                 assert config['mindieq_min_tokens'] == 128
                 assert actual['QWEN36_MINDIEQ_SHARED_GATE'] == actual['QWEN36_MINDIEQ_CUSTOM_QUANT'] == '1'
             print(f'{profile}: effective_config matches captured container arguments')
-        for overrides in ({'QWEN36_MINDIEQ_ENABLED': '0'},
+        for drafts in (1, 2):
+            proc = subprocess.run(['bash', str(ROOT / 'scripts/run-candidate.sh')],
+                                  env={**env, 'NUM_SPECULATIVE_TOKENS': str(drafts)},
+                                  capture_output=True, text=True, check=True)
+            config, end = json.JSONDecoder().raw_decode(proc.stdout)
+            args = json.loads(proc.stdout[end:].strip())
+            actual = dict(args[i + 1].split('=', 1) for i, value in enumerate(args[:-1]) if value == '-e')
+            assert actual['NUM_SPECULATIVE_TOKENS'] == str(drafts)
+            assert actual['GRAPH_CAPTURE_SIZES'] == ('1,2' if drafts == 1 else '1,2,3')
+            assert actual['QWEN36_MINDIEQ_ENABLED'] == '1'
+            assert actual['MAX_BATCHED_TOKENS'] == '2048'
+            assert config['effective_config']['NUM_SPECULATIVE_TOKENS'] == str(drafts)
+        print('long-prefill explicit MTP1/2 keeps MindIEQ and matching Graph shapes')
+        for overrides in ({'NUM_SPECULATIVE_TOKENS': '3'},
+                          {'QWEN36_MINDIEQ_ENABLED': '0'},
                           {'QWEN36_MINDIEQ_ENABLED': '1', 'QWEN36_MINDIEQ_MIN_TOKENS': '17'},
                           {'QWEN36_MINDIEQ_ENABLED': '1', 'QWEN36_MINDIEQ_SHARED_GATE': '0'}):
             proc = subprocess.run(['bash', str(ROOT / 'scripts/run-candidate.sh'), '--check', '--profile', 'long-prefill'],

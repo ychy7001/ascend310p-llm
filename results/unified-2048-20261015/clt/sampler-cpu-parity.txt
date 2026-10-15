@@ -1,0 +1,166 @@
+INFO 10-15 07:09:03 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 07:09:03 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 07:09:03 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 07:09:03 [__init__.py:238] Platform plugin ascend is activated
+INFO 10-15 07:09:06 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 07:09:06 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING:root:Qwen36/310P: rejection sampler count upload is blocking (opt-in)
+{
+  "passed": true,
+  "scope": "CPU sampler parity; not NPU stream correctness",
+  "cases": [
+    {
+      "counts": [
+        2
+      ],
+      "mismatch": -1,
+      "output": [
+        [
+          10,
+          11,
+          700
+        ]
+      ]
+    },
+    {
+      "counts": [
+        2
+      ],
+      "mismatch": 0,
+      "output": [
+        [
+          110,
+          -1,
+          -1
+        ]
+      ]
+    },
+    {
+      "counts": [
+        2
+      ],
+      "mismatch": 1,
+      "output": [
+        [
+          10,
+          111,
+          -1
+        ]
+      ]
+    },
+    {
+      "counts": [
+        1,
+        2
+      ],
+      "mismatch": -1,
+      "output": [
+        [
+          10,
+          700,
+          -1
+        ],
+        [
+          11,
+          12,
+          701
+        ]
+      ]
+    },
+    {
+      "counts": [
+        1,
+        2
+      ],
+      "mismatch": 0,
+      "output": [
+        [
+          110,
+          -1,
+          -1
+        ],
+        [
+          11,
+          12,
+          701
+        ]
+      ]
+    },
+    {
+      "counts": [
+        1,
+        2
+      ],
+      "mismatch": 1,
+      "output": [
+        [
+          10,
+          700,
+          -1
+        ],
+        [
+          111,
+          -1,
+          -1
+        ]
+      ]
+    },
+    {
+      "counts": [
+        0,
+        2
+      ],
+      "mismatch": -1,
+      "output": [
+        [
+          700,
+          -1,
+          -1
+        ],
+        [
+          10,
+          11,
+          701
+        ]
+      ]
+    },
+    {
+      "counts": [
+        0,
+        2
+      ],
+      "mismatch": 0,
+      "output": [
+        [
+          700,
+          -1,
+          -1
+        ],
+        [
+          110,
+          -1,
+          -1
+        ]
+      ]
+    },
+    {
+      "counts": [
+        0,
+        2
+      ],
+      "mismatch": 1,
+      "output": [
+        [
+          700,
+          -1,
+          -1
+        ],
+        [
+          10,
+          111,
+          -1
+        ]
+      ]
+    }
+  ]
+}

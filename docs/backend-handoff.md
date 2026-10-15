@@ -9,11 +9,11 @@
 
 固定组合为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、GDN、MindIEQ E5，2048/512，最大总序列114688 token，显存利用率0.95。单请求调度；多客户端会排队，不代表已支持并发批处理。请求输入与输出预算合计需≤114688。prefix默认关闭，图像输入未验收。
 
-2026-10-15更新：公开候选入口优先C16；测试结果与切换记录见[a2 C16/C8配对报告](../results/a2-kv-comparison-20261015/README.md)。API模型名保留`qwen36-w4a8-c8`兼容已有客户端，不能据名称推断KV格式。显式`QWEN36_C8_ENABLED=1`可重建C8。独立实验前先停systemd管理单元，避免它按旧参数自动拉起容器；不要同时管理同一设备/端口。当前实际容器与管理状态以该报告最后快照为准。
+2026-10-15更新：公开候选入口优先C16；测试结果与切换记录见[a2 C16/C8配对报告](../results/a2-kv-comparison-20261015/README.md)。API模型名保留`qwen36-w4a8-c8`兼容已有客户端，不能据名称推断KV格式。显式`QWEN36_C8_ENABLED=1`可重建C8。独立实验前先停systemd管理单元，避免它按旧参数自动拉起容器；不要同时管理同一设备/端口。当前实际容器与管理状态以[本轮2048部署快照](../results/unified-2048-20261015/README.md)及deployment.json为准。
 
 ## MTP与Prefill batch选择依据
 
-[a2四组参数对照](../results/a2-profile-matrix-20261015/README.md)已完成16个正式请求。32K同输入/同输出/接受率100%下，MTP2比MTP1提高Decode约23%，Prefill下降不足1%；固定MTP后2048与4096速度接近。用户授权后三台统一候选为MTP2/2048/512，a2通过systemd dropin显式设置batch2048；[新组合验收](../results/unified-2048-20261015/README.md)仍需独立核实，不沿用旧4096长测作为新参数验收。业务接受率和质量、structured output边界仍须按下文处理；此对照不扩展任何生产承诺。
+[a2四组参数对照](../results/a2-profile-matrix-20261015/README.md)已完成16个正式请求。32K同输入/同输出/接受率100%下，MTP2比MTP1提高Decode约23%，Prefill下降不足1%；固定MTP后2048与4096速度接近。用户授权后实际尝试三台MTP2/2048/512；a2通过systemd dropin设置2048，并完成本轮32K、112000+128、112K会议及长后正确性门禁。32K中位Prefill/Decode为550.15/32.50 tok/s，112000/128为384.35/21.70 tok/s。clt与RC的MTP2出现可复现故障，当前恢复MTP1，不照搬a2结论；[原始验收与失败证据](../results/unified-2048-20261015/README.md)独立保留。业务接受率和质量、structured output边界仍须按下文处理；此对照不扩展任何生产承诺。
 
 ## HTTP调用
 

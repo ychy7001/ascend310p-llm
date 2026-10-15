@@ -1,0 +1,15 @@
+[W1015 07:11:22.106972567 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+[W1015 07:11:40.466309918 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+{"stage": "start", "dtype": "torch.int32", "mode": "blocking-default"}
+{"stage": "passed", "dtype": "torch.int32", "mode": "blocking-default", "values": [[11, 29]]}
+{"stage": "start", "dtype": "torch.int32", "mode": "async-default"}
+{"stage": "passed", "dtype": "torch.int32", "mode": "async-default", "values": [[11, 29]]}
+{"stage": "start", "dtype": "torch.int32", "mode": "async-copy-stream"}
+{"stage": "passed", "dtype": "torch.int32", "mode": "async-copy-stream", "values": [[11, 29]]}
+{"stage": "start", "dtype": "torch.int64", "mode": "blocking-default"}
+{"stage": "passed", "dtype": "torch.int64", "mode": "blocking-default", "values": [[11, 29]]}
+{"stage": "start", "dtype": "torch.int64", "mode": "async-default"}
+{"stage": "passed", "dtype": "torch.int64", "mode": "async-default", "values": [[11, 29]]}
+{"stage": "start", "dtype": "torch.int64", "mode": "async-copy-stream"}
+{"stage": "passed", "dtype": "torch.int64", "mode": "async-copy-stream", "values": [[11, 29]]}
+ALL_COPY_CASES_PASSED

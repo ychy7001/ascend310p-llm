@@ -22,10 +22,13 @@ case "$profile" in
     ;;
   long-prefill)
     mtp=1
-    drafts=2
-    capture=1,2,3
-    allow_mtp2=1
-    profile_description='long-prefill candidate: MTP2, grouped prefill, MindIEQ E5'
+    drafts=${NUM_SPECULATIVE_TOKENS:-2}
+    case "$drafts" in
+      1) capture=1,2; allow_mtp2=0 ;;
+      2) capture=1,2,3; allow_mtp2=1 ;;
+      *) echo 'long-prefill NUM_SPECULATIVE_TOKENS must be 1 or 2' >&2; exit 2 ;;
+    esac
+    profile_description="long-prefill candidate: MTP${drafts}, grouped prefill, MindIEQ E5"
     default_batched_tokens=2048
     export QWEN36_MINDIEQ_ENABLED="${QWEN36_MINDIEQ_ENABLED:-1}"
     export QWEN36_MINDIEQ_CUSTOM_QUANT="${QWEN36_MINDIEQ_CUSTOM_QUANT:-1}"

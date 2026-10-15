@@ -1,0 +1,66 @@
+{
+  "updated_at_utc": "2026-10-15T07:21:59.486458+00:00",
+  "git_commit": "5322528957b615cdb70b47147deee7ebd50d4cf5",
+  "runtime_dir": "/home/ychy/services/qwen36/c16-20261015/repo",
+  "image": "30724037ccd4509c1aaea06a11334b26b58534303f6a6f5d68fefc6316f683be",
+  "container": "qwen36-tp1-48g-112k",
+  "config_and_artifacts": {
+    "profile_name": "long-prefill",
+    "effective_config": {
+      "QWEN36_PROFILE": "long-prefill",
+      "MAX_MODEL_LEN": "114688",
+      "MEMORY_UTILIZATION": "0.95",
+      "MAX_BATCHED_TOKENS": "2048",
+      "QWEN36_GROUPED_CHUNK_TOKENS": "512",
+      "MTP": "1",
+      "NUM_SPECULATIVE_TOKENS": "2",
+      "GRAPH_CAPTURE_SIZES": "1,2,3",
+      "GRAPH_MODE": "FULL_DECODE_ONLY",
+      "COMPILATION_MODE": "0",
+      "ENFORCE_EAGER": "0",
+      "QWEN36_C8_ENABLED": "0",
+      "QWEN36_C8_ALLOW_MTP2": "1",
+      "QWEN36_GDN_ENABLED": "1"
+    },
+    "artifacts": {
+      "EXTENSION": {
+        "path": "/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/clean-build/artifacts/qwen36_int4_custom.so",
+        "sha256": "a8ac855968ddc3a56db676c1ac8dd9a8657dbae2fffb28c4276ddb7fef4b5950"
+      },
+      "C8_LIBRARY": {
+        "path": "/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/c8-device-length-build/output/libqwen36_c8.so",
+        "sha256": "85f383cfab4e1f5595394bb1317febfcc65b7b04815c55e8a39ab8b94c3f05e1"
+      },
+      "GDN_LIBRARY": {
+        "path": "/home/ychy/ascend-lab-runtime/mindieq-r3-20261013/gdn-extension/pr17640_gdn.so",
+        "sha256": "7a8004d28f5f488f36a142b3ec453ea1df5ac8396e7244d787ffa10bfbb92047"
+      },
+      "GDN_SOURCE": {
+        "path": "/home/ychy/ascend-lab-runtime/mindieq-r3-20261013/pr17640/vllm_ascend/_310p/ops/fla/chunk_gated_delta_rule.py",
+        "sha256": "3b9bc0eb2e2e9d944316858df1efaea72776e7221b5eb1640db4a719b985accb"
+      },
+      "MINDIEQ_LIBRARY": {
+        "path": "/home/ychy/ascend-lab-runtime/mindieq-r3-20261013/grouped-shared-build-v1/output/libqwen36_mindieq_grouped.so",
+        "sha256": "9fd97f447613997189e2a473d3e374cf485275d60e376b50cf7c1c8ca50595ba"
+      },
+      "MODEL_INDEX": {
+        "sha256": "3f38112c8fc6e4f247e3c05b91df43e487e94ac7e8cf7787a01728cc87d47624"
+      }
+    },
+    "prefix": "0",
+    "mindieq_prefill": "1",
+    "mindieq_custom_quant": "1",
+    "mindieq_min_tokens": 128,
+    "mindieq_shared_gate": "1",
+    "port": "18024"
+  },
+  "kv_format": "C16/FP16",
+  "validation": "current managed C16/MTP2/Graph/MindIEQ/2048/512: health,8of8,ABA,32K warmup+2,112000/128 warmup+1,112K meeting and post-long 8of8/ABA passed; no formal accuracy/P95/vision/prefix acceptance claim",
+  "previous_snapshot": "/home/ychy/ascend-lab-runtime/unified-2048-20261015/deployment-before-unified.json",
+  "runtime_overrides": {
+    "systemd_dropin": "/home/ychy/.config/systemd/user/qwen36-a2.service.d/unified-2048.conf",
+    "MAX_BATCHED_TOKENS": "2048",
+    "non_forced_stopped_container_cleanup": true
+  },
+  "validation_report": "/home/ychy/ascend-lab-runtime/unified-2048-20261015/validation/passed.json"
+}

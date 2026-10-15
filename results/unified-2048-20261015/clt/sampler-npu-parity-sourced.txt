@@ -1,0 +1,29 @@
+INFO 10-15 07:19:46 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 07:19:46 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 07:19:46 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 07:19:46 [__init__.py:238] Platform plugin ascend is activated
+INFO 10-15 07:19:46 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 07:19:46 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING:root:Qwen36/310P: rejection sampler count upload is blocking (opt-in)
+[W1015 07:19:55.665261637 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+[W1015 07:20:06.718325862 NeKernelNpu.cpp:29] Warning: The oprator of ne is executed, Currently High Accuracy but Low Performance OP with 64-bit has been used, Please Do Some Cast at Python Functions with 32-bit for Better Performance! (function operator())
+..Traceback (most recent call last):
+  File "/tmp/test_spec_sampler_npu.py", line 25, in <module>
+    patched(output, cumulative.to('npu'), drafts.to('npu'), target.to('npu'),
+  File "/vllm-workspace/vllm-ascend/vllm_ascend/sample/rejection_sampler.py", line 36, in rejection_greedy_sample_pytorch
+    
+RuntimeError: The Inner error is reported as above. The process exits for this inner error, and the current working operator name is ArgMinWithValue.
+Since the operator is called asynchronously, the stacktrace may be inaccurate. If you want to get the accurate stacktrace, please set the environment variable ASCEND_LAUNCH_BLOCKING=1.
+Note: ASCEND_LAUNCH_BLOCKING=1 will force ops to run in synchronous mode, resulting in performance degradation. Please unset ASCEND_LAUNCH_BLOCKING in time after debugging.
+[ERROR] 2026-10-15-07:20:20 (PID:908, Device:0, RankID:-1) ERR00100 PTA call acl api failed.
+[PID: 908] 2026-10-15-07:19:56.277.700 Invalid_Argument(EH0012): aclrtAllocatorGetByStream failed. Parameter stream is invalid. Reason: The stream is not registered with any allocator.
+TraceBack (most recent call last):
+        Optype [ArgMinWithValue] of Ops kernel [AIcoreEngine] is unsupported. Reason: [tbe-custom]:op type ArgMinWithValue is not found in this op store.[tbe-custom]:op type ArgMinWithValue is not found in this op store.[Static shape check]:data type DT_INT64 of input [x] is not supported. All supported data type and format of tensor input0.x is: Data Type: {DT_FLOAT16,DT_FLOAT}Format:{ND,ND}.
+        No supported Ops kernel and engine are found for [ArgMinWithValue17], optype [ArgMinWithValue].
+        Failed to select engine for [ArgMinWithValue17][ArgMinWithValue].[FUNC:operator()][FILE:engine_place.cc][LINE:152]
+        RunAllSubgraphs failed, graph=online.[FUNC:RunAllSubgraphs][FILE:engine_place.cc][LINE:125]
+        build graph failed, graph id:16, ret:4294967295[FUNC:BuildModelWithGraphId][FILE:ge_generator.cc][LINE:1629]
+        [Build][SingleOpModel]call ge interface generator.BuildSingleOpModel failed. ge result = 4294967295[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:148]
+        [Build][Op]Fail to build op model[FUNC:ReportInnerError][FILE:log_inner.cpp][LINE:132]
+        build op model failed, result = 500002[FUNC:ReportInnerError][FILE:log_inner.cpp][LINE:132]
+

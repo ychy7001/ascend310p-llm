@@ -1,0 +1,2 @@
+8eb012ea40b8b7e23efb0b8a6ef1fff13cb7c73f8adec4273722d2609c9e4537  /home/clt/qwen36-optimized-20261015/repo/experimental/run-c8-service.sh
+9e55582408eac343b9eabb2c0889e711d6e2e5585e5af9bb8a9ab0f326597364  /home/clt/qwen36-optimized-20261015/repo/experimental/c8_bootstrap/sitecustomize.py

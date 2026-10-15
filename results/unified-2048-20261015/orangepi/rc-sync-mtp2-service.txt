@@ -1,0 +1,292 @@
+INFO 10-15 06:49:33 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 06:49:33 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 06:49:33 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 06:49:33 [__init__.py:238] Platform plugin ascend is activated
+[W1015 06:49:33.786994761 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+INFO 10-15 06:49:35 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 06:49:45 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+`Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+RC_BLOCKING_MM_H2D enabled: multimodal input transfers only
+2026-10-15 06:49:56,515 - 21684 - ServiceProfiler - INFO - VLLM_USE_V1 not set, auto-detected via vLLM 0.23.0+empty: default 1
+INFO 10-15 06:49:56 [__init__.py:115] Registered model loader `<class 'vllm_ascend.model_loader.netloader.netloader.ModelNetLoaderElastic'>` with load format `netloader`
+INFO 10-15 06:49:56 [__init__.py:115] Registered model loader `<class 'vllm_ascend.model_loader.rfork.rfork_loader.RForkModelLoader'>` with load format `rfork`
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:339] 
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:339]        █     █     █▄   ▄█
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:339]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.23.0
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:339]   █▄█▀ █     █     █     █  model   /model
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:339]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:339] 
+(APIServer pid=21684) INFO 10-15 06:49:56 [api_utils.py:273] non-default args: {'model_tag': '/model', 'host': '0.0.0.0', 'port': 18024, 'model': '/model', 'dtype': 'float16', 'max_model_len': 114688, 'served_model_name': ['qwen36-w4a8'], 'block_size': 64, 'gpu_memory_utilization': 0.45, 'kv_cache_memory_bytes': 3221225472, 'enable_prefix_caching': True, 'limit_mm_per_prompt': {'image': 1, 'video': 0}, 'mm_processor_kwargs': {'max_pixels': 1048576}, 'mm_processor_cache_gb': 0.5, 'max_num_batched_tokens': 2048, 'max_num_seqs': 1, 'async_scheduling': False, 'speculative_config': {'method': 'mtp', 'num_speculative_tokens': 2}, 'compilation_config': {'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'vllm_ascend.compilation.compiler_interface.AscendCompiler', 'custom_ops': [], 'ir_enable_torch_wrap': None, 'splitting_ops': None, 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': None, 'compile_ranges_endpoints': None, 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_DECODE_ONLY: (2, 0)>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [1, 2, 3], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': None, 'pass_config': {}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': None, 'static_all_moe_layers': []}}
+(APIServer pid=21684) WARNING 10-15 06:49:56 [envs.py:2088] Unknown vLLM environment variable detected: VLLM_ASCEND_FORCE_RC
+(APIServer pid=21684) INFO 10-15 06:50:26 [model.py:611] Resolved architecture: Qwen3_5MoeForConditionalGeneration
+(APIServer pid=21684) WARNING 10-15 06:50:26 [model.py:2083] Casting torch.bfloat16 to torch.float16.
+(APIServer pid=21684) INFO 10-15 06:50:26 [model.py:1745] Using max model len 114688
+(APIServer pid=21684) INFO 10-15 06:50:56 [model.py:611] Resolved architecture: Qwen3_5MoeMTP
+(APIServer pid=21684) WARNING 10-15 06:50:56 [model.py:2083] Casting torch.bfloat16 to torch.float16.
+(APIServer pid=21684) INFO 10-15 06:50:56 [model.py:1745] Using max model len 262144
+(APIServer pid=21684) WARNING 10-15 06:50:56 [speculative.py:722] Enabling num_speculative_tokens > 1 will run multiple times of forward on same MTP layer,which may result in lower acceptance rate
+(APIServer pid=21684) INFO 10-15 06:50:56 [speculative.py:885] Overriding draft model max model len from 262144 to 114688
+(APIServer pid=21684) WARNING 10-15 06:50:56 [config.py:355] Mamba cache mode is set to 'align' for Qwen3_5MoeForConditionalGeneration by default when prefix caching is enabled
+(APIServer pid=21684) INFO 10-15 06:50:56 [config.py:375] Warning: Prefix caching in Mamba cache 'align' mode is currently enabled. Its support for Mamba layers is experimental. Please report any issues you may observe.
+(APIServer pid=21684) INFO 10-15 06:50:56 [patch_mamba_config_310.py:80] Setting attention block size to 1152 tokens to ensure that attention page size is >= mamba page size.
+(APIServer pid=21684) INFO 10-15 06:50:56 [patch_mamba_config_310.py:95] Padding mamba page size by 8.27% to ensure that mamba page size and attention page size are exactly equal.
+(APIServer pid=21684) INFO 10-15 06:50:56 [vllm.py:999] Asynchronous scheduling is disabled.
+(APIServer pid=21684) WARNING 10-15 06:50:56 [vllm.py:1097] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(APIServer pid=21684) INFO 10-15 06:50:56 [kernel.py:270] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(APIServer pid=21684) WARNING 10-15 06:50:56 [vllm.py:1597] max_num_scheduled_tokens is set to 2048 based on the speculative decoding settings. This may lead to suboptimal performance. Consider increasing max_num_batched_tokens to accommodate the additional draft token slots, or decrease num_speculative_tokens or max_num_seqs.
+(APIServer pid=21684) INFO 10-15 06:50:56 [utils.py:174] No quantization signature detected from model files for "/model". The model will be loaded as float. To force a quantization method, pass "--quantization <method>" explicitly.
+(APIServer pid=21684) WARNING 10-15 06:50:56 [platform.py:1067] GPU-specific parameter is not supported on Ascend. parameter=disable_cascade_attn, value=True, action: resetting to False.
+(APIServer pid=21684) INFO 10-15 06:50:56 [platform.py:1277] The timeout interval of the HCCL operator is 1836s. Timeout in seconds for execute_model RPC calls in multiprocessing must be greater than 1836s, Set VLLM_EXECUTE_MODEL_TIMEOUT_SECONDS=3000
+(APIServer pid=21684) WARNING 10-15 06:50:56 [ascend_config.py:644] npugraph_ex is not supported on Ascend 310P. Disabling it.
+(APIServer pid=21684) INFO 10-15 06:50:56 [ascend_config.py:893] Dynamic EPLB is False
+(APIServer pid=21684) INFO 10-15 06:50:56 [ascend_config.py:894] The number of redundant experts is 0
+(APIServer pid=21684) INFO 10-15 06:50:56 [platform.py:790] Set PYTORCH_NPU_ALLOC_CONF=expandable_segments:True
+(APIServer pid=21684) INFO 10-15 06:50:56 [compilation.py:321] Enabled custom fusions: norm_quant, act_quant
+(APIServer pid=21684) The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
+INFO 10-15 06:51:25 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 06:51:25 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 06:51:25 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 06:51:25 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 06:51:25 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 06:51:25 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 06:51:25 [__init__.py:238] Platform plugin ascend is activated
+INFO 10-15 06:51:25 [__init__.py:238] Platform plugin ascend is activated
+[W1015 06:51:25.011997924 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+[W1015 06:51:25.012023081 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+INFO 10-15 06:51:27 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 06:51:27 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 06:51:37 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+INFO 10-15 06:51:37 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+`Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+`Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+RC_BLOCKING_MM_H2D enabled: multimodal input transfers only
+RC_BLOCKING_MM_H2D enabled: multimodal input transfers only
+(EngineCore pid=22267) 2026-10-15 06:51:43,453 - 22267 - ServiceProfiler - INFO - VLLM_USE_V1 not set, auto-detected via vLLM 0.23.0+empty: default 1
+(EngineCore pid=22267) INFO 10-15 06:51:43 [__init__.py:115] Registered model loader `<class 'vllm_ascend.model_loader.netloader.netloader.ModelNetLoaderElastic'>` with load format `netloader`
+(EngineCore pid=22267) INFO 10-15 06:51:43 [__init__.py:115] Registered model loader `<class 'vllm_ascend.model_loader.rfork.rfork_loader.RForkModelLoader'>` with load format `rfork`
+(EngineCore pid=22267) INFO 10-15 06:51:43 [core.py:113] Initializing a V1 LLM engine (v0.23.0) with config: model='/model', speculative_config=SpeculativeConfig(method='mtp', model='/model', num_spec_tokens=2), tokenizer='/model', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=114688, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=True, quantization=None, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=npu, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=qwen36-w4a8, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'vllm_ascend.compilation.compiler_interface.AscendCompiler', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_DECODE_ONLY: (2, 0)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 3], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False}, 'max_cudagraph_capture_size': 3, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, moe_backend='auto', linear_backend='auto')
+(EngineCore pid=22267) INFO 10-15 06:51:46 [ascend_config.py:893] Dynamic EPLB is False
+(EngineCore pid=22267) INFO 10-15 06:51:46 [ascend_config.py:894] The number of redundant experts is 0
+[W1015 06:51:47.770364034 NPUAllocatorConfig.cpp:130] Warning: expandable_segments setting failure, now change to `False`. (function operator())
+[WARN]operator(),../torch_npu/csrc/core/npu/NPUAllocatorConfig.cpp:129:Feature is not supported and the possible cause is that driver and firmware packages do not match.
+INFO 10-15 06:52:01 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 06:52:01 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 06:52:01 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 06:52:01 [__init__.py:238] Platform plugin ascend is activated
+[W1015 06:52:01.678747187 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+INFO 10-15 06:52:03 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 06:52:12 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+`Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+RC_BLOCKING_MM_H2D enabled: multimodal input transfers only
+INFO 10-15 06:52:30 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 06:52:30 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 06:52:30 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 06:52:30 [__init__.py:238] Platform plugin ascend is activated
+[W1015 06:52:31.522469632 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+INFO 10-15 06:52:33 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 06:52:43 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+`Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+RC_BLOCKING_MM_H2D enabled: multimodal input transfers only
+(EngineCore pid=22267) INFO 10-15 06:52:52 [worker_310p.py:148] Root Complex (RC) mode: host and device memory are shared.
+(EngineCore pid=22267) INFO 10-15 06:52:52 [parallel_state.py:1568] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://192.168.3.47:36335 backend=hccl
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+(EngineCore pid=22267) INFO 10-15 06:52:52 [parallel_state.py:1903] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank 0, EPLB rank N/A
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[rank0]:[W1015 06:52:52.475855838 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+(EngineCore pid=22267) WARNING 10-15 06:52:52 [__init__.py:204] min_p and logit_bias parameters won't work with speculative decoding.
+(EngineCore pid=22267) The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
+(EngineCore pid=22267) WARNING 10-15 06:53:06 [__init__.py:204] min_p and logit_bias parameters won't work with speculative decoding.
+(EngineCore pid=22267) INFO 10-15 06:53:06 [model_runner_310p.py:102] Weight layout uses FRACTAL_NZ.
+(EngineCore pid=22267) INFO 10-15 06:53:06 [worker_310p.py:40] Using NPUWorker310 and NPUModelRunner310.
+(EngineCore pid=22267) INFO 10-15 06:53:06 [model_runner_v1.py:3718] Starting to load model /model...
+(EngineCore pid=22267) INFO 10-15 06:53:07 [interface.py:301] Using default backend AttentionBackendEnum.TORCH_SDPA for vit attention
+(EngineCore pid=22267) INFO 10-15 06:53:07 [mm_encoder_attention.py:372] Using AttentionBackendEnum.TORCH_SDPA for MMEncoderAttention.
+(EngineCore pid=22267) INFO 10-15 06:53:07 [qwen_gdn_linear_attn.py:228] Using Triton/FLA GDN prefill kernel (requested=auto, head_k_dim=128).
+(EngineCore pid=22267) INFO 10-15 06:53:08 [weight_utils.py:922] Filesystem type for checkpoints: EXT4. Checkpoint size: 22.92 GiB. Available RAM: 53.31 GiB.
+(EngineCore pid=22267) INFO 10-15 06:53:08 [weight_utils.py:945] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   0% Completed | 0/52 [00:00<?, ?it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   2% Completed | 1/52 [00:00<00:32,  1.57it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   4% Completed | 2/52 [00:09<04:23,  5.28s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   6% Completed | 3/52 [00:09<02:35,  3.18s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   8% Completed | 4/52 [00:11<02:02,  2.55s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  10% Completed | 5/52 [00:11<01:20,  1.71s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  12% Completed | 6/52 [00:22<03:43,  4.86s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  13% Completed | 7/52 [00:22<02:30,  3.34s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  15% Completed | 8/52 [00:33<04:13,  5.77s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  17% Completed | 9/52 [00:34<02:53,  4.03s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  19% Completed | 10/52 [00:44<04:18,  6.16s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  21% Completed | 11/52 [00:45<02:58,  4.34s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  23% Completed | 12/52 [00:57<04:33,  6.83s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  25% Completed | 13/52 [00:57<03:08,  4.82s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  27% Completed | 14/52 [01:01<02:48,  4.44s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  29% Completed | 15/52 [01:01<01:56,  3.15s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  31% Completed | 16/52 [01:14<03:36,  6.02s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  33% Completed | 17/52 [01:14<02:29,  4.27s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  35% Completed | 18/52 [01:18<02:17,  4.04s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  37% Completed | 19/52 [01:18<01:34,  2.87s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  38% Completed | 20/52 [01:30<03:05,  5.79s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  40% Completed | 21/52 [01:30<02:07,  4.11s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  42% Completed | 22/52 [01:34<01:57,  3.93s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  44% Completed | 23/52 [01:34<01:21,  2.79s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  46% Completed | 24/52 [01:45<02:25,  5.19s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  48% Completed | 25/52 [01:45<01:39,  3.68s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  50% Completed | 26/52 [01:50<01:48,  4.18s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  52% Completed | 27/52 [01:51<01:14,  2.98s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  54% Completed | 28/52 [02:01<02:07,  5.32s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  56% Completed | 29/52 [02:01<01:26,  3.77s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  58% Completed | 30/52 [02:07<01:33,  4.25s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  60% Completed | 31/52 [02:07<01:03,  3.02s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  62% Completed | 32/52 [02:20<01:57,  5.89s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  63% Completed | 33/52 [02:20<01:19,  4.18s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  65% Completed | 34/52 [02:23<01:11,  4.00s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  67% Completed | 35/52 [02:23<00:48,  2.84s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  69% Completed | 36/52 [02:36<01:32,  5.76s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  71% Completed | 37/52 [02:36<01:01,  4.09s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  73% Completed | 38/52 [02:40<00:55,  3.93s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  75% Completed | 39/52 [02:40<00:36,  2.79s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  77% Completed | 40/52 [02:51<01:02,  5.21s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  79% Completed | 41/52 [02:51<00:40,  3.70s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  81% Completed | 42/52 [02:56<00:42,  4.21s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  83% Completed | 43/52 [02:57<00:26,  2.99s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  85% Completed | 44/52 [03:07<00:42,  5.36s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  87% Completed | 45/52 [03:08<00:26,  3.82s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  88% Completed | 46/52 [03:19<00:35,  5.95s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  90% Completed | 47/52 [03:19<00:21,  4.23s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  92% Completed | 48/52 [03:30<00:24,  6.24s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  94% Completed | 49/52 [03:30<00:13,  4.42s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  96% Completed | 50/52 [03:39<00:11,  5.82s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  98% Completed | 51/52 [03:40<00:04,  4.26s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards: 100% Completed | 52/52 [03:41<00:00,  3.52s/it]
+(EngineCore pid=22267) Loading safetensors checkpoint shards: 100% Completed | 52/52 [03:41<00:00,  4.27s/it]
+(EngineCore pid=22267) 
+(EngineCore pid=22267) INFO 10-15 06:56:50 [default_loader.py:397] Loading weights took 222.13 seconds
+(EngineCore pid=22267) INFO 10-15 06:56:50 [model_runner_v1.py:3743] Loading drafter model...
+(EngineCore pid=22267) INFO 10-15 06:56:50 [vllm.py:999] Asynchronous scheduling is disabled.
+(EngineCore pid=22267) WARNING 10-15 06:56:50 [vllm.py:1097] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore pid=22267) INFO 10-15 06:56:50 [kernel.py:270] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(EngineCore pid=22267) WARNING 10-15 06:56:50 [vllm.py:1597] max_num_scheduled_tokens is set to 2048 based on the speculative decoding settings. This may lead to suboptimal performance. Consider increasing max_num_batched_tokens to accommodate the additional draft token slots, or decrease num_speculative_tokens or max_num_seqs.
+(EngineCore pid=22267) INFO 10-15 06:56:50 [utils.py:174] No quantization signature detected from model files for "/model". The model will be loaded as float. To force a quantization method, pass "--quantization <method>" explicitly.
+(EngineCore pid=22267) INFO 10-15 06:56:50 [platform.py:1277] The timeout interval of the HCCL operator is 1836s. Timeout in seconds for execute_model RPC calls in multiprocessing must be greater than 1836s, Set VLLM_EXECUTE_MODEL_TIMEOUT_SECONDS=3000
+(EngineCore pid=22267) INFO 10-15 06:56:50 [ascend_config.py:893] Dynamic EPLB is False
+(EngineCore pid=22267) INFO 10-15 06:56:50 [ascend_config.py:894] The number of redundant experts is 0
+(EngineCore pid=22267) INFO 10-15 06:56:50 [platform.py:790] Set PYTORCH_NPU_ALLOC_CONF=expandable_segments:True
+(EngineCore pid=22267) INFO 10-15 06:56:50 [compilation.py:321] Enabled custom fusions: norm_quant, act_quant
+(EngineCore pid=22267) INFO 10-15 06:56:50 [llm_base_proposer.py:305] [spec_decode/base] Loading draft model: method=mtp, load_format=None, model=/model
+(EngineCore pid=22267) /usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+(EngineCore pid=22267)   gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+(EngineCore pid=22267) /usr/local/Ascend/cann-9.1.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+(EngineCore pid=22267)   gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+(EngineCore pid=22267) INFO 10-15 06:57:03 [weight_utils.py:922] Filesystem type for checkpoints: EXT4. Checkpoint size: 22.92 GiB. Available RAM: 46.67 GiB.
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   0% Completed | 0/52 [00:00<?, ?it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   2% Completed | 1/52 [00:00<00:24,  2.10it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:   4% Completed | 2/52 [00:00<00:18,  2.73it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  12% Completed | 6/52 [00:01<00:07,  5.94it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  15% Completed | 8/52 [00:01<00:07,  5.83it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  19% Completed | 10/52 [00:01<00:07,  5.76it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  23% Completed | 12/52 [00:02<00:07,  5.44it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  27% Completed | 14/52 [00:02<00:05,  6.85it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  31% Completed | 16/52 [00:02<00:05,  6.09it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  35% Completed | 18/52 [00:02<00:04,  7.51it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  38% Completed | 20/52 [00:03<00:04,  6.47it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  42% Completed | 22/52 [00:03<00:03,  7.88it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  46% Completed | 24/52 [00:03<00:03,  7.07it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  50% Completed | 26/52 [00:04<00:03,  7.92it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  54% Completed | 28/52 [00:04<00:03,  7.10it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  58% Completed | 30/52 [00:04<00:02,  7.94it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  62% Completed | 32/52 [00:04<00:02,  6.69it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  65% Completed | 34/52 [00:05<00:02,  8.07it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  69% Completed | 36/52 [00:05<00:02,  6.77it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  73% Completed | 38/52 [00:05<00:01,  8.15it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  77% Completed | 40/52 [00:06<00:01,  7.24it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  81% Completed | 42/52 [00:06<00:01,  8.05it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  85% Completed | 44/52 [00:06<00:01,  7.16it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  88% Completed | 46/52 [00:06<00:00,  6.63it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  92% Completed | 48/52 [00:07<00:00,  6.29it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  94% Completed | 49/52 [00:07<00:00,  3.92it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  96% Completed | 50/52 [00:08<00:00,  3.81it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards:  98% Completed | 51/52 [00:09<00:00,  2.34it/s]
+(EngineCore pid=22267) Loading safetensors checkpoint shards: 100% Completed | 52/52 [00:09<00:00,  5.59it/s]
+(EngineCore pid=22267) 
+(EngineCore pid=22267) INFO 10-15 06:57:13 [default_loader.py:397] Loading weights took 9.44 seconds
+(EngineCore pid=22267) INFO 10-15 06:57:13 [llm_base_proposer.py:440] [spec_decode/base] Detected MTP model. Sharing target model embedding weights with the draft model.
+(EngineCore pid=22267) INFO 10-15 06:57:13 [llm_base_proposer.py:496] [spec_decode/base] Wrapping draft model with ACLGraphWrapper: runtime_mode=FULL, use_eagle=True, enable_enpu=False
+(EngineCore pid=22267) INFO 10-15 06:57:15 [model_runner_v1.py:3794] Loading model weights took 27.3212 GB
+(EngineCore pid=22267) INFO 10-15 06:57:15 [model_runner_v1.py:3821] Model runner load_model total time: 249.04 seconds
+(EngineCore pid=22267) INFO 10-15 06:57:15 [gpu_model_runner.py:6200] Encoder cache will be initialized with a budget of 2048 tokens, and profiled with 1 image items of the maximum feature size.
+.(EngineCore pid=22267) [Qwen36 MindIEQ Prefill] tokens=2048 native weight storage reused
+(EngineCore pid=22267) [orangepi] explicit KV budget: 3221225472 bytes
+(EngineCore pid=22267) WARNING 10-15 06:57:19 [kv_cache_utils.py:1174] Add 3 padding layers, may waste at most 10.00% KV cache memory
+(EngineCore pid=22267) INFO 10-15 06:57:19 [kv_cache_utils.py:1744] GPU KV cache size: 126,976 tokens
+(EngineCore pid=22267) INFO 10-15 06:57:19 [kv_cache_utils.py:1745] Maximum concurrency for 114,688 tokens per request: 1.11x
+(EngineCore pid=22267) KV_MEMORY_REPORT {"scope": "storage bytes exclude allocator rounding, model, activations and external workspaces; minimum is a scheduler-contract estimate, not a tested minimum budget", "max_model_len": 114688, "num_blocks": 124, "logical_pool_bytes": 3218079744, "logical_bytes_per_block": 25952256, "scheduler_required_blocks": 113, "estimated_min_logical_pool_bytes": 2932604928, "groups": [{"spec": "FullAttentionSpec", "layers": ["language_model.model.layers.3.self_attn.attn", "language_model.model.layers.7.self_attn.attn", "language_model.model.layers.11.self_attn.attn", "language_model.model.layers.15.self_attn.attn", "language_model.model.layers.19.self_attn.attn", "language_model.model.layers.23.self_attn.attn", "language_model.model.layers.27.self_attn.attn", "language_model.model.layers.31.self_attn.attn", "language_model.model.layers.35.self_attn.attn", "language_model.model.layers.39.self_attn.attn", "mtp.layers.0.self_attn.attn"], "block_size": 1152, "page_size_bytes": 2359296, "max_memory_usage_bytes": 235929600, "required_blocks": 100}, {"spec": "MambaSpec", "layers": ["language_model.model.layers.0.linear_attn", "language_model.model.layers.4.linear_attn", "language_model.model.layers.8.linear_attn", "language_model.model.layers.12.linear_attn", "language_model.model.layers.16.linear_attn", "language_model.model.layers.20.linear_attn", "language_model.model.layers.24.linear_attn", "language_model.model.layers.28.linear_attn", "language_model.model.layers.32.linear_attn", "language_model.model.layers.36.linear_attn"], "block_size": 1152, "page_size_bytes": 2359296, "max_memory_usage_bytes": 9437184, "required_blocks": 4}, {"spec": "MambaSpec", "layers": ["language_model.model.layers.1.linear_attn", "language_model.model.layers.5.linear_attn", "language_model.model.layers.9.linear_attn", "language_model.model.layers.13.linear_attn", "language_model.model.layers.17.linear_attn", "language_model.model.layers.21.linear_attn", "language_model.model.layers.25.linear_attn", "language_model.model.layers.29.linear_attn", "language_model.model.layers.33.linear_attn", "language_model.model.layers.37.linear_attn"], "block_size": 1152, "page_size_bytes": 2359296, "max_memory_usage_bytes": 9437184, "required_blocks": 4}, {"spec": "MambaSpec", "layers": ["language_model.model.layers.2.linear_attn", "language_model.model.layers.6.linear_attn", "language_model.model.layers.10.linear_attn", "language_model.model.layers.14.linear_attn", "language_model.model.layers.18.linear_attn", "language_model.model.layers.22.linear_attn", "language_model.model.layers.26.linear_attn", "language_model.model.layers.30.linear_attn", "language_model.model.layers.34.linear_attn", "language_model.model.layers.38.linear_attn"], "block_size": 1152, "page_size_bytes": 2359296, "max_memory_usage_bytes": 9437184, "required_blocks": 4}], "pools": [{"size": 292552704, "shared_by": ["language_model.model.layers.3.self_attn.attn", "language_model.model.layers.0.linear_attn", "language_model.model.layers.1.linear_attn", "language_model.model.layers.2.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.7.self_attn.attn", "language_model.model.layers.4.linear_attn", "language_model.model.layers.5.linear_attn", "language_model.model.layers.6.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.11.self_attn.attn", "language_model.model.layers.8.linear_attn", "language_model.model.layers.9.linear_attn", "language_model.model.layers.10.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.15.self_attn.attn", "language_model.model.layers.12.linear_attn", "language_model.model.layers.13.linear_attn", "language_model.model.layers.14.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.19.self_attn.attn", "language_model.model.layers.16.linear_attn", "language_model.model.layers.17.linear_attn", "language_model.model.layers.18.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.23.self_attn.attn", "language_model.model.layers.20.linear_attn", "language_model.model.layers.21.linear_attn", "language_model.model.layers.22.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.27.self_attn.attn", "language_model.model.layers.24.linear_attn", "language_model.model.layers.25.linear_attn", "language_model.model.layers.26.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.31.self_attn.attn", "language_model.model.layers.28.linear_attn", "language_model.model.layers.29.linear_attn", "language_model.model.layers.30.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.35.self_attn.attn", "language_model.model.layers.32.linear_attn", "language_model.model.layers.33.linear_attn", "language_model.model.layers.34.linear_attn"]}, {"size": 292552704, "shared_by": ["language_model.model.layers.39.self_attn.attn", "language_model.model.layers.36.linear_attn", "language_model.model.layers.37.linear_attn", "language_model.model.layers.38.linear_attn"]}, {"size": 292552704, "shared_by": ["mtp.layers.0.self_attn.attn"]}], "actual_unique_storage_bytes": 6143606784, "actual_storage_bytes_per_block": 49545216.0, "estimated_min_physical_cache_bytes": 5598609408, "storages": [{"device": "npu:0", "address": "0xe806af800600", "bytes": 146276352, "layers": ["language_model.model.layers.3.self_attn.attn"]}, {"device": "npu:0", "address": "0xe806b8380800", "bytes": 146276352, "layers": ["language_model.model.layers.3.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8068d400200", "bytes": 292552704, "layers": ["language_model.model.layers.0.linear_attn", "language_model.model.layers.1.linear_attn", "language_model.model.layers.2.linear_attn"]}, {"device": "npu:0", "address": "0xe806c0f00a00", "bytes": 146276352, "layers": ["language_model.model.layers.7.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8069eb00400", "bytes": 146276352, "layers": ["language_model.model.layers.7.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8070dc00400", "bytes": 292552704, "layers": ["language_model.model.layers.4.linear_attn", "language_model.model.layers.5.linear_attn", "language_model.model.layers.6.linear_attn"]}, {"device": "npu:0", "address": "0xe8071f300600", "bytes": 146276352, "layers": ["language_model.model.layers.11.self_attn.attn"]}, {"device": "npu:0", "address": "0xe806cd800200", "bytes": 146276352, "layers": ["language_model.model.layers.11.self_attn.attn"]}, {"device": "npu:0", "address": "0xe806d6380400", "bytes": 292552704, "layers": ["language_model.model.layers.10.linear_attn", "language_model.model.layers.8.linear_attn", "language_model.model.layers.9.linear_attn"]}, {"device": "npu:0", "address": "0xe80650200200", "bytes": 146276352, "layers": ["language_model.model.layers.15.self_attn.attn"]}, {"device": "npu:0", "address": "0xe80658d80400", "bytes": 146276352, "layers": ["language_model.model.layers.15.self_attn.attn"]}, {"device": "npu:0", "address": "0xe80661900600", "bytes": 292552704, "layers": ["language_model.model.layers.12.linear_attn", "language_model.model.layers.13.linear_attn", "language_model.model.layers.14.linear_attn"]}, {"device": "npu:0", "address": "0xe80673000800", "bytes": 146276352, "layers": ["language_model.model.layers.19.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8067bb80a00", "bytes": 146276352, "layers": ["language_model.model.layers.19.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8076ae00200", "bytes": 292552704, "layers": ["language_model.model.layers.16.linear_attn", "language_model.model.layers.17.linear_attn", "language_model.model.layers.18.linear_attn"]}, {"device": "npu:0", "address": "0xe8077c500400", "bytes": 146276352, "layers": ["language_model.model.layers.23.self_attn.attn"]}, {"device": "npu:0", "address": "0xe80785080600", "bytes": 146276352, "layers": ["language_model.model.layers.23.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8078dc00800", "bytes": 292552704, "layers": ["language_model.model.layers.20.linear_attn", "language_model.model.layers.21.linear_attn", "language_model.model.layers.22.linear_attn"]}, {"device": "npu:0", "address": "0xe80863400200", "bytes": 146276352, "layers": ["language_model.model.layers.27.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8086c200200", "bytes": 146276352, "layers": ["language_model.model.layers.27.self_attn.attn"]}, {"device": "npu:0", "address": "0xe80875000200", "bytes": 292552704, "layers": ["language_model.model.layers.24.linear_attn", "language_model.model.layers.25.linear_attn", "language_model.model.layers.26.linear_attn"]}, {"device": "npu:0", "address": "0xe80886a00200", "bytes": 146276352, "layers": ["language_model.model.layers.31.self_attn.attn"]}, {"device": "npu:0", "address": "0xe8088f800200", "bytes": 146276352, "layers": ["language_model.model.layers.31.self_attn.attn"]}, {"device": "npu:0", "address": "0xe80898600200", "bytes": 292552704, "layers": ["language_model.model.layers.28.linear_attn", "language_model.model.layers.29.linear_attn", "language_model.model.layers.30.linear_attn"]}, {"device": "npu:0", "address": "0xe808aa000200", "bytes": 146276352, "layers": ["language_model.model.layers.35.self_attn.attn"]}, {"device": "npu:0", "address": "0xe808b2e00200", "bytes": 146276352, "layers": ["language_model.model.layers.35.self_attn.attn"]}, {"device": "npu:0", "address": "0xe808bbc00200", "bytes": 292552704, "layers": ["language_model.model.layers.32.linear_attn", "language_model.model.layers.33.linear_attn", "language_model.model.layers.34.linear_attn"]}, {"device": "npu:0", "address": "0xe808cd600200", "bytes": 146276352, "layers": ["language_model.model.layers.39.self_attn.attn"]}, {"device": "npu:0", "address": "0xe808d6400200", "bytes": 146276352, "layers": ["language_model.model.layers.39.self_attn.attn"]}, {"device": "npu:0", "address": "0xe808df200200", "bytes": 292552704, "layers": ["language_model.model.layers.36.linear_attn", "language_model.model.layers.37.linear_attn", "language_model.model.layers.38.linear_attn"]}, {"device": "npu:0", "address": "0xe808f0c00200", "bytes": 146276352, "layers": ["mtp.layers.0.self_attn.attn"]}, {"device": "npu:0", "address": "0xe808f9a00200", "bytes": 146276352, "layers": ["mtp.layers.0.self_attn.attn"]}]}
+(EngineCore pid=22267) Capturing CUDA graphs (decode, FULL):   0%|          | 0/1 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:01<00:00,  1.08s/it]Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:01<00:00,  1.08s/it]
+(EngineCore pid=22267) INFO 10-15 06:57:22 [gpu_model_runner.py:6585] Graph capturing finished in 3 secs, took 0.18 GiB
+(EngineCore pid=22267) INFO 10-15 06:57:22 [worker_310p.py:127] Skip warm-up atb ops for 310P device.
+(EngineCore pid=22267) WARNING 10-15 06:57:22 [worker.py:783] Bind cpus failed in rank0: [Errno 2] No such file or directory: 'npu-smi' Skip binding cpu.
+(EngineCore pid=22267) INFO 10-15 06:57:22 [core.py:313] init engine (profile, create kv cache, warmup model) took 6.93 s
+(EngineCore pid=22267) WARNING 10-15 06:57:22 [vllm.py:1097] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore pid=22267) INFO 10-15 06:57:22 [kernel.py:270] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(EngineCore pid=22267) INFO 10-15 06:57:22 [utils.py:174] No quantization signature detected from model files for "/model". The model will be loaded as float. To force a quantization method, pass "--quantization <method>" explicitly.
+(EngineCore pid=22267) INFO 10-15 06:57:22 [ascend_config.py:893] Dynamic EPLB is False
+(EngineCore pid=22267) INFO 10-15 06:57:22 [ascend_config.py:894] The number of redundant experts is 0
+(EngineCore pid=22267) INFO 10-15 06:57:22 [platform.py:790] Set PYTORCH_NPU_ALLOC_CONF=expandable_segments:True
+(APIServer pid=21684) INFO 10-15 06:57:23 [api_server.py:579] Supported tasks: ['generate']
+(APIServer pid=21684) WARNING 10-15 06:57:24 [model.py:1502] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'temperature': 1.0, 'top_k': 20, 'top_p': 0.95}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+(APIServer pid=21684) INFO 10-15 06:57:26 [hf.py:548] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to override this.
+(APIServer pid=21684) INFO 10-15 06:57:55 [base.py:227] Multi-modal warmup completed in 28.891s
+(APIServer pid=21684) INFO 10-15 06:57:56 [base.py:227] Readonly multi-modal warmup completed in 0.069s
+(APIServer pid=21684) INFO 10-15 06:57:56 [api_server.py:583] Starting vLLM server on http://0.0.0.0:18024
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:37] Available routes are:
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /load, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /version, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /health, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /metrics, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /tokenize, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /detokenize, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/models, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /ping, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /ping, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /invocations, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/chat/completions/batch, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/responses, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/completions, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/messages, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/messages/count_tokens, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /generative_scoring, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+(APIServer pid=21684) INFO 10-15 06:57:56 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+(APIServer pid=21684) INFO:     Started server process [21684]
+(APIServer pid=21684) INFO:     Waiting for application startup.
+(APIServer pid=21684) INFO:     Application startup complete.
+(APIServer pid=21684) INFO:     127.0.0.1:36048 - "GET /health HTTP/1.1" 200 OK
+(APIServer pid=21684) INFO:     127.0.0.1:36056 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=21684) INFO:     127.0.0.1:36064 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=22267) WARNING 10-15 06:58:01 [sampler.py:55] [sample/sampler] Triton not available, falling back to vLLM default penalty implementation. Penalty performance may be degraded on NPU. 
+(APIServer pid=21684) INFO 10-15 06:58:07 [loggers.py:271] Engine 000: Avg prompt throughput: 0.6 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 8.1%, Prefix cache hit rate: 0.0%
+(APIServer pid=21684) INFO 10-15 06:58:17 [loggers.py:271] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 8.1%, Prefix cache hit rate: 0.0%
