@@ -1,0 +1,3 @@
+{'case': {'running': 64, 'scheduled': 3, 'draft': 2, 'accepted_gpu': 3, 'accepted_batch': 1}, 'reference': 67, 'rc': 65, 'delta': -2}
+{'case': {'running': 127, 'scheduled': 5, 'draft': 2, 'accepted_gpu': 2, 'accepted_batch': 1}, 'reference': 131, 'rc': 130, 'delta': -1}
+{'case': {'running': 130, 'scheduled': 4, 'draft': 2, 'accepted_gpu': 1, 'accepted_batch': 2}, 'reference': 132, 'rc': 133, 'delta': 1}
