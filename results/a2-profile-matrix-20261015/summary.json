@@ -1,0 +1,96 @@
+{
+  "mtp2-b4096": {
+    "p32768-o128": {
+      "count": 2,
+      "all_valid": true,
+      "prefill_tok_s": [
+        550.181224958885,
+        551.3178749342775
+      ],
+      "decode_tok_s": [
+        32.39217631266552,
+        32.43240976612779
+      ],
+      "prefill_median": 550.7495499465813,
+      "decode_median": 32.41229303939666,
+      "acceptance": [
+        {
+          "drafts": 43.0,
+          "drafted_tokens": 86.0,
+          "accepted_tokens": 86.0,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0
+        },
+        {
+          "drafts": 43.0,
+          "drafted_tokens": 86.0,
+          "accepted_tokens": 86.0,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0
+        }
+      ],
+      "prompt_hashes": [
+        "f449a4aff8539fa75f4fa84c8dce303819cebb7004730319ce62fc97fae006ae",
+        "b7c9089881cea2b232e3381c42695d0c7b10fd8d359435e4f368b230d87cb9c9"
+      ],
+      "output_hashes": [
+        "6803a87ec5da4a84bab5855889958c14d621f94626031c33a1c4fdb20e1c1efb",
+        "5f385d97d3f51be8977c4422569d26fba3bccdedcfe8b3088777ad5d8531e588"
+      ],
+      "ttft_seconds": [
+        59.58374816697324,
+        59.45331997500034
+      ],
+      "mean_tpot_seconds": [
+        0.030786501873911572,
+        0.030753862984500474
+      ]
+    },
+    "p8192-o128": {
+      "count": 2,
+      "all_valid": true,
+      "prefill_tok_s": [
+        633.6680532142454,
+        631.6456485778803
+      ],
+      "decode_tok_s": [
+        37.60753196764194,
+        38.3761715166665
+      ],
+      "prefill_median": 632.6568508960629,
+      "decode_median": 37.991851742154225,
+      "acceptance": [
+        {
+          "drafts": 43.0,
+          "drafted_tokens": 86.0,
+          "accepted_tokens": 85.0,
+          "acceptance_rate": 0.9883720930232558,
+          "mean_acceptance_length": 2.9767441860465116
+        },
+        {
+          "drafts": 43.0,
+          "drafted_tokens": 86.0,
+          "accepted_tokens": 86.0,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 3.0
+        }
+      ],
+      "prompt_hashes": [
+        "3538e340737f26d7f5ddf0901a81626edecdf02403a003bd83ab8d954586990a",
+        "d589937e62467949dbd7feb0f06dfa4d9de8c32bb997f3b03d27ebe899de819e"
+      ],
+      "output_hashes": [
+        "55e4ce86d7e9b3b1e1cb2f43a23f1a5ce95169a4c85d386f848f746153efea33",
+        "f28e6822bc0adf9b23629c74463461c37b3c8e92138dd36edaf2fbb9865042b8"
+      ],
+      "ttft_seconds": [
+        12.939000405021943,
+        12.9760358830099
+      ],
+      "mean_tpot_seconds": [
+        0.02655913451948665,
+        0.026029685897638977
+      ]
+    }
+  }
+}

@@ -55,3 +55,18 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 ## 后端交付入口
 
 见 [a2交付说明](backend-handoff.md)。`deploy/a2.env` 固定a2已测制品路径；`deploy/qwen36-a2.service` 提供用户systemd托管。后端只需消费OpenAI兼容HTTP接口，不需参与CANN构建或选择实验开关。历史源码清单必须在对应历史提交校验，清理后HEAD不再包含其全部文件。
+
+## 与vLLM-Ascend主线的收束方式
+
+部署参数先完成同协议对照，再删除无收益的host覆写。保留一套候选启动入口及明确的RC硬件适配；历史sweep结果由Git和results追溯，不再为每轮参数添加新启动器。
+
+上游化按职责拆分，避免整体移植社区fork：
+
+1. 独立W4内核与Torch schema、数值/真实shape/Graph微测试，保留社区作者和许可证。
+2. 量化metadata、权重加载与routed expert实现，通过明确量化后端注册；让BF16 MTP继续走原生模型路径，替代运行时类替换。
+3. GDN复用固定官方PR并在正式版本包含后移除外部source覆写；不重复维护官方实现。
+4. MindIEQ仅作Prefill后端分流，固定输入/量化ABI；不把MTP、C8或RC行为耦合进矩阵内核。
+5. C8保持可选；现有读取时转换FP16 workspace及单请求限制需明确。若不能同时证明容量价值和速度收益，不加入48G/112K默认依赖。
+6. Graph兼容层与RC blocking multimodal H2D单独定位和提交，正式修复发布并通过复验后删除对应monkeypatch。
+
+实验数据不构成主线兼容保证。当前固定镜像运行代码不能直接宣称可在今日main运行；迁移应另开固定main SHA的隔离分支，逐项验证后移除兼容层。
