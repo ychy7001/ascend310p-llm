@@ -1,0 +1,20 @@
+4542179fc143e34d8185d9980013389a8ccd51580cb870895d9d5fb57b431e16
+qwen36-orangepi
+mtp2:startup
+qwen36-mtp2-matched-fullgraph-112k-20261015
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+mtp2:meeting32k
+{"score": {"passed": true, "parsed": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}, "expected": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}}, "prefill_tok_s": 442.61545123465004, "decode_tok_s": 17.898747984245833}
+mtp2:bench32256
+{"kind": "request", "repeat": 0, "valid": true, "prompt_ids_sha256": "f6dfd95c3a2ee481e638bd53707cdc4c1c376e7b4711442ce72d5c2fe046a768", "prefill_seconds": 63.518826849001925, "decode_seconds": 7.76489141699858, "prefill_tok_s": 507.8179431222735, "decode_tok_s": 16.355669793653114, "spec_decode": {"drafts": 69.0, "drafted_tokens": 138.0, "accepted_tokens": 59.0, "acceptance_rate": 0.427536231884058, "mean_acceptance_length": 1.855072463768116}, "cache_salt": "fullgraph-mtp2-32256-0", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 32256.0, "vllm:prefix_cache_hits_total": 0.0}}
+{"kind": "request", "repeat": 1, "valid": true, "prompt_ids_sha256": "2a25c1cf39662e31f6b0b992ec6cf3ece53322b104179100a23663d50277cc72", "prefill_seconds": 63.27549259400257, "decode_seconds": 7.54900677799742, "prefill_tok_s": 509.77082402132595, "decode_tok_s": 16.823405215393144, "spec_decode": {"drafts": 67.0, "drafted_tokens": 134.0, "accepted_tokens": 60.0, "acceptance_rate": 0.44776119402985076, "mean_acceptance_length": 1.8955223880597014}, "cache_salt": "fullgraph-mtp2-32256-1", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 32256.0, "vllm:prefix_cache_hits_total": 0.0}}
+mtp2:bench114176

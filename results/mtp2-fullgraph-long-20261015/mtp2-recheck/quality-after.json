@@ -1,0 +1,213 @@
+{
+  "scope": "8 toy questions plus A/B/A reuse probe, not formal accuracy or allocator isolation proof",
+  "model": "qwen36-w4a8",
+  "base_url": "http://127.0.0.1:18024",
+  "rows": [
+    {
+      "label": "multiply",
+      "prompt": "Compute 37 * 19. Output only the integer answer.",
+      "expected": "703",
+      "text": "703",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 27,
+        "total_tokens": 31,
+        "completion_tokens": 4,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.7280826100031845
+    },
+    {
+      "label": "add",
+      "prompt": "Compute 128 + 256. Output only the integer answer.",
+      "expected": "384",
+      "text": "384",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 29,
+        "total_tokens": 33,
+        "completion_tokens": 4,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.6160947549942648
+    },
+    {
+      "label": "subtract",
+      "prompt": "Compute 1000 - 237. Output only the integer answer.",
+      "expected": "763",
+      "text": "763",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 30,
+        "total_tokens": 34,
+        "completion_tokens": 4,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.5946510590001708
+    },
+    {
+      "label": "divide",
+      "prompt": "Compute 144 / 12. Output only the integer answer.",
+      "expected": "12",
+      "text": "12",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 28,
+        "total_tokens": 31,
+        "completion_tokens": 3,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.5974429819980287
+    },
+    {
+      "label": "sort",
+      "prompt": "Sort these integers ascending: 9, 2, 7. Output only 2,7,9 without spaces.",
+      "expected": "2,7,9",
+      "text": "2,7,9",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 37,
+        "total_tokens": 43,
+        "completion_tokens": 6,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.698612840998976
+    },
+    {
+      "label": "extract",
+      "prompt": "The access code is NPU7329. Output only the access code.",
+      "expected": "NPU7329",
+      "text": "NPU7329",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 29,
+        "total_tokens": 36,
+        "completion_tokens": 7,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.6885914230006165
+    },
+    {
+      "label": "中文",
+      "prompt": "计算 17 加 26。只输出阿拉伯数字答案。",
+      "expected": "43",
+      "text": "43",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 30,
+        "total_tokens": 33,
+        "completion_tokens": 3,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.5920974749969901
+    },
+    {
+      "label": "boolean",
+      "prompt": "Is 17 a prime number? Output only YES or NO.",
+      "expected": "YES",
+      "text": "YES",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 28,
+        "completion_tokens": 2,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.5915529350022553
+    }
+  ],
+  "strict_matches": 8,
+  "answers_present": 8,
+  "speculative_metrics_before": [
+    "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"qwen36-w4a8\"} 54.0",
+    "vllm:spec_decode_num_drafts_created{engine=\"0\",model_name=\"qwen36-w4a8\"} 1.7920770819558835e+09",
+    "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"qwen36-w4a8\"} 108.0",
+    "vllm:spec_decode_num_draft_tokens_created{engine=\"0\",model_name=\"qwen36-w4a8\"} 1.7920770819559605e+09",
+    "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"qwen36-w4a8\"} 107.0",
+    "vllm:spec_decode_num_accepted_tokens_created{engine=\"0\",model_name=\"qwen36-w4a8\"} 1.7920770819560106e+09",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"0\"} 54.0",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"1\"} 53.0",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_created{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"0\"} 1.792077081956073e+09",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_created{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"1\"} 1.792077081956096e+09"
+  ],
+  "speculative_metrics_after": [
+    "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"qwen36-w4a8\"} 90.0",
+    "vllm:spec_decode_num_drafts_created{engine=\"0\",model_name=\"qwen36-w4a8\"} 1.7920770819558835e+09",
+    "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"qwen36-w4a8\"} 180.0",
+    "vllm:spec_decode_num_draft_tokens_created{engine=\"0\",model_name=\"qwen36-w4a8\"} 1.7920770819559605e+09",
+    "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"qwen36-w4a8\"} 178.0",
+    "vllm:spec_decode_num_accepted_tokens_created{engine=\"0\",model_name=\"qwen36-w4a8\"} 1.7920770819560106e+09",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"0\"} 90.0",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"1\"} 88.0",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_created{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"0\"} 1.792077081956073e+09",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_created{engine=\"0\",model_name=\"qwen36-w4a8\",position=\"1\"} 1.792077081956096e+09"
+  ],
+  "reuse": {
+    "before": {
+      "label": "extract",
+      "prompt": "The access code is NPU7329. Output only the access code.",
+      "expected": "NPU7329",
+      "text": "NPU7329",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 29,
+        "total_tokens": 36,
+        "completion_tokens": 7,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.6868745180036058
+    },
+    "after": {
+      "label": "extract",
+      "prompt": "The access code is NPU7329. Output only the access code.",
+      "expected": "NPU7329",
+      "text": "NPU7329",
+      "strict_match": true,
+      "answer_present": true,
+      "usage": {
+        "prompt_tokens": 29,
+        "total_tokens": 36,
+        "completion_tokens": 7,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 0.6860578380001243
+    },
+    "identical_text": true,
+    "canary_leaked": false,
+    "interference_usage": {
+      "prompt_tokens": 3072,
+      "total_tokens": 3136,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    }
+  }
+}

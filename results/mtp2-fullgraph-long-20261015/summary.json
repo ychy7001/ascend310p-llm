@@ -1,0 +1,108 @@
+{
+  "scope": "2 measured requests per length; not latency percentiles or formal accuracy",
+  "lengths": {
+    "32256": {
+      "matched_prompt_hashes": true,
+      "identical_outputs": [
+        true,
+        true
+      ],
+      "mtp1": [
+        {
+          "repeat": 0,
+          "prefill_tok_s": 511.8418909674362,
+          "decode_tok_s": 20.103717490973008,
+          "spec_decode": {
+            "drafts": 69.0,
+            "drafted_tokens": 69.0,
+            "accepted_tokens": 59.0,
+            "acceptance_rate": 0.855072463768116,
+            "mean_acceptance_length": 1.855072463768116
+          }
+        },
+        {
+          "repeat": 1,
+          "prefill_tok_s": 513.4877325719658,
+          "decode_tok_s": 20.721182955820083,
+          "spec_decode": {
+            "drafts": 67.0,
+            "drafted_tokens": 67.0,
+            "accepted_tokens": 60.0,
+            "acceptance_rate": 0.8955223880597015,
+            "mean_acceptance_length": 1.8955223880597014
+          }
+        }
+      ],
+      "mtp2": [
+        {
+          "repeat": 0,
+          "prefill_tok_s": 507.8179431222735,
+          "decode_tok_s": 16.355669793653114,
+          "spec_decode": {
+            "drafts": 69.0,
+            "drafted_tokens": 138.0,
+            "accepted_tokens": 59.0,
+            "acceptance_rate": 0.427536231884058,
+            "mean_acceptance_length": 1.855072463768116
+          }
+        },
+        {
+          "repeat": 1,
+          "prefill_tok_s": 509.77082402132595,
+          "decode_tok_s": 16.823405215393144,
+          "spec_decode": {
+            "drafts": 67.0,
+            "drafted_tokens": 134.0,
+            "accepted_tokens": 60.0,
+            "acceptance_rate": 0.44776119402985076,
+            "mean_acceptance_length": 1.8955223880597014
+          }
+        }
+      ]
+    }
+  },
+  "meeting_114176": {
+    "scope": "single short-answer canaries; request histories differ; not fixed-output throughput",
+    "identical_output": true,
+    "mtp1": {
+      "prefill_tok_s": 344.2589719885975,
+      "decode_tok_s": 14.57558748397553,
+      "elapsed_s": 335.37714362500265,
+      "score": {
+        "passed": true,
+        "parsed": {
+          "budget_yuan": 180000,
+          "owner": "周启",
+          "deadline": "2026-11-12",
+          "status": "延期上线"
+        },
+        "expected": {
+          "budget_yuan": 180000,
+          "owner": "周启",
+          "deadline": "2026-11-12",
+          "status": "延期上线"
+        }
+      }
+    },
+    "mtp2": {
+      "prefill_tok_s": 341.8897087241878,
+      "decode_tok_s": 17.916818794277685,
+      "elapsed_s": 337.0031167249981,
+      "score": {
+        "passed": true,
+        "parsed": {
+          "budget_yuan": 180000,
+          "owner": "周启",
+          "deadline": "2026-11-12",
+          "status": "延期上线"
+        },
+        "expected": {
+          "budget_yuan": 180000,
+          "owner": "周启",
+          "deadline": "2026-11-12",
+          "status": "延期上线"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "prompt_ids_sha256": "cfd0e5cb6cbe65cbdd1228793be1a8fea366e8935ea00327c1e1496fd0c88c19",
+  "result": {
+    "id": "cmpl-86b378424c83197f",
+    "object": "text_completion",
+    "created": 1792076222,
+    "model": "qwen36-w4a8",
+    "choices": [
+      {
+        "index": 0,
+        "text": "{\n  \"budget_yuan\": 180000,\n  \"owner\": \"周启\",\n  \"deadline\": \"2026-11-12\",\n  \"status\": \"延期上线\"\n}",
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-a095cd32",
+    "usage": {
+      "prompt_tokens": 114176,
+      "total_tokens": 114230,
+      "completion_tokens": 54,
+      "prompt_tokens_details": null
+    },
+    "kv_transfer_params": null
+  },
+  "elapsed_s": 335.37714362500265,
+  "metric_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 331.6572966579988,
+    "vllm:request_decode_time_seconds_sum": 3.6362170690044877,
+    "vllm:spec_decode_num_drafts_total": 27.0,
+    "vllm:spec_decode_num_draft_tokens_total": 27.0,
+    "vllm:spec_decode_num_accepted_tokens_total": 27.0
+  },
+  "score": {
+    "passed": true,
+    "parsed": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    },
+    "expected": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    }
+  },
+  "prefill_tok_s": 344.2589719885975,
+  "decode_tok_s": 14.57558748397553
+}

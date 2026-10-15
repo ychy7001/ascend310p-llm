@@ -169,3 +169,19 @@ and match the draft-eager input hashes; one output has wording differences.
 112K, meeting canary and a matched MTP1 comparison remain required before defaulting
 to MTP2 on RC. Stable MTP1 was restored and passed its quality gate.
 See `results/mtp2-slot-device-20261015/README.md`.
+
+### RC full Graph 112K follow-up (2026-10-15)
+
+Both MTP1 and MTP2 complete the same 114176-token meeting canary with identical
+output and pass post-long 8-question/A-B/A gates. Prefill344.26/341.89 tok/s;
+short-answer Decode14.58/17.92 tok/s. These single canaries have different
+preceding request histories, not a long-Decode throughput comparison. The first
+MTP2 benchmark was stopped too early: its warmup completed in 301.78 seconds,
+but the next measured request was interrupted;
+repeated GDN samples were insufficient evidence of a hang. Record it as interrupted.
+
+At matched112K settings two cold32K requests give MTP1 Decode20.10/20.72 and
+MTP2 16.36/16.82 tok/s with identical full outputs. The second draft adds no
+accepted tokens in that sequence. Keep RC MTP1 as default and investigate
+second-draft state after long Prefill/reuse before promoting patches.
+See `results/mtp2-fullgraph-long-20261015/README.md` for logs and limits.

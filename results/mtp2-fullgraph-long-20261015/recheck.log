@@ -1,0 +1,39 @@
+qwen36-orangepi
+mtp2-recheck:startup
+qwen36-mtp2-matched-fullgraph-112k-20261015
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+mtp2-recheck:meeting112k
+{"score": {"passed": true, "parsed": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}, "expected": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}}, "prefill_tok_s": 341.8897087241878, "decode_tok_s": 17.916818794277685}
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+qwen36-mtp2-matched-fullgraph-112k-20261015
+restoring-mtp1
+qwen36-orangepi
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+recheck-completed-restored

@@ -1,0 +1,33 @@
+qwen36-orangepi
+mtp1:startup
+qwen36-mtp1-matched-fullgraph-112k-20261015
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+mtp1:meeting32k
+{"score": {"passed": true, "parsed": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}, "expected": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}}, "prefill_tok_s": 446.3450115341842, "decode_tok_s": 21.319040044902284}
+mtp1:bench32256
+{"kind": "request", "repeat": 0, "valid": true, "prompt_ids_sha256": "f6dfd95c3a2ee481e638bd53707cdc4c1c376e7b4711442ce72d5c2fe046a768", "prefill_seconds": 63.01946083200164, "decode_seconds": 6.317239588002849, "prefill_tok_s": 511.8418909674362, "decode_tok_s": 20.103717490973008, "spec_decode": {"drafts": 69.0, "drafted_tokens": 69.0, "accepted_tokens": 59.0, "acceptance_rate": 0.855072463768116, "mean_acceptance_length": 1.855072463768116}, "cache_salt": "fullgraph-mtp1-32256-0", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 32256.0, "vllm:prefix_cache_hits_total": 0.0}}
+{"kind": "request", "repeat": 1, "valid": true, "prompt_ids_sha256": "2a25c1cf39662e31f6b0b992ec6cf3ece53322b104179100a23663d50277cc72", "prefill_seconds": 62.81746953999391, "decode_seconds": 6.128993710000941, "prefill_tok_s": 513.4877325719658, "decode_tok_s": 20.721182955820083, "spec_decode": {"drafts": 67.0, "drafted_tokens": 67.0, "accepted_tokens": 60.0, "acceptance_rate": 0.8955223880597015, "mean_acceptance_length": 1.8955223880597014}, "cache_salt": "fullgraph-mtp1-32256-1", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 32256.0, "vllm:prefix_cache_hits_total": 0.0}}
+mtp1:meeting112k
+{"score": {"passed": true, "parsed": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}, "expected": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}}, "prefill_tok_s": 344.2589719885975, "decode_tok_s": 14.57558748397553}
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+qwen36-mtp1-matched-fullgraph-112k-20261015
+restoring-mtp1
+qwen36-orangepi
