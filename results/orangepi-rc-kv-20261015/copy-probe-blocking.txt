@@ -1,0 +1,7 @@
+[W1015 04:25:26.618428250 FunctionLoader.cpp:48] Warning: LD_PRELOAD detected, FunctionLoader prefers RTLD_DEFAULT for symbol resolution. (function operator())
+[W1015 04:25:43.929396931 NPUCachingAllocator.cpp:202] Warning: The current CANN and HDK(driver) versions require processing for 32 padding size, with memory allocation. (function operator())
+{"bytes": 1024, "h2d_s": 9.824814056000008, "d2h_s": 0.00033474500000352236, "exact_match": true}
+{"bytes": 4194304, "h2d_s": 0.001548984000010023, "d2h_s": 0.001837374000018599, "exact_match": true}
+{"bytes": 16777216, "h2d_s": 0.003746573000000808, "d2h_s": 0.02288827099999935, "exact_match": true}
+{"bytes": 67108864, "h2d_s": 0.0334679000000051, "d2h_s": 0.04002246199999604, "exact_match": true}
+COPY_PROBE_PASS

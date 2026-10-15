@@ -14,3 +14,6 @@ vllm_ascend.models.__path__ = [
     str(overlay / 'vllm_ascend/models'), *list(vllm_ascend.models.__path__),
 ]
 import vllm_ascend.models.qwen36_w4_patch  # noqa: E402,F401
+
+if os.environ.get('RC_BLOCKING_MM_H2D', '0') == '1':
+    import rc_blocking_mm_h2d  # noqa: E402,F401

@@ -1,0 +1,2 @@
+qwen36-copy-probe-20261015
+This device does not support setting reset.

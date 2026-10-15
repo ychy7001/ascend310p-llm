@@ -1,0 +1,13 @@
+{
+  "scope": "scheduler-contract capacity accounting, not reduced-budget runtime validation or whole-system peak",
+  "required_blocks": 110,
+  "c16_cache_bytes_per_block": 49545216.0,
+  "c8_cache_bytes_per_block": 37380096.0,
+  "c8_workspace_bytes": 234881024,
+  "equal_min_capacity_c16_bytes": 5449973760.0,
+  "equal_min_capacity_c8_plus_workspace_bytes": 4346691584.0,
+  "equal_min_capacity_c8_saving_bytes": 1103282176.0,
+  "equal_min_capacity_c8_saving_gib": 1.0275115966796875,
+  "next_c16_nominal_budget_bytes": 3221225472,
+  "next_c16_estimated_blocks": 124
+}

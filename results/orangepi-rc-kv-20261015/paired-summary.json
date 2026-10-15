@@ -1,0 +1,79 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "samples_per_kv": 3,
+    "c8_source": "results/orangepi-rc-batch4096-20261015/p8192-o128.jsonl",
+    "c16_source": "results/orangepi-rc-kv-20261015/c16-p8192-o128.jsonl",
+    "comparison_boundary": "C8 before reboot, C16 after reboot with blocking-MM-H2D; nominal KV budgets 6GiB versus 3GiB; directional, not strict interleaved A/B",
+    "outputs_identical_pairs": 1,
+    "c8": {
+      "prefill_tok_s_median": 625.895916388295,
+      "decode_tok_s_median": 23.898407758728016,
+      "acceptance": [
+        1.0,
+        0.8676470588235294,
+        1.0
+      ]
+    },
+    "c16": {
+      "prefill_tok_s_median": 627.4833423072539,
+      "decode_tok_s_median": 24.184484542012836,
+      "acceptance": [
+        0.9104477611940298,
+        0.9242424242424242,
+        1.0
+      ]
+    },
+    "c8_decode_loss_percent_vs_c16": 1.182893862334966
+  },
+  {
+    "prompt_tokens": 32768,
+    "samples_per_kv": 3,
+    "c8_source": "results/orangepi-rc-batch4096-20261015/p32768-o128.jsonl",
+    "c16_source": "results/orangepi-rc-kv-20261015/c16-p32768-o128.jsonl",
+    "comparison_boundary": "C8 before reboot, C16 after reboot with blocking-MM-H2D; nominal KV budgets 6GiB versus 3GiB; directional, not strict interleaved A/B",
+    "outputs_identical_pairs": 3,
+    "c8": {
+      "prefill_tok_s_median": 567.0684089148565,
+      "decode_tok_s_median": 19.35726037423264,
+      "acceptance": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "c16": {
+      "prefill_tok_s_median": 568.1341250709572,
+      "decode_tok_s_median": 21.63490761516465,
+      "acceptance": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "c8_decode_loss_percent_vs_c16": 10.527649488715763
+  },
+  {
+    "prompt_tokens": 112000,
+    "samples_per_kv": 1,
+    "c8_source": "results/orangepi-rc-kv-20261015/c8-p112000-o128.jsonl",
+    "c16_source": "results/orangepi-rc-kv-20261015/c16-p112000-o128.jsonl",
+    "comparison_boundary": "C8 before reboot, C16 after reboot with blocking-MM-H2D; nominal KV budgets 6GiB versus 3GiB; directional, not strict interleaved A/B",
+    "outputs_identical_pairs": 1,
+    "c8": {
+      "prefill_tok_s_median": 419.4010776049188,
+      "decode_tok_s_median": 11.70396511258772,
+      "acceptance": [
+        1.0
+      ]
+    },
+    "c16": {
+      "prefill_tok_s_median": 420.5252652665288,
+      "decode_tok_s_median": 14.842901618969107,
+      "acceptance": [
+        1.0
+      ]
+    },
+    "c8_decode_loss_percent_vs_c16": 21.147728301115
+  }
+]

@@ -1,0 +1,178 @@
+[
+  {
+    "kind": "image",
+    "size": 128,
+    "result": {
+      "id": "chatcmpl-bc1398ae36e10c66",
+      "object": "chat.completion",
+      "created": 1792040151,
+      "model": "qwen36-w4a8",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": " red",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-9e661ff5",
+      "usage": {
+        "prompt_tokens": 92,
+        "total_tokens": 94,
+        "completion_tokens": 2,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "passed": true
+  },
+  {
+    "kind": "image",
+    "size": 1024,
+    "result": {
+      "id": "chatcmpl-8991b734b9a871a5",
+      "object": "chat.completion",
+      "created": 1792040152,
+      "model": "qwen36-w4a8",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Red",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-9e661ff5",
+      "usage": {
+        "prompt_tokens": 1052,
+        "total_tokens": 1054,
+        "completion_tokens": 2,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "passed": true
+  },
+  {
+    "kind": "prefix_cold",
+    "result": {
+      "id": "chatcmpl-9c22dcae4716b746",
+      "object": "chat.completion",
+      "created": 1792040155,
+      "model": "qwen36-w4a8",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "703",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-9e661ff5",
+      "usage": {
+        "prompt_tokens": 4223,
+        "total_tokens": 4227,
+        "completion_tokens": 4,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "prefix_delta": {
+      "vllm:prefix_cache_queries_total": 4223.0,
+      "vllm:prefix_cache_hits_total": 0.0
+    }
+  },
+  {
+    "kind": "prefix_hot",
+    "result": {
+      "id": "chatcmpl-8273953b5a8fb5e3",
+      "object": "chat.completion",
+      "created": 1792040162,
+      "model": "qwen36-w4a8",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "703",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-9e661ff5",
+      "usage": {
+        "prompt_tokens": 4223,
+        "total_tokens": 4227,
+        "completion_tokens": 4,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "prefix_delta": {
+      "vllm:prefix_cache_queries_total": 4223.0,
+      "vllm:prefix_cache_hits_total": 2304.0
+    }
+  }
+]

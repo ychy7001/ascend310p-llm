@@ -1,0 +1,15 @@
+[EVENT] TSCH(-1,null):2026-10-15-10:43:48.708.787 2769 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=20, pid=294197, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-15-10:46:20.411.067 2770 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=21, vf_id=0, pid=297408, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-15-11:00:09.689.910 2771 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=21, pid=297408, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-15-11:02:45.712.361 2772 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=22, vf_id=0, pid=300633, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-15-11:29:46.813.826 2773 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=22, pid=300633, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-15-11:32:24.265.199 2774 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=23, vf_id=0, pid=304870, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-15-11:43:02.901.716 2775 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=23, pid=304870, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-15-11:48:02.983.294 2776 (dieid:0,cpuid:0) sdma_driver.c:489 reset_sdma_ch: sdma channel=0, quiescent=0
+[EVENT] TSCH(-1,null):2026-10-15-11:48:02.986.037 2777 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=24, vf_id=0, pid=307588, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-15-11:55:52.456.579 2778 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=24, pid=307588, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-15-12:00:52.497.160 2779 (dieid:0,cpuid:0) sdma_driver.c:489 reset_sdma_ch: sdma channel=0, quiescent=0
+[EVENT] TSCH(-1,null):2026-10-15-12:00:52.527.007 2780 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=25, vf_id=0, pid=309835, support_log_tohost=0,runtime_version=7
+[EVENT] TSCH(-1,null):2026-10-15-12:09:14.838.511 2781 (dieid:0,cpuid:0) ringbuffer.c:331 delete_ringbuffer: vf_id=0, i=25, pid=309835, trace cq_cnt=0
+[EVENT] TSCH(-1,null):2026-10-15-12:14:14.907.896 2782 (dieid:0,cpuid:0) sdma_driver.c:489 reset_sdma_ch: sdma channel=0, quiescent=0
+[EVENT] TSCH(-1,null):2026-10-15-12:14:14.936.956 2783 (dieid:0,cpuid:0) ringbuffer.c:305 create_ringbuffer: last_Id=26, vf_id=0, pid=311543, support_log_tohost=0,runtime_version=7

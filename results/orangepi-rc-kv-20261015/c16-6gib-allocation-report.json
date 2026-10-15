@@ -1,0 +1,467 @@
+{
+  "scope": "storage bytes exclude allocator rounding, model, activations and external workspaces; minimum is a scheduler-contract estimate, not a tested minimum budget",
+  "max_model_len": 114688,
+  "num_blocks": 248,
+  "logical_pool_bytes": 6436159488,
+  "logical_bytes_per_block": 25952256,
+  "scheduler_required_blocks": 110,
+  "estimated_min_logical_pool_bytes": 2854748160,
+  "groups": [
+    {
+      "spec": "FullAttentionSpec",
+      "layers": [
+        "language_model.model.layers.3.self_attn.attn",
+        "language_model.model.layers.7.self_attn.attn",
+        "language_model.model.layers.11.self_attn.attn",
+        "language_model.model.layers.15.self_attn.attn",
+        "language_model.model.layers.19.self_attn.attn",
+        "language_model.model.layers.23.self_attn.attn",
+        "language_model.model.layers.27.self_attn.attn",
+        "language_model.model.layers.31.self_attn.attn",
+        "language_model.model.layers.35.self_attn.attn",
+        "language_model.model.layers.39.self_attn.attn",
+        "mtp.layers.0.self_attn.attn"
+      ],
+      "block_size": 1152,
+      "page_size_bytes": 2359296,
+      "max_memory_usage_bytes": 235929600,
+      "required_blocks": 100
+    },
+    {
+      "spec": "MambaSpec",
+      "layers": [
+        "language_model.model.layers.0.linear_attn",
+        "language_model.model.layers.4.linear_attn",
+        "language_model.model.layers.8.linear_attn",
+        "language_model.model.layers.12.linear_attn",
+        "language_model.model.layers.16.linear_attn",
+        "language_model.model.layers.20.linear_attn",
+        "language_model.model.layers.24.linear_attn",
+        "language_model.model.layers.28.linear_attn",
+        "language_model.model.layers.32.linear_attn",
+        "language_model.model.layers.36.linear_attn"
+      ],
+      "block_size": 1152,
+      "page_size_bytes": 2359296,
+      "max_memory_usage_bytes": 7077888,
+      "required_blocks": 3
+    },
+    {
+      "spec": "MambaSpec",
+      "layers": [
+        "language_model.model.layers.1.linear_attn",
+        "language_model.model.layers.5.linear_attn",
+        "language_model.model.layers.9.linear_attn",
+        "language_model.model.layers.13.linear_attn",
+        "language_model.model.layers.17.linear_attn",
+        "language_model.model.layers.21.linear_attn",
+        "language_model.model.layers.25.linear_attn",
+        "language_model.model.layers.29.linear_attn",
+        "language_model.model.layers.33.linear_attn",
+        "language_model.model.layers.37.linear_attn"
+      ],
+      "block_size": 1152,
+      "page_size_bytes": 2359296,
+      "max_memory_usage_bytes": 7077888,
+      "required_blocks": 3
+    },
+    {
+      "spec": "MambaSpec",
+      "layers": [
+        "language_model.model.layers.2.linear_attn",
+        "language_model.model.layers.6.linear_attn",
+        "language_model.model.layers.10.linear_attn",
+        "language_model.model.layers.14.linear_attn",
+        "language_model.model.layers.18.linear_attn",
+        "language_model.model.layers.22.linear_attn",
+        "language_model.model.layers.26.linear_attn",
+        "language_model.model.layers.30.linear_attn",
+        "language_model.model.layers.34.linear_attn",
+        "language_model.model.layers.38.linear_attn"
+      ],
+      "block_size": 1152,
+      "page_size_bytes": 2359296,
+      "max_memory_usage_bytes": 7077888,
+      "required_blocks": 3
+    }
+  ],
+  "pools": [
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.3.self_attn.attn",
+        "language_model.model.layers.0.linear_attn",
+        "language_model.model.layers.1.linear_attn",
+        "language_model.model.layers.2.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.7.self_attn.attn",
+        "language_model.model.layers.4.linear_attn",
+        "language_model.model.layers.5.linear_attn",
+        "language_model.model.layers.6.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.11.self_attn.attn",
+        "language_model.model.layers.8.linear_attn",
+        "language_model.model.layers.9.linear_attn",
+        "language_model.model.layers.10.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.15.self_attn.attn",
+        "language_model.model.layers.12.linear_attn",
+        "language_model.model.layers.13.linear_attn",
+        "language_model.model.layers.14.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.19.self_attn.attn",
+        "language_model.model.layers.16.linear_attn",
+        "language_model.model.layers.17.linear_attn",
+        "language_model.model.layers.18.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.23.self_attn.attn",
+        "language_model.model.layers.20.linear_attn",
+        "language_model.model.layers.21.linear_attn",
+        "language_model.model.layers.22.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.27.self_attn.attn",
+        "language_model.model.layers.24.linear_attn",
+        "language_model.model.layers.25.linear_attn",
+        "language_model.model.layers.26.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.31.self_attn.attn",
+        "language_model.model.layers.28.linear_attn",
+        "language_model.model.layers.29.linear_attn",
+        "language_model.model.layers.30.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.35.self_attn.attn",
+        "language_model.model.layers.32.linear_attn",
+        "language_model.model.layers.33.linear_attn",
+        "language_model.model.layers.34.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "language_model.model.layers.39.self_attn.attn",
+        "language_model.model.layers.36.linear_attn",
+        "language_model.model.layers.37.linear_attn",
+        "language_model.model.layers.38.linear_attn"
+      ]
+    },
+    {
+      "size": 585105408,
+      "shared_by": [
+        "mtp.layers.0.self_attn.attn"
+      ]
+    }
+  ],
+  "actual_unique_storage_bytes": 12287213568,
+  "actual_storage_bytes_per_block": 49545216.0,
+  "estimated_min_physical_cache_bytes": 5449973760,
+  "storages": [
+    {
+      "device": "npu:0",
+      "address": "0xe806b0c00600",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.3.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8068e800200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.3.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80651600200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.0.linear_attn",
+        "language_model.model.layers.1.linear_attn",
+        "language_model.model.layers.2.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80674400400",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.7.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8070f000400",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.7.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8076c200200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.4.linear_attn",
+        "language_model.model.layers.5.linear_attn",
+        "language_model.model.layers.6.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8078f000400",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.11.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe806cec00200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.11.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8082f000200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.10.linear_attn",
+        "language_model.model.layers.8.linear_attn",
+        "language_model.model.layers.9.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80852200200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.15.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80863c00200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.15.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80875600200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.12.linear_attn",
+        "language_model.model.layers.13.linear_attn",
+        "language_model.model.layers.14.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80898800200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.19.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe808aa200200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.19.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe808bbc00200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.16.linear_attn",
+        "language_model.model.layers.17.linear_attn",
+        "language_model.model.layers.18.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe808dee00200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.23.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe808f0800200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.23.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80902200200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.20.linear_attn",
+        "language_model.model.layers.21.linear_attn",
+        "language_model.model.layers.22.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80925400200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.27.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80936e00200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.27.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80948800200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.24.linear_attn",
+        "language_model.model.layers.25.linear_attn",
+        "language_model.model.layers.26.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8096ba00200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.31.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8097d400200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.31.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe8098ee00200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.28.linear_attn",
+        "language_model.model.layers.29.linear_attn",
+        "language_model.model.layers.30.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe809b2000200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.35.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe809c3a00200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.35.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe809d5400200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.32.linear_attn",
+        "language_model.model.layers.33.linear_attn",
+        "language_model.model.layers.34.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe809f8600200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.39.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80a0a000200",
+      "bytes": 292552704,
+      "layers": [
+        "language_model.model.layers.39.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80a1ba00200",
+      "bytes": 585105408,
+      "layers": [
+        "language_model.model.layers.36.linear_attn",
+        "language_model.model.layers.37.linear_attn",
+        "language_model.model.layers.38.linear_attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80a3ec00200",
+      "bytes": 292552704,
+      "layers": [
+        "mtp.layers.0.self_attn.attn"
+      ]
+    },
+    {
+      "device": "npu:0",
+      "address": "0xe80a50600200",
+      "bytes": 292552704,
+      "layers": [
+        "mtp.layers.0.self_attn.attn"
+      ]
+    }
+  ]
+}

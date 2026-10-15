@@ -1,0 +1,11 @@
+{
+  "source": "c8-startup-and-validation.txt C8_ALLOCATOR and C8_STORAGE; no avoided padding in this run",
+  "num_blocks": 165,
+  "kv_pool_bytes": 6167715840,
+  "extra_fp16_nz_workspace_bytes": 234881024,
+  "pool_plus_workspace_bytes": 6402596864,
+  "scheduler_required_blocks": 110,
+  "estimated_min_pool_plus_workspace_bytes": 4346691584,
+  "minimum_scope": "scheduler-contract estimate, not reduced-budget runtime validation",
+  "excluded": "model weights, activations, graph allocator rounding, runtime/OS"
+}

@@ -1,0 +1,14 @@
+Process 6573: python3 -u /copy_probe.py
+Python v3.12.13 (/usr/local/python3.12.13/bin/python3.12)
+
+Thread 1 (active): "MainThread"
+    <module> (copy_probe.py:10)
+Thread 304 (active): "Thread-1"
+    _recv (multiprocessing/connection.py:395)
+    _recv_bytes (multiprocessing/connection.py:430)
+    recv (multiprocessing/connection.py:250)
+    _callmethod (multiprocessing/managers.py:828)
+    get (<string>:2)
+    run (tbe/common/repository_manager/utils/multiprocess_util.py:68)
+    _bootstrap_inner (threading.py:1075)
+    _bootstrap (threading.py:1032)
