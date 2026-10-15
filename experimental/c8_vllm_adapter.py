@@ -83,6 +83,24 @@ def _c8_device_context_length(seq_lens):
 if _graph_candidate_enabled():
     import direct_graph_310  # noqa: F401
 
+    if _flag('QWEN36_C8_DEVICE_LENGTH'):
+        from vllm_ascend._310p.attention.metadata_builder import AscendAttentionMetadataBuilder310
+
+        _original_build_metadata = AscendAttentionMetadataBuilder310.build
+
+        def build_device_length(self, common_prefix_len, common_attn_metadata,
+                                fast_build=False, is_drafting=False):
+            metadata = _original_build_metadata(
+                self, common_prefix_len, common_attn_metadata, fast_build, is_drafting)
+            if metadata.attn_state == AscendAttentionState.DecodeOnly:
+                # The pinned builder binds device views only for splitfuse.
+                # Bind ordinary Decode outside capture as well, so conversion
+                # and native PA consume the same replay-updated length buffer.
+                metadata.seq_lens = common_attn_metadata.seq_lens[:common_attn_metadata.num_reqs]
+            return metadata
+
+        AscendAttentionMetadataBuilder310.build = build_device_length
+
 
 @dataclass(frozen=True, kw_only=True)
 class C8FullAttentionSpec(FullAttentionSpec):
