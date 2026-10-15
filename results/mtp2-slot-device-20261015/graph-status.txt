@@ -1,0 +1,2 @@
+(EngineCore pid=84457) INFO 10-15 13:28:36 [gpu_model_runner.py:6585] Graph capturing finished in 3 secs, took 0.21 GiB
+(EngineCore pid=84457) INFO 10-15 13:29:14 [acl_graph.py:243] Replaying aclgraph

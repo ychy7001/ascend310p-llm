@@ -1,0 +1,2 @@
+bdf1b7f40a8727dba7173e8a6700d5592e3a18cfa0323ba033a79d2827d00beb  /vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py
+a7a8fe730acd7468dd803e4560089b29d0426eb6641eab5894090920e085d14d  /vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py
