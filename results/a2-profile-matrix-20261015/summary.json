@@ -93,6 +93,100 @@
       ]
     }
   },
+  "mtp1-b4096": {
+    "p32768-o128": {
+      "count": 2,
+      "all_valid": true,
+      "prefill_tok_s": [
+        553.8169635983106,
+        554.8744463821513
+      ],
+      "decode_tok_s": [
+        26.319988553489196,
+        26.333620270347215
+      ],
+      "prefill_median": 554.345704990231,
+      "decode_median": 26.326804411918204,
+      "acceptance": [
+        {
+          "drafts": 64.0,
+          "drafted_tokens": 64.0,
+          "accepted_tokens": 64.0,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 2.0
+        },
+        {
+          "drafts": 64.0,
+          "drafted_tokens": 64.0,
+          "accepted_tokens": 64.0,
+          "acceptance_rate": 1.0,
+          "mean_acceptance_length": 2.0
+        }
+      ],
+      "prompt_hashes": [
+        "f449a4aff8539fa75f4fa84c8dce303819cebb7004730319ce62fc97fae006ae",
+        "b7c9089881cea2b232e3381c42695d0c7b10fd8d359435e4f368b230d87cb9c9"
+      ],
+      "output_hashes": [
+        "6803a87ec5da4a84bab5855889958c14d621f94626031c33a1c4fdb20e1c1efb",
+        "5f385d97d3f51be8977c4422569d26fba3bccdedcfe8b3088777ad5d8531e588"
+      ],
+      "ttft_seconds": [
+        59.18361940502655,
+        59.07248742500087
+      ],
+      "mean_tpot_seconds": [
+        0.037920216897293545,
+        0.03788480028330429
+      ]
+    },
+    "p8192-o128": {
+      "count": 2,
+      "all_valid": true,
+      "prefill_tok_s": [
+        640.2588308866916,
+        637.8780594149996
+      ],
+      "decode_tok_s": [
+        30.964989459486773,
+        31.03259608547799
+      ],
+      "prefill_median": 639.0684451508456,
+      "decode_median": 30.998792772482382,
+      "acceptance": [
+        {
+          "drafts": 66.0,
+          "drafted_tokens": 66.0,
+          "accepted_tokens": 61.0,
+          "acceptance_rate": 0.9242424242424242,
+          "mean_acceptance_length": 1.9242424242424243
+        },
+        {
+          "drafts": 66.0,
+          "drafted_tokens": 66.0,
+          "accepted_tokens": 61.0,
+          "acceptance_rate": 0.9242424242424242,
+          "mean_acceptance_length": 1.9242424242424243
+        }
+      ],
+      "prompt_hashes": [
+        "3538e340737f26d7f5ddf0901a81626edecdf02403a003bd83ab8d954586990a",
+        "d589937e62467949dbd7feb0f06dfa4d9de8c32bb997f3b03d27ebe899de819e"
+      ],
+      "output_hashes": [
+        "8c99ad90a509741bd2b3139d2ffac5083c5862a792c0c8e86ff5aa7e2fa9ad1a",
+        "8a1579e606bb055e9f592595e57f93a453763ffb63c14cebfd18a029fd4ac049"
+      ],
+      "ttft_seconds": [
+        12.802892893028911,
+        12.872736543009523
+      ],
+      "mean_tpot_seconds": [
+        0.03227391812581877,
+        0.032203767055418255
+      ]
+    }
+  },
   "mtp2-b4096": {
     "p32768-o128": {
       "count": 2,
