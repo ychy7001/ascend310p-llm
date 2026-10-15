@@ -39,3 +39,13 @@ C8既有容器带auto-remove，已在停止前保存完整创建命令、镜像/
 配置入口`configs/tp1-48g-112k.env`默认`QWEN36_C8_ENABLED=0`；`QWEN36_C8_ENABLED=1 bash scripts/run-candidate.sh`可切回C8。先`--check`，停止管理单元与旧实例后重建容器；不能用docker/podman start更新已有容器环境。clt是独立EP310P1/MTP1/batch2048/prefix-off基线，不把其吞吐与本机MTP2/batch4096直接相减归因为硬件差异。
 
 复算：`python3 results/a2-kv-comparison-20261015/summarize.py`。原始c8-*与c16-clean-*为最终配对；c16-p*保留初轮干扰窗口数据，不用于最终表。独立启动与回滚命令为start-c16.sh/restore-c8.sh，运行前先停止qwen36-a2.service，保证device0独占。当前运行与管理状态将在部署完成后追加快照。
+
+## 最终服务交接（2026-10-15）
+
+a2 device0:18024已交回systemd用户单元qwen36-a2.service管理，容器名恢复qwen36-tp1-48g-112k；QWEN36_C8_ENABLED=0、MTP2、Graph、MindIEQ、batch4096、max114688、util.95、prefix-off。API模型名仍为qwen36-w4a8-c8。运行代码隔离在/home/ychy/services/qwen36/c16-20261015/repo，固定5322528；模型与OPP/动态库复用原路径，SHA逐项校验一致。第二芯片的旧源码路径、容器和进程61949保持，未重启。clt服务未改动。
+
+受管实例已完成原视觉profile和Graph捕获、health=200、8题8/8、A/B/A一致无泄漏；32K warmup+正式1轮Prefill548.54/Decode32.59 tok/s，接受率100%、prefix0。112K配对与会议结果属于切换前同制品的审计C16实例，受管实例未重复112K，不冒充新一轮长测。实际容器、完整启动日志、systemd状态与部署元数据见c16-managed-*。旧NRestarts=109来自已保存的原单元重试窗口，不代表新实例发生109次重启。
+
+日常管理：systemctl --user restart qwen36-a2.service；以18024/health返回200判断就绪。修改环境需重建容器。独立实验前先停管理单元，避免自动重试。升级另建固定提交worktree并更新unit，勿直接修改第二芯片共用的旧repo。
+
+回滚到原C8受管配置：先systemctl --user stop qwen36-a2.service，将/home/ychy/services/qwen36/kv-ab-20261015/qwen36-a2.before-c16.service复制回/home/ychy/.config/systemd/user/qwen36-a2.service，daemon-reload后start该单元；旧repo仍固定07a3d6c、默认C8。恢复health并验证后，再恢复deployment.before-c16.json为deployment.json。模型文件不变。独立审计C16容器已停止且保留，不得与受管实例同时启动。

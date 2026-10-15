@@ -2,7 +2,7 @@
 
 ## 交付组合
 
-- 代码：https://github.com/ychy7001/ascend310p-qwen36 ，a2部署目录 `/home/ychy/services/qwen36/repo`。实际Git提交见同级 `deployment.json`。
+- 代码：https://github.com/ychy7001/ascend310p-qwen36 ，a2当前运行目录 `/home/ychy/services/qwen36/c16-20261015/repo`（固定提交5322528）；制品/参数快照见 `/home/ychy/services/qwen36/deployment.json`。旧repo保留，第二芯片继续使用原路径。
 - 权重：https://modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P 。本机路径见 `deploy/a2.env` 的MODEL_DIR，不需重新下载。
 - 服务：a2 TCP18024，模型名 `qwen36-w4a8-c8`。Tailscale：`http://100.92.170.57:18024/v1`；同局域网：`http://192.168.3.133:18024/v1`。客户端需能连通相应网络。
 - 用户systemd：`qwen36-a2.service`；rootless Podman容器 `qwen36-tp1-48g-112k`，只使用davinci0。芯片1保留原W4对照，18028不是业务入口。
@@ -38,13 +38,13 @@ curl --fail http://127.0.0.1:18024/health
 变更前校验及制品追溯：
 
 ```bash
-cd /home/ychy/services/qwen36/repo
+cd /home/ychy/services/qwen36/c16-20261015/repo
 source deploy/a2.env
 bash scripts/run-candidate.sh --check
-cat ../deployment.json
+cat /home/ychy/services/qwen36/deployment.json
 ```
 
-`deployment.json`记录部署提交、镜像与制品SHA256；源码和二进制分别追溯，不宣称本次重建了全部kernel。权重保持原发布文件，未覆盖或重新量化。升级需显式拉取审查后的提交，重新校验再重启；运行目录不自动追随main。
+`deployment.json`记录部署提交、镜像与制品SHA256；源码和二进制分别追溯，不宣称本次重建了全部kernel。权重保持原发布文件，未覆盖或重新量化。升级需另建指向审查后提交的worktree，校验制品后更新systemd工作目录/启动路径，再重启。当前运行目录是detached worktree，不直接git pull，也不自动追随main。
 
 ## 后端验收与边界
 
