@@ -52,6 +52,11 @@ def request(base, model, tokens, output_tokens, *, cache_salt=None):
                 # 避免实验镜像在 usage 后不发送 DONE/EOF 导致无限等连接。
                 break
     end = time.perf_counter()
+    if (usage is None or usage.get('completion_tokens') != output_tokens
+            or usage.get('prompt_tokens') != len(tokens)):
+        raise RuntimeError(
+            f'Incomplete benchmark response after {end - start:.3f}s: '
+            f'expected prompt/output={len(tokens)}/{output_tokens}, usage={usage}')
     count = usage['completion_tokens'] if usage else None
     return {
         'elapsed_s': end - start,
