@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 base=/data/qwen36-deploy
-: "${ENABLE_PROFILER:=0}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}" "${MTP_DRAFT_EAGER:=0}" "${TASK_QUEUE_ENABLE:=1}" "${CPU_AFFINITY_CONF:=0}"
+: "${ENABLE_PROFILER:=0}" "${PROFILE_OUTPUT_REL:=profile}" "${MAX_BATCHED_TOKENS:=2048}" "${MINDIEQ:=0}" "${RC_DEVICE_BLOCK_INDICES:=0}" "${MTP_DRAFT_EAGER:=0}" "${TASK_QUEUE_ENABLE:=1}" "${CPU_AFFINITY_CONF:=0}"
 : "${MAX_MODEL_LEN:=8192}" "${KV_BYTES:=2147483648}" "${MTP:=0}" "${C8:=0}" "${GRAPH:=0}" "${GDN:=0}" "${ASYNC_SCHEDULING:=0}" "${C8_REUSE_INT32_METADATA:=0}" "${C8_LIBRARY:=/work/artifacts/c8-transdata-build/output/libqwen36_c8.so}"
 : "${C8_PERSISTENT_NZ:=0}" "${C8_PERSISTENT_NZ_ASSUME_STABLE:=0}" "${C8_PERSISTENT_NZ_MAX_GIB:=4}"
 [[ "$MTP" =~ ^[012]$ && "$C8" =~ ^[01]$ && "$GRAPH" =~ ^[01]$ ]] || exit 2
@@ -19,7 +19,7 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  -e CPU_AFFINITY_CONF="$CPU_AFFINITY_CONF" \
  -e RC_DEVICE_BLOCK_INDICES="$RC_DEVICE_BLOCK_INDICES" \
  -e MTP_DRAFT_EAGER="$MTP_DRAFT_EAGER" \
- -e ENABLE_PROFILER="$ENABLE_PROFILER" -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
+ -e ENABLE_PROFILER="$ENABLE_PROFILER" -e PROFILE_OUTPUT_REL="$PROFILE_OUTPUT_REL" -e MAX_BATCHED_TOKENS="$MAX_BATCHED_TOKENS" -e GDN="$GDN" -e ASYNC_SCHEDULING="$ASYNC_SCHEDULING" -e MAX_MODEL_LEN="$MAX_MODEL_LEN" -e KV_BYTES="$KV_BYTES" -e MTP="$MTP" -e C8="$C8" -e GRAPH="$GRAPH" \
  -e QWEN36_C8_ENABLED="$C8" -e QWEN36_C8_ALLOW_MTP2=1 \
  -e QWEN36_C8_ALLOW_GRAPH="$GRAPH" -e QWEN36_C8_FORCE_UPDATABLE_GRAPH="$GRAPH" \
  -e QWEN36_C8_DEVICE_LENGTH="${QWEN36_C8_DEVICE_LENGTH:-1}" -e QWEN36_C8_FUSED_WRITE=1 -e QWEN36_C8_POOL_MODE=split_by_type \
@@ -48,7 +48,9 @@ docker run -d --name qwen36-orangepi --privileged --pid host --ipc host --networ
  if [[ -d "$triton_path" ]]; then mv "$triton_path" /opt/triton-disabled; fi
  args=()
  if [[ "$ENABLE_PROFILER" == 1 ]]; then
-  args+=(--profiler-config "{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/work/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}")
+  [[ "$PROFILE_OUTPUT_REL" != /* && "$PROFILE_OUTPUT_REL" != */* && "$PROFILE_OUTPUT_REL" != "" ]] || { echo "PROFILE_OUTPUT_REL must be a non-empty direct child name" >&2; exit 2; }
+  mkdir -p "/work/$PROFILE_OUTPUT_REL"
+  args+=(--profiler-config "{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/work/$PROFILE_OUTPUT_REL\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}")
  fi
  if [[ "$ASYNC_SCHEDULING" == 0 ]]; then args+=(--no-async-scheduling); fi
  if [[ "$GRAPH" == 0 ]]; then args+=(--enforce-eager); else

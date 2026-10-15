@@ -57,6 +57,13 @@
 
 原始摘要与恢复验证见 `results/decode-profile-20261014/`、`results/decode-profile-112k-20261014/`。两个服务在 profile 结束后均恢复并通过 sanity，profile 本身不用于宣称产品吞吐。
 
+对当前稳定配置（开启 `QWEN36_C8_DEVICE_LENGTH=1`）的 114560/128 完整 profile
+请求也已成功完成，Graph replay 和 MTP 接受率均正常；但 CANN 在停止 profiler
+时导出文本失败（`ERR04005 PROF internal error`），没有生成可解析的 kernel CSV。
+这次请求只作为配置/请求恢复证据，不替代旧 profile 的 kernel 占比，也不把 profiler
+改变后的墙钟时间当作性能数据。原始请求和错误日志在
+`results/profile-current-114k-20261015/`。
+
 ## 当前产品决策
 
 稳定默认配置保持 C8 device-length + MTP1 + Decode Graph。`RC_DEVICE_BLOCK_INDICES=1`、`QWEN36_C8_REUSE_INT32_METADATA=1` 和 persistent NZ 继续作为诊断/实验开关；已有真实数据没有显示足够稳定的收益来默认打开。下一轮最有价值的实验是针对 mask/NotEqual 的 stream timeline，而不是重新做相同的 affinity 或 memcpy 微基准。
