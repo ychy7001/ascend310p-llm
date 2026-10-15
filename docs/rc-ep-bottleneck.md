@@ -67,3 +67,11 @@
 ## 当前产品决策
 
 稳定默认配置保持 C8 device-length + MTP1 + Decode Graph。`RC_DEVICE_BLOCK_INDICES=1`、`QWEN36_C8_REUSE_INT32_METADATA=1` 和 persistent NZ 继续作为诊断/实验开关；已有真实数据没有显示足够稳定的收益来默认打开。下一轮最有价值的实验是针对 mask/NotEqual 的 stream timeline，而不是重新做相同的 affinity 或 memcpy 微基准。
+
+恢复普通服务后的当前基线（A2 device 0、TP1/W4A8/C8/MTP1/Decode Graph、
+114688 max length、6 GiB KV、MindIEQ/GDN、prefix cache 开启但 unique prompt
+强制零命中）已经重新测量：8K/128 的 Prefill/Decode 中位数为
+`564.84/23.98 tok/s`，32K/128 为 `511.49/19.35 tok/s`，三次请求的 MTP
+接受率均为 100%。32K 相对 8K 的下降约为 Prefill 9.4%、Decode 20.3%。
+原始记录见 `results/current-baseline-20261015/`；这组数据作为当前服务基线，
+与旧 profiler kernel 累计时间分开解释。
