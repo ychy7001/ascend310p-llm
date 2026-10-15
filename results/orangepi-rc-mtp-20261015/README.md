@@ -12,7 +12,7 @@ MTP1 对照为 [stage1](../orangepi-rc-baseline-20261015/README.md)：8K/128 Pre
 
 MTP2 + Graph 能启动并通过 capture，但首个8192/32预热请求没有返回任何文本或最终usage。约913秒后人工停止候选容器，HTTP流关闭；原始JSONL中空白warmup不代表成功。随后读取metrics连接失败，因此没有任何有效计时样本。
 
-在停止前，两次抓取均定位到 `take_draft_token_ids -> _get_draft_token_ids_cpu -> Event.synchronize -> aclrtSynchronizeEventImpl`。这是观测到的等待位置，不能据此认定event本身、D2H拷贝或某个上游kernel是根因。日志和调用栈保留在本目录。
+在停止前，两次抓取均定位到 `take_draft_token_ids -> _get_draft_token_ids_cpu -> Event.synchronize -> aclrtSynchronizeEventImpl`。这是观测到的等待位置，不能据此认定event本身、D2H拷贝或某个上游kernel是根因。日志和调用栈保留在本目录。设备TS日志进一步确认，2026-10-15 10:10:24（北京时间）出现 `aicpu task exception`，PID286869、stream34、task26873、magic0xac79F，见 `mtp2-device-ts-exception.txt`。它证明发生设备任务异常，但未映射到具体op；不能直接断言是FloorDiv或Graph。
 
 复核10月14日记录确认，MTP2 draft eager历史上也曾在相同等待处伴随设备TS/AI CPU异常。本轮重复启动的draft-eager候选在服务就绪前主动终止，没有提交新的推理结论。历史证据见 [RC部署记录](../orangepi-deployment-20261014/README.md)。
 

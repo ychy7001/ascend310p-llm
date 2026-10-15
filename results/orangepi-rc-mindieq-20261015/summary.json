@@ -1,0 +1,34 @@
+[
+  {
+    "prompt_tokens": 8192,
+    "repeats": 3,
+    "prompt_sha_aligned": true,
+    "identical_output_count": 3,
+    "prefill_tok_s": {
+      "off_median": 490.1551662039934,
+      "on_median": 563.6182936707112,
+      "on_vs_off_percent": 14.987728893210072
+    },
+    "decode_tok_s": {
+      "off_median": 24.10066439440524,
+      "on_median": 23.87138740952952,
+      "on_vs_off_percent": -0.9513305572146025
+    }
+  },
+  {
+    "prompt_tokens": 32768,
+    "repeats": 3,
+    "prompt_sha_aligned": true,
+    "identical_output_count": 3,
+    "prefill_tok_s": {
+      "off_median": 448.9941130644711,
+      "on_median": 511.1462726574715,
+      "on_vs_off_percent": 13.842533294879967
+    },
+    "decode_tok_s": {
+      "off_median": 19.370609984788924,
+      "on_median": 19.289331111365392,
+      "on_vs_off_percent": -0.4195989361582164
+    }
+  }
+]

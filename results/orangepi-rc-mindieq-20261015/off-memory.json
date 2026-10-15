@@ -1,0 +1,13 @@
+{
+  "time": 1792032981.6784866,
+  "scope": "RC unified host memory; cgroup values are not isolated NPU HBM",
+  "memory.usage_in_bytes": 49134829568,
+  "memory.max_usage_in_bytes": 49656467456,
+  "memory.limit_in_bytes": 9223372036854771712,
+  "meminfo_kib": {
+    "MemTotal": 91761392,
+    "MemFree": 8355104,
+    "MemAvailable": 41791700,
+    "Cached": 32885312
+  }
+}
