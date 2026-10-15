@@ -1,0 +1,11 @@
+--- a/vllm_ascend/patch/worker/patch_mamba_utils.py
++++ b/vllm_ascend/patch/worker/patch_mamba_utils.py
+@@ -141,7 +141,7 @@
+     # Keep state-index computation on the accepted-count snapshot produced by
+     # this model execution. InputBatch can be condensed/reordered before this
+     # fallback runs, so its view may belong to a different request row.
+-    num_accepted_tokens = input_batch.num_accepted_tokens_cpu
++    num_accepted_tokens = num_accepted_tokens_cpu_tensor
+     for i in range(num_reqs):
+         num_tokens_running_state = num_computed_tokens[i] + num_scheduled_tokens[i] - num_draft_tokens[i]
+         new_num_computed_tokens = num_tokens_running_state + num_accepted_tokens[i] - 1

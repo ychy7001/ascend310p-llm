@@ -103,6 +103,15 @@ leaked. These are correctness/progress observations, not evidence of a speedup
 over the MTP1 Graph baseline. See
 `results/mtp2-gdn-state-sync-20261015/orangepi/` for raw results and protocol.
 The 32,256-token meeting-update canary also passed all four fields (54 output
-tokens, Prefill 442.76 tok/s, Decode 9.52 tok/s). A separate container now tests
-the same snapshot candidate with Graph enabled; no stable MTP policy changes
-follow from the eager result alone.
+tokens, Prefill 442.76 tok/s, Decode 9.52 tok/s).
+
+The subsequent Graph candidate (`FULL_DECODE_ONLY`, capture sizes `[1,2,3]`)
+completed capture and became healthy, but its first short chat request did not
+return. Two Python stack samples showed the engine waiting in
+`_get_draft_token_ids_cpu` at `draft_token_ids_event.synchronize()`. The
+candidate was terminated without continuing throughput tests, and the stable
+MTP1 container was restarted. This locates the wait, not the underlying failing
+kernel/stream dependency; no Graph speed or accuracy result exists for this
+candidate. The snapshot change alone is insufficient to make RC MTP2 Graph
+usable. Next isolate draft Graph from target Graph and inspect the draft-token
+copy stream dependency before changing the event protocol.
