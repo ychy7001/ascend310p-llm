@@ -146,3 +146,17 @@ does not identify the Python call that submitted FloorDiv or prove every
 historical stall has the same cause. The second-draft slot calculation in
 `attn_update_stack_num_spec_norm` is a source candidate to isolate next.
 See `results/mtp2-stream-stages-20261015/` for the diagnostic patch and logs.
+
+The next candidate replaced only the second-draft slot quotient/remainder with
+exact CPU integer arithmetic, retaining target Graph and draft eager and
+removing the diagnostic barriers. Actual positions used int32 with kernel
+block size 128. It passed 8/8 and A/B/A before and after 32K requests. Two cold
+32,256/128 requests measured Prefill 505.56/507.99 and Decode 20.94/21.89 tok/s,
+with zero prefix-cache hits; a 32K meeting-update canary passed all four fields.
+Logs confirmed target Graph replay. This is a viable local compatibility
+candidate without a driver upgrade, but adds CPU transfers and synchronization,
+does not support draft Graph, and has not passed 112K or a matched MTP1 A/B.
+The CPU copy can also change ordering, so the experiment does not prove a pure
+FloorDiv implementation defect. Keep this patch separate from defaults and
+next validate a device-only exact index alternative. Results and patch:
+`results/mtp2-slot-cpu-20261015/`.

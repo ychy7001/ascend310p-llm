@@ -1,0 +1,3 @@
+09c7e598c141ba6b1cdf096fa089154a30acace5926c1b17ecf3e5563cf17ca7  /vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py
+94d75dbeb5d23ab5b383cdc69114167392b967994bb21342cf748b733ba9a968  /vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py
+a7a8fe730acd7468dd803e4560089b29d0426eb6641eab5894090920e085d14d  /vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py

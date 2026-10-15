@@ -1,0 +1,1 @@
+(EngineCore pid=78249) RC_SLOT_CPU {'block_size': 128, 'dtype': 'torch.int32', 'shape': [1], 'positions': [27]}

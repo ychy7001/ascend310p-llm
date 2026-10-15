@@ -1,0 +1,36 @@
+--- a/vllm_ascend/spec_decode/llm_base_proposer.py
++++ b/vllm_ascend/spec_decode/llm_base_proposer.py
+@@ -1643,17 +1643,24 @@
+             else:
+                 block_size = self.block_size
+ 
+-            # Compute the slot mapping.
+-            if self.uses_mrope:
+-                block_numbers = clamped_positions[0] // block_size
+-            else:
+-                block_numbers = clamped_positions // block_size
++            # Diagnostic candidate: exact CPU integer arithmetic for the tiny
++            # second-draft position vector. Draft eager only; not capture-safe.
++            slot_positions = clamped_positions[0] if self.uses_mrope else clamped_positions
++            if self.use_cuda_graph:
++                raise RuntimeError("RC slot CPU candidate requires draft eager")
++            positions_cpu = slot_positions.cpu()
++            block_numbers_cpu = positions_cpu // block_size
++            offsets_cpu = positions_cpu % block_size
++            block_numbers = block_numbers_cpu.to(slot_positions.device, non_blocking=False)
++            offsets = offsets_cpu.to(slot_positions.device, non_blocking=False)
++            if not getattr(self, "_rc_slot_cpu_logged", False):
++                print("RC_SLOT_CPU", {"block_size": block_size,
++                      "dtype": str(slot_positions.dtype), "shape": list(slot_positions.shape),
++                      "positions": positions_cpu.tolist()}, flush=True)
++                self._rc_slot_cpu_logged = True
+             block_ids = old_common_metadata.block_table_tensor.gather(dim=1, index=block_numbers.view(-1, 1))
+             block_ids = block_ids.view(-1)
+-            if self.uses_mrope:
+-                slot_mapping = block_ids * block_size + clamped_positions[0] % block_size
+-            else:
+-                slot_mapping = block_ids * block_size + clamped_positions % block_size
++            slot_mapping = block_ids * block_size + offsets
+ 
+             # Mask out the slot mappings that exceed the max model length.
+             # Otherwise, the KV cache will be inadvertently updated with the
