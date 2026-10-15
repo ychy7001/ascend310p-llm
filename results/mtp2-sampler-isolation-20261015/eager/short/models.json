@@ -1,0 +1,30 @@
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "qwen36-w4a8-c8",
+      "object": "model",
+      "created": 1792052038,
+      "owned_by": "vllm",
+      "root": "/model",
+      "parent": null,
+      "max_model_len": 114688,
+      "permission": [
+        {
+          "id": "modelperm-b2cc95bb08164820",
+          "object": "model_permission",
+          "created": 1792052038,
+          "allow_create_engine": false,
+          "allow_sampling": true,
+          "allow_logprobs": true,
+          "allow_search_indices": false,
+          "allow_view": true,
+          "allow_fine_tuning": false,
+          "organization": "*",
+          "group": null,
+          "is_blocking": false
+        }
+      ]
+    }
+  ]
+}

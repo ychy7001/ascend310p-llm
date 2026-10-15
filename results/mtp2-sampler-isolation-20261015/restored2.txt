@@ -1,0 +1,13 @@
+2026-10-15 08:18:52 waiting for health
+2026-10-15 08:18:52 health=200; quality before long requests
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+2026-10-15 08:19:04 restoration short gates passed; long tests not rerun

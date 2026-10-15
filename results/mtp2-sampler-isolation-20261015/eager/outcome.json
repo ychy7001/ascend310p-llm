@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "stage": "model-short",
+  "baseline": "qwen36-c16-112k-20261015",
+  "candidate": "qwen36-mtp2-bounded-20261015-eager",
+  "graph": false,
+  "probe_scope": "40 numerical cases passed; prior process cleanup timed out, recorded separately",
+  "error": "CalledProcessError(1, ('python3', '/home/clt/qwen36-unified-2048-20261015/tools/validate.py', '--base-url', 'http://127.0.0.1:18016', '--model', 'qwen36-w4a8-c8', '--out', '/home/clt/qwen36-mtp2-sampler-20261015/eager/short', '--smoke-only'))",
+  "baseline_restart_requested": true
+}

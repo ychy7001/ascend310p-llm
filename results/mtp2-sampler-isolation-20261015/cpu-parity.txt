@@ -1,0 +1,51 @@
+INFO 10-15 07:55:34 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-15 07:55:34 [__init__.py:46] - ascend -> vllm_ascend:register
+INFO 10-15 07:55:34 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-15 07:55:34 [__init__.py:238] Platform plugin ascend is activated
+INFO 10-15 07:55:35 [platform.py:62] Breakable cudagraph is force disabled on Ascend because DeepSeek V4 PIECEWISE cudagraph is not supported yet.
+INFO 10-15 07:55:38 [importing.py:81] Triton not installed or not compatible; certain GPU-related functions will not be available.
+`Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+[Qwen36 GDN] fixed PR WY/FwdH/FwdO enabled via independent namespace
+[Qwen36 MindIEQ] optional native-layout TP1 grouped Prefill; custom_quant=True; min_tokens=128; shared_gate=True; native Decode retained
+WARNING:root:clt deployment: synchronous metadata uploads enabled
+{"device": "cpu", "counts": [0], "mismatch": -1, "greedy": null, "expected": [[700, -1, -1]], "actual": [[700, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [0], "mismatch": -1, "greedy": [true], "expected": [[700, -1, -1]], "actual": [[700, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1], "mismatch": -1, "greedy": null, "expected": [[10, 700, -1]], "actual": [[10, 700, -1]], "passed": true}
+{"device": "cpu", "counts": [1], "mismatch": -1, "greedy": [true], "expected": [[10, 700, -1]], "actual": [[10, 700, -1]], "passed": true}
+{"device": "cpu", "counts": [1], "mismatch": 0, "greedy": null, "expected": [[110, -1, -1]], "actual": [[110, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1], "mismatch": 0, "greedy": [true], "expected": [[110, -1, -1]], "actual": [[110, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2], "mismatch": -1, "greedy": null, "expected": [[10, 11, 700]], "actual": [[10, 11, 700]], "passed": true}
+{"device": "cpu", "counts": [2], "mismatch": -1, "greedy": [true], "expected": [[10, 11, 700]], "actual": [[10, 11, 700]], "passed": true}
+{"device": "cpu", "counts": [2], "mismatch": 0, "greedy": null, "expected": [[110, -1, -1]], "actual": [[110, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2], "mismatch": 0, "greedy": [true], "expected": [[110, -1, -1]], "actual": [[110, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2], "mismatch": 1, "greedy": null, "expected": [[10, 111, -1]], "actual": [[10, 111, -1]], "passed": true}
+{"device": "cpu", "counts": [2], "mismatch": 1, "greedy": [true], "expected": [[10, 111, -1]], "actual": [[10, 111, -1]], "passed": true}
+{"device": "cpu", "counts": [0, 2], "mismatch": -1, "greedy": null, "expected": [[700, -1, -1], [10, 11, 701]], "actual": [[700, -1, -1], [10, 11, 701]], "passed": true}
+{"device": "cpu", "counts": [0, 2], "mismatch": -1, "greedy": [true, false], "expected": [[700, -1, -1], [-1, -1, -1]], "actual": [[700, -1, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [0, 2], "mismatch": 0, "greedy": null, "expected": [[700, -1, -1], [110, -1, -1]], "actual": [[700, -1, -1], [110, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [0, 2], "mismatch": 0, "greedy": [true, false], "expected": [[700, -1, -1], [-1, -1, -1]], "actual": [[700, -1, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [0, 2], "mismatch": 1, "greedy": null, "expected": [[700, -1, -1], [10, 111, -1]], "actual": [[700, -1, -1], [10, 111, -1]], "passed": true}
+{"device": "cpu", "counts": [0, 2], "mismatch": 1, "greedy": [true, false], "expected": [[700, -1, -1], [-1, -1, -1]], "actual": [[700, -1, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 0], "mismatch": -1, "greedy": null, "expected": [[10, 11, 700], [701, -1, -1]], "actual": [[10, 11, 700], [701, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 0], "mismatch": -1, "greedy": [true, false], "expected": [[10, 11, 700], [-1, -1, -1]], "actual": [[10, 11, 700], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 0], "mismatch": 0, "greedy": null, "expected": [[110, -1, -1], [701, -1, -1]], "actual": [[110, -1, -1], [701, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 0], "mismatch": 0, "greedy": [true, false], "expected": [[110, -1, -1], [-1, -1, -1]], "actual": [[110, -1, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 0], "mismatch": 1, "greedy": null, "expected": [[10, 111, -1], [701, -1, -1]], "actual": [[10, 111, -1], [701, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 0], "mismatch": 1, "greedy": [true, false], "expected": [[10, 111, -1], [-1, -1, -1]], "actual": [[10, 111, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": -1, "greedy": null, "expected": [[10, 700, -1], [11, 12, 701]], "actual": [[10, 700, -1], [11, 12, 701]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": -1, "greedy": [true, false], "expected": [[10, 700, -1], [-1, -1, -1]], "actual": [[10, 700, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": 0, "greedy": null, "expected": [[110, -1, -1], [11, 12, 701]], "actual": [[110, -1, -1], [11, 12, 701]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": 0, "greedy": [true, false], "expected": [[110, -1, -1], [-1, -1, -1]], "actual": [[110, -1, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": 1, "greedy": null, "expected": [[10, 700, -1], [111, -1, -1]], "actual": [[10, 700, -1], [111, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": 1, "greedy": [true, false], "expected": [[10, 700, -1], [-1, -1, -1]], "actual": [[10, 700, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": 2, "greedy": null, "expected": [[10, 700, -1], [11, 112, -1]], "actual": [[10, 700, -1], [11, 112, -1]], "passed": true}
+{"device": "cpu", "counts": [1, 2], "mismatch": 2, "greedy": [true, false], "expected": [[10, 700, -1], [-1, -1, -1]], "actual": [[10, 700, -1], [-1, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": -1, "greedy": null, "expected": [[10, 11, 700], [12, 701, -1], [702, -1, -1]], "actual": [[10, 11, 700], [12, 701, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": -1, "greedy": [true, false, true], "expected": [[10, 11, 700], [-1, -1, -1], [702, -1, -1]], "actual": [[10, 11, 700], [-1, -1, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": 0, "greedy": null, "expected": [[110, -1, -1], [12, 701, -1], [702, -1, -1]], "actual": [[110, -1, -1], [12, 701, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": 0, "greedy": [true, false, true], "expected": [[110, -1, -1], [-1, -1, -1], [702, -1, -1]], "actual": [[110, -1, -1], [-1, -1, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": 1, "greedy": null, "expected": [[10, 111, -1], [12, 701, -1], [702, -1, -1]], "actual": [[10, 111, -1], [12, 701, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": 1, "greedy": [true, false, true], "expected": [[10, 111, -1], [-1, -1, -1], [702, -1, -1]], "actual": [[10, 111, -1], [-1, -1, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": 2, "greedy": null, "expected": [[10, 11, 700], [112, -1, -1], [702, -1, -1]], "actual": [[10, 11, 700], [112, -1, -1], [702, -1, -1]], "passed": true}
+{"device": "cpu", "counts": [2, 1, 0], "mismatch": 2, "greedy": [true, false, true], "expected": [[10, 11, 700], [-1, -1, -1], [702, -1, -1]], "actual": [[10, 11, 700], [-1, -1, -1], [702, -1, -1]], "passed": true}
+{"passed": true, "cases": 40, "scope": "greedy sampler parity, not model quality"}
