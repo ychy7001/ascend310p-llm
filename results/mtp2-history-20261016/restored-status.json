@@ -1,0 +1,6 @@
+{
+  "health_status": 200,
+  "running_containers": [
+    "qwen36-orangepi"
+  ]
+}

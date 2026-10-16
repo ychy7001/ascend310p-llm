@@ -1,0 +1,177 @@
+{
+  "scope": "32K/128 cold requests; fixed 112K service; two inputs per phase",
+  "modes": {
+    "fullgraph": [
+      {
+        "phase": "before",
+        "index": 0,
+        "prefill_tok_s": 508.0887026893774,
+        "decode_tok_s": 17.055388091983566,
+        "drafts": 66.0,
+        "accepted_per_pos": [
+          59.0,
+          2.0
+        ],
+        "acceptance_per_pos": [
+          0.8939393939393939,
+          0.030303030303030304
+        ]
+      },
+      {
+        "phase": "before",
+        "index": 1,
+        "prefill_tok_s": 508.7792885941294,
+        "decode_tok_s": 17.005063095121177,
+        "drafts": 66.0,
+        "accepted_per_pos": [
+          60.0,
+          1.0
+        ],
+        "acceptance_per_pos": [
+          0.9090909090909091,
+          0.015151515151515152
+        ]
+      },
+      {
+        "phase": "after",
+        "index": 0,
+        "prefill_tok_s": 508.1992289078671,
+        "decode_tok_s": 16.57631814943784,
+        "drafts": 68.0,
+        "accepted_per_pos": [
+          59.0,
+          1.0
+        ],
+        "acceptance_per_pos": [
+          0.8676470588235294,
+          0.014705882352941176
+        ]
+      },
+      {
+        "phase": "after",
+        "index": 1,
+        "prefill_tok_s": 509.87532482085106,
+        "decode_tok_s": 16.74432649256517,
+        "drafts": 67.0,
+        "accepted_per_pos": [
+          60.0,
+          0.0
+        ],
+        "acceptance_per_pos": [
+          0.8955223880597015,
+          0.0
+        ]
+      }
+    ],
+    "draft-eager": [
+      {
+        "phase": "before",
+        "index": 0,
+        "prefill_tok_s": 506.8653066164021,
+        "decode_tok_s": 15.494670853913568,
+        "drafts": 68.0,
+        "accepted_per_pos": [
+          60.0,
+          0.0
+        ],
+        "acceptance_per_pos": [
+          0.8823529411764706,
+          0.0
+        ]
+      },
+      {
+        "phase": "before",
+        "index": 1,
+        "prefill_tok_s": 508.2786795764388,
+        "decode_tok_s": 16.266187140818385,
+        "drafts": 65.0,
+        "accepted_per_pos": [
+          59.0,
+          3.0
+        ],
+        "acceptance_per_pos": [
+          0.9076923076923077,
+          0.046153846153846156
+        ]
+      },
+      {
+        "phase": "after",
+        "index": 0,
+        "prefill_tok_s": 506.44109966436577,
+        "decode_tok_s": 21.156674753565376,
+        "drafts": 50.0,
+        "accepted_per_pos": [
+          41.0,
+          37.0
+        ],
+        "acceptance_per_pos": [
+          0.82,
+          0.74
+        ]
+      },
+      {
+        "phase": "after",
+        "index": 1,
+        "prefill_tok_s": 508.15983464544706,
+        "decode_tok_s": 15.998547855895934,
+        "drafts": 66.0,
+        "accepted_per_pos": [
+          60.0,
+          1.0
+        ],
+        "acceptance_per_pos": [
+          0.9090909090909091,
+          0.015151515151515152
+        ]
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "phase": "before",
+      "index": 0,
+      "identical_input": true,
+      "identical_output": true
+    },
+    {
+      "phase": "before",
+      "index": 1,
+      "identical_input": true,
+      "identical_output": true
+    },
+    {
+      "phase": "after",
+      "index": 0,
+      "identical_input": true,
+      "identical_output": true
+    },
+    {
+      "phase": "after",
+      "index": 1,
+      "identical_input": true,
+      "identical_output": true
+    }
+  ],
+  "history_comparisons": [
+    {
+      "mode": "fullgraph",
+      "index": 0,
+      "identical_output": false
+    },
+    {
+      "mode": "fullgraph",
+      "index": 1,
+      "identical_output": true
+    },
+    {
+      "mode": "draft-eager",
+      "index": 0,
+      "identical_output": false
+    },
+    {
+      "mode": "draft-eager",
+      "index": 1,
+      "identical_output": true
+    }
+  ]
+}

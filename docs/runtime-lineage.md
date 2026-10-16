@@ -185,3 +185,19 @@ MTP2 16.36/16.82 tok/s with identical full outputs. The second draft adds no
 accepted tokens in that sequence. Keep RC MTP1 as default and investigate
 second-draft state after long Prefill/reuse before promoting patches.
 See `results/mtp2-fullgraph-long-20261015/README.md` for logs and limits.
+
+### RC draft Graph and request-history isolation (2026-10-16)
+
+Two fresh MTP2 candidates use identical 112K configuration, image, command and
+bind mounts; only `MTP_DRAFT_EAGER` differs. Each runs short quality checks,
+a 3K warmup, two cold 32K/128 requests, a 32K meeting canary, and the same two
+cold inputs again. Prefix-hit increments are zero and all four paired complete
+outputs match across modes. Both pass the short checks before and after.
+
+Full Graph second-position acceptance stays at 0–3.03%. Draft eager is also
+low on three requests (0–4.62%), but one post-meeting request reaches 74% and
+21.16 decode tok/s. Thus low acceptance is not exclusive to draft Graph, and
+disabling it is not a stable remedy. Request-dependent state/metadata remains
+an investigation target, not a proven root cause. Do not change the default
+or mix in a driver upgrade based on this small sequential sample. See
+`results/mtp2-history-20261016/README.md` for the per-request counts and limits.

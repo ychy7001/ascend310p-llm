@@ -1,0 +1,45 @@
+{
+  "containers": [
+    "qwen36-mtp2-slot-device-fullgraph-32k-20261015",
+    "qwen36-mtp2-history-fullgraph-20261016"
+  ],
+  "env_diff": {
+    "KV_BYTES": [
+      "3221225472",
+      "4294967296"
+    ],
+    "MAX_MODEL_LEN": [
+      "32768",
+      "114688"
+    ]
+  },
+  "image_ids": [
+    "sha256:a9a8d356f62c7bbdf29fd7a44000d2bc930f124d4a48478e086ddb32a1e4c351",
+    "sha256:a9a8d356f62c7bbdf29fd7a44000d2bc930f124d4a48478e086ddb32a1e4c351"
+  ],
+  "same_cmd": true,
+  "binds": [
+    [
+      "/var/driver:/var/driver",
+      "/var/dmp:/var/dmp",
+      "/data/models/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P:/model:ro",
+      "/data/qwen36-deploy/results/mtp2-gdn-state-sync-20261015/candidate/patch_mamba_utils.py:/vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py:ro",
+      "/etc/hdcBasic.cfg:/etc/hdcBasic.cfg:ro",
+      "/usr/local/Ascend/driver:/usr/local/Ascend/driver:ro",
+      "/data/qwen36-deploy/results/mtp2-gdn-state-sync-20261015/candidate/proposer_slot_device.py:/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py:ro",
+      "/etc/ascend_install.info:/etc/ascend_install.info:ro",
+      "/data/qwen36-deploy:/work"
+    ],
+    [
+      "/data/models/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P:/model:ro",
+      "/data/qwen36-deploy/results/mtp2-gdn-state-sync-20261015/candidate/patch_mamba_utils.py:/vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py:ro",
+      "/etc/ascend_install.info:/etc/ascend_install.info:ro",
+      "/data/qwen36-deploy:/work",
+      "/var/dmp:/var/dmp",
+      "/usr/local/Ascend/driver:/usr/local/Ascend/driver:ro",
+      "/var/driver:/var/driver",
+      "/etc/hdcBasic.cfg:/etc/hdcBasic.cfg:ro",
+      "/data/qwen36-deploy/results/mtp2-gdn-state-sync-20261015/candidate/proposer_slot_device.py:/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py:ro"
+    ]
+  ]
+}

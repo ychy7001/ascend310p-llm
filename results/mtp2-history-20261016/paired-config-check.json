@@ -1,0 +1,16 @@
+{
+  "containers": [
+    "qwen36-mtp2-history-fullgraph-20261016",
+    "qwen36-mtp2-history-draft-eager-20261016"
+  ],
+  "env_diff": {
+    "MTP_DRAFT_EAGER": [
+      "0",
+      "1"
+    ]
+  },
+  "same_image": true,
+  "image_id": "sha256:a9a8d356f62c7bbdf29fd7a44000d2bc930f124d4a48478e086ddb32a1e4c351",
+  "same_cmd": true,
+  "same_bind_set": true
+}
