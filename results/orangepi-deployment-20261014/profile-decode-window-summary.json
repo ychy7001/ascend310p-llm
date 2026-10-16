@@ -1,0 +1,401 @@
+{
+  "scope": "按捕获kernel耗时求和，不等于墙钟比例；可读取gzip原始导出。",
+  "kernel_count": 13541,
+  "sum_kernel_us": 238168.03200000004,
+  "top": [
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "count": 411,
+      "sum_us": 105316.21500000001,
+      "sum_fraction": 0.44219290941615536
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "count": 276,
+      "sum_us": 29185.122000000014,
+      "sum_fraction": 0.12254004769204294
+    },
+    {
+      "name": "aclnnNeScalar_NotEqualAiCore_NotEqual",
+      "count": 12,
+      "sum_us": 18260.624000000003,
+      "sum_fraction": 0.0766711797828518
+    },
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "count": 39,
+      "sum_us": 16510.831,
+      "sum_fraction": 0.06932429537814712
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "count": 1254,
+      "sum_us": 15225.190000000002,
+      "sum_fraction": 0.0639262535452281
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "count": 39,
+      "sum_us": 9509.557999999999,
+      "sum_fraction": 0.03992793625636541
+    },
+    {
+      "name": "aclnnRecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310",
+      "count": 103,
+      "sum_us": 7417.733999999998,
+      "sum_fraction": 0.03114496071412303
+    },
+    {
+      "name": "RmsNorm",
+      "count": 687,
+      "sum_us": 3725.141999999999,
+      "sum_fraction": 0.015640814464974034
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "count": 556,
+      "sum_us": 3436.3400000000024,
+      "sum_fraction": 0.014428216797794264
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCpu_Cast",
+      "count": 8,
+      "sum_us": 2179.8430000000003,
+      "sum_fraction": 0.009152542352955245
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCore_Cast",
+      "count": 1227,
+      "sum_us": 2150.074000000005,
+      "sum_fraction": 0.009027550767182747
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "count": 8,
+      "sum_us": 2075.339,
+      "sum_fraction": 0.00871375970390518
+    },
+    {
+      "name": "aclnnMul_MulAiCore_Mul",
+      "count": 869,
+      "sum_us": 1991.7270000000021,
+      "sum_fraction": 0.00836269663596163
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "count": 411,
+      "sum_us": 1701.8239999999983,
+      "sum_fraction": 0.007145476182126735
+    },
+    {
+      "name": "aclnnInplaceCopy_SliceAiCore_Slice",
+      "count": 819,
+      "sum_us": 1250.5920000000003,
+      "sum_fraction": 0.0052508810250403385
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_ReduceSum",
+      "count": 288,
+      "sum_us": 1102.0330000000001,
+      "sum_fraction": 0.004627123929041828
+    },
+    {
+      "name": "CausalConv1dV310",
+      "count": 103,
+      "sum_us": 926.0740000000003,
+      "sum_fraction": 0.0038883220062044268
+    },
+    {
+      "name": "aclnnTopk_CastAiCore_Cast",
+      "count": 138,
+      "sum_us": 806.8099999999996,
+      "sum_fraction": 0.003387566304448447
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310",
+      "count": 138,
+      "sum_us": 805.8519999999997,
+      "sum_fraction": 0.0033835439342253942
+    },
+    {
+      "name": "aclnnAdd_AddAiCore_Add",
+      "count": 529,
+      "sum_us": 796.5119999999995,
+      "sum_fraction": 0.003344327923908778
+    },
+    {
+      "name": "aclnnInplaceCopy_TensorMoveAiCore_TensorMove",
+      "count": 373,
+      "sum_us": 682.9850000000006,
+      "sum_fraction": 0.0028676602576117372
+    },
+    {
+      "name": "aclnnGtScalar_CastAiCore_Cast",
+      "count": 107,
+      "sum_us": 640.429,
+      "sum_fraction": 0.002688979686408963
+    },
+    {
+      "name": "aclnnInplaceCopy_ViewCopyAiCpu_ViewCopy",
+      "count": 12,
+      "sum_us": 617.604,
+      "sum_fraction": 0.0025931439866791186
+    },
+    {
+      "name": "QwenW4A8PackV310",
+      "count": 138,
+      "sum_us": 602.74,
+      "sum_fraction": 0.002530734267477173
+    },
+    {
+      "name": "aclnnAdds_AddAiCore_Add",
+      "count": 385,
+      "sum_us": 602.0070000000009,
+      "sum_fraction": 0.0025276566084234207
+    },
+    {
+      "name": "aclnnContiguous_TransposeAiCore_Transpose",
+      "count": 103,
+      "sum_us": 592.2679999999999,
+      "sum_fraction": 0.002486765310299914
+    },
+    {
+      "name": "aclnnCat_ConcatD_ConcatD",
+      "count": 191,
+      "sum_us": 545.4329999999998,
+      "sum_fraction": 0.0022901184320152576
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_MemSet",
+      "count": 288,
+      "sum_us": 533.0029999999998,
+      "sum_fraction": 0.002237928388306957
+    },
+    {
+      "name": "aclnnSubs_SubAiCore_Sub",
+      "count": 146,
+      "sum_us": 511.0370000000001,
+      "sum_fraction": 0.002145699385885676
+    },
+    {
+      "name": "aclnnArange_ArangeAiCore_Range",
+      "count": 215,
+      "sum_us": 446.67399999999964,
+      "sum_fraction": 0.0018754574081545905
+    }
+  ],
+  "top_shapes": [
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,15520,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 8,
+      "sum_us": 45539.919
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,768,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 103,
+      "sum_us": 33022.575
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "shapes": "\"2,1024;2,1024;2,16,8;2,16,8;256,1024,1024;256,1024,16;256,1024,16;256,1024,16;16\"",
+      "dtypes": "INT8;INT8;FLOAT;FLOAT;INT8;FLOAT16;FLOAT16;FLOAT16;INT32",
+      "count": 138,
+      "sum_us": 19981.247000000007
+    },
+    {
+      "name": "aclnnNeScalar_NotEqualAiCore_NotEqual",
+      "shapes": "\"1,2;\"",
+      "dtypes": "INT32;INT32",
+      "count": 8,
+      "sum_us": 18249.947999999997
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"256,1,16,16;256,128,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 146,
+      "sum_us": 16667.733999999997
+    },
+    {
+      "name": "paged_attention_decoder_mask_0",
+      "shapes": "N/A",
+      "dtypes": "N/A",
+      "count": 39,
+      "sum_us": 16510.831
+    },
+    {
+      "name": "c8_cache_to_nz_kernel_9",
+      "shapes": "N/A",
+      "dtypes": "N/A",
+      "count": 39,
+      "sum_us": 9509.557999999999
+    },
+    {
+      "name": "aclnnMatmulWeightNz_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,576,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 39,
+      "sum_us": 9378.356000000002
+    },
+    {
+      "name": "QwenW4A8Int4MatmulV310",
+      "shapes": "\"16,256;16,256;16,4,8;16,4,8;256,2048,256;256,2048,4;256,2048,4;256,2048,4;16\"",
+      "dtypes": "INT8;INT8;FLOAT;FLOAT;INT8;FLOAT16;FLOAT16;FLOAT16;INT32",
+      "count": 138,
+      "sum_us": 9203.875000000002
+    },
+    {
+      "name": "aclnnRecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310_RecurrentGatedDeltaRuleV310",
+      "shapes": "\"2,16,128;2,16,128;2,32,128;2,32;165,32,128,128;1;2;2,32;1\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;FLOAT16;FLOAT16;INT32;INT32;FLOAT;INT32",
+      "count": 103,
+      "sum_us": 7417.733999999998
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"1024,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 138,
+      "sum_us": 7307.9670000000015
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"2048,512\"",
+      "dtypes": "FLOAT16",
+      "count": 138,
+      "sum_us": 2204.9459999999995
+    },
+    {
+      "name": "aclnnInplaceCopy_CastAiCpu_Cast",
+      "shapes": "\"1\"",
+      "dtypes": "FLOAT",
+      "count": 8,
+      "sum_us": 2179.8430000000003
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"2,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 418,
+      "sum_us": 2138.892
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"256,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 138,
+      "sum_us": 1919.1669999999995
+    },
+    {
+      "name": "RmsNorm",
+      "shapes": "\"2,2048;2048\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 300,
+      "sum_us": 1839.837999999999
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,64,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 138,
+      "sum_us": 1467.5040000000001
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "shapes": "\"16,2048;256,2048,1024;;;;;;256\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;UINT64;FLOAT;FLOAT16;FLOAT16;INT64",
+      "count": 4,
+      "sum_us": 1387.812
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "shapes": "\"2,2048\"",
+      "dtypes": "FLOAT16",
+      "count": 257,
+      "sum_us": 987.1850000000009
+    },
+    {
+      "name": "RmsNorm",
+      "shapes": "\"32,128;128\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 206,
+      "sum_us": 986.106
+    },
+    {
+      "name": "CausalConv1dV310",
+      "shapes": "\"2,8192;4,8192;;165,4,8192;2;1,2;;1\"",
+      "dtypes": "FLOAT16;FLOAT16;DT_UNDEFINED;FLOAT16;INT32;INT32;DT_UNDEFINED;INT32",
+      "count": 103,
+      "sum_us": 926.0740000000003
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "shapes": "\"32,1,16,16;32,128,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 138,
+      "sum_us": 844.9830000000003
+    },
+    {
+      "name": "aclnnMatmul_TransData_TransData",
+      "shapes": "\"1,1,16,16\"",
+      "dtypes": "FLOAT",
+      "count": 142,
+      "sum_us": 823.0249999999999
+    },
+    {
+      "name": "aclnnTopk_CastAiCore_Cast",
+      "shapes": "\"2,8\"",
+      "dtypes": "INT32",
+      "count": 138,
+      "sum_us": 806.8099999999996
+    },
+    {
+      "name": "QwenW4A8SwigluPackV310",
+      "shapes": "\"16,1024\"",
+      "dtypes": "FLOAT16",
+      "count": 138,
+      "sum_us": 805.8519999999997
+    },
+    {
+      "name": "aclnnReduceSum_ReduceSumOpAiCore_ReduceSum",
+      "shapes": "\"2,8,2048;1\"",
+      "dtypes": "FLOAT;INT64",
+      "count": 138,
+      "sum_us": 723.4230000000001
+    },
+    {
+      "name": "aclnnMatmulWeightNz_TransData_TransData",
+      "shapes": "\"2,4096\"",
+      "dtypes": "FLOAT16",
+      "count": 146,
+      "sum_us": 690.6810000000005
+    },
+    {
+      "name": "aclnnGroupedMatmulWeightNz_GroupedMatmul_GroupedMatmul",
+      "shapes": "\"16,512;256,512,2048;;;;;;256\"",
+      "dtypes": "FLOAT16;FLOAT16;FLOAT16;UINT64;FLOAT;FLOAT16;FLOAT16;INT64",
+      "count": 4,
+      "sum_us": 687.527
+    },
+    {
+      "name": "aclnnMatmul_MatMulCommon_MatMulV2",
+      "shapes": "\"128,1,16,16;128,16,16,16\"",
+      "dtypes": "FLOAT16;FLOAT16",
+      "count": 138,
+      "sum_us": 653.2049999999999
+    },
+    {
+      "name": "aclnnGtScalar_CastAiCore_Cast",
+      "shapes": "\"1\"",
+      "dtypes": "INT32",
+      "count": 107,
+      "sum_us": 640.429
+    }
+  ],
+  "device_task_span_us": 309955.0,
+  "span_warning": "Device span may cover only a bounded capture window; validate against HTTP scope. Concurrent task durations overlap."
+}
