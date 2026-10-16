@@ -1,0 +1,8 @@
+{
+  "image": "quay.io/ascend/vllm-ascend@sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+  "architecture": "amd64",
+  "sources": {
+    "/vllm-workspace/vllm": "0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665",
+    "/vllm-workspace/vllm-ascend": "1cdb8c4db6e50f36f1fb3283b3e3dd618f6821e8"
+  }
+}

@@ -1,0 +1,8 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+USER root
+COPY rootfs/ /
+RUN TORCH_DEVICE_BACKEND_AUTOLOAD=0 python3 -S /opt/qwen36/verify-image.py --base \
+ && if [ -d /usr/local/python3.12.13/lib/python3.12/site-packages/triton ]; then mv /usr/local/python3.12.13/lib/python3.12/site-packages/triton /opt/triton-disabled; fi
+ENV PYTHONPATH=/c8bootstrap TORCH_DEVICE_BACKEND_AUTOLOAD=0 ATEN_CPU_CAPABILITY=default VLLM_WORKER_MULTIPROC_METHOD=spawn OMP_NUM_THREADS=1
+ENTRYPOINT ["bash", "/opt/qwen36/start.sh"]
