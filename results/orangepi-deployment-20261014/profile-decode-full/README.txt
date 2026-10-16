@@ -11,8 +11,8 @@ The parameters of the msprof command line tool are used as examples. The paramet
 	Pending: Total pending time of a task (μs).
 4.op_summary.csv:AI Core, AI CPU, AI Vector and COMMUNICATION communication operator data,is used to collect statistics on operator details and time consumptions.
 	Op Name: Operator name.
-	OP Type: Operator type. 
-	Task Type: Task type. 
+	OP Type: Operator type.
+	Task Type: Task type.
 	Task Start Time: Task start time (μs).
 	Task Duration: Task duration, including the scheduling time and the start time to the latest end time of the first core. The unit is μs.
 	Task Wait Time: Interval between tasks (μs).(= this task's start_time - last task's start_time - last task's duration_time)
@@ -23,4 +23,3 @@ The parameters of the msprof command line tool are used as examples. The paramet
 	aicore_time: Average task execution duration on AI Core.The value is calculated based on total_cycles and block num. The unit is μs. The data is inaccurate in the manual frequency modulation, dynamic frequency modulation (the power consumption exceeds the default value), and Atlas 300V/Atlas 300I Pro scenarios. You are not advised referring to it.
 	total_cycles: Number of cycles taken to execute all task instructions.
 	Register value: Value of the custom register whose data is to be collected.
-
