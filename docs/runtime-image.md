@@ -2,6 +2,16 @@
 
 本入口把已提交的适配代码和已测制品打包，不需要挂载主机源码、扩展或OPP目录。权重和主机驱动继续独立挂载。它复用`configs/tp1-profile.sh`，与旧服务入口使用同一个参数解析器；不是重新实现量化后端，也不表示已从源码重建CANN或全部算子。
 
+## 已发布的 a2 版本
+
+- 镜像：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35`
+- 镜像运行源码：`c9fd1daf7f2b059684399473626dc0509fae2f7e`；后续文档提交不改变该镜像。
+- 参数快照：[deploy/a2-image-20261016.env](../deploy/a2-image-20261016.env)；MODEL_DIR 是 a2 本机路径，其他主机应按实际路径修改。
+- 管理入口：`qwen36-image.service`，端口 18024；运维及回滚见[后端交付](backend-handoff.md)。
+- 验证：镜像校验、32K 配对、112000-token 会议及切换后质量通过，见[原始记录](../results/runtime-image-20261016/README.md)。
+
+本轮冻结上述组合，暂停额外调优。clt 维护及 ARM64 RC 镜像另行复核；不将本镜像声明为所有 310P 的通用部署。新机器需取得 registry 拉取权限，安装对应驱动并复核设备映射。
+
 ## 固定内容
 
 - `deploy/image/base-amd64.json`固定registry digest、架构、vLLM/vLLM-Ascend源码SHA。构建时校验基础源码与工作树。

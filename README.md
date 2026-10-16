@@ -9,7 +9,7 @@
 | INT8 KV / C8 | TP1 C8/MTP1/MTP2 Graph均已完成启动、数值和长needle；仍是实验后端 |
 | Decode Graph | mode0/FULL_DECODE_ONLY/[1,2,3]已在310P capture/replay；正式updatable-graph backend修复待上游确认 |
 | 长上下文 | TP1/W4A8/C8/MTP1/MTP2 Graph均完成112K近上限检索；不宣称256K实际验收 |
-| 全面质量及稳定加速 | 核心门禁完成；正式P95、多模态和TP2 C8仍待补齐；INT4不保证更快 |
+| 全面质量及稳定加速 | a2 单流长上下文交付门禁完成；正式 P95、多模态、并发和 TP2 C8 仍未验收；INT4 不保证更快 |
 
 模型制品：[ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P)。发布状态及独立加载证据以[验证记录](docs/release-validation.md)为准。
 
@@ -20,6 +20,8 @@
 ## 后端交付
 
 a2可用服务、权重、调用示例、重启和运行边界统一见[后端交付说明](docs/backend-handoff.md)。后端接入默认只使用18024端口及long-prefill组合。
+
+当前 a2 已切换为 digest 固定的独立运行镜像；镜像、参数和回滚记录见[运行镜像验收](results/runtime-image-20261016/README.md)。后续调优默认暂停，以稳定性观察和 clt/RC 独立复核为主。
 
 ## 最新单流部署候选
 
@@ -33,7 +35,7 @@ a2可用服务、权重、调用示例、重启和运行边界统一见[后端�
 
 [EP收束复验](results/ep-convergence-20261016/README.md)补齐clt MTP1的112000/128（Prefill417.49、Decode16.61 tok/s）与会议四字段/长后质量；独立MTP2候选叠加计数与slot修复后仍5/8，未进入吞吐测试。默认保留a2 MTP2、clt MTP1、RC MTP1/4096，共用参数及运行时差异见Profile；失败补丁不接入部署代码。
 
-当前a2业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](results/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
+当前a2业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](results/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。a2 交付优先使用[已发布镜像与配置快照](docs/runtime-image.md)。以下为源码实验及回滚入口，配置默认值为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json

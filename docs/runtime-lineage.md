@@ -1,9 +1,24 @@
 # Runtime Lineage and Reproducible Build Plan
 
-## Current experimental state
+## Current state
 
-The three hosts currently use the same logical Qwen3.6 W4A8 stack, but the
-runtime is not yet a single reproducible image:
+The a2 EP deployment is now packaged as a digest-pinned standalone image and
+is managed by `qwen36-image.service`. The image contains the tested runtime
+adaptation and binaries; it mounts only the model and host driver paths. The
+validated release and cutover evidence is in
+`results/runtime-image-20261016/`. The source-mounted unit remains preserved
+as an explicit rollback path.
+
+clt is currently under hardware maintenance and orangepi is an ARM64 RC host;
+neither is represented by the a2 amd64 image. Their host-specific images and
+profiles remain separate follow-up work.
+
+### Historical pre-image state
+
+The following description records the state before the a2 image cutover.
+
+Before the a2 cutover, the three hosts used the same logical Qwen3.6 W4A8
+stack without a single reproducible image:
 
 1. The base image on `orangepi` is
    `local/vllm-ascend:v0.23.0-310p-openeuler-orangepi-rcfix`, image digest
@@ -30,9 +45,9 @@ runtime is not yet a single reproducible image:
    vLLM-Ascend work; it is not a Huawei binary release and is not identical to
    the RC image source.
 
-These facts explain why a working service can currently be reproduced only by
-combining an image tag, host-side artifacts, a runtime overlay and environment
-variables. The stable service is preserved while this is reorganized.
+These facts explain the historical source-mounted deployment. The a2 image
+now removes that runtime dependency; the source service is preserved for
+rollback and comparison.
 
 ## Target layering
 

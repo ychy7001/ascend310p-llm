@@ -4,14 +4,14 @@
 
 2026-10-16 起，a2 默认交付入口为已验收的 digest 固定运行镜像和 `qwen36-image.service`。旧的 `qwen36-a2.service`、源码 worktree、OPP 和动态库仍保留，仅用于回滚和对照；不要同时启用两个 unit。镜像发布与切换证据见 [`results/runtime-image-20261016/`](../results/runtime-image-20261016/)，运行代码、OPP 和扩展库均来自镜像内的 168 文件哈希清单，权重没有重新下载或覆盖。
 
-- 代码：https://github.com/ychy7001/ascend310p-qwen36 ，a2当前运行目录 `/home/ychy/services/qwen36/c16-20261015/repo`（固定提交5322528）；制品/参数快照见 `/home/ychy/services/qwen36/deployment.json`。旧repo保留，第二芯片继续使用原路径。
-- 权重：https://modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P 。本机路径见 `deploy/a2.env` 的MODEL_DIR，不需重新下载。
+- 代码：https://github.com/ychy7001/ascend310p-qwen36 。镜像运行源码固定提交 `c9fd1da`；主机配置为 `~/.config/qwen36-image.env`，仓库快照见 [deploy/a2-image-20261016.env](../deploy/a2-image-20261016.env)。旧源码目录 `/home/ychy/services/qwen36/c16-20261015/repo`（5322528）仅作回滚保留，第二芯片仍用原路径。
+- 权重：https://modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P 。本机路径见 `deploy/a2-image-20261016.env` 的 MODEL_DIR，不需重新下载。
 - 服务：a2 TCP18024，模型名 `qwen36-w4a8-c8`。Tailscale：`http://100.92.170.57:18024/v1`；同局域网：`http://192.168.3.133:18024/v1`。客户端需能连通相应网络。
 - 用户systemd：`qwen36-image.service`；rootless Podman容器 `qwen36-image-managed`，只使用davinci0。芯片1保留原W4对照，18028不是业务入口。
 
 固定组合为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、GDN、MindIEQ E5，2048/512，最大总序列114688 token，显存利用率0.95。单请求调度；多客户端会排队，不代表已支持并发批处理。请求输入与输出预算合计需≤114688。prefix默认关闭，图像输入未验收。
 
-2026-10-15更新：公开候选入口优先C16；测试结果与切换记录见[a2 C16/C8配对报告](../results/a2-kv-comparison-20261015/README.md)。API模型名保留`qwen36-w4a8-c8`兼容已有客户端，不能据名称推断KV格式。显式`QWEN36_C8_ENABLED=1`可重建C8。独立实验前先停systemd管理单元，避免它按旧参数自动拉起容器；不要同时管理同一设备/端口。当前实际容器与管理状态以[本轮2048部署快照](../results/unified-2048-20261015/README.md)及deployment.json为准。
+2026-10-15更新：公开候选入口优先C16；测试结果与切换记录见[a2 C16/C8配对报告](../results/a2-kv-comparison-20261015/README.md)。API模型名保留`qwen36-w4a8-c8`兼容已有客户端，不能据名称推断KV格式。显式`QWEN36_C8_ENABLED=1`可重建C8。独立实验前先停systemd管理单元，避免它按旧参数自动拉起容器；不要同时管理同一设备/端口。当前镜像与管理状态以[镜像切换记录](../results/runtime-image-20261016/README.md)为准；2048部署快照和旧 deployment.json 是切换前的历史记录。
 
 ## MTP与Prefill batch选择依据
 
@@ -33,25 +33,34 @@ curl --fail http://100.92.170.57:18024/v1/chat/completions \
 以下命令以 `ssh ychy-a2` 后的ychy用户运行：
 
 ```bash
-systemctl --user status qwen36-a2.service
-journalctl --user -u qwen36-a2.service -n 100 --no-pager
-systemctl --user restart qwen36-a2.service
+systemctl --user status qwen36-image.service
+journalctl --user -u qwen36-image.service -n 100 --no-pager
+systemctl --user restart qwen36-image.service
 curl --fail http://127.0.0.1:18024/health
 ```
 
-重启需要重新加载模型和捕获Graph；systemd running不代表模型ready，以HTTP健康检查200为准。用户已开启linger，服务enable后可随用户manager启动。停止用 `systemctl --user stop qwen36-a2.service`，不要同时执行旧实验启动命令占用同一芯片。
+重启需要重新加载模型和捕获Graph；systemd running不代表模型ready，以HTTP健康检查200为准。用户已开启linger，服务enable后可随用户manager启动。停止用 `systemctl --user stop qwen36-image.service`，不要同时执行旧实验启动命令占用同一芯片。
 
-变更前校验及制品追溯：
+镜像与有效配置追溯（不初始化 NPU）：
 
 ```bash
-cd /home/ychy/services/qwen36/c16-20261015/repo
-source deploy/a2.env
-export MAX_BATCHED_TOKENS=2048
-bash scripts/run-candidate.sh --check
-cat /home/ychy/services/qwen36/deployment.json
+# 此文件只含部署参数，不放认证信息。
+source ~/.config/qwen36-image.env
+podman run --rm --entrypoint python3 "$IMAGE" -S /opt/qwen36/verify-image.py --base
+podman exec qwen36-image-managed cat /opt/qwen36/manifest.json
 ```
 
-`deployment.json`记录部署提交、镜像与制品SHA256；源码和二进制分别追溯，不宣称本次重建了全部kernel。权重保持原发布文件，未覆盖或重新量化。升级需另建指向审查后提交的worktree，校验制品后更新systemd工作目录/启动路径，再重启。当前运行目录是detached worktree，不直接git pull，也不自动追随main。
+镜像源码提交与文档提交分别追溯；仅整理文档不会自动重建镜像。更新部署参数后需 `systemctl --user restart qwen36-image.service` 重建容器，直接 `podman start` 不能更新旧容器环境。升级应先在隔离候选通过门禁，再修改配置中的 IMAGE digest；不追随可变 tag 或 main。
+
+回滚到保留的源服务：
+
+```bash
+systemctl --user disable --now qwen36-image.service
+systemctl --user enable --now qwen36-a2.service
+curl --fail http://127.0.0.1:18024/health
+```
+
+旧源码与制品只作回滚，不需要后端直接 git pull；权重保持原发布文件，未覆盖或重新量化。
 
 ## 后端验收与边界
 
