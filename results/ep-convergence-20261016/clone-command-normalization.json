@@ -1,0 +1,11 @@
+{
+  "reason": "clone sets bash entrypoint explicitly; remove duplicate bash from Config.Cmd",
+  "original_cmd_prefix": [
+    "bash",
+    "-lc"
+  ],
+  "prepared_cmd_prefix": [
+    "-lc"
+  ],
+  "changes_model_arguments": false
+}

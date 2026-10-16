@@ -1,0 +1,35 @@
+{
+  "image_id": "sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+  "container": "/qwen36-ep-mtp2-slot-20261016",
+  "command": [
+    "-lc",
+    "\n    set -e\n    triton_path=/usr/local/python3.12.13/lib/python3.12/site-packages/triton\n    if [[ -d \"$triton_path\" ]]; then mv \"$triton_path\" /opt/triton-disabled; fi\n    source /usr/local/Ascend/ascend-toolkit/set_env.sh\n    source /opp/bin/set_env.bash\n    export ASCEND_CUSTOM_OPP_PATH=/opp\n    if [[ \"$QWEN36_GDN_ENABLED\" == 1 ]]; then\n      export ASCEND_CUSTOM_OPP_PATH=\"/gdn-opp:/opp\"\n      export LD_LIBRARY_PATH=\"/gdn-opp/op_api/lib:$LD_LIBRARY_PATH\"\n    fi\n    python3 -c \"import sitecustomize; print(sitecustomize.__file__)\"\n    args=()\n    if [[ \"$ENABLE_PROFILER\" == 1 ]]; then\n      args+=(--profiler-config '{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}')\n    fi\n    if [[ \"$ENFORCE_EAGER\" == 1 ]]; then\n      args+=(--enforce-eager)\n    else\n      args+=(--compilation-config \"{\\\"mode\\\":$COMPILATION_MODE,\\\"cudagraph_mode\\\":\\\"$GRAPH_MODE\\\",\\\"cudagraph_capture_sizes\\\":[$GRAPH_CAPTURE_SIZES]}\")\n    fi\n    if [[ \"$MTP\" == 1 ]]; then\n      args+=(--speculative-config \"{\\\"method\\\":\\\"mtp\\\",\\\"num_speculative_tokens\\\":$NUM_SPECULATIVE_TOKENS}\")\n    fi\n    if [[ \"$ENABLE_PREFIX_CACHING\" == 1 ]]; then\n      args+=(--enable-prefix-caching)\n    else\n      args+=(--no-enable-prefix-caching)\n    fi\n    exec vllm serve /model \"${args[@]}\" --served-model-name qwen36-w4a8-c8 \\\n      --tensor-parallel-size 1 --dtype float16 --block-size 64 \\\n      --max-model-len \"$MAX_MODEL_LEN\" --gpu-memory-utilization \"$MEMORY_UTILIZATION\" \\\n      --max-num-seqs \"$MAX_NUM_SEQS\" --max-num-batched-tokens \"$MAX_BATCHED_TOKENS\" \\\n      --no-async-scheduling --language-model-only --host 0.0.0.0 --port \"$PORT\"\n  "
+  ],
+  "binds": [
+    "/home/clt/qwen36-optimized-20261015/repo/runtime:/w4only:ro",
+    "/home/clt/qwen36-w4-deploy/model:/model:ro",
+    "/home/clt/qwen36-ep-convergence-20261016/proposer-slot.py:/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/w4-opp:/opp:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/gdn-source.py:/gdn-source.py:ro",
+    "/home/clt/qwen36-optimized-20261015/repo/experimental/c8_bootstrap:/c8bootstrap:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/qwen36_int4_custom.so:/custom/qwen36_int4_custom.so:ro",
+    "/usr/local/dcmi:/usr/local/dcmi:ro",
+    "/home/clt/qwen36-optimized-20261015/repo/experimental:/c8adapter:ro",
+    "/usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/libqwen36_c8.so:/custom/libqwen36_c8.so:ro",
+    "/home/clt/qwen36-optimized-20261015/repo/bootstrap:/bootstrap:ro",
+    "/etc/ascend_install.info:/etc/ascend_install.info:ro",
+    "/home/clt/qwen36-ep-convergence-20261016:/experiment:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/pr17640_gdn.so:/custom/pr17640_gdn.so:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/gdn-opp:/gdn-opp:ro",
+    "/home/clt/qwen36-optimized-20261015/artifacts/libqwen36_mindieq_grouped.so:/custom/mindieq_grouped.so:ro",
+    "/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro"
+  ],
+  "candidate_overrides": {
+    "NUM_SPECULATIVE_TOKENS": "2",
+    "GRAPH_CAPTURE_SIZES": "1,2,3",
+    "QWEN36_C8_ALLOW_MTP2": "1",
+    "PYTHONPATH": "/experiment/candidate_bootstrap:/experiment:/c8bootstrap"
+  },
+  "state": "exited"
+}

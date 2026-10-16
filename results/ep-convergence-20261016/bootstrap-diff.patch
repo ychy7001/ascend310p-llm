@@ -1,0 +1,9 @@
+--- a2/sitecustomize.py
++++ clt/sitecustomize.py
+@@ -20,0 +21,6 @@
++
++import clt_sync_metadata
++clt_sync_metadata.install()
++
++if os.environ.get('CLT_KV_AUDIT') == '1':
++    import clt_kv_audit

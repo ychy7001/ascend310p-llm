@@ -1,0 +1,17 @@
+{
+  "architecture": "x86_64",
+  "driver": "Version=26.1.1\nascendhal_version=7.35.23\naicpu_version=1.0\ntdt_version=1.0\nlog_version=1.0\nprof_version=2.0\ndvppkernels_version=1.1\ntsfw_version=1.0\nInnerversion=V100R001C10SPC009B220\ncompatible_version=[V100R001C21],[V100R001C22],[V100R001C23],[V100R001C25],[V100R001C10]\ncompatible_version_fw=[6.4.0,6.4.99],[7.0.0,9.9.9]\npackage_version=26.1.1\n",
+  "files": {
+    "/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py": "4a90532c5c3667d9eb4fec666bf03c65a2f1c92cd402f731b644ef8fa2ed82ab",
+    "/vllm-workspace/vllm-ascend/vllm_ascend/sample/rejection_sampler.py": "2cceaf9e09bb1b9752cb9ac1d8a44ebdb5bdb92f0b3533811d91c9d2b2c36534",
+    "/vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py": "60b10f97333df49c4bb2a6b5673d13d2d3b964056564c50681984b16fd84d049",
+    "/vllm-workspace/vllm-ascend/vllm_ascend/patch/worker/patch_mamba_utils.py": "50d2e0a4592c772b5dda3865ead46cdc670b6ef3da2cff1bc2f3f3df3378c76d",
+    "/c8bootstrap/sitecustomize.py": "7d9fd8e5cb0ecb9611fd734ef1c24bc6fc592bcd1fd44377c998f47abfa0753c",
+    "/c8adapter/direct_graph_310.py": "232691c5adf740351a7309eb5210dfa1acd4b3c4b9893a8f2b8e0689e19d82d5",
+    "/custom/qwen36_int4_custom.so": "a8ac855968ddc3a56db676c1ac8dd9a8657dbae2fffb28c4276ddb7fef4b5950",
+    "/custom/mindieq_grouped.so": "9fd97f447613997189e2a473d3e374cf485275d60e376b50cf7c1c8ca50595ba",
+    "/custom/pr17640_gdn.so": "7a8004d28f5f488f36a142b3ec453ea1df5ac8396e7244d787ffa10bfbb92047",
+    "/gdn-source.py": "3b9bc0eb2e2e9d944316858df1efaea72776e7221b5eb1640db4a719b985accb",
+    "/model/config.json": "c477b95db115fcb3b9f7a04c33dd6d4225c3321a286c4f9a82c7f4872c6802aa"
+  }
+}

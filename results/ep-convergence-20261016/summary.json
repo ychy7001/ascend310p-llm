@@ -1,0 +1,50 @@
+{
+  "baseline": {
+    "p112000-o128": {
+      "formal_samples": 1,
+      "warmups": 1,
+      "median_prefill_tok_s": 417.4874635564371,
+      "median_decode_tok_s": 16.605250265756315
+    },
+    "p32768-o128": {
+      "formal_samples": 2,
+      "warmups": 1,
+      "median_prefill_tok_s": 569.5152821831314,
+      "median_decode_tok_s": 24.834390893476375
+    },
+    "meeting112k": {
+      "score": {
+        "passed": true,
+        "parsed": {
+          "budget_yuan": 180000,
+          "owner": "周启",
+          "deadline": "2026-11-12",
+          "status": "延期上线"
+        },
+        "expected": {
+          "budget_yuan": 180000,
+          "owner": "周启",
+          "deadline": "2026-11-12",
+          "status": "延期上线"
+        }
+      },
+      "prefill_tok_s": 378.28581490537226,
+      "decode_tok_s": 15.562865095951128
+    }
+  },
+  "candidate": {
+    "strict_matches": 5,
+    "throughput_tested": false,
+    "reason": "short quality gate failed"
+  },
+  "recovery": {
+    "passed": false,
+    "error": "AssertionError('quality gate failed')",
+    "restored_health_status": 200,
+    "restored_quality_passed": true,
+    "running_containers": [
+      "aisbench",
+      "qwen36-c16-112k-20261015"
+    ]
+  }
+}

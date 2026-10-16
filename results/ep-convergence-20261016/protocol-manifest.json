@@ -1,0 +1,18 @@
+{
+  "repository_base": "49450973565a3d68335515c3959568ddd4f9ba14",
+  "original_proposer_sha256": "4a90532c5c3667d9eb4fec666bf03c65a2f1c92cd402f731b644ef8fa2ed82ab",
+  "candidate_proposer_sha256": "aded1eb55b30ed43bb34a21b858810af6ddad801b2e33fef15e5acc134e6428b",
+  "files": {
+    "bootstrap-diff.patch": "7be9dfc5b906e47fe75e71b0ca543a2eb41696016e4002b8237104376bd9909f",
+    "candidate_bootstrap/sitecustomize.py": "388e587aecc5a40430479d9390b9976ef5c1586373d37d18248b14bf9311af31",
+    "prepare_clone.py": "a49572825e7d4c7ef04e47991f775b61a1ba921badea8378cdfb7de6e3f51bdc",
+    "prepare_proposer.py": "1539d697600436da15da016f6fcbffe4e59732bc4b3aa5d50be26036eb89ed41",
+    "run.py": "a261af223f361a49e75c3026de649df0a7537f0f97c1b8f5c1282e32d7c7e2f8",
+    "slot-device.patch": "590c6b2b92ffc1b01b67e601eddddbe6bb155aa4aeede661fe2e82009cf03735",
+    "speculative_metadata_310.py": "5c94b417d0de849abca3ee0b24a059e25ba20ab29d3f2ba715b036b66088538f",
+    "tools/bench_http_stream.py": "05c927fd4c4469268bd028a7d62bff406b07ad8d2037e11c83f51576382ee3a3",
+    "tools/bench_server_phases.py": "bee86f74a6555db518e8b3292b0e526bd63dcbfe14924cfa3234f7089d32fa17",
+    "tools/check_cache_request_reuse.py": "6d48a9f1e5043e084701c052ddcf5cae2b1a0d99fabebc10e5b222aca2241dbe",
+    "tools/check_meeting_long_context.py": "a9269ab4c626d87e8c00bd50fc810004db3f8ace0db44013193884da203b8f90"
+  }
+}

@@ -1,0 +1,21 @@
+--- a/llm_base_proposer.py
++++ b/llm_base_proposer.py
+@@ -1646,5 +1646,7 @@
+-            # Compute the slot mapping.
+-            if self.uses_mrope:
+-                block_numbers = clamped_positions[0] // block_size
+-            else:
+-                block_numbers = clamped_positions // block_size
++            # EP diagnostic candidate: exact for bounded int32 positions and
++            # power-of-two block128. No integer FloorDiv/FloorMod or host copy.
++            slot_positions = clamped_positions[0] if self.uses_mrope else clamped_positions
++            if block_size != 128 or self.max_model_len > 1048576 or slot_positions.dtype != torch.int32:
++                raise RuntimeError("EP slot-device candidate requires block128/int32/max_len<=1048576")
++            block_numbers = torch.floor(slot_positions.to(torch.float32) * (1.0 / 128)).to(slot_positions.dtype)
++            offsets = slot_positions - block_numbers * 128
+@@ -1653,4 +1655 @@
+-            if self.uses_mrope:
+-                slot_mapping = block_ids * block_size + clamped_positions[0] % block_size
+-            else:
+-                slot_mapping = block_ids * block_size + clamped_positions % block_size
++            slot_mapping = block_ids * block_size + offsets

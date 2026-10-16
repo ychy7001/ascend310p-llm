@@ -70,3 +70,7 @@ cat /home/ychy/services/qwen36/deployment.json
 ## 本次代码收束
 
 默认入口直接调用容器启动器；删去旧Prefill/MTP/Graph/长上下文批量sweep工具（历史版本在3ce8cb9）。保持已测运行适配层与kernel源码，避免交付前无收益地重写底层。保留构建、制品校验、单算子测试、HTTP验收工具和原始结果以便定位问题。历史文档中的已删脚本属于当时实验记录，应在相应提交复现。
+
+## 2026-10-16 EP复验与部署边界
+
+clt原MTP1已完成同协议32K/112K/会议与长后质量，112000/128为Prefill417.49、Decode16.61 tok/s；MTP2独立修复候选仍5/8，未做性能测试。[本轮原始记录](../results/ep-convergence-20261016/README.md)保留失败输出和恢复验收。交付继续使用a2 MTP2/2048、clt MTP1/2048、RC MTP1/4096，不将未通过的修复接入默认代码。两个EP当前prefix均关闭，a2加载视觉而clt为language-model-only；这些是当前事实，不是多模态或prefix业务验收。公共参数与例外统一以[Profile说明](profiles-20261014.md)为准。

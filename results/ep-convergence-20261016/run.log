@@ -1,0 +1,57 @@
+mtp1:quality-before
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+mtp1:32k
+{"kind": "request", "repeat": 0, "valid": true, "prompt_ids_sha256": "f4e239e0eb9096401126e6e28e3254f88776deb720c393955de25e28a7d44c46", "prefill_seconds": 57.595650093004224, "decode_seconds": 5.181501257000491, "prefill_tok_s": 568.9318541779967, "decode_tok_s": 24.5102710007869, "spec_decode": {"drafts": 67.0, "drafted_tokens": 67.0, "accepted_tokens": 60.0, "acceptance_rate": 0.8955223880597015, "mean_acceptance_length": 1.8955223880597014}, "cache_salt": "p32768-o128-0", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 0.0, "vllm:prefix_cache_hits_total": 0.0}}
+{"kind": "request", "repeat": 1, "valid": true, "prompt_ids_sha256": "219764352cf2a02e0b6262b674f341ca770b23b7c3cc98101edb48395b1c8f6b", "prefill_seconds": 57.47776554200391, "decode_seconds": 5.047993542997574, "prefill_tok_s": 570.0987101882662, "decode_tok_s": 25.158510786165845, "spec_decode": {"drafts": 65.0, "drafted_tokens": 65.0, "accepted_tokens": 62.0, "acceptance_rate": 0.9538461538461539, "mean_acceptance_length": 1.953846153846154}, "cache_salt": "p32768-o128-1", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 0.0, "vllm:prefix_cache_hits_total": 0.0}}
+mtp1:112k
+{"kind": "request", "repeat": 0, "valid": true, "prompt_ids_sha256": "9bdd670ecd4e419b4d9763ee95e167e701ea9e17720a44c7c38ec3abc39c7fe6", "prefill_seconds": 268.27152855299937, "decode_seconds": 7.648183434001112, "prefill_tok_s": 417.4874635564371, "decode_tok_s": 16.605250265756315, "spec_decode": {"drafts": 64.0, "drafted_tokens": 64.0, "accepted_tokens": 64.0, "acceptance_rate": 1.0, "mean_acceptance_length": 2.0}, "cache_salt": "p112000-o128-0", "prefix_cache_delta": {"vllm:prefix_cache_queries_total": 0.0, "vllm:prefix_cache_hits_total": 0.0}}
+mtp1:meeting112k
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+b35e31f4d6165669090d816c0e98568aeb87fa889867f0f5f3940cfa62c4d295
+qwen36-c16-112k-20261015
+mtp2:startup
+qwen36-ep-mtp2-slot-20261016
+mtp2:quality-before
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": false}
+{"label": "subtract", "strict_match": false}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": false}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 5, "answers_present": 5}
+{"identical_text": true, "canary_leaked": false}
+AssertionError('quality gate failed')
+qwen36-ep-mtp2-slot-20261016
+restoring-mtp1
+qwen36-c16-112k-20261015
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+candidate-failed-restored

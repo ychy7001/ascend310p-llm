@@ -225,3 +225,19 @@ The current image's `qwen3_5_mtp.py` constructs MTP decoder layers with
 `layer_type="full_attention"` (lines100–107; source fingerprint archived).
 Prioritize draft Attention/KV metadata and separately check target GDN rollback;
 do not infer that draft itself runs GDN from the target architecture.
+
+### EP convergence gate (2026-10-16)
+
+The two EP hosts have equal hashes for the inspected proposer, rejection sampler,
+runner, accepted-count patch, direct-graph adapter, and W4/MindIEQ/GDN extensions,
+but different image IDs. The inspected bootstrap difference is clt's extra
+synchronous metadata patch; scheduling, CPU threads, memory utilization and vision
+flags also differ. This is not a controlled P1/P3 or driver comparison.
+
+The clt MTP1 baseline passed 32K/112K, meeting canary and pre/post short gates.
+An isolated MTP2 candidate with blocking rejection counts and bounded block128
+slot arithmetic still passed only 5/8, reproducing the earlier malformed answers.
+It was rejected before throughput testing; no failed patch enters the deployment
+stack. Keep a2 MTP2, clt MTP1 and RC MTP1/4096. Source-controlled reconstruction
+uses a minimal patch and verified original-source hash rather than another full
+copy of the upstream proposer. See `results/ep-convergence-20261016/README.md`.

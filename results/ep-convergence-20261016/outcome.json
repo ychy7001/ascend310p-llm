@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "error": "AssertionError('quality gate failed')",
+  "restored_health_status": 200,
+  "restored_quality_passed": true,
+  "running_containers": [
+    "aisbench",
+    "qwen36-c16-112k-20261015"
+  ]
+}
