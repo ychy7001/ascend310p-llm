@@ -1,0 +1,16 @@
+[Unit]
+Description=Qwen3.6 standalone runtime image (TP1)
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+EnvironmentFile=%h/.config/qwen36-image.env
+ExecStartPre=-/usr/bin/podman rm qwen36-image-managed
+ExecStart=/usr/bin/podman run --rm --pull=never --name qwen36-image-managed --network host --group-add keep-groups --shm-size 16g --device /dev/davinci0 --device /dev/davinci_manager --device /dev/devmm_svm --device /dev/hisi_hdc --env-file %h/.config/qwen36-image.env -v ${MODEL_DIR}:/model:ro -v /usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro -v /usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro -v /usr/local/dcmi:/usr/local/dcmi:ro -v /etc/ascend_install.info:/etc/ascend_install.info:ro ${IMAGE}
+ExecStop=/usr/bin/podman stop -t 90 qwen36-image-managed
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=120
+
+[Install]
+WantedBy=default.target

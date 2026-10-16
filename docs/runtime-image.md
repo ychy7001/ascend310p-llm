@@ -61,3 +61,18 @@ ARM64 RC需要自己的固定基础镜像和ARM64 host扩展，不能运行amd64
 新镜像需通过：镜像内哈希/基础源码 → 启动和算子解析 → 8题/A-B-A → 32K冷Prefill与Decode → 112K会议/长后质量。保存独立结果；失败不发布、不替换默认服务。候选只挂载模型和主机驱动，验收时应检查没有主机源码/算子bind。
 
 停止systemd托管服务后才启动候选，避免同一芯片竞争。实验结束停止候选，再恢复原systemd服务并复验health/质量。旧容器若由`--rm`创建，停止后由原管理单元重建；保留原管理配置、源码和制品才能回滚。启动旧容器不会应用新的env。
+
+## Podman用户服务交付
+
+`deploy/qwen36-image.service`只运行已在本机预加载的镜像（`--pull=never`），配置入口为`~/.config/qwen36-image.env`。从`deploy/qwen36-image.env.example`填写实际模型路径、已验收registry digest和主机参数后安装unit。配置内不放registry密码。这个unit固定device0和容器名`qwen36-image-managed`；同一设备只能启用一个管理单元。
+
+```bash
+# 先用已授权的registry客户端拉取IMAGE，再校验manifest。
+install -m 644 deploy/qwen36-image.service ~/.config/systemd/user/qwen36-image.service
+# 手工填写 ~/.config/qwen36-image.env，勿覆盖已有配置。
+systemctl --user daemon-reload
+systemctl --user disable --now qwen36-a2.service   # 当前a2原管理单元
+systemctl --user enable --now qwen36-image.service
+```
+
+切换后必须复验health和短质量；失败回滚：`systemctl --user disable --now qwen36-image.service`，再`systemctl --user enable --now qwen36-a2.service`。旧unit、源码、制品和权重都保留。这只是a2/Podman交付入口；Docker/RC使用自身已验证的设备映射和服务管理，不能直接执行这段a2启停命令。
