@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "image_reference": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35",
+  "environment": {
+    "IMAGE": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35",
+    "MODEL_DIR": "/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/model",
+    "PORT": "18024",
+    "QWEN36_PROFILE": "long-prefill",
+    "QWEN36_C8_ENABLED": "0",
+    "NUM_SPECULATIVE_TOKENS": "2",
+    "MAX_MODEL_LEN": "114688",
+    "MAX_BATCHED_TOKENS": "2048",
+    "MEMORY_UTILIZATION": "0.95",
+    "MAX_NUM_SEQS": "1",
+    "ENABLE_PREFIX_CACHING": "0",
+    "ASYNC_SCHEDULING": "1",
+    "LANGUAGE_MODEL_ONLY": "0",
+    "QWEN36_SYNC_METADATA": "0",
+    "OMP_NUM_THREADS": "1"
+  },
+  "health_status": 200,
+  "image_id": "b381d8e5ed45c11633a7bd07a50a0f5fcf8cf71bc797f1b543d589ab07dd759d",
+  "mounts": [
+    "/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012/model:/model:ro,rprivate,rbind",
+    "/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro,rprivate,rbind",
+    "/usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro,rprivate,rbind",
+    "/usr/local/dcmi:/usr/local/dcmi:ro,rprivate,rbind",
+    "/etc/ascend_install.info:/etc/ascend_install.info:ro,rprivate,rbind"
+  ],
+  "running_containers": [
+    "qwen36-tp1-chip1-w4-c8-original-112k",
+    "qwen36-image-managed"
+  ]
+}

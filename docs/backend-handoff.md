@@ -2,10 +2,12 @@
 
 ## 交付组合
 
+2026-10-16 起，a2 默认交付入口为已验收的 digest 固定运行镜像和 `qwen36-image.service`。旧的 `qwen36-a2.service`、源码 worktree、OPP 和动态库仍保留，仅用于回滚和对照；不要同时启用两个 unit。镜像发布与切换证据见 [`results/runtime-image-20261016/`](../results/runtime-image-20261016/)，运行代码、OPP 和扩展库均来自镜像内的 168 文件哈希清单，权重没有重新下载或覆盖。
+
 - 代码：https://github.com/ychy7001/ascend310p-qwen36 ，a2当前运行目录 `/home/ychy/services/qwen36/c16-20261015/repo`（固定提交5322528）；制品/参数快照见 `/home/ychy/services/qwen36/deployment.json`。旧repo保留，第二芯片继续使用原路径。
 - 权重：https://modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P 。本机路径见 `deploy/a2.env` 的MODEL_DIR，不需重新下载。
 - 服务：a2 TCP18024，模型名 `qwen36-w4a8-c8`。Tailscale：`http://100.92.170.57:18024/v1`；同局域网：`http://192.168.3.133:18024/v1`。客户端需能连通相应网络。
-- 用户systemd：`qwen36-a2.service`；rootless Podman容器 `qwen36-tp1-48g-112k`，只使用davinci0。芯片1保留原W4对照，18028不是业务入口。
+- 用户systemd：`qwen36-image.service`；rootless Podman容器 `qwen36-image-managed`，只使用davinci0。芯片1保留原W4对照，18028不是业务入口。
 
 固定组合为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、GDN、MindIEQ E5，2048/512，最大总序列114688 token，显存利用率0.95。单请求调度；多客户端会排队，不代表已支持并发批处理。请求输入与输出预算合计需≤114688。prefix默认关闭，图像输入未验收。
 

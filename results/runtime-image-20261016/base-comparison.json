@@ -1,0 +1,69 @@
+{
+  "ychy-a2": {
+    "Id": "30724037ccd4509c1aaea06a11334b26b58534303f6a6f5d68fefc6316f683be",
+    "RepoDigests": [
+      "quay.io/ascend/vllm-ascend@sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+      "quay.io/ascend/vllm-ascend@sha256:aa625af28af09b0a4d001dcd227820bd8e4c0ad023d3c33c64d36d4bc367fd73"
+    ],
+    "Architecture": "amd64",
+    "RootFS": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:10f9108f6cebf96e05cadfab3c188071f3c6d084abe680fd0bc9f61c268e854d",
+        "sha256:4b21fea6de049692f2772010d60726ae1a4d63e31b8364a6185c54b470f13b78",
+        "sha256:aef7da43e0dad15ff9a683fe838c27535d5bf3a8f4bf2c3bbd629065777d2390",
+        "sha256:af895ed4e141d16065eed07dbd2f982337e9cde46873943b00cef6e801ceb527",
+        "sha256:e76ca5ea76e2c5294ab0be0831cbf2f74d6ebe4818f35facd45f98911acfd78c",
+        "sha256:e3b66be64378344632466b507c3da4d137706c4b5b3d62543844529021cbc37b",
+        "sha256:2eab3ebb29ee69b976226a3e3db2fcd6938fb50c449eea9f7332c5dd74d5f28d",
+        "sha256:47a3395994e57af53e6f116249268dd83feae6c83c2b6cd39fa8a4b73961c8ed",
+        "sha256:7709171470a2cb0957a850e0cb1e88c3616f67189dfb7af1fc71ee2cb9f71022",
+        "sha256:d776d48632fe0fd6b2423358dc6e1a3195422892e1dd2e02c3074d72517526b0",
+        "sha256:63e43f5cbe56770879ab82d31ee4eecd9bcde048ca184f0a7683723044d1dcbd",
+        "sha256:6bf2edb8ab4ac21b493cd9b6b29c00187161da97279980f7966310764aef09cc",
+        "sha256:3cf19ab200f4f96d6e97572500c92a07311b5d93100221e080c044d2c675e043",
+        "sha256:d0bb96a4515d2f4c218fd112a4b030f504752ac7c2adc4e1159b919af2592743",
+        "sha256:c2224646cd18814d486e4333a7391e1f6427e9d9ddad264122dc20d3765ed1da",
+        "sha256:3adf88fd7549915a0274f32384c8f1453d8e59eaa712b4f834552151757e76cb",
+        "sha256:603c80801ea8fe95a7921305cabfdcd2a5c36a3598a6df8442d3b751fa3d8920",
+        "sha256:c74133eaaa5769d8f8eebc1276b988dcfbc067ee3f3bc8eb7adde52fa5a30cc4"
+      ]
+    }
+  },
+  "clt": {
+    "Id": "sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+    "RepoDigests": [
+      "quay.io/ascend/vllm-ascend@sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773"
+    ],
+    "Architecture": "amd64",
+    "RootFS": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:10f9108f6cebf96e05cadfab3c188071f3c6d084abe680fd0bc9f61c268e854d",
+        "sha256:4b21fea6de049692f2772010d60726ae1a4d63e31b8364a6185c54b470f13b78",
+        "sha256:aef7da43e0dad15ff9a683fe838c27535d5bf3a8f4bf2c3bbd629065777d2390",
+        "sha256:af895ed4e141d16065eed07dbd2f982337e9cde46873943b00cef6e801ceb527",
+        "sha256:e76ca5ea76e2c5294ab0be0831cbf2f74d6ebe4818f35facd45f98911acfd78c",
+        "sha256:e3b66be64378344632466b507c3da4d137706c4b5b3d62543844529021cbc37b",
+        "sha256:2eab3ebb29ee69b976226a3e3db2fcd6938fb50c449eea9f7332c5dd74d5f28d",
+        "sha256:47a3395994e57af53e6f116249268dd83feae6c83c2b6cd39fa8a4b73961c8ed",
+        "sha256:7709171470a2cb0957a850e0cb1e88c3616f67189dfb7af1fc71ee2cb9f71022",
+        "sha256:d776d48632fe0fd6b2423358dc6e1a3195422892e1dd2e02c3074d72517526b0",
+        "sha256:63e43f5cbe56770879ab82d31ee4eecd9bcde048ca184f0a7683723044d1dcbd",
+        "sha256:6bf2edb8ab4ac21b493cd9b6b29c00187161da97279980f7966310764aef09cc",
+        "sha256:3cf19ab200f4f96d6e97572500c92a07311b5d93100221e080c044d2c675e043",
+        "sha256:d0bb96a4515d2f4c218fd112a4b030f504752ac7c2adc4e1159b919af2592743",
+        "sha256:c2224646cd18814d486e4333a7391e1f6427e9d9ddad264122dc20d3765ed1da",
+        "sha256:3adf88fd7549915a0274f32384c8f1453d8e59eaa712b4f834552151757e76cb",
+        "sha256:603c80801ea8fe95a7921305cabfdcd2a5c36a3598a6df8442d3b751fa3d8920",
+        "sha256:c74133eaaa5769d8f8eebc1276b988dcfbc067ee3f3bc8eb7adde52fa5a30cc4"
+      ]
+    }
+  },
+  "conclusion": {
+    "same_rootfs_layers": true,
+    "layer_count": 18,
+    "shared_registry_digest": "quay.io/ascend/vllm-ascend@sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773",
+    "note": "Podman/Docker image IDs are not comparable evidence of content differences"
+  }
+}

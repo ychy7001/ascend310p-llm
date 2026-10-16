@@ -1,0 +1,18 @@
+STEP 1/7: FROM quay.io/ascend/vllm-ascend@sha256:16770d322d0e343bc5ff61f897acfc6fb1383eee56d7939554e1c9cf8b504773
+STEP 2/7: USER root
+--> Using cache 1d123c263c30244a70d3ea53be635a4116f2d57ce9a76a83ef0d3b9f35cb5056
+--> 1d123c263c30
+STEP 3/7: COPY rootfs/ /
+--> d217ceb66693
+STEP 4/7: RUN TORCH_DEVICE_BACKEND_AUTOLOAD=0 python3 -S /opt/qwen36/verify-image.py --base  && if [ -d /usr/local/python3.12.13/lib/python3.12/site-packages/triton ]; then mv /usr/local/python3.12.13/lib/python3.12/site-packages/triton /opt/triton-disabled; fi
+{"verified": true, "source_commit": "c9fd1daf7f2b059684399473626dc0509fae2f7e", "architecture": "amd64", "files": 168}
+--> d842947e26e8
+STEP 5/7: ENV PYTHONPATH=/c8bootstrap TORCH_DEVICE_BACKEND_AUTOLOAD=0 ATEN_CPU_CAPABILITY=default VLLM_WORKER_MULTIPROC_METHOD=spawn OMP_NUM_THREADS=1
+--> df70e7f25a1c
+STEP 6/7: ENTRYPOINT ["bash", "/opt/qwen36/start.sh"]
+--> 3122b2f2eb1f
+STEP 7/7: LABEL "org.opencontainers.image.source"="https://github.com/ychy7001/ascend310p-qwen36" "org.opencontainers.image.revision"="c9fd1da"
+COMMIT localhost/qwen36:c9fd1da-amd64
+--> b381d8e5ed45
+Successfully tagged localhost/qwen36:c9fd1da-amd64
+b381d8e5ed45c11633a7bd07a50a0f5fcf8cf71bc797f1b543d589ab07dd759d

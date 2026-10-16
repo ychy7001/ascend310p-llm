@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/opt/qwen36/verify-image.py", line 23, in <module>
+    assert actual == expected, f'packaged file mismatch: {name}'
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: packaged file mismatch: /opt/qwen36/configs/tp1-profile.sh

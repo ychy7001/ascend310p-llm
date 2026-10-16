@@ -15,7 +15,7 @@
 
 ## 源码与制品核对
 
-`clt-source-hashes.json` / `ychy-a2-source-hashes.json` 为只读核对。两台 EP 的 proposer、rejection_sampler、runner、patch_mamba_utils、direct_graph_310、W4/MindIEQ/GDN 扩展、GDN Python 源码和模型 config 均相同。两台 image ID 不同，不能仅凭同一个镜像标签宣称环境一致；未比较全部权重或 OPP 树。
+`clt-source-hashes.json` / `ychy-a2-source-hashes.json` 为只读核对。两台 EP 的 proposer、rejection_sampler、runner、patch_mamba_utils、direct_graph_310、W4/MindIEQ/GDN 扩展、GDN Python 源码和模型 config 均相同。初次记录的两台 image ID 不同；后续检查发现 Podman/Docker 使用不同标识，registry digest 与18层 RootFS 完全相同，不能据此推断基础镜像内容差异。纠正证据见 `../runtime-image-20261016/base-comparison.json`。本轮未比较全部权重或 OPP 树。
 
 已检查文件中 bootstrap 差异见 `bootstrap-diff.patch`：clt 额外启用 `clt_sync_metadata`，可选加载 KV audit。其源码已在 `../clt-deployment-20261015/clt_sync_metadata.py` 归档。该差异只是排查范围，不证明因果。两台还有调度、视觉、利用率和 CPU 线程等实际配置差异，分别见 runtime JSON，不用跨主机绝对速度归因 SoC。
 
@@ -50,7 +50,7 @@ python3 -u run.py > run.log 2>&1
 
 结论：统一公共参数和入口，保留经过验收的差异。a2继续MTP2/2048，clt继续MTP1/2048，RC继续MTP1/4096。三者共同C16/W4A8/Graph/GDN/MindIEQ/chunk512/max114688/max_num_seqs1。失败修复只保留在本实验记录，不进入runtime和默认启动代码，不为形式统一将a2降级。
 
-实际视觉和prefix开关也必须明示：a2视觉加载/prefix off；clt language-model-only/prefix off；RC视觉加载/prefix on。视觉加载不代表图像业务验收。用户期望视觉和prefix默认启用，需要独立质量与内存验收，本轮为保证MTP复验条件一致未同时切换这两个开关。a2/clt利用率.95/.90、异步/同步调度不同，不能声称全部EP参数或镜像已经统一。
+实际视觉和prefix开关也必须明示：a2视觉加载/prefix off；clt language-model-only/prefix off；RC视觉加载/prefix on。视觉加载不代表图像业务验收。用户期望视觉和prefix默认启用，需要独立质量与内存验收，本轮为保证MTP复验条件一致未同时切换这两个开关。a2/clt利用率.95/.90、异步/同步调度不同，不能声称全部EP运行参数已经统一。
 
 后续先收束可用服务/代码/制品来源，再独立对齐clt逐步draft/verify token、accept长度、slot/position和状态推进；其稳定错字模式值得定位，不能继续仅叠加RC修复。RC第二位置低接受是另一条实验线，保持独立，未证明与clt同根因。统一镜像工作应从固定源版本和已验收适配层出发，按架构/ABI构建，失败补丁不混入默认层。恢复验收以 `outcome.json`、`restored-mtp1-quality.json` 和 `state.txt` 为准。
 

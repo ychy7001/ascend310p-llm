@@ -64,7 +64,7 @@ ARM64 RC需要自己的固定基础镜像和ARM64 host扩展，不能运行amd64
 
 ## Podman用户服务交付
 
-`deploy/qwen36-image.service`只运行已在本机预加载的镜像（`--pull=never`），配置入口为`~/.config/qwen36-image.env`。从`deploy/qwen36-image.env.example`填写实际模型路径、已验收registry digest和主机参数后安装unit。配置内不放registry密码。这个unit固定device0和容器名`qwen36-image-managed`；同一设备只能启用一个管理单元。
+`deploy/qwen36-image.service`只运行已在本机预加载的镜像（`--pull=never`），配置入口为`~/.config/qwen36-image.env`。a2 实际发布与切换证据见 [`results/runtime-image-20261016/`](../results/runtime-image-20261016/)。从`deploy/qwen36-image.env.example`填写实际模型路径、已验收registry digest和主机参数后安装unit。配置内不放registry密码。这个unit固定device0和容器名`qwen36-image-managed`；同一设备只能启用一个管理单元。
 
 ```bash
 # 先用已授权的registry客户端拉取IMAGE，再校验manifest。

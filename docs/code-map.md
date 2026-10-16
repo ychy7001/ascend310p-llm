@@ -70,3 +70,7 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 6. Graph兼容层与RC blocking multimodal H2D单独定位和提交，正式修复发布并通过复验后删除对应monkeypatch。
 
 实验数据不构成主线兼容保证。当前固定镜像运行代码不能直接宣称可在今日main运行；迁移应另开固定main SHA的隔离分支，逐项验证后移除兼容层。
+
+## 固定运行镜像入口
+
+`tools/prepare_runtime_image.py → deploy/image/Containerfile → deploy/image/start.sh`通过指定提交与基础digest打包运行文件和已测算子，不包含实验脚本或权重。复用`configs/tp1-profile.sh`；MTP、调度和metadata顺序是显式参数，不按主机名选择。镜像内manifest、哈希验证、构建/启动/回滚与已验收范围见[runtime-image](runtime-image.md)。原bind-mounted入口保留用于回滚及源码实验；镜像候选门禁通过前不替换原管理单元。

@@ -230,7 +230,10 @@ do not infer that draft itself runs GDN from the target architecture.
 
 The two EP hosts have equal hashes for the inspected proposer, rejection sampler,
 runner, accepted-count patch, direct-graph adapter, and W4/MindIEQ/GDN extensions,
-but different image IDs. The inspected bootstrap difference is clt's extra
+and share the same registry digest and all 18 RootFS layers. The initially
+recorded Podman/Docker image IDs use different identifiers and do not establish
+a base-image content difference; see `results/runtime-image-20261016/base-comparison.json`.
+The inspected bootstrap difference is clt's extra
 synchronous metadata patch; scheduling, CPU threads, memory utilization and vision
 flags also differ. This is not a controlled P1/P3 or driver comparison.
 

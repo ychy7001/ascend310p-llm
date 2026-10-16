@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "restored_quality_passed": true,
+  "restored_health_status": 200,
+  "running_containers": [
+    "qwen36-tp1-chip1-w4-c8-original-112k",
+    "qwen36-tp1-48g-112k"
+  ],
+  "systemd_active": "active"
+}

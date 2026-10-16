@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "vllm_ascend": "0.23.0.post1",
+    "torch": "2.10.0+cpu",
+    "transformers": "5.5.4",
+    "torch_npu": "2.10.0.post4",
+    "vllm": "0.23.0+empty"
+  },
+  "driver": "Version=26.1.1\nascendhal_version=7.35.23\naicpu_version=1.0\ntdt_version=1.0\nlog_version=1.0\nprof_version=2.0\ndvppkernels_version=1.1\ntsfw_version=1.0\nInnerversion=V100R001C10SPC009B220\ncompatible_version=[V100R001C21],[V100R001C22],[V100R001C23],[V100R001C25],[V100R001C10]\ncompatible_version_fw=[6.4.0,6.4.99],[7.0.0,9.9.9]\npackage_version=26.1.1\n"
+}

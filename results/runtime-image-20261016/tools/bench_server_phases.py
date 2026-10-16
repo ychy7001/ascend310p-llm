@@ -1,0 +1,162 @@
+# SPDX-License-Identifier: Apache-2.0
+"""独占服务的分阶段计时；Prometheus 请求阶段耗时并非纯 kernel 时间。"""
+
+import argparse
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+import urllib.request
+
+from bench_http_stream import post, request
+
+
+METRICS = (
+    'vllm:request_prefill_time_seconds_count',
+    'vllm:request_prefill_time_seconds_sum',
+    'vllm:request_decode_time_seconds_sum',
+)
+
+
+def prompt_hash(tokens):
+    return hashlib.sha256(json.dumps(tokens, separators=(',', ':')).encode()).hexdigest()
+
+
+SPEC_METRICS = (
+    'vllm:spec_decode_num_drafts_total',
+    'vllm:spec_decode_num_draft_tokens_total',
+    'vllm:spec_decode_num_accepted_tokens_total',
+)
+
+
+def snapshot(base, include_spec=False):
+    raw = subprocess.run(
+        ['curl', '--fail', '--silent', '--show-error', '--max-time', '30',
+         '-H', 'Connection: close', base.rstrip('/') + '/metrics'],
+        check=True, capture_output=True, text=True).stdout
+    required = METRICS + SPEC_METRICS if include_spec else METRICS
+    values = {name: 0.0 for name in required}
+    found = set()
+    for line in raw.splitlines():
+        if not line or line.startswith('#'):
+            continue
+        name = line.split('{', 1)[0].split()[0]
+        if name in values:
+            values[name] += float(line.split()[-1])
+            found.add(name)
+    if found != set(required):
+        raise RuntimeError(f'Missing requested metrics: {set(required) - found}')
+    return values
+
+
+def prefix_snapshot(base):
+    raw = subprocess.run(
+        ['curl', '--fail', '--silent', '--show-error', '--max-time', '30',
+         '-H', 'Connection: close', base.rstrip('/') + '/metrics'],
+        check=True, capture_output=True, text=True).stdout
+    keys=('vllm:prefix_cache_queries_total','vllm:prefix_cache_hits_total')
+    values={key:0.0 for key in keys};found=set()
+    for line in raw.splitlines():
+        name=line.split('{',1)[0].split()[0] if line and not line.startswith('#') else None
+        if name in values:values[name]+=float(line.split()[-1]);found.add(name)
+    if found!=set(keys):raise RuntimeError('Missing prefix-cache counters')
+    return values
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--base-url', required=True)
+    parser.add_argument('--model', required=True)
+    parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--prompt-tokens', type=int, default=3072)
+    parser.add_argument('--output-tokens', type=int, default=32)
+    parser.add_argument('--repeats', type=int, default=3)
+    parser.add_argument(
+        '--unique-prompts', action='store_true',
+        help='Use a different token prefix for warmup and every measured request; '
+             'required for cold-Prefill measurements when prefix caching is enabled')
+    parser.add_argument('--spec-metrics', action='store_true',
+                        help='Record per-request speculative draft/acceptance counters')
+    parser.add_argument('--cache-salt-prefix', help='Each request uses a distinct salt; record and require zero prefix-cache hits')
+    args = parser.parse_args()
+    if min(args.prompt_tokens, args.output_tokens, args.repeats) < 1:
+        parser.error('token counts and repeats must be positive')
+    def tokenize(variant):
+        # Tokenize a small unit, then repeat token IDs to the exact length.
+        # Tokenizing an estimated oversized string can itself exceed the
+        # endpoint's context limit before we get a chance to slice it.
+        unit = (
+            f'Benchmark cold-prefill variant {variant}. '
+            'Explain how quantization affects memory bandwidth and numerical precision. '
+        )
+        with post(args.base_url, '/tokenize', {
+            'model': args.model,
+            'prompt': unit,
+            'add_special_tokens': False,
+        }) as response:
+            unit_tokens = json.load(response)['tokens']
+        if not unit_tokens:
+            raise RuntimeError('Tokenizer returned an empty benchmark unit')
+        return (unit_tokens * ((args.prompt_tokens + len(unit_tokens) - 1)
+                              // len(unit_tokens)))[:args.prompt_tokens]
+
+    prompt_sets = [tokenize(i) for i in range(args.repeats + 1)] if args.unique_prompts else None
+    tokens = prompt_sets[0] if prompt_sets else tokenize(0)
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    with args.out.open('x') as output:
+        output.write(json.dumps({
+            'kind': 'config',
+            **{k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()},
+            'prompt_ids': tokens,
+            'protocol': 'exclusive endpoint; warmup=1; request phase counters, not pure kernel time',
+            'unique_prompts': args.unique_prompts,
+        }) + '\n')
+        warmup_tokens = prompt_sets[0] if prompt_sets else tokens
+        warmup = request(args.base_url, args.model, warmup_tokens, min(32, args.output_tokens), cache_salt=f'{args.cache_salt_prefix}-warmup' if args.cache_salt_prefix else None)
+        output.write(json.dumps({'kind': 'warmup', 'prompt_ids_sha256': prompt_hash(warmup_tokens),
+                                 **warmup}) + '\n')
+        output.flush()
+        for repeat in range(args.repeats):
+            request_tokens = prompt_sets[repeat + 1] if prompt_sets else tokens
+            cache_before = prefix_snapshot(args.base_url) if args.cache_salt_prefix else None
+            before = snapshot(args.base_url, args.spec_metrics)
+            salt=f'{args.cache_salt_prefix}-{repeat}' if args.cache_salt_prefix else None
+            result = request(args.base_url, args.model, request_tokens, args.output_tokens, cache_salt=salt)
+            after = snapshot(args.base_url, args.spec_metrics)
+            delta = {name: after[name] - before[name] for name in before}
+            prefill = delta[METRICS[1]]
+            decode = delta[METRICS[2]]
+            usage = result['usage']
+            valid = (delta[METRICS[0]] == 1 and prefill > 0 and decode >= 0
+                     and usage is not None and usage['prompt_tokens'] == len(request_tokens)
+                     and usage['completion_tokens'] == args.output_tokens)
+            row = {'kind': 'request', 'repeat': repeat, 'valid': valid,
+                   'prompt_ids_sha256': prompt_hash(request_tokens),
+                   'metrics_before': before, 'metrics_after': after,
+                   'prefill_seconds': prefill, 'decode_seconds': decode,
+                   'prefill_tok_s': len(request_tokens) / prefill if valid else None,
+                   'decode_tok_s': (usage['completion_tokens'] - 1) / decode
+                   if valid and decode > 0 and usage['completion_tokens'] > 1 else None,
+                   'response': result}
+            if args.spec_metrics:
+                drafts, drafted, accepted = (delta[name] for name in SPEC_METRICS)
+                row['spec_decode'] = {
+                    'drafts': drafts, 'drafted_tokens': drafted, 'accepted_tokens': accepted,
+                    'acceptance_rate': accepted / drafted if drafted else None,
+                    'mean_acceptance_length': 1 + accepted / drafts if drafts else None,
+                }
+            if args.cache_salt_prefix:
+                cache_after=prefix_snapshot(args.base_url)
+                row['cache_salt']=salt
+                row['prefix_cache_delta']={key:cache_after[key]-cache_before[key] for key in cache_before}
+                row['valid']=valid=valid and row['prefix_cache_delta']['vllm:prefix_cache_hits_total']==0
+            output.write(json.dumps(row) + '\n')
+            output.flush()
+            print(json.dumps({k: v for k, v in row.items()
+                              if k not in ('metrics_before', 'metrics_after', 'response')}), flush=True)
+            if not valid:
+                raise RuntimeError('Counter/usage mismatch; check endpoint exclusivity and metric resets')
+
+
+if __name__ == '__main__':
+    main()

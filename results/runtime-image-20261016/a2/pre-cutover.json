@@ -1,0 +1,4 @@
+{
+  "old_unit_enabled": "enabled",
+  "old_unit": "# /home/ychy/.config/systemd/user/qwen36-a2.service\n[Unit]\nDescription=Qwen3.6 W4A8 MTP2 long-prefill on a2\n\n[Service]\nType=simple\nWorkingDirectory=/home/ychy/services/qwen36/c16-20261015/repo\nExecStart=/bin/bash -c 'source /home/ychy/services/qwen36/c16-20261015/repo/deploy/a2.env; exec bash scripts/run-candidate.sh'\nExecStop=/usr/bin/podman stop -t 90 qwen36-tp1-48g-112k\nRestart=on-failure\nRestartSec=10\nTimeoutStopSec=120\n\n[Install]\nWantedBy=default.target\n\n# /home/ychy/.config/systemd/user/qwen36-a2.service.d/unified-2048.conf\n[Service]\nEnvironment=MAX_BATCHED_TOKENS=2048\nExecStartPre=-/usr/bin/podman rm qwen36-tp1-48g-112k\n"
+}

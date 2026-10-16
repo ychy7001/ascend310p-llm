@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "formal_32k_pairs": 2,
+  "same_inputs_outputs": true,
+  "meeting112k": {
+    "passed": true,
+    "parsed": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    },
+    "expected": {
+      "budget_yuan": 180000,
+      "owner": "周启",
+      "deadline": "2026-11-12",
+      "status": "延期上线"
+    }
+  },
+  "meeting_prefill_tok_s": 348.0182296000781,
+  "meeting_decode_tok_s": 19.949883791517497
+}
