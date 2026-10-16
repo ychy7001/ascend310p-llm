@@ -1,0 +1,5 @@
+{
+  "path": "/vllm-workspace/vllm/vllm/model_executor/models/qwen3_5_mtp.py",
+  "sha256": "99c19c38107a3cade90aa5a0f86396f6a25b2defcf8a538fbed521f7567eb743",
+  "evidence": "95:             quant_config=fc_quant,\\n96:             prefix=f\"{prefix}.fc\",\\n97:         )\\n98: \\n99:         self.layers = torch.nn.ModuleList(\\n100:             Qwen3_5DecoderLayer(\\n101:                 vllm_config,\\n102:                 layer_type=\"full_attention\",\\n103:                 prefix=f\"{prefix}.layers.{idx}\",\\n104:             )\\n105:             for idx in range(self.num_mtp_layers)\\n106:         )\\n107: "
+}

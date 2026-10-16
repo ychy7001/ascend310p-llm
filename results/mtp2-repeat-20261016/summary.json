@@ -1,0 +1,107 @@
+{
+  "scope": "six cold 32256/128 requests in one fresh draft-eager process; not latency percentiles",
+  "requests": [
+    {
+      "cycle": 0,
+      "input_index": 0,
+      "prefill_tok_s": 506.84683678559674,
+      "decode_tok_s": 15.551654107599129,
+      "drafts": 68.0,
+      "accepted_per_pos": [
+        60.0,
+        0.0
+      ],
+      "acceptance_per_pos": [
+        0.8823529411764706,
+        0.0
+      ],
+      "identical_output_to_cycle0": true,
+      "identical_output_to_previous_run": true
+    },
+    {
+      "cycle": 0,
+      "input_index": 1,
+      "prefill_tok_s": 509.3840532462887,
+      "decode_tok_s": 15.725152044287597,
+      "drafts": 67.0,
+      "accepted_per_pos": [
+        60.0,
+        0.0
+      ],
+      "acceptance_per_pos": [
+        0.8955223880597015,
+        0.0
+      ],
+      "identical_output_to_cycle0": true,
+      "identical_output_to_previous_run": true
+    },
+    {
+      "cycle": 1,
+      "input_index": 0,
+      "prefill_tok_s": 506.8884412291311,
+      "decode_tok_s": 15.293913724163612,
+      "drafts": 69.0,
+      "accepted_per_pos": [
+        59.0,
+        0.0
+      ],
+      "acceptance_per_pos": [
+        0.855072463768116,
+        0.0
+      ],
+      "identical_output_to_cycle0": true,
+      "identical_output_to_previous_run": false
+    },
+    {
+      "cycle": 1,
+      "input_index": 1,
+      "prefill_tok_s": 509.3440528520448,
+      "decode_tok_s": 15.66754304845089,
+      "drafts": 67.0,
+      "accepted_per_pos": [
+        60.0,
+        0.0
+      ],
+      "acceptance_per_pos": [
+        0.8955223880597015,
+        0.0
+      ],
+      "identical_output_to_cycle0": true,
+      "identical_output_to_previous_run": true
+    },
+    {
+      "cycle": 2,
+      "input_index": 0,
+      "prefill_tok_s": 507.2816483797901,
+      "decode_tok_s": 16.954544985969367,
+      "drafts": 62.0,
+      "accepted_per_pos": [
+        55.0,
+        11.0
+      ],
+      "acceptance_per_pos": [
+        0.8870967741935484,
+        0.1774193548387097
+      ],
+      "identical_output_to_cycle0": false,
+      "identical_output_to_previous_run": true
+    },
+    {
+      "cycle": 2,
+      "input_index": 1,
+      "prefill_tok_s": 509.34407485732754,
+      "decode_tok_s": 15.739524677705377,
+      "drafts": 67.0,
+      "accepted_per_pos": [
+        60.0,
+        0.0
+      ],
+      "acceptance_per_pos": [
+        0.8955223880597015,
+        0.0
+      ],
+      "identical_output_to_cycle0": true,
+      "identical_output_to_previous_run": true
+    }
+  ]
+}

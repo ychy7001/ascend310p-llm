@@ -29,6 +29,8 @@ a2可用服务、权重、调用示例、重启和运行边界统一见[后端�
 [RC完整Graph补验](results/mtp2-fullgraph-long-20261015/README.md)已使MTP2完成114176-token会议canary及长后质量门禁；但112K配置下32K配对Decode比MTP1慢约19%，因此RC默认仍保留MTP1。单次长canary速度不能代替固定输出长度的性能基准。
 [RC草稿Graph与请求历史对照](results/mtp2-history-20261016/README.md)进一步完成8条配对冷32K/128请求：全Graph第二位置接受率0%–3%，draft eager也多为0%–4.6%，仅一条恢复74%；对应完整输出均一致。关闭草稿Graph尚不能稳定恢复MTP2收益，继续定位第二草稿状态及元数据，暂不改变RC默认。
 
+[RC独立重启重复复测](results/mtp2-repeat-20261016/README.md)完成六条同输入冷32K/128：第二位置接受率五条为0、一条17.74%，未复现74%；Prefill506.85–509.38、Decode15.29–16.95 tok/s。即使最终输出与先前高接受请求完全相同，接受率仍不同，下一步需逐步对齐draft/verify token及元数据，RC默认继续MTP1。
+
 当前a2业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](docs/profiles-20261014.md)和[部署矩阵](docs/deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](results/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。配置事实源为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
 
 ```bash

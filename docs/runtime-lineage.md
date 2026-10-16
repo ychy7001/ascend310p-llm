@@ -201,3 +201,27 @@ disabling it is not a stable remedy. Request-dependent state/metadata remains
 an investigation target, not a proven root cause. Do not change the default
 or mix in a driver upgrade based on this small sequential sample. See
 `results/mtp2-history-20261016/README.md` for the per-request counts and limits.
+
+
+### RC independent draft-eager repeat (2026-10-16)
+
+A fresh process with the same image, environment, command and mount set repeats
+three cold A/B pairs (32256/128), with a meeting canary between pairs one and two.
+All six prefix-hit increments are zero. Five requests accept no second-position
+tokens; one accepts 11/62 (17.74%). Prefill506.85–509.38 and Decode15.29–16.95
+tok/s do not reproduce the earlier 74% event. The higher-acceptance A output
+matches the earlier 74% output completely, so final text alone cannot explain
+the draft acceptance difference. Both short quality/reuse gates and the meeting
+canary pass. This is not a new paired MTP1 performance experiment.
+
+Keep RC MTP1 as default. Before another runtime patch, align per-step draft and
+verify token IDs, accepted length, positions, seq/query lengths and slot/block
+mapping in a separate diagnostic candidate; verify actual draft layer types and
+GDN state indices rather than assuming a failure mechanism. CPU copies or
+barriers used for diagnosis must be removed before performance validation.
+See `results/mtp2-repeat-20261016/README.md` for raw results and recovery status.
+
+The current image's `qwen3_5_mtp.py` constructs MTP decoder layers with
+`layer_type="full_attention"` (lines100–107; source fingerprint archived).
+Prioritize draft Attention/KV metadata and separately check target GDN rollback;
+do not infer that draft itself runs GDN from the target architecture.

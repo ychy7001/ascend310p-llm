@@ -1,0 +1,52 @@
+cd7b8d447dc08a28b61d72e53b03224bbeaa672d4b45c65d174c51031a17be9a
+qwen36-orangepi
+startup
+qwen36-mtp2-repeat-eager-20261016
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+cycle0:input0
+{"prompt_ids_sha256": "f6dfd95c3a2ee481e638bd53707cdc4c1c376e7b4711442ce72d5c2fe046a768", "metric_delta": {"vllm:spec_decode_num_drafts_total": 68.0, "vllm:spec_decode_num_draft_tokens_total": 136.0, "vllm:spec_decode_num_accepted_tokens_total": 60.0, "accepted_pos_0": 60.0, "accepted_pos_1": 0.0, "vllm:request_prefill_time_seconds_count": 1.0, "vllm:request_prefill_time_seconds_sum": 63.64052739199542, "vllm:request_decode_time_seconds_sum": 8.16633389100025}, "prefill_tok_s": 506.84683678559674, "decode_tok_s": 15.551654107599129}
+cycle0:input1
+{"prompt_ids_sha256": "2a25c1cf39662e31f6b0b992ec6cf3ece53322b104179100a23663d50277cc72", "metric_delta": {"vllm:spec_decode_num_drafts_total": 67.0, "vllm:spec_decode_num_draft_tokens_total": 134.0, "vllm:spec_decode_num_accepted_tokens_total": 60.0, "accepted_pos_0": 60.0, "accepted_pos_1": 0.0, "vllm:request_prefill_time_seconds_count": 1.0, "vllm:request_prefill_time_seconds_sum": 63.32353711199539, "vllm:request_decode_time_seconds_sum": 8.076233517000219}, "prefill_tok_s": 509.3840532462887, "decode_tok_s": 15.725152044287597}
+meeting32256
+{"score": {"passed": true, "parsed": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}, "expected": {"budget_yuan": 180000, "owner": "周启", "deadline": "2026-11-12", "status": "延期上线"}}, "prefill_tok_s": 442.32670733082443, "decode_tok_s": 16.06386813083698}
+cycle1:input0
+{"prompt_ids_sha256": "f6dfd95c3a2ee481e638bd53707cdc4c1c376e7b4711442ce72d5c2fe046a768", "metric_delta": {"vllm:spec_decode_num_drafts_total": 69.0, "vllm:spec_decode_num_draft_tokens_total": 138.0, "vllm:spec_decode_num_accepted_tokens_total": 59.0, "accepted_pos_0": 59.0, "accepted_pos_1": 0.0, "vllm:request_prefill_time_seconds_count": 1.0, "vllm:request_prefill_time_seconds_sum": 63.63530389800144, "vllm:request_decode_time_seconds_sum": 8.30395687399141}, "prefill_tok_s": 506.8884412291311, "decode_tok_s": 15.293913724163612}
+cycle1:input1
+{"prompt_ids_sha256": "2a25c1cf39662e31f6b0b992ec6cf3ece53322b104179100a23663d50277cc72", "metric_delta": {"vllm:spec_decode_num_drafts_total": 67.0, "vllm:spec_decode_num_draft_tokens_total": 134.0, "vllm:spec_decode_num_accepted_tokens_total": 60.0, "accepted_pos_0": 60.0, "accepted_pos_1": 0.0, "vllm:request_prefill_time_seconds_count": 1.0, "vllm:request_prefill_time_seconds_sum": 63.32851010900049, "vllm:request_decode_time_seconds_sum": 8.105929539000499}, "prefill_tok_s": 509.3440528520448, "decode_tok_s": 15.66754304845089}
+cycle2:input0
+{"prompt_ids_sha256": "f6dfd95c3a2ee481e638bd53707cdc4c1c376e7b4711442ce72d5c2fe046a768", "metric_delta": {"vllm:spec_decode_num_drafts_total": 62.0, "vllm:spec_decode_num_draft_tokens_total": 124.0, "vllm:spec_decode_num_accepted_tokens_total": 66.0, "accepted_pos_0": 55.0, "accepted_pos_1": 11.0, "vllm:request_prefill_time_seconds_count": 1.0, "vllm:request_prefill_time_seconds_sum": 63.58597852499224, "vllm:request_decode_time_seconds_sum": 7.490616829003557}, "prefill_tok_s": 507.2816483797901, "decode_tok_s": 16.954544985969367}
+cycle2:input1
+{"prompt_ids_sha256": "2a25c1cf39662e31f6b0b992ec6cf3ece53322b104179100a23663d50277cc72", "metric_delta": {"vllm:spec_decode_num_drafts_total": 67.0, "vllm:spec_decode_num_draft_tokens_total": 134.0, "vllm:spec_decode_num_accepted_tokens_total": 60.0, "accepted_pos_0": 60.0, "accepted_pos_1": 0.0, "vllm:request_prefill_time_seconds_count": 1.0, "vllm:request_prefill_time_seconds_sum": 63.3285073730076, "vllm:request_decode_time_seconds_sum": 8.068858660000842}, "prefill_tok_s": 509.34407485732754, "decode_tok_s": 15.739524677705377}
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+qwen36-mtp2-repeat-eager-20261016
+restoring-mtp1
+qwen36-orangepi
+{"label": "multiply", "strict_match": true}
+{"label": "add", "strict_match": true}
+{"label": "subtract", "strict_match": true}
+{"label": "divide", "strict_match": true}
+{"label": "sort", "strict_match": true}
+{"label": "extract", "strict_match": true}
+{"label": "\u4e2d\u6587", "strict_match": true}
+{"label": "boolean", "strict_match": true}
+{"strict_matches": 8, "answers_present": 8}
+{"identical_text": true, "canary_leaked": false}
+completed-restored
