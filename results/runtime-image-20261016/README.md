@@ -49,4 +49,4 @@ Prefill/Decode使用独占端点Prometheus阶段计时，分别input/time、(out
 
 a2 已按该 digest 拉取并再次通过镜像内 168 文件校验。`cutover-outcome.json` 显示新 `qwen36-image.service` 健康检查 200、质量门禁通过，实际镜像 ID 为 `b381d8e5...`，只挂载模型与驱动相关五条路径；旧 `qwen36-a2.service` 已禁用但保留用于回滚，device1 对照容器未改变。运行参数为 TP1/C16/W4A8/MTP2/Graph/GDN/MindIEQ、batch2048/chunk512、max114688、util.95。
 
-公开 registry 当前按现有权限控制；部署者应先登录并按 digest 拉取，不能只依赖可变 tag。镜像上传、拉回、篡改拒绝、切换和回滚日志均保留在本目录。
+公开 registry 当前按现有权限控制；部署者应先登录并按 digest 拉取，不能只依赖可变 tag。镜像上传、拉回、篡改拒绝、切换和回滚日志均保留在本目录。a2 当前服务已切换完成，后续可用 `systemctl --user status qwen36-image.service` 和 `curl -sf http://127.0.0.1:18024/health` 检查。
