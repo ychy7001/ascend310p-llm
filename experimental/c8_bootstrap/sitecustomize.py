@@ -18,3 +18,7 @@ if os.environ.get("QWEN36_ROUTE_TRACE_PATH"):
 
 if os.environ.get("QWEN36_MINDIEQ_ENABLED", "0") == "1":
     import mindieq_prefill_adapter  # noqa: F401,E402
+
+if os.environ.get('QWEN36_SYNC_METADATA', '0') == '1':
+    import sync_metadata_310
+    sync_metadata_310.install()
