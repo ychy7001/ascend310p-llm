@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "scope": "Real experts 0/256, fused gate/up -> SwiGLU pack -> down on 310P.\nTwo synthetic routes per token, no router/combine/HCCL/Attention.\n",
+  "rows": [
+    {
+      "tokens": 1,
+      "routes": 2,
+      "rel_l2_vs_cpu_w4a8_mlp": 5.001265890314244e-07,
+      "max_abs": 1.1920928955078125e-07,
+      "repeat_bitwise_equal_runs": 10,
+      "status": "PASS"
+    },
+    {
+      "tokens": 2,
+      "routes": 4,
+      "rel_l2_vs_cpu_w4a8_mlp": 1.0063667104986962e-05,
+      "max_abs": 1.9073486328125e-06,
+      "repeat_bitwise_equal_runs": 10,
+      "status": "PASS"
+    },
+    {
+      "tokens": 4,
+      "routes": 8,
+      "rel_l2_vs_cpu_w4a8_mlp": 3.6802657632506453e-06,
+      "max_abs": 1.9073486328125e-06,
+      "repeat_bitwise_equal_runs": 10,
+      "status": "PASS"
+    },
+    {
+      "tokens": 8,
+      "routes": 16,
+      "rel_l2_vs_cpu_w4a8_mlp": 1.1501375411171466e-05,
+      "max_abs": 7.62939453125e-06,
+      "repeat_bitwise_equal_runs": 10,
+      "status": "PASS"
+    }
+  ]
+}

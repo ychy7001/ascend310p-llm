@@ -1,0 +1,33 @@
+{
+  "revision": "d32978ccdde1729caec0034571b03a14779698e9",
+  "category_files": {
+    "base_float": 1070,
+    "experts": 48,
+    "ple": 128,
+    "vision": 333,
+    "mtp": 31
+  },
+  "category_file_bytes": {
+    "base_float": 9895630824,
+    "experts": 63259805952,
+    "ple": 102400522240,
+    "vision": 897925272,
+    "mtp": 5214307864
+  },
+  "native_expert_storage_bytes": 66060288000,
+  "native_expert_storage_per_tp2_rank_bytes": 33030144000,
+  "base_float_conservative_replicated_bytes": 9895630824,
+  "tp2_rank_weight_upper_bound_all_base_replicated_bytes": 42925774824,
+  "tp2_rank_weight_upper_bound_only_vocab_parallel_bytes": 41654376424,
+  "source_supported_additional_sharding": "GDN/QSA projections, shared experts; not included in conservative bound",
+  "not_counted": [
+    "KV/QSA/indexer caches",
+    "GDN/PLE states",
+    "workspace",
+    "graph pools",
+    "allocator fragmentation",
+    "load transient",
+    "host page cache"
+  ],
+  "scope": "text only, MTP=0; file headers included in float bound, experts use actual native runtime layout; TP2/EP2 source ownership only, not allocation measurement"
+}

@@ -1,0 +1,281 @@
+{
+  "revision": "d32978ccdde1729caec0034571b03a14779698e9",
+  "scope": "real experts 0/256, layer 0; synthetic activations/routes; selected real PLE rows only",
+  "npu": {
+    "status": "FAIL",
+    "device": "Ascend310P3",
+    "rows": [
+      {
+        "projection": "gate_proj",
+        "input_tokens": 1,
+        "output_routes": 2,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.04399504978209734,
+        "rel_l2_vs_w4a8_float_reference": 1.5880093574523926,
+        "rel_l2_vs_w4a16_float_reference": 1.5875928401947021,
+        "max_abs_vs_w4a8_reference": 0.8016736507415771,
+        "cosine_vs_reference": 0.4450336992740631
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 2,
+        "output_routes": 4,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.051043700659647584,
+        "rel_l2_vs_w4a8_float_reference": 1.8953460454940796,
+        "rel_l2_vs_w4a16_float_reference": 1.8950271606445312,
+        "max_abs_vs_w4a8_reference": 1.0064082145690918,
+        "cosine_vs_reference": 0.3971509337425232
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 4,
+        "output_routes": 8,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.06485625053755939,
+        "rel_l2_vs_w4a8_float_reference": 1.6857025623321533,
+        "rel_l2_vs_w4a16_float_reference": 1.6854556798934937,
+        "max_abs_vs_w4a8_reference": 0.875102162361145,
+        "cosine_vs_reference": 0.43368810415267944
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 8,
+        "output_routes": 16,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.07235879893414676,
+        "rel_l2_vs_w4a8_float_reference": 1.7998466491699219,
+        "rel_l2_vs_w4a16_float_reference": 1.7998467683792114,
+        "max_abs_vs_w4a8_reference": 1.1445938348770142,
+        "cosine_vs_reference": 0.405368834733963
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 128,
+        "output_routes": 128,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.2977157011628151,
+        "rel_l2_vs_w4a8_float_reference": 1.697517991065979,
+        "rel_l2_vs_w4a16_float_reference": 1.6975293159484863,
+        "max_abs_vs_w4a8_reference": 1.1793251037597656,
+        "cosine_vs_reference": 0.4293331503868103
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 512,
+        "output_routes": 512,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 1.0464801511261612,
+        "rel_l2_vs_w4a8_float_reference": 1.695504069328308,
+        "rel_l2_vs_w4a16_float_reference": 1.6955137252807617,
+        "max_abs_vs_w4a8_reference": 1.2160627841949463,
+        "cosine_vs_reference": 0.43101003766059875
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 1,
+        "output_routes": 2,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.04505820106714964,
+        "rel_l2_vs_w4a8_float_reference": 1.7233169078826904,
+        "rel_l2_vs_w4a16_float_reference": 1.7234232425689697,
+        "max_abs_vs_w4a8_reference": 0.9386788606643677,
+        "cosine_vs_reference": 0.4468753933906555
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 2,
+        "output_routes": 4,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.05104350275360048,
+        "rel_l2_vs_w4a8_float_reference": 1.5900629758834839,
+        "rel_l2_vs_w4a16_float_reference": 1.5903346538543701,
+        "max_abs_vs_w4a8_reference": 0.761206865310669,
+        "cosine_vs_reference": 0.45272597670555115
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 4,
+        "output_routes": 8,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.06537834997288883,
+        "rel_l2_vs_w4a8_float_reference": 1.6947323083877563,
+        "rel_l2_vs_w4a16_float_reference": 1.69479501247406,
+        "max_abs_vs_w4a8_reference": 0.8519191145896912,
+        "cosine_vs_reference": 0.41233691573143005
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 8,
+        "output_routes": 16,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.0724800513125956,
+        "rel_l2_vs_w4a8_float_reference": 1.6825828552246094,
+        "rel_l2_vs_w4a16_float_reference": 1.6827523708343506,
+        "max_abs_vs_w4a8_reference": 1.1741673946380615,
+        "cosine_vs_reference": 0.43697330355644226
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 128,
+        "output_routes": 128,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.2952088019810617,
+        "rel_l2_vs_w4a8_float_reference": 1.6753052473068237,
+        "rel_l2_vs_w4a16_float_reference": 1.6753672361373901,
+        "max_abs_vs_w4a8_reference": 1.202925205230713,
+        "cosine_vs_reference": 0.43340951204299927
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 512,
+        "output_routes": 512,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 1.0544618999119848,
+        "rel_l2_vs_w4a8_float_reference": 1.6916102170944214,
+        "rel_l2_vs_w4a16_float_reference": 1.6916176080703735,
+        "max_abs_vs_w4a8_reference": 1.2933714389801025,
+        "cosine_vs_reference": 0.4307916760444641
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 1,
+        "output_routes": 2,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.037053198320791125,
+        "rel_l2_vs_w4a8_float_reference": 0.009430846199393272,
+        "rel_l2_vs_w4a16_float_reference": 0.007985157892107964,
+        "max_abs_vs_w4a8_reference": 0.0030261576175689697,
+        "cosine_vs_reference": 0.9999552965164185
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 2,
+        "output_routes": 4,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.03545999643392861,
+        "rel_l2_vs_w4a8_float_reference": 0.008270075544714928,
+        "rel_l2_vs_w4a16_float_reference": 0.007125511299818754,
+        "max_abs_vs_w4a8_reference": 0.0034054219722747803,
+        "cosine_vs_reference": 0.999965250492096
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 4,
+        "output_routes": 8,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.04365575150586665,
+        "rel_l2_vs_w4a8_float_reference": 0.008583014830946922,
+        "rel_l2_vs_w4a16_float_reference": 0.007136416155844927,
+        "max_abs_vs_w4a8_reference": 0.002894418314099312,
+        "cosine_vs_reference": 0.9999622106552124
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 8,
+        "output_routes": 16,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.06224049720913172,
+        "rel_l2_vs_w4a8_float_reference": 0.008665955625474453,
+        "rel_l2_vs_w4a16_float_reference": 0.0074113504961133,
+        "max_abs_vs_w4a8_reference": 0.004211001098155975,
+        "cosine_vs_reference": 0.9999617338180542
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 128,
+        "output_routes": 128,
+        "mode": "grouped",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.34500850015319884,
+        "rel_l2_vs_w4a8_float_reference": 0.008804133161902428,
+        "rel_l2_vs_w4a16_float_reference": 0.007730651181191206,
+        "max_abs_vs_w4a8_reference": 0.005845874547958374,
+        "cosine_vs_reference": 0.9999589920043945
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 512,
+        "output_routes": 512,
+        "mode": "grouped",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.7142402464523911,
+        "rel_l2_vs_w4a8_float_reference": 0.008684777654707432,
+        "rel_l2_vs_w4a16_float_reference": 0.0075102695263922215,
+        "max_abs_vs_w4a8_reference": 0.005496963858604431,
+        "cosine_vs_reference": 0.9999852180480957
+      }
+    ],
+    "note": "Reuses our existing compiled community-derived W4 kernel, not a full build of the pinned Qwen3.8 runtime. No BF16 source-weight accuracy claim."
+  }
+}

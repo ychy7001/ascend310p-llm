@@ -1,0 +1,375 @@
+{
+  "revision": "d32978ccdde1729caec0034571b03a14779698e9",
+  "scope": "real experts 0/256, layer 0; synthetic activations/routes; selected real PLE rows only",
+  "npu": {
+    "status": "PASS",
+    "device": "Ascend310P3",
+    "rows": [
+      {
+        "projection": "gate_proj",
+        "input_tokens": 1,
+        "output_routes": 2,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.06237549823708832,
+        "latency_samples_ms": [
+          0.06271165329962969,
+          0.06237549823708832,
+          0.06221504881978035
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020399189088493586,
+        "rel_l2_vs_w4a16_float_reference": 0.006430713459849358,
+        "max_abs_vs_w4a8_reference": 0.00012111663818359375,
+        "cosine_vs_reference": 0.9999999403953552
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 2,
+        "output_routes": 4,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.06463470053859055,
+        "latency_samples_ms": [
+          0.06463470053859055,
+          0.06526894867420197,
+          0.06400275160558522
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.0002076966193271801,
+        "rel_l2_vs_w4a16_float_reference": 0.006387003231793642,
+        "max_abs_vs_w4a8_reference": 0.0002224445343017578,
+        "cosine_vs_reference": 1.0000001192092896
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 4,
+        "output_routes": 8,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.07304130122065544,
+        "latency_samples_ms": [
+          0.07287904736585915,
+          0.07304130122065544,
+          0.07351395324803889
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00021551339887082577,
+        "rel_l2_vs_w4a16_float_reference": 0.006747516803443432,
+        "max_abs_vs_w4a8_reference": 0.0002263188362121582,
+        "cosine_vs_reference": 0.9999997615814209
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 8,
+        "output_routes": 16,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.07920800126157701,
+        "latency_samples_ms": [
+          0.07961770170368254,
+          0.07856299635022879,
+          0.07920800126157701
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020829495042562485,
+        "rel_l2_vs_w4a16_float_reference": 0.006524570286273956,
+        "max_abs_vs_w4a8_reference": 0.00021374225616455078,
+        "cosine_vs_reference": 0.9999995231628418
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 128,
+        "output_routes": 128,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.32345594954676926,
+        "latency_samples_ms": [
+          0.3220876504201442,
+          0.3243008512072265,
+          0.32345594954676926
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.0002076339878840372,
+        "rel_l2_vs_w4a16_float_reference": 0.006480960641056299,
+        "max_abs_vs_w4a8_reference": 0.00023472309112548828,
+        "cosine_vs_reference": 0.9999987483024597
+      },
+      {
+        "projection": "gate_proj",
+        "input_tokens": 512,
+        "output_routes": 512,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 1.0096652491483837,
+        "latency_samples_ms": [
+          1.0096652491483837,
+          1.0099791979882866,
+          1.0031097510363907
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020756390586029738,
+        "rel_l2_vs_w4a16_float_reference": 0.006453367881476879,
+        "max_abs_vs_w4a8_reference": 0.00024402141571044922,
+        "cosine_vs_reference": 0.9999972581863403
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 1,
+        "output_routes": 2,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.04353085532784462,
+        "latency_samples_ms": [
+          0.04392914706841111,
+          0.04353085532784462,
+          0.043378351256251335
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.0002029041206697002,
+        "rel_l2_vs_w4a16_float_reference": 0.006490240804851055,
+        "max_abs_vs_w4a8_reference": 0.00012135505676269531,
+        "cosine_vs_reference": 1.0
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 2,
+        "output_routes": 4,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.049643946113064885,
+        "latency_samples_ms": [
+          0.05045800353400409,
+          0.049643946113064885,
+          0.04950799630023539
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020744084031321108,
+        "rel_l2_vs_w4a16_float_reference": 0.006280955858528614,
+        "max_abs_vs_w4a8_reference": 0.00012135505676269531,
+        "cosine_vs_reference": 0.9999998807907104
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 4,
+        "output_routes": 8,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.06565714720636606,
+        "latency_samples_ms": [
+          0.06511220126412809,
+          0.06565714720636606,
+          0.06626844988204539
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.0002115777024300769,
+        "rel_l2_vs_w4a16_float_reference": 0.006606425624340773,
+        "max_abs_vs_w4a8_reference": 0.00021082162857055664,
+        "cosine_vs_reference": 0.9999996423721313
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 8,
+        "output_routes": 16,
+        "mode": "routed",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.07348195067606866,
+        "latency_samples_ms": [
+          0.07303479942493141,
+          0.07361765019595623,
+          0.07348195067606866
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020804375526495278,
+        "rel_l2_vs_w4a16_float_reference": 0.006450002547353506,
+        "max_abs_vs_w4a8_reference": 0.0002351999282836914,
+        "cosine_vs_reference": 0.9999997615814209
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 128,
+        "output_routes": 128,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 0.3188419446814805,
+        "latency_samples_ms": [
+          0.31818714924156666,
+          0.3188419446814805,
+          0.31944334623403847
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.0002073461510008201,
+        "rel_l2_vs_w4a16_float_reference": 0.006431267596781254,
+        "max_abs_vs_w4a8_reference": 0.0002390742301940918,
+        "cosine_vs_reference": 0.999998927116394
+      },
+      {
+        "projection": "up_proj",
+        "input_tokens": 512,
+        "output_routes": 512,
+        "mode": "grouped",
+        "shape_N_K": [
+          640,
+          2560
+        ],
+        "latency_pack_plus_matmul_ms": 1.004025002475828,
+        "latency_samples_ms": [
+          1.0033639962784946,
+          1.004025002475828,
+          1.0050275013782084
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020825154206249863,
+        "rel_l2_vs_w4a16_float_reference": 0.006447520572692156,
+        "max_abs_vs_w4a8_reference": 0.0002422928810119629,
+        "cosine_vs_reference": 0.9999974370002747
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 1,
+        "output_routes": 2,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.031010550446808338,
+        "latency_samples_ms": [
+          0.031520851189270616,
+          0.030841550324112177,
+          0.031010550446808338
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020824266539420933,
+        "rel_l2_vs_w4a16_float_reference": 0.006833038292825222,
+        "max_abs_vs_w4a8_reference": 8.749961853027344e-05,
+        "cosine_vs_reference": 0.9999997615814209
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 2,
+        "output_routes": 4,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.03467060159891844,
+        "latency_samples_ms": [
+          0.03467060159891844,
+          0.03463149769231677,
+          0.03586414968594909
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020934021449647844,
+        "rel_l2_vs_w4a16_float_reference": 0.005988098215311766,
+        "max_abs_vs_w4a8_reference": 6.085634231567383e-05,
+        "cosine_vs_reference": 0.9999994039535522
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 4,
+        "output_routes": 8,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.043707300210371614,
+        "latency_samples_ms": [
+          0.043707300210371614,
+          0.04299159627407789,
+          0.044212647480890155
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020872104505542666,
+        "rel_l2_vs_w4a16_float_reference": 0.006504424382001162,
+        "max_abs_vs_w4a8_reference": 0.00011563301086425781,
+        "cosine_vs_reference": 0.9999990463256836
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 8,
+        "output_routes": 16,
+        "mode": "routed",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.06191250286065042,
+        "latency_samples_ms": [
+          0.06122810300439596,
+          0.06191250286065042,
+          0.06240285001695156
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020701663743238896,
+        "rel_l2_vs_w4a16_float_reference": 0.006511440966278315,
+        "max_abs_vs_w4a8_reference": 0.0001571178436279297,
+        "cosine_vs_reference": 0.9999996423721313
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 128,
+        "output_routes": 128,
+        "mode": "grouped",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.338145048590377,
+        "latency_samples_ms": [
+          0.33739375066943467,
+          0.3384228504728526,
+          0.338145048590377
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.0002078806865029037,
+        "rel_l2_vs_w4a16_float_reference": 0.006467705592513084,
+        "max_abs_vs_w4a8_reference": 0.00012940168380737305,
+        "cosine_vs_reference": 0.9999977350234985
+      },
+      {
+        "projection": "down_proj",
+        "input_tokens": 512,
+        "output_routes": 512,
+        "mode": "grouped",
+        "shape_N_K": [
+          2560,
+          640
+        ],
+        "latency_pack_plus_matmul_ms": 0.7003157981671393,
+        "latency_samples_ms": [
+          0.7004058512393385,
+          0.7003157981671393,
+          0.700147298630327
+        ],
+        "rel_l2_vs_w4a8_float_reference": 0.00020751450210809708,
+        "rel_l2_vs_w4a16_float_reference": 0.00646427134051919,
+        "max_abs_vs_w4a8_reference": 0.0001639723777770996,
+        "cosine_vs_reference": 1.0000224113464355
+      }
+    ],
+    "note": "Standalone W4 operators only. No full serving runtime or BF16 source-weight accuracy claim. latency=host dispatch of pack+matmul and batch synchronization, not isolated kernel time.",
+    "library_sha256": "6bdef9a1cbda83a88a5f4e82fa0e61a397b1c35814bcfc2294bb4e83ab5a2f32",
+    "warmup": 5,
+    "timing_samples": 3,
+    "operations_per_sample": 20
+  }
+}

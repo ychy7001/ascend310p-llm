@@ -1,0 +1,21 @@
+{
+  "revision": "d32978ccdde1729caec0034571b03a14779698e9",
+  "scope": "real experts 0/256, layer 0; synthetic activations/routes; selected real PLE rows only",
+  "ple": {
+    "status": "PASS",
+    "real_rows": 6,
+    "cold_fixture_gather_ms": 2.7513050008565187,
+    "maxrss_delta_kib": 5432,
+    "logical_table_bytes": 102400491520,
+    "fixture_only": true,
+    "note": "Sparse fixture; cold latency is NOT representative of full-table random I/O. mmap physical_bytes=0 does not mean OS page-cache memory is zero."
+  },
+  "qsa_tp2_host_math": {
+    "status": "PASS",
+    "query_heads_per_rank": 12,
+    "kv_heads_per_rank": 1,
+    "head_dim": 256,
+    "max_abs": 7.748603820800781e-07,
+    "scope": "CPU sparse-attention head slicing only; no HCCL, projections, NPU kernels, or whole model"
+  }
+}

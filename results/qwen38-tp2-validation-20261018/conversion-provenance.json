@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "artifact": {
+    "name": "Qwen3.8-Flash-Next-W4A16-G128-300i",
+    "tensor_shards": 1610,
+    "tensor_count": 222746,
+    "tensor_payload_bytes": 181637185528,
+    "local_export_file_bytes": 181713896545
+  },
+  "base_model": {
+    "repo_id": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "de4b8e4d43b917e7706784d8bb445c9af86a3540",
+    "architecture": "Qwen4ExpForConditionalGeneration",
+    "license": "qwen-community-1.0"
+  },
+  "conversion": {
+    "tool": "Ascend ModelSlim IR",
+    "tool_revision": "01d1bf92e088b70acc807c3b98391106d460cbfa",
+    "method": "asymmetric per-group min/max RTN",
+    "calibrated": false,
+    "format": "qwen4exp_w4a16_group_v1",
+    "routed_expert_projections": 73728,
+    "bits_per_weight": 4,
+    "group_size": 128,
+    "packing": "signed_int4_low_nibble_first_in_axis",
+    "scale_dtype": "float16",
+    "offset_dtype": "int8",
+    "activation_dtype_in_validated_path": "float16"
+  },
+  "tensor_inventory_bytes": {
+    "routed_experts": 63229132800,
+    "ple_table": 102400491520,
+    "other_float": 16007561208
+  },
+  "validation": {
+    "date": "2026-09-27",
+    "hardware": "2 x Atlas 300I Duo / 4 x Ascend 310P3",
+    "real_checkpoint_loaded": true,
+    "text_generation_smoke_passed": true,
+    "expert_parallelism_exercised": true,
+    "mtp_draft_tokens": 2,
+    "decode_graph_replay_exercised": true,
+    "two_short_concurrent_requests_exercised": true,
+    "max_model_len_configured": 262144,
+    "full_262144_token_request_completed": false,
+    "two_full_262144_token_requests_completed": false,
+    "full_model_held_out_accuracy_completed": false,
+    "multimodal_validated": false,
+    "selected_backend": "cube_310_routed",
+    "runtime_revision_status": "experimental development snapshot; public revision not frozen"
+  }
+}

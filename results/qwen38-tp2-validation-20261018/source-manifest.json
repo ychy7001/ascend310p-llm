@@ -1,0 +1,10 @@
+{
+  "model_revision": "d32978ccdde1729caec0034571b03a14779698e9",
+  "ascend_runtime_revision": "ffa980c1d0ac9f31cd1dbbd06cd4bd3286571032",
+  "required_vllm_revision": "3ab5dda29acabea01f6a63d0806bdbbb4a27bde5",
+  "input_sha256": {
+    "/tmp/qwen38-index.json": "259a1d514dca2bf522a70d93cb6219fec9afab8dccc65ae35ddcbc5fc44ebdbf",
+    "/tmp/qwen38-api-blobs.json": "6c6c5ff9e28cddf2934bbfa367eb3dfb42e9675ce5bc03685e5bdac9bf20946e",
+    "/tmp/opensensor-qwen38-runtime.tar.gz": "9cd90485bf1002fc644eaf91cecc54c4db4f682a9f65950426551a509e3fbf18"
+  }
+}

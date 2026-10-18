@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "scope": "Real 310P QSA kernel probe at TP2 local Hq=12,Hkv=1,D=256.\nSynthetic Q/K/V and selection; no model projections, router, or HCCL.\n",
+  "rows": [
+    {
+      "tokens": 1,
+      "local_query_heads": 12,
+      "local_kv_heads": 1,
+      "head_dim": 256,
+      "selected_tokens": 67,
+      "max_abs": 0.000244140625,
+      "relative_l2": 0.0002682109479792416,
+      "host_dispatch_sync_average_ms": 0.031248695449903607,
+      "status": "PASS"
+    },
+    {
+      "tokens": 2,
+      "local_query_heads": 12,
+      "local_kv_heads": 1,
+      "head_dim": 256,
+      "selected_tokens": 67,
+      "max_abs": 0.000244140625,
+      "relative_l2": 0.0002747590187937021,
+      "host_dispatch_sync_average_ms": 0.037523696664720774,
+      "status": "PASS"
+    },
+    {
+      "tokens": 8,
+      "local_query_heads": 12,
+      "local_kv_heads": 1,
+      "head_dim": 256,
+      "selected_tokens": 67,
+      "max_abs": 0.000244140625,
+      "relative_l2": 0.0002714009315241128,
+      "host_dispatch_sync_average_ms": 0.06998870521783829,
+      "status": "PASS"
+    },
+    {
+      "tokens": 128,
+      "local_query_heads": 12,
+      "local_kv_heads": 1,
+      "head_dim": 256,
+      "selected_tokens": 67,
+      "max_abs": 0.000244140625,
+      "relative_l2": 0.0002715088485274464,
+      "host_dispatch_sync_average_ms": 0.8739364508073777,
+      "status": "PASS"
+    }
+  ]
+}
