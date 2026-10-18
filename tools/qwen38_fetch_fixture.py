@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Fetch pinned real tensors via checked HTTP ranges; never download a full model.
 PLE files are explicitly SPARSE fixtures: only recorded rows contain real data.
 """

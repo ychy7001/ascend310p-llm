@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Real checkpoint fixture gates. CPU PLE + optional real 310P W4 kernel.
 Not a full model accuracy/throughput benchmark; activations and routes are synthetic.
 """
@@ -5,7 +6,6 @@ import argparse, hashlib, importlib, json, resource, sys, time, types
 from pathlib import Path
 import numpy as np
 import torch
-# SPDX-License-Identifier: Apache-2.0
 from safetensors.torch import load_file
 
 def module_path(name,path):

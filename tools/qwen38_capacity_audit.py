@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Conservative weight-only TP2 budget from pinned HF index/file sizes.
 Does not count workspace, graph, KV, allocator fragmentation or load peaks.
 """

@@ -5,6 +5,7 @@
   "input_sha256": {
     "/tmp/qwen38-index.json": "259a1d514dca2bf522a70d93cb6219fec9afab8dccc65ae35ddcbc5fc44ebdbf",
     "/tmp/qwen38-api-blobs.json": "6c6c5ff9e28cddf2934bbfa367eb3dfb42e9675ce5bc03685e5bdac9bf20946e",
-    "/tmp/opensensor-qwen38-runtime.tar.gz": "9cd90485bf1002fc644eaf91cecc54c4db4f682a9f65950426551a509e3fbf18"
+    "/tmp/opensensor-qwen38-runtime.tar.gz": "9cd90485bf1002fc644eaf91cecc54c4db4f682a9f65950426551a509e3fbf18",
+    "/tmp/qwen38-vllm-runtime.tar.gz": "cbe33dda3ccc2d735c0df333c2a3843795f7c87c54cd07aef7361b90a98259aa"
   }
 }

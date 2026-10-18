@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Run pinned community host math tests without importing its serving runtime.
 No NPU coverage; package shells only bypass heavy __init__ registration imports.
 """

@@ -1,0 +1,18 @@
+{
+  "host": "ychy-a2",
+  "soc": "Ascend 310P3",
+  "devices": 2,
+  "device_total_memory_mb": [
+    44277,
+    43693
+  ],
+  "host_ram_gib_approx": 31,
+  "driver_npu_smi": "26.1.1",
+  "probe_image": "quay.io/ascend/vllm-ascend:v0.23.0.post1-310p",
+  "cann": "9.1.0",
+  "torch": "2.10.0+cpu",
+  "torch_npu": "2.10.0.post4",
+  "vllm": "0.23.0+empty",
+  "vllm_ascend": "0.23.0.post1",
+  "physical_device_tested": 1
+}

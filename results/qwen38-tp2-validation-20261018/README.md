@@ -33,7 +33,7 @@
 
 原生格式每个权重占 `0.5 + 6/128` 字节：INT4 codes、FP16 scale、FP16 offset、FP16 weight_sum。检查点 offset 是 INT8；加载时转 FP16 并增加 weight_sum，所以不能只把磁盘专家大小除以二当作显存需求。
 
-上界还没有扣除源码支持的 GDN/QSA 投影及 shared experts 分片，因而偏保守；但也**没有加入 KV/QSA/Indexer cache、GDN/PLE 状态、工作区、图池、碎片和加载瞬时峰值**。单芯片总显存约 42–43 GiB，剩余空间有限。无法据此承诺长上下文、MTP 或服务启动成功。
+上界还没有扣除源码支持的 GDN/QSA 投影及 shared experts 分片，因而偏保守；但也**没有加入 KV/QSA/Indexer cache、GDN/PLE 状态、工作区、图池、碎片和加载瞬时峰值**。单芯片总显存约 42–43 GiB，剩余空间有限。这份原生 W4 格式仅专家就占 61.52 GiB，因此 TP1 无法直接装入单颗 48 GB 芯片。无法据此承诺长上下文、MTP 或服务启动成功。
 
 PLE 使用 lazy mmap 时不会一次把 95 GiB 表装入 32 GiB 主机内存，但所访问页面会进入 OS page cache。源码 `physical_bytes=0` 不是主机真实内存开销为零，也不代表冷读延迟为零。
 
@@ -73,7 +73,7 @@ PLE 使用 lazy mmap 时不会一次把 95 GiB 表装入 32 GiB 主机内存，�
 本机代码仓库：`/home/ychy/workspace/ascend310p-qwen36`。
 a2 独立实验目录：`/home/ychy/ascend-lab-runtime/qwen38-tp2-validation-20261018`，包含源码快照、fixture、编译产物和原始日志。
 
-- `community/`：固定的 OpenSensor Ascend 源码。
+- `community/`：固定的 OpenSensor Ascend 源码；`vllm-fork/`：匹配的 vLLM 源码（已准备，未安装）。
 - `grouped-opp/vendors/custom_transformer/`：新编译的分组算子包。
 - `probe-build/qwen36_int4_custom.so`：独立 Torch adapter，包含 W4 和 QSA 探针入口。
 - `experts.safetensors`：仅两个专家、18 张量的真实小样本，**不是完整检查点**。
@@ -104,7 +104,7 @@ python3 tools/qwen38_host_gates.py --source <固定Ascend源码目录> --junit h
 
 ## 4. 下一阶段门禁
 
-1. **先冻结整套运行时**：使用匹配的 OpenSensor vLLM/Ascend fork、模型卡要求的 GDN FP32/QSA 接口和完整 OPP。当前旧版 vLLM 0.23 的单算子通过，不等于整模运行时兼容。不要只拷几个模型 Python 文件进现有 Qwen3.6 镜像。
+1. **先冻结整套运行时**：使用匹配的 OpenSensor vLLM/Ascend fork、其 requirements（例如 transformers 5.14.1）、模型卡要求的 GDN FP32/QSA 接口和完整 OPP。当前旧版 vLLM 0.23 的单算子通过，不等于整模运行时兼容。不要只拷几个模型 Python 文件进现有 Qwen3.6 镜像。
 2. **再准备完整权重**：直接在 a2 下载固定 revision，完整核验文件，保持原始索引和元数据；此次小样本不能启动服务。确认 PLE lazy、EP 过滤在真正的 checkpoint loader 中生效，控制主机峰值。
 3. **最小整模启动**：TP2/EP2、纯文本、MTP=0、单请求、4K 上下文、较小 prefill chunk、先 eager/C16。显式选择 `cube_310_int4_a8`，避免检查点默认 `eager_dequant` 造成意外浮点权重展开。必须记录实际每 rank 权重峰值、剩余缓存及冷 PLE I/O。
 4. **正确性后再优化**：完成连贯生成与固定质量样本，验证 HCCL、GDN 实际生产头形状和状态；再开 Decode Graph、尝试 MTP，逐级扩大上下文。双芯片速度、长上下文和本机 Strata 的差异全部以届时端到端数据为准。
