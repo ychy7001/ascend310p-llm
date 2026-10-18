@@ -1,0 +1,35 @@
+{
+  "scope": "budget arithmetic, not NPU scheduling",
+  "cases": [
+    {
+      "prefix": false,
+      "requests": 1,
+      "slots": 1,
+      "physical_budget": 123450,
+      "fixed_state_bytes": 320,
+      "actual_planner_budget": 123450,
+      "expected_planner_budget": 1231040,
+      "passed": false
+    },
+    {
+      "prefix": false,
+      "requests": 4,
+      "slots": 3,
+      "physical_budget": 123450,
+      "fixed_state_bytes": 3840,
+      "actual_planner_budget": 1195840,
+      "expected_planner_budget": 1195840,
+      "passed": true
+    },
+    {
+      "prefix": true,
+      "requests": 2,
+      "slots": 64,
+      "physical_budget": 123450,
+      "fixed_state_bytes": 20480,
+      "actual_planner_budget": 1029440,
+      "expected_planner_budget": 1029440,
+      "passed": true
+    }
+  ]
+}

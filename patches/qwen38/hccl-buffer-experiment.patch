@@ -1,0 +1,15 @@
+--- a/vllm_ascend/utils.py
++++ b/vllm_ascend/utils.py
+@@ -1137,7 +1137,11 @@
+ 
+ 
+ def get_default_buffer_config() -> dict:
+-    return {"hccl_buffer_size": _DEFAULT_BUFFER_SIZE}
++    # Optional experiment override; preserve the upstream default when unset.
++    size = int(os.environ.get("QWEN38_HCCL_BUFFER_MIB", _DEFAULT_BUFFER_SIZE))
++    if size <= 0:
++        raise ValueError("QWEN38_HCCL_BUFFER_MIB must be positive")
++    return {"hccl_buffer_size": size}
+ 
+ 
+ def calculate_dp_buffer_size() -> int:

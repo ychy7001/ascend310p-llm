@@ -1,6 +1,6 @@
 # Qwen3.8 Flash Next：单 DUO / TP2 完整运行时验证
 
-2026-10-18。**完整运行时已构建，TP2 GDN 正确性门禁通过；整模加载与真实生成仍在进行，暂未得到整模速度、最大上下文或产品可用结论。** 本目录接续 [上一阶段真实专家 / QSA 验证](../qwen38-tp2-validation-20261018/README.md)。没有改动 Qwen3.6 发布服务代码，也没有触碰本机 RTX 3090 Strata 服务。
+2026-10-18。**完整Qwen3.8 Flash Next已在a2一张300I DUO / 两颗310P3上运行，3条真实生成和4096-token实际请求通过。512/128在最终配置下重复3次Decode13.82–13.89tok/s；尚无MTP、Graph、更长上下文或产品质量结论。** 本目录接续 [上一阶段真实专家 / QSA 验证](../qwen38-tp2-validation-20261018/README.md)。没有改动 Qwen3.6 发布服务代码，也没有触碰本机 RTX 3090 Strata 服务。
 
 ## 固定输入与实际环境
 
@@ -9,7 +9,7 @@
 | 设备 | ychy-a2，一张 300I DUO，两颗 310P3，约 44,277 / 43,693 MiB 可见设备内存 |
 | 检查点 | [matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i](https://huggingface.co/matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i/tree/d32978ccdde1729caec0034571b03a14779698e9) |
 | vLLM fork | [opensensor/vllm@3ab5dda29](https://github.com/opensensor/vllm/tree/3ab5dda29acabea01f6a63d0806bdbbb4a27bde5) |
-| Ascend fork | [opensensor/vllm-ascend@ffa980c1](https://github.com/opensensor/vllm-ascend/tree/ffa980c1d0ac9f31cd1dbbd06cd4bd3286571032) + 本目录验证的两文件补丁 |
+| Ascend fork | [opensensor/vllm-ascend@ffa980c1](https://github.com/opensensor/vllm-ascend/tree/ffa980c1d0ac9f31cd1dbbd06cd4bd3286571032) + 本目录的3个独立补丁（GDN掩码、通信缓冲、单请求预算） |
 | Catlass | 41bf90da655bba3c66d0acd7e00abe33960ecfd6，与 fork 的 .gitmodules 一致，复用 a2 已有副本 |
 | 基础镜像 | quay.io/ascend/vllm-ascend:v0.23.0.post1-310p |
 | 核心依赖 | CANN 9.1.0，torch 2.10.0+cpu，torch-npu 2.10.0.post4，transformers 5.14.1 |
@@ -67,13 +67,29 @@
 
 ## 权重与整模验证
 
-完整清单见 `checkpoint-manifest.json`：1626文件，共181,713,686,040字节（约169.23 GiB），包含权重、tokenizer、索引和元数据。a2 通过 `hf-mirror.com` 直接断点下载，不经本机传输；LFS 文件核对 SHA256，其余文件核对 Git blob SHA1，全部完成才生成 `download-verified.json`。`.part` 文件绝不视为完整权重。
+完整清单见 `checkpoint-manifest.json`：1626文件，共181,713,686,040字节（约169.23 GiB），包含权重、tokenizer、索引和元数据。a2 通过 `hf-mirror.com` 直接断点下载，不经本机传输；LFS 文件核对 SHA256，其余文件核对 Git blob SHA1，全部完成才生成 `download-verified.json`。`.part` 文件绝不视为完整权重。下载器可选 `--range-chunk-mib 64 --range-workers 8` 为剩余大分片启用有界并行 Range：严格核对 206 与 Content-Range、按顺序合并临时片段，再核对完整文件哈希。
 
 注意模型文件名中的 W4A16 是存储检查点命名。运行时必须显式设置 `cube_310_int4_a8` 和 `activation_quantization=int8_per_group`；检查点默认 `eager_dequant` 会展开专家，无法按本方案装入一张 DUO。Qwen3.6 的 per-channel OPP 不适用本模型的 G128 协议。
 
-初始整模配置固定为：**TP2 / EP2、原生 W4A8 routed experts、其余 FP16、C16、MTP=0、eager、4K、batch256、maxseq1、memory utilization0.95、纯文本**。不复用社区 TP4 的固定 KV 预算。PLE 继续使用社区按需 mmap，必须保留真实全量 PLE 文件；不把上一阶段仅六行真实数据的 sparse fixture 当整模权重。
+初始整模配置为：**TP2 / EP2、原生 W4A8 routed experts、其余 FP16、C16、MTP=0、eager、4K、batch256、maxseq1、memory utilization0.95、纯文本**。不复用社区 TP4 的固定 KV 预算。PLE 继续使用社区按需 mmap，必须保留真实全量 PLE 文件；不把上一阶段仅六行真实数据的 sparse fixture 当整模权重。
 
-检查点完成且GDN门禁通过后，持久化任务自动尝试启动18038并执行3条真实HTTP生成 smoke。smoke 只能验证基本输出与简单指令，不代表系统精度评估，也不是 Decode benchmark。失败会写 `serving-status.json` 和容器日志，便于继续定位。
+2026-10-18 09:51 UTC，完整1626文件已校验通过（`checkpoint-download-verified.json`）。日志确认原生后端，每rank加载256/512专家，权重37.2647GiB。以下保留实际排障顺序及失败证据，避免将装载成功误认为服务可用。
+
+| 阶段 | 观测与处理 |
+|---|---|
+| 首次启动 | OPP `set_env.bash` 与 `set -u` 冲突；改为显式OPP路径及动态库路径。 |
+| 权重完整装载 | 约189–190秒；随后profile的HCCL申请420,478,976字节失败，见 `serving-attempt2-hccl-oom.log.gz`。 |
+| 通信缓冲 | 单设HCCL_BUFFSIZE仍失败；fork的PG options固定200MiB。可选实验patch设置PG=64MiB，profile通过。 |
+| Prefix Cache | 最小64个Mamba状态槽预留3,694,657,536字节/rank，使KV预算为0；见 `serving-attempt4-prefix-pool-budget.log.gz`。首轮关闭prefix，仅留当前请求状态。 |
+| 首次真实生成 | 3条基本生成通过，512/1024输入可完成；自动KV约0.97GiB，但3968输入未获调度。worker栈为等待RPC，见 `4k-engine-stack.txt`。 |
+| 显式2GiB试验 | 跳过profile后，首次生成的HCCL 135,266,304字节申请OOM；见 `serving-attempt6-fixedkv-oom.log.gz`。该参数已撤回。 |
+| 单请求预算修复 | 单请求没有live lane映射对象，旧规划遗漏物理→planner换算。补丁将其纳入既有compact live-state预算路径；CPU探针3例通过，恢复自动profile后服务再次健康、3条生成再次通过。 |
+
+补丁分别为 [hccl-buffer-experiment.patch](../../patches/qwen38/hccl-buffer-experiment.patch) 和 [compact-single-request-budget.patch](../../patches/qwen38/compact-single-request-budget.patch)。前者未设置实验变量时保留200MiB默认；后者只补齐compact单请求分支，不改变GDN数值算法。`compact-budget-before/after.json` 使用实际FullAttentionSpec/MambaSpec做独立预算检查：原始单请求planner预算123450，而物理分配对应的正确预算为1231040；多请求与prefix对照本来通过，修复后3例均通过。
+
+修复后的实际规划（rank1）：单个递推状态池57,729,024字节，物理attention预算977,449,830字节，578块；换算后的逻辑预算约10.47GiB。它不是物理NPU新增10GiB。Torch allocated由约37.40GiB升至38.23GiB，仍在设备容量内。框架报告67,642-token容量，本轮仍只验证4096上限，不能据此承诺67K长上下文。
+
+持久化任务在完整下载和GDN门禁通过后启动18038、执行基本HTTP smoke；失败保留状态和日志。完整源码/算子包、真实PLE文件均留a2。PLE是按需mmap读取的CPU/磁盘表，不代表整个169GiB检查点全部驻留NPU。
 
 ## a2 资源与复现
 
@@ -97,6 +113,8 @@ podman exec qwen38-runtime-build bash /experiment/bootstrap-runtime.sh
 # 应用补丁前先保留原始OPP，用于baseline对照。
 cd "$work/community"
 patch -p1 < "$work/gdn-causal-mask-epilogue.patch"
+patch -p1 < "$work/hccl-buffer-experiment.patch"
+patch -p1 < "$work/compact-single-request-budget.patch"
 podman exec qwen38-runtime-build bash -lc \
  'source /usr/local/Ascend/ascend-toolkit/set_env.sh; bash /experiment/community/csrc/build_aclnn.sh /experiment/community ascend310p3'
 podman exec qwen38-runtime-build bash /experiment/build-runtime-bridge.sh
@@ -116,7 +134,7 @@ bash "$work/run-gdn-tp2-on-a2.sh"
 python3 "$work/qwen38_download_checkpoint.py" \
  --manifest "$work/qwen38-api-blobs.json" \
  --output /home/ychy/models/Qwen3.8-Flash-Next-W4A16-G128-300i-d32978c \
- --workers 48
+ --workers 8 --range-chunk-mib 64 --range-workers 8
 # 本轮自动流程已运行；以下用于观察：
 cat "$work/serving-status.json"
 tail -n 20 "$work/download-full.log"
@@ -127,4 +145,51 @@ bash "$work/launch-text-tp2-on-a2.sh"
 python3 "$work/qwen38_serving_smoke.py" --output "$work/serving-smoke.json"
 ```
 
-`launch-text-tp2-on-a2.sh` 检查完整下载清单、两个 rank 的20个GDN用例和精确掩码结果。服务端完整参数见 `serve-text-tp2.sh`。下一步是观察真实权重加载峰值、首次生成，再决定是否扩展到 MTP、Graph 与长上下文。
+`launch-text-tp2-on-a2.sh` 检查完整下载清单、两个 rank 的20个GDN用例和精确掩码结果。服务端完整参数见 `serve-text-tp2.sh`。当前可用参数已关闭Prefix Cache并使用64 MiB通信组缓冲；后续扩展MTP、Graph、长上下文须分别验证。
+
+启动期间 `qwen38_watch_resources.py` 每5秒记录主机可用内存 / Swap 和原始 `npu-smi info`，结果在 a2 的 `serving-resources.jsonl`。它提供采样观察的最大占用，不代表捕获所有瞬时峰值。
+
+## 完整检查点基础生成与首轮性能
+
+最终服务在2026-10-18 10:31 UTC完成3条真实生成：17+25输出42，中文内存解释连贯，固定词输出READY，见 `serving-smoke.json`。这是基本输出检查，不是模型级质量评测。
+
+最终配置：TP2/EP2、G128原生W4A8 routed experts、非专家FP16、C16、MTP0、eager、maxlen4096、batch256、maxseq1、memory utilization0.95、纯文本；**Prefix Cache关闭 / mamba cache mode none**；`QWEN38_HCCL_BUFFER_MIB=64`；自动profile，**没有显式KV cache memory参数**。源码需3个补丁，参数见 `serve-text-tp2.sh`。最终装载190.27秒，engine初始化11.56秒，完整日志 `serving-final.log.gz`。
+
+`bench_http_stream.py` 使用固定token输入、temperature0、ignore_eos、SSE usage核对。每组先做32输出token warmup，再计时；所有请求串行、Prefix Cache关闭。Decode=(output_tokens-1)/(最后usage时间-首个非空文本事件时间)，端到端Prompt吞吐=prompt_tokens/TTFT；后者含HTTP/调度/首次Decode等开销，不能称为纯Prefill kernel吞吐。原始逐事件数据保留。
+
+| 最终配置 输入/输出 | 计时重复数 | TTFT 秒 | Decode tok/s | 输入/TTFT tok/s |
+|---|---:|---:|---:|---:|
+| 512 / 128 | 3 | 1.909–1.911 | 13.82–13.89 | 267.9–268.1 |
+| 3968 / 128 | 1 | 15.841 | 12.68 | 250.5 |
+
+3968/128的warmup和计时请求均完成；计时usage明确为3968输入、128输出、共4096token（`serving-bench-compact-3968-128.jsonl`）。这是实际完成的4K请求，不是只设置了max_model_len。它不证明长上下文检索质量或最大容量。单次4K计时也不足以给出稳定P95。
+
+历史自动KV约0.97GiB版本的结果保留在 `serving-bench-512-128.jsonl` 和 `serving-bench-1024-64.jsonl`：512/128三次Decode13.76–13.95tok/s；1024/64一次TTFT3.765s、Decode13.83tok/s。最终修复后的同条件512复测没有明显速度回退。
+
+`resource-summary.json` 统计最终实例79次采样，原始 `serving-resources.jsonl.gz` 同时包含前期失败对照。以下是采样观察到的最大占用，不是精确瞬时峰值：
+
+| 设备 | 最大占用 MiB | 可见总量 MiB | 最少空闲 MiB |
+|---|---:|---:|---:|
+| 0 | 42,282 | 44,277 | 1,995 |
+| 1 | 41,746 | 43,693 | 1,947 |
+
+本轮没有修改lm_head/PLE projection精度。专家本身61.52GiB，TP1不能装进一颗48G；TP2已经完成实际文本推理。PLE约95GiB在磁盘/主机按需mmap，其访问模式、页缓存命中会影响性能，不能把短重复文本数据推导为全部业务场景性能。
+
+复现计时（不要并发运行其他请求）：
+
+```bash
+python3 "$work/bench_http_stream.py" --base-url http://127.0.0.1:18038 \
+ --model qwen38-w4a8-tp2-text --prompt-tokens 512 --output-tokens 128 \
+ --repeats 3 --out "$work/serving-bench-compact-512-128-new.jsonl"
+python3 "$work/bench_http_stream.py" --base-url http://127.0.0.1:18038 \
+ --model qwen38-w4a8-tp2-text --prompt-tokens 3968 --output-tokens 128 \
+ --repeats 1 --out "$work/serving-bench-compact-3968-128-new.jsonl"
+```
+
+a2端口18038保留运行，模型名 `qwen38-w4a8-tp2-text`。本机3090 Strata服务未改动；本方案使用社区均匀INT4检查点，未把IQ3_XXS GGUF直接交给NPU加载。
+
+## 工程判断与后续边界
+
+单DUO/TP2文本推理已从容量估算推进到真实生成，值得继续，但当前只是实验基线。优先冻结这个4K配置及数值补丁，再独立评估Decode Graph的收益与捕获内存；当前最少只剩约1.9GiB设备余量。随后才扩大上下文并做检索/生成质量评估。
+
+MTP、C8、Prefix Cache恢复、视觉及多并发均未在此完整模型配置上验证。不能直接套用Qwen3.6的成熟参数，也不能将框架报告的67,642-token容量当成产品承诺。需要减内存时可评估社区已有lm_head/PLE projection动态W8方案，但应另设质量与速度对照，不能混入本轮FP16基线。

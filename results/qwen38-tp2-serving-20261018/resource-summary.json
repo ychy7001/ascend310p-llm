@@ -1,0 +1,21 @@
+{
+  "scope": "Final automatic-profile / compact single-request budget run only; nominal 5s interval, actual npu-smi execution adds time; sampled maxima are not exact peaks",
+  "samples": 79,
+  "from_utc": "2026-10-18T10:26:49Z",
+  "to_utc": "2026-10-18T10:34:06Z",
+  "devices": [
+    {
+      "device": 0,
+      "max_observed_usage_MiB": 42282,
+      "visible_total_MiB": 44277,
+      "min_observed_free_MiB": 1995
+    },
+    {
+      "device": 1,
+      "max_observed_usage_MiB": 41746,
+      "visible_total_MiB": 43693,
+      "min_observed_free_MiB": 1947
+    }
+  ],
+  "host_min_MemAvailable_KiB": 16075576
+}
