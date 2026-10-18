@@ -1,0 +1,71 @@
+{
+  "read_only": true,
+  "shards": [
+    {
+      "path": "/home/ychy/workspace/reference/Strata-data/models/IQ3_XXS/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00001-of-00002.gguf",
+      "file_bytes": 47039860096,
+      "tensors": 1223,
+      "tensor_bytes_by_type": {
+        "Q5_K": 580771840,
+        "BF16": 1527889920,
+        "F32": 10063360,
+        "IQ3_S": 9774899200,
+        "IQ4_XS": 391854080,
+        "IQ4_NL": 8530329600,
+        "IQ2_XS": 4849664000,
+        "Q6_K": 864460800,
+        "Q2_0": 7081574400,
+        "IQ2_XXS": 3892838400,
+        "F16": 81920,
+        "Q4_K": 296939520,
+        "IQ2_S": 5373952000,
+        "IQ3_XXS": 3853516800
+      },
+      "expert_samples": [
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape": [
+            640,
+            2560,
+            512
+          ],
+          "type": "IQ4_NL"
+        },
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape": [
+            2560,
+            640,
+            512
+          ],
+          "type": "IQ2_XS"
+        },
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape": [
+            2560,
+            640,
+            512
+          ],
+          "type": "IQ2_XS"
+        }
+      ]
+    },
+    {
+      "path": "/home/ychy/workspace/reference/Strata-data/models/IQ3_XXS/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_XXS-00002-of-00002.gguf",
+      "file_bytes": 28800138432,
+      "tensors": 1,
+      "tensor_bytes_by_type": {
+        "IQ4_NL": 28800138240
+      },
+      "expert_samples": []
+    }
+  ],
+  "expert_arena_bytes_from_native_index": 42912972800,
+  "a2_device_total_mb": [
+    44277,
+    43693
+  ],
+  "a2_host_ram": "31GiB; snapshot available11GiB swap8GiB nearly full",
+  "active_local_strata": "IQ2_XS restored after IQ3 trials; IQ3 weights installed"
+}
