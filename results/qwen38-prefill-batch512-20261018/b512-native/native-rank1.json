@@ -1,0 +1,58 @@
+[
+  {
+    "rank": 1,
+    "routes": 5120,
+    "inputs": 2560,
+    "outputs": 1280,
+    "group_ends": [
+      5,
+      17,
+      32
+    ],
+    "max_abs_error": 0.00048828125,
+    "relative_l2": 1.1844925211335067e-05,
+    "pass": true
+  },
+  {
+    "rank": 1,
+    "routes": 5120,
+    "inputs": 2560,
+    "outputs": 1280,
+    "group_ends": [
+      1024,
+      1537,
+      2560
+    ],
+    "max_abs_error": 0.0009765625,
+    "relative_l2": 1.1238839761062991e-05,
+    "pass": true
+  },
+  {
+    "rank": 1,
+    "routes": 5120,
+    "inputs": 640,
+    "outputs": 2560,
+    "group_ends": [
+      5,
+      17,
+      32
+    ],
+    "max_abs_error": 0.000244140625,
+    "relative_l2": 7.387066034425516e-06,
+    "pass": true
+  },
+  {
+    "rank": 1,
+    "routes": 5120,
+    "inputs": 640,
+    "outputs": 2560,
+    "group_ends": [
+      1024,
+      1537,
+      2560
+    ],
+    "max_abs_error": 0.00048828125,
+    "relative_l2": 1.0660849511623383e-05,
+    "pass": true
+  }
+]

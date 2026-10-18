@@ -3,6 +3,7 @@
 Run with torchrun --standalone --nproc-per-node=2, in the pinned runtime.
 This is a component gate; it is not a whole-model quality/performance test.
 """
+import argparse
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,11 @@ import vllm_ascend.vllm_ascend_C  # noqa: F401
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--tokens', type=int, nargs='+', default=[1,2,3,4,8,32,64,70,128,256])
+    args = parser.parse_args()
+    if any(tokens < 1 or tokens > 4096 for tokens in args.tokens):
+        parser.error('Token counts must be between 1 and 4096')
     torch.set_num_threads(1)
     rank = int(os.environ['LOCAL_RANK'])
     torch.npu.set_device(rank)
@@ -22,7 +28,7 @@ def main():
     dist.all_reduce(marker)
     assert marker.item() == 3, marker
     records = []
-    for tokens in (1,2,3,4,8,32,64,70,128,256):
+    for tokens in args.tokens:
         torch.manual_seed(108+tokens+rank)
         hk, hv, dk, dv = 8,24,128,128
         q = torch.nn.functional.normalize(torch.randn(tokens,hk,dk),dim=-1).half()

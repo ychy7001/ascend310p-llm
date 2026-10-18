@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Summarize preserved eager/graph HTTP observations without implying quality parity."""
+"""Compare preserved HTTP observations without implying model quality parity."""
 import argparse
 import hashlib
 import json
@@ -34,14 +34,18 @@ def main():
     parser.add_argument('--eager', type=Path, required=True)
     parser.add_argument('--graph', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--baseline-name', default='eager')
+    parser.add_argument('--candidate-name', default='graph')
     args = parser.parse_args()
+    if args.baseline_name == args.candidate_name:
+        parser.error('Baseline and candidate names must differ')
     eager, graph = summarize(args.eager), summarize(args.graph)
     assert eager['prompt_ids_sha256'] == graph['prompt_ids_sha256']
     assert eager['output_tokens'] == graph['output_tokens']
     result = {
         'scope': 'Sequential HTTP measurements; warmup excluded. Input/TTFT is not pure kernel prefill. '
                  'Text hashes are observational, not a model accuracy gate.',
-        'eager': eager, 'graph': graph,
+        args.baseline_name: eager, args.candidate_name: graph,
         'median_decode_ratio': graph['decode_tok_s']['median'] / eager['decode_tok_s']['median'],
         'median_ttft_ratio': graph['ttft_seconds']['median'] / eager['ttft_seconds']['median'],
     }

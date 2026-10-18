@@ -1,0 +1,20 @@
+{
+  "rank": 1,
+  "hccl_sum": 3,
+  "blocked_inverse": "1",
+  "cases": [
+    {
+      "tokens": 512,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00046442149323411286,
+      "state_max_abs_error": 0.00036175549030303955,
+      "max_abs_error": 7.703527808189392e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    }
+  ]
+}
