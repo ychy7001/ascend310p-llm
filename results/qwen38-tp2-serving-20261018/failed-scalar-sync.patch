@@ -1,0 +1,22 @@
+--- a/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp
++++ b/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp
+@@ -221,12 +221,18 @@
+             if (zeroLen >= 8) {
+                 AscendC::Duplicate<float>(maskUbTensor[i * 64 + zeroStart], (float)0.0, zeroLen);
+             } else {
++                if (i == 56) {
++                    // Scalar UB stores must wait for preceding vector writes.
++                    AscendC::SetFlag<AscendC::HardEvent::V_S>(EVENT_ID0);
++                    AscendC::WaitFlag<AscendC::HardEvent::V_S>(EVENT_ID0);
++                }
+                 for (uint32_t j = 0; j < zeroLen; ++j) {
+                     maskUbTensor.SetValue(i * 64 + zeroStart + j, (float)0.0);
+                 }
+             }
+         }
+-        AscendC::PipeBarrier<PIPE_V>();
++        AscendC::SetFlag<AscendC::HardEvent::S_V>(EVENT_ID0);
++        AscendC::WaitFlag<AscendC::HardEvent::S_V>(EVENT_ID0);
+     }
+ 
+     __aicore__ inline void ProcessUnifiedCore() {

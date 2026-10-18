@@ -1,0 +1,66 @@
+--- a/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp
++++ b/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp
+@@ -210,23 +210,20 @@
+ 
+     __aicore__ inline void InitCausalMask() {
+         AscendC::LocalTensor<float> maskUbTensor = resource.ubBuf.template GetBufferByByte<float>(0);
+-        // 310P: Duplicate count must be >= 8 (vector width = 8 floats).
+-        // Build lower-triangular mask: row i has 1.0 in cols [0..i], 0.0 elsewhere.
+-        // Fill all 1.0 first, then zero the upper triangle with count >= 8.
+-        AscendC::Duplicate<float>(maskUbTensor, (float)1.0, 64 * 64);
++        AscendC::PipeBarrier<PIPE_ALL>();
++        // Keep all writes on the vector pipeline. Use lane masks only for
++        // the first seven rows, where the count-based API needs eight lanes.
++        AscendC::Duplicate<float>(maskUbTensor, (float)0.0, 64 * 64);
+         AscendC::PipeBarrier<PIPE_V>();
+         for (uint32_t i = 0; i < 64; ++i) {
+-            uint32_t zeroStart = i + 1;
+-            uint32_t zeroLen = 64 - zeroStart;
+-            if (zeroLen >= 8) {
+-                AscendC::Duplicate<float>(maskUbTensor[i * 64 + zeroStart], (float)0.0, zeroLen);
++            if (i < 7) {
++                uint64_t rowMask[2] = {(uint64_t(1) << (i + 1)) - 1, 0};
++                AscendC::Duplicate<float>(maskUbTensor[i * 64], (float)1.0, rowMask, 1, 1, 8);
+             } else {
+-                for (uint32_t j = 0; j < zeroLen; ++j) {
+-                    maskUbTensor.SetValue(i * 64 + zeroStart + j, (float)0.0);
+-                }
++                AscendC::Duplicate<float>(maskUbTensor[i * 64], (float)1.0, i + 1);
+             }
+         }
+-        AscendC::PipeBarrier<PIPE_V>();
++        AscendC::PipeBarrier<PIPE_ALL>();
+     }
+ 
+     __aicore__ inline void ProcessUnifiedCore() {
+--- a/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/epilogue/block/block_epilogue_gdn_fwdo_qkmask.hpp
++++ b/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/epilogue/block/block_epilogue_gdn_fwdo_qkmask.hpp
+@@ -355,23 +355,11 @@
+                 AscendC::PipeBarrier<PIPE_V>();
+                 AscendC::Exp(gbrcUpUbTensor, gbrcUpUbTensor, mActualThisStage * alignedNActual);
+                 AscendC::PipeBarrier<PIPE_V>();
+-                // Causal mask: zero upper triangle row by row
+-                // Use Duplicate for count >= 8, skip for count < 8
+-                // (near-diagonal positions have negligible impact on the causal gate)
+-                for (uint32_t row = 0; row < mActualThisStage; ++row) {
+-                    uint32_t globalRow = gbrcStart + row;
+-                    uint32_t validCols = globalRow + 1;
+-                    if (validCols > alignedNActual) validCols = alignedNActual;
+-                    uint32_t rowOff = row * alignedNActual;
+-                    uint32_t zeroLen = alignedNActual - validCols;
+-                    if (zeroLen >= 8) {
+-                        AscendC::Duplicate<float>(gbrcUpUbTensor[rowOff + validCols], (float)0.0, zeroLen);
+-                    } else if (zeroLen > 0) {
+-                        for (uint32_t c = 0; c < zeroLen; ++c) {
+-                            gbrcUpUbTensor.SetValue(rowOff + validCols + c, (float)0.0);
+-                        }
+-                    }
+-                }
++                // Reuse the initialized lower-triangular mask. Short scalar
++                // SetValue writes here race with the vector Exp/Mul pipeline.
++                AscendC::Mul(gbrcUpUbTensor, gbrcUpUbTensor,
++                            maskUbTensor[gbrcStart * 64],
++                            mActualThisStage * alignedNActual);
+                 AscendC::PipeBarrier<PIPE_V>();
+                 AscendC::WaitFlag<AscendC::HardEvent::MTE2_V>(EVENT_ID1 + pingpongFlag);
+                 AscendC::Mul(outUbTensor, aUbTensor, gbrcUpUbTensor, mActualThisStage * alignedNActual);

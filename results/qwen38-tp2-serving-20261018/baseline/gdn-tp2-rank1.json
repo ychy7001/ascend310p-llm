@@ -1,0 +1,167 @@
+{
+  "rank": 1,
+  "hccl_sum": 3,
+  "blocked_inverse": "1",
+  "cases": [
+    {
+      "tokens": 1,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020552831119857728,
+      "state_max_abs_error": 5.960464477539063e-08,
+      "max_abs_error": 1.3571232557296753e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 2,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020494774798862636,
+      "state_max_abs_error": 8.940696716308594e-08,
+      "max_abs_error": 1.3258308172225952e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 3,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020822632359340787,
+      "state_max_abs_error": 1.1920928955078125e-07,
+      "max_abs_error": 1.5195459127426147e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 4,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00021035081590525806,
+      "state_max_abs_error": 1.1920928955078125e-07,
+      "max_abs_error": 1.5202909708023071e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 8,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.0002100361743941903,
+      "state_max_abs_error": 1.1920928955078125e-07,
+      "max_abs_error": 1.5228986740112305e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 32,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00044953470933251083,
+      "state_max_abs_error": 0.0005404353141784668,
+      "max_abs_error": 5.101040005683899e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 64,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.04959923028945923,
+      "state_max_abs_error": 0.0003981590270996094,
+      "max_abs_error": 0.036065053194761276,
+      "bad_elements": 514,
+      "bad_token_indices": [
+        56
+      ],
+      "output_pass": false,
+      "wy_inputs": {
+        "q": {
+          "relative_l2": 0.0,
+          "max_abs": 0.0
+        },
+        "k": {
+          "relative_l2": 0.0,
+          "max_abs": 0.0
+        },
+        "w": {
+          "relative_l2": 0.00032863309024833143,
+          "max_abs": 0.0001220703125
+        },
+        "u": {
+          "relative_l2": 0.00035351200494915247,
+          "max_abs": 0.001953125
+        },
+        "g": {
+          "relative_l2": 4.635671402297703e-08,
+          "max_abs": 4.76837158203125e-07
+        }
+      }
+    },
+    {
+      "tokens": 70,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.03215864673256874,
+      "state_max_abs_error": 0.0005581974983215332,
+      "max_abs_error": 0.021244831383228302,
+      "bad_elements": 450,
+      "bad_token_indices": [
+        56
+      ],
+      "output_pass": false
+    },
+    {
+      "tokens": 128,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.019197233021259308,
+      "state_max_abs_error": 0.00044736266136169434,
+      "max_abs_error": 0.023509029299020767,
+      "bad_elements": 346,
+      "bad_token_indices": [
+        56
+      ],
+      "output_pass": false
+    },
+    {
+      "tokens": 256,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.02001878432929516,
+      "state_max_abs_error": 0.00036403536796569824,
+      "max_abs_error": 0.02699318900704384,
+      "bad_elements": 516,
+      "bad_token_indices": [
+        56
+      ],
+      "output_pass": false
+    }
+  ]
+}

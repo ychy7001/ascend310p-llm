@@ -1,0 +1,226 @@
+absl-py==2.5.0
+affinity-sched @ file:///root/selfgz3292619354/affinity_sched-26.1.0-py3-none-any.whl#sha256=2655f3f2191210efbc1cb064c88796837171b488039b61e01bc0af172e18791a
+agent-detector==2.0.0
+aiofiles==25.1.0
+aiohappyeyeballs==2.7.1
+aiohttp==3.14.3
+aiosignal==1.4.0
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anthropic==1.7.0
+anyio==4.15.1
+apache-tvm-ffi==0.1.14.post0
+arctic_inference==0.1.1
+asc_op_compile_base @ file:///root/selfgz524420941/lib/asc_op_compile_base-0.1.0-py3-none-any.whl#sha256=6778bf2beb146e1d1ca7ca3c7a1c96503d2129a0693ae28d853c53c33f08dd98
+asc_opc_tool @ file:///root/selfgz524420941/lib/asc_opc_tool-0.1.0-py3-none-any.whl#sha256=b3791ea7b0f144fd010ee65b7db2cd5f51bf2d5aebb1560960dc2870187704b8
+astor==0.8.1
+attrs==24.2.0
+auto_tune @ file:///root/selfgz2054930002/share/info/tbe-tik/python/auto_tune-0.1.0-py3-none-any.whl#sha256=25a2aa42da74ea0bdca516daace9bcbe633dbbcbb49f96a0ae46d552c6e5c417
+av==18.1.0
+blake3==1.0.9
+blinker==1.9.0
+cachetools==7.2.0
+cann_ops_transformer @ file:///root/selfgz4920113272/ops_transformer/es_packages/whl/cann_ops_transformer-1.0.0-py3-none-any.whl#sha256=ba162b9e1b3a89963f563930a266902fae4f84159ad9a663b187950227bb4c9d
+cannsim @ file:///usr/local/Ascend/cann-9.1.0/tools/simulator/bin/cannsim-0.1.0-py3-none-any.whl#sha256=34661b2a729c1f301aef00e3765ee439fda13be2fe65cfd2e6ef662e97a10926
+cbor2==6.1.4
+certifi==2026.7.22
+cffi==2.1.0
+charset-normalizer==3.4.9
+click==8.5.0
+cloudpickle==3.1.2
+cmake==4.4.3
+compressed-tensors==0.17.0
+cryptography==50.0.1
+Cython==3.2.9
+dataflow @ file:///root/selfgz13162796/x86_64-linux/lib64/dataflow-0.0.1-py3-none-any.whl#sha256=fa691eaab113be4bad18f4cf4837501144e5cfc1117e95d7eabb564ddfcbe7f5
+decorator==5.1.1
+depyf==0.20.0
+detect-installer==0.2.1
+dill==0.4.1
+diskcache==5.6.3
+dnspython==2.8.0
+docstring_parser==0.18.0
+einops==0.8.2
+email-validator==2.3.0
+es_cv @ file:///root/selfgz4586420627/ops_cv/es_packages/whl/es_cv-1.0.0-py3-none-any.whl#sha256=001536b6866b783df76d7c19fe9e34005a56f8a49125731cd64d6a0ced5bf4d1
+es_hccl @ file:///usr/local/Ascend/cann/ops_hccl/es_packages/whl/es_hccl-1.0.0-py3-none-any.whl#sha256=e2390631aa5aee92b844a817bbefac7072de79ad52f564616d838a09291bb6af
+es_math @ file:///root/selfgz2974611325/ops_math/es_packages/whl/es_math-1.0.0-py3-none-any.whl#sha256=da053498d5f2441804aa045b9dca87860553908391cd64736835e368ec294b72
+es_nn @ file:///root/selfgz4111629678/ops_nn/es_packages/whl/es_nn-1.0.0-py3-none-any.whl#sha256=d21f3fbd4265ec30f6a2df51125bf4031d3acabf8ed16127f48ab1aaa5ffefe9
+es_transformer @ file:///root/selfgz4920113272/ops_transformer/es_packages/whl/es_transformer-1.0.0-py3-none-any.whl#sha256=4ac77a6dbbc4a987167e76af3ad32d9558b61262e86c9c0931a6e8c756cc0f33
+execnet==2.1.2
+fastapi==0.136.3
+fastapi-cli==0.0.32
+fastapi-cloud-cli==0.26.0
+fastar==0.12.0
+fastokens==0.2.0
+filelock==4.0.1
+Flask==3.1.3
+frozenlist==1.8.0
+fsspec==2026.9.0
+ge-py @ file:///root/selfgz13162796/x86_64-linux/lib64/ge_py-0.0.1-py3-none-any.whl#sha256=e3e8c2c5b941b64fb96fc9b21ad92847fa5e700037918d6cd720a3a8458c20d4
+gguf==0.19.0
+googleapis-common-protos==1.75.3
+grpcio==1.84.0
+h11==0.16.0
+h2==4.4.1
+hccl @ file:///root/selfgz3927218366/x86_64-linux/lib64/hccl-0.1.0-py3-none-any.whl#sha256=30d0eec4933c50d3bdddca6f3a0279fbf5757b25e97828f1c702d002f519152d
+hf-xet==1.6.0
+hpack==4.2.0
+httpcore==1.0.9
+httpcore2==2.13.0
+httptools==0.8.0
+httpx==0.28.1
+httpx2==2.13.0
+huggingface_hub==1.32.0
+Hypercorn==0.18.0
+hyperframe==6.1.0
+idna==3.18
+ijson==3.5.1
+iniconfig==2.3.0
+interegular==0.3.3
+itsdangerous==2.2.0
+Jinja2==3.1.6
+jiter==0.17.0
+jmespath==1.1.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+lark==1.2.2
+llguidance==1.7.6
+llm_datadist @ file:///root/selfgz2169714437/hixl/lib/llm_datadist-0.0.1-py3-none-any.whl#sha256=def47002aaf2229c994b175acf528ebf2900049b07732a50f5e5d7c8d673c8a2
+llm_datadist_v1 @ file:///root/selfgz13162796/x86_64-linux/lib64/llm_datadist_v1-0.0.1-py3-none-any.whl#sha256=5b3e2cfd362a402af23873da69e901e1002761efc52f3a99f1bbd63a5068ca0b
+llvmlite==0.49.0
+lm-format-enforcer==0.11.3
+loguru==0.7.3
+markdown-it-py==4.2.0
+MarkupSafe==3.0.3
+mcp==2.2.0
+mcp-types==2.2.0
+mdurl==0.1.2
+memcache_hybrid==1.2.0
+memfabric_hybrid==1.2.0
+mindstudio-kl @ file:///usr/local/Ascend/cann-9.1.0/mindstudio-operator-tools/mindstudio_kl-26.1.0-py3-none-any.whl#sha256=8408c2348a177dfca4dd9180cb179932548ce88ac2d781297d2b106278462bc2
+mindstudio-kpp @ file:///usr/local/Ascend/cann-9.1.0/mindstudio-operator-tools/mindstudio_kpp-26.1.0-py3-none-manylinux_2_17_x86_64.whl#sha256=31327f34c324ae2a755bf04bb5f5c4fe2fc9ff1616daac97162b1be41da77031
+mindstudio-opgen @ file:///usr/local/Ascend/cann-9.1.0/mindstudio-operator-tools/mindstudio_opgen-26.1.0-py3-none-any.whl#sha256=68f42a0761c7449acf3d695f46056706b9594731099ffad752449b1ab952fa73
+mindstudio-opst @ file:///usr/local/Ascend/cann-9.1.0/tools/mindstudio_opst-26.0.0-py3-none-any.whl#sha256=6bda89d784b741915c6a6ad7dde131ceba54a5a6ddfc01c027c7610e87176a45
+mistral_common==1.11.7
+model-hosting-container-standards==0.1.16
+modelscope==1.40.1
+modelscope-hub==0.4.5
+mpmath==1.3.0
+ms_service_profiler @ file:///root/selfgz3378612085/ms_service_profiler-26.0.0-py3-none-linux_x86_64.whl#sha256=93647fc1610eefe429833745f86b90d97f4e7a8ffa68090a59051182ace19be0
+msgpack==1.2.2
+msgspec==0.21.1
+msobjdump @ file:///usr/local/Ascend/cann-9.1.0/tools/msobjdump-0.1.0-py3-none-any.whl#sha256=311983f1ddaac6dfa81538516bd3295e7e1bc10f02fa344efad6b554eb282513
+mspti @ file:///usr/local/Ascend/cann-9.1.0/tools/mspti/python/mspti-26.1.0-py3-none-any.whl#sha256=863f2d29d3a87b840800b274578696b99e9e76c59d93c20ba0ca532bf61c6238
+multidict==6.9.1
+networkx==3.7
+ninja==1.13.2
+numba==0.67.0
+numpy==1.26.4
+op_compile_tool @ file:///root/selfgz2054930002/share/info/tbe-tik/python/op_compile_tool-0.1.0-py3-none-any.whl#sha256=f2defcdc68d5525afc12c5109418a3dda5dae8788c2683b67605fd50464d9f5d
+opc_tool @ file:///root/selfgz2054930002/share/info/tbe-tik/python/opc_tool-0.1.0-py3-none-any.whl#sha256=08ee99aa1a088b9d92633025c58ca07fa385771624216c34bcdf9af827702ceb
+openai==3.17.0
+openai-harmony==0.0.8
+opencv-python-headless==5.0.0.93
+opentelemetry-api==1.44.0
+opentelemetry-exporter-otlp==1.44.0
+opentelemetry-exporter-otlp-proto-common==1.44.0
+opentelemetry-exporter-otlp-proto-grpc==1.44.0
+opentelemetry-exporter-otlp-proto-http==1.44.0
+opentelemetry-proto==1.44.0
+opentelemetry-sdk==1.44.0
+opentelemetry-semantic-conventions==0.65b0
+opentelemetry-semantic-conventions-ai==0.5.1
+optype_collector @ file:///usr/local/Ascend/cann-9.1.0/tools/optype_collector-0.1.0-py3-none-any.whl#sha256=73f6ead4dd52c59d29fdb7e9d895344a8dae97b4a63034ef6e29fbcb49d90d65
+outlines_core==0.2.14
+packaging==26.3
+pandas==3.0.6
+pandas-stubs==3.0.5.260914
+partial-json-parser==0.2.1.1.post7
+pathlib2==2.3.7.post1
+pillow==12.3.0
+pluggy==1.6.0
+priority==2.0.0
+prometheus-fastapi-instrumentator==8.1.0
+prometheus_client==0.26.0
+propcache==0.5.4
+protobuf==7.36.2
+psutil==6.0.0
+py-cpuinfo==9.0.0
+pybase64==1.5.0
+pybind11==3.1.0
+pycountry==26.2.16
+pycparser==3.0
+pydantic==2.13.5
+pydantic-extra-types==2.11.1
+pydantic-settings==2.15.0
+pydantic_core==2.46.5
+Pygments==2.21.0
+PyJWT==2.14.0
+pypto @ file:///usr/local/Ascend/cann/x86_64-linux/lib64/pypto-0.2.1-cp37-abi3-manylinux2014_x86_64.whl#sha256=2716e350da7ed4f6922244798b49ce4db3dfe935b6e1b0eecb2e774e34e66967
+pytest==8.3.2
+pytest-xdist==3.6.1
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.3
+python-json-logger==4.2.0
+python-multipart==0.0.32
+PyYAML==6.0.3
+pyzmq==27.2.0
+Quart==0.22.0
+ray==2.48.0
+referencing==0.37.0
+regex==2026.9.10
+requests==2.34.2
+rich==15.0.0
+rich-toolkit==0.20.5
+rignore==0.8.1
+rpds-py==2026.6.3
+safetensors==0.8.0
+schedule_search @ file:///root/selfgz2054930002/share/info/tbe-tik/python/schedule_search-0.1.0-py3-none-any.whl#sha256=f2308a9d2a74728d607d4b70580084f89415878753769847a2b961c4c779792b
+scipy==1.13.1
+semantic-version==2.10.0
+sentencepiece==0.2.2
+sentry-sdk==2.69.2
+setproctitle==1.3.7
+setuptools==80.10.2
+setuptools-rust==1.13.0
+setuptools-scm==10.2.3
+shellingham==1.5.4
+show_kernel_debug_data @ file:///usr/local/Ascend/cann-9.1.0/tools/show_kernel_debug_data-0.1.0-py3-none-any.whl#sha256=89ebb146a313d10c99bac970df95e9a6ab1aaabde6c74b3ce61429bb8f17f05d
+six==1.17.0
+sniffio==1.3.1
+soundfile==0.14.0
+soxr==1.1.0
+sse-starlette==3.4.11
+starlette==1.8.0
+superkernel @ file:///root/selfgz180668196/graph_autofusion/lib/superkernel-0.1.0-py3-none-any.whl#sha256=9dd7b87b06576a2ce16c70f4d0149e017ba8709498f6c0cc847844c03878dd6d
+supervisor==4.3.0
+sympy==1.14.0
+te @ file:///root/selfgz2054930002/share/info/tbe-tik/python/te-0.4.0-py3-none-any.whl#sha256=4a2952dd5fadd93bcb0e98091e51795c49eb4a2baf5b2d0b30ac0e256af50160
+tiktoken==0.14.0
+tokenizers==0.22.2
+torch==2.10.0+cpu
+torch_npu==2.10.0.post4
+torchaudio==2.10.0+cpu
+torchvision==0.25.0+cpu
+tqdm==4.70.1
+transformers==5.14.1
+truststore==0.10.4
+typer==0.27.2
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+urllib3==2.7.0
+uvicorn==0.53.0
+uvloop==0.22.1
+vcs-versioning==2.4.1
+# Editable install with no version control (vllm==0.30.0+qwen38.3ab5dda)
+-e /experiment/vllm-fork
+# Editable install with no version control (vllm_ascend==0.30.0+qwen38.ffa980c)
+-e /experiment/community
+watchfiles==1.3.0
+websockets==17.1
+Werkzeug==3.1.8
+wheel==0.48.0
+wsproto==1.3.2
+xgrammar==0.2.7
+yarl==1.25.1

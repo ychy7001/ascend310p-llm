@@ -1,0 +1,159 @@
+{
+  "rank": 0,
+  "hccl_sum": 3,
+  "blocked_inverse": "1",
+  "cases": [
+    {
+      "tokens": 1,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.0002094055525958538,
+      "state_max_abs_error": 5.960464477539063e-08,
+      "max_abs_error": 1.1518597602844238e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 2,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020448204304557294,
+      "state_max_abs_error": 8.940696716308594e-08,
+      "max_abs_error": 1.5251338481903076e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 3,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020714188576675951,
+      "state_max_abs_error": 1.1920928955078125e-07,
+      "max_abs_error": 1.4942139387130737e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 4,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020648959616664797,
+      "state_max_abs_error": 1.1920928955078125e-07,
+      "max_abs_error": 1.514330506324768e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 8,
+      "path": "recurrent_decode",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00020667287753894925,
+      "state_max_abs_error": 1.1920928955078125e-07,
+      "max_abs_error": 1.5214085578918457e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 32,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00044756761053577065,
+      "state_max_abs_error": 0.00038439035415649414,
+      "max_abs_error": 4.56199049949646e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 64,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00045752094592899084,
+      "state_max_abs_error": 0.0004527568817138672,
+      "max_abs_error": 4.29004430770874e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true,
+      "wy_inputs": {
+        "q": {
+          "relative_l2": 0.0,
+          "max_abs": 0.0
+        },
+        "k": {
+          "relative_l2": 0.0,
+          "max_abs": 0.0
+        },
+        "w": {
+          "relative_l2": 0.00034933918504975736,
+          "max_abs": 0.0001220703125
+        },
+        "u": {
+          "relative_l2": 0.00035556600778363645,
+          "max_abs": 0.001953125
+        },
+        "g": {
+          "relative_l2": 4.6058595160047844e-08,
+          "max_abs": 4.76837158203125e-07
+        }
+      }
+    },
+    {
+      "tokens": 70,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00045597812277264893,
+      "state_max_abs_error": 0.0007541775703430176,
+      "max_abs_error": 5.1371753215789795e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 128,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00046178573393262923,
+      "state_max_abs_error": 0.0006215572357177734,
+      "max_abs_error": 5.694478750228882e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    },
+    {
+      "tokens": 256,
+      "path": "chunk_prefill",
+      "state_dtype": "float32",
+      "hk": 8,
+      "hv": 24,
+      "relative_l2": 0.00046457108692266047,
+      "state_max_abs_error": 0.000544130802154541,
+      "max_abs_error": 9.316205978393555e-05,
+      "bad_elements": 0,
+      "bad_token_indices": [],
+      "output_pass": true
+    }
+  ]
+}

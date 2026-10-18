@@ -1,0 +1,15 @@
+{
+  "ascend_source": "ffa980c1d0ac9f31cd1dbbd06cd4bd3286571032",
+  "vllm_source": "3ab5dda29acabea01f6a63d0806bdbbb4a27bde5",
+  "runtime_image": "2714b6f73821ac8101264e31ab2195e72c35a1855907c62f3dcb7976fe48c2e3",
+  "artifacts": {
+    "csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp": "b3e434aa890df7a071c81944d0644b9044e8c0cb01e1d617f4300c35a75db1ee",
+    "csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/epilogue/block/block_epilogue_gdn_fwdo_qkmask.hpp": "d4ac0c0f0308efbdb52b9a4cacaad65dd8d186e0b1d67317c0245dc26c9b4a8a",
+    "vllm_ascend/vllm_ascend_C.cpython-312-x86_64-linux-gnu.so": "4c191989b9afad343cd9569028f7cb62bdee11d12175e50e901f9a35fde4b860",
+    "vllm_ascend/_cann_ops_custom/vendors/custom_transformer/op_api/lib/libcust_opapi.so": "06590a7c383cd11873badbdd7350b08ee4ae5e7f3d4c8e02e0e847671b66e37c",
+    "vllm_ascend/_cann_ops_custom/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8.o": "2d31b8fbb9a642d51adabb2188bd5b4461b7b02d6b29b5a3850c838b9e242c0c",
+    "vllm_ascend/_cann_ops_custom/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a.o": "641bb1cd6466ea0118f11d5fc72072962d1541a1d61ac3f614b31fa806d5f16a",
+    "vllm_ascend/_cann_ops_custom/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a.o": "4d88e8af1bb0704c98d2ff3915217ad0a5d48c830686b137f8574f3288d98308",
+    "vllm_ascend/_cann_ops_custom/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53.o": "3f5a06fbe62b22880113096b737b1a44681a1e6a8e790d5ba1932bb094bd5fd1"
+  }
+}
