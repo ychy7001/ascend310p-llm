@@ -1,0 +1,59 @@
+{
+  "scope": "Sequential HTTP measurements; warmup excluded. Input/TTFT is not pure kernel prefill. Text hashes are observational, not a model accuracy gate.",
+  "eager": {
+    "file": "results/qwen38-tp2-serving-20261018/serving-bench-compact-3968-128.jsonl",
+    "timed_requests": 1,
+    "prompt_tokens": 3968,
+    "output_tokens": 128,
+    "prompt_ids_sha256": "8f732b730f3e72bdefe86c42da20379a6e7afc2dd7e1b76df9bec2e2d38df83e",
+    "ttft_seconds": {
+      "min": 15.841228517936543,
+      "median": 15.841228517936543,
+      "max": 15.841228517936543
+    },
+    "decode_tok_s": {
+      "min": 12.676146220643005,
+      "median": 12.676146220643005,
+      "max": 12.676146220643005
+    },
+    "input_over_ttft_tok_s": {
+      "min": 250.48562335346364,
+      "median": 250.48562335346364,
+      "max": 250.48562335346364
+    },
+    "unique_output_texts": 1,
+    "output_sha256": [
+      "5dbba4a05f17c2f4987b572e5a7de1db4d0ecaeff8f8efec71517c3d5755c870"
+    ]
+  },
+  "graph": {
+    "file": "results/qwen38-decode-graph-20261018/graph-bench-3968-128.jsonl",
+    "timed_requests": 3,
+    "prompt_tokens": 3968,
+    "output_tokens": 128,
+    "prompt_ids_sha256": "8f732b730f3e72bdefe86c42da20379a6e7afc2dd7e1b76df9bec2e2d38df83e",
+    "ttft_seconds": {
+      "min": 16.137352005112916,
+      "median": 16.195439632982016,
+      "max": 16.239448281005025
+    },
+    "decode_tok_s": {
+      "min": 16.2595351737687,
+      "median": 16.295634184151208,
+      "max": 16.350868273520092
+    },
+    "input_over_ttft_tok_s": {
+      "min": 244.34327640559653,
+      "median": 245.00724215717906,
+      "max": 245.88916438972078
+    },
+    "unique_output_texts": 3,
+    "output_sha256": [
+      "8ea7e8b50f2390f124fac8f5edc0091bc92f34be79f3c7a84751203e2e2f6221",
+      "859722a8d8fd42a81e419ef29b9b2cec5ec70efebb0beb147884a1f4d80a3e0c",
+      "74153c638cd2ad3a70e7e93fb90d8ca25a7d2c768640e65845b84ee38f4acf3f"
+    ]
+  },
+  "median_decode_ratio": 1.2855353591309868,
+  "median_ttft_ratio": 1.022360078616656
+}

@@ -1,0 +1,61 @@
+{
+  "scope": "Sequential HTTP measurements; warmup excluded. Input/TTFT is not pure kernel prefill. Text hashes are observational, not a model accuracy gate.",
+  "eager": {
+    "file": "results/qwen38-tp2-serving-20261018/serving-bench-compact-512-128.jsonl",
+    "timed_requests": 3,
+    "prompt_tokens": 512,
+    "output_tokens": 128,
+    "prompt_ids_sha256": "19afc9c4f69489e2e77a4941f1430609c711cca4d253422a384769288724a979",
+    "ttft_seconds": {
+      "min": 1.9094243329018354,
+      "median": 1.9101654359837994,
+      "max": 1.9112637399230152
+    },
+    "decode_tok_s": {
+      "min": 13.81907388496177,
+      "median": 13.87438500071295,
+      "max": 13.887272645108146
+    },
+    "input_over_ttft_tok_s": {
+      "min": 267.88558235328793,
+      "median": 268.039610787064,
+      "max": 268.1436447507146
+    },
+    "unique_output_texts": 2,
+    "output_sha256": [
+      "b7e0911a4e981f493b5f347812c2e56ae67b74c3b679097085f0489428bf2a68",
+      "b7e0911a4e981f493b5f347812c2e56ae67b74c3b679097085f0489428bf2a68",
+      "f8fa3e27e2d03f9ea297713a84574d3ece451573e7fb1ae4adacb1666bae1196"
+    ]
+  },
+  "graph": {
+    "file": "results/qwen38-decode-graph-20261018/graph-bench-512-128.jsonl",
+    "timed_requests": 3,
+    "prompt_tokens": 512,
+    "output_tokens": 128,
+    "prompt_ids_sha256": "19afc9c4f69489e2e77a4941f1430609c711cca4d253422a384769288724a979",
+    "ttft_seconds": {
+      "min": 1.9039888080442324,
+      "median": 1.980490731075406,
+      "max": 1.9921067060204223
+    },
+    "decode_tok_s": {
+      "min": 16.50318585210827,
+      "median": 16.66800265078102,
+      "max": 16.71533837819684
+    },
+    "input_over_ttft_tok_s": {
+      "min": 257.014344890595,
+      "median": 258.5217855182711,
+      "max": 268.90914370758503
+    },
+    "unique_output_texts": 2,
+    "output_sha256": [
+      "b7e0911a4e981f493b5f347812c2e56ae67b74c3b679097085f0489428bf2a68",
+      "f8fa3e27e2d03f9ea297713a84574d3ece451573e7fb1ae4adacb1666bae1196",
+      "b7e0911a4e981f493b5f347812c2e56ae67b74c3b679097085f0489428bf2a68"
+    ]
+  },
+  "median_decode_ratio": 1.2013507373425574,
+  "median_ttft_ratio": 1.0368163373532024
+}

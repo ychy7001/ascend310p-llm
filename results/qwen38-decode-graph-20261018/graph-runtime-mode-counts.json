@@ -1,0 +1,7 @@
+{
+  "source": "Summed non-overlapping periodic CUDAGraph metrics tables; capture separately logged",
+  "counts": {
+    "FULL": 883,
+    "NONE": 96
+  }
+}

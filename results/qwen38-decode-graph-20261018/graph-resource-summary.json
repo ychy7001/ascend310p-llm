@@ -1,0 +1,19 @@
+{
+  "scope": "Post-capture samples; not an exact instantaneous peak",
+  "samples": 40,
+  "first_utc": "2026-10-18T10:48:24Z",
+  "last_utc": "2026-10-18T10:52:01Z",
+  "devices": {
+    "0": {
+      "max_used_MiB": 42345,
+      "total_MiB": 44277,
+      "min_free_MiB": 1932
+    },
+    "1": {
+      "max_used_MiB": 41823,
+      "total_MiB": 43693,
+      "min_free_MiB": 1870
+    }
+  },
+  "min_host_MemAvailable_KiB": 19224728
+}

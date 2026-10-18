@@ -130,4 +130,4 @@ sanity只检查服务可用性、非空输出与明显异常，不替代准确�
 
 ## Qwen3.8 Flash Next 独立验证
 
-[a2 TP2 最小验证记录](results/qwen38-tp2-validation-20261018/README.md)包含真实权重专家算子、融合 MLP、TP2 局部 QSA 的 310P 结果，以及 PLE lazy 和显存容量核算。组件门禁通过，完整 TP2 服务、上下文和速度仍待验证；这组独立探针不改变 Qwen3.6 部署。
+[a2 TP2 最小验证记录](results/qwen38-tp2-validation-20261018/README.md)包含真实权重专家算子、融合 MLP、TP2 局部 QSA、PLE lazy 与显存核算。随后已完成[完整检查点 TP2 服务、GDN Prefill 修复和实际 4K 请求](results/qwen38-tp2-serving-20261018/README.md)。[Decode Graph 独立优化](results/qwen38-decode-graph-20261018/README.md)在相同 W4A8/C16/MTP0 配置下，512/128 三次计时的 Decode 中位从 13.87 提升到 16.67 tok/s（约 +20%），并通过三次 3968/128 完整请求和基本生成/交替请求门禁。a2 当前保留端口 18038 的 Qwen3.8 Graph 实验服务，原 Qwen3.6 服务已停止；本机 3090 Strata 未改动。Qwen3.8 的更长上下文、MTP、C8、并发和完整质量评估仍待独立验证，不沿用 Qwen3.6 的规格结论。
