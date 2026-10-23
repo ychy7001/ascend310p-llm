@@ -35,7 +35,7 @@ a2可用服务、权重、调用示例、重启和运行边界统一见后端交
 
 [EP收束复验](../../results/qwen36/ep-convergence-20261016/README.md)补齐clt MTP1的112000/128（Prefill417.49、Decode16.61 tok/s）与会议四字段/长后质量；独立MTP2候选叠加计数与slot修复后仍5/8，未进入吞吐测试。默认保留a2 MTP2、clt MTP1、RC MTP1/4096，共用参数及运行时差异见Profile；失败补丁不接入部署代码。
 
-当前a2业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](profiles-20261014.md)和[部署矩阵](../../deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](../../results/qwen36/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。a2 交付优先使用[已发布镜像与配置快照](runtime-image.md)。以下为源码实验及回滚入口，配置默认值为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
+当前a2业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](profiles-20261014.md)和[部署矩阵](deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](../../results/qwen36/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。a2 交付优先使用[已发布镜像与配置快照](runtime-image.md)。以下为源码实验及回滚入口，配置默认值为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
 
 ```bash
 bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json

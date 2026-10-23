@@ -12,7 +12,7 @@ tags:
 
 # Qwen3.6-35B-A3B W4A8 SSZ + BF16 MTP for Ascend 310P
 
-这是Qwen3.6-35B-A3B的实验性自包含checkpoint：routed experts采用signed INT4对称per-output-channel SSZ，activation由配套算子动态量化为per-token INT8；其余模型与MTP张量保留原始浮点数据。需要配套[Ascend310P runtime](https://github.com/ychy7001/ascend310p-qwen36)，不能假设原版Transformers或官方vLLM直接加载本量化ABI。
+这是Qwen3.6-35B-A3B的实验性自包含checkpoint：routed experts采用signed INT4对称per-output-channel SSZ，activation由配套算子动态量化为per-token INT8；其余模型与MTP张量保留原始浮点数据。需要配套[Ascend310P runtime](https://github.com/ychy7001/ascend310p-llm)，不能假设原版Transformers或官方vLLM直接加载本量化ABI。
 
 ## 制品与精度契约
 
@@ -35,21 +35,21 @@ tags:
 | 长上下文 | 无MTP TP1实际128K生成已测；256K配置不等于实际请求验收 |
 | 多模态、全面精度、长上下文质量 | 未完成验收 |
 
-独立公开checkpoint的启动/生成门禁见[release-validation](https://github.com/ychy7001/ascend310p-qwen36/blob/main/docs/release-validation.md)。数值算子门禁、基本生成与MTP接受率不能替代模型准确率评估。INT4可能因解包、路由、Prefill和通信成本更慢，未承诺10%–20%端到端收益。
+独立公开checkpoint的启动/生成门禁见[release-validation](https://github.com/ychy7001/ascend310p-llm/blob/main/docs/qwen36/release-validation.md)。数值算子门禁、基本生成与MTP接受率不能替代模型准确率评估。INT4可能因解包、路由、Prefill和通信成本更慢，未承诺10%–20%端到端收益。
 
 最新实验快照（代码 `a486949`）：融合动态 KV 写入与按存储类型拆分的共享池已在真实 310P3 启动。W4A8+MTP+C8 的固定 GSM32 子集为 32/32；匹配 FP16 KV 对照为 31/32，其中唯一差异是 FP16 输出在 512 token 上限截断，不能解释为量化精度提升。TP1/eager/4K/MTP=1 的 C8 HTTP 吞吐（p512/o64、p3072/o32）中位数为 14.8362、2.9198 tok/s；对应 FP16 KV 为 15.5266、2.9430 tok/s。该结果包含 Prefill/HTTP，尚非纯 Decode 或正式尾延迟结论。
 
 ## 代码、构建与启动
 
-公开代码：[ychy7001/ascend310p-qwen36](https://github.com/ychy7001/ascend310p-qwen36)。当前研究快照为 `529fc91`；[构建与启动说明](https://github.com/ychy7001/ascend310p-qwen36/blob/529fc91/README.md)、[公开制品验证](https://github.com/ychy7001/ascend310p-qwen36/blob/529fc91/docs/release-validation.md)和[C8实验说明](https://github.com/ychy7001/ascend310p-qwen36/blob/529fc91/docs/c8.md)可按固定版本查阅。
+公开代码：[ychy7001/ascend310p-llm](https://github.com/ychy7001/ascend310p-llm)。当前研究快照为 `529fc91`；[构建与启动说明](https://github.com/ychy7001/ascend310p-llm/blob/529fc91/README.md)、[公开制品验证](https://github.com/ychy7001/ascend310p-llm/blob/529fc91/docs/release-validation.md)和[C8实验说明](https://github.com/ychy7001/ascend310p-llm/blob/529fc91/docs/c8.md)可按固定版本查阅。
 
 已测环境为Ascend310P3、CANN9.1、`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch2.10/torch-npu2.10.0.post4；宿主需要匹配的Ascend驱动与rootless Podman。复现依赖自定义OPP和Torch extension，单独下载权重无法直接用官方原版启动。
 
 1. 获取代码和权重，在仓库根目录校验：
 
 ```bash
-git clone https://github.com/ychy7001/ascend310p-qwen36.git
-cd ascend310p-qwen36
+git clone https://github.com/ychy7001/ascend310p-llm.git
+cd ascend310p-llm
 git checkout 3688ebb
 ms-hub download ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P --local-dir ./weights
 python3 tools/validate_checkpoint.py ./weights --verify-hashes
@@ -67,7 +67,7 @@ WORK_DIR=/work/qwen36-build bash /project/scripts/build-native.sh
 3. 回到宿主仓库根目录，替换以下三个路径为宿主上的绝对路径，启动TP1、MTP=1、FP16 KV的4K首次复现配置：
 
 ```bash
-MODEL_DIR=/absolute/path/ascend310p-qwen36/weights \
+MODEL_DIR=/absolute/path/ascend310p-llm/weights \
 OPP_DIR=/absolute/path/qwen36-build/artifacts/opp/vendors/custom_transformer \
 EXTENSION=/absolute/path/qwen36-build/artifacts/qwen36_int4_custom.so \
 TP=1 MTP=1 MAX_MODEL_LEN=4096 MEMORY_UTILIZATION=0.90 PORT=18015 \
