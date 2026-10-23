@@ -1,0 +1,226 @@
+# TP1 W4 Prefill 调优记录
+
+目标是改善真实专家矩阵的大 M 路径，同时保留 Decode 收益及精度。历史 W8A8 约1000tok/s来自用户观测；a1当前为TP2、batch4096。尚无同机同TP同输入的严格W8/W4对照，不承诺TP1达到该值。
+
+## 固定条件与两个分块参数
+
+TP1、公开W4 checkpoint、FP16 KV、MTP=0、eager、max_model_len4096、memory utilization .90、max_num_seqs1、prefix off。同一3072-token prompt，输出1token，1次warmup、3次测量，使用`tools/bench_server_phases.py`服务端请求阶段计时；包含阶段调度与首token处理，非纯kernel时间。每次counter增量验证为1，保存prompt IDs和HTTP响应。
+
+`MAX_BATCHED_TOKENS`控制一次模型forward的调度token数；`QWEN36_GROUPED_CHUNK_TOKENS`控制每层专家的内部切片。batch256时，专家chunk512/640实际不会扩大输入。专家chunk上限由5120routes/top_k8确定为640，不能直接将chunk设为1024/4096；大调度batch可由多个小专家chunk处理。
+
+| 调度batch | 专家chunk | 三次Prefill tok/s | 中位数 | 状态 |
+| --- | --- | --- | --- | --- |
+| 256 | 256 | 324.6767 / 324.2034 / 322.4247 | 324.2034 | 实际请求计时通过，检索检查待补 |
+| 1024 | 256 | 354.4466 / 355.0568 / 354.4582 | 354.4582 | 计时与3072-token中间needle通过 |
+| 1024 | 512 | 387.7657 / 387.8843 / 387.8627 | 387.8627 | 计时与3072-token中间needle通过 |
+| 1024 | 640 | 386.9475 / 387.0152 / 386.7189 | 386.9475 | 计时与3072-token中间needle通过 |
+| 4096 | 512 | 384.3657 / 383.8421 / 383.9090 | 383.9090 | 计时与3072-token中间needle通过 |
+| 4096 | 640 | 391.8055 / 392.0145 / 391.4968 | 391.8055 | 计时与3072-token中间needle通过 |
+
+两轮prompt IDs逐项一致（3072），第二轮Prefill中位数提高19.6356%。调度batch与专家chunk同时改变，尚不能独立归因；均未开C8/MTP/Graph。第二轮needle输出14tokens、正确返回ASCEND732941，耗时8.79984s；只有单个检索样本，不是正式准确率评测。batch1024时权重23.82GiB、peak activation2.75GiB、non-torch约.18GiB；这是启动profile预算，非请求实际峰值。
+
+补充batch1024/chunk256对照后，三组prompt IDs再次逐项核验一致。固定chunk256，调度batch256→1024，中位吞吐+9.3320%；固定batch1024，chunk256→512，中位+9.4241%。这些是顺序跨服务三轮观察，尚无交替重复或尾延迟门禁。chunk256检索正确返回验证码，14输出tokens、9.68224s。raw `qwen36-prefill-b1024-g256-p3072-o1.jsonl`、`qwen36-prefill-b1024-g256-needle.jsonl`；后续候选结果见下文。
+
+640分块随后完成：相同prompt IDs，Prefill中位386.9475tok/s，相比512的387.8627下降约0.24%，三轮不足以认定显著差异，未显示扩大分块的收益。3072-token中间needle返回正确验证码，14输出tokens、8.80470s。raw `qwen36-prefill-b1024-g640-p3072-o1.jsonl`与`*-needle.jsonl`。因此batch1024下暂保留chunk512；batch4096结果见下文。
+
+batch4096/chunk512已完成：prompt IDs与1024/chunk512逐项一致，三次Prefill中位383.9090tok/s，较387.8627下降约1.02%，没有显示继续扩大调度batch的收益。单needle检索通过，14输出tokens、8.88461s。raw `qwen36-prefill-b4096-g512-p3072-o1.jsonl`与`*-needle.jsonl`。batch4096/chunk640结果见下文。达到约388tok/s后需profile定位专家pack/MatMul、dispatch和非专家层，不能只靠扩大batch期待1000tok/s。
+
+完整扫描已完成，进程2003800正常结束、实验容器已停止。4096/chunk640的相同3072-token输入中位391.8055tok/s，为当前扫描最高值，较起点324.2034提高20.8517%，较1024/512提高1.01654%。后一个差距尚未做交替复测，不能认定稳定显著。单needle正确返回验证码，14输出tokens、8.68919s。raw `qwen36-prefill-b4096-g640-p3072-o1.jsonl`及`*-needle.jsonl`。短输入只有一次4096调度，不代表长输入chunked历史读取的效果；已开始32K服务4096/640长输入候选，计划8K/约32K与1024/512对照。
+
+## 请求级NPU Profile
+
+`PROFILE_DIR=/absolute/path/new-profile-dir`可显式启用实验启动器的torch profiler配置，默认关闭。镜像使用torch_npu CPU/NPU活动、Level1、PipeUtilization，输出挂载到宿主指定目录。采集前先warmup，`tools/profile_http_prefill.py`调用`/start_profile`，执行一次固定prompt/输出1的请求，再`/stop_profile`。采集请求的HTTP耗时不用于常规吞吐结论；kernel累计时间也不能直接解释为不重叠墙钟占比。该入口已在真实310P3服务完成一次3072-token采集，输出166MB profiler制品；详细分析待完成，采集期间请求耗时不作为常规吞吐。
+
+第一轮不含MTP的权重实测23.8202GiB，峰值激活2.75GiB，non-torch约.19GiB；KV预算4.95GiB（310P worker日志明确halved for workspace）。此前MTP配置加载27.288GiB，不能将其作为关闭MTP配置的基础内存。32G实际业务容量仍需独立实卡或受控预算验证。
+
+原始第一轮文件：`w4-prefill-256.log`、`w4-prefill-256-p3072-o1.jsonl`，保留在实验目录，不提交Git。第二轮日志`w4-prefill-b1024-g512.log`、请求`w4-prefill-b1024-g512-p3072-o1.jsonl`与`w4-prefill-b1024-g512-needle.jsonl`。代码提交eac6c0e引入专家chunk可选参数，不修改默认512。后续扫描依次完成1024:256、1024:640、4096:512、4096:640；结果保存在新目录prefill-sweep-20261012，汇总见上表。
+
+## 扫描复现
+
+`experimental/run-prefill-sweep.sh`顺序运行实验服务，每组计时后单独执行3072-token中间needle。需要独占davinci0、端口未被其他服务占用，设置已验证制品的绝对路径；不覆盖已有结果。
+
+```bash
+MODEL_DIR=/absolute/path/weights \
+OPP_DIR=/absolute/path/build/artifacts/opp/vendors/custom_transformer \
+EXTENSION=/absolute/path/build/artifacts/qwen36_int4_custom.so \
+C8_LIBRARY=/absolute/path/c8-build/output/libqwen36_c8.so \
+RESULT_DIR=/absolute/path/new-prefill-results PORT=18020 \
+PAIRS='1024:256 1024:512 1024:640 4096:512 4096:640' \
+bash experimental/run-prefill-sweep.sh
+```
+
+C8库仅为沿用实验启动器的必需挂载；`QWEN36_C8_ENABLED=0`，cache为FP16。每组服务名仍沿用`qwen36-w4a8-c8`，不是C8启用证据。超过 readiness 观察期限时脚本保留活容器并报错，不能据此认定运行终止或重新启动。
+
+通过分块扫描后，按profile决定融合dispatch/count、SwiGLU/activation pack、优化expert weight复用或扩大原生route上限；之后回归MTP1，另测MTP2，再接入Graph/C8。仅参数变化不代表kernel效率改善。
+
+## 后续MTP2设备门禁
+
+标准启动器保持`MTP=0/1`作为开关；`MTP=1 NUM_SPECULATIVE_TOKENS=2`选择两次草稿预测，默认草稿数仍为1。早期FP16 KV/eager和C8单草稿限制的历史记录保留不变；后续C8 adapter已增加显式`QWEN36_C8_ALLOW_MTP2=1`实验开关，并在C8+Graph下完成4K/32K/112K门禁。正式产品仍需使用112K同协议矩阵和真实业务接受率，不把历史失败记录当作当前能力结论。
+
+固定镜像源码`vllm_ascend/spec_decode/llm_base_proposer.py`在单草稿early exit后具有`num_speculative_tokens-1`次迭代，并更新位置、hidden states和slot mapping。源码路径存在不代表310P的Qwen hybrid state回退已经正确，须记录第二位置接受率、实际拒绝、质量、平均接受长度、同协议TPOT和内存。不要仅以“能启动”宣布MTP2适配完成。
+
+## 长输入与产品参数门禁（2026-10-12）
+
+4096/640的32K服务测量已完成并正常停止：TP1、FP16 KV、MTP=0、eager、memory .90、batch4096/chunk640、max seq1、prefix off。8K输入输出1token、warmup1后三轮Prefill为384.2473/385.2984/383.9917tok/s，中位384.2473；HTTP TTFT为21.518/21.394/21.623秒。近32K输入32256token三轮Prefill为358.5912/358.0136/357.3548tok/s，中位358.0136；TTFT为90.365/90.290/90.423秒。近32K中间needle检查通过，usage输入32256+输出14=32270token，正确返回ASCEND732941，耗时94.0191秒；单样本不代表完整长上下文精度。随后3072-token NPU profile采集成功。长输入后输出256token的持续Decode结果见下文。原始文件`w4-long-b4096-g640-p8192-o1.jsonl`和`w4-long-b4096-g640-p32256-o1.jsonl`。
+
+产品参数分别报告：配置上限、实际请求验证长度（输入+输出）、业务推荐长度、KV物理容量。不能相互替代。长度档位先覆盖8K/32K，再对候选组合测试64K/128K，若内存和质量允许再到原生262144上限；不以KV估算承诺300K。每档需要Prefill tok/s和TTFT、长输入后固定输出256token的Decode tok/s和TPOT、峰值内存和质量检查。正式P95需要足够请求样本，三轮观察只作为探索，不报告可靠P95。
+
+先在相同32K上限下对比4096/640与1024/512（8K和32256token固定IDs）。输出1token隔离Prefill趋势，输出256token观察持续Decode；检索样本单独运行。之后回归MTP1/2，再结合C8与Graph完成组合门禁。32G规格还需要实际32G设备或受控预算验证；48G设备上的成功不能替代32G结论。
+
+真实profile初步统计：3072token/output1，400次`QwenW4A8Int4MatmulV310`累计3.980758秒，单次5.2924～15.3176ms，op_statistic中占累计时间50.402%；其次Slice .422909秒、Mul .361105秒、ReduceSum .291646秒、ViewCopy .279497秒、普通MatMulV2 .266708秒、Tril .262126秒、Cast .231858秒。step_trace的Computing为7.840336秒、Stage7.895287秒，无通信。累计算子比例不直接等于普通请求墙钟占比。`kernel_details`同时给出cube_utilization约93.87%和mac_ratio约.0325，两者口径不同，当前不能用前者声称Cube已达峰值或用后者认定硬件算力利用率3%；没有实测GB/s，暂不认定memory/compute bound。原始目录`prefill-profile-b4096-g640`，本地摘要`w4-prefill-profile-b4096-g640-summary.json`。
+
+后续更完整的 fused profile（同为真实310P3、单请求）显示：`QwenW4A8Int4MatmulV310`累计占21.51%，普通`MatMulV2`占19.17%，`hcom_allReduce_`占18.23%；`TransData`、`Slice`、`IndexPut`、`Cast`、`ViewCopy`合计约16%，而`QwenW4A8PackV310`仅1.51%。这些是可能重叠的累计kernel时间，不能转换成端到端墙钟加速比。当前Prefill优先级应是先配对确认通信、专家分组和布局搬运的实际墙钟成本，再评估W4 tile/L1权重复用；单独优化Pack不足以解释W4与A1 W8A8的差距。完整摘要归档于`data/ascend/experiment-results/tp1-w4-profile/profile-summary.json`。
+
+8K输入/输出256token三轮有效请求：Prefill 384.8600/384.9462/384.5370tok/s；Decode 21.0647/21.0749/21.0600tok/s，中位21.0647。Decode分母为服务端decode阶段耗时，分子输出token数减1；HTTP TTFT中位21.3138秒，请求平均TPOT中位47.4792ms。这些是FP16KV/MTP0/eager配置，不能称为W4+MTP+C8+Graph组合结果。近32K持续Decode结果见下文。
+
+长输入对照可用`experimental/run-long-context-sweep.sh`复现，沿用前述MODEL_DIR/OPP_DIR/EXTENSION/C8_LIBRARY，设置全新的RESULT_DIR；默认顺序比较1024:512与4096:640，固定32K上限、8K/32256输入、1/256输出、warmup1+三轮，最后执行32256中间needle。每组正常通过后才停止服务进入下一组；失败保留服务和原始证据。4096/640测量完成后，已经正常启动`PAIRS=1024:512`，结果目录`long-context-sweep-20261012`。
+
+近32K输入32256/输出256token三轮有效请求：Prefill 358.0764/358.1915/358.4693tok/s；Decode 18.8163/18.7997/18.8091tok/s，中位18.8091。HTTP TTFT中位90.1193秒，请求平均TPOT中位53.1154ms。同配置8K→近32K，Decode中位下降10.7079%，说明历史长度有可测影响，不能据此推断MTP/C8/Graph组合幅度相同。原始文件`w4-long-b4096-g640-p32256-o256.jsonl`。32K输入持续生成完成，没有OOM或使用量不符；固定重复文本的吞吐测试不代表正式生成准确率。
+
+1024/512的8K对照已完成，与4096/640逐项核验prompt IDs相同、同32K上限、同权重和缓存/调度协议。8192/1：Prefill中位382.3675tok/s；Decode中位None；TTFT中位21.4309s。 8192/256：Prefill中位382.7324tok/s；Decode中位21.124864003891854；TTFT中位21.4097s。两组8K Prefill/Decode差距不到1%，不足以认定显著；近32K对照仍在测量。
+
+1024/512的32256输入/output1对照也已完成，prompt IDs与4096/640完全相同。三轮Prefill 356.8506/357.2186/357.1156tok/s，中位357.1156；TTFT中位90.3411秒。4096/640相对吞吐高约0.2515%，尚不足以认为显著收益；持续Decode和本组needle仍在运行。
+
+1024/512长输入对照已全部完成、检索通过、实验服务正常停止。32256/256三轮Decode为18.79135/18.83446/18.83199tok/s，中位18.83199；Prefill中位356.80639tok/s。中间needle输入32256+输出14，正确返回验证码，94.11018秒。与4096/640相比，长Decode仅约+0.12%；此顺序跨服务三轮差异不足以判断显著。当前暂保留1024/512候选。5秒设备内存采样结果见本地memory-samples.jsonl，采样最大值不能作为精确峰值。后续MTP1/2顺序对照已自动启动，FP16 KV/eager/32K/1024:512保持一致。
+
+## W4A8+C8+MTP1 长上下文 batch4096 对照（2026-10-13）
+
+为判断调度batch是否能弥补TP1/W4A8相对A1 TP2/W8A8的Prefill差距，固定TP1、W4A8、C8、MTP1、eager、`max_model_len=114688`、`.95`、`QWEN36_GROUPED_CHUNK_TOKENS=512`，只将`MAX_BATCHED_TOKENS`从1024提高到4096。使用unique prompt避免prefix cache命中，warmup后各三轮，结果全部有效：
+
+| 输入/输出 | Prefill中位 | Decode中位 |
+| --- | ---: | ---: |
+| 8192/256 | 363.23 tok/s | 25.03 tok/s |
+| 32256/256 | 334.65 tok/s | 19.97 tok/s |
+
+本次结果低于已有1024/512的C8+MTP1 Graph候选（8K约379、32K约351 tok/s），也没有显示长上下文收益。它不能与Graph和eager直接作严格因果比较，但足以说明继续增大调度batch不是当前Prefill优化的首要杠杆。原始结果在`data/ascend/experiment-results/c8-mtp1-b4096/`。
+
+MTP1/2后续对照已启动：`experimental/run-mtp-sweep.sh`使用FP16KV/eager/32K/.90/1024:512，先检查8题+A/B/A复用，再对128/8192/32256输入、输出256测warmup1+三轮，保存完整metrics前后以分析按位置接受数，最后长检索门禁。目前MTP1已加载原始MTP张量，模型加载27.288GiB，正在初始化；MTP2没有设备结果。全部证据写入新目录mtp-sweep-20261012，失败保留服务，不自动越过质量门禁。
+
+MTP1候选已启动成功并通过8/8 toy严格答案和A/B/A复用（文本一致、无标记泄漏）。相同32K上限/FP16KV/eager/.90/1024:512，p128/o256三轮Decode 26.75564/26.76552/26.77896tok/s，中位26.76552；Prefill中位194.83565tok/s。TTFT中位0.65988秒，HTTP请求平均TPOT中位37.3611ms。此结果不是C8/Graph组合，也不与无MTP的8K输入做直接收益比较；8K及近32K同条件配对测量继续执行，MTP2仍无设备结果。
+
+MTP1的8K/256三轮完成，与无MTP相同32K上限/FP16KV/eager/.90/1024:512/prefix off且逐项prompt IDs一致：Decode中位26.23727tok/s（无MTP21.12486，约+24.20%）；Prefill中位378.89077tok/s（无MTP382.73237，约−1.00%）。这是顺序跨服务三轮，不是交替复测或尾延迟门禁；长输入、MTP2和正式质量继续验证。
+
+## MTP1/2完整32K扫描结果（2026-10-12，experimentally verified）
+
+两组均TP1/FP16KV/eager/32K/.90/maxseq1/prefix off/1024:512，同checkpoint/OPP/extension；固定IDs逐项核验相同、warmup1后三轮，阶段计时，非纯kernel或P95。
+
+| 输入/输出 | MTP1 Prefill中位 | MTP2 Prefill中位 | MTP1 Decode中位 | MTP2 Decode中位 |
+| --- | --- | --- | --- | --- |
+| 128/256 | 194.8356 | 187.9083 | 26.7655 | 29.9720 |
+| 8192/256 | 378.8908 | 376.3521 | 26.2373 | 33.1059 |
+| 32256/256 | 352.0753 | 350.2415 | 22.4596 | 28.8517 |
+
+两组toy严格8/8、A/B/A文本一致且无标记泄漏；近32K中间needle均通过。MTP2为32256输入+14输出，95.6655秒。MTP2相对MTP1长输入Decode约+28.46%；重复文本接受率100%是有利负载，不代表业务普遍收益。p128计数窗口含warmup：MTP1草稿413/接受385（拒绝28）；MTP2草稿620/接受490（未接受130），第0位261、第1位229、draft轮310，按轮次第1位接受比例约73.87%（不是条件接受率）。8K/近32K窗口MTP1接受400/400、MTP2接受532/532，两位置各266/266；仅证明实际第二枚草稿参与verify及短负载存在拒绝，不替代hybrid rollback全部正确性。
+
+原始目录mtp-sweep-20261012、文件qwen36-mtp{1,2}-fp16-32k-p{128,8192,32256}-o256.jsonl、前后metrics、reuse和needle。当前MTP2仍只在FP16 KV/eager通过，C8单草稿限制未移除，也没有MTP2 Graph结果。后续C8/MTP1三组Graph对照已启动，独立冻结代码和新库，数学回归在吞吐counter窗口之外独占执行。
+
+## C8 + MTP2候选（2026-10-12）
+
+新增实验开关`QWEN36_C8_ALLOW_MTP2=1`，默认仍拒绝C8两枚draft。TP1/W4A8/C8/fused-write/split-by-type/MTP2/eager/4K/.90真实启动成功；8题严格答案8/8，A/B/A复用文本一致且无标记泄漏。C8 allocator为41层/21池/92 blocks，GPU KV cache size 41,905 tokens；权重27.29GiB，启动profile的KV3.21GiB。
+
+同一服务、warmup后3轮、输出128的服务端阶段测量：
+
+| 输入tokens | Prefill中位tok/s | Decode中位tok/s |
+| --- | ---: | ---: |
+| 128 | 188.63 | 30.91 |
+| 2048 | 373.12 | 30.19 |
+| 3072 | 376.06 | 33.70 |
+
+这是eager路径，不是Graph收益结论。该段历史记录中的 MTP2 Graph 失败日志仍保留；后续通过 pinned 镜像兼容开关和`COMPILATION_MODE=0`完成了 C8+MTP2+Graph 的4K/32K/112K门禁。当前产品候选和最新数据见`docs/qwen36/c8.md`与`docs/qwen36/parameter-selection-20261012.md`；默认仍建议MTP1，MTP2作为显式实验档。
+
+## W4 MatMul tile candidates (2026-10-13)
+
+The detailed TP1 profile identified `QwenW4A8Int4MatmulV310` as the main
+kernel cost: 400 calls and 3980.758 ms for the 4096-token prefill workload.
+The stable dispatch uses M=32 for this routed-prefill range and already
+prefetches the next G128 weight group during the first limb's Cube operation.
+
+Two isolated dispatch candidates were tested as complete OPP packages:
+
+| Candidate | Workload | Median Prefill | Result |
+| --- | --- | ---: | --- |
+| M=16 | TP1/eager/MTP0/FP16 KV, 4096 tokens | 328.8313 tok/s | Rejected, about 13% slower |
+| M=64 | TP1/eager/MTP0/FP16 KV, 4096 tokens | 376.7562 tok/s | Rejected, no improvement |
+
+Both candidates preserved the source numerical path and passed request usage
+checks. Their dispatch changes were reverted; the stable source remains M=32
+for the measured prefill range. Raw M=16 data and the detailed profile are in
+`results/qwen36/m16-prefill-candidate-20261013` and
+`results/qwen36/tp1-prefill-profile-20261012`; M=64 is in
+`results/qwen36/m64-prefill-candidate-20261013`. Further optimization should target
+the full routed-expert schedule and its surrounding route/layout work, rather
+than selecting a smaller or larger M tile from this simple dispatch change.
+
+## N=128 gate/up candidate (2026-10-13)
+
+The next isolated candidate kept M=32 but changed only large-prefill
+`nDim=1024` gate/up projections from N=64 to N=128. Down projection and all
+Decode dispatches remain unchanged. A complete three-op OPP package compiled
+and loaded on one 310P3. For 4096 input tokens, TP1/eager/MTP0/FP16-KV gave
+`401.1729 / 400.6277 / 401.2060 tok/s` (median `401.1729`), compared with the
+stable path's approximately 375--380 tok/s. The 5--7% difference comes from
+short sequential measurements, not an alternating A/B test. At 8192 input
+tokens the Prefill measurements were `397.3443 / 396.7822 / 396.1008 tok/s`
+(median `396.7822`). With 8192 input and 256 output tokens, Prefill was
+`397.9453 / 398.5922 / 397.8720 tok/s` (median `397.9453`) and Decode was
+`21.2352 / 21.2181 / 21.1859 tok/s` (median `21.2181`). All requests passed
+token-usage checks. Decode dispatch is unchanged; this is a regression check,
+not a matched Decode A/B comparison.
+
+Five short generation sanity cases passed. The separate 3072-token/14-output
+request was only a benchmark prompt with valid token usage; it did not test
+needle retrieval and is not counted as a quality result. Keep this experimental
+until a matched baseline A/B run, actual retrieval checks, and validation with
+the product C8/MTP/Graph configuration are complete. Raw evidence is in
+`results/qwen36/n128-prefill-candidate-20261013` and sibling
+`n128-prefill-candidate-20261013*.jsonl` files.
+
+A subsequent stable N=64 OPP repeat on the same device, launcher, model,
+extension, TP1/eager/MTP0/FP16 KV/.90 and unique-prompt protocol gave
+376.2280 tok/s at 4096/1 and 371.2599 tok/s at 8192/256. Candidate differences
+were +6.63% and +7.19%. The initial 4096 candidate used max length 8192,
+while the other runs used 12288; this remains one sequential pair, not an
+alternating validation. Decode at 8192/256 was 21.0576 vs 21.2181 tok/s
+(+0.76%, not claimed as a material improvement). Keep the N=128 source as a
+candidate for product-combination checks; do not treat these eager/MTP0/FP16
+KV results as C8/MTP/Graph performance. See the candidate README for raw paths.
+
+## N=128 的112K产品组合初步回归（2026-10-13）
+
+同一候选OPP已在TP1/W4A8/C8/MTP2/FULL_DECODE_ONLY、mode=0、
+capture `[1,2,3]`、诊断性updatable-graph修复、112K/.95、batch1024、
+chunk512、prefix off下真实启动并完成初步回归。严格答案8/8、A/B/A一致
+且无标记泄漏；warmup后unique prompt三轮均usage有效：
+
+| 输入/输出 | Prefill中位tok/s | Decode中位tok/s |
+| --- | ---: | ---: |
+| 8192/128 | 391.5909 | 37.0124 |
+| 32256/128 | 357.5768 | 29.0453 |
+
+114560输入、实际14输出的中间needle正确返回验证码，耗时415.3063秒。
+这证明该候选组合完成了一个近满112K请求，不是完整质量、并发或P95
+门禁。产品组合尚未完成同版本稳定N=64 OPP的匹配对照，不能把历史差值
+全部归因于tile改动。原始JSONL、metrics和服务日志存于仓库
+`results/qwen36/n128-product-20261013`；复现用
+`experimental/check-n128-product.sh`，不再写入对接文档目录。
+
+### N=128 与稳定 N=64 的产品组合对照
+
+随后在同一 a2 第一颗 310P3 上进行了顺序对照：TP1、W4A8、C8、MTP2、
+FULL_DECODE_ONLY Graph、mode=0、capture `[1,2,3]`、112K/.95、batch1024、
+chunk512、prefix off，唯一变化是 routed gate/up Prefill OPP 的 N tile。
+稳定 N=64 对照在 8K/128 的 Prefill/Decode 中位数为 `364.4936/37.1222`
+tok/s，N=128 为 `391.5909/37.0124`，Prefill `+7.43%`、Decode `-0.30%`。
+32K/128 对照为 N=64 `335.7245/29.0776`、N=128 `357.5768/29.0453`，
+Prefill `+6.51%`、Decode `-0.11%`。两档均通过严格答案 8/8、A/B/A 复用检查
+和 114560-token 检索；长请求耗时分别为 `435.7018s` 与 `415.3063s`。
+这是顺序配对和阶段计时，尚无 P95、交替随机化或完整业务准确率结论；原始
+证据见 `results/qwen36/n128-product-baseline-n64-20261013`。
+
+独立真实专家矩阵检查也已完成：gate/up `n=1024,k=2048` 和 down
+`n=2048,k=512` 在 rows `129/257/1024` 的 balanced/one-expert 分组均通过，
+最大绝对误差分别约 `1.23e-4` 和 `6.11e-5`，所有 12 个 case PASS；计时为
+同步 host call 且不包含 activation pack，不应直接当作纯 kernel latency。
+
+
+2026-10-14 E5共享Gate候选近112K持续生成已完成：114560+128、warmup1/repeat3、prefix off，Prefill378.733/Decode16.778 tok/s，TTFT302.531秒，MTP100%，后sanity5/5。详情及范围见results/mindieq-shared-gate-20261014/long-phases-summary.json。单层C8诊断发现112K转换3.340ms、native PA2.802ms、组合6.028ms（Q1 Graph host计时），提示长上下文转换成本，不能直接当整模型profile。复现见results/c8-long-components-20261014。

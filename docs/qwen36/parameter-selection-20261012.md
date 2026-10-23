@@ -1,0 +1,158 @@
+# Qwen3.6-35B-A3B 310P 参数选择与华为评审记录
+
+更新时间：2026-10-13  
+硬件：Atlas 300I DUO 中单颗 Ascend 310P3，TP1，48 GB 级 NPU 内存  
+模型：Qwen3.6-35B-A3B W4A8 实验 checkpoint；MTP 层保留浮点权重  
+
+本文把当前已经在 a2 实机验证过的结果、仍待补齐的对照和产品参数建议分开记录。表中的吞吐是服务端阶段计时，通常为 warmup 后三轮中位数，不是正式 P95，也不应与另一台机器或不同 TP 配置的历史数字直接比较。
+
+本文保留逐阶段实验历史。早期的 Graph 失败和“尚未完成112K”记录已被后续门禁结果更新，不代表当前仍有同一故障。当前性能候选为 TP1/48GB、112K、W4A8+C8、MTP2、Decode Graph；它已经可运行，仍需正式质量、尾延迟及 Graph backend 收敛后才能作为产品默认。下面冻结的 MTP1 建议是回退档，不是当前最高 Decode 性能档。
+
+## 当前产品候选
+
+最新算子候选补充（2026-10-13）：`ac5f191`的大Prefill Gate/Up N=128
+dispatch已在112K/C8/MTP2/Decode Graph组合完成初步回归。8K/128三轮
+Prefill/Decode中位391.59/37.01，32256/128为357.58/29.05 tok/s；
+114560输入检索正确，实际输出14，总耗时415.31秒。严格答案8/8、A/B/A
+一致且无标记泄漏。原始证据见`results/qwen36/n128-product-20261013`。
+该组合尚未做同版本稳定OPP配对、业务接受率或足量尾延迟评测，所以
+以下冻结建议不因单轮候选测试自动改变；MTP2继续作为实验档。
+
+112K 会议/对话档位建议先冻结为：
+
+```text
+TP=1
+W4A8 routed experts
+INT8 KV (C8), FP16 per-token/head scales
+MTP=1 (num_speculative_tokens=1)
+max_model_len=114688
+gpu_memory_utilization=0.95
+max_num_seqs=1
+max_num_batched_tokens=1024
+QWEN36_GROUPED_CHUNK_TOKENS=512
+prefix cache: 先关闭，单独验收后再打开
+Graph: 112K Graph mode=0 + 诊断性 updatable-graph 开关已跑通；尚不作为默认
+```
+
+这个档位满足超过 100K 的业务目标，并且已有真实启动、短请求、64K/128K 容量和长检索证据。`114688` 是配置上限，不等于每个请求都应该填满；业务默认可以使用 112K，保留输出预算后实际输入应相应减少。
+
+近满上下文实测：eager 输入 `114560`、输出上限 128，实际输出 14，总耗时 432.24 s；Graph mode=0 同一 prompt IDs（SHA256 `5cd728...`）也正确检索到 `ASCEND732941`，实际输出 14，总耗时 431.94 s。各只有一个长样本，耗时包含长 Prefill 和生成，不能作为 P95 或稳定吞吐。Graph原始结果归档在 `data/ascend/experiment-results/112k-c8-force-graph/`，eager结果在 `data/ascend/experiment-results/112k-c8-eager/`。
+
+## C8 与 C16/FP16 KV 的取舍
+
+C8 的目的首先是容量和成本，而不是预设加速。当前 C8 后端把 K/V 写成 INT8、scale 写成 FP16，再在历史读取前转换到 FP16 NZ 后复用 310P 原生 PA；它不是已经证明的原生 INT8 PA 全链路。线性层仍使用 W4A8，MTP 权重仍是浮点。
+
+在相同 W4、TP1、MTP1、Graph、32K 上限的匹配实验中：
+
+| KV | 128 输入 Decode | 8192 输入 Decode | 32256 输入 Decode | Prefill | 观测内存峰值 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| C8 | 33.66 tok/s | 30.51 tok/s | 23.19 tok/s | 215/378/350 tok/s | 34238 MB |
+| C16/FP16 | 33.75 tok/s | 32.29 tok/s | 26.70 tok/s | 215/379/352 tok/s | 36744 MB |
+
+因此短请求几乎持平，8K 约下降 5.5%，近 32K 约下降 13.2%，Prefill 差异小于 1%；样本中约少用 2.5 GB。C8 的已知收益是长上下文余量，代价是历史越长，反量化/转换越影响 Decode。不能把“INT8 KV”写成固定加速结论。
+
+补充了同一 `max_model_len=114688`、`.95`、W4/MTP1/eager、prefix off 的 FP16 KV 实测：8K/256 为 Prefill `381.61`、Decode `26.12 tok/s`；32256/256 为 Prefill `354.19`、Decode `22.30 tok/s`；近满 `114560` 输入检索耗时 `428.35s`。C8 同协议近满检索为 `432.24s`，两者均正确返回 `ASCEND732941`，差异约 0.9%。这说明当前 C8 在 112K 长检索上的主要价值仍是物理内存余量，而不是端到端速度提升。
+
+当前 C16 的 256K 长请求尚未与 C8 112K 形成同协议完整对照。旧记录中的 310K/262K 是启动器的 KV 估算或不同配置容量，不应当直接当作已验证的长请求上限。后续应在同一服务协议下测 64K、112K、128K 和能启动的最大长度。
+
+### a1 W8A8 参考点
+
+a1 当前业务服务的真实启动参数为 TP2、W8A8、`max_model_len=262144`、`.90`、`max_num_batched_tokens=4096`、`FULL_DECODE_ONLY` Graph、prefix cache 开启、无 MTP。使用唯一 token 前缀隔离 cache 命中后，冷请求阶段计时为：8K Prefill 约 `1282 tok/s`、Decode `32.0 tok/s`；32K Prefill `1086.26 tok/s`、Decode `29.22 tok/s`。相同前缀再次请求会分别出现约 13.6K 和 64.7K tok/s 的缓存 Prefill，不能与冷请求混报。
+
+这个 a1 结果适合做方向性 W8A8 参考，不能直接作为 a2 TP1/W4A8 的回归基线：硬件拓扑、TP、权重格式、Graph、batch、MTP 和 prefix-cache 状态均不同。后续优化顺序应先完成 a2 C8/Graph 生命周期和 MTP 门禁，再用固定 unique prompt、相同输出长度和阶段 counter 做跨机器矩阵对照；否则无法判断差距来自 W4 算子还是 TP/调度配置。
+
+为避免 prefix cache 污染，`tools/bench_server_phases.py` 新增 `--unique-prompts`，让 warmup 和每一轮使用不同 token 前缀。A1 当前原服务（TP2/W8A8/Decode Graph/prefix cache enabled）使用该模式得到：8K/256 三轮 Prefill `1303.37/1304.36/1302.90` tok/s、Decode `32.16/32.16/32.14` tok/s；32K/256 前两轮有效 Prefill `1385.07/1383.88` tok/s、Decode `29.30/29.26` tok/s，第三轮因服务端阶段计数出现多请求增量而作废。8K 结果可作为新的冷请求方向性参考；32K 需要重新完成严格三轮后再用于正式比较。原始结果在 `data/ascend/experiment-results/a1-w8a8-reference/cold-unique-p8192-o256.jsonl` 和 `cold-unique-p32256-o256.jsonl`。
+
+当前数据不能支持“TP2 Prefill 1000 tok/s，所以 TP1 必然 500 tok/s”的线性结论。a1 是 TP2/W8A8，a2 是 TP1/W4A8；TP1 还要承担 W4 权重解包/反量化、MoE routed-expert 调度和不同通信/同步开销。实测 a2 TP1 W4A8 冷 Prefill 在 8K/32K 约 `372--354 tok/s`（eager/MTP1）或 Graph 约 `380/352 tok/s`，确实低于 TP2 结果的一半，但差距不能归因于单一反量化步骤。需要用同一设备 profile 拆分 `QwenW4A8Int4MatmulV310`、专家 pack/dispatch、attention 和 host/Graph launch 后，才能判断下一步应优化算子还是调度。
+
+### Prefill profile 的优化优先级
+
+2026-10-13 复核发现旧表误用了 TP2 profile（含 648 次 AllReduce），不得用它判断 TP1 通信瓶颈。真实 TP1 原始记录来自 a2 `prefill-profile-b4096-g640/dp0_pp0_tp0_dcp0_ep0_rank0_197_20261012091437972_ascend_pt/`，对应启动日志明确 `tensor_parallel_size=1`、MTP关闭、eager、32K、batch4096。已将原始 `op_statistic.csv` 归档到仓库 `results/qwen36/tp1-prefill-profile-20261012`。下表比例为累计算子时间，不能当作墙钟占比或可实现加速比；请求范围需结合采集日志进一步核对。
+
+| 算子 | 次数 | 累计时间占比 |
+| --- | ---: | ---: |
+| `QwenW4A8Int4MatmulV310` | 400 | 50.402% |
+| `Slice` | 4503 | 5.355% |
+| `Mul` | 2620 | 4.572% |
+| `ReduceSum` | 2330 | 3.693% |
+| `ViewCopy` | 1890 | 3.539% |
+| `MatMulV2` | 231 | 3.377% |
+| `QwenW4A8PackV310` | 400 | 2.272% |
+| `TransData` | 391 | 1.209% |
+
+原始统计没有 HCCL/AllReduce 项。因此 TP1 的优化优先级是 W4 grouped MatMul、route 重排/归约与中间张量，再检查普通 MatMul 和 linear attention；pack 本身占比较小。TP2 的通信等待仍是另一份 profile 的发现，应与 TP1 分开分析。A1 的 W8A8 TP2 冷 Prefill 保留为方向性参考，不能从这份累计 profile 外推端到端提升。
+
+## Graph 修复探针（2026-10-12）
+
+镜像中的 310P attention backend 声明自己属于 updatable graph，但 FULL graph 参数更新仍误进入通用 `update_graph_params`，造成 `graph_params=None`。新增 `QWEN36_C8_FORCE_UPDATABLE_GRAPH=1` 仅用于诊断：在 `direct_graph_310.py` 中将 Graph 参数更新判断切到 updatable 分支，默认关闭，不改变普通 eager/Graph 行为。
+
+该开关已在真实 310P3 上通过三档上下文门禁：
+
+| 配置 | 结果 |
+| --- | --- |
+| 4K、C8、MTP1、Graph、capture `[1,2]` | capture 成功；toy 8/8；A/B/A 一致；3072-token needle 正确；Prefill 384.20、Decode 32.69 tok/s |
+| 32K、C8、MTP1、Graph、device-length、capture `[1,2]` | KV 124518 tokens；capture 成功；8K Prefill/Decode 379.72/30.67；近32K 351.53/23.47 tok/s；32256-token needle 正确（95.40s） |
+| 112K、C8、MTP1、Graph、mode=0、device-length、capture `[1,2]` | 服务启动与capture成功；8K Prefill/Decode 379.05/21.08；32K 351.14/18.39 tok/s；114560-token needle正确（431.94s） |
+
+112K Graph 需要 `COMPILATION_MODE=0`：mode=3 在 vLLM split-graph 过程中因节点仍有多个用户而报错。112K同一配置下Graph阶段数值与eager接近，但32K Decode约18.39 tok/s，不能据此宣称Graph加速；与早期eager数据协议并非完全交替匹配。该开关仍是实验性诊断路径，依赖monkeypatch和镜像版本，产品默认暂保留eager，待把修复收敛为可审查的backend改动并完成匹配A/B、MTP与回归门禁后再切换。
+
+## MTP 0/1/2 的取舍
+
+在 FP16 KV、eager、TP1、32K 上限、1024:512、同一 W4 checkpoint 的配对扫描中：
+
+| 输入/输出 | MTP0 Decode | MTP1 Decode | MTP2 Decode | MTP1 Prefill | MTP2 Prefill |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 128/256 | 未做同协议复测 | 26.77 | 29.97 | 194.84 | 187.91 |
+| 8192/256 | 21.12 | 26.24 | 33.11 | 378.89 | 376.35 |
+| 32256/256 | 18.83 | 22.46 | 28.85 | 352.08 | 350.24 |
+
+MTP1 相对无 MTP 的 8K Decode 约提升 24%，近 32K 约提升 19%；Prefill 约持平或略降。MTP2 在这组重复/有利负载上比 MTP1 再快约 26%--28%，但会增加草稿计算、显存和 Graph 形状复杂度，接受率也依赖真实请求，不能用重复文本的 100% 接受率代表业务平均值。
+
+C8+MTP2 eager 已经通过 112K 启动、8/8 toy、A/B/A 复用和 8K/32K 阶段计时：8K/128 Prefill `372.51`、Decode `31.57 tok/s`，32K/128 Prefill `346.04`、Decode `25.68 tok/s`。相对 C8+MTP1，Decode 分别约提升 20% 和 14%。当时 Graph 在 310P attention 的 `update_graph_params` 阶段失败，因此该阶段保留 MTP1 默认与 MTP2 eager 实验档；后续使用诊断性 updatable-graph 开关完成了下述 Graph 门禁。
+
+补充的 C8+MTP2+Graph 4K 门禁（2026-10-13）已通过：使用`NUM_SPECULATIVE_TOKENS=2`、capture `[1,2,3]`、`COMPILATION_MODE=0`和诊断性updatable-graph开关，sanity 5/5、严格答案8/8、A/B/A一致、3072-token needle通过。3072/128 unique-prompt三轮Prefill中位`370.43 tok/s`、Decode中位`36.03 tok/s`。这是短上下文可运行证据；MTP2仍依赖实验开关，尚未完成8K/32K/112K容量、真实业务接受率和与MTP1交替复测，产品默认暂不切换。
+
+随后完成32K Graph长上下文门禁：8K/128阶段中位 Prefill/Decode `366.54/37.58 tok/s`，32256/128为`337.12/29.28 tok/s`；近32K needle总耗时`96.15s`且正确返回。MTP2相对MTP1保留Decode收益，但Prefill有数个百分点损失。32K结果不代表112K容量，仍需112K启动与长检索后才能决定是否替代MTP1。
+
+112K门禁已完成：同一 MTP2 Graph 配置、`max_model_len=114688`、`.95` 成功启动，C8分配116 blocks，vLLM报告KV cache `191507 tokens`，Graph约0.31GiB。8K/128三轮中位 Prefill/Decode为`365.23/37.21 tok/s`；`114560+128`长请求正确返回 canary，实际输出14 tokens，总耗时`435.29s`。MTP2在4K/32K/112K均能运行，短中历史Decode收益稳定，但超长请求总耗时与MTP1接近；产品默认仍以MTP1为主，MTP2可作为显式实验档。
+
+为了避免短输出窗口高估 Decode，追加了同一112K服务、32256输入/256输出的三轮持续生成：Prefill中位`336.56 tok/s`，Decode中位`28.94 tok/s`。该值可作为 MTP2 112K 配置的稳定 Decode 方向性指标；与128输出窗口约37.21 tok/s的差异来自阶段计时和 speculative acceptance，正式对比必须固定输出长度和请求协议。
+
+随后完成同协议 MTP1 对照：仍为 112K Graph、W4A8+C8、32256输入/256输出、unique prompt。MTP1 Prefill/Decode 中位为`339.28/23.20 tok/s`，MTP2为`336.56/28.94 tok/s`；MTP2 Decode提升约`24.8%`，Prefill下降约`0.8%`。这是当前最可信的 MTP1/MTP2 方向性收益数据，建议产品提供 MTP2 高Decode档，同时默认保留 MTP1 作为兼容/低波动档。
+
+并发探针补充：112K Graph/MTP2、8K输入/128输出、prefix cache关闭时，concurrency=2总输出吞吐约`5.06 tok/s`、TTFT中位`34.51s`，concurrency=4仍约`5.06 tok/s`、TTFT中位`59.83s`，TPOT均约`26.95ms`。并发扩展没有提高总吞吐，当前瓶颈是Prefill/调度而不是MTP2单token Decode；因此TP1产品规格需单独公布并发TTFT/总吞吐，不能用单流Decode代替。
+
+## 长上下文与显存口径
+
+vLLM 报告的 GPU KV cache size 是 scheduler 的聚合 block 容量，不是 C8 自己所有物理池的字节数，也不是当前请求已经使用的 token 数。C8 还要为 hybrid state、页对齐、scale 和共享 FP16 NZ scratch 保留空间。因此容量评估必须同时记录：启动配置上限、scheduler KV token 数、`C8_BUDGET`、实际请求长度、`npu-smi` 采样峰值和是否发生 OOM。
+
+已有 C8 eager 证据：`.95` 下 64K 和 112K 可以启动；128K 需要 `.97`；`.99` 无法为 262K 提供足够物理空间。112K 的稳定性优先于把 memory utilization 推到 `.97/.99`。`0.90` 适合短/中上下文调试，`.95` 是当前产品候选，`.97` 仅作为专门的 128K 实验参数。
+
+Prefix cache 的收益取决于请求是否复用完全相同的 token 前缀，不能把它计入冷请求容量或 Decode 吞吐。
+
+补充的 C8/112K prefix-cache 实测使用 `max_num_batched_tokens=2048`（prefix cache 在该 hybrid 模式下要求 Mamba `block_size=1152 <= max_num_batched_tokens`；因此不能直接沿用默认 1024）：8K 冷请求 Prefill `361.45 tok/s`，后续相同 token IDs 的三次命中 Prefill `2263.83/2270.20/2274.52 tok/s`，Decode 约 `25.1 tok/s`。prefix cache counter 从 0 增至每次 6912 命中 tokens，服务日志命中率最高约 63.3%。这证明重复前缀能显著降低 Prefill，但没有带来 Decode 加速；建议作为会议/模板前缀明确重复时的可选配置，并把 `2048` 约束写入启动检查。
+
+112K 长前缀复用也已验证：114560-token 冷请求耗时 `412.00s`、Prefill `278.78 tok/s`；同一 token 前缀再次请求耗时 `9.33s`、Prefill `13846.95 tok/s`，Decode 约 `12.51 tok/s`，两次均生成 14 tokens。长请求 prefix hit counter 增至 `140544`。长前缀命中可以显著降低重复会议材料的 TTFT，但不改善历史 KV 主导的 Decode，因此产品上建议把 prefix cache 作为有明确模板/会议前缀复用时的可选档位。
+
+## 当前代码入口与简化边界
+
+实验后端集中在 `experimental/c8_vllm_adapter.py`，代码入口只有四类：
+
+1. `get_spec`：把目标 full-attention 层替换为 `C8FullAttentionSpec`，并拒绝 TP2、KV transfer 和未授权 MTP2。
+2. `get_configs`：计算 scheduler 的保守 block 数，并打印 `C8_BUDGET`。
+3. `allocate`：在 310P runner 上分配 K/V INT8、scale FP16 四张量，保留原 scheduler charge。
+4. `forward`：写入 C8 cache，按实际长度或 Graph 固定长度转换到 FP16 NZ，再调用原生 PA/split-fuse。
+
+这些 monkey patch 只在 `QWEN36_C8_ENABLED=1` 的实验启动器中加载，默认 W8A8/W4A8 vLLM-Ascend 行为不变。给华为评审时应优先把环境门禁、容量计算和 attention forward 拆成小函数，并为每个函数保留输入/输出契约；不要把 C8 patch 混入官方默认路径，也不要先做大规模重构。当前最值得先改的是重复的环境判断、无名常量（64、16、256）和错误信息，让硬件限制直接出现在代码中。
+
+## 给华为工程师的待确认问题
+
+- 310P3 是否有可公开使用的 INT8 KV PA/Block Table 路径，能否避免当前 C8 -> FP16 NZ 转换？
+- `graph_params` 在 310P attention 的 FULL graph/MTP capture 中应由哪个 runner 生命周期初始化？
+- 310P 上 W4A8 的 `mad_s4`/GMM 推荐 tile、group size 和 routed-expert 小 batch 调度参数是什么？
+- C8 的 scale 布局、页对齐和 hybrid state 是否有官方 allocator 约束，可否减少当前 padding？
+- MTP2 在 310P Graph 下推荐的 capture sizes、rollback 和 KV cache 形状是什么？
+
+源码调查补充：当前上游 310P `AscendAttentionBackendImpl310.update_graph_params` 直接声明 `NotImplementedError("FIA and PA should be use UpdatableGraph.")`，而 FULL graph 更新流程仍会通过 `impl_cls.update_graph_params` 触达该接口。实验日志中的 `graph_params=None` 因此应先按 310P attention 的 graph 类型/生命周期不匹配排查，不能用跳过更新或强行填全局对象的方式掩盖问题；这也是提交上游前需要请华为确认的具体代码点。
+
+早期完整工作目录保留在 a2 的 `qwen36-public-release-20261012`，此前对接目录的记录是历史归档。后续原始数据、关键日志及复现记录统一提交到本仓库 `results/`，结论更新到 `docs/`，不再写入对接文档目录；权重继续由 ModelScope 发布。所有尚未完成的项目都标为实验性，不把启动成功等同于性能或精度验收。

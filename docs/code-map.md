@@ -27,14 +27,14 @@
 | tools/eval_gsm8k_http.py、compare_gsm8k_runs.py | 固定子集逐题质量与截断比较 |
 | results/ | 后续原始数据、关键日志与实验README |
 
-源码实验入口收束为 `scripts/run-candidate.sh → experimental/run-c8-service.sh`，取消GDN/product wrapper的串联；旧wrapper仅用于显式历史基线。已删除四个旧批量sweep脚本，可在提交 `3ce8cb9` 中追溯。独立算子验证保留在experimental/，不加载到普通服务。下一步减小主线改动范围的具体清单见[会议评审报告](huawei-adaptation-review-20261013.md)。
+源码实验入口收束为 `scripts/run-candidate.sh → experimental/run-c8-service.sh`，取消GDN/product wrapper的串联；旧wrapper仅用于显式历史基线。已删除四个旧批量sweep脚本，可在提交 `3ce8cb9` 中追溯。独立算子验证保留在experimental/，不加载到普通服务。下一步减小主线改动范围的具体清单见会议评审报告（内部材料，已移出公开仓库）。
 
 ## 源码与制品追踪
 
-首发历史清单为`docs/runtime-source-sha256.json`；后续2026-10-13核心运行/构建快照为`docs/source-snapshot-20261013.json`。清单只校验源码，不证明二进制由该源码构建或通过NPU测试；二进制哈希与实际日志仍需逐实验核对。
+首发历史清单为`docs/qwen36/runtime-source-sha256.json`；后续2026-10-13核心运行/构建快照为`docs/qwen36/source-snapshot-20261013.json`。清单只校验源码，不证明二进制由该源码构建或通过NPU测试；二进制哈希与实际日志仍需逐实验核对。
 
 ```bash
-python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
+python3 tools/check_source_snapshot.py docs/qwen36/source-snapshot-20261013.json
 ```
 
 新清单须随被追踪文件的修改同步维护，并通过上述命令；不要重写首发历史清单。Git记录说明每轮实际修改与测量依据。代码来源及许可证见[provenance](provenance.md)和NOTICE。
@@ -54,7 +54,7 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 
 ## 后端交付入口
 
-见 [a2交付说明](backend-handoff.md)。a2 当前使用 `deploy/qwen36-image.service` 和镜像内入口；`deploy/a2-image-20261016.env` 是已验收配置快照。`deploy/a2.env` 与 `deploy/qwen36-a2.service` 仅保留为源码实验和回滚入口。后端只需消费OpenAI兼容HTTP接口，不需参与CANN构建或选择实验开关。历史源码清单必须在对应历史提交校验，清理后HEAD不再包含其全部文件。
+部署使用 `deploy/qwen36-image.service` 与 `deploy/qwen36-image.env.example`（镜像入口），后端只需消费OpenAI兼容HTTP接口。运维交付材料属内部文档，不在公开仓库；历史源码清单须在对应历史提交校验，清理后HEAD不再包含其全部文件。
 
 ## 与vLLM-Ascend主线的收束方式
 
@@ -73,4 +73,4 @@ python3 tools/check_source_snapshot.py docs/source-snapshot-20261013.json
 
 ## 固定运行镜像入口
 
-`tools/prepare_runtime_image.py → deploy/image/Containerfile → deploy/image/start.sh`通过指定提交与基础digest打包运行文件和已测算子，不包含实验脚本或权重。复用`configs/tp1-profile.sh`；MTP、调度和metadata顺序是显式参数，不按主机名选择。镜像内manifest、哈希验证、构建/启动/回滚与已验收范围见[runtime-image](runtime-image.md)。a2 已完成镜像切换；原 bind-mounted 入口保留用于回滚及源码实验。clt 维护期间暂停，ARM64 RC 镜像尚未验收。
+`tools/prepare_runtime_image.py → deploy/image/Containerfile → deploy/image/start.sh`通过指定提交与基础digest打包运行文件和已测算子，不包含实验脚本或权重。复用`configs/tp1-profile.sh`；MTP、调度和metadata顺序是显式参数，不按主机名选择。镜像内manifest、哈希验证、构建/启动/回滚与已验收范围见[runtime-image](qwen36/runtime-image.md)。a2 已完成镜像切换；原 bind-mounted 入口保留用于回滚及源码实验。clt 维护期间暂停，ARM64 RC 镜像尚未验收。
