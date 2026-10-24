@@ -21,7 +21,7 @@ Inference adaptation for large MoE models on Atlas 300I DUO (Ascend 310P3): low-
 | Artifact | Location | Status |
 | --- | --- | --- |
 | Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P | [ModelScope](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P) | Published; all 64 files checked by SHA256 ([record](docs/qwen36/release-validation.md)) |
-| Qwen3.8 | Uses community [matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i](https://huggingface.co/matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i); no weights republished here | — |
+| Qwen3.8 | Uses community [matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i](https://huggingface.co/matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i) (Qwen Community License 1.0); weights are not republished, see [qwen38](docs/qwen38/README.md) for download and license notes | — |
 
 ## Representative results (single stream, fixed protocol, not P95)
 

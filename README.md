@@ -21,7 +21,7 @@
 | 制品 | 位置 | 状态 |
 | --- | --- | --- |
 | Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P | [ModelScope](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P) | 已发布，64 文件逐一 SHA256 校验，见 [release-validation](docs/qwen36/release-validation.md) |
-| Qwen3.8 | 使用社区 [matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i](https://huggingface.co/matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i)，本项目未重新发布权重 | — |
+| Qwen3.8 | 使用社区 [matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i](https://huggingface.co/matteiuspi/Qwen3.8-Flash-Next-W4A16-G128-300i)（Qwen Community License 1.0），本项目未转载权重，下载与许可见 [qwen38](docs/qwen38/README.md) | — |
 
 ## 代表性结果（均为单流、固定协议，非 P95）
 
