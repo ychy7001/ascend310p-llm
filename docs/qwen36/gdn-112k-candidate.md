@@ -1,5 +1,9 @@
 # TP1 / 48G / GDN 优化候选
 
+> 本页是原始实验记录，保留供追溯和参数核对。整理后的叙述见：
+> [GDN 状态行 bug：复现与上游修复](gdn-bug-fix.md)、
+> [MindIEQ 长 Prefill 量化方案](mindieq-quantization.md)。
+
 2026-10-13，a2 的单颗 Ascend 310P3。基于固定 GDN PR #17640 head `a2d228c7850f1749a4a934cc7514cd6c01fd7948`，保留 N128 W4 算子和动态 C8。该候选是本次已测参数的工程选择，不声称全局最优或正式产品验收。
 
 ## 参数选择
