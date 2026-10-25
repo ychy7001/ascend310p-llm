@@ -6,6 +6,8 @@
 
 > 本项目不是华为、Qwen 或 vLLM 官方发布。源码基于社区 [opensensor/vllm-ascend](https://github.com/opensensor/vllm-ascend) 的 310P W4 实现，见 [来源与署名](docs/provenance.md) 与 [NOTICE](NOTICE)。
 
+适配过程的叙述版本写在知乎专栏[昇腾 310P 推理适配笔记](https://www.zhihu.com/column/c_2097812513450734740)，按容量核算、启动排障、算子 bug 定位分篇；仓库这边是原始数据和复现入口。
+
 ## 模型状态
 
 | 模型 | 配置 | 状态 | 入口 |

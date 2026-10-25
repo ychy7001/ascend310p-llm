@@ -6,6 +6,8 @@ Inference adaptation for large MoE models on Atlas 300I DUO (Ascend 310P3): low-
 
 > Not an official Huawei, Qwen or vLLM release. The code builds on the community [opensensor/vllm-ascend](https://github.com/opensensor/vllm-ascend) 310P W4 work; see [provenance](docs/provenance.md) and [NOTICE](NOTICE). Detailed docs are currently written in Chinese.
 
+A narrative walkthrough of the adaptation work is published on Zhihu (in Chinese): [昇腾 310P 推理适配笔记](https://www.zhihu.com/column/c_2097812513450734740), covering capacity planning, bring-up troubleshooting and operator bug hunts. This repository holds the raw data and reproduction entry points.
+
 ## Status
 
 | Model | Configuration | Status | Entry |
