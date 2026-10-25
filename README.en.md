@@ -30,7 +30,7 @@ A narrative walkthrough of the adaptation work is published on Zhihu (in Chinese
 - Qwen3.6 MTP2 vs MTP1 (112K graph, 32K in / 256 out): decode 23.20 → 28.94 tok/s (~+24.8%), prefill ~−0.8%.
 - Qwen3.6 MindIEQ long-prefill routing vs stock W4 (median of five alternating runs): 8K +23.29%, 32K +20.69%, decode change < 0.5%.
 - Qwen3.8 TP2 decode graph (512/128, median of three): 13.87 → 16.67 tok/s (~+20%).
-- Qwen3.8 TP2: fixed a causal-mask bug in the community GDN prefill kernel (wrong output at token 56 for T≥64): [patch](patches/qwen38/gdn-causal-mask-vector.patch), [write-up](results/qwen38/tp2-serving-20261018/README.md).
+- Qwen3.8 TP2: fixed a causal-mask bug in the community GDN prefill kernel (wrong output at token 56 for T≥64): [write-up](docs/qwen38/gdn-causal-mask-bug.md), [patch](patches/qwen38/gdn-causal-mask-vector.patch), [raw record](results/qwen38/tp2-serving-20261018/README.md).
 
 ## Who did what
 

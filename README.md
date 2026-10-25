@@ -30,7 +30,7 @@
 - Qwen3.6 MTP2 vs MTP1（112K Graph，32K 输入 / 256 输出）：Decode 23.20 → 28.94 tok/s（约 +24.8%），Prefill 约 −0.8%。
 - Qwen3.6 MindIEQ 长 Prefill 分流 vs 原 W4（交替五次中位）：8K +23.29%、32K +20.69%，Decode 变化 < 0.5%。
 - Qwen3.8 TP2 Decode Graph（512/128，三次中位）：13.87 → 16.67 tok/s（约 +20%）。
-- Qwen3.8 TP2 修复了社区 GDN Prefill 因果掩码错误（T≥64 时 token 56 输出越界），见 [补丁](patches/qwen38/gdn-causal-mask-vector.patch) 与 [记录](results/qwen38/tp2-serving-20261018/README.md)。
+- Qwen3.8 TP2 修复了社区 GDN Prefill 因果掩码错误（T≥64 时 token 56 输出越界），见 [定位与修复](docs/qwen38/gdn-causal-mask-bug.md)、[补丁](patches/qwen38/gdn-causal-mask-vector.patch) 与 [原始记录](results/qwen38/tp2-serving-20261018/README.md)。
 
 ## 我做了什么 / 社区做了什么
 
