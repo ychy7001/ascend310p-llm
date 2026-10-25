@@ -2,7 +2,7 @@
 
 ## 当前证据
 
-MindIEQ 的实现位于 `experimental/mindieq_grouped_kernel/` 和 `experimental/mindieq_prefill_adapter.py`，只替换 TP1 routed-expert 的长 Prefill grouped 路径；Decode、Down projection 和 C8 KV 路径不变。共享 Gate 版本额外复用 Gate/Up 的 A8 激活和 scale，保留原 W4 权重存储。
+MindIEQ 的实现位于 `experimental/mindieq_grouped_kernel/` 和 `experimental/mindieq_prefill_adapter.py`，只替换 TP1 routed-expert 的长 Prefill grouped 路径，含 Gate/Up 与 Down 两个投影；Decode 和 C8 KV 路径不变。共享 Gate 版本额外复用 Gate/Up 的 A8 激活和 scale，保留原 W4 权重存储。
 
 需要区分两个比较基线：
 
