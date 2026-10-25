@@ -1,82 +1,46 @@
-# Ascend 310P — Qwen3.6 W4A8 / MTP / C8 实验
+# Ascend 310P — Qwen3.6-35B-A3B W4A8 / MTP / C8
 
-在Atlas 300I DUO / Ascend310P3上研究Qwen3.6-35B-A3B低比特推理。首版提供可运行的Routed Experts W4A8与BF16 MTP适配，以及独立C8分页KV算子实验。**W4A8+MTP+C8+Decode Graph已在TP1/310P3上通过4K、32K和112K启动、正确性及长检索门禁；MTP1/MTP2同协议32K持续生成对照已完成。** Graph仍使用实验性updatable-graph开关，不能视为官方默认实现。本项目不是华为、Qwen或vLLM官方发布。
+在 Atlas 300I DUO（Ascend 310P3）单卡上跑 Qwen3.6-35B-A3B：routed experts 量化为 W4A8，叠加 BF16 MTP 推测解码、INT8 KV（C8）和 Decode Graph。W4A8 + MTP + C8 + Graph 已经在真实 310P3 上通过 4K / 32K / 112K 三档的启动、正确性和长上下文检索门禁。
 
-| 能力 | 当前状态 |
+Graph 路径用的是实验性 updatable-graph 开关，不是上游官方默认实现。本项目不是华为、Qwen 或 vLLM 官方发布。
+
+## 当前状态
+
+| 能力 | 状态 |
 | --- | --- |
-| W4A8 TP1/TP2、FP16 KV | 已在a2启动、生成 |
-| W4A8 + Qwen3.6自身BF16 MTP | 一枚草稿TP1/TP2已运行；两枚草稿C8+Graph已完成4K/32K/112K门禁 |
-| INT8 KV / C8 | TP1 C8/MTP1/MTP2 Graph均已完成启动、数值和长needle；仍是实验后端 |
-| Decode Graph | mode0/FULL_DECODE_ONLY/[1,2,3]已在310P capture/replay；正式updatable-graph backend修复待上游确认 |
-| 长上下文 | TP1/W4A8/C8/MTP1/MTP2 Graph均完成112K近上限检索；不宣称256K实际验收 |
-| 全面质量及稳定加速 | a2 单流长上下文交付门禁完成；正式 P95、多模态、并发和 TP2 C8 仍未验收；INT4 不保证更快 |
+| W4A8，TP1/TP2，FP16 KV | 跑通 |
+| BF16 MTP（1 枚草稿） | TP1/TP2 跑通 |
+| BF16 MTP（2 枚草稿）+ C8 + Graph | 4K/32K/112K 全部通过 |
+| INT8 KV（C8） | 已验证，仍是实验后端 |
+| Decode Graph | 已在 310P 完成 capture/replay；正式 updatable-graph backend 修复待上游确认 |
+| 长上下文 | 112K 近上限检索已通过；不等于 256K 验收 |
+| TP2 C8、并发批处理、多模态、正式 P95 | 未验收 |
 
-模型制品：[ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P)。发布状态及独立加载证据以[验证记录](release-validation.md)为准。
+权重已发布：[ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P](https://www.modelscope.cn/models/ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P)（ModelScope）。发布校验细节见[发布校验记录](release-validation.md)。
 
-后续实验原始数据、关键日志和复现记录保存在本仓库的 `results/`，结论与参数选择更新到 `docs/`。此前群聊对接文档已交付；不再向 `/home/ychy/workspace/data/ascend` 写入或同步新报告。关键日志使用可追踪的 `.txt` 文件，避免被 `*.log` 忽略规则排除。
+## 快速开始
 
-阅读顺序：[整体思路历程](development-history.md) → [代码入口与维护边界](../code-map.md) → 华为会议评审报告（内部材料，已移出公开仓库）。最新N128产品组合对照见[原始记录](../../results/qwen36/n128-product-baseline-n64-20261013/README.md)，固定32题质量回归见[结果与限制](../../results/qwen36/n128-quality-20261013/README.md)。
+环境：Ascend 310P3、CANN 9.1、镜像 `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch 2.10 + torch-npu 2.10.0.post4。SDK 和驱动由使用者自行安装，仓库不附带。
 
-## 后端交付
+下面的命令使用 rootless Podman（`--group-add keep-groups` 等参数是 Podman 特有的）；用 Docker 的用户需要自行调整设备挂载和用户映射方式，仓库未在 Docker 上验证过启动流程。
 
-a2可用服务、权重、调用示例、重启和运行边界统一见后端交付说明（内部材料，已移出公开仓库）。后端接入默认只使用18024端口及long-prefill组合。
-
-当前 a2 已切换为 digest 固定的独立运行镜像；镜像、参数和回滚记录见[运行镜像验收](../../results/qwen36/runtime-image-20261016/README.md)。后续调优默认暂停，以稳定性观察和 clt/RC 独立复核为主。
-
-## 最新单流部署候选
-
-下面的 `TP1/48G/MTP2` 配置属于 **ychy-a2 EP**。`clt`是另一台EP310P1，其已交付C16/MTP1/batch2048，并通过112000+128；`orangepi`是RC310P1共享内存设备，当前恢复C16/MTP1/batch4096、prefix开启、标称KV3GiB及blocking multimodal H2D适配，不能当作物理48G RC验证。推荐参数按硬件、主机架构及运行时指纹描述，SSH别名只作追溯；验证范围和参数依据见[Profile说明](profiles-20261014.md)。
-
-[a2的MTP×batch四组对照](../../results/qwen36/a2-profile-matrix-20261015/README.md)已完成：32K同输出下MTP2带来约23% Decode收益；2048/4096在固定MTP后速度接近。用户确认三台均无业务后，已将统一候选调整为2048/512并重建三台服务；[本轮验收状态](../../results/qwen36/unified-2048-20261015/README.md)独立记录，a2本轮32K、112000+128、112K会议及长后正确性已通过。clt和RC的MTP2实测失败，已回退MTP1；共同参数收束为C16/Graph/MindIEQ/chunk512/112K；a2/clt用batch2048，RC用batch4096以保留Prefill性能，不能宣称三机MTP2通过。公开long-prefill入口可显式NUM_SPECULATIVE_TOKENS=1，保持其余后端不变。
-[RC完整Graph补验](../../results/qwen36/mtp2-fullgraph-long-20261015/README.md)已使MTP2完成114176-token会议canary及长后质量门禁；但112K配置下32K配对Decode比MTP1慢约19%，因此RC默认仍保留MTP1。单次长canary速度不能代替固定输出长度的性能基准。
-[RC草稿Graph与请求历史对照](../../results/qwen36/mtp2-history-20261016/README.md)进一步完成8条配对冷32K/128请求：全Graph第二位置接受率0%–3%，draft eager也多为0%–4.6%，仅一条恢复74%；对应完整输出均一致。关闭草稿Graph尚不能稳定恢复MTP2收益，继续定位第二草稿状态及元数据，暂不改变RC默认。
-
-[RC独立重启重复复测](../../results/qwen36/mtp2-repeat-20261016/README.md)完成六条同输入冷32K/128：第二位置接受率五条为0、一条17.74%，未复现74%；Prefill506.85–509.38、Decode15.29–16.95 tok/s。即使最终输出与先前高接受请求完全相同，接受率仍不同，下一步需逐步对齐draft/verify token及元数据，RC默认继续MTP1。
-
-[EP收束复验](../../results/qwen36/ep-convergence-20261016/README.md)补齐clt MTP1的112000/128（Prefill417.49、Decode16.61 tok/s）与会议四字段/长后质量；独立MTP2候选叠加计数与slot修复后仍5/8，未进入吞吐测试。默认保留a2 MTP2、clt MTP1、RC MTP1/4096，共用参数及运行时差异见Profile；失败补丁不接入部署代码。
-
-当前a2业务候选收敛为TP1/48G、W4A8、C16（FP16 KV）、MTP2、Decode Graph、固定GDN PR、MindIEQ E5长Prefill分流、2048/512、112K，prefix默认关闭。唯一默认部署档为 `long-prefill`，短输入按阈值128回退原 W4；`compat`/`decode` 仅作为显式内部诊断和 A/B 对照。现行参数与长上下文门禁见[Profile说明](profiles-20261014.md)和[部署矩阵](deployment-matrix-20261014.md)。C16/C8取舍与原始数据见[a2配对测试](../../results/qwen36/a2-kv-comparison-20261015/README.md)；C8仍可显式启用，不能将clt/a2结果直接套用到RC。a2 交付优先使用[已发布镜像与配置快照](runtime-image.md)。以下为源码实验及回滚入口，配置默认值为 `configs/tp1-48g-112k.env`；设置 MODEL_DIR、OPP_DIR、EXTENSION、C8_LIBRARY、GDN_OPP_DIR、GDN_LIBRARY、GDN_SOURCE、MINDIEQ_LIBRARY 后执行：
-
-```bash
-bash scripts/run-candidate.sh --check > /tmp/qwen36-artifacts.json
-bash scripts/run-candidate.sh
-```
-
-需要C8时执行 `QWEN36_C8_ENABLED=1 scripts/run-candidate.sh`；修改配置后需要重建容器，直接start旧容器不会改变参数。
-
-`--check`检查本地制品并输出SHA256，不初始化NPU；该输出用于版本追溯，不等于完整模型哈希或兼容性验收。芯片0须独占。GDN固定外部源码/构建方法见[候选说明](gdn-112k-candidate.md)。模型完整性另用validate_checkpoint.py检查。prefix可选设ENABLE_PREFIX_CACHING=1；目前未宣称全面质量等价。此入口仍是实验候选，不支持TP2 C8、32G或多请求批处理。
-
-最新速度、质量和上下文边界以[GDN候选说明](gdn-112k-candidate.md)、[MTP对照](../../results/qwen36/pr17640-mtp-20261013/README.md)和[prefix复用](../../results/qwen36/pr17640-prefix-20261013/README.md)为准。下文原启动器保留用于最小复现及早期基线，不应把其1024/MTP1参数与新候选混用。
-
-MindIEQ最新可选Prefill路径直接读取现有native W4权重，使用独立FP32算术A8量化；[服务门禁](../../results/qwen36/mindieq-a8-service-20261014/README.md)和[输入规模分流](../../results/qwen36/mindieq-input-dispatch-20261014/README.md)已完成固定64题及性能对照。阈值128消除短输入开销，短输入仍走原W4。需要区分早期 grouped 路径相对旧基线的历史提升与当前增量：在同一批输入、两颗同型号310P交替五次的复测中，MindIEQ 相对原始 W4A8 的 Prefill 中位提升为 8K **23.29%**、32K **20.69%**；Decode 变化为 **-0.06%/-0.48%**。64K 和近112K单次长请求仍分别提升 **17.59%/14.66%**，两边 Decode 差异小于0.1%。[投影数值定位](../../results/qwen36/mindieq-projection-parity-20261014/README.md)确认一项差异来自scale累加顺序，尚不能解释全部模型差异。[Gate/Up量化共享](../../results/qwen36/mindieq-shared-gate-20261014/README.md)通过单层数值/异步/Graph微测试、64题门禁、112K needle和32K多位置needle；因此当前建议是：将 MindIEQ 作为 **112K 单流长 Prefill 候选分流**，保留 `MIN_TOKENS=128` 阈值和原W4回退，现已作为长上下文业务的默认实验档；P95、完整业务质量集和TP2/C8并发门禁仍待完成，不宣称正式产品验收。早期“+2.5%～2.9%”仅指相对前一 grouped 版本的 E5 shared-gate 增量，不是相对原始 W4 的最终对比。
-
-## 精度与计算路径
-
-仅routed experts量化为signed INT4，使用ModelSlim对称per-channel SSZ。scale按G128 kernel布局重复存储，**不是独立group-wise量化**。activation为设备端per-token INT8，使用INT4 limbs分解组合Cube整数计算。非专家张量保留原始浮点；MTP保留Qwen3.6自身19个BF16张量。text-only生成已测试，图像能力未验收。来源与社区贡献见[provenance](../provenance.md)和[NOTICE](../../NOTICE)。
-
-## 固定环境与构建
-
-已测镜像`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`，CANN9.1，Torch2.10，torch-npu2.10.0.post4，SOC=Ascend310P3。SDK/driver由使用者安装，仓库不附带这些二进制。
-
-在该镜像内挂载本仓库与一个可写工作目录，设置Torch backend autoload=0，禁用镜像不兼容Triton，source CANN环境后：
+**1. 构建自定义算子**（容器内挂载仓库到 `/project`，可写构建目录到 `/work`，禁用镜像不兼容的 Triton）
 
 ```bash
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 WORK_DIR=/work/qwen36-build bash /project/scripts/build-native.sh
 ```
 
-工作目录必须是新的隔离目录。脚本取固定社区commit，应用本仓库算子快照，构建3个OPP家族与独立`qwen36_int4` Torch namespace，不覆盖官方`_C_ascend`。构建与独立启动的实际验证范围见release-validation；首次第三方依赖下载受网络影响。
+构建固定社区 commit，应用本仓库算子快照，产出独立的 `qwen36_int4` Torch namespace，不覆盖官方 `_C_ascend`。分步构建已验证，但公开脚本尚未在全新环境端到端逐字验收过。
 
-权重下载后先做完整性检查：
+**2. 下载并校验权重**
 
 ```bash
 ms-hub download ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P --local-dir ./weights
 python3 tools/validate_checkpoint.py ./weights --verify-hashes
 ```
 
-## 启动服务
-
-宿主使用rootless Podman；TP1只暴露davinci0，TP2额外暴露davinci1。这里的默认4K是首次复现门禁，长上下文应按实测内存预算单独设置。
+**3. 启动服务**（宿主用 rootless Podman；下面是 TP1/MTP1/4K 的首次复现配置）
 
 ```bash
 MODEL_DIR=/absolute/path/weights \
@@ -86,48 +50,56 @@ TP=1 MTP=1 MAX_MODEL_LEN=4096 MEMORY_UTILIZATION=0.90 PORT=18015 \
 bash scripts/run-service.sh
 ```
 
-`MTP=0`关闭MTP；TP2设置`TP=2`。标准启动器用于W4/FP16-KV基线；C8+Graph必须使用`experimental/run-c8-service.sh`。C8产品候选参数是`MAX_MODEL_LEN=114688 MEMORY_UTILIZATION=0.95 MAX_BATCHED_TOKENS=1024 QWEN36_C8_POOL_MODE=split_by_type QWEN36_C8_FUSED_WRITE=1 QWEN36_C8_DEVICE_LENGTH=1 ENFORCE_EAGER=0 QWEN36_C8_ALLOW_GRAPH=1 QWEN36_C8_FORCE_UPDATABLE_GRAPH=1 COMPILATION_MODE=0 GRAPH_CAPTURE_SIZES=1,2`；MTP2实验档额外设置`QWEN36_C8_ALLOW_MTP2=1 NUM_SPECULATIVE_TOKENS=2 GRAPH_CAPTURE_SIZES=1,2,3`。这些参数依赖当前实验镜像和自定义C8库，不能当作官方通用vLLM参数。容器只挂载自包含模型目录，不依赖原始BF16或sidecar父目录。
+`MTP=0` 关闭推测解码，`TP=2` 用两颗芯片。长上下文需要单独做内存和质量验证，不要直接把 4K 配置套用到 112K。
 
-以下旧 C8 wrapper 用于内部诊断复现，示例显式选择 MTP1；正式实验候选统一使用上文 `scripts/run-candidate.sh` 的默认 `long-prefill`。旧的 `mtp1`/`mtp2` 名称仍可用作兼容别名：
-
-```bash
-MODEL_DIR=/absolute/path/weights \
-OPP_DIR=/absolute/path/qwen36-build/artifacts/opp/vendors/custom_transformer \
-EXTENSION=/absolute/path/qwen36-build/artifacts/qwen36_int4_custom.so \
-C8_LIBRARY=/absolute/path/qwen36-build/c8-device-length-build/output/libqwen36_c8.so \
-QWEN36_PROFILE=mtp1 PORT=18020 \
-bash experimental/run-c8-112k-product.sh
-```
-
-`QWEN36_PROFILE=mtp2` 仅改变 draft 数和 Graph capture sizes，仍依赖实验性 updatable-graph 路径；该 wrapper 不声称 TP2 或 32G 支持。
+**4. 验证生成**
 
 ```bash
+curl http://127.0.0.1:18015/health
 python3 tools/bench_generation_sanity.py --base-url http://127.0.0.1:18015 --model qwen36-w4a8 --out /tmp/generation.json --max-tokens 128
 python3 tools/bench_http_stream.py --base-url http://127.0.0.1:18015 --model qwen36-w4a8 --prompt-tokens 128 --output-tokens 256 --concurrency 1 --repeats 3 --out /tmp/stream.jsonl
 ```
 
-sanity只检查服务可用性、非空输出与明显异常，不替代准确率评测。benchmark计时含HTTP/调度；设备kernel性能单独采集profile。代码API以脚本`--help`为准。
+sanity 脚本只检查服务可用、输出非空、无明显异常，不是准确率评测。benchmark 计时含 HTTP/调度开销。
 
-## C8与技术反馈
+## 生产档配置（long-prefill）
 
-[C8独立复现](c8.md)包含选页NZ转换、原生PA对照、Cube/Split-KV候选和混合Mmad编译探针。需要真实310P执行；FP16工作区额外内存必须计入容量收益。
+上面是最小复现路径；长上下文场景用 `scripts/run-candidate.sh`，它额外接入了 MindIEQ Prefill 分流和 C8。三档可选，`long-prefill` 是唯一对外推荐档，另外两档仅用于内部诊断对照：
 
-华为反馈报告（内部材料，已移出公开仓库）整理已知结果与五项具体问题：C8接口、混合Matmul、NZ/UB/L1流水、W4小M/Prefill与hybrid/MTP cache状态。TP1/C8/MTP1/MTP2/Graph及112K长检索已测；正式backend、尾延迟、TP2 C8和32G实卡仍待验证。
+| profile | MTP 草稿数 | 用途 |
+| --- | ---: | --- |
+| `compat` | 1 | 兼容性基线、问题定位 |
+| `decode` | 2 | 内部 Decode 候选对照 |
+| `long-prefill` | 2 | 对外长上下文档，启用 MindIEQ，短输入按阈值回退原 W4 |
 
-详细技术评审报告（内部材料，已移出公开仓库）记录完整适配路径、初版TP1/TP2/MTP与C8测试数据、失败证据和待补门禁。最新Graph与长上下文数据见[C8记录](c8.md)；此前已转发的DOCX/PDF为冻结版本，并未自动同步后续实验。
+```bash
+MODEL_DIR=... OPP_DIR=... EXTENSION=... C8_LIBRARY=... GDN_OPP_DIR=... GDN_LIBRARY=... GDN_SOURCE=... MINDIEQ_LIBRARY=... \
+bash scripts/run-candidate.sh --check   # 只校验制品哈希和参数，不初始化 NPU
+bash scripts/run-candidate.sh           # 真正启动，默认 long-prefill
+```
 
-[Graph上游交接记录](graph-upstream-patch.md)说明了310P Graph生命周期的版本差异、当前诊断开关和提交上游前必须核对的最小代码边界；当前不把实验monkeypatch冒充正式backend修复。
+`QWEN36_C8_ENABLED=1` 可显式开启 C8；详细参数矩阵、各 profile 的选择依据和长上下文容量核算见[Profile 说明](profiles-20261014.md)和[部署矩阵](deployment-matrix-20261014.md)。
 
-给硬件/算子评审的参数决策、C8/C16 和 MTP0/1/2 取舍见[参数选择与华为评审记录](parameter-selection-20261012.md)。其中明确区分已验证结果、当前产品候选和待补实验，避免把容量估算或单次启动结果当作性能承诺。
+MindIEQ 长 Prefill 分流相对原始 W4A8（同输入交替五次中位数）：8K Prefill +23.29%、32K +20.69%，Decode 变化小于 0.5%。详细数据见[MindIEQ 评估记录](mindieq-evaluation-20261014.md)。
 
-最新同配置MTP1/2与长输入性能见[Prefill/Decode实验记录](prefill.md)和[C8记录](c8.md)。112K Graph、32K输入/256输出的同协议对照为：MTP1 Prefill/Decode `339.28/23.20 tok/s`，MTP2 `336.56/28.94 tok/s`，Decode约提升24.8%，Prefill约下降0.8%。并发2/4的MTP2总输出吞吐均约5.06 tok/s，说明并发瓶颈仍在Prefill/调度；固定协议结果不是P95或W8/W4严格等价对照。
+MTP2 相对 MTP1（112K Graph，32K 输入/256 输出，同协议）：Decode 23.20 → 28.94 tok/s（约 +24.8%），Prefill 约 −0.8%。并发 2/4 下总输出吞吐都约 5.06 tok/s，说明并发瓶颈在 Prefill/调度而不是 Decode。详见[Prefill/Decode 记录](prefill.md)。
 
-## 从原始浮点重新量化
+## 量化与计算路径
 
-`tools/convert_modelslim_w4a8.py`与`modelslim_ssz_adapter.py`复用已安装ModelSlim SSZ，只输出expert sidecar；`prepare_hybrid_model.py`组合源模型与sidecar的实验目录，仍需导出自包含checkpoint。该组工具不会覆盖原始权重。ModelSlim版本应随重新转换单独锁定；当前公开制品的不可变标识为文件SHA256。
+仅 routed experts 量化为 signed INT4（ModelSlim 对称 per-channel SSZ）；scale 按 G128 kernel 布局重复存储，不是独立 group-wise 量化。激活是设备端 per-token INT8，运行时用两组 INT4 limbs 组合做 Cube 整数计算。非 expert 张量和 MTP 的 19 个张量保留原始浮点。目前只验证了纯文本生成。来源与许可见[provenance](../provenance.md)和[NOTICE](../../NOTICE)。
 
-`python3 tools/export_checkpoint.py /path/to/hybrid /path/to/new-standalone`只复制index引用的tensor payload，逐tensor核对拷贝前后SHA256并生成新文件哈希；不重新量化、不保留源软链接。目标必须不存在。导出后运行`validate_checkpoint.py --verify-hashes`，再用隔离服务验证MTP和生成。
+重新量化：`tools/convert_modelslim_w4a8.py` 复用已安装的 ModelSlim SSZ 产出 expert sidecar，不覆盖原始权重；`tools/export_checkpoint.py` 把 sidecar 和源模型合并导出成自包含 checkpoint，逐 tensor 核对 SHA256。导出后用 `validate_checkpoint.py --verify-hashes` 复查，再跑一次 MTP 和生成验证。
 
-## Qwen3.8 Flash Next 独立验证
+## C8（INT8 KV）
 
-[a2 TP2 最小验证记录](../../results/qwen38/tp2-validation-20261018/README.md)包含真实权重专家算子、融合 MLP、TP2 局部 QSA、PLE lazy 与显存核算。随后已完成[完整检查点 TP2 服务、GDN Prefill 修复和实际 4K 请求](../../results/qwen38/tp2-serving-20261018/README.md)。[Decode Graph 独立优化](../../results/qwen38/decode-graph-20261018/README.md)在相同 W4A8/C16/MTP0 配置下，512/128 三次计时的 Decode 中位从 13.87 提升到 16.67 tok/s（约 +20%），并通过三次 3968/128 完整请求和基本生成/交替请求门禁。a2 当前保留端口 18038 的 Qwen3.8 Graph 实验服务，原 Qwen3.6 服务已停止；本机 3090 Strata 未改动。Qwen3.8 已实测到16K：batch256/C16/Graph下16256+128通过；仅提高max_model_len到32K可启动但32256+128长期无法调度，不能宣称32K可用。详见[16K长上下文](../../results/qwen38/long-context-20261018/README.md)与[32K边界](../../results/qwen38/long-context-32k-20261018/README.md)。MTP、C8、并发和完整质量评估仍待独立验证，不沿用Qwen3.6规格。
+独立实验后端，走 `experimental/run-c8-service.sh`，需要额外构建 C8 库，不能直接给标准启动器加 C8 参数。已验证：TP1、eager/Graph、MTP1/MTP2，4K/32K/112K 全部通过启动、数值和长上下文 needle 检索。未验证：TP2、正式 P95、32G 实卡下的并发批处理。
+
+细节见[C8 独立复现记录](c8.md)（选页 NZ 转换、原生 PA 对照、Cube/Split-KV 候选）和[Graph 上游交接记录](graph-upstream-patch.md)（310P Graph 生命周期差异、提交上游前的代码边界）。[参数选择记录](parameter-selection-20261012.md)记录了 C8/C16 和 MTP0/1/2 的取舍依据。
+
+## 延伸阅读
+
+- [整体思路历程](development-history.md) — 适配过程的技术叙事
+- [代码入口与维护边界](../code-map.md) — 各目录职责和维护原则
+- [发布校验记录](release-validation.md) — ModelScope 上传和独立加载验证的完整记录
+
+原始实验数据和过程记录（多机调参历史、各轮复测）保存在 `results/qwen36/`，按日期归档，不改写；需要追溯具体某次实验时查对应目录。

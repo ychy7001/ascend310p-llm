@@ -12,59 +12,67 @@ tags:
 
 # Qwen3.6-35B-A3B W4A8 SSZ + BF16 MTP for Ascend 310P
 
-这是Qwen3.6-35B-A3B的实验性自包含checkpoint：routed experts采用signed INT4对称per-output-channel SSZ，activation由配套算子动态量化为per-token INT8；其余模型与MTP张量保留原始浮点数据。需要配套[Ascend310P runtime](https://github.com/ychy7001/ascend310p-llm)，不能假设原版Transformers或官方vLLM直接加载本量化ABI。
+Qwen3.6-35B-A3B 的自包含量化 checkpoint，面向 Ascend 310P3。Routed experts 量化为 signed INT4（ModelSlim SSZ，per-channel 对称），激活在算子内动态量化为 per-token INT8；其余张量（attention、norm、MTP）保留原始 BF16。
 
-## 制品与精度契约
+配套运行时是本仓库 [ychy7001/ascend310p-llm](https://github.com/ychy7001/ascend310p-llm)，官方 Transformers / vLLM 不认识这套量化格式，需要用仓库里的自定义算子加载。
 
-- 源权重：ModelScope [Qwen/Qwen3.6-35B-A3B](https://www.modelscope.cn/models/Qwen/Qwen3.6-35B-A3B)，BF16；不从社区W8A8重新量化，也不借用Qwen3.5 MTP。
-- 40层×256 experts×3 projections，共30,720个expert projection；packed weight、scale、offset共92,160个张量。
-- scale为FP16 per-channel，并按G128 kernel ABI重复存储，**不是每个G128独立量化**；offset为FP16零。低nibble对应先出现的输入轴元素。
-- 激活per-token INT8用两组signed INT4 limbs组合Cube整数计算，不声称直接INT8×INT4单指令。
-- Qwen3.6自身19个MTP张量为BF16，包含stacked gate/up和down expert张量。
-- 52个safetensors分片，总93,125个indexed tensors。checkpoint文件约24.63GB十进制，tensor payload为24,591,896,288 bytes；这不等于服务运行时NPU显存。
-- 原始源checkpoint immutable revision追溯仍不完整；当前制品用`deployment-sha256.json`固定。不要把当前远端main当成既有量化来源revision。
+## 量化格式
 
-## 已测与未测
-
-| 项目 | 状态 |
+| 项目 | 数值 |
 | --- | --- |
-| 完整W4A8 TP1/TP2、FP16 KV | 已在真实310P3运行 |
-| BF16 MTP | TP1/TP2、num_speculative_tokens=1已运行 |
-| INT8 KV / C8 | TP1/eager/MTP=0/4K短生成与chunked prefill已通过；32K配置已启动并完成约9.9K输入实测 |
-| W4A8+MTP+C8 | TP1/eager与Graph、MTP1/MTP2在4K/32K/112K已通过启动、sanity、needle和阶段基准；TP2、全面质量与正式P95仍未验收 |
-| 长上下文 | 无MTP TP1实际128K生成已测；256K配置不等于实际请求验收 |
-| 多模态、全面精度、长上下文质量 | 未完成验收 |
+| 量化范围 | 40 层 × 256 experts × 3 projections = 30,720 个 expert projection |
+| 打包后张量数 | weight + scale + offset，共 92,160 个 |
+| scale | FP16，per-channel，按 G128 kernel ABI 重复存储（不是每个 G128 独立量化） |
+| offset | FP16，固定为 0 |
+| 激活量化 | per-token INT8，运行时用两组 signed INT4 limbs 组合做 Cube 整数计算（不是硬件原生 INT8×INT4 单指令） |
+| MTP | Qwen3.6 自带的 19 个张量，BF16，不量化 |
+| 文件 | 52 个 safetensors 分片，93,125 个 indexed tensors，约 24.63 GB（tensor payload 24,591,896,288 字节，不等于运行时显存占用） |
 
-独立公开checkpoint的启动/生成门禁见[release-validation](https://github.com/ychy7001/ascend310p-llm/blob/main/docs/qwen36/release-validation.md)。数值算子门禁、基本生成与MTP接受率不能替代模型准确率评估。INT4可能因解包、路由、Prefill和通信成本更慢，未承诺10%–20%端到端收益。
+源权重来自 ModelScope [Qwen/Qwen3.6-35B-A3B](https://www.modelscope.cn/models/Qwen/Qwen3.6-35B-A3B)（BF16）。不是从社区 W8A8 版本重新量化，MTP 也不是借用 Qwen3.5 的。源 checkpoint 的 immutable revision 未完整记录，当前制品以仓库内 `deployment-sha256.json` 为准，不代表今天 ModelScope 远端 main 分支就是原始量化来源。
 
-最新实验快照（代码 `a486949`）：融合动态 KV 写入与按存储类型拆分的共享池已在真实 310P3 启动。W4A8+MTP+C8 的固定 GSM32 子集为 32/32；匹配 FP16 KV 对照为 31/32，其中唯一差异是 FP16 输出在 512 token 上限截断，不能解释为量化精度提升。TP1/eager/4K/MTP=1 的 C8 HTTP 吞吐（p512/o64、p3072/o32）中位数为 14.8362、2.9198 tok/s；对应 FP16 KV 为 15.5266、2.9430 tok/s。该结果包含 Prefill/HTTP，尚非纯 Decode 或正式尾延迟结论。
+## 验证结果
 
-## 代码、构建与启动
+单流、固定协议测量，不代表 P95 或完整精度评测；完整数据见[发布校验记录](https://github.com/ychy7001/ascend310p-llm/blob/ab1a370/docs/qwen36/release-validation.md)。
 
-公开代码：[ychy7001/ascend310p-llm](https://github.com/ychy7001/ascend310p-llm)。当前研究快照为 `529fc91`；[构建与启动说明](https://github.com/ychy7001/ascend310p-llm/blob/529fc91/README.md)、[公开制品验证](https://github.com/ychy7001/ascend310p-llm/blob/529fc91/docs/release-validation.md)和[C8实验说明](https://github.com/ychy7001/ascend310p-llm/blob/529fc91/docs/c8.md)可按固定版本查阅。
+| 能力 | 结果 |
+| --- | --- |
+| W4A8 推理，TP1/TP2，FP16 KV | 真实 310P3 跑通 |
+| BF16 MTP（1 枚草稿） | TP1/TP2 跑通 |
+| INT8 KV（C8） | TP1/eager/MTP0，4K 短生成和 chunked prefill 通过；32K 配置跑通约 9.9K 输入 |
+| W4A8 + MTP + C8（Graph） | TP1，MTP1/MTP2，4K/32K/112K 全部通过启动、sanity、长上下文 needle 检索 |
+| 长上下文（无 MTP） | TP1 跑通 128K 实际生成 |
+| GSM8K 固定 32 题子集，W4A8+MTP+C8 | 32/32 |
+| 同配置 FP16 KV 对照 | 31/32（唯一差异是输出在 512 token 上限截断，不是量化精度问题） |
+| C8 吞吐（TP1/eager/4K/MTP1，中位数） | p512/o64 14.84 tok/s、p3072/o32 2.92 tok/s（对应 FP16 KV 为 15.53、2.94 tok/s，含 Prefill） |
 
-已测环境为Ascend310P3、CANN9.1、`quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch2.10/torch-npu2.10.0.post4；宿主需要匹配的Ascend驱动与rootless Podman。复现依赖自定义OPP和Torch extension，单独下载权重无法直接用官方原版启动。
+未做：TP2 的完整质量评测和正式 P95，多模态，长上下文下的完整精度评测。数值算子门禁和 GSM 子集结果不能代替完整准确率评估；INT4 不保证比 FP16 更快，实测吞吐已如上列出，供自行判断。
 
-1. 获取代码和权重，在仓库根目录校验：
+## 快速开始
+
+环境：Ascend 310P3、CANN 9.1、镜像 `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`、Torch 2.10 + torch-npu 2.10.0.post4。需要自定义 OPP 和 Torch extension，单独下载权重无法直接用官方原版 vLLM 加载。
+
+下面的启动命令使用 rootless Podman；用 Docker 的用户需要自行调整设备挂载和用户映射方式，仓库未在 Docker 上验证过启动流程。
+
+**1. 下载代码和权重**
 
 ```bash
 git clone https://github.com/ychy7001/ascend310p-llm.git
 cd ascend310p-llm
-git checkout 3688ebb
+git checkout ab1a370
 ms-hub download ychy7001/Qwen3.6-35B-A3B-W4A8-SSZ-MTP-310P --local-dir ./weights
 python3 tools/validate_checkpoint.py ./weights --verify-hashes
 ```
 
-2. 按仓库README准备上述310P镜像，禁用不兼容Triton，挂载仓库到`/project`和新的可写构建目录到`/work`。在容器内执行：
+**2. 构建自定义算子**（容器内，挂载仓库到 `/project`，可写构建目录到 `/work`）
 
 ```bash
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 WORK_DIR=/work/qwen36-build bash /project/scripts/build-native.sh
 ```
 
-已验证对应源码的新目录分步编译、安装及真实NPU生成；尚未把公开build-native脚本在全新下载环境中逐字端到端验收。制品位于构建目录的`artifacts/opp/vendors/custom_transformer`和`artifacts/qwen36_int4_custom.so`。SDK和driver不随仓库提供。
+产物在 `artifacts/opp/vendors/custom_transformer` 和 `artifacts/qwen36_int4_custom.so`。SDK 和驱动不随仓库分发。
 
-3. 回到宿主仓库根目录，替换以下三个路径为宿主上的绝对路径，启动TP1、MTP=1、FP16 KV的4K首次复现配置：
+**3. 启动服务**（TP1、MTP=1、FP16 KV，4K 上下文，首次复现用这组配置）
 
 ```bash
 MODEL_DIR=/absolute/path/ascend310p-llm/weights \
@@ -74,9 +82,9 @@ TP=1 MTP=1 MAX_MODEL_LEN=4096 MEMORY_UTILIZATION=0.90 PORT=18015 \
 bash scripts/run-service.sh
 ```
 
-`MTP=0`关闭推测解码；`TP=2`使用两颗芯片。默认eager；首次复现使用4K，长上下文需另做内存和质量门禁。启动器挂载只读自包含checkpoint，不依赖源BF16父目录。
+`MTP=0` 关闭推测解码，`TP=2` 用两颗芯片。长上下文需要单独做内存和质量验证。
 
-4. 服务就绪后做生成检查：
+**4. 验证生成**
 
 ```bash
 curl http://127.0.0.1:18015/health
@@ -85,14 +93,16 @@ python3 tools/bench_generation_sanity.py \
   --out /tmp/qwen36-generation.json --max-tokens 128
 ```
 
-sanity检查不等于准确率评估。当前C8为单独的`experimental/run-c8-service.sh`后端，需要额外构建C8库；TP1/W4A8+C8+Graph已在MTP1/MTP2下完成4K、32K和112K实机门禁，包含近上限needle；这些不是完整准确率集合或P95。TP2、正式上游Graph backend、多模态和32G实卡仍未验收。不要给标准启动器直接附加官方C8参数。动态scale在运行时生成，checkpoint不含静态KV标定scale。
+C8 是独立后端，走 `experimental/run-c8-service.sh`，需要额外构建 C8 库，不能直接给上面的标准启动器加 C8 参数。
 
-## 发布校验与性能边界
+## 已知限制
 
-2026-10-12完整上传64个文件、失败0；远端64文件大小和SHA256全部匹配本地，新下载config/index/manifest三文件逐字节匹配。没有重新下载全部权重再做推理。
-
-匹配TP1/MTP=0/4K/.90、max-batch256的初版C8对照：p512/o64吞吐14.2881→13.2868tok/s，p3072/o32为2.9583→2.8152tok/s，均为1warmup/3rounds中位数，含Prefill/HTTP。当前C8转换路线更慢；有限生成检查不证明质量等价，容量收益仍需分配与长上下文实测。完整数据和边界见公开报告。
+- Graph 路径是实验性的 updatable-graph 开关，不是上游官方默认实现。
+- TP2、多模态、长上下文完整精度评测、正式并发/P95 均未验证。
+- 公开的 `build-native.sh` 未在全新下载环境端到端逐字验收过（分步构建已验证，见[发布校验记录](https://github.com/ychy7001/ascend310p-llm/blob/ab1a370/docs/qwen36/release-validation.md)）。
+- 2026-10-12 完整上传 64 个文件，0 失败，远端 SHA256 全部匹配本地；之后只重新下载过索引和配置文件做字节比对，没有重新下载全部权重再跑一次推理。
+- 当前默认部署档是 C16 + MTP2 + Decode Graph + MindIEQ 长 Prefill 分流（这份模型卡测的是早期 C8 配置），最新状态见[仓库 README](https://github.com/ychy7001/ascend310p-llm/blob/ab1a370/README.md)。
 
 ## 来源与许可
 
-Qwen3.6源模型以Apache-2.0提供；见附带LICENSE及[官方模型卡](https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/README.md)。配套代码基于OpenSensor/matteius及vLLM贡献者的310P W4方案并增加Qwen3.6/ModelSlim/MTP适配，保留来源与版权声明。该制品不是华为、Qwen或vLLM官方认证版本。
+Qwen3.6 源模型以 Apache-2.0 发布，见 [官方模型卡](https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/README.md)。配套代码基于 OpenSensor / matteius 及 vLLM 贡献者的 310P W4 方案，增加了 Qwen3.6 适配、ModelSlim 量化转换和 MTP 支持，详见仓库 [NOTICE](https://github.com/ychy7001/ascend310p-llm/blob/ab1a370/NOTICE)。本项目不是华为、Qwen 或 vLLM 官方发布。
