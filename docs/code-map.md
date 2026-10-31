@@ -25,6 +25,7 @@
 | experimental/run-w4-prefill-check.sh | 独占NPU的真实专家矩阵独立检查 |
 | tools/bench_server_phases.py、compare_server_phases.py | 独占端点阶段计时/协议对比；记录输入哈希 |
 | tools/eval_gsm8k_http.py、compare_gsm8k_runs.py | 固定子集逐题质量与截断比较 |
+| tools/replay_stage_workload.py | 按阶段和 token 形状回放业务负载，可多后端分发；记录墙钟和 MTP 接受率 |
 | results/ | 后续原始数据、关键日志与实验README |
 
 源码实验入口收束为 `scripts/run-candidate.sh → experimental/run-c8-service.sh`，取消GDN/product wrapper的串联；旧wrapper仅用于显式历史基线。已删除四个旧批量sweep脚本，可在提交 `3ce8cb9` 中追溯。独立算子验证保留在experimental/，不加载到普通服务。下一步减小主线改动范围的具体清单见会议评审报告（内部材料，已移出公开仓库）。

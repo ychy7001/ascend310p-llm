@@ -103,5 +103,6 @@ MTP2 相对 MTP1（112K Graph，32K 输入/256 输出，同协议）：Decode 23
 - [发布校验记录](release-validation.md) — ModelScope 上传和独立加载验证的完整记录
 - [GDN 状态行 bug：复现与上游修复](gdn-bug-fix.md) — 最小复现、补丁、上游 PR #18730 的完整过程
 - [MindIEQ 长 Prefill 量化方案](mindieq-quantization.md) — 从微算子验证到输入规模分流的技术演进
+- [业务负载回放：W8A8 TP2 与 W4A8 双实例](business-replay-20261031.md) — 分阶段真实调用形状下的对比，结论是维持 W8A8 TP2
 
 原始实验数据和过程记录（多机调参历史、各轮复测）保存在 `results/qwen36/`，按日期归档，不改写；需要追溯具体某次实验时查对应目录。
