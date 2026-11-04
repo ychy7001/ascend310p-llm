@@ -1,10 +1,10 @@
 # Ascend 310P 优化结果
 
-本轮已完成生产 **Qwen3.6-35B-A3B W8A8 TP2** 的 a2 隔离基线、WY A/B/A′、业务重复和双 rank Profile。WY 候选 Prefill 提升约38%～54%，Decode 未提升，业务形状回放耗时约降3.1%；语义与数值风险尚未消除，未验收。Graph[1,4] 未达主要场景门槛。Qwen3.8-27B Dense 权重校验完成，首次启动及同步 eager 诊断均在动态 W8 Matmul 失败，尚无 Dense 性能基线。a1 生产未压测、重启或修改，本轮尚无可部署改动或新发布的引擎 PR。
+截至2026-11-04，生产参照为Qwen3.6-35B-A3B W8A8 TP2。Graph扩容未选中，WY-only有Prefill收益但未验收；新版配套H/O通过已测算子门禁，整模型业务仍未接受。27B已能在独立栈启动，尚无通过质量验收的性能基线。本轮无新增可上线改动。
 
 ## 范围与结果
 
-a1为生产事实源；a2使用同一镜像digest、W8权重和推理参数，但驱动分别为26.0.rc1与26.1.1，结果不能直接视为a1在线性能。单卡W4A8属于预算支线；Qwen3.8-27B Dense保留独立目标，三种来源元数据已审计，310P W8A8 权重已下载校验；启动阶段失败，尚未执行请求。Prefix Cache生产已启用，本轮只记录与控制命中，不计新增优化成果。
+a2隔离副本与a1生产使用相同镜像、W8权重和参数，驱动分别为26.1.1与26.0.rc1。W4预算支线与27B Dense分别建基线；Prefix Cache生产已启用，只控制命中，不计新增成果。
 
 | 项目 | 本轮结果 | 边界 |
 |---|---|---|
@@ -16,7 +16,7 @@ a1为生产事实源；a2使用同一镜像digest、W8权重和推理参数，�
 | W8 Profile | 4K Prefill、32K首输出后Decode，2范围×2rank CSV均成功 | 诊断累计kernel耗时，不混入基准吞吐 |
 | 工具回归 | 14项通过，Python编译及diff空白检查通过 | 测试范围是新增/修改的测量逻辑 |
 
-完整参数和吞吐见[基线](ascend310p-baseline.md)，算子与捕获范围见[Profiling](ascend310p-profiling.md)。原始数据、恢复前后状态和说明位于results/production-w8a8-20261103/。
+配置身份与测量协议见[基线](ascend310p-baseline.md)，算子与捕获范围见[Profiling](ascend310p-profiling.md)。原始数据、恢复前后状态和说明位于results/production-w8a8-20261103/。
 
 ## 第一项P0：Graph[1,2] → [1,4]
 
@@ -35,10 +35,6 @@ a1为生产事实源；a2使用同一镜像digest、W8权重和推理参数，�
 ## 算子证据与后续方向
 
 W8 Decode主要关注MoE grouped matmul（约23%累计kernel耗时）、FP16 MatMul（主要变体约20%，lm_head另约9%）和PA mask（约12.5%）；recurrent GDN约2%，状态已FP16。Prefill有大量与WY Torch分解相符的Tril/Slice/Copy/ReduceSum。通用kernel不能全部归为GDN；Graph内MatMul shape缺失、HCCL完整任务和关键路径仍需进一步归因。
-
-下一项优先复用现有上游原生GDN Prefill/WY实现，先在生产软件栈验证ABI、数值与回退边界，再独立测量4K/16K/32K及业务墙钟。避免把预算W4镜像中的旧二进制直接视为W8 torch-npu.post2/CANN beta可用。随后再依据Decode证据选择投影/输出头或MoE路径的最小改动。
-
-上游贡献要区别：Graph属于部署参数筛选，尚无可提交的引擎性能补丁；现有GDN状态行修复PR#18730属于此前工作，不重复计入本轮。复用其他作者的GDN实现时，新增贡献应是本配置的复现、回归或明确的兼容/性能修复。
 
 ## 质量与采集问题的保留记录
 
@@ -70,7 +66,7 @@ W4预算分支已完成基线、GSM64（64/64）及三份C16 Profile，其数值
 
 另发现原 Torch WY 路径在111-token synthetic输入上的偶发偏差，初测12轮原路径7/12在固定门限内、候选12/12且逐位稳定；独占复核原路径3/12、候选12/12，偏差仍集中在token56且最终状态逐位稳定，尚未定位WY/FwdH/FwdO边界。已在同一份失败输入上对照生产 CPU chunk 与独立逐 token 递推，输出最大绝对差3.59e−6、状态5.22e−8，支持参考的一致性，未定位 NPU 偏差根因。候选始终执行独立参考严格门限，未为追随原路径异常放宽标准。
 
-用户已授权直接使用 a2 实验机及其临时进程。控制器按阶段暂停 a2 临时 unit、确认 NPU 空闲，结束恢复；a1 保持只读。四档 A′ Prefill相对最初 A 为−0.88%/+0.15%/+0.34%/+0.36%，Decode变化均在约±0.25%内；候选相对A′ Prefill仍+39.65%/+53.79%/+45.56%/+39.03%，支持收益未由跨时段漂移解释。A′长回放508.42s，与A的508.40s一致，B为492.81s。候选三并发整套业务3轮与独立双rank Profile均完成。会议4映射1轮错/2轮对，仍有期限漏提取。数值拆分证明WY与FwdH接口逐位稳定时，FwdO原始输出仍会偏离；候选冻结WY重放也有超限，不能称WY修复了数值问题。4K trace原生ComputeWy实际执行，kernel38072→8492，Decode仍380000。下一步独立验证FwdO vector-mask假设，尚未接受部署。详见 results/production-native-wy-20261103/README.md。
+四档 A′ Prefill相对最初 A 为−0.88%/+0.15%/+0.34%/+0.36%，Decode变化均在约±0.25%内；候选相对A′ Prefill仍+39.65%/+53.79%/+45.56%/+39.03%，支持收益未由跨时段漂移解释。A′长回放508.42s，与A的508.40s一致，B为492.81s。候选三并发整套业务3轮与独立双rank Profile均完成。会议4映射1轮错/2轮对，仍有期限漏提取。数值拆分证明WY与FwdH接口逐位稳定时，FwdO原始输出仍会偏离；候选冻结WY重放也有超限，不能称WY修复了数值问题。4K trace原生ComputeWy实际执行，kernel38072→8492，Decode仍380000。下一步独立验证FwdO vector-mask假设，尚未接受部署。详见 results/production-native-wy-20261103/README.md。
 
 
 ### FwdO 最小补丁排除与 Dense 准备（本轮续）
@@ -81,7 +77,7 @@ W4预算分支已完成基线、GSM64（64/64）及三份C16 Profile，其数值
 
 核对镜像真实旧路径 csrc/moe/chunk_fwd_o、chunk_gated_delta_rule_fwd_h 和 common，59 个文件与生产提交 Git blob 一致。此前误查带 _vllm 后缀路径造成“源码缺失”的判断已撤销。
 
-Qwen3.8-27B Dense 采用用户提供的 Eco-Tech/Qwen3.8-27B-w8a8-310p：26 文件、36,447,005,796 字节、9 个权重分片；逐文件固定 revision/SHA256、safetensors header/index 校验通过。完成下载不代表模型启动或推理通过。新增 run-dense-baseline.py 在算子对照结束后独占 a2，先按生产镜像与完整上下文配置建立原始算子基线，结束恢复 a2 临时 unit。
+Qwen3.8-27B Dense 采用用户提供的 Eco-Tech/Qwen3.8-27B-w8a8-310p：26 文件、36,447,005,796 字节、9 个权重分片；逐文件固定 revision/SHA256、safetensors header/index 校验通过。完成下载不代表模型启动或推理通过。
 
 
 ### 原始重编译对照已完成；Dense 首次启动失败
@@ -98,7 +94,7 @@ Dense 合成量化矩阵隔离8项已完成：M=1/4096、两种MLP形状下，�
 
 ### 现有上游 FwdO 单独复用门禁
 
-GruntovDima PR17640 固定 head18163f6b，算法不改、仅提取独立 FwdO 绑定，生产镜像构建成功。保留生产 FwdH 的组合，固定输入上游 FwdO 0/48 在容差内（48/48逐位稳定），配对生产48/48通过；maxabs约0.004327、relative RMSE约0.195875，异常token0～6、64～70。严格门禁停止，未运行模型、未测性能，也未测试该PR的完整FwdH+FwdO组合。不能外推为上游完整PR错误。证据 results/upstream-fwd-o-20261103/。
+GruntovDima PR17640 固定 head18163f6b，算法不改、仅提取独立 FwdO 绑定，生产镜像构建成功。保留生产 FwdH 的组合，固定输入上游 FwdO 0/48 在容差内（48/48逐位稳定），配对生产48/48通过；maxabs约0.004327、relative RMSE约0.195875，异常token0～6、64～70。严格门禁停止，未运行模型、未测性能，该项只测试混合组合。不能外推为上游完整PR错误。证据 results/upstream-fwd-o-20261103/。
 
 
 ### Dense 实际输入捕获与缓存对照
@@ -113,10 +109,6 @@ Dense问题草稿见docs/upstream/310p-dense-w8a8-startup.md；无模型权重�
 ### 本轮最终状态
 
 Dense在原Graph配置下仅设ACLNN_CACHE_LIMIT=0，仍启动失败507015，故障kernel仍为QuantBatchMatmulV3_NZ_NZ_int8_int8_fp16_high_performance_21；没有HTTP请求或性能数据。记录results/qwen38-dense-no-executor-cache-screen-20261103/。至此，生产布局随机矩阵4项通过、真实输入独立重放6项通过，但模型启动故障未定位，不能提交猜测性数值修复。
-
-a2本轮rootless实验容器全部停止，原临时unit已reset-failed后重新启动；最终采样unit=active，18081/health尚未ready（connection refused），不能称模型健康恢复。a1本轮无操作。此前清理失败及恢复过程均保留。
-
-本轮仍无新增可上线改动或新发布PR。可复现的WY Prefill收益、失败候选、独立CPU参考和上游问题草稿均已归档。下一优先级为Dense完整调用上下文/运行时兼容性定位，以及独立的Decode瓶颈优化；保持35B-A3B为主线，禁止用新Dense启动参数冒充生产A/B。
 
 ## 2026-11-04：Dense 权重存储与双设备交叉诊断
 
@@ -143,13 +135,13 @@ post4 v3已通过profile_run，随后KV准入失败（8.09GiB需求/7.66GiB可�
 
 固定PR17640 head18163f6b，在生产post2镜像构建成对FwdH/FwdO及保留NZ初始状态逻辑的原始binding，独立namespace/vendor。与此前新O/旧H混合组合分开记录。两张卡、Torch/原生WY四组完整链各24次加冻结克隆24次，共192/192在误差门限内，raw输出逐位稳定，最大绝对误差6.3153e-6。两个新进程各10/10严格门禁（每组6项完整GDN输出/最终状态，3项WY布局，1项CPU回退）通过，多形状输出最大误差8.2599e-6，状态最大8.8640e-5；Torch WY+成对H/O也通过CPU参考。原始probe和严格门禁有不同检查范围，不能把192次都说成重新运行WY或逐次state验证。
 
-这是对既有上游实现的生产栈验证，不是新原创kernel；完整组合尚未完成模型/业务/Logits等价与性能验收。当前已进入35B TP2质量筛选（原生WY+成对H/O），保持原镜像、262144上下文、Graph[1,2]、MTP0、seqs4/batch4096、FP16 SSM及prefix配置。首次准备失败和成功重试分别见results/upstream-gdn-pair-v{1,2}-20261104；贡献范围审计见results/upstream-gdn-pr-audit-20261104。
+这是对既有上游实现的生产栈验证，不是新原创kernel；完整组合尚未完成模型/业务/Logits等价与性能验收。模型判定见下一节。首次准备失败和成功重试分别见results/upstream-gdn-pair-v{1,2}-20261104；贡献范围审计见results/upstream-gdn-pr-audit-20261104。
 
 ## 2026-11-04：完整H/O候选本轮最终判定
 
 配套H/O+原生WY算子验证通过（四组192次输出检查、两次严格10例），模型质量筛选已结束。前后短请求各8/8，事实16/16，业务自动28/28；人工会议4仍有负责人错配及完成状态编造，因此最终not_accepted_business_semantics，不进入性能或部署。GSM64=63/64，与冻结生产基线逐样本答案/正确性一致，唯一index205截断；文本19/64完全一致，不证明逐token等价。A′此前也有业务错误，不能据此将错误归因为候选独有回归。
 
-结果：results/production-gdn-pair-quality-20261104/adjudication.json。上游路线和补充研究取舍：docs/research/gdn-upstream-pr-evaluation.md。此前段落中的“运行中”是过程状态，以本段最终判定为准。
+结果：results/production-gdn-pair-quality-20261104/adjudication.json。上游路线和补充研究取舍：docs/research/gdn-upstream-pr-evaluation.md。
 
 ## 2026-11-04：CANN9.2.1完整默认栈隔离验证
 
