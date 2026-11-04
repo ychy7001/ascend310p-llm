@@ -1,0 +1,5 @@
+# 真实Matmul输入，显式expandable分配器交叉
+
+原生产镜像，在导入torch前设置PYTORCH_NPU_ALLOC_CONF=expandable_segments:True。两个TP捕获×两张卡单独进程，原始4096行/布局。三项PASS，rank1/device0 FAIL507015，同模型故障kernel/hash5247287448945562503。首次在独立进程复现，无完整模型加载。
+
+后续True/False重复对照在False也出现507015，因此不能声称expandable是必要条件或False是修复。status=complete只代表四项执行与清理完成，不能读作4/4正确。模型权重快照仍只保存在远端，不放入仓库。

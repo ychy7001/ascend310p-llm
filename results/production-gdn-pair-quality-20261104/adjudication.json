@@ -1,0 +1,48 @@
+{
+  "status": "not_accepted_business_semantics",
+  "operator_gate": "passed_operator_validation",
+  "quality_before_strict": 8,
+  "quality_after_strict": 8,
+  "business_facts": "16/16",
+  "business_automatic": "28/28; format/keywords only, not semantic acceptance",
+  "gsm64": {
+    "baseline": "results/production-w8a8-20261103/gsm64.jsonl",
+    "same_indices": true,
+    "same_dataset_sha256": true,
+    "same_correctness_all_64": true,
+    "same_predicted_all_64": true,
+    "identical_text_count": 19,
+    "candidate_summary": {
+      "kind": "summary",
+      "label": "production-gdn-pair-quality",
+      "samples": 64,
+      "correct": 63,
+      "parse_missing": 1,
+      "truncated": 1
+    },
+    "failed_indices": [
+      205
+    ]
+  },
+  "blocking_case": {
+    "meeting_id": 4,
+    "expected": {
+      "support_reply": "周明/当天",
+      "backend_fix": "刘洋/周三",
+      "test_cases": "何丽/未明确"
+    },
+    "actual": {
+      "backend_fix": "周明/周三",
+      "support_reply": "刘洋/当天",
+      "test_cases": "何丽/未明确"
+    },
+    "extra": "计划回复被表述为已执行"
+  },
+  "other_manual_findings": [
+    "会议8行动表遗漏物业施工/行政验收映射，结论仍保留",
+    "会议18行动表把负责人标未明确，后续条目仍保留销售/产品/研发及周一/二/三映射"
+  ],
+  "causal_limit": "生产A′也有负责人错误，不能把此次失败直接归因于候选GDN；未做logits或逐token等价证明",
+  "performance_run": false,
+  "deployment_accepted": false
+}

@@ -1,0 +1,58 @@
+{
+  "status": "passed_initial_operator_screen",
+  "dense_cases": [
+    {
+      "file": "dense-seed310-False.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed310-True.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed311-False.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed311-True.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed312-False.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed312-True.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed313-False.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed313-True.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed314-False.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    },
+    {
+      "file": "dense-seed314-True.json",
+      "status": "PASS",
+      "max_sample_abs": 0.0
+    }
+  ],
+  "gdn_device0": "48/48 output+state CPU tolerance and exact repeatability",
+  "gdn_device1": "48/48 output+state CPU tolerance and exact repeatability",
+  "causal_limit": "Entire official runtime differs; not CANN-only comparison; no model acceptance"
+}

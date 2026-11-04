@@ -1,0 +1,43 @@
+{
+  "status": "not_accepted_gdn_correctness",
+  "image_id": "d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a",
+  "initial_gdn_t111": "two devices each48/48 output+state+repeatability",
+  "dense_synthetic": "10/10PASS; no507015 in this finite sample",
+  "strict_default_gdn": "13/15PASS; twoT512failures",
+  "focused_gdn_t512": [
+    {
+      "file": "t512-hv16-seed318.jsonl",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 29,
+        "output_equal_first": 1,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "output_max_abs": 0.005041598342359066,
+      "output_max_relative_rmse": 0.06521939486265182,
+      "state_all_within_tolerance": true,
+      "max_output_outside_tolerance_elements": 1270
+    },
+    {
+      "file": "t512-hv24-seed318.jsonl",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 0,
+        "output_equal_first": 1,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "output_max_abs": 0.005985812749713659,
+      "output_max_relative_rmse": 0.07487422227859497,
+      "state_all_within_tolerance": true,
+      "max_output_outside_tolerance_elements": 1510
+    }
+  ],
+  "model_quality_run": false,
+  "performance_run": false,
+  "production_changed": false,
+  "next_step": "Use new stack as isolated diagnostic candidate; prioritize GDN H/O output correctness on T512; no production adoption"
+}

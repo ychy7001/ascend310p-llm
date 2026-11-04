@@ -1,0 +1,38 @@
+{
+  "operator_gate": "passed_for_30_synthetic_cases",
+  "production_adoption": false,
+  "devices": [
+    {
+      "device": 0,
+      "kind": "summary",
+      "cases": 15,
+      "passed": 15,
+      "native_calls": 60,
+      "loaded_apis": [
+        "/pair/opp/vendors/hyperqwen_gdn_pair921_transformer/op_api/lib/libcust_opapi.so",
+        "/wy/opp/vendors/hyperqwen_wy921_transformer/op_api/lib/libcust_opapi.so"
+      ]
+    },
+    {
+      "device": 1,
+      "kind": "summary",
+      "cases": 15,
+      "passed": 15,
+      "native_calls": 60,
+      "loaded_apis": [
+        "/pair/opp/vendors/hyperqwen_gdn_pair921_transformer/op_api/lib/libcust_opapi.so",
+        "/wy/opp/vendors/hyperqwen_wy921_transformer/op_api/lib/libcust_opapi.so"
+      ]
+    }
+  ],
+  "controlled_difference": "Only Torch WY versus native WY; same CANN9.2.1 and paired PR17640 H/O",
+  "reference": "CPU FP32 recurrence; atol0.0002,rtol0.04,relativeRMSE<=0.02; 3 bitwise repeats per path/case",
+  "not_measured": [
+    "real model input replay",
+    "fixed-token model logits",
+    "end-to-end performance",
+    "high precision same-weight model reference"
+  ],
+  "next_step": "Same W8A8 weights, same token prefixes and paired H/O; compare Torch/native WY with explicit capture, then performance",
+  "failed_attempt": "v1 missing tbe due to overwritten PYTHONPATH; zero numerical cases; retained separately"
+}

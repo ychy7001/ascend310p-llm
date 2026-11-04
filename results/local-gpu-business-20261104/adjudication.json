@@ -1,0 +1,47 @@
+{
+  "status": "not_accepted_business_semantics",
+  "runtime": "Existing local GPU27B W4A16/FP8 KV/MTP3, HyperQwen vLLM0.31.0",
+  "short_before": 8,
+  "short_after": 8,
+  "toy_total_each": 8,
+  "ABA_identical_before_after": true,
+  "facts": {
+    "kind": "summary",
+    "requests": 16,
+    "failures": 0,
+    "all_correct": true
+  },
+  "business_auto": {
+    "passed": 28,
+    "total": 28,
+    "scope": "20 meeting format/completion,3tool,5schema; not semantic acceptance"
+  },
+  "business_payloads_equal_original_a3b_except_model": true,
+  "structured_fields": {
+    "correct": 26,
+    "requests": 26,
+    "tokenization_matches": 13,
+    "tokenization_total": 13,
+    "usage_token_count_mismatches": 0,
+    "long_correct": 10,
+    "long_total": 10
+  },
+  "manual_findings": {
+    "case4": "Owner/deadline mapping preserved, unsupported completed reply under frozen conservative status criteria.",
+    "case5": "Owner/deadline mapping preserved incl当天, unsupported completed deactivation.",
+    "case18": "Role/deadline relations retained in full text; top action labels unspecified, structure issue.",
+    "all20_read": true,
+    "other_inferences_require_review": [
+      2,
+      7,
+      8,
+      9,
+      12
+    ]
+  },
+  "interruption": "Original action-state interrupted at11 requests. Raw retained; fresh26-request field stage and final short check complete in resumed-v1. No performance use of warm-cache timings.",
+  "health_after": 200,
+  "production_adoption": false,
+  "performance_acceptance": false,
+  "causal_attribution": "No foundation model/quantization/kernel attribution; full runtime and quantization differ from NPU references."
+}

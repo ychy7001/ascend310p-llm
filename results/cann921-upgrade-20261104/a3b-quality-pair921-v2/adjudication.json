@@ -1,0 +1,210 @@
+{
+  "status": "not_accepted_business_semantics",
+  "date": "2026-11-04",
+  "runtime": "Official fixed9.2.1/post7/v0.30.0 + PR17640 paired H/O, original Torch WY",
+  "primary_model": "Qwen3.6-35B-A3B W8A8 TP2",
+  "operator_validation": "192/192 T512 numeric output/state and bitwise repeats; both devices15/15 strict cases",
+  "short_before": 8,
+  "short_after": 8,
+  "facts": {
+    "kind": "summary",
+    "requests": 16,
+    "failures": 0,
+    "all_correct": true
+  },
+  "automatic_business": {
+    "cases": 28,
+    "passed": 28
+  },
+  "manual_review": {
+    "reviewed_meeting_cases": 20,
+    "critical_cases": [
+      {
+        "id": 4,
+        "owner_mapping": "Correct this run: support_reply周明, backend_fix刘洋, tests何丽",
+        "finding": "Source does not establish completed reply; output invents 支持团队已于当天完成回复",
+        "baseline": "Original production A also says 支持团队已于当天完成回复; not a candidate-exclusive finding"
+      },
+      {
+        "id": 5,
+        "finding": "Invents completed deactivation; action deadline changes source当天 to 本周内（已完成）",
+        "baseline": "Original production A also invents completion; 本周内 action deadline is an additional discrepancy in this run"
+      }
+    ],
+    "limits": "Single concurrent suite, no token/logits equivalence and no claim of candidate-only numerical regression"
+  },
+  "baseline_request_comparison": [
+    {
+      "kind": "meeting",
+      "id": 1,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 2,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 3,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 4,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 5,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 6,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 7,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 8,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 9,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 10,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 11,
+      "identical_request": true,
+      "identical_response_text": true
+    },
+    {
+      "kind": "meeting",
+      "id": 12,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 13,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 14,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 15,
+      "identical_request": true,
+      "identical_response_text": true
+    },
+    {
+      "kind": "meeting",
+      "id": 16,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 17,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 18,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 19,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "meeting",
+      "id": 20,
+      "identical_request": true,
+      "identical_response_text": false
+    },
+    {
+      "kind": "tool",
+      "id": 1,
+      "identical_request": true,
+      "identical_response_text": null
+    },
+    {
+      "kind": "tool",
+      "id": 2,
+      "identical_request": true,
+      "identical_response_text": null
+    },
+    {
+      "kind": "tool",
+      "id": 3,
+      "identical_request": true,
+      "identical_response_text": null
+    },
+    {
+      "kind": "schema",
+      "id": 1,
+      "identical_request": true,
+      "identical_response_text": true
+    },
+    {
+      "kind": "schema",
+      "id": 2,
+      "identical_request": true,
+      "identical_response_text": true
+    },
+    {
+      "kind": "schema",
+      "id": 3,
+      "identical_request": true,
+      "identical_response_text": true
+    },
+    {
+      "kind": "schema",
+      "id": 4,
+      "identical_request": true,
+      "identical_response_text": true
+    },
+    {
+      "kind": "schema",
+      "id": 5,
+      "identical_request": true,
+      "identical_response_text": true
+    }
+  ],
+  "gsm_run": false,
+  "performance_run": false,
+  "adopted": false,
+  "next": "Keep operator-level fix evidence separate from semantic behavior; establish paired structured non-regression and boundary/long-context coverage before WY/performance acceptance"
+}

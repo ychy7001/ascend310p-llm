@@ -1,0 +1,56 @@
+{
+  "decision": "passed_operator_validation_only",
+  "upstream_commit": "18163f6b1d208ab3b4fb06e9752225611c37f40e",
+  "chains": [
+    {
+      "label": "chain-torch-device0",
+      "tested": 48,
+      "outside_tolerance_runs": 0,
+      "raw_bitwise_equal_first": true,
+      "max_abs": 6.31529837846756e-06
+    },
+    {
+      "label": "chain-native-device0",
+      "tested": 48,
+      "outside_tolerance_runs": 0,
+      "raw_bitwise_equal_first": true,
+      "max_abs": 6.31529837846756e-06
+    },
+    {
+      "label": "chain-torch-device1",
+      "tested": 48,
+      "outside_tolerance_runs": 0,
+      "raw_bitwise_equal_first": true,
+      "max_abs": 6.31529837846756e-06
+    },
+    {
+      "label": "chain-native-device1",
+      "tested": 48,
+      "outside_tolerance_runs": 0,
+      "raw_bitwise_equal_first": true,
+      "max_abs": 6.31529837846756e-06
+    }
+  ],
+  "strict_gates": [
+    {
+      "process": 0,
+      "passed": 10,
+      "full_gdn_shapes": 6,
+      "max_output_abs": 8.259899914264679e-06,
+      "max_state_abs": 8.863955736160278e-05
+    },
+    {
+      "process": 1,
+      "passed": 10,
+      "full_gdn_shapes": 6,
+      "max_output_abs": 8.259899914264679e-06,
+      "max_state_abs": 8.863955736160278e-05
+    }
+  ],
+  "limitations": [
+    "Synthetic cases do not establish model/logit equivalence",
+    "Both H/O and binding change together; no unique kernel root cause established",
+    "No production deployment or performance acceptance",
+    "Chain snapshot probe predates added per-call state/RMSE reporting; strict gates independently validate both outputs and states"
+  ]
+}

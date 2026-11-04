@@ -1,0 +1,19 @@
+{
+  "counts": {
+    "expandable_segments:False": {
+      "PASS": 4,
+      "FAIL": 1
+    },
+    "expandable_segments:True": {
+      "PASS": 3,
+      "FAIL": 1
+    }
+  },
+  "not_reached": {
+    "allocator": "expandable_segments:True",
+    "count": 1,
+    "reason": "HDC receive during device initialization; no result JSON",
+    "elapsed_s": 128.87564855406526
+  },
+  "conclusion": "Both settings reproduce 507015; disabling expandable is not a fix"
+}

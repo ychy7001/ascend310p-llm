@@ -1,0 +1,171 @@
+{
+  "status": "not_accepted_business_semantics_and_structured_field",
+  "runtime": {
+    "model": "Qwen3.6-35B-A3B GPTQ Int4",
+    "revision": "00a66983516f8f8057741221277eed4141c9e431",
+    "hardware": "RTX3090 only",
+    "image": "4d9fb561ad6a866c0828a67b1e4a0c3f35f3373daa02f2bb2a689acc49e76457",
+    "TP": 1,
+    "dtype": "float16",
+    "kv": "auto/FP16",
+    "ssm": "FP16",
+    "MTP": 0,
+    "max_context": 4096,
+    "eager": true,
+    "prefix": true,
+    "quant_kernel": "Marlin MoE WNA16",
+    "gdn": "Triton/FLA prefill and Triton decode",
+    "weight_memory_GiB": 20.27,
+    "available_KV_GiB": 1.8
+  },
+  "short_before": 8,
+  "short_after": 8,
+  "short_total_each": 8,
+  "ABA_both_identical_no_canary": true,
+  "facts": {
+    "requests": 16,
+    "summary": {
+      "kind": "summary",
+      "requests": 16,
+      "failures": 0,
+      "all_correct": true
+    }
+  },
+  "business_auto": {
+    "passed": 28,
+    "total": 28,
+    "scope": "20 meeting format/completion,3tool,5schema; manual semantics separate"
+  },
+  "business_payloads_equal_original_a3b_except_model": true,
+  "structured_fields": {
+    "correct": 15,
+    "requests": 16,
+    "C1_correct": 8,
+    "C1_total": 8,
+    "C3_correct": 7,
+    "C3_total": 8,
+    "tokenization_matches": 8,
+    "tokenization_total": 8,
+    "usage_token_count_mismatches": 0,
+    "failure": "short-4 C3: explicit unanswered completion query mapped all3 statuses to待执行 instead of未明确; same case C1 correct. No repeats yet, no kernel/batching causal claim.",
+    "long_requests": 0
+  },
+  "manual_findings": {
+    "all20_read": true,
+    "oracle": "Frozen v1/semantic-review-oracle.json, copied before GPU35 generation; conservative status policy is business criterion, not numerical truth.",
+    "reviews": [
+      {
+        "id": 1,
+        "classification": "core_preserved",
+        "finding": "发布日期/联调/复测关系保留；周五写本周五，属于相对时间解释，不另判根因。"
+      },
+      {
+        "id": 2,
+        "classification": "review_required",
+        "finding": "追加预算未批准、下周二审批保留；补ROI期限下周二前为推断，负责人未明确。"
+      },
+      {
+        "id": 3,
+        "classification": "core_preserved",
+        "finding": "周一改周四、沟通/排期负责人及月底结算保留。"
+      },
+      {
+        "id": 4,
+        "classification": "failed_conservative_business_oracle",
+        "finding": "结论补已于当天回复；表格将后端修复配周明、客户回复配刘洋，颠倒原文分别对应关系；何丽用例保留。"
+      },
+      {
+        "id": 5,
+        "classification": "failed_conservative_business_oracle",
+        "finding": "结论补已执行当天停用，行动项未列IT管理员停用；核对期限下周一前保留，未出现当天改本周内。"
+      },
+      {
+        "id": 6,
+        "classification": "core_preserved",
+        "finding": "两报价、乙交货慢、未最终选型及采购补质保保留。"
+      },
+      {
+        "id": 7,
+        "classification": "core_preserved",
+        "finding": "两名后端批准、一名测试暂缓、JD/面试安排保留。"
+      },
+      {
+        "id": 8,
+        "classification": "structure_loss",
+        "finding": "周末施工和物业在全文保留，但行动项施工截止时间写未明确；行政验收期限未明确正确。"
+      },
+      {
+        "id": 9,
+        "classification": "core_preserved",
+        "finding": "迁移窗口、备份/演练负责人、失败立即回滚条件保留。"
+      },
+      {
+        "id": 10,
+        "classification": "core_preserved",
+        "finding": "运营数字、继续A暂停B、周三复核保留。"
+      },
+      {
+        "id": 11,
+        "classification": "review_required",
+        "finding": "核心任务/期限与未扩大灰度保留；额外写灰度扩大事宜讨论，原文仅明确没决定。"
+      },
+      {
+        "id": 12,
+        "classification": "review_required",
+        "finding": "合同未签和赔偿待协商保留；新增全体/相关方复审负责人，预计周四被表格确定为周四。"
+      },
+      {
+        "id": 13,
+        "classification": "core_preserved",
+        "finding": "告警/恢复/影响/原因及平台团队周五任务保留。"
+      },
+      {
+        "id": 14,
+        "classification": "core_preserved",
+        "finding": "下周三14点90分钟与行政/导师任务保留，无额外期限。"
+      },
+      {
+        "id": 15,
+        "classification": "structure_loss",
+        "finding": "100/3/承诺换货与复查后签单在全文保留，行动项表格无任务列，换货只在结论。"
+      },
+      {
+        "id": 16,
+        "classification": "core_preserved",
+        "finding": "中英/德语延期/交付负责人期限及未上线日期保留。"
+      },
+      {
+        "id": 17,
+        "classification": "core_preserved",
+        "finding": "90改30天/审计一年/审批前不得删除/周五评估保留。"
+      },
+      {
+        "id": 18,
+        "classification": "structure_loss",
+        "finding": "全文保留销售周一/产品周二/研发周三，行动项合并且负责人/截止时间未明确。"
+      },
+      {
+        "id": 19,
+        "classification": "core_preserved",
+        "finding": "脱敏/导出限管理员/原始数据不进演示及安全下周复查保留。"
+      },
+      {
+        "id": 20,
+        "classification": "core_preserved",
+        "finding": "阶段一已完成/11月20日阶段二验收/接口风险/明天更新保留；负责人原文只有泛指，未明确姓名。"
+      }
+    ],
+    "no_business_ranking": "One freeform sample per meeting on mixed quant/runtime configs; do not infer global model ranking."
+  },
+  "performance_acceptance": false,
+  "production_adoption": false,
+  "causal_attribution": "Business completion-state/role errors also observed on GPU; not exclusive to310P. Mixed quantized artifacts/runtime and no FP16 weight reference prevent foundation-model/quantization/kernel attribution.",
+  "restoration": {
+    "original_container_restored": true,
+    "independent_health": 200,
+    "experiment_stopped": true,
+    "a2_service": "active/HTTP200",
+    "GPU3080": "Original two process PIDs still present",
+    "a1": "No operation"
+  }
+}

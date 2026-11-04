@@ -1,0 +1,7 @@
+{
+  "status": "not_promoted",
+  "performance_evidence": "A/B/A-prime Prefill gain retained; business shape wall time A508.40/B492.81/Aprime508.42 seconds",
+  "semantic_evidence": "Original control also fails owner mapping in concurrent suite; native three-repeat suite maps owners incorrectly once, correctly twice, with a deadline omission once. Serial both6/6 mapping correct. No candidate-exclusive causal claim.",
+  "numerical_evidence": "WY and FwdH interfaces stable across repeated full-chain calls. Raw FwdO output deviation reproduced with identical inputs, while FwdO-only repeated calls happened to pass24/24. Native frozen-WY replay also exposed deviations. Native WY is not a proven numerical fix.",
+  "next": "Build isolated vector-mask hypothesis and require paired48-repeat plus strict full-GDN numerical checks before model tests."
+}

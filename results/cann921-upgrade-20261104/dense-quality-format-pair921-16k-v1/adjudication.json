@@ -1,0 +1,289 @@
+{
+  "status": "not_accepted_short_format_gate",
+  "diagnostics_complete": true,
+  "cases": {
+    "copy-array": {
+      "passed": 3,
+      "total": 3,
+      "texts": [
+        "[2,7,9]",
+        "[2,7,9]",
+        "[2,7,9]"
+      ],
+      "token_ids": [
+        [
+          58,
+          17,
+          11,
+          22,
+          11,
+          24,
+          60,
+          248046
+        ],
+        [
+          58,
+          17,
+          11,
+          22,
+          11,
+          24,
+          60,
+          248046
+        ],
+        [
+          58,
+          17,
+          11,
+          22,
+          11,
+          24,
+          60,
+          248046
+        ]
+      ]
+    },
+    "copy-commas": {
+      "passed": 3,
+      "total": 3,
+      "texts": [
+        "2,7,9",
+        "2,7,9",
+        "2,7,9"
+      ],
+      "token_ids": [
+        [
+          17,
+          11,
+          22,
+          11,
+          24,
+          248046
+        ],
+        [
+          17,
+          11,
+          22,
+          11,
+          24,
+          248046
+        ],
+        [
+          17,
+          11,
+          22,
+          11,
+          24,
+          248046
+        ]
+      ]
+    },
+    "copy-letters": {
+      "passed": 3,
+      "total": 3,
+      "texts": [
+        "a,b,c",
+        "a,b,c",
+        "a,b,c"
+      ],
+      "token_ids": [
+        [
+          64,
+          8142,
+          9809,
+          248046
+        ],
+        [
+          64,
+          8142,
+          9809,
+          248046
+        ],
+        [
+          64,
+          8142,
+          9809,
+          248046
+        ]
+      ]
+    },
+    "copy-semicolons": {
+      "passed": 3,
+      "total": 3,
+      "texts": [
+        "2;7;9",
+        "2;7;9",
+        "2;7;9"
+      ],
+      "token_ids": [
+        [
+          17,
+          26,
+          22,
+          26,
+          24,
+          248046
+        ],
+        [
+          17,
+          26,
+          22,
+          26,
+          24,
+          248046
+        ],
+        [
+          17,
+          26,
+          22,
+          26,
+          24,
+          248046
+        ]
+      ]
+    },
+    "sort-json": {
+      "passed": 3,
+      "total": 3,
+      "texts": [
+        "[2, 7, 9]",
+        "[2, 7, 9]",
+        "[2, 7, 9]"
+      ],
+      "token_ids": [
+        [
+          58,
+          17,
+          11,
+          220,
+          22,
+          11,
+          220,
+          24,
+          60,
+          248046
+        ],
+        [
+          58,
+          17,
+          11,
+          220,
+          22,
+          11,
+          220,
+          24,
+          60,
+          248046
+        ],
+        [
+          58,
+          17,
+          11,
+          220,
+          22,
+          11,
+          220,
+          24,
+          60,
+          248046
+        ]
+      ]
+    },
+    "sort-original": {
+      "passed": 0,
+      "total": 3,
+      "texts": [
+        "279",
+        "279",
+        "279"
+      ],
+      "token_ids": [
+        [
+          17,
+          22,
+          24,
+          248046
+        ],
+        [
+          17,
+          22,
+          24,
+          248046
+        ],
+        [
+          17,
+          22,
+          24,
+          248046
+        ]
+      ]
+    }
+  },
+  "short_matches": 7,
+  "short_total": 8,
+  "parsing_removed_commas": false,
+  "comma_generation_supported_in_other_tested_prompts": true,
+  "second_token_logprobs_first_repeat": {
+    "token": "7",
+    "logprob": -0.256611168384552,
+    "bytes": [
+      55
+    ],
+    "top_logprobs": [
+      {
+        "token": "7",
+        "logprob": -0.256611168384552,
+        "bytes": [
+          55
+        ]
+      },
+      {
+        "token": ",",
+        "logprob": -1.4909861087799072,
+        "bytes": [
+          44
+        ]
+      },
+      {
+        "token": "<|im_end|>",
+        "logprob": -7.334736347198486,
+        "bytes": [
+          60,
+          124,
+          105,
+          109,
+          95,
+          101,
+          110,
+          100,
+          124,
+          62
+        ]
+      },
+      {
+        "token": "2",
+        "logprob": -8.194110870361328,
+        "bytes": [
+          50
+        ]
+      },
+      {
+        "token": "9",
+        "logprob": -9.147235870361328,
+        "bytes": [
+          57
+        ]
+      }
+    ]
+  },
+  "findings": [
+    "Original sort prompt3/3 outputs279, raw token IDs contain no comma.",
+    "Five other probe families15/15 match, including numeric comma copy and constrained JSON sort.",
+    "CPU tokenizer roundtrip passes. Failure is prompt-dependent generation in tested W8A8 deployment, not observed comma deletion by output parser.",
+    "Do not attribute uniquely to foundation model or quantization without same-model reference."
+  ],
+  "business_requests": 0,
+  "performance_requests": 0,
+  "production_adoption": false,
+  "scope": "Logprobs from different prompts are not numerical equivalence tests; JSON schema explicitly constrains punctuation and is not a repair of original prompt."
+}

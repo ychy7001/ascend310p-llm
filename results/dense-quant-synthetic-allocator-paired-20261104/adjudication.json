@@ -1,0 +1,20 @@
+{
+  "counts": {
+    "expandable_segments:False": {
+      "PASS": 4,
+      "FAIL": 1
+    },
+    "expandable_segments:True": {
+      "PASS": 2,
+      "FAIL": 2
+    }
+  },
+  "not_reached": {
+    "allocator": "expandable_segments:True",
+    "count": 1,
+    "reason": "No tensor/result marker; driver initialization timed out180s, stop5s",
+    "elapsed_s": 185.26682059292216
+  },
+  "scope": "No model checkpoints, public reproducible generated input; failures in both allocator settings",
+  "source_sha256": "ffdffd0ec4ba7f079c6b2a346c39ee8baa508fcdde6dd3b10ac8ec0fcfde0e70"
+}

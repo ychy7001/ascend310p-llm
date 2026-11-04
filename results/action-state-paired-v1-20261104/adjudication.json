@@ -1,0 +1,81 @@
+{
+  "status": "not_accepted_business_semantics",
+  "structured_gate": {
+    "status": "passed_for_tested_inputs",
+    "requests_per_stack": 26,
+    "total_requests": 52,
+    "A_correct": 26,
+    "B_correct": 26,
+    "candidate_new_failures": 0,
+    "long_requests_per_stack": 10,
+    "exact_chat_lengths": [
+      4095,
+      4096,
+      4097,
+      16384,
+      32768
+    ],
+    "concurrency_limits": [
+      1,
+      3
+    ],
+    "exact_input_tokenization": true,
+    "usage_token_count_mismatches": 0,
+    "comparison": "Exact task/owner/due_date/execution_status against independent frozen expectations; action order alone ignored"
+  },
+  "freeform_review": {
+    "requests_per_stack": 9,
+    "exactly_paired_payloads": 9,
+    "owner_case4_correct": {
+      "A": 2,
+      "B": 3,
+      "denominator": 3
+    },
+    "case4_unsupported_completed_claims": {
+      "A": 3,
+      "B": 3,
+      "denominator": 3
+    },
+    "case5_unsupported_completed_claims": {
+      "A": 3,
+      "B": 3,
+      "denominator": 3
+    },
+    "case5_deadline_substitution": {
+      "A_observed": 0,
+      "B_observed": 1,
+      "B_location": {
+        "concurrency_limit": 1,
+        "repeat": 0
+      },
+      "source": "当天",
+      "candidate": "本周内（已执行）",
+      "caution": "A omitted the deactivation action row in all three outputs; zero observed substitutions does not establish A complete correctness."
+    },
+    "case18_full_text_relations_preserved": {
+      "A": 3,
+      "B": 3,
+      "denominator": 3
+    },
+    "case18_action_section_structure_loss": {
+      "A": 3,
+      "B": 3,
+      "denominator": 3
+    },
+    "criteria": "Frozen source-based conservative interpretation: no completed status without explicit completion evidence. Natural-language terseness can be ambiguous; these are semantic review findings, not a numerical correctness oracle."
+  },
+  "decision": {
+    "production_adoption": false,
+    "formal_performance_acceptance": false,
+    "native_wy_acceptance": false,
+    "next": "Keep Torch WY paired921 as isolated control; any next native-WY candidate must be rebuilt for9.2.1, pass operator gates and same paired model regression. Preserve deadline counterexample and investigate separately; do not expand independent duplicate WY PR."
+  },
+  "limits": [
+    "Whole production stack versus9.2.1+paired H/O: no attribution to CANN or H/O alone.",
+    "Structured prompts differ from original freeform prompts; passing structured extraction does not repair freeform behavior.",
+    "Three repeats do not prove owner repair or semantic equivalence.",
+    "Synthetic retrieval through32K, not real long meetings or262K requests.",
+    "No logits/token equivalence, GSM or throughput conclusion.",
+    "Previous38–54% prefill results do not transfer to this new control."
+  ]
+}

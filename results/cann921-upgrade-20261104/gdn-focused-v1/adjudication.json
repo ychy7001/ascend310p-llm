@@ -1,0 +1,38 @@
+{
+  "status": "failed_output_numeric_and_repeatability",
+  "results": [
+    {
+      "file": "t512-hv16-seed318.jsonl",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 29,
+        "output_equal_first": 1,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "output_max_abs": 0.005041598342359066,
+      "output_max_relative_rmse": 0.06521939486265182,
+      "state_all_within_tolerance": true,
+      "max_output_outside_tolerance_elements": 1270
+    },
+    {
+      "file": "t512-hv24-seed318.jsonl",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 0,
+        "output_equal_first": 1,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "output_max_abs": 0.005985812749713659,
+      "output_max_relative_rmse": 0.07487422227859497,
+      "state_all_within_tolerance": true,
+      "max_output_outside_tolerance_elements": 1510
+    }
+  ],
+  "models_not_started": true,
+  "no_performance": true,
+  "causal_limit": "Default whole official9.2.1/post7/vLLM0.30.0 stack; does not isolate CANN cause"
+}

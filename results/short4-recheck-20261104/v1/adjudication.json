@@ -1,0 +1,158 @@
+{
+  "status": "original_C1_C3_flip_not_reproduced_under_instrumented_conditions",
+  "target_requests": 6,
+  "correct": 0,
+  "all_target_statuses": "待执行 for all3 actions, expected未明确",
+  "first_status_token_margins": [
+    {
+      "repeat": 0,
+      "concurrency": 1,
+      "correct": false,
+      "first_status_token_index": 54,
+      "chosen": "待",
+      "raw_logprob_waiting": -0.6121318340301514,
+      "raw_logprob_unknown": -0.7840068340301514,
+      "waiting_minus_unknown": 0.171875,
+      "observed_batch_sizes": [
+        1
+      ],
+      "decision_steps": [
+        {
+          "scheduled_requests": 1,
+          "num_scheduled_tokens": {
+            "chatcmpl-8ad4a3e3b79e097e-b328e7ae": 1
+          },
+          "target_output_tokens_before_step": 54
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "concurrency": 3,
+      "correct": false,
+      "first_status_token_index": 54,
+      "chosen": "待",
+      "raw_logprob_waiting": -0.6556450724601746,
+      "raw_logprob_unknown": -0.7337700724601746,
+      "waiting_minus_unknown": 0.078125,
+      "observed_batch_sizes": [
+        2,
+        3
+      ],
+      "decision_steps": [
+        {
+          "scheduled_requests": 3,
+          "num_scheduled_tokens": {
+            "chatcmpl-82e9aa47410c6498-a6472fc6": 1,
+            "chatcmpl-991d92b05b88caa1-b0f71516": 1,
+            "chatcmpl-a657e2b8687baa90-8233413d": 1
+          },
+          "target_output_tokens_before_step": 54
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "concurrency": 1,
+      "correct": false,
+      "first_status_token_index": 54,
+      "chosen": "待",
+      "raw_logprob_waiting": -0.4873703122138977,
+      "raw_logprob_unknown": -0.9561203122138977,
+      "waiting_minus_unknown": 0.46875,
+      "observed_batch_sizes": [
+        1
+      ],
+      "decision_steps": [
+        {
+          "scheduled_requests": 1,
+          "num_scheduled_tokens": {
+            "chatcmpl-954719d078f7f1f7-89178ead": 1
+          },
+          "target_output_tokens_before_step": 54
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "concurrency": 3,
+      "correct": false,
+      "first_status_token_index": 54,
+      "chosen": "待",
+      "raw_logprob_waiting": -0.5051403045654297,
+      "raw_logprob_unknown": -0.9270153045654297,
+      "waiting_minus_unknown": 0.421875,
+      "observed_batch_sizes": [
+        2,
+        3
+      ],
+      "decision_steps": [
+        {
+          "scheduled_requests": 3,
+          "num_scheduled_tokens": {
+            "chatcmpl-840a9c3edff0974c-83b36de0": 1,
+            "chatcmpl-8a57df9c59a0e4f3-9e3cca73": 1,
+            "chatcmpl-9291564cce9ebed7-91477145": 1
+          },
+          "target_output_tokens_before_step": 54
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "concurrency": 1,
+      "correct": false,
+      "first_status_token_index": 54,
+      "chosen": "待",
+      "raw_logprob_waiting": -0.5906644463539124,
+      "raw_logprob_unknown": -0.8094144463539124,
+      "waiting_minus_unknown": 0.21875,
+      "observed_batch_sizes": [
+        1
+      ],
+      "decision_steps": [
+        {
+          "scheduled_requests": 1,
+          "num_scheduled_tokens": {
+            "chatcmpl-a67d04a13c224a51-b673656c": 1
+          },
+          "target_output_tokens_before_step": 54
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "concurrency": 3,
+      "correct": false,
+      "first_status_token_index": 54,
+      "chosen": "待",
+      "raw_logprob_waiting": -0.5366297364234924,
+      "raw_logprob_unknown": -0.8803797364234924,
+      "waiting_minus_unknown": 0.34375,
+      "observed_batch_sizes": [
+        2,
+        3
+      ],
+      "decision_steps": [
+        {
+          "scheduled_requests": 3,
+          "num_scheduled_tokens": {
+            "chatcmpl-80c7ee80257d4939-ab030b75": 1,
+            "chatcmpl-9a0d21dc0c10c0bb-9e2adca6": 1,
+            "chatcmpl-925a9138954f5585-af0bcbb7": 1
+          },
+          "target_output_tokens_before_step": 54
+        }
+      ]
+    }
+  ],
+  "summary": "Both C1/C3 failed identically in token IDs within each pair; raw distribution favors待 in all6. No evidence here of a C1/C3 decision flip. Different cache salts, logging and fresh startup vs original run; no causal diagnosis.",
+  "logprobs_scope": "raw_logprobs before processors, top20 only; no full-vocab KL or highprecision reference",
+  "finite_recheck_complete": true,
+  "recovery": {
+    "start_returncode": 0,
+    "stdout": "GPU_SERVICE\n",
+    "stderr": "",
+    "independent_health_200": true
+  }
+}

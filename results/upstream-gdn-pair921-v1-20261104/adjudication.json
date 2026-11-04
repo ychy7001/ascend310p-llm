@@ -1,0 +1,95 @@
+{
+  "status": "passed_operator_validation_only",
+  "date": "2026-11-04",
+  "image": "d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a",
+  "pr_commit": "18163f6b1d208ab3b4fb06e9752225611c37f40e",
+  "changes": "Paired H/O kernels and upstream NZ binding; original Torch WY unchanged",
+  "focused": [
+    {
+      "label": "t512-hv16-device0",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 48,
+        "output_equal_first": 48,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "max_output_abs": 6.541144102811813e-06,
+      "max_output_relative_rmse": 0.0004237127723172307,
+      "max_state_abs": 5.019083619117737e-05
+    },
+    {
+      "label": "t512-hv24-device0",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 48,
+        "output_equal_first": 48,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "max_output_abs": 6.380490958690643e-06,
+      "max_output_relative_rmse": 0.0004239135596435517,
+      "max_state_abs": 4.61675226688385e-05
+    },
+    {
+      "label": "t512-hv16-device1",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 48,
+        "output_equal_first": 48,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "max_output_abs": 6.541144102811813e-06,
+      "max_output_relative_rmse": 0.0004237127723172307,
+      "max_state_abs": 5.019083619117737e-05
+    },
+    {
+      "label": "t512-hv24-device1",
+      "summary": {
+        "kind": "summary",
+        "samples": 48,
+        "within_tolerance": 48,
+        "output_equal_first": 48,
+        "state_equal_first": 48,
+        "diagnostic_only": true
+      },
+      "max_output_abs": 6.380490958690643e-06,
+      "max_output_relative_rmse": 0.0004239135596435517,
+      "max_state_abs": 4.61675226688385e-05
+    }
+  ],
+  "strict": [
+    {
+      "device": 0,
+      "summary": {
+        "kind": "summary",
+        "cases": 15,
+        "passed": 15,
+        "scope": "Default operator gate; no model/performance acceptance"
+      },
+      "max_output_abs": 1.0249670594930649e-05,
+      "max_state_abs": 0.00012464821338653564
+    },
+    {
+      "device": 1,
+      "summary": {
+        "kind": "summary",
+        "cases": 15,
+        "passed": 15,
+        "scope": "Default operator gate; no model/performance acceptance"
+      },
+      "max_output_abs": 1.0249670594930649e-05,
+      "max_state_abs": 0.00012464821338653564
+    }
+  ],
+  "acceptance_limits": [
+    "No model quality/performance acceptance",
+    "Paired intervention does not isolate H versus O root cause",
+    "Probe JSONL retains default-path generic metadata; actual experimental scope, hashes and library mapping are recorded in wrapper stdout and this adjudication",
+    "Default pre-pair comparison was device0 only; paired robustness covers both devices"
+  ]
+}

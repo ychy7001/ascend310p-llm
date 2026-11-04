@@ -1,0 +1,33 @@
+{
+  "context_limit": 262144,
+  "reported_kv_gib": 8.5,
+  "reported_kv_tokens": 274795,
+  "mode": "synchronous eager",
+  "gpu_memory_utilization": 0.94,
+  "health_reached": true,
+  "strict_toy_matches": 7,
+  "toy_total": 8,
+  "reuse_identical": true,
+  "canary_leaked": false,
+  "failed_rows": [
+    {
+      "label": "sort",
+      "prompt": "Sort these integers ascending: 9, 2, 7. Output only 2,7,9 without spaces.",
+      "expected": "2,7,9",
+      "text": "279",
+      "strict_match": false,
+      "answer_present": false,
+      "usage": {
+        "prompt_tokens": 37,
+        "total_tokens": 41,
+        "completion_tokens": 4,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop",
+      "elapsed_s": 2.2657243428984657
+    }
+  ],
+  "performance_requests": 0,
+  "accepted": false
+}

@@ -1,0 +1,5 @@
+# Dense 首次启动记录
+
+TP2、W8A8_DYNAMIC，生产镜像与完整262144上下文配置，原始算子。双rank权重加载各19.2416GB成功，启动profiling阶段量化Matmul设备异常507015，kernel QuantBatchMatmulV3_NZ_NZ_int8_int8_fp16_high_performance_21。没有进入请求，不存在可报告的吞吐或正确率。
+
+server.log与ascend-log保存异步首次失败。后续同步eager诊断为独立配置，不能充当性能基线。
