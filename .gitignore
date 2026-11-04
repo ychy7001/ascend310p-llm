@@ -269,3 +269,8 @@ logs/
 !/results/upstream-gdn-pair921-v1-20261104/README.md
 !/results/upstream-gdn-pair921-v1-20261104/adjudication.json
 !/results/upstream-gdn-pr-audit-20261104/README.md
+
+# wy-1: retain only sanitized model-gate summaries
+/results/wy921-gate-20261104/**
+!/results/wy921-gate-20261104/README.md
+!/results/wy921-gate-20261104/adjudication.json
