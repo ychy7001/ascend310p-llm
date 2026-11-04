@@ -8,7 +8,7 @@
 
 以下只列入口，不执行设备任务。门禁和算子工具需要匹配的 Ascend 运行时、设备及制品；CPU 单元测试独立运行。
 
-## 可复用清单（含 tools 改动，共 52 个脚本/测试）
+## 可复用清单（含 tools 改动，共 54 个脚本/测试）
 
 - `benchmarks/ascend310p/analyze_wy_snapshots.py`
 - `benchmarks/ascend310p/audit_runtime_stack.py`
@@ -52,6 +52,7 @@
 - `tools/bench_server_phases.py`
 - `tools/check_business_facts.py`
 - `tools/check_business_quality.py`
+- `tools/compare_token_logprobs.py`
 - `tools/check_prefix_state.py`
 - `tools/profile_http_decode.py`
 - `tools/profile_http_decode_full.py`
@@ -61,6 +62,7 @@
 - `tools/test_bench_http_stream.py`
 - `tools/test_bench_prefix_reuse.py`
 - `tools/test_check_business_facts.py`
+- `tools/test_compare_token_logprobs.py`
 - `tools/test_replay_stage_workload.py`
 
 ## 本地验证
