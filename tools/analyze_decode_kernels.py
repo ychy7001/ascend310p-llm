@@ -16,6 +16,7 @@ groups = collections.defaultdict(lambda: [0, 0.0])
 shapes = collections.defaultdict(lambda: [0, 0.0])
 rows = 0
 starts, stops = [], []
+intervals = []
 opener = gzip.open if a.input.suffix == '.gz' else open
 with opener(a.input, 'rt') as f:
     reader = csv.DictReader(f)
@@ -30,10 +31,12 @@ with opener(a.input, 'rt') as f:
         key = (r[name_col], r['Input Shapes'], r['Input Data Types'])
         shapes[key][0] += 1
         shapes[key][1] += duration
-        if 'Task Start Time(us)' in r:
-            start = float(r['Task Start Time(us)'])
+        timestamp = r.get('Task Start Time(us)') or r.get('Start Time(us)')
+        if timestamp is not None:
+            start = float(timestamp)
             starts.append(start)
             stops.append(start + duration)
+            intervals.append((start, start + duration))
 assert rows > 0
 summed = sum(v[1] for v in groups.values())
 summary = {'scope': __doc__, 'kernel_count': rows, 'sum_kernel_us': summed,
@@ -43,6 +46,18 @@ summary = {'scope': __doc__, 'kernel_count': rows, 'sum_kernel_us': summed,
                           for k, v in sorted(shapes.items(), key=lambda item: -item[1][1])[:30]]}
 if starts:
     summary['device_task_span_us'] = max(stops) - min(starts)
+    # 跨stream取区间并集，避免把重叠kernel耗时求和当成设备占用率。
+    merged = []
+    for start, stop in sorted(intervals):
+        if merged and start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], stop)
+        else:
+            merged.append([start, stop])
+    active = sum(stop - start for start, stop in merged)
+    span = summary['device_task_span_us']
+    summary['captured_kernel_interval_union_us'] = active
+    summary['captured_kernel_interval_coverage'] = active / span if span > 0 else None
+    summary['captured_span_without_recorded_kernel_us'] = span - active
     summary['span_warning'] = 'Device span may cover only a bounded capture window; validate against HTTP scope. Concurrent task durations overlap.'
 if a.reference:
     reference = json.loads(a.reference.read_text())

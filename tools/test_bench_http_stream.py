@@ -32,5 +32,23 @@ class StreamCompletionTest(unittest.TestCase):
             self.run_stream([{'usage': {'prompt_tokens': 2, 'completion_tokens': 1}}])
 
 
+class MeasuredRequestTest(unittest.TestCase):
+    def test_failure_retained(self):
+        from bench_http_stream import measured_request
+        with patch('bench_http_stream.request', side_effect=RuntimeError('connection lost')):
+            result = measured_request('http://test', 'model', [1, 2], 3)
+        self.assertFalse(result['success'])
+        self.assertEqual(result['error_type'], 'RuntimeError')
+        self.assertGreaterEqual(result['elapsed_s'], 0)
+
+    def test_seed_and_salt_forwarded(self):
+        from bench_http_stream import request
+        payload = b'data: {"usage":{"prompt_tokens":2,"completion_tokens":3}}\n\n'
+        with patch('bench_http_stream.post', return_value=io.BytesIO(payload)) as post:
+            request('http://test', 'model', [1, 2], 3, seed=310, cache_salt='run-request')
+        self.assertEqual(post.call_args.args[2]['seed'], 310)
+        self.assertEqual(post.call_args.args[2]['cache_salt'], 'run-request')
+
+
 if __name__ == '__main__':
     unittest.main()

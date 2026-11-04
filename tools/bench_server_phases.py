@@ -75,6 +75,7 @@ def main():
         '--unique-prompts', action='store_true',
         help='Use a different token prefix for warmup and every measured request; '
              'required for cold-Prefill measurements when prefix caching is enabled')
+    parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--spec-metrics', action='store_true',
                         help='Record per-request speculative draft/acceptance counters')
     parser.add_argument('--cache-salt-prefix', help='Each request uses a distinct salt; record and require zero prefix-cache hits')
@@ -112,7 +113,7 @@ def main():
             'unique_prompts': args.unique_prompts,
         }) + '\n')
         warmup_tokens = prompt_sets[0] if prompt_sets else tokens
-        warmup = request(args.base_url, args.model, warmup_tokens, min(32, args.output_tokens), cache_salt=f'{args.cache_salt_prefix}-warmup' if args.cache_salt_prefix else None)
+        warmup = request(args.base_url, args.model, warmup_tokens, min(32, args.output_tokens), cache_salt=f'{args.cache_salt_prefix}-warmup' if args.cache_salt_prefix else None, seed=args.seed)
         output.write(json.dumps({'kind': 'warmup', 'prompt_ids_sha256': prompt_hash(warmup_tokens),
                                  **warmup}) + '\n')
         output.flush()
@@ -121,7 +122,7 @@ def main():
             cache_before = prefix_snapshot(args.base_url) if args.cache_salt_prefix else None
             before = snapshot(args.base_url, args.spec_metrics)
             salt=f'{args.cache_salt_prefix}-{repeat}' if args.cache_salt_prefix else None
-            result = request(args.base_url, args.model, request_tokens, args.output_tokens, cache_salt=salt)
+            result = request(args.base_url, args.model, request_tokens, args.output_tokens, cache_salt=salt, seed=args.seed)
             after = snapshot(args.base_url, args.spec_metrics)
             delta = {name: after[name] - before[name] for name in before}
             prefill = delta[METRICS[1]]

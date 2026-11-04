@@ -24,6 +24,8 @@ import random
 import threading
 import time
 import urllib.request
+import uuid
+import hashlib
 
 
 def post(url, payload, timeout=3600):
@@ -75,6 +77,8 @@ def stream_completion(url, payload):
             if any(c.get("text") for c in chunk.get("choices", [])):
                 last = time.perf_counter()
                 first = first or last
+            if usage is not None:
+                break
     return first, last, usage
 
 
@@ -92,7 +96,7 @@ def spec_counters(url):
     with urllib.request.urlopen(url + "/metrics", timeout=10) as resp:
         for line in resp.read().decode().splitlines():
             name = line.split("{")[0].split(" ")[0]
-            if name in ("vllm:spec_decode_num_draft_tokens_total", "vllm:spec_decode_num_accepted_tokens_total"):
+            if name in ("vllm:spec_decode_num_draft_tokens_total", "vllm:spec_decode_num_accepted_tokens_total", "vllm:prefix_cache_queries_total", "vllm:prefix_cache_hits_total"):
                 totals[name] = totals.get(name, 0.0) + float(line.split()[-1])
     return totals
 
@@ -108,12 +112,28 @@ def main():
     p.add_argument("--prompts", type=pathlib.Path, default=pathlib.Path("replay-prompts.json"))
     p.add_argument("--out", type=pathlib.Path, required=True)
     a = p.parse_args()
+    a.out.parent.mkdir(parents=True, exist_ok=True)
+    if a.out.exists():
+        p.error('Refusing to overwrite existing replay result')
+    event_file = a.out.with_suffix('.jsonl').open('x')
+    log_lock = threading.Lock()
+    run_id = uuid.uuid4().hex
+
+    def emit(row):
+        with log_lock:
+            event_file.write(json.dumps(row, ensure_ascii=False) + '\n')
+            event_file.flush()
 
     calls = json.loads(a.workload.read_text())["recordings"][a.recording]["calls"]
     stages = list(dict.fromkeys(c["stage"] for c in calls))
     urls = [u.rstrip("/") for u in a.urls]
     prompts = load_prompts(a.prompts, urls[0], a.model, a.recording, a.sessions, calls)
 
+    emit(dict(kind='config', recording=a.recording, sessions=a.sessions,
+              concurrency=a.concurrency, seed=0, cache_salt_prefix=run_id,
+              workload_sha256=hashlib.sha256(a.workload.read_bytes()).hexdigest(),
+              prompts_sha256=hashlib.sha256(a.prompts.read_bytes()).hexdigest(),
+              protocol='synthetic fixed token shapes; cold salts per request; wall-clock replay'))
     gate = threading.Semaphore(a.concurrency)
     lock = threading.Lock()
     in_flight = [0] * len(urls)
@@ -132,20 +152,32 @@ def main():
                     "model": a.model, "prompt": prompts[f"{a.recording}:{s}:{i}"],
                     "max_tokens": call["output_tokens"], "ignore_eos": True, "temperature": 0, "seed": 0,
                     "stream": True, "stream_options": {"include_usage": True},
-                    "cache_salt": f"{a.out.stem}:{s}:{i}",
+                    "cache_salt": f"{run_id}:{s}:{i}",
                 }
                 first, last, usage = stream_completion(urls[backend], payload)
+            except Exception as error:
+                emit(dict(kind='request', success=False, session=s, call=i, stage=call['stage'],
+                          backend=backend, elapsed_s=time.perf_counter()-begin,
+                          error_type=type(error).__name__, error=str(error)))
+                raise
             finally:
                 with lock:
                     in_flight[backend] -= 1
         got = (usage or {}).get("prompt_tokens"), (usage or {}).get("completion_tokens")
         if got != (call["prompt_tokens"], call["output_tokens"]):
+            emit(dict(kind='request', success=False, session=s, call=i, stage=call['stage'],
+                      backend=backend, usage=usage, elapsed_s=time.perf_counter()-begin,
+                      error='usage does not match workload'))
             raise RuntimeError(f"session {s} call {i}: usage {got} does not match workload")
         row = {"session": s, "call": i, "stage": call["stage"], "backend": backend,
                "start_s": begin - start, "first_s": first - start, "last_s": last - start,
-               "end_s": time.perf_counter() - start, "output_tokens": got[1]}
+               "end_s": time.perf_counter() - start, "output_tokens": got[1],
+               "kind": "request", "success": True, "usage": usage,
+               "elapsed_s": time.perf_counter()-begin, "ttft_s": first-begin,
+               "mean_tpot_s": (last-first)/(got[1]-1) if got[1]>1 else None}
         with lock:
             rows.append(row)
+        emit(row)
 
     def run_session(s):
         with concurrent.futures.ThreadPoolExecutor(max_workers=a.concurrency) as pool:
@@ -160,8 +192,12 @@ def main():
     elapsed = time.perf_counter() - start
 
     drafted = accepted = 0.0
+    prefix_hits = 0.0
+    prefix_found = True
     for url, b in zip(urls, before):
         after = spec_counters(url)
+        prefix_found = prefix_found and 'vllm:prefix_cache_hits_total' in after and 'vllm:prefix_cache_hits_total' in b
+        prefix_hits += after.get('vllm:prefix_cache_hits_total', 0) - b.get('vllm:prefix_cache_hits_total', 0)
         drafted += after.get("vllm:spec_decode_num_draft_tokens_total", 0) - b.get("vllm:spec_decode_num_draft_tokens_total", 0)
         accepted += after.get("vllm:spec_decode_num_accepted_tokens_total", 0) - b.get("vllm:spec_decode_num_accepted_tokens_total", 0)
     output = sum(r["output_tokens"] for r in rows)
@@ -174,9 +210,16 @@ def main():
         # Decode rate over the union of first-to-last-token spans; still includes prefill stalls of other calls.
         "active_decode_tps": round(sum(r["output_tokens"] - 1 for r in rows) / decode_s, 2),
         "mtp_acceptance": round(accepted / drafted, 4) if drafted else None,
+        "cache_salt_prefix": run_id,
+        "prefix_cache_hits_delta": prefix_hits if prefix_found else None,
+        "cold_cache_verified": prefix_found and prefix_hits == 0,
         "calls": sorted(rows, key=lambda r: (r["session"], r["call"])),
     }
     a.out.write_text(json.dumps(summary, ensure_ascii=False, indent=2))
+    emit(dict(kind='summary', **{key: value for key, value in summary.items() if key != 'calls'}))
+    event_file.close()
+    if prefix_found and prefix_hits != 0:
+        raise RuntimeError('Cold replay unexpectedly reused prefix cache; see saved result')
     print(json.dumps({k: v for k, v in summary.items() if k != "calls"}, ensure_ascii=False))
 
 

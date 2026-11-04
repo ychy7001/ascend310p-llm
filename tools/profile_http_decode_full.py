@@ -23,10 +23,13 @@ args = parser.parse_args()
 with post(args.base_url, '/tokenize', {
     'model': args.model,
     'prompt': 'Explain how quantization affects memory bandwidth and numerical precision. '
-              * (args.prompt_tokens + 1),
+              * 4,
     'add_special_tokens': False,
 }) as response:
-    tokens = json.load(response)['tokens'][:args.prompt_tokens]
+    unit = json.load(response)['tokens']
+    if not unit:
+        raise RuntimeError('Tokenizer returned empty benchmark unit')
+    tokens = (unit * ((args.prompt_tokens + len(unit) - 1) // len(unit)))[:args.prompt_tokens]
 assert len(tokens) == args.prompt_tokens
 
 args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -37,7 +40,7 @@ with args.out.open('x') as output:
         output.flush()
 
     emit({'kind': 'config', 'prompt_tokens': args.prompt_tokens,
-          'output_tokens': args.output_tokens, 'scope': __doc__,
+          'output_tokens': args.output_tokens, 'prompt_ids': tokens, 'scope': __doc__,
           'profile_scope': 'request start through usage event'})
     with post(args.base_url, '/start_profile', {}) as control:
         control.read()

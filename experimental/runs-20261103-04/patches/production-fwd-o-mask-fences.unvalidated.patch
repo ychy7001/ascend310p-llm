@@ -1,0 +1,22 @@
+--- a/csrc/moe/chunk_fwd_o/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp
++++ b/csrc/moe/chunk_fwd_o/op_kernel/arch20/gemm/kernel/gdn_fwd_o_kernel.hpp
+@@ -221,11 +221,19 @@
+             if (zeroLen >= 8) {
+                 AscendC::Duplicate<float>(maskUbTensor[i * 64 + zeroStart], (float)0.0, zeroLen);
+             } else {
++                if (zeroLen == 7) {
++                    // Order the vector mask stores before scalar UB tail updates.
++                    AscendC::SetFlag<AscendC::HardEvent::V_S>(EVENT_ID7);
++                    AscendC::WaitFlag<AscendC::HardEvent::V_S>(EVENT_ID7);
++                }
+                 for (uint32_t j = 0; j < zeroLen; ++j) {
+                     maskUbTensor.SetValue(i * 64 + zeroStart + j, (float)0.0);
+                 }
+             }
+         }
++        // Order scalar UB tail stores before the vector mask consumer.
++        AscendC::SetFlag<AscendC::HardEvent::S_V>(EVENT_ID7);
++        AscendC::WaitFlag<AscendC::HardEvent::S_V>(EVENT_ID7);
+         AscendC::PipeBarrier<PIPE_V>();
+     }
+ 

@@ -26,7 +26,10 @@ def main():
     budget = args.prefix_tokens - len(start) - len(marker)
     if budget < 1:
         raise ValueError('Prefix too short')
-    filler = tokenize('Ordinary note: calibration and memory measurements are recorded carefully. ' * budget)[:budget]
+    unit = tokenize('Ordinary note: calibration and memory measurements are recorded carefully. ' * 4)
+    if not unit:
+        raise RuntimeError('Tokenizer returned empty filler unit')
+    filler = (unit * ((budget + len(unit) - 1) // len(unit)))[:budget]
     common = start + filler[:budget//2] + marker + filler[budget//2:]
     assert len(common) == args.prefix_tokens
     tails = {

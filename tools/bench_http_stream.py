@@ -5,6 +5,7 @@ import argparse
 import concurrent.futures
 import json
 import time
+import uuid
 import urllib.request
 from pathlib import Path
 
@@ -19,7 +20,7 @@ def post(base, path, body):
     )
 
 
-def request(base, model, tokens, output_tokens, *, cache_salt=None):
+def request(base, model, tokens, output_tokens, *, cache_salt=None, seed=0):
     start = time.perf_counter()
     first = None
     events = []
@@ -27,7 +28,7 @@ def request(base, model, tokens, output_tokens, *, cache_salt=None):
     text = ''
     body = {
         'model': model, 'prompt': tokens, 'max_tokens': output_tokens,
-        'temperature': 0, 'ignore_eos': True, 'stream': True,
+        'temperature': 0, 'seed': seed, 'ignore_eos': True, 'stream': True,
         'stream_options': {'include_usage': True},
     }
     if cache_salt is not None:
@@ -66,6 +67,16 @@ def request(base, model, tokens, output_tokens, *, cache_salt=None):
     }
 
 
+def measured_request(*args, **kwargs):
+    """保留失败请求与耗时，避免只对成功请求报告成功率。"""
+    start = time.perf_counter()
+    try:
+        return {'success': True, **request(*args, **kwargs)}
+    except Exception as exc:
+        return {'success': False, 'elapsed_s': time.perf_counter() - start,
+                'error_type': type(exc).__name__, 'error': str(exc)}
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--base-url', required=True)
@@ -75,34 +86,53 @@ def main():
     p.add_argument('--output-tokens', type=int, default=128)
     p.add_argument('--concurrency', type=int, default=1)
     p.add_argument('--repeats', type=int, default=3)
+    p.add_argument('--seed', type=int, default=310)
+    p.add_argument('--cache-salt-prefix', default=None,
+                   help='Default: random run ID; every request gets a distinct salt')
     a = p.parse_args()
+    if min(a.prompt_tokens, a.output_tokens, a.concurrency, a.repeats) < 1:
+        p.error('token counts, concurrency and repeats must be positive')
+    a.cache_salt_prefix = a.cache_salt_prefix or uuid.uuid4().hex
     with post(a.base_url, '/tokenize', {
         'model': a.model,
-        'prompt': ('Explain how quantization affects memory bandwidth and numerical precision. ' * (a.prompt_tokens + 1)),
+        'prompt': ('Explain how quantization affects memory bandwidth and numerical precision. ' * 4),
         'add_special_tokens': False,
     }) as response:
-        tokens = json.load(response)['tokens'][:a.prompt_tokens]
+        unit = json.load(response)['tokens']
+        if not unit:
+            raise RuntimeError('Tokenizer returned empty benchmark unit')
+        tokens = (unit * ((a.prompt_tokens + len(unit) - 1) // len(unit)))[:a.prompt_tokens]
     if len(tokens) != a.prompt_tokens:
         raise RuntimeError('tokenizer returned insufficient prompt tokens')
     a.out.parent.mkdir(parents=True, exist_ok=True)
+    failed = 0
     with a.out.open('x') as f:
         f.write(json.dumps({'kind': 'config', **{k: str(v) if isinstance(v, Path) else v for k,v in vars(a).items()}, 'prompt_ids': tokens}) + '\n')
-        warmup = request(a.base_url, a.model, tokens, min(32, a.output_tokens))
+        warmup = request(a.base_url, a.model, tokens, min(32, a.output_tokens),
+                         cache_salt=f'{a.cache_salt_prefix}-warmup', seed=a.seed)
         f.write(json.dumps({'kind': 'warmup', **warmup}) + '\n')
         f.flush()
         for repeat in range(a.repeats):
             start = time.perf_counter()
             with concurrent.futures.ThreadPoolExecutor(max_workers=a.concurrency) as pool:
-                futures = [pool.submit(request, a.base_url, a.model, tokens, a.output_tokens) for _ in range(a.concurrency)]
+                futures = [pool.submit(measured_request, a.base_url, a.model, tokens, a.output_tokens,
+                                       cache_salt=f'{a.cache_salt_prefix}-{repeat}-{i}', seed=a.seed)
+                           for i in range(a.concurrency)]
                 rows = [future.result() for future in futures]
             elapsed = time.perf_counter() - start
             for i, row in enumerate(rows):
                 f.write(json.dumps({'kind': 'request', 'repeat': repeat, 'request': i, **row}) + '\n')
             summary = {'kind': 'round', 'repeat': repeat, 'elapsed_s': elapsed,
-                       'aggregate_output_tok_s': sum(r['usage']['completion_tokens'] for r in rows) / elapsed}
+                       'successful_requests': sum(r['success'] for r in rows),
+                       'failed_requests': sum(not r['success'] for r in rows),
+                       'aggregate_output_tok_s': sum(r['usage']['completion_tokens'] for r in rows
+                                                      if r['success']) / elapsed}
+            failed += summary['failed_requests']
             f.write(json.dumps(summary) + '\n')
             f.flush()
             print(json.dumps(summary), flush=True)
+    if failed:
+        raise SystemExit(f'{failed} measured requests failed; see raw JSONL')
 
 
 if __name__ == '__main__':
