@@ -1,8 +1,14 @@
-# Ascend 310P Profiling 状态
+# Ascend 310P 采集方法与算子证据
 
-2026-11-03：已完成W4A8 TP1/C16/MTP2三份新Profile并通过前后门禁。用户随后明确W8A8 TP2为生产基线，以下W4结果只适用于预算方案；生产W8 TP2两范围×双rank的采集及离线导出已完成，结果如下。
+## 采集与解释口径
 
-## 旧证据的适用范围
+Profile独占设备，普通计时不启动Profiler；记录HTTP start/stop、首输出、warmup/capture边界及rank映射。Decode固定seed0、独立salt和整个请求prefix hits增量0。采集后以短题及A/B/A检查状态恢复。
+
+分析器支持torch-npu `Start Time(us)`，同时报告跨stream kernel区间并集与实际捕获跨度，累计kernel求和不当作墙钟延迟或关键路径。客户端使用短单元tokenize后重复精确token数，收到最终usage后关闭流。
+
+生产post2 daemon不支持在线解析；保留FRAMEWORK/PROF后使用同镜像`torch_npu.profiler.profiler.analyse`离线导出。无设备容器曾报`Init platform by driver failed`，补齐设备/驱动元数据访问后成功。两范围×双rank的4份非空CSV均可解析，未重跑普通基准。Stop时RECORD提示及HTTP控制边界可能造成少量步骤未捕获，窗口耗时只作诊断。
+
+## 历史证据适用范围
 
 [qwen36/rc-ep-bottleneck.md](qwen36/rc-ep-bottleneck.md)中的RC/C8/MTP1窗口：MatMulV2 45.66%、W4 12.25%、NotEqual7.67%、TransData7.11%、PA mask6.93%、C8转换3.99%、GDN3.11%。这些是捕获kernel累计时间占比，不是端到端墙钟占比，也不是a2 C16配置排名。
 
@@ -10,23 +16,9 @@
 
 旧Profile有停止导出失败 `ERR04005` 的记录；一次请求成功不代表取得可用Profile。新采集需验证CSV/trace可解析，采集后恢复普通计时，再跑正确性门禁。
 
-## 新采集计划
+## W4预算支线：C16
 
-1. 同一固定C16镜像：4K与32K Prefill、生成稳定窗口，分别明确warmup/capture是否包括在采集中。
-2. 分离target forward、draft forward、verify attention、GDN回滚/状态索引、rejection sampler、HCCL、图replay和host调度。
-3. 对MatMul/W4按真实shape与token分布分组；检查GDN状态tensor真实dtype与layout，不能只读config。
-4. 重点检查实际安装gdn_310.py中ragged state indices的CPU拷贝分支；它存在不等于当前每步执行，需要调用次数和时间线证据。
-5. 对照MTP0/1/2、C1/C4，输出kernel和API求和、stream间空洞、同步等待、launch数与非profile墙钟，避免把重叠kernel和直接当延迟。
-
-Profiler安装存在已确认；容器内torch-npu profiler与CANN导出可用性需先做短采集门禁。无新Profile前不开展大规模底层kernel修改。
-
-## 工具准备增量
-
-Profile入口派生自固定镜像，只增加显式Profiler/MTP开关，基线完成后顺序执行，不与计时请求共享NPU。已修复分析器未识别torch-npu `Start Time(us)`列的问题，新增跨stream kernel区间并集与实际捕获跨度统计，避免把重叠耗时求和当占用率；两种时间列和重叠区间的回归检查通过。Profile客户端改为短单元tokenize后重复精确token数，并在最终usage到达后关闭流，避免长tokenize警告及usage后不发DONE时等待。
-
-## W4预算方案：新C16结果
-
-原始kernel CSV（gzip）、HTTP采集范围、前后quality、kernel摘要及服务日志：results/profile-c16-20261103/。三份均导出成功，前后短题8/8与A/B/A通过。
+原始kernel CSV（gzip）、HTTP采集范围、前后quality、kernel摘要及服务日志：`results/profile-c16-20261103`。三份均导出成功，前后短题8/8与A/B/A通过。
 
 | 捕获范围 | kernel条数 | 捕获设备跨度 | kernel区间并集覆盖 | 主要累计耗时 |
 |---|---:|---:|---:|---|
@@ -38,26 +30,11 @@ Profile入口派生自固定镜像，只增加显式Profiler/MTP开关，基线�
 
 Profiler给出Stop时仍在RECORD的提示，窗口从HTTP控制边界采集；32K Decode可能漏掉启动控制返回前的少量步。三份kernel计数、范围与导出均可复核，Profile计时不参与常规吞吐。
 
-## W8 TP2待验证线索
+## W8 TP2生产副本
 
-从历史Graph[1,2,3]原日志提取EL0008/IPC notify事件资源不足，见results/production-a1-audit-20261103/historical-graph123-resource-error.txt。另保存上游issue1565与评论：其中2025年旧版本讨论提到TP多rank时Graph数量受event-id资源限制；评论引用的旧文档不是当前栈能力保证。当前生产88eac271/torch-npu.post2/驱动26.0.rc1，与a2副本驱动26.1.1不同；先测量再归因。
+生产`chunk_gated_delta_rule.py`的WY为Torch逐row循环、clone、sum及布局变换，FwdH/FwdO为AscendC。历史Graph[1,2,3]日志含EL0008/IPC notify事件资源不足；旧上游issue1565只能作线索，不能直接归因本轮Graph筛选。
 
-生产三并发Graph[1,2]不能覆盖超出max capture2的decode batch，但这不直接证明host调度是主要瓶颈。Graph[1,4]保持两张图的筛选会在新W8 Profile后执行，实际capture/replay、HCCL、padding状态恢复和业务墙钟都需要验证。
-
-W8采集入口的Decode请求现也固定seed=0、独立cache salt，并记录整个独占请求区间的缓存命中增量，要求为0；Prefill已有相同隔离。该变更只作用于尚未执行的诊断采集，不改变先前已完成的常规计时。
-
-已归档生产镜像的`chunk_gated_delta_rule.py`：WY仍为Torch分解，含逐row循环、clone、sum和布局变换；FwdH/FwdO使用已有AscendC。这个源码事实使上游原生WY候选值得后续对照，但需要新W8 Profile确认其占比，不能从W4原生WY结果反推。原文件位于results/production-a1-audit-20261103/source/。
-
-
-## W8双rank采集与离线导出
-
-4K Prefill与32K Decode两个HTTP采集均完成，采集后8/8短题及A/B/A门禁通过。生产torch-npu.post2日志明确报告daemon进程不能在线解析，建议`torch_npu.profiler.profiler.analyse`离线处理；原始FRAMEWORK/PROF目录已保存。最初控制器因缺少kernel CSV标记失败，保留status-profile-export-pending.json，随后尝试同镜像/CANN、无模型与NPU设备的CPU容器离线导出（该尝试失败，修复过程见下文）。不能在CSV可解析之前声称取得W8算子排名。后续入口已加入该导出步骤与2范围×2rank共4份非空CSV检查。
-
-离线导出问题已修复：完全不挂设备时msprof报告`Init platform by driver failed`；补齐同机设备/驱动元数据访问后，同镜像离线analyse成功，四份非空CSV均可解析。已保留失败日志、实际导出命令与恢复后的status；没有重跑普通基准或模型采集。
-
-## W8 TP2当前算子证据
-
-原始CSV压缩、双rank摘要、采集HTTP范围及映射位于results/production-w8a8-20261103/；profile-artifacts.json明确每份摘要对应的rank/范围。下表均为**单rank累计kernel耗时占比**，不能作为墙钟收益上限或关键路径占比。
+原始CSV压缩、双rank摘要、采集HTTP范围及映射位于[production-w8a8-20261103](../results/production-w8a8-20261103/README.md)；profile-artifacts.json明确每份摘要对应的rank/范围。下表均为**单rank累计kernel耗时占比**，不能作为墙钟收益上限或关键路径占比。
 
 | 范围 | rank0 / rank1条数 | 设备跨度 | kernel区间覆盖 | 主要累计耗时 |
 |---|---:|---:|---:|---|
@@ -70,22 +47,41 @@ Prefill的Tril/Slice/ViewCopy/ReduceSum与已归档WY Torch分解路径相符，
 
 当前捕获C1，不能证明三并发的host开销或Graph收益；需候选实测。HCCL在Graph内的完整任务归因尚未做，kernel CSV中可见的hcom耗时不足以排除通信瓶颈。32K窗口捕获约125个decode步骤，HTTP start控制前的少量步骤未包含；Stop时仍有RECORD提示，计时只作诊断。
 
+## WY-only候选Profile
 
-## WY 单变量实验进展（2026-11-03）
-
-PR17640 固定 head18163f6b 的 WY-only 接入已构建、数值门禁与模型初轮完成，FwdH/FwdO保持生产版本；详见[结果](ascend310p-results.md)。四档 Prefill 提升38%～54%，长输出业务回放耗时减少约3.1%，Decode单请求未改善。会议4曾出现严重负责人错配，目前未验收；重启后串行6次映射正确，正在复测原三并发序列，不能据此消除首次失败。
-
-111-token 原路径偏差已在空闲NPU复现：原路径3/12在固定门限内、WY候选12/12。CPU两参考在同一失败输入上的输出最大差3.59e−6。当前尚未定位偏差是在WY helper还是后续FwdH/FwdO；计划同步截取helper输出并固定其输入重放，避免仅以候选不再出现症状认定已修复。候选Profile安排在普通计时与业务复测之后，当前尚无候选kernel trace结论。
-
-用户已明确a2为实验机，授权暂停临时unit独占实验并在结束恢复。a1未修改。实验目录 production-native-wy、production-wy-control-recheck、production-wy-batching-recheck；控制器顺序执行，不并发压测。
-
-### WY候选双rank Profile已完成
-
-独立采集在三轮业务复测之后进行，四份CSV/摘要/gzip见results/production-wy-batching-recheck-20261103/。4K Prefill每rank kernel38072→8492，捕获跨度约3.162→2.056s，覆盖率约97.5%。ComputeWy各60次、累计122.5/129.8ms（各rank kernel求和的6.08%/6.43%）；FwdH约91ms、FwdO约134ms，接近基线。Tril120→0、ReduceSum3860→160、ViewCopy3780→8；通用算子仍有其他使用，未把其全部归为GDN。该trace确认原生WY实际执行且分解调用减少，但其墙钟不是普通吞吐测量。
+独立采集在三轮业务复测之后进行，四份CSV/摘要/gzip见[production-wy-batching-recheck-20261103](../results/production-wy-batching-recheck-20261103/README.md)。4K Prefill每rank kernel38072→8492，捕获跨度约3.162→2.056s，覆盖率约97.5%。ComputeWy各60次、累计122.5/129.8ms（各rank kernel求和的6.08%/6.43%）；FwdH约91ms、FwdO约134ms，接近基线。Tril120→0、ReduceSum3860→160、ViewCopy3780→8；通用算子仍有其他使用，未把其全部归为GDN。该trace确认原生WY实际执行且分解调用减少，但其墙钟不是普通吞吐测量。
 
 32K Decode仍每rank380000 kernels，跨度约4.505～4.507s，MoE/MatMul/PA-mask仍为主要项，符合单请求Decode无改善。数值拆分发现WY与FwdH接口稳定时FwdO原始输出仍会偏离，不能将WY提速当作数值修复，详细判定见results同目录adjudication.json。
 
+## GDN数值诊断
 
-## 算子诊断与启动故障记录的区别
+门限固定为atol2e-4、rtol0.04、relativeRMSE<=0.02，独立CPU逐token递推参考；输出、末state、逐位稳定性分别记录。
 
-FwdO固定输入/完整链重复、独立重编译、两种mask补丁、现有上游FwdO单独复用及executor-cache对照属于数值诊断，不是普通吞吐或新Profile。27B Dense在启动profiling阶段量化Matmul报507015，没有获得HTTP性能Profile。真实输入重放6项通过只说明独立进程中的数值检查，不证明模型内调用顺序正确。保持此前35B-A3B双rank Prefill/Decode四份Profile证据不变，具体新诊断见结果文档。
+111-token synthetic输入初测原Torch路径7/12通过、候选12/12；独占复核原路径3/12、候选12/12，偏差集中token56，末state稳定。独立无原生WY扩展的上游复现为5/12，属于不同运行，不能合并通过率。CPU生产chunk与独立递推输出最大差3.59e−6、状态5.22e−8。
+
+完整链捕获显示WY/FwdH输出和FwdO输入稳定时raw FwdO仍可偏离。单独冻结FwdO为48/48；原算法独立重编译也48/48且逐位稳定，但完整Torch-WY调用历史18/24越界、该轮frozen-WY-clone为0/24。59份生产FwdO/FwdH/common源文件与生产Git blob一致。接口定位尚未证明同步、生命周期或内部kernel根因。
+
+| 对照 | 数值结果 | 证据编号 |
+|---|---|---|
+| vector mask / 原算法加V/S fence | 各0/48，配对生产48/48 | `fwd-o-maskfix-fences-rejected-20261103` |
+| PR17640新O/旧H | 0/48在容差、48/48逐位稳定；maxabs0.004327、relativeRMSE0.195875，异常token0～6、64～70 | `upstream-fwd-o-20261103` |
+| executor cache默认 / `ACLNN_CACHE_LIMIT=0` | 21/48 / 25/48在容差，完整Torch-WY链均12/24越界 | `executor-cache-control-20261103` |
+| post2 / post4完整栈 | recurrence probe 21/48 / 16/48；Torch-WY完整链15/24 / 14/24越界；frozen-WY-clone各1/24越界 | `gdn-runtime-control-20261104` |
+
+post2/post4的Python chunk源码SHA同为`ab2b739bb6630ebe9fcb1d7af820f93adffce79668e32247bbb869119a0d6c69`；完整镜像差异不能归因为单独torch-npu，clone及关闭cache均未消除异常。候选取舍见[上游契约](research/gdn-upstream-pr-evaluation.md)，模型判定见[结果](ascend310p-results.md)。
+
+PR17640 head18163f6b配套H/O在生产post2保留NZ状态binding、独立namespace/vendor。两卡×Torch/native WY四组，各24次完整链加24次冻结克隆，共192/192输出通过、逐位稳定，maxabs6.3153e−6。两个新进程各10/10严格用例（6项完整输出/状态、3项WY布局、1项CPU回退），输出maxabs8.2599e−6、state8.8640e−5。192次probe未逐次验证末state。
+
+9.2.1默认与配套H/O的门限和扩大算子对照统一见[CANN实测](research/cann-upgrade-evaluation.md)。原生WY已在固定9.2.1重建：相同配套H/O，只切WY，两卡各15/15，共30/30，通过CPU FP32递推及每例3次bitwise重复；v1环境错误为0用例，v2通过。真实模型输入回放与固定token验收仍待做。证据：[native WY摘要](../results/native-wy921-20261104/README.md)。
+
+## Dense启动诊断
+
+启动阶段profiling/warmup错误不等于取得HTTP性能Profile。生产栈故障kernel为`QuantBatchMatmulV3_NZ_NZ_int8_int8_fp16_high_performance_21`，同步eager定位MLP down_proj；与ACL Graph同时设置`ASCEND_LAUNCH_BLOCKING=1`会先被配置校验拒绝。
+
+首次down_proj为M4096/K8704/N5120，INT8激活ND、权重NZ转置view、F32通道/逐token scale；激活和逐token scale全零且finite。rank0/device0独立重放6项（全4096行的原/ND/NZ激活，原布局1/4/64行子集）通过CPU采样整数积，maxabs0。两TP分片×两逻辑设备交叉4项均通过，96元素采样maxabs0且输出finite；这是零输入启动复现，不是一般非零精度验收。
+
+生产布局合成量化矩阵M=1/4096、两种MLP形状4项通过；另一NZ布局2项数值错、ND权重2项API拒绝，共8项。后续随机INT8权重加零激活/scale也能复现507015，无须checkpoint。
+
+模型内重建down_proj物理[N,K] ND→新分配→NZ→transpose后INT8逐元素相等；两rank逻辑shape[8704,5120]、stride[1,8704]、format29、offset0、storage44564480B不变，rank0首调用通过、rank1仍507015。explicit expandable=True交叉为3PASS/1FAIL；rank1/device0交替5次：False4PASS/1FAIL，True3PASS/1FAIL，末次True初始化HDC等待128.88s后中止、未执行算子。
+
+这些对照排除将零scale、单独分片/设备、权重重分配或allocator开关视为确定修复。完整运行栈及质量比较见[结果](ascend310p-results.md)，无权重最小复现见[上游草稿](upstream/310p-dense-w8a8-startup.md)。

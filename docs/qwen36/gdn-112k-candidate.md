@@ -37,8 +37,8 @@ GSM固定seed310/32题：31/32，与原N128相同，index205达到512tokens上�
 从仓库根目录执行；复用现有隔离构建制品，不修改宿主SDK。芯片0须独占，先显式停止同芯片旧服务。
 
 ```bash
-release=/home/ychy/ascend-lab-runtime/qwen36-public-release-20261012
-work=/home/ychy/ascend-lab-runtime/mindieq-r3-20261013
+release=/path/to/lab-runtime/qwen36-public-release-20261012
+work=/path/to/lab-runtime/mindieq-r3-20261013
 export MODEL_DIR=$release/model
 export OPP_DIR=$release/n128-candidate/artifacts/opp/vendors/custom_transformer
 export EXTENSION=$release/clean-build/artifacts/qwen36_int4_custom.so

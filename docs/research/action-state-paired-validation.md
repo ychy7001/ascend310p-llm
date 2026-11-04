@@ -16,17 +16,16 @@ A为固定原生产镜像CANN9.1-beta/post2、默认WY/H/O；B为官方固定9.2
 
 fixture使用原a2服务/tokenize准备，记录chat token数量与ID哈希；两个栈实际执行前再次核对。每次HTTP推理还记录usage.prompt_tokens与冻结计数是否一致。匹配条件为fixture SHA、payload SHA、独立expected严格相等；结果按双方通过、双方失败、候选新增失败、候选改善分组。记录前后8短题及ABA隔离检查，无GSM或性能计时验收。
 
-脚本benchmarks/ascend310p/check_action_state_regression.py负责冻结/检查，run-action-state-paired.py负责独占a2顺序启动和finally恢复，summarize_action_state_pair.py负责配对汇总。CPU oracle突变检查已确认四类字段错误、重复、缺失、多字段不能误过，只有顺序可忽略。
+冻结/检查使用[字段检查器](../../benchmarks/ascend310p/check_action_state_regression.py)，独占启动使用[归档配对控制器](../../experimental/runs-20261103-04/run-action-state-paired.py)，汇总使用[配对汇总器](../../benchmarks/ascend310p/summarize_action_state_pair.py)。CPU oracle突变检查已确认四类字段错误、重复、缺失、多字段不能误过，只有顺序可忽略。
 
-当前运行结果见results/action-state-paired-v1-20261104；以最后的adjudication为准。a1不参与写操作；a2本轮完成后独立检查原服务HTTP200。
+证据：[配对验证摘要](../../results/action-state-paired-v1-20261104/README.md)。
 
-
-## 2026-11-04：字段与长上下文配对回归完成
+## 配对结果（2026-11-04）
 
 同a2串行测试原生产A与9.2.1+PR17640 paired H/O候选B，两者均35B-A3B W8A8 TP2、原Torch WY。13种独立预期用例×C1/C3，每栈26/26通过，共52请求；其中4095/4096/4097/16384/32768合成输入每栈10/10。两个栈13种实际token ID哈希一致，所有请求usage计数匹配；四次前后短题检查均8/8。仅行动项顺序可忽略，其他字段严格一致。
 
 原会议4/5/18另做9个同payload请求/栈并人工审阅。会议4负责人映射A为2/3、B为3/3，样本量不足以证明修复；双方均3/3将当天回复补成已完成。会议5双方均3/3补成已执行停用；B的C1再次把当天改为本周内（已执行），A三次均遗漏该行动项行，不能因A未写错期限就说A完整正确。B的同一行还将所有部门细化为各部门负责人。会议18双方全文保留角色/时间关系，但行动项结构用未明确，按结构损失记录。完成状态采用事先冻结的保守标准，原短句本身存在时态歧义，不将该人工判定作为数值误差证据。
 
-最终structured_gate=passed_for_tested_inputs，整体仍not_accepted_business_semantics。保留截止时间差异作为下一步受控复核样本；不宣称CANN/H/O单独导致差异。未进行新吞吐/GSM/logits验收，不把合成32K提取当作真实长会议或262K质量。此前38–54%收益不得迁移到新控制组。原生WY尚未在9.2.1验收，必须重新编译并通过算子及相同模型门禁；正式性能仍等待质量过关。Decode/Dense继续位于正确性工作之后，不扩展重复WY PR。
+结构化检查为`passed_for_tested_inputs`；整体业务候选判定见[结果](../ascend310p-results.md)。保留截止时间差异作为下一步受控复核样本；不宣称CANN/H/O单独导致差异。未进行新吞吐/GSM/logits验收，不把合成32K提取当作真实长会议或262K质量。原生WY和正式性能的下一步见[计划](../ascend310p-optimization-plan.md)。
 
-结果：results/action-state-paired-v1-20261104/，以adjudication.json为最终判定。a2原服务active且独立18081/health=200，无运行rootless实验容器，驱动仍26.1.1；未操作a1、宿主安装或公开发布。冻结工具/fixture SHA和新增三脚本编译校验通过。
+归档控制器的历史目录布局见[归档索引](../../experimental/runs-20261103-04/ARCHIVE.md)。
