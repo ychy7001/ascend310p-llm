@@ -1,0 +1,34 @@
+{
+  "scope": "archived production replica, observation only",
+  "tp": 2,
+  "weight_quantization": "W8A8 routed experts and full-attention QKV; FP16 shared experts, linear-attention projections and lm_head",
+  "graph_sizes": [
+    1,
+    2
+  ],
+  "mtp": 0,
+  "max_model_len": 262144,
+  "max_num_batched_tokens": 4096,
+  "max_num_seqs": 4,
+  "prefix_cache": true,
+  "cold_replay_requests": 11,
+  "cold_replay_admissions_stop_seconds": 480,
+  "cold_replay_wall_seconds": 643.7050510309637,
+  "seed": 20261104,
+  "generation_seed": 17,
+  "independent_cache_salt_per_request": true,
+  "arrival_model": "busy-time conditioned closed-loop occupancy targets, not exact real arrival replay",
+  "profile_windows": [
+    "b1-long",
+    "b2-long",
+    "b3-short",
+    "mixed-b4"
+  ],
+  "profile_target_stable_forwards_per_rank": 112,
+  "mapping_forwards_per_rank": 3,
+  "mapping_real_batch": 3,
+  "inference_implementation_changed": false,
+  "optimizations_implemented": false,
+  "production_image_sha256": "1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+  "profile_capture_and_export_status": "four lean windows completed remotely; exports not retrieved; final health after connectivity loss unknown"
+}

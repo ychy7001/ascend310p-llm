@@ -1,0 +1,40 @@
+{
+  "last_successful_independent_confirmation": {
+    "utc": "2026-11-04T09:38:55.974152+00:00",
+    "health": 200,
+    "unit": "active",
+    "experimental_inference_container_running": false,
+    "source": "independent SSH check after controller finally restoration, before offline export"
+  },
+  "latest_confirmation_attempt": {
+    "attempt_utc": "2026-11-04T10:12:14.068636+00:00",
+    "ssh_returncode": 255,
+    "independent_health_status": null,
+    "connected": false
+  },
+  "failure": "SSH and Tailscale ping became unreachable during CPU offline export; temporal association only, cause not established",
+  "current_primary_service_status": "unknown after connectivity loss",
+  "cpu_export_container_final_status": "unknown; final cleanup command could not connect",
+  "new_npu_experiments_after_connectivity_loss": 0,
+  "new_four_window_profile_exports_retrieved": false,
+  "stopped_extra_work": true,
+  "half_day_deadline_utc": "2026-11-04T14:23:32Z",
+  "observation_issues": [
+    {
+      "attempt": 1,
+      "issue": "optional reset_prefix_cache route returned404; no generation; finally restored200"
+    },
+    {
+      "attempt": 2,
+      "issue": "mapping dispatch mode lacked higher-order-operator support; cold replay and B1/B2 had already completed; finally restored200"
+    },
+    {
+      "attempt": 3,
+      "issue": "mapping succeeded3forwards/rank, but Level2 B3 profiling caused severe overhead and only63stable steps; excluded from performance; finally restored200"
+    },
+    {
+      "attempt": 4,
+      "issue": "four Level1 lean windows completed; finally restored200 and independent confirmation succeeded; subsequent offline-export SSH connection lost"
+    }
+  ]
+}

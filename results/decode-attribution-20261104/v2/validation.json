@@ -1,0 +1,48 @@
+{
+  "overall_task_complete": false,
+  "available_evidence_checks": {
+    "stage_wall_closes": true,
+    "all_replay_steps_joined": true,
+    "eleven_requests_completed": true,
+    "token_counts_match_http": true,
+    "all_prompt_tokens_accounted": true,
+    "cold_prefix_zero_hits": true,
+    "decode_weights_close": true,
+    "raw_synthetic_steps_preserved": true,
+    "all_phase_steps_present": true,
+    "real_request_pair_count": true,
+    "proxy_count": true,
+    "six_real_mapping_forwards": true,
+    "real_mapping_shapes_order_match": true,
+    "mapping_220_fp16_80_reductions": true,
+    "all_reduction_results_reach_output": true,
+    "historical_window_96_each_rank": true,
+    "graph_fp16_220_real_device_ids": true,
+    "graph_reductions_80_per_step": true,
+    "fp16_budget_closes": true,
+    "graph_reduction_payload_does_not_overlap_named_compute": true,
+    "frozen_plan_same_eleven_lengths": true,
+    "public_summaries_no_site_host_ip_or_absolute_paths": true,
+    "raw_site_inputs_gitignored": true,
+    "reusable_tool_tests_pass": true,
+    "higher_order_cpu_bitwise_transparency": true
+  },
+  "available_evidence_checks_passed": 25,
+  "available_evidence_checks_total": 25,
+  "unit_tests": 18,
+  "higher_order_cpu_regression": {
+    "cpu_only": true,
+    "higher_order": "auto_functionalized_v2",
+    "bitwise_equal": true,
+    "input_unchanged": true,
+    "torch_version": "2.10.0+cpu"
+  },
+  "privacy_violations": [],
+  "incomplete_deliverables": [
+    "new four-window dual-rank exported kernel/trace validation",
+    "new measured concurrency-weighted operator composition and final candidate ranking",
+    "complete collective wait/critical-path duration",
+    "current health after offline-export connectivity loss"
+  ],
+  "interpretation": "Passing checks validate available data only; they do not complete the blocked deliverables."
+}

@@ -1,0 +1,108 @@
+{
+  "evidence": "Historical 2026-11-03 B1/32K 96-step dual-rank kernel times joined to new real B3 module/FX mapping. New four-window exports unavailable during experiment-host connectivity loss.",
+  "formula": "N_decode * historical_B1_kernel_ms / 1000 / replay_wall. 2x scenario halves the pool, with zero added quantization/layout/launch overhead.",
+  "assumptions": [
+    "Kernel cost is constant over batches 1..4 and contexts; unvalidated.",
+    "No savings counted for pure Prefill or mixed steps; quantization may also affect those phases, so this is not a whole-implementation ceiling.",
+    "Removed busy time need not reduce wall time equally with frozen external arrivals.",
+    "Cross-rank values averaged as a statistic, never summed."
+  ],
+  "decode_steps": 11798,
+  "replay_wall_seconds": 643.7050510309637,
+  "new_weighted_profile_composition_available": false,
+  "candidate_scenarios": [
+    {
+      "candidate": "linear_attention_and_shared_experts_w8a8",
+      "historical_b1_ms_per_step": 7.061878385416666,
+      "assumed_new_kernel_speedup": 2,
+      "constant_cost_removed_pool_seconds": 83.31604119114583,
+      "constant_cost_zero_cost_ceiling_fraction": 0.12943201402211482,
+      "constant_cost_2x_scenario_seconds": 41.658020595572914,
+      "constant_cost_2x_scenario_fraction": 0.06471600701105741,
+      "cost": "\u4e2d",
+      "numeric_gate_required": true,
+      "scope": "170/220 FP16 NZ calls; excludes router, full-attention o_proj and lm_head",
+      "status": "conditional; B2/B3/B4 timings and mixed-window cost are missing, not a measured production gain"
+    },
+    {
+      "candidate": "moe_grouped_kernel_same_precision",
+      "historical_b1_ms_per_step": 7.4471593906248055,
+      "assumed_new_kernel_speedup": 2,
+      "constant_cost_removed_pool_seconds": 87.86158649059145,
+      "constant_cost_zero_cost_ceiling_fraction": 0.13649354832600982,
+      "constant_cost_2x_scenario_seconds": 43.930793245295725,
+      "constant_cost_2x_scenario_fraction": 0.06824677416300491,
+      "cost": "\u5927",
+      "numeric_gate_required": true,
+      "scope": "existing quantization unchanged; tile/kernel scheduling only",
+      "status": "conditional; B2/B3/B4 timings and mixed-window cost are missing, not a measured production gain"
+    },
+    {
+      "candidate": "linear_qkvz_only_w8a8",
+      "historical_b1_ms_per_step": 4.471188520833333,
+      "assumed_new_kernel_speedup": 2,
+      "constant_cost_removed_pool_seconds": 52.75108216879166,
+      "constant_cost_zero_cost_ceiling_fraction": 0.08194915059980509,
+      "constant_cost_2x_scenario_seconds": 26.37554108439583,
+      "constant_cost_2x_scenario_fraction": 0.040974575299902546,
+      "cost": "\u4e2d",
+      "numeric_gate_required": true,
+      "scope": "30 projections; nested subset of combined quantization candidate, cannot add gains",
+      "status": "conditional; B2/B3/B4 timings and mixed-window cost are missing, not a measured production gain"
+    },
+    {
+      "candidate": "lm_head_path",
+      "historical_b1_ms_per_step": 2.9467819427083306,
+      "assumed_new_kernel_speedup": 2,
+      "constant_cost_removed_pool_seconds": 34.766133360072885,
+      "constant_cost_zero_cost_ceiling_fraction": 0.05400941518851086,
+      "constant_cost_2x_scenario_seconds": 17.383066680036443,
+      "constant_cost_2x_scenario_fraction": 0.02700470759425543,
+      "cost": "\u4e2d",
+      "numeric_gate_required": true,
+      "scope": "production FP16 NZ baseline required; prior ND microbenchmark is not comparable",
+      "status": "conditional; B2/B3/B4 timings and mixed-window cost are missing, not a measured production gain"
+    },
+    {
+      "candidate": "layout_transdata",
+      "historical_b1_ms_per_step": 2.6717249479175056,
+      "assumed_new_kernel_speedup": 2,
+      "constant_cost_removed_pool_seconds": 31.521010935530732,
+      "constant_cost_zero_cost_ceiling_fraction": 0.04896809631219517,
+      "constant_cost_2x_scenario_seconds": 15.760505467765366,
+      "constant_cost_2x_scenario_fraction": 0.024484048156097584,
+      "cost": "\u4e2d",
+      "numeric_gate_required": false,
+      "scope": "pure layout equivalence must be bitwise; arithmetic fusion requires numeric gate",
+      "status": "conditional; B2/B3/B4 timings and mixed-window cost are missing, not a measured production gain"
+    },
+    {
+      "candidate": "shared_experts_only_w8a8",
+      "historical_b1_ms_per_step": 0.985384453125,
+      "assumed_new_kernel_speedup": 2,
+      "constant_cost_removed_pool_seconds": 11.62556577796875,
+      "constant_cost_zero_cost_ceiling_fraction": 0.01806039234793815,
+      "constant_cost_2x_scenario_seconds": 5.812782888984375,
+      "constant_cost_2x_scenario_fraction": 0.009030196173969074,
+      "cost": "\u4e2d",
+      "numeric_gate_required": true,
+      "scope": "80 small projections; subset of combined quantization candidate",
+      "status": "conditional; B2/B3/B4 timings and mixed-window cost are missing, not a measured production gain"
+    }
+  ],
+  "fp16_groups_mean_ms": {
+    "linear_qkvz": 4.471188520833333,
+    "linear_ba": 0.09844781770833333,
+    "linear_out_proj": 1.5068575937500004,
+    "moe_router": 0.36975474999999997,
+    "shared_gate_up": 0.6385486770833333,
+    "shared_down": 0.3468357760416667,
+    "full_attention_o_proj": 0.507610296875
+  },
+  "graph_reduction_payload_ms_per_step": [
+    0.11747102603980844,
+    0.10309910416690643
+  ],
+  "host_scheduler_zero_cost_ceiling_fraction": 0.0015312865568284976,
+  "graph_14_historical_reweighted_favorable_scenario_fraction": 0.006309269650440501
+}

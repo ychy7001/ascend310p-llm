@@ -1,0 +1,35 @@
+{
+  "artifacts": {
+    "README.md": "8bc54b1bdac40500e3ed47a713a7fdd8725bf36363665a0bdc61a728861938b6",
+    "v1-README.md": "825c2f155890c56b420a16fd6e1f157f04cd097bcde1a6d1a583827fa29422c0",
+    "v2/site-summary.json": "0a71e5d7292d53ab86fa12395b9596de18474128c44a7f10d8fc72dc00916ee3",
+    "v2/length-quantiles.csv": "3478a37169b1f6f79e604cd0d70512ec2fa52365b1ed83e3f17517111479af14",
+    "v2/site-concurrency-histograms.csv": "210300ca44b068316190aa7a2bd3c29fc42f5e28313ed2f681fcc244f90bd103",
+    "v2/configuration-summary.json": "a5e3e4008df66f56b75c6b2732805e8dfa4a8b8a02aa68ba4aefe40678604cfa",
+    "v2/frozen-replay-plan.json": "975945e7aee37ad1a0ae3723187f59050ff892e1c9c21ecd2b9e1c2a8959253e",
+    "v2/replay-summary.json": "029af20da563f342d0a66b88aed5f413013b7d6f091c0fb57a3fd25de799f430",
+    "v2/replay-requests.csv": "a726ece63df1f3937bde37f71640624d5f9da2e528aba35f50c6d9db5e810d0b",
+    "v2/prefill-chunks.csv": "9817f47333ed73bc3668dfb45bae1f3e033a3af4a1c52c28a513907a14184096",
+    "v2/replay-batch-weights.csv": "826b9a3a8c09bfb1bb82357e38fae3f2a1663961242d69075556d242e4fb69ea",
+    "v2/decode-steps.csv.gz": "b82c21614068286c96bce5f273940157d53cb111270cbe9dbf22f3f2e9a406a9",
+    "v2/module-shape-ledger.json": "548099648cf9a1f3f1f323b9a69fa86fc1965c75968452b40eb5b1ba349234fb",
+    "v2/candidate-scenarios.json": "a82565d291b0de6ac2415d602ae7fcd0a57bcd2fca0c1585b7dfa2fb2b68c103",
+    "v2/recovery-and-limitations.json": "ec2fbcef0902d4e1850d12958299bf24ff34ee2dfe551e0730ff51394966c05b",
+    "v2/historical-profile/profile-rank0.json": "2ee9c3cb6116b4045fdf02f5f314791917e28eba2320f625747ec84d9f9b3b1f",
+    "v2/historical-profile/profile-rank1.json": "2b09d938a912ad168adaffdf9434137ec8eec22bf2318e5820145ecb951bd3b6",
+    "v2/historical-profile/fp16-group-summary.csv": "cb39b64033ec0fe4e8bf75013d62513f2df478d6f313c84962f22321622570be",
+    "v2/historical-profile/reduction-node-map.json": "5b0ebfb07acfa0a9eda9bc24f1a5689a287685eaadcf5de3425feb63a984e4ec",
+    "v2/validation.json": "62afffed0831b972f3fb8c9894d7c38f21953a561c2f8154975ee6a693ab234f"
+  },
+  "inputs": {
+    "site01_numeric": "c5b800d84fbfff6a2adeac6c3e285c344c461cd9f1f188fd7ffeb03348dfd7c6",
+    "site02_numeric": "aefeb453f412d45515e943df34baa152146e9521daf782722b31b862c5339dff",
+    "site03_numeric": "cf292514aa08ef00e3707a93c92f3b9a30a8068a8ea5027a08da409018307392",
+    "historical_kernel_rank0": "20f2f343682eb405d9a1aa0b3a70410f1a9d7c1a0384c9512c14c68f25bf1535",
+    "historical_kernel_rank1": "2f29f7534bee4a2d3736104a20e5cbf30e6d753da445c236a420352c3a964b5b",
+    "cold_replay_observation_archive": "6c0cca9ae4b5b4a6afbbc5d06ddab23c4342d64abd2a645d8b58384f84a33b6b",
+    "module_observation_archive": "74672cc1bd3c27ff871b5dc00a644a04aea9e6dc85a0b4d50d519d744b57db15"
+  },
+  "raw_site_data_committed": false,
+  "new_four_window_profile_exports_available": false
+}

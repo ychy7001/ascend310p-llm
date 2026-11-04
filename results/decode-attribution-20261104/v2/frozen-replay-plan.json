@@ -1,0 +1,72 @@
+{
+  "origin": "first cold replay; exact synthetic arrivals and lengths; no site request data",
+  "requests": [
+    {
+      "label": "replay-000",
+      "arrival_seconds": 0.0033213290153071284,
+      "input_tokens": 20337,
+      "output_tokens": 4061
+    },
+    {
+      "label": "replay-001",
+      "arrival_seconds": 152.11836463399231,
+      "input_tokens": 7150,
+      "output_tokens": 1887
+    },
+    {
+      "label": "replay-002",
+      "arrival_seconds": 216.85869012505282,
+      "input_tokens": 5219,
+      "output_tokens": 567
+    },
+    {
+      "label": "replay-003",
+      "arrival_seconds": 238.57488300395198,
+      "input_tokens": 9530,
+      "output_tokens": 1936
+    },
+    {
+      "label": "replay-004",
+      "arrival_seconds": 285.00594057899434,
+      "input_tokens": 17547,
+      "output_tokens": 159
+    },
+    {
+      "label": "replay-005",
+      "arrival_seconds": 308.1254087180132,
+      "input_tokens": 33338,
+      "output_tokens": 317
+    },
+    {
+      "label": "replay-006",
+      "arrival_seconds": 330.04024397896137,
+      "input_tokens": 26529,
+      "output_tokens": 918
+    },
+    {
+      "label": "replay-007",
+      "arrival_seconds": 365.065794580034,
+      "input_tokens": 5050,
+      "output_tokens": 758
+    },
+    {
+      "label": "replay-008",
+      "arrival_seconds": 396.3915319290245,
+      "input_tokens": 12438,
+      "output_tokens": 2638
+    },
+    {
+      "label": "replay-009",
+      "arrival_seconds": 422.2118973409524,
+      "input_tokens": 15973,
+      "output_tokens": 3394
+    },
+    {
+      "label": "replay-010",
+      "arrival_seconds": 454.1396473060595,
+      "input_tokens": 47784,
+      "output_tokens": 410
+    }
+  ],
+  "note": "For paired tests freeze these arrivals and request count; faster service must not admit extra requests. Removal-of-kernel estimates ignore arrival-imposed idle time and are ceilings, not guaranteed wall savings."
+}

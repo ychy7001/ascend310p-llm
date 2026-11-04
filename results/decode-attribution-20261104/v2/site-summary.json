@@ -1,0 +1,468 @@
+{
+  "sites": [
+    {
+      "site": "site01",
+      "first": "2026-11-04T16:28:10.225504000+08:00",
+      "last": "2026-11-04T16:36:20.255880000+08:00",
+      "requests": {
+        "n": 0,
+        "input_tokens": {
+          "p10": null,
+          "p25": null,
+          "p50": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "output_tokens": {
+          "p10": null,
+          "p25": null,
+          "p50": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        }
+      },
+      "meeting_length_proxy": {
+        "n": 0,
+        "input_tokens": {
+          "p10": null,
+          "p25": null,
+          "p50": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "output_tokens": {
+          "p10": null,
+          "p25": null,
+          "p50": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        }
+      },
+      "concurrency": {
+        "seconds": {
+          "1": 80.00456500053406,
+          "2": 10.000303030014038,
+          "0": 80.00811409950256
+        },
+        "covered_seconds": 170.01298213005066,
+        "unobserved_seconds": 320.01739406585693,
+        "span_seconds": 490.0303761959076,
+        "method": "previous sample held only across gaps <=20 seconds; no interpolation across missing intervals"
+      },
+      "concurrency_samples": 22,
+      "concurrency_sample_quantiles": {
+        "p10": 0.0,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "p95": 1.0,
+        "p99": 1.7899999999999991,
+        "max": 2
+      },
+      "counters": {
+        "vllm:num_requests_running": 0.0,
+        "vllm:num_requests_waiting": 0.0,
+        "vllm:prefix_cache_queries_total": 25503.0,
+        "vllm:prefix_cache_hits_total": 7680.0,
+        "vllm:request_success_total": 16.0,
+        "vllm:request_prompt_tokens_count": 16.0,
+        "vllm:request_prompt_tokens_sum": 25503.0,
+        "vllm:request_generation_tokens_count": 16.0,
+        "vllm:request_generation_tokens_sum": 2942.0,
+        "vllm:request_queue_time_seconds_sum": 0.00046406686305999756
+      },
+      "arrival_timestamps_available": false,
+      "per_request_prefix_available": false,
+      "request_interval_histogram": {
+        "seconds": {},
+        "span_seconds": 0.0
+      },
+      "meeting_proxy_interval_histogram": {
+        "seconds": {},
+        "span_seconds": 0.0
+      },
+      "arrival_method": "completion timestamp minus server elapsed_s (rounded to 0.01s); visible completed requests only",
+      "request_elapsed_seconds": {
+        "p10": null,
+        "p25": null,
+        "p50": null,
+        "p75": null,
+        "p90": null,
+        "p95": null,
+        "p99": null,
+        "max": null
+      },
+      "prefix_token_hit_rate": 0.30114104223032584,
+      "request_prompt_tokens_bucket_quantile_bounds": {
+        "count": 26.0,
+        "bounds": {
+          "0.5": [
+            10.0,
+            20.0
+          ],
+          "0.9": [
+            2000.0,
+            5000.0
+          ],
+          "0.95": [
+            2000.0,
+            5000.0
+          ],
+          "0.99": [
+            2000.0,
+            5000.0
+          ]
+        },
+        "capture_epoch": 1793782986.2235935,
+        "note": "later independent snapshot; not paired request records and not pooled with request-level samples"
+      },
+      "request_generation_tokens_bucket_quantile_bounds": {
+        "count": 26.0,
+        "bounds": {
+          "0.5": [
+            200.0,
+            500.0
+          ],
+          "0.9": [
+            200.0,
+            500.0
+          ],
+          "0.95": [
+            200.0,
+            500.0
+          ],
+          "0.99": [
+            200.0,
+            500.0
+          ]
+        },
+        "capture_epoch": 1793782986.2235935,
+        "note": "later independent snapshot; not paired request records and not pooled with request-level samples"
+      }
+    },
+    {
+      "site": "site02",
+      "first": "2026-11-03T08:58:37.394780000+08:00",
+      "last": "2026-11-04T16:24:24.684736000+08:00",
+      "requests": {
+        "n": 465,
+        "input_tokens": {
+          "p10": 2186.8000000000006,
+          "p25": 6243.0,
+          "p50": 11342.0,
+          "p75": 15398.0,
+          "p90": 18731.000000000004,
+          "p95": 21877.799999999992,
+          "p99": 27847.120000000003,
+          "max": 31881.0
+        },
+        "output_tokens": {
+          "p10": 54.0,
+          "p25": 139.0,
+          "p50": 641.0,
+          "p75": 2117.0,
+          "p90": 2904.6000000000004,
+          "p95": 3394.7999999999997,
+          "p99": 3994.4400000000014,
+          "max": 6214.0
+        }
+      },
+      "meeting_length_proxy": {
+        "n": 291,
+        "input_tokens": {
+          "p10": 8483.0,
+          "p25": 10928.0,
+          "p50": 13283.0,
+          "p75": 16213.0,
+          "p90": 21068.0,
+          "p95": 24309.0,
+          "p99": 29042.100000000028,
+          "max": 31881.0
+        },
+        "output_tokens": {
+          "p10": 179.0,
+          "p25": 339.0,
+          "p50": 1814.0,
+          "p75": 2654.5,
+          "p90": 3262.0,
+          "p95": 3559.0,
+          "p99": 4151.600000000019,
+          "max": 6214.0
+        }
+      },
+      "concurrency": {
+        "seconds": {
+          "0": 1200.0958807468414,
+          "1": 1820.1097466945648,
+          "2": 440.02086114883423,
+          "3": 330.0154871940613,
+          "4": 500.0227677822113,
+          "5": 80.00257277488708
+        },
+        "covered_seconds": 4370.2673163414,
+        "unobserved_seconds": 108773.2045636177,
+        "span_seconds": 113143.4718799591,
+        "method": "previous sample held only across gaps <=20 seconds; no interpolation across missing intervals"
+      },
+      "concurrency_samples": 467,
+      "concurrency_sample_quantiles": {
+        "p10": 0.0,
+        "p25": 0.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p90": 4.0,
+        "p95": 4.0,
+        "p99": 5.0,
+        "max": 5
+      },
+      "counters": {
+        "vllm:num_requests_running": 0.0,
+        "vllm:num_requests_waiting": 0.0,
+        "vllm:prefix_cache_queries_total": 8933242.0,
+        "vllm:prefix_cache_hits_total": 7447232.0,
+        "vllm:request_success_total": 729.0,
+        "vllm:request_prompt_tokens_count": 729.0,
+        "vllm:request_prompt_tokens_sum": 8906463.0,
+        "vllm:request_generation_tokens_count": 729.0,
+        "vllm:request_generation_tokens_sum": 588194.0,
+        "vllm:request_queue_time_seconds_sum": 60.6453514364548
+      },
+      "arrival_timestamps_available": true,
+      "per_request_prefix_available": false,
+      "request_interval_histogram": {
+        "seconds": {
+          "1": 1705.107421875,
+          "0": 110009.03859567642,
+          "2": 485.54541850090027,
+          "3": 303.3310914039612,
+          "4": 542.3078908920288,
+          "5": 95.50538063049316
+        },
+        "span_seconds": 113140.8357989788
+      },
+      "meeting_proxy_interval_histogram": {
+        "seconds": {
+          "1": 1443.9654541015625,
+          "0": 91638.80680799484,
+          "2": 385.84972167015076,
+          "3": 216.16887855529785,
+          "4": 515.6878907680511,
+          "5": 92.66538071632385
+        },
+        "span_seconds": 94293.14413380623
+      },
+      "arrival_method": "completion timestamp minus server elapsed_s (rounded to 0.01s); visible completed requests only",
+      "request_elapsed_seconds": {
+        "p10": 1.1820000000000004,
+        "p25": 2.21,
+        "p50": 7.83,
+        "p75": 23.22,
+        "p90": 32.02,
+        "p95": 36.97,
+        "p99": 44.502000000000066,
+        "max": 71.36
+      },
+      "prefix_token_hit_rate": 0.8336538963122235
+    },
+    {
+      "site": "site03",
+      "first": "2026-11-02T21:07:20.225781000+08:00",
+      "last": "2026-11-04T15:46:41.009343000+08:00",
+      "requests": {
+        "n": 678,
+        "input_tokens": {
+          "p10": 4342.6,
+          "p25": 5263.0,
+          "p50": 13373.5,
+          "p75": 21781.5,
+          "p90": 36406.70000000001,
+          "p95": 47880.8,
+          "p99": 82194.59000000003,
+          "max": 94440.0
+        },
+        "output_tokens": {
+          "p10": 90.0,
+          "p25": 228.0,
+          "p50": 737.5,
+          "p75": 1901.5,
+          "p90": 2722.300000000001,
+          "p95": 3453.999999999999,
+          "p99": 6144.0,
+          "max": 14817.0
+        }
+      },
+      "meeting_length_proxy": {
+        "n": 522,
+        "input_tokens": {
+          "p10": 5032.9,
+          "p25": 5376.75,
+          "p50": 12752.5,
+          "p75": 18280.5,
+          "p90": 35084.200000000004,
+          "p95": 45110.09999999999,
+          "p99": 81841.69999999998,
+          "max": 94440.0
+        },
+        "output_tokens": {
+          "p10": 250.3,
+          "p25": 573.25,
+          "p50": 1024.0,
+          "p75": 2097.75,
+          "p90": 2993.9000000000005,
+          "p95": 3548.7,
+          "p99": 6144.0,
+          "max": 14817.0
+        }
+      },
+      "concurrency": {
+        "seconds": {
+          "0": 1880.1971771717072,
+          "1": 3820.340408563614,
+          "6": 20.000251054763794,
+          "3": 500.0315968990326,
+          "2": 490.0405647754669,
+          "4": 1030.070518732071,
+          "5": 330.0110228061676
+        },
+        "covered_seconds": 8070.691540002823,
+        "unobserved_seconds": 145488.4554169178,
+        "span_seconds": 153559.14695692062,
+        "method": "previous sample held only across gaps <=20 seconds; no interpolation across missing intervals"
+      },
+      "concurrency_samples": 854,
+      "concurrency_sample_quantiles": {
+        "p10": 0.0,
+        "p25": 0.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p90": 4.0,
+        "p95": 4.0,
+        "p99": 5.0,
+        "max": 6
+      },
+      "counters": {
+        "vllm:num_requests_running": 0.0,
+        "vllm:num_requests_waiting": 0.0,
+        "vllm:prefix_cache_queries_total": 11635250.0,
+        "vllm:prefix_cache_hits_total": 8661952.0,
+        "vllm:request_success_total": 678.0,
+        "vllm:request_prompt_tokens_count": 678.0,
+        "vllm:request_prompt_tokens_sum": 11585312.0,
+        "vllm:request_generation_tokens_count": 678.0,
+        "vllm:request_generation_tokens_sum": 825831.0,
+        "vllm:request_queue_time_seconds_sum": 277.3659866468515
+      },
+      "arrival_timestamps_available": true,
+      "per_request_prefix_available": false,
+      "request_interval_histogram": {
+        "seconds": {
+          "1": 4120.207422494888,
+          "0": 146957.8628423214,
+          "2": 540.6917865276337,
+          "3": 385.12242317199707,
+          "4": 1063.8901534080505,
+          "5": 464.66368436813354,
+          "6": 16.763782739639282
+        },
+        "span_seconds": 153549.20209503174
+      },
+      "meeting_proxy_interval_histogram": {
+        "seconds": {
+          "1": 3803.0308079719543,
+          "0": 145034.2743332386,
+          "2": 422.96955370903015,
+          "3": 423.1199457645416,
+          "4": 1259.6253304481506,
+          "5": 204.5137848854065
+        },
+        "span_seconds": 151147.53375601768
+      },
+      "arrival_method": "completion timestamp minus server elapsed_s (rounded to 0.01s); visible completed requests only",
+      "request_elapsed_seconds": {
+        "p10": 2.32,
+        "p25": 5.8475,
+        "p50": 11.455,
+        "p75": 24.2725,
+        "p90": 45.69500000000002,
+        "p95": 63.694,
+        "p99": 99.57180000000001,
+        "max": 154.27
+      },
+      "prefix_token_hit_rate": 0.744457746932812
+    }
+  ],
+  "pooled_requests": 1143,
+  "pooled_input": {
+    "p10": 3266.2,
+    "p25": 5381.0,
+    "p50": 12125.0,
+    "p75": 17752.5,
+    "p90": 32096.199999999986,
+    "p95": 37922.59999999997,
+    "p99": 80845.97999999998,
+    "max": 94440.0
+  },
+  "pooled_output": {
+    "p10": 69.0,
+    "p25": 179.0,
+    "p50": 732.0,
+    "p75": 1978.0,
+    "p90": 2835.8,
+    "p95": 3416.5999999999967,
+    "p99": 5847.639999999996,
+    "max": 14817.0
+  },
+  "meeting_proxy_definition": "input >=4096 and output >=128; task type not available; not a verified meeting-only sample",
+  "meeting_proxy_n": 813,
+  "meeting_proxy_input": {
+    "p10": 5129.4,
+    "p25": 7150.0,
+    "p50": 12994.0,
+    "p75": 17547.0,
+    "p90": 32096.20000000002,
+    "p95": 36698.799999999996,
+    "p99": 80915.28,
+    "max": 94440.0
+  },
+  "meeting_proxy_output": {
+    "p10": 207.39999999999998,
+    "p25": 536.0,
+    "p50": 1309.0,
+    "p75": 2309.0,
+    "p90": 3152.8000000000015,
+    "p95": 3555.3999999999996,
+    "p99": 6144.0,
+    "max": 14817.0
+  },
+  "pooled_request_interval_seconds": {
+    "1": 5825.314844369888,
+    "0": 256966.90143799782,
+    "2": 1026.237205028534,
+    "3": 688.4535145759583,
+    "4": 1606.1980443000793,
+    "5": 560.1690649986267,
+    "6": 16.763782739639282
+  },
+  "pooled_meeting_proxy_interval_seconds": {
+    "1": 5246.996262073517,
+    "0": 236673.08114123344,
+    "2": 808.8192753791809,
+    "3": 639.2888243198395,
+    "4": 1775.3132212162018,
+    "5": 297.17916560173035
+  },
+  "interval_histogram_limitation": "Visible completed requests only; not scheduler decode batch; possible left truncation and logging gaps. Concurrency >4 belongs to the observed serving stacks and cannot be copied to seqs4."
+}

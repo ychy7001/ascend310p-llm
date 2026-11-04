@@ -1,0 +1,212 @@
+{
+  "clock": "CPU observed dispatch -> output completion; pipeline overlaps clipped; no added device synchronization",
+  "wall_seconds": 643.7050510309637,
+  "requests": 11,
+  "input_tokens": 200895,
+  "output_tokens": 17045,
+  "phase_seconds": {
+    "prefill": 34.309424328035675,
+    "decode": 438.2688992860494,
+    "mixed": 170.8968914570287
+  },
+  "phase_steps": {
+    "prefill": 17,
+    "decode": 11798,
+    "mixed": 49
+  },
+  "dispatch_idle_and_unassigned_seconds": 0.22983595984987915,
+  "decode_only_fraction_of_wall": 0.6808535968206465,
+  "mixed_fraction_of_wall": 0.26548943678990666,
+  "decode_inclusive_mixed_fraction_of_wall": 0.9463430336105532,
+  "decode_batch_seconds": {
+    "1": 282.29242775205057,
+    "2": 79.13636625208892,
+    "4": 59.110352326883,
+    "3": 17.729752955026925
+  },
+  "decode_batch_steps": {
+    "1": 8712,
+    "2": 1928,
+    "4": 884,
+    "3": 274
+  },
+  "latency_by_batch_context": [
+    {
+      "decode_batch": 1,
+      "max_context_bin": "0-8k",
+      "steps": 1608,
+      "step_ms": {
+        "p10": 30.990789737552404,
+        "p25": 31.09984376351349,
+        "p50": 31.231583037879318,
+        "p75": 31.314463762100786,
+        "p90": 31.41550662694499,
+        "p95": 31.479385495185852,
+        "p99": 32.70894987392239,
+        "max": 39.95356406085193
+      },
+      "mean_step_ms": 31.254638999408638,
+      "graph_hit_step_fraction": 1.0
+    },
+    {
+      "decode_batch": 1,
+      "max_context_bin": "16-32k",
+      "steps": 5023,
+      "step_ms": {
+        "p10": 32.758708647452295,
+        "p25": 32.91410498786718,
+        "p50": 33.10187300667167,
+        "p75": 33.28239405527711,
+        "p90": 33.396314014680684,
+        "p95": 33.4749226574786,
+        "p99": 34.25966038601473,
+        "max": 44.11228001117706
+      },
+      "mean_step_ms": 33.11958998785542,
+      "graph_hit_step_fraction": 1.0
+    },
+    {
+      "decode_batch": 1,
+      "max_context_bin": "8-16k",
+      "steps": 2081,
+      "step_ms": {
+        "p10": 31.31675790064037,
+        "p25": 31.393949990160763,
+        "p50": 31.562738004140556,
+        "p75": 31.66431002318859,
+        "p90": 31.763867009431124,
+        "p95": 31.83082106988877,
+        "p99": 32.419526088051484,
+        "max": 33.767277956940234
+      },
+      "mean_step_ms": 31.559475123500096,
+      "graph_hit_step_fraction": 1.0
+    },
+    {
+      "decode_batch": 2,
+      "max_context_bin": "16-32k",
+      "steps": 1928,
+      "step_ms": {
+        "p10": 40.61997861135751,
+        "p25": 40.82584325806238,
+        "p50": 41.06870596297085,
+        "p75": 41.250081529142335,
+        "p90": 41.37619793182239,
+        "p95": 41.45234493771568,
+        "p99": 42.38314758054912,
+        "max": 47.81907598953694
+      },
+      "mean_step_ms": 41.045833118303385,
+      "graph_hit_step_fraction": 1.0
+    },
+    {
+      "decode_batch": 3,
+      "max_context_bin": "16-32k",
+      "steps": 7,
+      "step_ms": {
+        "p10": 56.20558122172952,
+        "p25": 57.452647015452385,
+        "p50": 58.19564894773066,
+        "p75": 59.458983479999006,
+        "p90": 61.448473017662764,
+        "p95": 62.53025803016499,
+        "p99": 63.395686040166765,
+        "max": 63.61204304266721
+      },
+      "mean_step_ms": 58.71194542851299,
+      "graph_hit_step_fraction": 0.0
+    },
+    {
+      "decode_batch": 3,
+      "max_context_bin": "32-64k",
+      "steps": 267,
+      "step_ms": {
+        "p10": 64.05256199650466,
+        "p25": 64.53964748652652,
+        "p50": 64.96800994500518,
+        "p75": 65.29945501824841,
+        "p90": 65.59702740050852,
+        "p95": 65.84251425229013,
+        "p99": 66.21508821379393,
+        "max": 69.04823309741914
+      },
+      "mean_step_ms": 64.86430463306118,
+      "graph_hit_step_fraction": 0.0
+    },
+    {
+      "decode_batch": 4,
+      "max_context_bin": "16-32k",
+      "steps": 435,
+      "step_ms": {
+        "p10": 62.65293799806386,
+        "p25": 63.446295040193945,
+        "p50": 64.16532001458108,
+        "p75": 64.72115853102878,
+        "p90": 65.04913556855172,
+        "p95": 65.35624770913273,
+        "p99": 66.77550730993968,
+        "max": 127.54913093522191
+      },
+      "mean_step_ms": 64.21703704118985,
+      "graph_hit_step_fraction": 0.0
+    },
+    {
+      "decode_batch": 4,
+      "max_context_bin": "32-64k",
+      "steps": 449,
+      "step_ms": {
+        "p10": 66.22773387935013,
+        "p25": 66.86235405504704,
+        "p50": 67.44168291334063,
+        "p75": 73.47502594348043,
+        "p90": 74.13057358935475,
+        "p95": 74.52215657103807,
+        "p99": 75.11022306513041,
+        "max": 137.9041529726237
+      },
+      "mean_step_ms": 69.43416751439959,
+      "graph_hit_step_fraction": 0.0
+    }
+  ],
+  "graph_hit_decode_step_fraction": 0.9018477708086117,
+  "graph_hit_decode_time_fraction": 0.8246736069862947,
+  "prefix_counter_delta": {
+    "prefix_cache_queries_total": 227424.0,
+    "prefix_cache_hits_total": 0.0
+  },
+  "queue_seconds_quantiles": {
+    "p10": 0.0014680890599265695,
+    "p25": 0.008278719673398882,
+    "p50": 0.02061193122062832,
+    "p75": 0.05373110540676862,
+    "p90": 2.3808961634058505,
+    "p95": 3.5163139957003295,
+    "p99": 4.424648261535913,
+    "max": 4.6517318279948086
+  },
+  "scheduler_cpu_seconds": 0.9856968912063166,
+  "worker_execute_host_span_seconds_includes_waits": 625.8105162348365,
+  "worker_sample_host_span_seconds_includes_waits": 2.851980188395828,
+  "validation": {
+    "scheduler_steps": 12410,
+    "worker_steps": 12410,
+    "joined_steps": 12408,
+    "unmatched_worker_sequences": [
+      12421,
+      12422
+    ],
+    "worker_pid": 567,
+    "rank": 0,
+    "unmatched_replay_worker_sequences": [],
+    "unmatched_outside_replay_count": 2,
+    "http_completed": 11,
+    "server_completed": 11,
+    "all_requests_identified": true,
+    "request_count_matches": true,
+    "http_server_token_counts_match": true,
+    "no_negative_computed": true,
+    "prompt_tokens_accounted": true,
+    "prefix_zero_hits": true,
+    "wall_partition_residual_s": 0.0
+  }
+}
