@@ -1,0 +1,48 @@
+{
+  "path": "results/wy921-localize-20261104/upstream-gdn-wy921-runtime-repro.tar.gz",
+  "size_bytes": 50410,
+  "sha256": "aa62d77c36499d34d1976f061a7f78801a248729cf4eba034ad4587e3c392497",
+  "unpacked_path": "results/wy921-localize-20261104/upstream-gdn-wy921-runtime-repro",
+  "contains_weights": false,
+  "contains_prompts": false,
+  "inputs": "one 64-token, one-head activation snapshot",
+  "files": [
+    {
+      "path": "README.md",
+      "size_bytes": 2834,
+      "sha256": "514a4f967103c97b6b35eb6a959d1848b32f86e7790ebb600d172927ed48a26c"
+    },
+    {
+      "path": "build_pr17640_wy_extension.py",
+      "size_bytes": 2995,
+      "sha256": "74f5e06179112309fd735e9549c65caeb9ad725ed07414dce5b3c9bbb408bebb"
+    },
+    {
+      "path": "input.pt",
+      "size_bytes": 51843,
+      "sha256": "291fb3926578f07ebf853fded508a606a508f223bb12b0b94cf353ad7e018ba3"
+    },
+    {
+      "path": "observed-minimal.json",
+      "size_bytes": 6354,
+      "sha256": "273454ede7cbe17d74eff46ab0a0eb864da3a41e04d687d7495e8df0ca85efbc"
+    },
+    {
+      "path": "repro-real-wy.py",
+      "size_bytes": 2049,
+      "sha256": "0c9ec38b8bf270234ae9009ef23c5ca36a84dcf1b55a5737feab21072f035510"
+    },
+    {
+      "path": "test_wy_snapshot_reference.py",
+      "size_bytes": 3385,
+      "sha256": "baf893cf6d48569e58f86a3b2a23c6b9aa0c62fd47fe693b48066dffbf6d0821"
+    },
+    {
+      "path": "wy_snapshot_reference.py",
+      "size_bytes": 2851,
+      "sha256": "3ba4c218f28f149d9ae08b578b690c906c6c8046d96a8ffc229047d07ccdf03a"
+    }
+  ],
+  "published": false,
+  "requires_build": "fixed PR17640 checkout and CANN9.2.1 toolchain; binaries not bundled"
+}
