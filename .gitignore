@@ -280,3 +280,9 @@ logs/
 /results/cann-wy-feasibility-20261104/**
 !/results/cann-wy-feasibility-20261104/README.md
 !/results/cann-wy-feasibility-20261104/adjudication.json
+
+# wy-1: real WY localization tensors and logs remain local
+/results/wy921-localize-20261104/**
+!/results/wy921-localize-20261104/README.md
+!/results/wy921-localize-20261104/adjudication.json
+!/results/wy921-localize-20261104/repro-manifest.json

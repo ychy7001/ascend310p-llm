@@ -8,7 +8,7 @@
 
 以下只列入口，不执行设备任务。门禁和算子工具需要匹配的 Ascend 运行时、设备及制品；CPU 单元测试独立运行。
 
-## 可复用清单（含 tools 改动，共 54 个脚本/测试）
+## 可复用清单（含 tools 改动，共 56 个脚本/测试）
 
 - `benchmarks/ascend310p/analyze_wy_snapshots.py`
 - `benchmarks/ascend310p/audit_runtime_stack.py`
@@ -64,6 +64,10 @@
 - `tools/test_check_business_facts.py`
 - `tools/test_compare_token_logprobs.py`
 - `tools/test_replay_stage_workload.py`
+- `tools/wy_snapshot_reference.py`
+- `tools/test_wy_snapshot_reference.py`
+
+`tools/wy_snapshot_reference.py` 提供真实 WY 快照的 CPU FP32 三角求解参考和逐点门禁指标；不导入 NPU。测试交叉验证 token 递推、行更新与局部超差拒绝。
 
 ## 本地验证
 
