@@ -128,29 +128,9 @@ PR17640配套H/O通过生产post2完整链及独立CPU门禁；检查范围和�
 
 结果：results/production-gdn-pair-quality-20261104/adjudication.json。上游路线和补充研究取舍：docs/research/gdn-upstream-pr-evaluation.md。
 
-## 2026-11-04：CANN9.2.1完整默认栈隔离验证
+## CANN9.2.1默认栈与配套H/O
 
-用户同意后在a2拉取官方v0.30.0-310p（IDd103c59b31c6…），核实Toolkit/OPP/NNAL9.2.1、torch-npu2.10post7、vLLM/Ascend0.30.0；a1和宿主驱动固件未改。初始GDN T111两卡96/96、Dense无权重Matmul10/10通过，但扩展门禁13/15，两组T512输出偏差。独立进程T512 HV16仅29/48在容差内、HV24为0/48，末state各48/48稳定。最终not_accepted_gdn_correctness；未加载模型、未测性能，不宣称CANN单独修复Dense或GDN。
-
-完整评估docs/research/cann-upgrade-evaluation.md；原始results/cann921-upgrade-20261104；可公开合成复现results/upstream-gdn-cann921-repro-20261104.tar.gz（尚未发布）。本轮至此保留隔离新版环境，下一步优先GDN输出正确性，不扩大WY重复实现。
-
-## 2026-11-04：9.2.1配套H/O已通过扩大算子门禁
-
-固定官方镜像ID d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a，使用同一工具链重新编译PR17640固定head18163f6b的成对H/O，独立vendor/namespace，保留原始NZ状态binding。**Torch WY保持默认**，没有加载旧9.1 WY二进制或改算法。
-
-| 检查 | 新版默认栈 | 9.2.1配套H/O、Torch WY不变 |
-|---|---|---|
-| T512/seed318/HV16，device0 | 29/48在容差内，输出1/48等于首轮 | 48/48在容差内且输出/末state逐位稳定 |
-| T512/seed318/HV24，device0 | 0/48在容差内，输出1/48等于首轮 | 48/48在容差内且输出/末state逐位稳定 |
-| 同输入device1 | 本轮默认对照未覆盖 | HV16、HV24各48/48通过 |
-| 15组严格边界 | device0为13/15 | 两卡各15/15，每组额外3次逐位重复 |
-
-配套H/O的T512输出maxabs为6.54e−6/6.38e−6，relativeRMSE约0.000424；15组输出最大maxabs1.025e−5、末state1.2465e−4，原门限atol2e−4、rtol0.04、relativeRMSE<=0.02未改变。结果说明此配套组合能消除已测样本异常，尚未区分H或O根因，不是整模型质量/性能验收。
-
-验证前纠正加载顺序：vLLM bootstrap会将默认vendor置前，而9.2.1默认库也导出相同Vllm API名；独立NPUBridge会在dlopen时捕获环境。故在bootstrap之后、dlopen之前重新前置paired vendor，并记录API/扩展SHA和实际映射库。控制器在未运行验证时暂停，保留旧脚本和调整记录；算法/编译源未改。6个验证进程均只映射配套libcust_opapi.so。原始通用probe头仍称default/original scope，实际实验范围以wrapper日志和adjudication为准，未修改原始jsonl。
-
-证据：results/upstream-gdn-pair921-v1-20261104/。a2原服务已独立HTTP200恢复后，继续进入35B W8A8 TP2质量筛选，配置为9.2.1+paired H/O+原Torch WY；暂不做WY性能比较。
-
+默认完整栈扩大GDN门禁失败，最终`not_accepted_gdn_correctness`，未进入整模型。保留Torch WY、重新编译配套H/O后，已测GDN异常消除；它是可继续验证的隔离组合，尚不构成生产采用。版本身份、逐形状误差和采用条件统一见[CANN评估](research/cann-upgrade-evaluation.md)。
 
 ## 2026-11-04：9.2.1配套H/O＋原Torch WY的35B质量筛选完成
 
@@ -158,11 +138,9 @@ PR17640配套H/O通过生产post2完整链及独立CPU门禁；检查范围和�
 
 前后短题各8/8、ABA输出一致无canary泄漏，事实16/16，业务自动28/28（20会议、3tool、5schema），但人工语义仍不通过。会议4本轮周明/刘洋/何丽映射正确，却把未标明完成状态的当天回复写成“已于当天完成回复”；会议5同样编造已完成停用，并把行动项截止时间从“当天”写成“本周内（已完成）”。原生产A也出现前两项完成状态编造，不能当作本候选独有的数值回归；本周内是本轮额外差异，仍需配对复核。20会议均已人工阅读。
 
-28项原始请求与原生产A逐项严格相同；25条非tool文本7条相同，文字变化不能直接等同质量或数值退化。最终not_accepted_business_semantics，无新GSM、性能和生产采用。首次启动NNAL nounset错误发生在权重加载前，修正后v2实际完成本轮；原失败保留，不计入模型质量。
+28项原始请求与原生产A逐项严格相同；25条非tool文本7条相同，文字变化不能直接等同质量或数值退化。最终not_accepted_business_semantics，无新GSM、性能和生产采用。
 
-P0结论需分开：已测GDN数值异常可以由现有配套H/O在Torch WY不变时消除；自然语言完成状态问题也存在于原模型基线，尚未证明是GDN/CANN引起。下一步补齐负责人/截止时间/执行状态的同输入结构化配对回归及长上下文检查，再决定WY验收和正式性能；不靠继续换CANN或放宽门槛消除业务错误。
-
-结果：results/cann921-upgrade-20261104/a3b-quality-pair921-v2/adjudication.json。新增无权重配套对照复现包results/upstream-gdn-cann921-pair-repro-20261104.tar.gz（10925B，脚本与实测冻结SHA一致、归档逐文件校验通过），可为现有PR17640补充测试；仍未公开发布。
+结果：results/cann921-upgrade-20261104/a3b-quality-pair921-v2/adjudication.json。复现与贡献范围见[上游评估](research/gdn-upstream-pr-evaluation.md)。
 
 
 ## 字段与长上下文配对
