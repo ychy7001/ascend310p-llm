@@ -48,14 +48,31 @@ class NumericalComparisonTest(unittest.TestCase):
         self.assertEqual(result['per_case'][0]['greedy_first_divergence'],2)
         self.assertAlmostEqual(result['metrics']['top1_disagreement_rate'],1/3)
 
-    def test_reject_missing_target_and_different_reference(self):
+    def test_missing_target_lower_bound_and_different_reference(self):
         x=self.record();y=copy.deepcopy(x)
         del y['cases'][0]['positions'][1]['logprobs']['1']
-        with self.assertRaisesRegex(ValueError,'Missing A target'):
-            compare(x,y)
+        y['cases'][0]['greedy_ids'][1]=2
+        y['cases'][0]['positions'][1]['top1']=2
+        result=compare(x,y)
+        self.assertEqual(result['target_logprob_censoring']['count'],1)
+        self.assertAlmostEqual(result['metrics']['max_absolute_target_logprob_difference'],math.log(8))
+        gate=adjudicate(compare(x,x),result,{'multiplier':1.5,'absolute_floor':0})
+        self.assertFalse(gate['passed'])
+        self.assertEqual(gate['checks']['max_absolute_target_logprob_difference']['candidate_value_kind'],'lower_bound')
         y=copy.deepcopy(x);y['reference_sequence_sha256']='different'
         with self.assertRaisesRegex(ValueError,'reference sequences'):
             compare(x,y)
+    def test_censored_error_cannot_pass_from_a_small_bound(self):
+        noise=compare(self.record(),self.record())
+        noise['metrics']['max_absolute_target_logprob_difference']=10
+        for key in noise['metrics']:
+            if 'divergent_suffix_fraction' in key or key=='top1_disagreement_rate':noise['metrics'][key]=1
+        y=self.record();del y['cases'][0]['positions'][0]['logprobs']['1']
+        y['cases'][0]['greedy_ids'][0]=2
+        y['cases'][0]['positions'][0]['top1']=2
+        result=adjudicate(noise,compare(self.record(),y),{'multiplier':1.5,'absolute_floor':0})
+        self.assertIsNone(result['checks']['max_absolute_target_logprob_difference']['passed'])
+        self.assertIsNone(result['passed'])
 
 
 if __name__=='__main__':unittest.main()
