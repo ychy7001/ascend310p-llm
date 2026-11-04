@@ -1,0 +1,589 @@
+{
+  "date": "2026-11-04",
+  "conclusion_zh": "需要完成WY独立薄绑定和设备算子门禁后进入G1",
+  "summary_zh": "CPU构建路线可行，现成镜像缺少目标算子；需完成WY独立薄绑定与设备算子门禁后再进入G1，gating继续作为独立变量。",
+  "can_build_under_fixed_9_2_1": true,
+  "ready_for_G1_now": false,
+  "required_next_steps_zh": [
+    "沿用已通过配套H/O，只替换WY helper；使用独立vendor，薄绑定采用私有namespace并冻结gating源码/调用路径。",
+    "显式固定本次包和绑定来源、形状约束，禁止#18057默认静默回退。",
+    "另一个thread释放NPU后，先运行设备算子门禁及绑定加载检查，再按A/B/A′冻结协议进入模型G1；本轮不执行。"
+  ],
+  "Q1_image_inventory": {
+    "answer_zh": "现有镜像不含这两个experimental算子的可调用ACLNN接口和对应Python绑定；通用cann_ops_transformer包存在。",
+    "image_id": "d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a",
+    "same_local_image_id": "d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a",
+    "architecture": "amd64",
+    "flattened_rootfs_text_files_checked": 78033,
+    "opapi_libraries_checked": 11,
+    "aclnn_symbols": {
+      "aclnnChunkGatedDeltaRuleComputeWy": false,
+      "aclnnChunkGatedDeltaRuleComputeWyGetWorkspaceSize": false,
+      "aclnnFusedGdnGating": false,
+      "aclnnFusedGdnGatingGetWorkspaceSize": false
+    },
+    "target_headers_present": false,
+    "target_opinfo_present": false,
+    "target_python_bindings_present": false,
+    "general_python_package": {
+      "present": true,
+      "origin": "/usr/local/Ascend/cann-9.2.1/python/site-packages/cann_ops_transformer/__init__.py"
+    },
+    "export_scan_libraries": [
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi_oam.so",
+        "sha256": "042ea6de890ddae163963b96563c7701611dd984fe7e88941ec555b3a278fa25",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi_math.so",
+        "sha256": "eea8da613f81b9399b93df62db27a3b9e4668e6ed197b048c1ad597e8b7f239b",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi_transformer.so",
+        "sha256": "89bfeb17aca65c8e9842c77eabcbb09e2f242a7b5ba4faaf8f76ee3fe939735f",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi.so",
+        "sha256": "9b4a3c400ab8ac06a108540250a54d9040c415b0abb31c02d7b7895b54c43f76",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi_nn.so",
+        "sha256": "d5b31b3989fc8cee66d0e0511dc21136e02bbcc2c253c434c326dec2e259ac14",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi_cv.so",
+        "sha256": "8cc93dc2a86ceec54d679c6df1bc7137f54efbd41a1374c0f39970b57a52641c",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/usr/local/Ascend/cann-9.2.1/x86_64-linux/lib64/libopapi_ras.so",
+        "sha256": "655067f8956b256dd947506c94db6eb14721648fd7a2bff3eb0caeb7a12d9a22",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/vllm-workspace/vllm-ascend/csrc/build/libopapi_math.so",
+        "sha256": "1c39fd5ad2177987c3b6c1a575b4dd1b47965985b90aa36887157c0e4b58eb2d",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/vllm-workspace/vllm-ascend/csrc/build/libcust_opapi.so",
+        "sha256": "29bc1a3c12ff332cfebcc41990785e5b5d4eeeddffa996c3cd81e0c0d56bfd61",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/vllm-workspace/vllm-ascend/csrc/build/_CPack_Packages/Linux/External/cann-ops-transformer-custom_linux-x86_64.run/packages/vendors/custom_transformer/op_api/lib/libcust_opapi.so",
+        "sha256": "29bc1a3c12ff332cfebcc41990785e5b5d4eeeddffa996c3cd81e0c0d56bfd61",
+        "nm_returncode": 0,
+        "matching_exports": []
+      },
+      {
+        "path": "/vllm-workspace/vllm-ascend/vllm_ascend/_cann_ops_custom/vendors/custom_transformer/op_api/lib/libcust_opapi.so",
+        "sha256": "29bc1a3c12ff332cfebcc41990785e5b5d4eeeddffa996c3cd81e0c0d56bfd61",
+        "nm_returncode": 0,
+        "matching_exports": []
+      }
+    ],
+    "image_runtime_source_sha256": {
+      "cann_ops.py": null,
+      "chunk_gated_delta_rule.py": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+      "fused_gdn_gating.py": "613071395d7b0743505048bf561e775040dc28976a141310b8047aae56a0da3c",
+      "gdn_310.py": "7c564c2b7a887ae6ae6014d9d792470ba0c16ef15192bd84f902731f5e5a95ab"
+    },
+    "note_zh": "只有框架Torch/Triton同名gating文件，不是本轮目标算子的ACLNN绑定。实验机镜像层与本机同ID实际rootfs交叉核对。"
+  },
+  "Q2_CPU_build": {
+    "answer_zh": "可行：在未挂NPU或驱动的本机同ID9.2.1镜像内，固定0340eae实际构建成功；独立vendor构建也成功。",
+    "ops_commit": "0340eae051ddf5ab956df0f7e0396dbd6314cfc5",
+    "source_modified": false,
+    "package_build_command": "bash build.sh --pkg --experimental --soc=ascend310p --vendor_name=custom --ops=fused_gdn_gating,chunk_gated_delta_rule_compute_wy -j16",
+    "python_wheel_build_command": "bash build.sh --torch_extension --experimental",
+    "isolated_vendor_build_command": "bash build.sh --pkg --experimental --soc=ascend310p --vendor_name=wy921_cann --ops=fused_gdn_gating,chunk_gated_delta_rule_compute_wy -j16",
+    "isolated_python_wheel_build_command": "bash build.sh --torch_extension --experimental --ops=fused_gdn_gating,chunk_gated_delta_rule_compute_wy --vendor_name=wy921_cann",
+    "build_returncodes": {
+      "custom_package": 0,
+      "python_wheel": 0,
+      "isolated_python_wheel": 0,
+      "isolated_vendor_package": 0
+    },
+    "artifact_validation": {
+      "native_packages": {
+        "custom": {
+          "filename": "cann-ops-transformer-custom_linux-x86_64.run",
+          "sha256": "5f4f63a2d04d7e36526f0446dbd34e7cf843239feda3333075d9786d3c4b8592",
+          "size_bytes": 3540307,
+          "vendor_directory": "custom_transformer",
+          "library_sha256": "214b3d6a2a61131d63dd2fe918218b04a435341fedbd22de8c3daf2d66a9f369",
+          "required_exports": [
+            "aclnnChunkGatedDeltaRuleComputeWy",
+            "aclnnChunkGatedDeltaRuleComputeWyGetWorkspaceSize",
+            "aclnnFusedGdnGating",
+            "aclnnFusedGdnGatingGetWorkspaceSize"
+          ],
+          "header_sha256": {
+            "aclnn_chunk_gated_delta_rule_compute_wy.h": "6545b332eef6709e7c1eb587a90e66de196721511de99a48bd9bf9b0662fb4df",
+            "aclnn_fused_gdn_gating.h": "42921838bef7f851780f46e695cbb91817ca3c86c9fffd9e536253d9a85359e2"
+          },
+          "opinfo_sha256": "88cc6f39fe19b636997c1c78493d130cea4b08831268da5d69047d43a8d0d50e",
+          "opinfo_operator_names": [
+            "ChunkGatedDeltaRuleComputeWy",
+            "FusedGdnGating"
+          ],
+          "kernels": {
+            "chunk_gated_delta_rule_compute_wy": {
+              "path": "op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_compute_wy/ChunkGatedDeltaRuleComputeWy_8f4d8c298b43f44b7c70e383cb968fe2.o",
+              "size_bytes": 120952,
+              "sha256": "e3d30eb35d63b5e7e3f9fff4fc53ff9e9f3b486276a5d60d7e1716474431aa7b"
+            },
+            "fused_gdn_gating": {
+              "path": "op_impl/ai_core/tbe/kernel/ascend310p/fused_gdn_gating/FusedGdnGating_4fcaf3b233507ddbd17b107d152c5da4.o",
+              "size_bytes": 17976,
+              "sha256": "700c7aac9670f040183085a992fde2f32a54ec146662530ec3f9cbc46c97c52f"
+            }
+          }
+        },
+        "wy921_cann": {
+          "filename": "cann-ops-transformer-wy921_cann_linux-x86_64.run",
+          "sha256": "091dc04ab7bcf9aca0c98103ee608be6332a7f1ebcda8c912ab7912768951618",
+          "size_bytes": 3539339,
+          "vendor_directory": "wy921_cann_transformer",
+          "library_sha256": "214b3d6a2a61131d63dd2fe918218b04a435341fedbd22de8c3daf2d66a9f369",
+          "required_exports": [
+            "aclnnChunkGatedDeltaRuleComputeWy",
+            "aclnnChunkGatedDeltaRuleComputeWyGetWorkspaceSize",
+            "aclnnFusedGdnGating",
+            "aclnnFusedGdnGatingGetWorkspaceSize"
+          ],
+          "header_sha256": {
+            "aclnn_chunk_gated_delta_rule_compute_wy.h": "6545b332eef6709e7c1eb587a90e66de196721511de99a48bd9bf9b0662fb4df",
+            "aclnn_fused_gdn_gating.h": "42921838bef7f851780f46e695cbb91817ca3c86c9fffd9e536253d9a85359e2"
+          },
+          "opinfo_sha256": "88cc6f39fe19b636997c1c78493d130cea4b08831268da5d69047d43a8d0d50e",
+          "opinfo_operator_names": [
+            "ChunkGatedDeltaRuleComputeWy",
+            "FusedGdnGating"
+          ],
+          "kernels": {
+            "chunk_gated_delta_rule_compute_wy": {
+              "path": "op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_compute_wy/ChunkGatedDeltaRuleComputeWy_8f4d8c298b43f44b7c70e383cb968fe2.o",
+              "size_bytes": 120952,
+              "sha256": "e3d30eb35d63b5e7e3f9fff4fc53ff9e9f3b486276a5d60d7e1716474431aa7b"
+            },
+            "fused_gdn_gating": {
+              "path": "op_impl/ai_core/tbe/kernel/ascend310p/fused_gdn_gating/FusedGdnGating_4fcaf3b233507ddbd17b107d152c5da4.o",
+              "size_bytes": 17976,
+              "sha256": "700c7aac9670f040183085a992fde2f32a54ec146662530ec3f9cbc46c97c52f"
+            }
+          }
+        }
+      },
+      "python_wheels": {
+        "cann_ops_transformer-1.0.0-py3-none-any.whl": {
+          "sha256": "2216a0828f4233b26c6a7ca2c0cd14faecdfe9cfbcedac040afb44a1c7d654de",
+          "size_bytes": 251983,
+          "python_package": "cann_ops_transformer",
+          "torch_namespace": "cann_ops_transformer",
+          "interfaces": {
+            "chunk_gated_delta_rule_compute_wy": {
+              "python_sha256": "5769182f58bf8e3fa99d99b3a56c441c58bfbae02aeb52b15edf0fdcca230070",
+              "cpp_sha256": "8c8f0b260596550d338945ea529d51058de92904ad27326c3609a980ef4693c7"
+            },
+            "fused_gdn_gating": {
+              "python_sha256": "b9fbacbd7e9becf93cfd9f8f5aad5139308fd3f6196e133a98a16e5ca1c1c777",
+              "cpp_sha256": "a092d15af82ebdbf8f5bb1462945249b617d17dada37f4df6de02ecd7e7f8a1a"
+            }
+          },
+          "contains_JIT_cpp_sources": true,
+          "CXX_bridge_loaded_or_device_called": false,
+          "CXX_bridge_compiled": false
+        },
+        "cann_ops_transformer_wy921_cann-1.0.0-py3-none-any.whl": {
+          "sha256": "a4daa921626b127c5433e47114ac796617257b21ea97066decde38faf5a30c50",
+          "size_bytes": 134975,
+          "python_package": "cann_ops_transformer_wy921_cann",
+          "torch_namespace": "cann_ops_transformer",
+          "interfaces": {
+            "chunk_gated_delta_rule_compute_wy": {
+              "python_sha256": "fd513bd6867ca6d0dd3a1c605b55d2a5e90201af8c3335813ba86364d3c05ef4",
+              "cpp_sha256": "8c8f0b260596550d338945ea529d51058de92904ad27326c3609a980ef4693c7"
+            },
+            "fused_gdn_gating": {
+              "python_sha256": "2e9726c8c1ea7b3baec14ae1c99d3415eb76a8cf07986cc2aac67bb761ce03b5",
+              "cpp_sha256": "a092d15af82ebdbf8f5bb1462945249b617d17dada37f4df6de02ecd7e7f8a1a"
+            }
+          },
+          "contains_JIT_cpp_sources": true,
+          "CXX_bridge_loaded_or_device_called": false,
+          "CXX_bridge_compiled": false
+        }
+      },
+      "scope": "Static artifact validation only: self-extract without installation, exported symbols, headers, 310P opinfo/kernel ELF, Python AST and packaged C++ entry points; no device initialization."
+    },
+    "cpu_container_constraints": {
+      "primary": {
+        "privileged": false,
+        "devices": [],
+        "mount_destinations": [
+          "/audit/build-cann-wy-cpu.sh",
+          "/source",
+          "/evidence",
+          "/audit/inspect-cann-wy-rootfs.py"
+        ],
+        "driver_mounted": false
+      },
+      "isolated_vendor": {
+        "privileged": false,
+        "devices": [],
+        "mount_destinations": [
+          "/source",
+          "/audit/build.sh"
+        ],
+        "driver_mounted": false
+      }
+    },
+    "first_build_started_at_utc": "2026-11-04T08:59:43.570509+00:00",
+    "first_build_finished_at_utc": "2026-11-04T09:02:14.698522+00:00",
+    "isolated_vendor_finished_at_utc": "2026-11-04T09:05:07.779945+00:00",
+    "failure_stage": null,
+    "binding_load_or_NPU_execution_attempted": false
+  },
+  "Q3_integration": {
+    "answer_zh": "可仅替换WY helper并保持gating/H/O原样；独立vendor已实际构建。完整PR不能直接作为WY单变量候选。",
+    "head": "2620e77d7bdb3c54c6ea98b24b570269f6eed6b7",
+    "head_state": "open",
+    "head_updated_at": "2026-10-30T06:10:05Z",
+    "full_PR_diffstat": {
+      "files": 12,
+      "additions": 641,
+      "deletions": 4
+    },
+    "relative_to_image_baseline": {
+      "chunk_gated_delta_rule.py": {
+        "added": 57,
+        "deleted": 1
+      },
+      "fused_gdn_gating.py": {
+        "added": 25,
+        "deleted": 0
+      },
+      "gdn_310.py": {
+        "added": 9,
+        "deleted": 5
+      },
+      "cann_ops.py": {
+        "added": 23,
+        "deleted": 0
+      }
+    },
+    "baseline_ascend_commit": "c09d3e20",
+    "baseline_raw_source_matches_image": true,
+    "WY_only_delta_zh": "chunk_gated_delta_rule.py +57/-1，加23行加载器；也可沿用既有worker只替换_compute_kernel_inputs_from_torch_wy，保留配套H/O。",
+    "gating_exclusion_zh": "不应用fused_gdn_gating.py新增包装及gdn_310.py的gating入口替换；保留现有fused_gdn_gating_pytorch和dtype路径。",
+    "unrelated_baseline_differences_zh": "head的gdn_310.py相对镜像另带masked_fill_/index_copy_状态写回差异，WY候选不应整文件带入。",
+    "independent_vendor": "wy921_cann_transformer",
+    "independent_python_package": "cann_ops_transformer_wy921_cann",
+    "torch_dispatch_namespace_isolated_by_vendor_option": false,
+    "torch_dispatch_namespace": "cann_ops_transformer",
+    "namespace_limit_zh": "定向wheel可分Python包名，但Torch schema namespace和builder的cann_ops_transformer.utils.arg_check导入仍硬编码；严格私有namespace需薄绑定适配。",
+    "upstream_fallback_zh": "#18057加载失败或shape不支持会回退Torch；正式数值门禁需显式绑定并断言来源/shape、禁用静默回退。",
+    "WY_contract_zh": "chunk64，T对齐64，q/k/v/beta FP16，g FP32且非正；K/V为16倍数且≤128，Hv%Hk=0，B≤32，Hv≤64；与此前TP2观测的Hk8/Hv16/KV128静态兼容，未做设备验证。"
+  },
+  "Q4_merge_and_release": {
+    "answer_zh": "两MR已合入，官方API与git提交均核实；进入具体发行版未核实。",
+    "MRs": {
+      "!11242": {
+        "state": "merged",
+        "merged_at": "2026-09-17T10:47:29+08:00",
+        "official_git_commit": "53172410248d3f4a934ed7a3ccea59812440264c",
+        "source_url": "https://api.gitcode.com/api/v5/repos/cann/ops-transformer/pulls/11242",
+        "api_evidence_sha256": "d9151d9432e93e6c075608810ad5e162a6b45cc1f868f6cecfdb9b9a754f031c"
+      },
+      "!12078": {
+        "state": "merged",
+        "merged_at": "2026-09-17T17:20:01+08:00",
+        "official_git_commit": "9fef367c5dc957418bf66db9089e0761b132bfc3",
+        "source_url": "https://api.gitcode.com/api/v5/repos/cann/ops-transformer/pulls/12078",
+        "api_evidence_sha256": "2f7590c17b3e3becc6fea674814f7bfff7d49294b5b804ef844defde73a6bbfd"
+      }
+    },
+    "official_git_ancestry": {
+      "MR11242": {
+        "commit": "53172410248d3f4a934ed7a3ccea59812440264c",
+        "ancestor_of_pinned": true,
+        "ancestor_of_master": true,
+        "ancestor_of_9_3_beta_branch": true
+      },
+      "MR12078": {
+        "commit": "9fef367c5dc957418bf66db9089e0761b132bfc3",
+        "ancestor_of_pinned": true,
+        "ancestor_of_master": true,
+        "ancestor_of_9_3_beta_branch": true
+      },
+      "unified_binding": {
+        "commit": "7ae6c788fdee50ae71c5700164cda02002266cc5",
+        "ancestor_of_pinned": true,
+        "ancestor_of_master": true,
+        "ancestor_of_9_3_beta_branch": true
+      }
+    },
+    "public_tags_checked": [
+      {
+        "tag": "v8.5.0",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v8.5.0-beta.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.0.0",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.0.0-beta.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.0.0-beta.2",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.0.0-rc.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.0.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.0",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.0-beta.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.0-beta.2",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.0-beta.2.pre",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.0-beta.3",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.0.pre",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.1.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.2.0",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.2.0-beta.1",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.2.0-beta.2",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      },
+      {
+        "tag": "v9.2.0.pre",
+        "chunk_gated_delta_rule_compute_wy_source_present": false,
+        "fused_gdn_gating_source_present": false,
+        "target_operator_paths_anywhere": []
+      }
+    ],
+    "release_api_returned": [],
+    "release_inclusion_zh": "未核实：18个公开tag（含v9.2.0）的完整文件树均未找到两个算子路径；9.3.0-beta.1仅确认分支包含，不能当作发行证明。"
+  },
+  "official_sources": {
+    "pr18057": "https://github.com/vllm-project/vllm-ascend/pull/18057",
+    "pr18057_api": "https://api.github.com/repos/vllm-project/vllm-ascend/pulls/18057",
+    "ops_repository": "https://gitcode.com/cann/ops-transformer.git",
+    "MR11242": "https://api.gitcode.com/api/v5/repos/cann/ops-transformer/pulls/11242",
+    "MR12078": "https://api.gitcode.com/api/v5/repos/cann/ops-transformer/pulls/12078",
+    "releases_api": "https://api.gitcode.com/api/v5/repos/cann/ops-transformer/releases?per_page=100"
+  },
+  "source_provenance": {
+    "checked_at_utc": "2026-11-04T08:45:11.316041+00:00",
+    "pr_head": "2620e77d7bdb3c54c6ea98b24b570269f6eed6b7",
+    "pr_state": "open",
+    "pr_merged": false,
+    "pr_updated_at": "2026-10-30T06:10:05Z",
+    "pinned_ops_commit": "0340eae051ddf5ab956df0f7e0396dbd6314cfc5",
+    "official_ops_origin": "https://gitcode.com/cann/ops-transformer.git",
+    "pr_diffstat": {
+      "files": 12,
+      "additions": 641,
+      "deletions": 4
+    },
+    "pinned_source_hashes": {
+      "build.sh": "d842b8e38248b37569199cb10f31c728271b6544c0933d3ff27f1cc6fc4c4abf",
+      "torch_extension/setup.py": "11752319ca828159ad78f36a80cc47d1e3cb4e46aa724d29709b738868741642",
+      "torch_extension/cann_ops_transformer/op_builder/builder.py": "217a97f2213ade7e14bfcb8d05bbd43d67bd290c6a324454870a3dba64fd2714",
+      "torch_extension/cann_ops_transformer/common/aclnn_common.h": "ade3f8c2ebe020dbae80c8dd841741297591a86a3b0cb4097b5fc87648d83c31",
+      "experimental/attention/chunk_gated_delta_rule_compute_wy/README.md": "00d000630ae155559da1c68ab7a6508f1520a3b860159e78ccb7bff3afdd0c79",
+      "experimental/attention/chunk_gated_delta_rule_compute_wy/op_api/aclnn_chunk_gated_delta_rule_compute_wy.h": "6545b332eef6709e7c1eb587a90e66de196721511de99a48bd9bf9b0662fb4df",
+      "experimental/attention/fused_gdn_gating/op_api/aclnn_fused_gdn_gating.h": "42921838bef7f851780f46e695cbb91817ca3c86c9fffd9e536253d9a85359e2"
+    },
+    "baseline_comparison": {
+      "chunk_gated_delta_rule.py": {
+        "added": 57,
+        "deleted": 1
+      },
+      "fused_gdn_gating.py": {
+        "added": 25,
+        "deleted": 0
+      },
+      "gdn_310.py": {
+        "added": 9,
+        "deleted": 5
+      },
+      "cann_ops.py": {
+        "added": 23,
+        "deleted": 0
+      }
+    }
+  },
+  "raw_evidence_sha256": {
+    "MR11242-official-git.txt": "a7f42204003eba27de8e41b6ad2014b678e21d486d3f7aad220806b40d160926",
+    "MR12078-official-git.txt": "84d554250a26107113fe743bec555a31f22ccf07fd09b9f8451660d8854397c9",
+    "artifact-audit.json": "92f1ff38b45d9d761f11bb10a5346defe1caf7faf327f6edcaa5fd451711364a",
+    "audit-extract-custom.log": "556e32edfab2f600252d8866047804f34dbaca3b80975cb236f5a9f74e5d585e",
+    "audit-extract-wy921_cann.log": "fb3f87f6bbfe012d380510b4f05f486367f93d307be68e8e2ef53efa265a953e",
+    "build-artifacts.json": "b34ea011b3f6ce954791fc0da93e7b3dfa374d99e98c96f21bf5bdd3e3114588",
+    "build-dependencies.log": "10fbaab806aa26f85e09e5d602acaf67d9ee40475695da94d0008af118d07208",
+    "cpu-build-launch.json": "687c488c696b1cb5009fa9c840114989212eb3de45d68432632651f36456144f",
+    "cpu-container-inspect.json": "21cf802c7bc494fe1f99825d68e359b3b6f7ba82e32e7ab05ea8a25c23732cee",
+    "cpu-container-result.json": "519078682c211c198dd5b6c9d0503473c8ad818de6b19ac10c8d3669ff739932",
+    "cpu-container.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "custom-package-build.log": "0566d8d5cb49ac7139b07472c40c2a02a9293c6e9ab430b00a4a65eb3f8d1659",
+    "custom-package-build.returncode": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "image-pull.log": "cf528c1bc65a37a59a94f86ec7b96a1fd8b3e66eeb9894cd4b67d8b6c7d9daf8",
+    "isolated-python-wheel-build.log": "3d78749c009537233e5617d50444bb24b1e41776fac504763d602fe799f9b9ce",
+    "isolated-python-wheel-build.returncode": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "isolated-vendor-container-inspect.json": "b3187cb880360f26b798a86b3943ca4e994edcd4e9a4555f1508aa75c32580f2",
+    "isolated-vendor-launch.json": "5bdc8ad55553692cc211fd9f7c0a0ea1cc3e4cb2c18793a00a29cb2e0294c3fc",
+    "isolated-vendor-package-build.log": "2e02eafb8654f8d4271274f729b600eef8cdadc9d757ddb885ebd5e1697f4dbe",
+    "isolated-vendor-package-result.json": "8a7e6755c09d9f7863136ef891cef51e9ae85055ebda4a15a0c614654b548cba",
+    "local-image-inspect.json": "f14fee7c65dd87db6f7bcd4f1e70ddfeb921c0cc3bd96f78857868d1e7f4b55b",
+    "local-image-rootfs.json": "d68b1ed9b8aebd26c22730eeaa601628cebdf717b127d9c4c62c55d5bc045eee",
+    "mr11242.html": "9c5b058ca9ef647d0c37b25e453528d3e5e06643fcc38e5ccfb3e271dcf5106e",
+    "mr12078.html": "9c5b058ca9ef647d0c37b25e453528d3e5e06643fcc38e5ccfb3e271dcf5106e",
+    "official-git-ancestry.json": "3f8c3b52c107bf5aed0f466c805afd64d6d44e6915f53fdc7051bbacbfd56649",
+    "official-tags-source-check.json": "9ead5ab1d701b945b00134060747e8e3d5c27546ee8bdecf18b2d8ad3f40f007",
+    "ops-checkout.log": "272502ba4fa8e8b3f31a0c23b7d9a3af73bd2d7b7f6e2f754142a8d8dc3f172b",
+    "ops-clone.log": "8ef2b0b43b76d7f1daff2c395fc170337e7b842edcff6c072acc32f9d4c7b8fa",
+    "ops-mr11242-api.json": "d9151d9432e93e6c075608810ad5e162a6b45cc1f868f6cecfdb9b9a754f031c",
+    "ops-mr12078-api.json": "2f7590c17b3e3becc6fea674814f7bfff7d49294b5b804ef844defde73a6bbfd",
+    "ops-releases-api.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "package-extract.log": "a6b75da189367c8208f5fee550698f80aae8dcf03bc6aede9a878b0260217782",
+    "pr18057-comments.json": "8477e4278ebebc651c87abfb197326c3feb000b37fefc80c4013021ca50deae1",
+    "pr18057-files.json": "67f6ff2a8f314354370219816b4f52c3ca763c030c075704b6de2e1934ad9e12",
+    "pr18057.diff": "451d716813e2ee92587d72a5c8441cec3aa82ae4ae666b9fdd7f6bd4f89b5cff",
+    "pr18057.json": "c1a7086c2c792b0e65316e28ac11c6035f7b2d256906b654d9d17d46df7aba87",
+    "public-image-amd64-manifest.json": "3e5d0ce431dea96f42b50dc9b09aba2db495f41c49c47823f77278292d3723ef",
+    "public-image-manifest.json": "9f11b2d4ca860b00b4fa4338c38a139da02eba5a96026980b4a9915e0ede4d42",
+    "python-wheel-build.log": "2b5ed4e47b84afbd858f8a8718937e0798c3cc6ac9f1e0a34422d12a649f8249",
+    "python-wheel-build.returncode": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "remote-image-layers-v2.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "remote-image-layers-v2.stderr": "f7c982ba09a762aedb92850e086e141bd3815ad7d2c351d01728ce5e3ee912e8",
+    "remote-image-layers-v3.json": "21e2ad38d7c6b0891960065cc23f8ffc08bc6a1a94801a1cf7353a636322d2cf",
+    "remote-image-layers-v3.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "remote-image-layers.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source/baseline-chunk_gated_delta_rule.py": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+    "source/baseline-fused_gdn_gating.py": "613071395d7b0743505048bf561e775040dc28976a141310b8047aae56a0da3c",
+    "source/baseline-gdn_310.py": "7c564c2b7a887ae6ae6014d9d792470ba0c16ef15192bd84f902731f5e5a95ab",
+    "source/chunk_gated_delta_rule.py.diff": "dcbba7cd4efa06154640cf1df99c74a97d042dfe8e92705de6fdfa9a50ad1cbe",
+    "source/fused_gdn_gating.py.diff": "90445c9b8fdef6e7a3f2e6c46558458546224111f16b590d70d7198597546551",
+    "source/gdn_310.py.diff": "fd849f2df4096c1a4d6ebb517189d0a71663c1b2ef4853de37792be1f370b8a7",
+    "source/head-cann_ops.py": "e57b141aba335ba74a98703b4c55cba49f963be9482a9ced31e4d776a6e7c205",
+    "source/head-chunk_gated_delta_rule.py": "d1fcc4fea454330a5da55d4700dd913c455ecbe2666c0ee0da01b6e0f4af1cc2",
+    "source/head-fused_gdn_gating.py": "dbc15e18ed8115862913791bef0df475de2266929191085bf8b579a473d65d61",
+    "source/head-gdn_310.py": "cccc9296297be5d84fdb5d4da0c068a44d446910224e571e63cc0691f7251e6a",
+    "source-provenance.json": "4fde8294edab9da7eeb6a58cfb16db2f0154468b33a7960cbf9864b826d33060",
+    "unified_binding-official-git.txt": "739d6a6b680861bbb6422d3337399fad0ee82fc7da2fe5ae825e4b1ecde80aa6"
+  },
+  "started_at_utc": "2026-11-04T08:33:09+00:00",
+  "checked_at_utc": "2026-11-04T09:11:09.290356+00:00",
+  "elapsed_minutes": 38.0,
+  "constraints": {
+    "NPU_used": false,
+    "remote_containers_started": false,
+    "remote_services_stopped_or_started": false,
+    "remote_actions": "Read existing image metadata/layers only",
+    "a1_accessed": false,
+    "host_installs": false,
+    "CANN_or_driver_changed": false,
+    "pushed": false
+  },
+  "limitations_zh": [
+    "本轮仅CPU算子包构建与静态制品检查；Python wheel包含lazy JIT C++桥接源码，未单独编译/加载桥接so，未做设备算子调用、数值或性能验证。",
+    "独立vendor与Python包名已实际验证；严格私有Torch namespace薄绑定尚未实现，当前不是可直接跑G1的候选。",
+    "两MR合入已核实；具体发行版收录未核实，源码版本号不作为发布证据。"
+  ],
+  "decision": "requires_preparation",
+  "controller_sha256": {
+    "experimental/runs-20261104/inspect-cann-wy-image-layers.py": "59ce0df82adb8de58221a1a8aa284919dfdda111ac8a417f4e16d5ceb3a08f71",
+    "experimental/runs-20261104/inspect-cann-wy-rootfs.py": "1fbb0f9e4fdd8e7a54641107e3bf391034dbcbe09bcf28e319a4fd4e74527222",
+    "experimental/runs-20261104/build-cann-wy-cpu.sh": "e451f660c9d8a3cb9d33a45f9d077c90fd87479e1eaf00bf25b809e781cd98c0",
+    "experimental/runs-20261104/build-cann-wy-vendor-cpu.sh": "79012543a0635cc7349bab0256bb94bb456477f19cd832baea8a01e54e0d3752",
+    "experimental/runs-20261104/audit-cann-wy-artifacts.py": "35fa26d7739897e2d8e51741603164874779331174934d4ec30c64824cc1d96b"
+  }
+}

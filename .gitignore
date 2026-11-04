@@ -274,3 +274,9 @@ logs/
 /results/wy921-gate-20261104/**
 !/results/wy921-gate-20261104/README.md
 !/results/wy921-gate-20261104/adjudication.json
+
+# wy-1: CPU-only CANN compute-WY feasibility evidence
+/reference/ops-transformer-wy18057/
+/results/cann-wy-feasibility-20261104/**
+!/results/cann-wy-feasibility-20261104/README.md
+!/results/cann-wy-feasibility-20261104/adjudication.json
