@@ -125,23 +125,23 @@ Prefill 本轮无收益：输入/TTFT 中位数分别从 268.04 降为 258.52 to
 
 | 项目 | 固定环境 |
 |---|---|
-| 设备 / 主机 | ychy-a2，单 DUO 双 310P3；主机 RAM 31 GiB |
+| 设备 / 主机 | LAB_REPLICA，单 DUO 双 310P3；主机 RAM 31 GiB |
 | 基础镜像 | `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p` |
 | 核心依赖 | CANN 9.1.0，torch `2.10.0+cpu`，torch-npu `2.10.0.post4`，transformers `5.14.1` |
 | 实验镜像 | `localhost/qwen38-runtime:ffa980c-3ab5dda-20261018`；依赖 `/experiment` 源码与 OPP 挂载 |
-| a2 工作目录 | `/home/ychy/ascend-lab-runtime/qwen38-tp2-validation-20261018` |
-| a2 模型目录 | `/home/ychy/models/Qwen3.8-Flash-Next-W4A16-G128-300i-d32978c` |
+| a2 工作目录 | `/path/to/lab-runtime/qwen38-tp2-validation-20261018` |
+| a2 模型目录 | `/path/to/models/Qwen3.8-Flash-Next-W4A16-G128-300i-d32978c` |
 
 源码分别放在工作目录的 `community/` 与 `vllm-fork/`。构建按[整模记录](../../results/qwen38/tp2-serving-20261018/README.md)执行 `bootstrap-runtime.sh`、应用三个补丁、`build_aclnn.sh`、`build-runtime-bridge.sh`、保存镜像，再运行 `run-gdn-tp2-on-a2.sh`。补丁以本仓库 `patches/qwen38/` 为准，不要重复应用。启动器会停止原 a2 Qwen3.6 服务，重用前检查容器名与设备占用。
 
 下载使用[下载器](../../tools/qwen38_download_checkpoint.py)与[固定 API manifest](../../results/qwen38/tp2-serving-20261018/checkpoint-manifest.json)。在 a2 的仓库根目录执行：
 
 ```bash
-work=/home/ychy/ascend-lab-runtime/qwen38-tp2-validation-20261018
+work=/path/to/lab-runtime/qwen38-tp2-validation-20261018
 python3 tools/qwen38_download_checkpoint.py \
- --manifest results/qwen38/tp2-serving-20261018/checkpoint-manifest.json \
+ --manifest `results/qwen38/tp2-serving-20261018/checkpoint-manifest.json` \
  --endpoint https://hf-mirror.com \
- --output /home/ychy/models/Qwen3.8-Flash-Next-W4A16-G128-300i-d32978c \
+ --output /path/to/models/Qwen3.8-Flash-Next-W4A16-G128-300i-d32978c \
  --workers 8 --range-chunk-mib 64 --range-workers 8
 ```
 

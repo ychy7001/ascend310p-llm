@@ -28,9 +28,9 @@
 
 ```bash
 # 设置 BASE_IMAGE 等变量，见 deploy/qwen36-image.env.example
-export WORK_DIR=/home/ychy/ascend-lab-runtime/qwen36-image-NEW
+export WORK_DIR=/path/to/lab-runtime/qwen36-image-NEW
 python3 tools/prepare_runtime_image.py --revision HEAD \
-  --mindieq-license /home/ychy/ascend-lab-runtime/mindieq-r3-20261013/ops-nn/LICENSE \
+  --mindieq-license /path/to/lab-runtime/mindieq-r3-20261013/ops-nn/LICENSE \
   --output "$WORK_DIR"
 base=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["base"]["image"])' "$WORK_DIR/rootfs/opt/qwen36/manifest.json")
 revision=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["source_commit"])' "$WORK_DIR/rootfs/opt/qwen36/manifest.json")

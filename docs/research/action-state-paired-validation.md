@@ -16,10 +16,9 @@ A为固定原生产镜像CANN9.1-beta/post2、默认WY/H/O；B为官方固定9.2
 
 fixture使用原a2服务/tokenize准备，记录chat token数量与ID哈希；两个栈实际执行前再次核对。每次HTTP推理还记录usage.prompt_tokens与冻结计数是否一致。匹配条件为fixture SHA、payload SHA、独立expected严格相等；结果按双方通过、双方失败、候选新增失败、候选改善分组。记录前后8短题及ABA隔离检查，无GSM或性能计时验收。
 
-冻结/检查工具为`benchmarks/ascend310p/check_action_state_regression.py`，控制器`run-action-state-paired.py`，汇总工具`summarize_action_state_pair.py`。CPU oracle突变检查已确认四类字段错误、重复、缺失、多字段不能误过，只有顺序可忽略。
+冻结/检查使用[字段检查器](../../benchmarks/ascend310p/check_action_state_regression.py)，独占启动使用[归档配对控制器](../../experimental/runs-20261103-04/run-action-state-paired.py)，汇总使用[配对汇总器](../../benchmarks/ascend310p/summarize_action_state_pair.py)。CPU oracle突变检查已确认四类字段错误、重复、缺失、多字段不能误过，只有顺序可忽略。
 
 证据：[配对验证摘要](../../results/action-state-paired-v1-20261104/README.md)。
-
 
 ## 配对结果（2026-11-04）
 
@@ -28,3 +27,5 @@ fixture使用原a2服务/tokenize准备，记录chat token数量与ID哈希；�
 原会议4/5/18另做9个同payload请求/栈并人工审阅。会议4负责人映射A为2/3、B为3/3，样本量不足以证明修复；双方均3/3将当天回复补成已完成。会议5双方均3/3补成已执行停用；B的C1再次把当天改为本周内（已执行），A三次均遗漏该行动项行，不能因A未写错期限就说A完整正确。B的同一行还将所有部门细化为各部门负责人。会议18双方全文保留角色/时间关系，但行动项结构用未明确，按结构损失记录。完成状态采用事先冻结的保守标准，原短句本身存在时态歧义，不将该人工判定作为数值误差证据。
 
 结构化检查为`passed_for_tested_inputs`；整体业务候选判定见[结果](../ascend310p-results.md)。保留截止时间差异作为下一步受控复核样本；不宣称CANN/H/O单独导致差异。未进行新吞吐/GSM/logits验收，不把合成32K提取当作真实长会议或262K质量。原生WY和正式性能的下一步见[计划](../ascend310p-optimization-plan.md)。
+
+归档控制器的历史目录布局见[归档索引](../../experimental/runs-20261103-04/ARCHIVE.md)。

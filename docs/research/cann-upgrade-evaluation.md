@@ -23,7 +23,7 @@
 
 初始T111两卡96/96通过，Dense合成seed310..314×allocatorFalse/True共10/10通过且本轮无507015；扩展默认GDN15组仅13/15通过。独立新进程T512/seed318复核，35B对应HV16为29/48在容差内，Dense对应HV24为0/48，末state两组48/48在容差且逐位稳定。最大输出abs约0.00504/0.00599，相对RMSE约0.0652/0.0749，原阈值仍为atol2e-4、rtol0.04、relativeRMSE<=0.02。不能把小形状通过概括为GDN修复。
 
-固定官方镜像ID d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a，使用同一工具链重新编译PR17640固定head18163f6b的成对H/O，独立vendor/namespace，保留原始NZ状态binding。**Torch WY保持默认**，没有加载旧9.1 WY二进制或改算法。
+使用上述固定镜像及同一工具链重新编译PR17640固定head18163f6b的成对H/O，独立vendor/namespace，保留原始NZ状态binding。**Torch WY保持默认**，没有加载旧9.1 WY二进制或改算法。
 
 | 检查 | 新版默认栈 | 9.2.1配套H/O、Torch WY不变 |
 |---|---|---|
@@ -36,8 +36,7 @@
 
 验证前纠正加载顺序：vLLM bootstrap会将默认vendor置前，而9.2.1默认库也导出相同Vllm API名；独立NPUBridge会在dlopen时捕获环境。故在bootstrap之后、dlopen之前重新前置paired vendor，并记录API/扩展SHA和实际映射库。算法/编译源未改。6个验证进程均只映射配套libcust_opapi.so。原始通用probe头仍称default/original scope，实际实验范围以wrapper日志和adjudication为准，未修改原始jsonl。
 
-证据：results/upstream-gdn-pair921-v1-20261104/。模型筛选与最终判定见[结果](../ascend310p-results.md)，逐字段复核见[配对研究](action-state-paired-validation.md)。
-
+证据：[upstream-gdn-pair921-v1-20261104](../../results/upstream-gdn-pair921-v1-20261104/README.md)。模型筛选与最终判定见[结果](../ascend310p-results.md)，逐字段复核见[配对研究](action-state-paired-validation.md)。
 
 ## 采用条件
 
@@ -46,4 +45,4 @@
 3. 整模型先验短题、状态复用、事实/关系、同索引GSM、长上下文/chunk边界，按需要补固定token或logits检查。质量与数值验收分开；Dense须建立独立可复现基线。
 4. 对应模型数值门禁通过后才测正式Prefill/Decode、业务形状墙钟、内存与启动代价，沿用相同TP、长度、输出、预热及零命中协议。生产采用另外要求业务通过。
 
-9.2.1不自动包含#18057的外部ops-transformer固定commit/API；原生WY重建的算子覆盖见[Profiling](../ascend310p-profiling.md)，后续顺序统一见[计划](../ascend310p-optimization-plan.md)。本地无权重复现包编号`upstream-gdn-cann921-repro-20261104.tar.gz`、`upstream-gdn-cann921-pair-repro-20261104.tar.gz`，后者10925B且逐文件SHA通过，均尚未公开发布。
+原生WY重建的算子覆盖见[Profiling](../ascend310p-profiling.md)，后续顺序统一见[计划](../ascend310p-optimization-plan.md)。本地无权重复现包编号`upstream-gdn-cann921-repro-20261104.tar.gz`、`upstream-gdn-cann921-pair-repro-20261104.tar.gz`，后者10925B且逐文件SHA通过，均尚未公开发布。

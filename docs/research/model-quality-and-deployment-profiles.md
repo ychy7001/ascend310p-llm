@@ -16,7 +16,7 @@
 
 同配置窄诊断：6类×3重复：原排序3/3输出279，raw token IDs=[17,22,24,248046]，未生成逗号11；数字逗号复制、字母逗号复制、分号、数组复制和JSON schema排序五类15/15通过。原排序首个样本生成2后，下个token7的logprob约-0.257、逗号约-1.491，greedy选7。CPU tokenizer亦可完整往返2,7,9。该例定位到提示词相关的生成选择，不是已观察到的API解析删逗号；仍不能区分基础模型与量化影响。JSON schema改变约束，其通过不能覆盖原题失败。
 
-两次均未通过原短格式门禁，最终判定见[结果](../ascend310p-results.md)。证据位于results/cann921-upgrade-20261104/dense-quality-pair921-16k-v1及dense-quality-format-pair921-16k-v1。
+两次均未通过原短格式门禁，最终判定见[结果](../ascend310p-results.md)。证据位于[dense-quality-pair921-16k-v1](../../results/cann921-upgrade-20261104/dense-quality-pair921-16k-v1/README.md)及dense-quality-format-pair921-16k-v1。
 
 原35B W8A8部署完成相同6类×3次请求18/18，27B为15/18；差异仅原排序（35B3/3、27B0/3）。除model外payload一致，模型、权重、运行栈和上下文不同，只作部署行为对照。
 
@@ -26,7 +26,7 @@
 
 3090现有测试部署完成原业务：前后短题8/8，事实16/16，业务自动28/28，字段26/26（13种token哈希全部匹配、包括32K C3）。人工阅读20会议后，会议4/5同样补写“已完成”，会议18全文保留部门/时间关系但行动项负责人结构有损失，最终not_accepted_business_semantics。自动检查通过不能替代自由文本语义。当前GPU27B是W4A16/FP8 KV/MTP3的HyperQwen已补丁镜像，不是上游原版或高精度基准。
 
-另对原会议4/5/18进行固定转录、原system与明确保守规则的C1各一次，GPU27B与a2原35B共12请求；除model外payload相同。规则禁止推断完成/期限、允许部门角色充当负责人。GPU27B会议4与18改善，但会议5将大量规则分析写入正文；a2原35B会议4改善，会议5仍在结论补写已当天停用，会议18截止时间字段仍未明确。只证明部分输出对提示词敏感；不采用该规则，不改变原验收结果或声称基础模型能力已定位。见results/local-gpu-business-20261104/prompt-policy-adjudication.json。
+另对原会议4/5/18进行固定转录、原system与明确保守规则的C1各一次，GPU27B与a2原35B共12请求；除model外payload相同。规则禁止推断完成/期限、允许部门角色充当负责人。GPU27B会议4与18改善，但会议5将大量规则分析写入正文；a2原35B会议4改善，会议5仍在结论补写已当天停用，会议18截止时间字段仍未明确。只证明部分输出对提示词敏感；不采用该规则，不改变原验收结果或声称基础模型能力已定位。见`results/local-gpu-business-20261104/prompt-policy-adjudication.json`。
 
 ## GPU35B对照
 
@@ -40,14 +40,13 @@ GPTQ Int4固定revision `00a66983516f8f8057741221277eed4141c9e431`。
 
 35B同类自由文本错误也在GPU制品/运行栈出现，证据不支持其为310P独有，但GPU仍为GPTQ W4、底模revision/量化/模板/TP/运行栈混杂，未有FP16权重参考，不能单独归因模型能力或量化。GPU27B业务虽字段26/26仍有自由文本完成状态错误，因此不能仅凭自动检查选27B替代35B。后续顺序见[计划](../ascend310p-optimization-plan.md)。
 
-证据：results/local-gpu-business-20261104/gpu35b-v1/adjudication.json、manual-semantic-review.json、paired-payload-comparison.json。
-
+证据：`results/local-gpu-business-20261104/gpu35b-v1/adjudication.json`、manual-semantic-review.json、paired-payload-comparison.json。
 
 ## 状态反例与证据协议复核
 
-GPU35B short-4有限复核已完成：C1/C3各3次目标请求，全部三状态输出待执行；每对token一致，实际状态决策步批次分别为1和3，原先一次翻转未复现。raw logprob待减未为0.078125～0.46875；无同权重高精度参考，不据此给批处理数值根因结案。见results/short4-recheck-20261104/。
+GPU35B short-4有限复核已完成：C1/C3各3次目标请求，全部三状态输出待执行；每对token一致，实际状态决策步批次分别为1和3，原先一次翻转未复现。raw logprob待减未为0.078125～0.46875；无同权重高精度参考，不据此给批处理数值根因结案。见[short4-recheck-20261104](../../results/short4-recheck-20261104/README.md)。
 
-证据协议在GPU27B完成3会议×5次：机械校验15/15、独立关系oracle10/15。会议4姓名配对仍全错，证明“姓名出现在引用中”不足。仅对“相邻N行动＋负责人分别为N姓名”的严格源文本模式增加确定性映射，同15原始输出派生15/15，非新增15请求；不声称通用业务验收或生产可用。见results/evidence-protocol-20261104/。
+证据协议在GPU27B完成3会议×5次：机械校验15/15、独立关系oracle10/15。会议4姓名配对仍全错，证明“姓名出现在引用中”不足。仅对“相邻N行动＋负责人分别为N姓名”的严格源文本模式增加确定性映射，同15原始输出派生15/15，非新增15请求；不声称通用业务验收或生产可用。见[evidence-protocol-20261104](../../results/evidence-protocol-20261104/README.md)。
 
 ## 300I DUO候选档位
 

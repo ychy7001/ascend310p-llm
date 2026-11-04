@@ -13,7 +13,7 @@
 | #17604，head `630e2729d7e2e0476373e8c72010015fec940a33` | P1参考；310P兼容未证明 | 融合QKV整理、L2Norm与gating的Triton prepare。改动通用ops/triton和运行时patch，未提供本轮310P生产栈执行证据；参考310P gating函数不等于支持310P部署。暂不直接移植或引用作者Decode收益为本机收益 |
 | #8872 MegaGDN | 不进入本轮验证 | A2/910系列路线不能据此替换310P目标；a2实验硬件为310P3/300I DUO，a1为只读生产基线 |
 
-#17640当前API返回mergeable=true/unstable，不能沿用“有冲突”的旧判断。#18057人工APPROVED对应旧提交111fd6c0，当前head已变化；不能宣称当前提交已获批准。#17604当前Open、未合并、mergeable=true/unstable。上述状态不代表检查全部通过。
+#17640在本次快照中mergeable=true/unstable；#18057的APPROVED对应旧提交111fd6c0，未覆盖所列head；#17604为Open、未合并、mergeable=true/unstable。
 
 ## 依赖边界与未核实事项
 

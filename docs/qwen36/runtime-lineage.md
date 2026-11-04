@@ -40,7 +40,7 @@ stack without a single reproducible image:
    bootstrap imports. The container image and checked-out repository are two
    independent version axes.
 3. The GDN/310P reference comparison uses the local checkout
-   `/home/ychy/workspace/reference/vllm-ascend-gdn-pr`, currently based on
+   `/path/to/workspace/reference/vllm-ascend-gdn-pr`, currently based on
    commit `39fef3f8f`. It is an experimental source branch derived from
    vLLM-Ascend work; it is not a Huawei binary release and is not identical to
    the RC image source.

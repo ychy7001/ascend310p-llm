@@ -45,7 +45,7 @@ ops-nn/CANN 算子文件使用 CANN Open Software License V2；本仓库保留�
 
 ## 复现构建
 
-a2 工作目录 `/home/ychy/ascend-lab-runtime/mindieq-r3-20261013`，下列 `/work` 为其容器挂载点。镜像来源 `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`；仅容器补装 `dos2unix pigz`、禁用损坏 Triton 目录。
+a2 工作目录 `/path/to/lab-runtime/mindieq-r3-20261013`，下列 `/work` 为其容器挂载点。镜像来源 `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`；仅容器补装 `dos2unix pigz`、禁用损坏 Triton 目录。
 
 ```bash
 # 外部目录；固定 revision
@@ -76,7 +76,7 @@ python /work/test-source/test_qmm_v5_ext_graph.py
 作者测试仅打印失败而不保证非零退出码，必须检查 `ALL PASSED` 与 mismatch。补充测试使用 assert、失败会非零退出。
 
 ```bash
-WORK_DIR=/home/ychy/ascend-lab-runtime/mindieq-r3-20261013 \
+WORK_DIR=/path/to/lab-runtime/mindieq-r3-20261013 \
   bash experimental/run-mindieq-qmm-check.sh
 ```
 
@@ -130,7 +130,7 @@ WY 六组（T128/512/1024 × decay .01/1）全部通过。1024 tokens：原生 W
 
 模型接入通过可选 `QWEN36_GDN_ENABLED=1`，独立 `pr17640_gdn` namespace 加载固定 PR 的三算子；`experimental/pr17640_gdn_adapter.py` 替换 310P chunk GDN Python 入口。原始固定源码在仓外挂载，关闭开关仍走现有路径。OPP 顺序为 PR vendor、W4 vendor，需用实际生成确认默认算子未发生不兼容替换。
 
-模型服务在 a2 `18024` 启动，组合保持 TP1/N128 W4/C8/MTP2/FULL_DECODE_ONLY/112K/.95/batch1024/chunk512/prefix off；目录 `/home/ychy/ascend-lab-runtime/pr17640-product-20261013`。模型端到端尚待验收，不将以上子算子倍数算作模型收益。
+模型服务在 a2 `18024` 启动，组合保持 TP1/N128 W4/C8/MTP2/FULL_DECODE_ONLY/112K/.95/batch1024/chunk512/prefix off；目录 `/path/to/lab-runtime/pr17640-product-20261013`。模型端到端尚待验收，不将以上子算子倍数算作模型收益。
 
 真实模型首次启动发现 `gdn_310.py` 的 from-import 提前保留旧函数引用；已替换 chunk 模块、调用方及 package 导出的入口，并通过源码路径断言检查。首次启动未作为性能结果。服务重启后再次核查调用目标。
 
@@ -146,7 +146,7 @@ GSM固定32题完成：31/32，与原N128基线相同；仍为index205达到512�
 
 实际114560token输入检索完成：返回ASCEND732941，输出14tokens，总114574tokens，耗时352.140s；原N128同一检索请求415.306s，端到端耗时减少15.21%。单条检索不证明最大上下文或完整长文质量；112K边界初步门禁通过。
 
-下一轮仅把MAX_BATCHED_TOKENS从1024调到4096，expert chunk仍512，其他配置保持不变；新目录`/home/ychy/ascend-lab-runtime/pr17640-b4096-20261013`、容器`qwen36-pr17640-b4096`，沿用18024端口。目的为观察降低GDN chunk调用次数的收益、workspace/KV容量代价及Decode/MTP变化。
+下一轮仅把MAX_BATCHED_TOKENS从1024调到4096，expert chunk仍512，其他配置保持不变；新目录`/path/to/lab-runtime/pr17640-b4096-20261013`、容器`qwen36-pr17640-b4096`，沿用18024端口。目的为观察降低GDN chunk调用次数的收益、workspace/KV容量代价及Decode/MTP变化。
 
 4096调度批量服务启动、Graph和生成门禁通过；KV容量仍186236tokens，Graph .31GiB。8K/128三次中位Prefill503.099tok/s、Decode37.100tok/s；三个输出与原N128对应输出完全一致。较原N128 Prefill+28.48%、Decode+0.24%；较GDN/b1024 Prefill+1.74%，Decode恢复。此结果提示调度chunk边界可能影响递归数值与MTP接受，尚不能证明已消除所有精度风险。32K、GSM32及实际112K正在顺序验证。
 

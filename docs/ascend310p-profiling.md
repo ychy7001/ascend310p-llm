@@ -18,7 +18,7 @@ Profile独占设备，普通计时不启动Profiler；记录HTTP start/stop、�
 
 ## W4预算支线：C16
 
-原始kernel CSV（gzip）、HTTP采集范围、前后quality、kernel摘要及服务日志：results/profile-c16-20261103/。三份均导出成功，前后短题8/8与A/B/A通过。
+原始kernel CSV（gzip）、HTTP采集范围、前后quality、kernel摘要及服务日志：`results/profile-c16-20261103`。三份均导出成功，前后短题8/8与A/B/A通过。
 
 | 捕获范围 | kernel条数 | 捕获设备跨度 | kernel区间并集覆盖 | 主要累计耗时 |
 |---|---:|---:|---:|---|
@@ -34,7 +34,7 @@ Profiler给出Stop时仍在RECORD的提示，窗口从HTTP控制边界采集；3
 
 生产`chunk_gated_delta_rule.py`的WY为Torch逐row循环、clone、sum及布局变换，FwdH/FwdO为AscendC。历史Graph[1,2,3]日志含EL0008/IPC notify事件资源不足；旧上游issue1565只能作线索，不能直接归因本轮Graph筛选。
 
-原始CSV压缩、双rank摘要、采集HTTP范围及映射位于results/production-w8a8-20261103/；profile-artifacts.json明确每份摘要对应的rank/范围。下表均为**单rank累计kernel耗时占比**，不能作为墙钟收益上限或关键路径占比。
+原始CSV压缩、双rank摘要、采集HTTP范围及映射位于[production-w8a8-20261103](../results/production-w8a8-20261103/README.md)；profile-artifacts.json明确每份摘要对应的rank/范围。下表均为**单rank累计kernel耗时占比**，不能作为墙钟收益上限或关键路径占比。
 
 | 范围 | rank0 / rank1条数 | 设备跨度 | kernel区间覆盖 | 主要累计耗时 |
 |---|---:|---:|---:|---|
@@ -47,13 +47,11 @@ Prefill的Tril/Slice/ViewCopy/ReduceSum与已归档WY Torch分解路径相符，
 
 当前捕获C1，不能证明三并发的host开销或Graph收益；需候选实测。HCCL在Graph内的完整任务归因尚未做，kernel CSV中可见的hcom耗时不足以排除通信瓶颈。32K窗口捕获约125个decode步骤，HTTP start控制前的少量步骤未包含；Stop时仍有RECORD提示，计时只作诊断。
 
-
 ## WY-only候选Profile
 
-独立采集在三轮业务复测之后进行，四份CSV/摘要/gzip见results/production-wy-batching-recheck-20261103/。4K Prefill每rank kernel38072→8492，捕获跨度约3.162→2.056s，覆盖率约97.5%。ComputeWy各60次、累计122.5/129.8ms（各rank kernel求和的6.08%/6.43%）；FwdH约91ms、FwdO约134ms，接近基线。Tril120→0、ReduceSum3860→160、ViewCopy3780→8；通用算子仍有其他使用，未把其全部归为GDN。该trace确认原生WY实际执行且分解调用减少，但其墙钟不是普通吞吐测量。
+独立采集在三轮业务复测之后进行，四份CSV/摘要/gzip见[production-wy-batching-recheck-20261103](../results/production-wy-batching-recheck-20261103/README.md)。4K Prefill每rank kernel38072→8492，捕获跨度约3.162→2.056s，覆盖率约97.5%。ComputeWy各60次、累计122.5/129.8ms（各rank kernel求和的6.08%/6.43%）；FwdH约91ms、FwdO约134ms，接近基线。Tril120→0、ReduceSum3860→160、ViewCopy3780→8；通用算子仍有其他使用，未把其全部归为GDN。该trace确认原生WY实际执行且分解调用减少，但其墙钟不是普通吞吐测量。
 
 32K Decode仍每rank380000 kernels，跨度约4.505～4.507s，MoE/MatMul/PA-mask仍为主要项，符合单请求Decode无改善。数值拆分发现WY与FwdH接口稳定时FwdO原始输出仍会偏离，不能将WY提速当作数值修复，详细判定见results同目录adjudication.json。
-
 
 ## GDN数值诊断
 

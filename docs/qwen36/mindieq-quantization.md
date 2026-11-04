@@ -247,7 +247,7 @@ a1 W8A8 TP2 同输入冷Prefill参考为1298.568/1094.336 tok/s，每请求独�
 
 ## 附：QMM 隔离构建与复现入口
 
-为保留微算子阶段的复现链路，以下记录沿用原始环境。a2工作目录 `/home/ychy/ascend-lab-runtime/mindieq-r3-20261013`，`/work`是容器挂载点；镜像 `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`，仅容器补装 `dos2unix pigz`、禁用损坏Triton目录。
+为保留微算子阶段的复现链路，以下记录沿用原始环境。a2工作目录 `/path/to/lab-runtime/mindieq-r3-20261013`，`/work`是容器挂载点；镜像 `quay.io/ascend/vllm-ascend:v0.23.0.post1-310p`，仅容器补装 `dos2unix pigz`、禁用损坏Triton目录。
 
 ```bash
 # 外部目录；固定 revision
@@ -278,7 +278,7 @@ python /work/test-source/test_qmm_v5_ext_graph.py
 作者测试只打印失败而不保证非零退出码，须检查 `ALL PASSED` 与mismatch；补充测试使用assert、失败非零退出。
 
 ```bash
-WORK_DIR=/home/ychy/ascend-lab-runtime/mindieq-r3-20261013 \
+WORK_DIR=/path/to/lab-runtime/mindieq-r3-20261013 \
   bash experimental/run-mindieq-qmm-check.sh
 ```
 

@@ -15,4 +15,4 @@
 - 长上下文、chunk边界、非零/mixed state、greedy及状态复用按实际覆盖记录；容量准入不等于满长请求通过。未验证的部署组合不生成上线profile。
 - CANN使用固定完整配套栈，构建清理旧产物并验证实际映射库；采用条件与实测见[CANN评估](research/cann-upgrade-evaluation.md)。不叠加WY、gating和Decode改动。
 - Prefix Cache保持生产策略，冷/热分别报告；不扩大重复缓存扫描。GDN FP16已有实现，不重复包装为新增优化。MTP、proposer及GPU优化参考须先有本机瓶颈和兼容证据。
-- 后续实验保持a1生产只读，a2隔离并在结束后独立检查服务恢复。本文只记录计划，不授权新的设备操作。
+- 后续实验保持a1生产只读，a2隔离并在结束后独立检查服务恢复。
