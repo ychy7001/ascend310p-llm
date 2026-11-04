@@ -19,4 +19,12 @@ class OrderedAttributionTests(unittest.TestCase):
         with self.assertRaises(ValueError):attribute(rows,[{'group':'a'},{'group':'b'}],0,200,2)
         with self.assertRaises(ValueError):attribute(self.rows(),[{'group':'a'}],0,200,2)
 
+
+class NativeWeightShapeTests(unittest.TestCase):
+    def test_checks_actual_nz_shape_against_runtime_weight(self):
+        from attribute_decode_kernels import validate_weight_shape
+        self.assertTrue(validate_weight_shape('"128,1,16,16;128,384,16,16"',[6144,2048]))
+        self.assertFalse(validate_weight_shape('N/A',[6144,2048]))
+        with self.assertRaises(ValueError):validate_weight_shape('"128,1,16,16;128,128,16,16"',[6144,2048])
+
 if __name__=='__main__':unittest.main()

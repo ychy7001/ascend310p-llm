@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Render the complete Chinese report using only measured local summaries."""
+import json
+from pathlib import Path
+ROOT=Path('results/decode-attribution-20261104');V3=ROOT/'v3'
+w=json.loads((V3/'weighted-composition.json').read_text());budget=json.loads((V3/'candidate-budgets.json').read_text());integrity=json.loads((V3/'profile-integrity.json').read_text());local=json.loads((V3/'local-parsing.json').read_text())
+labels=['b1-long','b2-long','b3-short','mixed-b4'];profiles={label:[json.loads((V3/f'profiles/{label}-rank{r}.json').read_text()) for r in (0,1)] for label in labels}
+text='''# Decode 归因 v3：4a 完整设备结论（2026-11-04）
+
+**8/8 设备窗口可用于归因：双rank×四档各96个稳定步，共768步；B4来自混合窗口实测Decode尾段，不用B2/B3外推。** 原标准PyTorch完整报表4/8，另4/8已在本机用匹配CANN 9.1.0-beta.1从完整中间数据库补齐原生CSV和设备timeline；B3最终trace被截断但完整CPU事件前缀可读，B4缺完整Host trace。这些差异不影响八窗设备算子表，限制Host因果分账。v3替代v2的临时常成本候选预算；首轮历史分析保留在 [v1-README.md](v1-README.md)。
+
+本轮仅只读列目录、读取上次启动journal、单路rsync；未运行NPU负载、启动容器或操作服务。归档实验配置为TP2 W8A8、Graph[1,2]、MTP0、seqs4、maxlen262144、batch4096、prefix on；本轮没有实现优化或改变CANN/驱动。
+
+**一、真实分布与回放：独占Decode为68.09%，含混合步的Decode参与墙钟为94.63%。**
+
+| 范围 | 配对完成请求 | 输入token p50 / p90 / p99 | 输出token p50 / p90 / p99 | metrics累计prefix token命中 |
+|---|---:|---:|---:|---:|
+| site01 | 0（累计16，后续独立快照26） | 无逐请求数值 | 无逐请求数值 | 30.11% |
+| site02 | 465 / 累计729 | 11342 / 18731 / 27847 | 641 / 2905 / 3994 | 83.37% |
+| site03 | 678 / 累计678 | 13374 / 36407 / 82195 | 738 / 2722 / 6144 | 74.45% |
+| 配对全集 | 1143 | 12125 / 32096 / 80846 | 732 / 2836 / 5848 | 不合并不同区间 |
+| 会议长度代理（输入≥4096、输出≥128） | 813 | 12994 / 32096 / 80915 | 1309 / 3153 / 6144 | 不是逐请求命中率 |
+
+代理输入p95=36699、最大94440；输出p95=3555、最大14817。无业务类型标签，因此不能宣称813条都是会议。代理请求arrival→finish忙时C1/C2/C3/C4/C5为59.85%/9.23%/7.29%/20.25%/3.39%；Running日志实观忙时C1–C6为60.53%/9.95%/8.78%/16.19%/4.34%/0.21%，只覆盖12611秒、缺失254582秒。两种线上并发均含Prefill/排队，不能当Decode batch；数值明细见v2的匿名分位数和并发CSV。
+
+| 冷合成回放阶段 | 墙钟秒 / 占比 | 观测步数 | 含义 |
+|---|---:|---:|---|
+| 纯Prefill | 34.309 / 5.33% | 17 | 无请求在Decode |
+| 纯Decode | 438.269 / 68.09% | 11798 | 本报告算子预算的转移基数 |
+| Prefill+Decode混合 | 170.897 / 26.55% | 49 | 共享投影/等待无法唯一分给两阶段 |
+| 空档/未分配 | 0.230 / 0.036% | — | 四项合计643.705s |
+
+11请求，200895输入/17045输出token；prefix查询227424、命中0。queue p50/p95/max=0.0206/3.5163/4.6517s；逐请求queue、Prefill/Decode span及69个Prefill chunk均在v2 CSV。span含其他请求阻塞，不能跨请求相加。**68.09%–94.63%是阶段归属边界，旧89%仍只是旧26请求负载的估算，不能用本轮不同负载替它补标签。**
+
+| 实际Decode batch | 步数 | 时间秒 / 时间权重 | padding / Graph | 无Profile回放步延迟p50 / p95（按context） |
+|---|---:|---:|---|---|
+| B1 | 8712 | 282.292 / 64.41% | 1 / FULL | <8K：31.232/31.479ms；8–16K：31.563/31.831；16–32K：33.102/33.475 |
+| B2 | 1928 | 79.136 / 18.06% | 2 / FULL | 16–32K：41.069/41.452ms |
+| B3 | 274 | 17.730 / 4.05% | 3 / NONE | 32–64K（267步）：64.968/65.843ms；另7步不代表稳定分位数 |
+| B4 | 884 | 59.110 / 13.49% | 4 / NONE | 16–32K：64.165/65.356；32–64K：67.442/74.522ms |
+
+Graph按纯Decode步/时间命中90.18%/82.47%；NONE仍走AOT/FX编译。ms/步表示并发一步中每个活跃请求通常前进1 token，不是所有输出token吞吐的倒数。以上权重来自合成冷回放的真实Decode观测，未冒充线上会议Decode batch分布。
+
+**二、设备Profile完整性与加权构成：按每档占比归一化，再用Decode时间权重加权。**
+
+| 档位 | 实测上下文 / 模式 | 捕获head数rank0 / rank1 | 选取步数每rank | 周期ms/步rank0 / rank1 | 完整性 |
+|---|---|---:|---:|---:|---|
+'''
+for b,label in enumerate(labels,1):
+ ps=profiles[label];context=['32K / FULL','32K / FULL','4K / NONE','3×4K+1×32K尾段 / NONE'][b-1]
+ text+=f"| B{b} | {context} | {ps[0]['selection']['captured_head_count']} / {ps[1]['selection']['captured_head_count']} | 96 | {ps[0]['window_ms_per_step']:.3f} / {ps[1]['window_ms_per_step']:.3f} | {'原完整PyTorch CSV+trace' if b<3 else '原生CANN CSV+完整设备timeline；本地补齐'} |\n"
+text+='''
+日志在选取设备时间窗内分别有95–96个forward，batch/padding/Graph均与对应档一致；CPU异步提前发起，未把它们说成一一对应的设备起点。每窗21120个FP16投影匹配220调用/步；B1/B2均恢复220个真实图节点和80个reduction节点；B3/B4的220个NZ权重shape还逐节点核对了模块实测shape。**eager的220个投影和head都叫MatMul4/v2，已按真实NZ权重shape拆分，不能只靠kernel名称计head。** 模块连接仍为独立FX/module观测加稳定顺序/shape约束推断，不是原生模块correlation。Graph节点ID完整保留；eager摘要每节点保留3个实测ID样本及总数，完整动态ID集合留在忽略的raw目录。
+
+使用未四舍五入的时间权重，`f类=Σ_b w_b × mean_rank(K类,b / L_b)`；跨rank取均值，不相加。等效ms=`f类×37.148ms`，其中37.148是回放平均纯Decode步；这列用于把构成还原为同一分母，不是另一个实测Profile周期。设备占比由Profile实测，加权及向回放转移由公式推算。
+
+| 类别 | 等效ms/回放纯Decode步 | 加权纯Decode占比 | 占全回放的转移成本池 |
+|---|---:|---:|---:|
+'''
+order=[('MoE grouped W8A8','moe_grouped_w8a8'),('FP16 NZ投影（220次/步）','fp16_nz_projection'),('其他设备算子（含AI_CPU）','other_device_ops'),('PA decoder mask','paged_attention_decoder'),('lm_head FP16','lm_head_fp16'),('TransData布局','layout_transdata'),('MoE routing','moe_routing'),('Recurrent GDN','recurrent_gdn'),('其余量化MatMul','dense_quant_matmul'),('显式TP allreduce wrapper','visible_allreduce'),('显式TP allgather wrapper','visible_allgather'),('未被命名kernel覆盖的间隙','named_kernel_gap')]
+for name,key in order:
+ x=w['composition'][key];text+=f"| {name} | {x['equivalent_ms_per_replay_step']:.3f} | {x['decode_time_fraction']*100:.2f}% | {x['replay_wall_fraction']*100:.2f}% |\n"
+text+='''
+构成精确闭合100%；本批命名kernel没有跨类重叠。间隙不是纯Host成本，含未命名设备任务、同步、通信等待和空泡；不能作为一项已可消除优化。Profile周期与回放同batch均值差约0.6%–11.5%，还混有上下文/路由差异，不能全归作Profiler开销，也不直接将Profile毫秒数乘回放步数。
+
+| FP16模块（均为FP16实测） | 次数/步 | 每rank逻辑weight | B1 / B2 / B3 / B4 ms/步（rank均值） | 加权纯Decode占比 |
+|---|---:|---|---:|---:|
+'''
+module_rows=[('QKVZ','linear_qkvz',30,'[6144,2048]'),('BA','linear_ba',30,'[32,2048]'),('线性注意力out_proj','linear_out_proj',30,'[2048,2048]'),('共享gate_up','shared_gate_up',40,'[512,2048]'),('共享down','shared_down',40,'[2048,256]'),('全注意力o_proj','full_attention_o_proj',10,'[2048,2048]'),('MoE router','moe_router',40,'[256,2048]')]
+for name,key,n,shape in module_rows:
+ values=['%.3f'%(sum(p['fp16_module_attribution']['groups_ms_per_step'][key] for p in profiles[label])/2) for label in labels]
+ text+=f"| {name} | {n} | {shape} | {' / '.join(values)} | {w['fp16_groups'][key]['decode_time_fraction']*100:.2f}% |\n"
+text+='''
+上表为FP16投影19.55%的内部拆分，不与总表重复相加；输入为[B,2048]，共享down为[B,256]。QKVZ独占该投影池约56.52%，而不是整个7.9ms。
+
+通信与Host的实测边界：每步有81个物理REDUCE，其中图模式80个图内任务；80个FX结果均到输出依赖，payload在本rank命名计算之外，但未取得跨rank完整因果关键路径，不能把80乘一个API时间当通信瓶颈。新B1图内payload rank0/1为'''
+for label in labels[:2]:
+ ps=profiles[label];g=[sum(n['ms_per_step'] for n in p['graph_reduction_node_ledger']) for p in ps]
+ text+=f" {g[0]:.5f}/{g[1]:.5f}ms"+('，B2为' if label==labels[0] else '。')
+text+='''全81个物理REDUCE按并发加权仅占全回放约0.212%，显式AR+AG wrapper占约0.976%；两者重叠，不相加。wrapper含等待，且间隙还可能含未分离通信等待，0.976%不是完整通信的上限。
+
+B3 rank0/1的CPU op覆盖命名kernel间隙为14.822/3.364ms/步，显示Host发射与跨rank等待不对称；覆盖本身不等于可省时。B1/B2约0.125–0.141ms/步，B4无完整Host trace；已观测档位的CPU覆盖按全部权重计为全回放0.826%/0.350%的下界，不能拿它当全部Host上限。回放scheduler+completion CPU总0.986s的归零上限仅0.153%；worker execute span包含设备等待，不能全部算Host。完整数值见 `v3/communication-host.csv` 与重叠诊断JSON。
+
+**三、候选排序与4b：只推荐MoE小M路径和30个QKVZ，分别做单变量实验。**
+
+统一用未验证的kernel 2×情景比较；成本分数中=2、大=3，是工程判断。所有预算只转移纯Decode的438.269s，Prefill34.309s及混合170.897s中的共享工作未记入；“池归零上限”是该Decode kernel池，不是改动全阶段上限。新增量化/布局/launch、固定到达和流水依赖都会降低实际收益，本轮没有任何优化实测收益。
+
+| 收益/成本顺序 | 单项动作 / 针对部分 | 2×情景回放下降 | Decode池归零上限 | 成本 / 数值门禁 | 处置 |
+|---:|---|---:|---:|---|---|
+'''
+short={'moe-small-m':'仅80次/步grouped matmul的小M tiling；实际总M=8/16/24/32，K=2048/256','qkvz-w8a8':'仅30个QKVZ投影FP16→W8A8；其余模块不合并','lm-head':'生产FP16 NZ head的同语义替换；量化/分片成本另计','layout':'仅经消费者格式验证后复用重复ND→NZ；暂无已证实可删节点'}
+for i,c in enumerate(budget['candidates'],1):
+ gate='必须G1/G2' if c['id']=='qkvz-w8a8' else '算术改变须G1/G2'
+ disposition='进入4b草案' if i<3 else '2×不足3%；保留预算，暂不进入4b'
+ text+=f"| {i} | {short[c['id']]} | {c['wall_reduction_scenario_pct']:.2f}% | {c['decode_pool_zero_cost_ceiling_pct']:.2f}% | {c['cost']} / {gate} | {disposition} |\n"
+text+='''
+QKVZ：实测各档约4.48/4.48/4.61/4.62ms/步；时间加权后占纯Decode11.052%，等效4.106ms/回放步。转移池48.437s（7.525%）；2×省24.219s（3.762%），kernel耗时归零省48.437s。理想最低提速1.663×才够3%；2×时额外成本余量只有4.907s，即等效0.416ms/纯Decode步。这里的“理论上限”是kernel成本趋零的Amdahl上限，未把W8存储减半当作实测2×。量化还可能改变路由/SSM状态，必须模型级门禁。
+
+MoE已有W8A8，不把重新量化专家当新项；实测80次/步，B1–B4 kernel均值7.487/12.272/16.633/21.820ms，具体双rank值在CSV。其2×预算52.022s（8.082%），理想最低1.228×即可覆盖3%目标；真实每专家token分布未采，tiling收益尚未验证。Graph[1,4]既有结果按本轮最有利转移仅约0.631%回放，没有新证据推翻未选结论；MTP图捕获阻断也没有解除证据，均不重复列为4b。通信和Host没有已证实可单独满足3%的可消除池。
+
+| 4b项 | 对照 / 唯一变量 | 样本量与判据 |
+|---|---|---|
+| MoE小M tiling | A=归档生产；B仅grouped matmul tiling/发射，分组/scale/累加/通信冻结 | M8/16/24/32、两类K及真实专家token偏斜；每档3×256输出，另双rank各64–128步Profile。输出逐位检查；改变数值则先G1/G2；之后5对AB/BA回放 |
+| QKVZ W8A8 | A=原FP16 NZ；B只量化30个QKVZ，校准/scale/clip/产物SHA固定 | B1–B4与4K/16K/32K/80K/94K；每档3×256输出，另双rank64–128步Profile；必须先G1/G2；之后5对AB/BA回放 |
+
+两项各自10轮/110请求；固定v2的11请求与到达偏移、输入/输出token和采样参数，冷进程、prefix on且0命中；不因更快而额外接纳请求。配对墙钟下降中位数≥3%，至少4/5对更快，无错误、输出token一致，分层TTFT/TPOT中位数无>3%退化；Profile不混进正式计时。G1在本栈先A/A′冻结35条fixture并增加80K/94K，误差容限=同轮噪声1.5倍，无事后地板；共同top-k KL不是全词表KL，删失下界不能用来判通过。G2按当前仓库约定，GSM64/结构字段/短题通过数分别较A少≤1，覆盖prefix、slot复用、A/B/A、混合/长状态；真实激活scale/clip与长链SSM误差另查。完整控制、样本和停止条件见 [v3/experiment-designs.md](v3/experiment-designs.md)。
+
+**四、事故证据、本地解析限制与最少补测。**
+
+| 类别 | 结论 |
+|---|---|
+| 已证实 | 上轮09:39:01 UTC由我启动8路顶层CPU档案解析，无独立CPU/内存限额；内核10:33:51起记全局OOM。首个完整快照匿名内存29.38GiB、free约194MiB，8GiB swap只余96KiB；同UID有46个Python进程，RSS算术和36.93GiB含共享重复，不能当物理峰值或逐一归属。至少6个同一rootless容器cgroup的Python被OOM杀死，单进程匿名RSS约4.51–6.16GiB；dbus-daemon与catatonit也被杀。上次启动journal最后到10:53:02 UTC |
+| 最可能原因（推测） | 未限额的8路CPU解析及内部子任务耗尽31GiB主机的RAM/swap，内存争用/换页导致主机响应严重下降。初次SSH失联早于首条OOM，缺连续RSS/PSI/网络样本，因此不能证明最初网络故障机制、物理峰值或精确起因时刻，也不能据此归咎驱动或断言内核panic/自动重启 |
+
+'''
+text+=f"本轮8个Profile目录共{local['profile_GiB_reported_by_rsync']:.3f}GiB，rsync `--bwlimit=20000`、一次一目录；远端解析0。匹配CPU导出、CSV/JSON均在本机，解析进程地址空间上限8GiB；主解析串行，最多两个独立重任务重叠；已记录的进程RSS高水位约{local['measured_peak_process_RSS_MiB']:.0f}MiB、time报告Swaps字段为0；未采全机swap I/O。**本轮执行偏差：初次CANN原生聚合器内部另开Pool(4)，timeline还可开3个聚合进程各带4worker，未留实时峰值进程计数；故不能声称全过程满足≤2。发现后禁用所有原生聚合池并串行重导最终设备timeline，改用流式本地合并。** 最终复用脚本已封住这两层内部池；8GiB是单进程地址空间限制，不冒充全作业cgroup峰值。\n\n"
+text+='''设备归因已闭合，后续不必重跑这8窗。最少新增NPU样本只为消除转移误差：B3/B4各补匹配32–64K上下文的双rank64–128步（约各5–10秒稳定Decode），同时采完整Host trace及轻量CPU时间；若需推向线上热缓存，再补匹配74%–83%prefix token命中的约10分钟回放。它们是后续实验草案，本轮未执行。
+
+真实限制：会议类型未核验；一站无逐请求数值、一站日志仅覆盖累计63.79%；prefix只有累计token口径。冷合成回放仅11请求、最长47784，未覆盖80K–94K真实尾部；合成文本不保持真实MoE路由；B3实采4K与回放B3主要32–64K不匹配，B4是3短+1长而非回放全部context分布，按并发加权不能修复此偏差。混合阶段不能唯一分账，v3预算只计纯Decode；完整跨rank通信关键路径与B4 Host因果拆分仍不可识别。观测开销没有关闭日志的A/A对照；5对回放设计也不支撑尾概率承诺。本轮遵从服务恢复期间限制，未新增当前health确认。
+
+产物文件：
+
+- `v3/profile-integrity.json`、`profiles/*-rank*.json`：8窗完整性、精确选择、原生kernel/图节点/FP16归属及恢复边界。
+- `v3/weighted-composition.json`、`per-case-composition.csv`、`fp16-groups.csv`、`communication-host.csv`、`overlapping-diagnostics.json`：加权公式、各档双rank数值、FP16拆分与不可相加的诊断池。
+- `v3/candidate-budgets.json`、`experiment-designs.md`：最终排序、QKVZ两种情景和两个独立4b草案。
+- `v3/incident-summary.json`、`local-parsing.json`、`validation.json`、`artifact-sha256.json`：事故证据/推测、资源与偏差、验证和摘要SHA；v2的匿名负载、回放请求/step/chunk与模块ledger继续作为输入。
+- 原始Profile、journal、机器标识和拷贝的离线工具只留在gitignore的`v3/raw/`，不提交。可复用CPU解析工具与测试位于`tools/`；一次性取回、受限导出、验证与汇报控制器位于`experimental/runs-20261104/`。
+
+验证：26项CPU单元测试通过；八窗各96步、220调用/步、Graph两档220/80真实节点、eager两档220个实际NZ weight shape、选窗batch与加权100%闭合均通过。340480条原B1 kernel与设备timeline转表交叉校验，名称/次数完全一致，起点/时长差均≤0.002μs。没有实现或验收优化，没有推送提交。
+'''
+(ROOT/'README.md').write_text(text)

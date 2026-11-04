@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-11-04T12:53:19.032636+00:00",
+  "unit_tests": 26,
+  "unit_tests_passed": true,
+  "checks": {
+    "eight_profile_directories_rsync_returncode_zero": true,
+    "eight_valid_device_windows": true,
+    "96_steps_each": true,
+    "768_selected_steps": true,
+    "220_projection_calls_each": true,
+    "eager_220_native_nz_shapes_checked": true,
+    "graph_220_fp16_80_reduce_nodes": true,
+    "selected_batches_match": true,
+    "81_physical_reductions_each_step": true,
+    "b4_directly_measured": true,
+    "composition_closes": true,
+    "time_weights_close": true,
+    "native_vs_timeline_340480_kernels": true,
+    "no_remote_parsing_or_npu_or_service_operations": true,
+    "initial_vendor_pool_limit_deviation_disclosed": true,
+    "recorded_time_swaps_field_zero": true,
+    "old_incomplete_conclusion_removed": true,
+    "anonymous_public_results": true
+  },
+  "all_checks_passed": true,
+  "optimization_implemented": false,
+  "npu_experiments_this_round": false,
+  "full_final_pytorch_report_count": 4,
+  "usable_native_device_accounting_count": 8,
+  "strict_local_parse_concurrency_limit_met_for_entire_round": false,
+  "concurrency_deviation": "Vendor aggregation pools found after initial local exports; disclosed in README/local-parsing.json and disabled in final scripts. No exact live peak process count retained."
+}

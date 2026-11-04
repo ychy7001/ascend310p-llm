@@ -1,0 +1,21 @@
+{
+  "profile_subdirectories_transferred": 8,
+  "profile_bytes_reported_by_rsync": 11305347103,
+  "profile_GiB_reported_by_rsync": 10.528924970887601,
+  "transfer_bwlimit_KiB_per_second": 20000,
+  "remote_parsing_processes_this_round": 0,
+  "npu_workloads_this_round": 0,
+  "service_operations_this_round": 0,
+  "matched_cpu_exporter_cann_version": "9.1.0-beta.1",
+  "exporter_source": "Read-only copy of existing matching image layer; no container started",
+  "parse_address_space_limit_GiB_per_process": 8,
+  "final_export_affinity_cpus": 2,
+  "steady_state_heavy_parse_concurrency": 1,
+  "maximum_separate_heavy_parsers_running_together": 2,
+  "measured_peak_process_RSS_MiB": 2064.0390625,
+  "measured_peak_process_RSS_scope": "Per-process high-water value from time -v; not aggregate PSS or a cgroup peak",
+  "all_recorded_time_reports_swaps": 0,
+  "whole_host_swap_io_measured": false,
+  "initial_local_vendor_pool_deviation": "Initial CANN summary aggregation uses Pool(4); timeline aggregation can create 3 processes each with Pool(4). No live peak process count was saved. Top-level serialization alone did not enforce the requested <=2 ceiling. These aggregation paths were disabled after discovery; final device timelines were re-exported without them. Summary CSV contents are unchanged native output, but the initial concurrency violation remains.",
+  "raw_retention": "Original captures, journals, machine identities, copied vendor tools and full logs stay under gitignored raw directory; committed summaries contain none of those identifiers."
+}

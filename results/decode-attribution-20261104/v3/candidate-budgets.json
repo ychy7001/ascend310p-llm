@@ -1,0 +1,64 @@
+{
+  "budget_scope": "Pure decode only: 438.268899s / 643.705051s. Prefill and mixed phase changes are unbudgeted. Ceilings are removable targeted kernel pools, not full-change all-phase ceilings or measured speedups. Fixed arrivals and pipeline dependencies can reduce realized savings.",
+  "cost_score_convention": "Medium=2; large=3; judgement, not measured engineering hours. Compare all candidates under the same unvalidated 2x scenario.",
+  "candidates": [
+    {
+      "id": "moe-small-m",
+      "component": "moe_grouped_w8a8",
+      "action": "仅替换80个/步QuantGroupedMatmulDequant的小M tiling，保持分组/scale/累加语义和通信不变",
+      "cost": "大",
+      "cost_score": 3,
+      "model_gate": "位序改变或逐位检查不一致则G1/G2；一致也需任务回归",
+      "assumed_kernel_speedup": 2,
+      "wall_reduction_scenario_pct": 8.081668277212447,
+      "decode_pool_zero_cost_ceiling_pct": 16.163336554424895,
+      "scenario_saved_seconds": 52.022106907983584,
+      "score_scenario_pct_per_cost": 2.6938894257374826,
+      "minimum_speedup_for_3pct_before_overheads": 1.2279057431674905
+    },
+    {
+      "id": "qkvz-w8a8",
+      "component": "linear_qkvz",
+      "action": "仅30个linear_attn.in_proj_qkvz从FP16改W8A8",
+      "cost": "中",
+      "cost_score": 2,
+      "model_gate": "必须G1/G2",
+      "assumed_kernel_speedup": 2,
+      "wall_reduction_scenario_pct": 3.7623701711539566,
+      "decode_pool_zero_cost_ceiling_pct": 7.524740342307913,
+      "scenario_saved_seconds": 24.21856683020033,
+      "score_scenario_pct_per_cost": 1.8811850855769783,
+      "minimum_speedup_for_3pct_before_overheads": 1.663021471519359
+    },
+    {
+      "id": "lm-head",
+      "component": "lm_head_fp16",
+      "action": "以生产FP16 NZ head为对照，只切换head实现；额外量化/分片成本计入",
+      "cost": "中",
+      "cost_score": 2,
+      "model_gate": "改变算术或量化则G1/G2",
+      "assumed_kernel_speedup": 2,
+      "wall_reduction_scenario_pct": 2.4811884611095154,
+      "decode_pool_zero_cost_ceiling_pct": 4.962376922219031,
+      "scenario_saved_seconds": 15.971535449759388,
+      "score_scenario_pct_per_cost": 1.2405942305547577,
+      "minimum_speedup_for_3pct_before_overheads": 2.5287582961420267
+    },
+    {
+      "id": "layout",
+      "component": "layout_transdata",
+      "action": "仅复用经消费者格式校验的重复ND→NZ转换；当前尚未证明哪些节点可删",
+      "cost": "中",
+      "cost_score": 2,
+      "model_gate": "纯布局逐位一致；融合改算术则G1/G2",
+      "assumed_kernel_speedup": 2,
+      "wall_reduction_scenario_pct": 2.2241350896512913,
+      "decode_pool_zero_cost_ceiling_pct": 4.4482701793025825,
+      "scenario_saved_seconds": 14.316869913837413,
+      "score_scenario_pct_per_cost": 1.1120675448256456,
+      "minimum_speedup_for_3pct_before_overheads": 3.0714366993627227
+    }
+  ],
+  "qkvz_twofold_added_overhead_margin_to_3pct_seconds": 4.90741529927142,
+  "qkvz_twofold_added_overhead_margin_ms_per_decode_step": 0.4159531530150382
+}

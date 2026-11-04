@@ -1,0 +1,283 @@
+{
+  "valid_device_windows": 8,
+  "selected_steps_total": 768,
+  "native_full_final_pytorch_reports": 4,
+  "locally_completed_cann_accounting_reports": 4,
+  "mixed_b4_extrapolated": false,
+  "records": [
+    {
+      "case": "b1-long",
+      "batch": 1,
+      "rank": 0,
+      "selected_steps": 96,
+      "captured_head_count": 112,
+      "captured_observed_forward_count": 112,
+      "captured_stable_forward_count": 112,
+      "native_kernel_rows_in_selected_window": 291840,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 0,
+      "graph_fp16_nodes": 220,
+      "graph_reduction_nodes": 80,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 96,
+      "observed_batch_histogram": {
+        "1": 96
+      },
+      "observed_padding_histogram": {
+        "1": 96
+      },
+      "observed_graph_modes": {
+        "FULL": 96
+      },
+      "cycle_ms": 35.725086937499995,
+      "context_samples_preview": [
+        32779
+      ],
+      "kernel_export_source": "native_pytorch_csv",
+      "full_final_pytorch_report": true
+    },
+    {
+      "case": "b1-long",
+      "batch": 1,
+      "rank": 1,
+      "selected_steps": 96,
+      "captured_head_count": 112,
+      "captured_observed_forward_count": 112,
+      "captured_stable_forward_count": 112,
+      "native_kernel_rows_in_selected_window": 291840,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 0,
+      "graph_fp16_nodes": 220,
+      "graph_reduction_nodes": 80,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 96,
+      "observed_batch_histogram": {
+        "1": 96
+      },
+      "observed_padding_histogram": {
+        "1": 96
+      },
+      "observed_graph_modes": {
+        "FULL": 96
+      },
+      "cycle_ms": 35.7092544375,
+      "context_samples_preview": [
+        32779
+      ],
+      "kernel_export_source": "native_pytorch_csv",
+      "full_final_pytorch_report": true
+    },
+    {
+      "case": "b2-long",
+      "batch": 2,
+      "rank": 0,
+      "selected_steps": 96,
+      "captured_head_count": 112,
+      "captured_observed_forward_count": 112,
+      "captured_stable_forward_count": 112,
+      "native_kernel_rows_in_selected_window": 312384,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 0,
+      "graph_fp16_nodes": 220,
+      "graph_reduction_nodes": 80,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 96,
+      "observed_batch_histogram": {
+        "2": 96
+      },
+      "observed_padding_histogram": {
+        "2": 96
+      },
+      "observed_graph_modes": {
+        "FULL": 96
+      },
+      "cycle_ms": 45.76870539583334,
+      "context_samples_preview": [
+        32787,
+        32779
+      ],
+      "kernel_export_source": "native_pytorch_csv",
+      "full_final_pytorch_report": true
+    },
+    {
+      "case": "b2-long",
+      "batch": 2,
+      "rank": 1,
+      "selected_steps": 96,
+      "captured_head_count": 112,
+      "captured_observed_forward_count": 112,
+      "captured_stable_forward_count": 112,
+      "native_kernel_rows_in_selected_window": 312384,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 0,
+      "graph_fp16_nodes": 220,
+      "graph_reduction_nodes": 80,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 96,
+      "observed_batch_histogram": {
+        "2": 96
+      },
+      "observed_padding_histogram": {
+        "2": 96
+      },
+      "observed_graph_modes": {
+        "FULL": 96
+      },
+      "cycle_ms": 45.74844086458333,
+      "context_samples_preview": [
+        32787,
+        32779
+      ],
+      "kernel_export_source": "native_pytorch_csv",
+      "full_final_pytorch_report": true
+    },
+    {
+      "case": "b3-short",
+      "batch": 3,
+      "rank": 0,
+      "selected_steps": 96,
+      "captured_head_count": 112,
+      "captured_observed_forward_count": 112,
+      "captured_stable_forward_count": 112,
+      "native_kernel_rows_in_selected_window": 334176,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 220,
+      "graph_fp16_nodes": 0,
+      "graph_reduction_nodes": 0,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 95,
+      "observed_batch_histogram": {
+        "3": 95
+      },
+      "observed_padding_histogram": {
+        "3": 95
+      },
+      "observed_graph_modes": {
+        "NONE": 95
+      },
+      "cycle_ms": 65.09398858333333,
+      "context_samples_preview": [
+        4110,
+        4109,
+        4107
+      ],
+      "kernel_export_source": "native_cann_op_summary",
+      "full_final_pytorch_report": false
+    },
+    {
+      "case": "b3-short",
+      "batch": 3,
+      "rank": 1,
+      "selected_steps": 96,
+      "captured_head_count": 112,
+      "captured_observed_forward_count": 113,
+      "captured_stable_forward_count": 113,
+      "native_kernel_rows_in_selected_window": 334176,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 220,
+      "graph_fp16_nodes": 0,
+      "graph_reduction_nodes": 0,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 96,
+      "observed_batch_histogram": {
+        "3": 96
+      },
+      "observed_padding_histogram": {
+        "3": 96
+      },
+      "observed_graph_modes": {
+        "NONE": 96
+      },
+      "cycle_ms": 65.06517331250001,
+      "context_samples_preview": [
+        4110,
+        4109,
+        4107
+      ],
+      "kernel_export_source": "native_cann_op_summary",
+      "full_final_pytorch_report": false
+    },
+    {
+      "case": "mixed-b4",
+      "batch": 4,
+      "rank": 0,
+      "selected_steps": 96,
+      "captured_head_count": 125,
+      "captured_observed_forward_count": 126,
+      "captured_stable_forward_count": 113,
+      "native_kernel_rows_in_selected_window": 334080,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 220,
+      "graph_fp16_nodes": 0,
+      "graph_reduction_nodes": 0,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 95,
+      "observed_batch_histogram": {
+        "4": 95
+      },
+      "observed_padding_histogram": {
+        "4": 95
+      },
+      "observed_graph_modes": {
+        "NONE": 95
+      },
+      "cycle_ms": 67.48571685416671,
+      "context_samples_preview": [
+        4131,
+        4130,
+        4128,
+        32786
+      ],
+      "kernel_export_source": "native_cann_op_summary",
+      "full_final_pytorch_report": false
+    },
+    {
+      "case": "mixed-b4",
+      "batch": 4,
+      "rank": 1,
+      "selected_steps": 96,
+      "captured_head_count": 125,
+      "captured_observed_forward_count": 125,
+      "captured_stable_forward_count": 112,
+      "native_kernel_rows_in_selected_window": 334080,
+      "fp16_calls_per_step": 220,
+      "native_nz_weight_shapes_checked_nodes": 220,
+      "graph_fp16_nodes": 0,
+      "graph_reduction_nodes": 0,
+      "all_physical_reductions_per_step": 81.0,
+      "observed_forwards_in_device_time_window": 95,
+      "observed_batch_histogram": {
+        "4": 95
+      },
+      "observed_padding_histogram": {
+        "4": 95
+      },
+      "observed_graph_modes": {
+        "NONE": 95
+      },
+      "cycle_ms": 67.45585742708334,
+      "context_samples_preview": [
+        4131,
+        4130,
+        4128,
+        32786
+      ],
+      "kernel_export_source": "native_cann_op_summary",
+      "full_final_pytorch_report": false
+    }
+  ],
+  "rounding_crosscheck": {
+    "native_rows": 340480,
+    "timeline_named_rows": 340480,
+    "same_name_occurrence_counts": true,
+    "max_start_difference_us": 0.001,
+    "max_duration_difference_us": 0.0008750000000077307,
+    "all_events_agree_within_0_002_us": true,
+    "unnamed_hardware_AI_CORE_excluded": 16800,
+    "note": "Exact Decimal timestamps; CSV vs collective trace rounding <= .001 us; no lost named kernels"
+  },
+  "limitations": [
+    "Two interrupted final B3 trace arrays retain CPU prefixes but lack device append/final bracket. B4 final framework reports are absent. All eight selected device windows use complete native CSV/timeline data.",
+    "Recorded forward CPU times verify the batch throughout the selected device-time window; asynchronous pipelining prevents claiming one-to-one CPU/device start correspondence."
+  ]
+}

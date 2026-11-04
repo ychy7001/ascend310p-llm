@@ -1,0 +1,74 @@
+{
+  "public_artifacts": {
+    "README.md": "29d500d19ae1e278f812e4dad5fffc93801601fb54b98049fbb2d63a1c4f289c",
+    "v3/candidate-budgets.json": "b5017029cf9e379487bb8a5bba8fc78ac5e8b72ec1308d7f80a1bc85d440beff",
+    "v3/communication-host.csv": "5c560f55411f59e7e0ed03d29b80dbb74d19ef3df46be2a63a541250d96c7e83",
+    "v3/experiment-designs.md": "75126eb6c875f82ba1b4b5a40b5116feb78396951f27c3f069f77ef1157d515c",
+    "v3/fp16-groups.csv": "ef8fd388db1c34fc9fc1729be46f08f7506c3456f991f8625c5ecf2b3c382cf8",
+    "v3/incident-summary.json": "64e217f46c135116c34b7c18b7a04e67143401e335a825ec9217f1f0bfa8f3a5",
+    "v3/local-parsing.json": "1330c96c934bf2561fd92c53668e695724b84e252cdc7de282a64188b805322b",
+    "v3/overlapping-diagnostics.json": "e22f9ab6a2392f961a00d2fcf29ff63dcb6c64eef5dc97236e6c730086559609",
+    "v3/per-case-composition.csv": "5109b18c9613edf68024609bb7b8d7584da908097ab9d993ba2cf7fbf76662ed",
+    "v3/profile-integrity.json": "18d336081afcdcba2996754e3342def57ebc27d91b86933479bcddbc9d42503b",
+    "v3/profiles/b1-long-rank0.json": "214260e684433caaa5092b498fbf104c0f99be1357d3d34c5ffeed672a1f5eae",
+    "v3/profiles/b1-long-rank1.json": "d2bb3693f004f97136c15961edb63b6367c0bad3aa4e68dd3039cff64775cfec",
+    "v3/profiles/b2-long-rank0.json": "3e18236d7f8db4d2b531db22e647dd9ae96433b038d0e57facec61b09b02de6c",
+    "v3/profiles/b2-long-rank1.json": "7887879d38c5db8a8e0c022079beabf83076880bf59afb3fa940c0511a7f79ef",
+    "v3/profiles/b3-short-rank0.json": "c41754373602d4bb4822f06aa3fa297e95779c92e7a6c14ea6117e1211c0d239",
+    "v3/profiles/b3-short-rank1.json": "0d6f31a7af0eed54a2d40d4bff5a1b6b30b892abf4d8033068ffd852548335b2",
+    "v3/profiles/mixed-b4-rank0.json": "b967d02c48dc5b561fdae94517a78f3fc13d8802eeed1f4b8ea41b144c32a23b",
+    "v3/profiles/mixed-b4-rank1.json": "b7b81fed54341d2e90f4ef91c911e45350aee403f9af68ff8c3a8431d49bc25a",
+    "v3/validation.json": "939febf422f4f7e0ed7d1178007fd363c34ec8f3c3caa9e9badd14676701292a",
+    "v3/weighted-composition.json": "dbbee2dbff337176721abbf0688cb104388a0550a7d5c488491585ba04f12756"
+  },
+  "anonymous_local_profile_inputs": {
+    "b1-long-rank0": {
+      "kernel_sha256": "3a658cc801b82ffd84df19f8a3009932468da4193d02f5846bf8ad9e7556372f",
+      "kernel_bytes": 91078586,
+      "used_trace_sha256": "44890a6498c9476d739e02061e537bf9adec234dda842b7ba7e5e3f554ba59a4",
+      "used_trace_bytes": 389092069
+    },
+    "b1-long-rank1": {
+      "kernel_sha256": "9318d5d6d42caaaf76ab0a9811e04ac2189b21fc2b961bbfb25513721b3be3c1",
+      "kernel_bytes": 91265721,
+      "used_trace_sha256": "a132e6e0b3fb9eba7a36496f7a6b6aa17552f01e9398d579a09e2ecf1aa332c4",
+      "used_trace_bytes": 396375678
+    },
+    "b2-long-rank0": {
+      "kernel_sha256": "dbe7f5d3732eef13e8e18f6cb6caa0f69d9ab829befadb2bf1d55509adfa4f4d",
+      "kernel_bytes": 97405869,
+      "used_trace_sha256": "3a7c16913866ea6c2ec22807087c6b339a9a71ff7d7f66e3b838e271f67de923",
+      "used_trace_bytes": 408859866
+    },
+    "b2-long-rank1": {
+      "kernel_sha256": "17f4ac2dc24058b10735ec31b1d418cf1de45473ec2f583bec30dd79dad1c03c",
+      "kernel_bytes": 97747673,
+      "used_trace_sha256": "de2c854e72e32826b300edd439166310ee9dfdd3890d62083e285cb1d494509f",
+      "used_trace_bytes": 417097159
+    },
+    "b3-short-rank0": {
+      "kernel_sha256": "0d080c48f5f864d9210e2b9651c65b60a4fdbf24c8ae096b584a6d58cb76cf3f",
+      "kernel_bytes": 104494741,
+      "used_trace_sha256": "ee5bcdf4adaa8a01f688b4e14e1da5ae08d13a82ee6af55172c23df5d36560ec",
+      "used_trace_bytes": 170259459
+    },
+    "b3-short-rank1": {
+      "kernel_sha256": "16dee877975db265863ad13deb4d2876424d11b8cddff4ec72abcaba2cb0ac05",
+      "kernel_bytes": 104062651,
+      "used_trace_sha256": "f3f57d1fa5433a0bfbd11a87918f2244bc5400accd9d8796732e7d14cac577f1",
+      "used_trace_bytes": 169784593
+    },
+    "mixed-b4-rank0": {
+      "kernel_sha256": "17b968d025c7e56412428d168395f8ece26665b61f73b3f3aa826c2869f43c72",
+      "kernel_bytes": 164530532,
+      "used_trace_sha256": "fe631a10440474aaa772b572d8637977263b4223d43f3d7554ab77447a4f893b",
+      "used_trace_bytes": 236337109
+    },
+    "mixed-b4-rank1": {
+      "kernel_sha256": "12d619d3659934a79347d78b457527569517201ae3f15cb2688246dce6f2b434",
+      "kernel_bytes": 163924921,
+      "used_trace_sha256": "95df9421b22b10d23a60e34c812922b69e6f03d407959d9af8ce8d43cb98a8f0",
+      "used_trace_bytes": 235229306
+    }
+  }
+}

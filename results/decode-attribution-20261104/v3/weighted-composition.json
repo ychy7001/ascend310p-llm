@@ -1,0 +1,296 @@
+{
+  "method": "Mean of per-rank per-case fractions, then weighted by decode wall time; ranks are not summed",
+  "time_weights": {
+    "b1-long": 0.6441078256109701,
+    "b2-long": 0.18056578137532453,
+    "b3-short": 0.04045405225857714,
+    "mixed-b4": 0.13487234075512816
+  },
+  "decode_wall_fraction": 0.6808535968206465,
+  "mean_replay_step_ms": 37.147728368032666,
+  "cases": [
+    {
+      "case": "b1-long",
+      "rank": 0,
+      "steps": 96,
+      "cycle_ms": 35.725086937499995,
+      "time_weight": 0.6441078256109701
+    },
+    {
+      "case": "b1-long",
+      "rank": 1,
+      "steps": 96,
+      "cycle_ms": 35.7092544375,
+      "time_weight": 0.6441078256109701
+    },
+    {
+      "case": "b2-long",
+      "rank": 0,
+      "steps": 96,
+      "cycle_ms": 45.76870539583334,
+      "time_weight": 0.18056578137532453
+    },
+    {
+      "case": "b2-long",
+      "rank": 1,
+      "steps": 96,
+      "cycle_ms": 45.74844086458333,
+      "time_weight": 0.18056578137532453
+    },
+    {
+      "case": "b3-short",
+      "rank": 0,
+      "steps": 96,
+      "cycle_ms": 65.09398858333333,
+      "time_weight": 0.04045405225857714
+    },
+    {
+      "case": "b3-short",
+      "rank": 1,
+      "steps": 96,
+      "cycle_ms": 65.06517331250001,
+      "time_weight": 0.04045405225857714
+    },
+    {
+      "case": "mixed-b4",
+      "rank": 0,
+      "steps": 96,
+      "cycle_ms": 67.48571685416671,
+      "time_weight": 0.13487234075512816
+    },
+    {
+      "case": "mixed-b4",
+      "rank": 1,
+      "steps": 96,
+      "cycle_ms": 67.45585742708334,
+      "time_weight": 0.13487234075512816
+    }
+  ],
+  "composition": {
+    "dense_quant_matmul": {
+      "decode_time_fraction": 0.015966735170116184,
+      "equivalent_ms_per_replay_step": 0.5931279410237899,
+      "replay_wall_fraction": 0.010871009070056321
+    },
+    "fp16_nz_projection": {
+      "decode_time_fraction": 0.1955382318767141,
+      "equivalent_ms_per_replay_step": 7.263801123321562,
+      "replay_wall_fraction": 0.1331329084892104
+    },
+    "layout_transdata": {
+      "decode_time_fraction": 0.06533372519546762,
+      "equivalent_ms_per_replay_step": 2.4269994768329233,
+      "replay_wall_fraction": 0.044482701793025825
+    },
+    "lm_head_fp16": {
+      "decode_time_fraction": 0.07288463989015603,
+      "equivalent_ms_per_replay_step": 2.7074988048413946,
+      "replay_wall_fraction": 0.049623769222190306
+    },
+    "moe_grouped_w8a8": {
+      "decode_time_fraction": 0.23739812244368175,
+      "equivalent_ms_per_replay_step": 8.818800967618849,
+      "replay_wall_fraction": 0.16163336554424895
+    },
+    "moe_routing": {
+      "decode_time_fraction": 0.025162036231757168,
+      "equivalent_ms_per_replay_step": 0.9347124871239115,
+      "replay_wall_fraction": 0.017131662871723293
+    },
+    "other_device_ops": {
+      "decode_time_fraction": 0.1586466595420641,
+      "equivalent_ms_per_replay_step": 5.893363015164355,
+      "replay_wall_fraction": 0.10801514877279489
+    },
+    "paged_attention_decoder": {
+      "decode_time_fraction": 0.10442784404550888,
+      "equivalent_ms_per_replay_step": 3.8792571846618413,
+      "replay_wall_fraction": 0.07110007322661026
+    },
+    "recurrent_gdn": {
+      "decode_time_fraction": 0.022189381825444,
+      "equivalent_ms_per_replay_step": 0.8242851287061546,
+      "replay_wall_fraction": 0.01510772042708023
+    },
+    "visible_allgather": {
+      "decode_time_fraction": 0.0016460303111161447,
+      "equivalent_ms_per_replay_step": 0.061146286882890845,
+      "replay_wall_fraction": 0.0011207056577992348
+    },
+    "visible_allreduce": {
+      "decode_time_fraction": 0.012687406057952433,
+      "equivalent_ms_per_replay_step": 0.47130831393574907,
+      "replay_wall_fraction": 0.008638266048880974
+    },
+    "named_kernel_gap": {
+      "decode_time_fraction": 0.08811918741002162,
+      "equivalent_ms_per_replay_step": 3.273427637919247,
+      "replay_wall_fraction": 0.05999626569702585
+    },
+    "category_overlap_correction": {
+      "decode_time_fraction": 5.934689052988364e-17,
+      "equivalent_ms_per_replay_step": 2.2046021688914875e-15,
+      "replay_wall_fraction": 4.040654387739244e-17
+    }
+  },
+  "fp16_groups": {
+    "linear_qkvz": {
+      "decode_time_fraction": 0.11051921260966935,
+      "equivalent_ms_per_replay_step": 4.105537689472848,
+      "replay_wall_fraction": 0.07524740342307913
+    },
+    "linear_ba": {
+      "decode_time_fraction": 0.002441083020412766,
+      "equivalent_ms_per_replay_step": 0.09068068896611016,
+      "replay_wall_fraction": 0.0016620201545858393
+    },
+    "linear_out_proj": {
+      "decode_time_fraction": 0.037000315787707655,
+      "equivalent_ms_per_replay_step": 1.3744776804131946,
+      "replay_wall_fraction": 0.02519179808756051
+    },
+    "moe_router": {
+      "decode_time_fraction": 0.009113906097190398,
+      "equivalent_ms_per_replay_step": 0.33856090807018563,
+      "replay_wall_fraction": 0.006205235747357703
+    },
+    "shared_gate_up": {
+      "decode_time_fraction": 0.015527291209613192,
+      "equivalent_ms_per_replay_step": 0.5768035961460523,
+      "replay_wall_fraction": 0.01057181206894675
+    },
+    "shared_down": {
+      "decode_time_fraction": 0.008554733389659711,
+      "equivalent_ms_per_replay_step": 0.3177889122200183,
+      "replay_wall_fraction": 0.005824520998191495
+    },
+    "full_attention_o_proj": {
+      "decode_time_fraction": 0.01238168976242917,
+      "equivalent_ms_per_replay_step": 0.4599516480319697,
+      "replay_wall_fraction": 0.008430118009467276
+    }
+  },
+  "fraction_sum": 1.0,
+  "candidate_scenarios": {
+    "dense_quant_matmul": {
+      "removable_kernel_wall_fraction": 0.010871009070056321,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.0054355045350281605,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "fp16_nz_projection": {
+      "removable_kernel_wall_fraction": 0.1331329084892104,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.0665664542446052,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 1.2908867832728537
+    },
+    "layout_transdata": {
+      "removable_kernel_wall_fraction": 0.044482701793025825,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.022241350896512913,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 3.0714366993627227
+    },
+    "lm_head_fp16": {
+      "removable_kernel_wall_fraction": 0.049623769222190306,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.024811884611095153,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 2.5287582961420267
+    },
+    "moe_grouped_w8a8": {
+      "removable_kernel_wall_fraction": 0.16163336554424895,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.08081668277212448,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 1.2279057431674905
+    },
+    "moe_routing": {
+      "removable_kernel_wall_fraction": 0.017131662871723293,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.008565831435861647,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "other_device_ops": {
+      "removable_kernel_wall_fraction": 0.10801514877279489,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.054007574386397444,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 1.3845407010293553
+    },
+    "paged_attention_decoder": {
+      "removable_kernel_wall_fraction": 0.07110007322661026,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.03555003661330513,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 1.729925706813011
+    },
+    "recurrent_gdn": {
+      "removable_kernel_wall_fraction": 0.01510772042708023,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.007553860213540115,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "visible_allgather": {
+      "removable_kernel_wall_fraction": 0.0011207056577992348,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.0005603528288996174,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "visible_allreduce": {
+      "removable_kernel_wall_fraction": 0.008638266048880974,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.004319133024440487,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "named_kernel_gap": {
+      "removable_kernel_wall_fraction": 0.05999626569702585,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.029998132848512923,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 2.0001244922621995
+    },
+    "category_overlap_correction": {
+      "removable_kernel_wall_fraction": 4.040654387739244e-17,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 2.020327193869622e-17,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "linear_qkvz": {
+      "removable_kernel_wall_fraction": 0.07524740342307913,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.037623701711539566,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": 1.663021471519359
+    },
+    "linear_ba": {
+      "removable_kernel_wall_fraction": 0.0016620201545858393,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.0008310100772929197,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "linear_out_proj": {
+      "removable_kernel_wall_fraction": 0.02519179808756051,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.012595899043780254,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "moe_router": {
+      "removable_kernel_wall_fraction": 0.006205235747357703,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.0031026178736788517,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "shared_gate_up": {
+      "removable_kernel_wall_fraction": 0.01057181206894675,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.005285906034473375,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "shared_down": {
+      "removable_kernel_wall_fraction": 0.005824520998191495,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.0029122604990957477,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    },
+    "full_attention_o_proj": {
+      "removable_kernel_wall_fraction": 0.008430118009467276,
+      "speedup": 2.0,
+      "wall_reduction_fraction": 0.004215059004733638,
+      "minimum_kernel_speedup_for_3pct_wall_ignoring_overheads": null
+    }
+  }
+}

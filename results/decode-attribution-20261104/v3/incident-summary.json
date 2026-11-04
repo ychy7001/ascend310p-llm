@@ -1,0 +1,30 @@
+{
+  "last_previous_boot_journal_entry_utc": "2026-11-04T10:53:02Z",
+  "export_started_utc": "2026-11-04T09:39:01Z",
+  "top_level_parallel_profile_analyses": 8,
+  "separate_cpu_or_memory_cgroup_limit_in_that_export": false,
+  "first_logged_global_oom_utc": "2026-11-04T10:33:51Z",
+  "first_snapshot": {
+    "anon_memory_GiB": 29.380001068115234,
+    "free_memory_MiB": 193.9609375,
+    "swap_total_GiB": 7.999996185302734,
+    "swap_free_KiB": 96,
+    "same_uid_python_processes": 46,
+    "same_uid_python_rss_arithmetic_sum_GiB": 36.93230438232422,
+    "rss_sum_warning": "Shared/forked pages counted repeatedly; this is not physical or peak memory; not every same-UID process can be assigned to the exporter from this snapshot"
+  },
+  "unique_python_oom_victims": 6,
+  "python_oom_victim_anon_rss_GiB_range": [
+    4.512351989746094,
+    6.155265808105469
+  ],
+  "other_confirmed_victims": [
+    "dbus-daemon",
+    "catatonit"
+  ],
+  "network_daemon_invoked_oom_killer_utc": "2026-11-04T10:41:49Z",
+  "evidence": "Multiple global_oom records; Python victims share the same rootless container cgroup; 8 top-level profiler analyses started together; 8 GiB swap exhausted.",
+  "inference": "Unbounded parallel CPU export and its child tasks most likely exhausted host RAM/swap, causing severe memory pressure and loss of responsiveness.",
+  "causal_limits": "First SSH/network failure was observed before the first recorded OOM. No continuous RSS/PSI/network samples bridge that interval; exact onset, aggregate exporter PSS peak and initial network failure mechanism cannot be proved. Journal alone does not establish a driver fault, kernel panic, or an automatic reboot.",
+  "rule": "Large offline parsing stays on the local workstation with global memory limits and serial or <=2 parsing workers; experiment host collects and transfers only."
+}

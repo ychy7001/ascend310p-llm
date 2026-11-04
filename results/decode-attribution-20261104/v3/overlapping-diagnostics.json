@@ -1,0 +1,44 @@
+{
+  "raw_reduce_outside_compute_ms_per_step": [
+    {
+      "rank": 0,
+      "decode_time_fraction": 0.0034306430055217178,
+      "observed_case_time_weight": 1.0,
+      "wall_fraction": 0.0023357656297170546
+    },
+    {
+      "rank": 1,
+      "decode_time_fraction": 0.002791504996335002,
+      "observed_case_time_weight": 1.0,
+      "wall_fraction": 0.0019006062172974918
+    }
+  ],
+  "uncovered_by_all_active_hardware_ms_per_step": [
+    {
+      "rank": 0,
+      "decode_time_fraction": 0.05410352923430019,
+      "observed_case_time_weight": 1.0,
+      "wall_fraction": 0.03683658247986428
+    },
+    {
+      "rank": 1,
+      "decode_time_fraction": 0.04265608268765737,
+      "observed_case_time_weight": 1.0,
+      "wall_fraction": 0.029042547324170432
+    }
+  ],
+  "worker_cpu_ops_in_named_kernel_gap_ms_per_step": [
+    {
+      "rank": 0,
+      "decode_time_fraction": 0.012126558294753169,
+      "observed_case_time_weight": 0.8651276592448718,
+      "wall_fraction": 0.00825641083203794
+    },
+    {
+      "rank": 1,
+      "decode_time_fraction": 0.005136706546827003,
+      "observed_case_time_weight": 0.8651276592448718,
+      "wall_fraction": 0.0034973451282193277
+    }
+  ]
+}

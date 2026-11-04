@@ -12,6 +12,17 @@ from pathlib import Path
 from analyze_decode_profile import load_kernels, stable_window
 
 
+def validate_weight_shape(shape,logical_weight):
+    """Check actual CANN NZ weight against the independently observed module."""
+    if shape in ('N/A','',None) or not logical_weight:return False
+    part=shape.strip().strip(chr(34)).split(';')[-1].strip().strip(chr(34))
+    weight=[int(v) for v in part.split(',')]
+    if len(weight)!=4 or weight[-2:]!=[16,16]:raise ValueError('Expected actual NZ weight shape')
+    observed=[weight[1]*16,weight[0]*16]
+    if observed!=logical_weight:raise ValueError('Kernel weight/module shape mismatch: %r != %r'%(observed,logical_weight))
+    return True
+
+
 def attribute(rows, ledger, lo, hi, expected_steps):
     heads=[r['start'] for r in rows if r['category']=='lm_head_fp16']
     by_step=defaultdict(list)
@@ -27,11 +38,12 @@ def attribute(rows, ledger, lo, hi, expected_steps):
     totals=Counter();nodes=[]
     for ordinal,module in enumerate(ledger):
         values=[v[ordinal] for v in by_step.values()]
+        shape_checks=[validate_weight_shape(v['shapes'],module.get('weight',{}).get('shape')) for v in values]
         measured=sum(v['duration'] for v in values)/expected_steps/1000
         totals[module['group']]+=measured
         nodes.append({**module,'kernel_name':values[0]['name'],'measured_ms_per_step':measured,
                       'device_identifiers':sorted({(v.get('hardware_model',v['model']),v.get('hardware_stream',v['stream']),v.get('hardware_task',v['task'])) for v in values}),
-                      'kernel_shape_samples':sorted({v['shapes'] for v in values}),
+                      'kernel_shape_samples':sorted({v['shapes'] for v in values}),'native_weight_shape_validated_calls':sum(shape_checks),
                       'kernel_join_evidence':'inferred ordinal join; exact node count and stable kernel-name sequence across all selected steps'})
     return {'steps':expected_steps,'matched_fp16_calls_per_step':len(ledger),
             'join_method':'Runtime module/FX descriptors from separate B3 mapping forwards; ordered join to stable kernel sequence. No direct ACLGraph module correlation.',
