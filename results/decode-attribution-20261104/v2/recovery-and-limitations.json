@@ -7,10 +7,11 @@
     "source": "independent SSH check after controller finally restoration, before offline export"
   },
   "latest_confirmation_attempt": {
-    "attempt_utc": "2026-11-04T10:12:14.068636+00:00",
+    "attempt_utc": "2026-11-04T10:22:33.262207+00:00",
     "ssh_returncode": 255,
     "independent_health_status": null,
-    "connected": false
+    "connected": false,
+    "scope": "read-only HTTP health check via SSH"
   },
   "failure": "SSH and Tailscale ping became unreachable during CPU offline export; temporal association only, cause not established",
   "current_primary_service_status": "unknown after connectivity loss",
@@ -36,5 +37,17 @@
       "attempt": 4,
       "issue": "four Level1 lean windows completed; finally restored200 and independent confirmation succeeded; subsequent offline-export SSH connection lost"
     }
-  ]
+  ],
+  "offline_export_at_loss": {
+    "concurrent_parse_processes_observed": 8,
+    "evidence": "eight profiler Start parsing messages at 09:39:01 UTC",
+    "model_inference": false,
+    "resource_limits_applied_to_that_run": false,
+    "prepared_followup_not_run_on_target": {
+      "max_process_number": 1,
+      "cpus": 4,
+      "memory_gib": 8,
+      "timeout_seconds": 1800
+    }
+  }
 }
