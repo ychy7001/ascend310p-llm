@@ -22,3 +22,9 @@
 - CPU 预处理首轮缺驱动库触发 torch_npu 自动加载失败；仅CPU容器关闭设备后端自动加载。第二轮因 transformers 返回字典结构使长度断言失败；显式 return_dict=False 后，4095 fixture 与既有冻结 SHA 完全一致。均未停服、未跑NPU，失败记录保留。
 
 输入已冻结：35条，SHA256 `e8fa2ed60bb717b2cad731988a0f85ba9dd07f39f0e614b2fb2e9b333b9e8c13`；规则 SHA256 `46c5b163d0d995bcdcb340a8f8390c49ddb6038bf247d0bafa8059e5bd9a9301`。B 尚未启动。
+
+## 已授权的观测退路
+
+P G2已完成：GSM63/64（1题512-token截断），字段C1/C3均13/13，短题前后8/8。
+A启动健康，但33024-token、prompt_logprobs=20的可用性探测额外申请3.55GiB时NPU仅空闲1.79GiB，OOM导致引擎退出。未获得A参考序列，B未启动。控制器finally恢复原服务，独立连接已确认18081/health=200。
+按用户明确授权的logprob退路，冻结为生成logprob观测：不重发teacher-forcing、不改引擎、batch或内存参数；复用已完成P结果，以新进程重跑A/A′/B，具体阈值仍须在B前冻结。原探测失败记录和恢复证据保留。这是已授权的替代观测，遇到其他计划外问题仍停止。

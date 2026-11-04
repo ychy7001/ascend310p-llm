@@ -47,8 +47,10 @@ def generated_positions(choice):
 
 
 class Gate:
+    output_name='wy921-model-gate-v2'
+
     def __init__(self,args):
-        self.root=args.root.resolve();self.out=self.root/'wy921-model-gate-v2'
+        self.root=args.root.resolve();self.out=self.root/self.output_name
         self.tools=args.tools.resolve();self.fixtures=args.fixtures.resolve()
         self.dataset=args.dataset.resolve();self.container=None;self.paused=False
         self.steps=[];self.started=time.monotonic();self.mode=None;self.error=None
@@ -256,6 +258,40 @@ class Gate:
                  '--prompts',str(prompts),'--out',str(self.out/(label+'-replay.json'))])
         replay=read(self.out/(label+'-replay.json'));assert len(replay['calls'])==26 and replay['cold_cache_verified']
 
+    def model_sequence(self,p):
+        self.launch('A','A')
+        if self.mode is None:self.probe()
+        a=self.g1('A');ga=self.g2('A');self.stop('A')
+        self.launch('A_prime','A');ap=self.g1('A_prime',a);self.stop('A_prime')
+        noise=compare(a,ap);write(self.out/'A_prime-vs-A.json',noise)
+        thresholds={'rule_sha256':sha(self.out/'threshold-rule.json'),
+                    'A_reference_sha256':sha(self.out/'A-G1.json'),
+                    'noise_sha256':sha(self.out/'A_prime-vs-A.json'),
+                    'thresholds':{key:1.5*value for key,value in noise['metrics'].items()},
+                    'frozen_at_unix_ns':time.time_ns(),'B_started':False}
+        write(self.out/'concrete-thresholds.json',thresholds)
+        threshold_sha=sha(self.out/'concrete-thresholds.json')
+        self.state('thresholds_frozen_before_B',concrete_thresholds_sha256=threshold_sha)
+        print(json.dumps({'thresholds_frozen_before_B':threshold_sha,'noise':noise['metrics']}),flush=True)
+        self.launch('B','B');b=self.g1('B',a);gb=self.g2('B');self.stop('B')
+        paired=compare(a,b);write(self.out/'B-vs-A.json',paired)
+        numerical=adjudicate(noise,paired,self.rule)
+        numerical['concrete_thresholds_sha256']=threshold_sha
+        assert {key:row['threshold'] for key,row in numerical['checks'].items()}==thresholds['thresholds']
+        write(self.out/'G1-adjudication.json',numerical)
+        tasks={'counts':{'P':p,'A':ga,'B':gb},'checks':{}}
+        for key in p:
+            tasks['checks'][key]={'B_vs_A_difference':abs(gb[key]-ga[key]),
+                                 'B_vs_P_difference':abs(gb[key]-p[key]),
+                                 'passed':abs(gb[key]-ga[key])<=1 and abs(gb[key]-p[key])<=1}
+        tasks['passed']=all(row['passed'] for row in tasks['checks'].values())
+        write(self.out/'G2-adjudication.json',tasks)
+        if numerical['passed'] and tasks['passed']:
+            for label,arm in [('perf-P','P'),('perf-A1','A'),('perf-B','B'),('perf-A2','A')]:
+                self.launch(label,arm);self.performance(label);self.stop(label)
+            self.state('gates_passed_performance_complete')
+        else:self.state('gate_rejected_performance_not_run',G1_passed=numerical['passed'],G2_passed=tasks['passed'])
+
     def execute(self):
         try:
             assert self.health('http://127.0.0.1:18081')
@@ -269,57 +305,31 @@ class Gate:
             (self.out/'idle-before.txt').write_text(idle)
             assert 'No running processes found' in idle
             self.launch('P','P');p=self.g2('P');self.stop('P')
-            self.launch('A','A');self.probe();a=self.g1('A');ga=self.g2('A');self.stop('A')
-            self.launch('A_prime','A');ap=self.g1('A_prime',a);self.stop('A_prime')
-            noise=compare(a,ap);write(self.out/'A_prime-vs-A.json',noise)
-            thresholds={'rule_sha256':sha(self.out/'threshold-rule.json'),
-                        'A_reference_sha256':sha(self.out/'A-G1.json'),
-                        'noise_sha256':sha(self.out/'A_prime-vs-A.json'),
-                        'thresholds':{key:1.5*value for key,value in noise['metrics'].items()},
-                        'frozen_at_unix_ns':time.time_ns(),'B_started':False}
-            write(self.out/'concrete-thresholds.json',thresholds)
-            threshold_sha=sha(self.out/'concrete-thresholds.json')
-            self.state('thresholds_frozen_before_B',concrete_thresholds_sha256=threshold_sha)
-            print(json.dumps({'thresholds_frozen_before_B':threshold_sha,'noise':noise['metrics']}),flush=True)
-            self.launch('B','B');b=self.g1('B',a);gb=self.g2('B');self.stop('B')
-            paired=compare(a,b);write(self.out/'B-vs-A.json',paired)
-            numerical=adjudicate(noise,paired,self.rule)
-            numerical['concrete_thresholds_sha256']=threshold_sha
-            assert {key:row['threshold'] for key,row in numerical['checks'].items()}==thresholds['thresholds']
-            write(self.out/'G1-adjudication.json',numerical)
-            tasks={'counts':{'P':p,'A':ga,'B':gb},'checks':{}}
-            for key in p:
-                tasks['checks'][key]={'B_vs_A_difference':abs(gb[key]-ga[key]),
-                                     'B_vs_P_difference':abs(gb[key]-p[key]),
-                                     'passed':abs(gb[key]-ga[key])<=1 and abs(gb[key]-p[key])<=1}
-            tasks['passed']=all(row['passed'] for row in tasks['checks'].values())
-            write(self.out/'G2-adjudication.json',tasks)
-            if numerical['passed'] and tasks['passed']:
-                for label,arm in [('perf-P','P'),('perf-A1','A'),('perf-B','B'),('perf-A2','A')]:
-                    self.launch(label,arm);self.performance(label);self.stop(label)
-                self.state('gates_passed_performance_complete')
-            else:self.state('gate_rejected_performance_not_run',G1_passed=numerical['passed'],G2_passed=tasks['passed'])
+            self.model_sequence(p)
         except Exception as error:
             self.error=repr(error);self.state('failed',error=self.error)
         finally:
-            try:
-                if self.container:self.stop('emergency')
-            finally:
-                if self.paused:
-                    self.state('restoring_original_service',primary_error=self.error)
-                    with (self.out/'restore-service.log').open('x') as log:
-                        subprocess.run(['sudo','-n','systemctl','reset-failed',SERVICE],stdout=log,stderr=subprocess.STDOUT)
-                        result=subprocess.run(['sudo','-n','systemctl','start',SERVICE],stdout=log,stderr=subprocess.STDOUT)
-                    self.wait_health('http://127.0.0.1:18081')
-                    restored={'start_returncode':result.returncode,'health_200':self.health('http://127.0.0.1:18081'),
-                              'active_state':subprocess.check_output(['systemctl','is-active',SERVICE],text=True).strip()}
-                    write(self.out/'service-restoration.json',restored)
-                    assert result.returncode==0 and restored['health_200'] and restored['active_state']=='active'
-                g1=self.out/'G1-adjudication.json';g2=self.out/'G2-adjudication.json'
-                self.state('failed' if self.error else 'complete',error=self.error,
-                           G1_passed=read(g1)['passed'] if g1.exists() else None,
-                           G2_passed=read(g2)['passed'] if g2.exists() else None,
-                           performance_complete=(self.out/'perf-A2-replay.json').exists())
+            self.finish()
+
+    def finish(self):
+        try:
+            if self.container:self.stop('emergency')
+        finally:
+            if self.paused:
+                self.state('restoring_original_service',primary_error=self.error)
+                with (self.out/'restore-service.log').open('x') as log:
+                    subprocess.run(['sudo','-n','systemctl','reset-failed',SERVICE],stdout=log,stderr=subprocess.STDOUT)
+                    result=subprocess.run(['sudo','-n','systemctl','start',SERVICE],stdout=log,stderr=subprocess.STDOUT)
+                self.wait_health('http://127.0.0.1:18081')
+                restored={'start_returncode':result.returncode,'health_200':self.health('http://127.0.0.1:18081'),
+                          'active_state':subprocess.check_output(['systemctl','is-active',SERVICE],text=True).strip()}
+                write(self.out/'service-restoration.json',restored)
+                assert result.returncode==0 and restored['health_200'] and restored['active_state']=='active'
+            g1=self.out/'G1-adjudication.json';g2=self.out/'G2-adjudication.json'
+            self.state('failed' if self.error else 'complete',error=self.error,
+                       G1_passed=read(g1)['passed'] if g1.exists() else None,
+                       G2_passed=read(g2)['passed'] if g2.exists() else None,
+                       performance_complete=(self.out/'perf-A2-replay.json').exists())
 
 
 def interrupted(signum,frame):raise RuntimeError('Interrupted signal '+str(signum))
