@@ -74,20 +74,9 @@ C1/C3/C4聚合输出中位28.97 / 48.86 / 63.04 tok/s，分别3/3、9/9、12/12�
 
 首次启动在加载模型及Graph捕获之前发生CPU FP16 zeros/fill段错误，未发推理请求；完整失败制品保存results/production-graph14-20261103/。同配置重试未复现该崩溃并完成筛选，数据保存results/production-graph14-retry-20261103/。目前不能归因为Graph事件资源不足，也不能由一次重试证明长期稳定。实验服务均已停止，NPU无运行进程。
 
-## 算子证据与后续方向
+## 算子结论
 
-W8 Decode主要关注MoE grouped matmul（约23%累计kernel耗时）、FP16 MatMul（主要变体约20%，lm_head另约9%）和PA mask（约12.5%）；recurrent GDN约2%，状态已FP16。Prefill有大量与WY Torch分解相符的Tril/Slice/Copy/ReduceSum。通用kernel不能全部归为GDN；Graph内MatMul shape缺失、HCCL完整任务和关键路径仍需进一步归因。
-
-## 质量与采集问题的保留记录
-
-事实门禁最初14/16，两个失败都是任务多了“负责”前缀，其他字段匹配；保留原始输出和失败状态，只允许去除一个该前缀后重算16/16，负责人/日期/任务/预算/待确认状态仍严格，新增3项回归。该误报曾触发实验服务停止，恢复时仅补跑未完成的回放/GSM/Profile，没有重跑已有效普通性能。
-
-20条纪要对照仍发现基线风险，包括把行动安排扩写“已完成”、行动表漏提取已有职责/时间，见business-semantic-review.json。这是辅助审阅而非独立人工验收；本配置MTP0，不能把这些风险归因于MTP。
-
-torch-npu daemon拒绝在线解析Profile；无设备离线导出又被msprof驱动初始化拒绝。原始采集均保留，补齐驱动/设备元数据访问后，同镜像离线analyse导出4份CSV成功。没有因此重跑普通基准，也没有把导出失败当作模型推理失败。
-
-W4预算分支已完成基线、GSM64（64/64）及三份C16 Profile，其数值和算子排名不转用为W8结论。W4后续Prefix候选在设备初始化阶段退出139，未到health或缓存推理；制品见results/prefix-c16-20261103/，不能判定缓存不支持，扩展矩阵已取消。
-
+Prefill的WY Torch分解值得替换，Decode优先关注MoE、FP16投影/输出头和PA mask。采集边界、双rank占比、WY kernel变化及GDN/Dense数值诊断统一见[Profiling](ascend310p-profiling.md)。
 
 ## WY 单变量实验（2026-11-03，未验收）
 
@@ -106,63 +95,19 @@ W4预算分支已完成基线、GSM64（64/64）及三份C16 Profile，其数值
 
 候选 GSM64 为63/64、1条截断/缺最终标记，汇总与原基线相同；事实16/16和自动业务28/28通过。**候选尚未验收：会议4出现严重负责人错配**。源文按“分别为”指定周明负责当天客户回复、刘洋负责周三后端修复、何丽负责测试用例；候选表格轮换为周明修复、刘洋测试、何丽回复，并遗漏明确期限。原始基线该条映射正确，但随后原配置 A′ 在相同三并发整套测试中也出现同样的轮换错配；两配置重启后串行各6次均映射正确。因此不能把首次错误归为候选引入的回归，仍需检查并发序列及原路径风险。自动28条仅检查完成/工具/schema，未覆盖这个语义错误；控制器的 promising 状态不能替代语义验收。原始输出、辅助审阅和后续配对复测均保留，尚不能凭单次生成认定根因。
 
-另发现原 Torch WY 路径在111-token synthetic输入上的偶发偏差，初测12轮原路径7/12在固定门限内、候选12/12且逐位稳定；独占复核原路径3/12、候选12/12，偏差仍集中在token56且最终状态逐位稳定，尚未定位WY/FwdH/FwdO边界。已在同一份失败输入上对照生产 CPU chunk 与独立逐 token 递推，输出最大绝对差3.59e−6、状态5.22e−8，支持参考的一致性，未定位 NPU 偏差根因。候选始终执行独立参考严格门限，未为追随原路径异常放宽标准。
+A′相对最初A的四档Prefill为−0.88%/+0.15%/+0.34%/+0.36%，Decode均约±0.25%；B相对A′仍+39.65%/+53.79%/+45.56%/+39.03%。A′回放508.42s，与A的508.40s接近，支持收益未由时间漂移解释。候选三并发整套业务3轮，会议4映射1轮错/2轮对、仍漏期限；WY提速未解决完整链数值异常，保持未验收。
 
-四档 A′ Prefill相对最初 A 为−0.88%/+0.15%/+0.34%/+0.36%，Decode变化均在约±0.25%内；候选相对A′ Prefill仍+39.65%/+53.79%/+45.56%/+39.03%，支持收益未由跨时段漂移解释。A′长回放508.42s，与A的508.40s一致，B为492.81s。候选三并发整套业务3轮与独立双rank Profile均完成。会议4映射1轮错/2轮对，仍有期限漏提取。数值拆分证明WY与FwdH接口逐位稳定时，FwdO原始输出仍会偏离；候选冻结WY重放也有超限，不能称WY修复了数值问题。4K trace原生ComputeWy实际执行，kernel38072→8492，Decode仍380000。下一步独立验证FwdO vector-mask假设，尚未接受部署。详见 results/production-native-wy-20261103/README.md。
+两个最小FwdO补丁、新O/旧H混合组合、关闭executor cache均未通过，原算法重编译对照未支持“仅构建框架不兼容”的解释。详细数值及复现见[Profiling](ascend310p-profiling.md)，上游契约见[研究](research/gdn-upstream-pr-evaluation.md)。
 
+## Dense旧栈兼容与容量
 
-### FwdO 最小补丁排除与 Dense 准备（本轮续）
-
-原始算子链中，WY/FwdH/FwdO 输入逐位稳定时仍可出现 raw FwdO 输出误差；这只能定位接口范围，尚未证明根因。原始 FwdO 单独固定输入重复调用可以通过，因此不能用该单项通过代替完整链门禁。
-
-两个独立 API 的最小补丁均失败：向量 mask 改写、保留原算法仅加 V/S fence，各在 48 次固定输入验证中为 0/48，而配对原始算子为 48/48。没有启动补丁模型，没有修改生产 OPP；补丁不具备合入资格。构建框架差异仍需通过“不改算法、仅独立重编译”对照排除。对照准备过程的符号链接、安装目录权限及历史日志/容器名称冲突均保留失败记录；准备失败不计为数值结果。
-
-核对镜像真实旧路径 csrc/moe/chunk_fwd_o、chunk_gated_delta_rule_fwd_h 和 common，59 个文件与生产提交 Git blob 一致。此前误查带 _vllm 后缀路径造成“源码缺失”的判断已撤销。
-
-Qwen3.8-27B Dense 采用用户提供的 Eco-Tech/Qwen3.8-27B-w8a8-310p：26 文件、36,447,005,796 字节、9 个权重分片；逐文件固定 revision/SHA256、safetensors header/index 校验通过。完成下载不代表模型启动或推理通过。
-
-
-### 原始重编译对照已完成；Dense 首次启动失败
-
-原始 FwdO 算法独立重编译完成：固定输入 production/rebuild 各 48/48 在门限内且逐位稳定；原始完整链仍有 18/24 次越界（Torch WY 调用历史），本轮 frozen-WY-clone 为 0/24。故两补丁的 0/48 不可简单归咎于构建框架，而完整链异常尚未解决。证据 `results/fwd-o-rebuild-control-20261103/`。
-
-Dense 完整生产配置启动已实际尝试：两个 rank 权重加载成功，各 19.2416 GB，随后首次 profiling/warmup 报 507015，设备日志指向 `QuantBatchMatmulV3_NZ_NZ_int8_int8_fp16_high_performance_21`。没有请求、性能或质量结果，不能记为 Dense 基线完成。第一次同步诊断因 ACL Graph 不允许 ASCEND_LAUNCH_BLOCKING=1 而被参数校验拒绝；改 eager/Graph NONE 后，设备异常仍复现，Python 同步栈定位 MLP down_proj 的 310P W8A8_DYNAMIC Linear。待合成矩阵形状/布局诊断，未证明具体根因。
-
-上游反馈草稿 `docs/upstream/310p-chunk-gdn-repeatability.md` 已整理，不依赖权重的最小脚本可复现原路径；尚未发布，也没有宣称修复。
-
-
-Dense 合成量化矩阵隔离8项已完成：M=1/4096、两种MLP形状下，生产权重布局4项通过CPU采样整数积检查；另一种NZ布局2项数值错误，ND布局2项API拒绝。随机合成矩阵尚未复现真实模型 down_proj 的507015，因此不改生产布局；排队捕获实际输入。证据 `results/dense-quant-isolation-20261103/`。
-
-
-### 现有上游 FwdO 单独复用门禁
-
-GruntovDima PR17640 固定 head18163f6b，算法不改、仅提取独立 FwdO 绑定，生产镜像构建成功。保留生产 FwdH 的组合，固定输入上游 FwdO 0/48 在容差内（48/48逐位稳定），配对生产48/48通过；maxabs约0.004327、relative RMSE约0.195875，异常token0～6、64～70。严格门禁停止，未运行模型、未测性能，该项只测试混合组合。不能外推为上游完整PR错误。证据 results/upstream-fwd-o-20261103/。
-
-
-### Dense 实际输入捕获与缓存对照
-
-同步 eager 捕获仍复现启动异常，首次 down_proj 为M4096/K8704/N5120：INT8激活ND、INT8权重NZ转置view、F32通道/逐token scale；激活及逐token scale全零且有限。真实数据独立重放6项全部通过CPU采样整数积检查（maxabs0），含4096行原/ND/NZ激活布局和1/4/64行子集。零scale不是已证实根因；独立重建改变分配、描述和调用历史。首次重放在weights_only序列化Format枚举处失败，未运行算子；v2显式allowlist安装库Format类后验证通过，原记录均保留。
-
-GDN执行器缓存容量对照：默认21/48、ACLNN_CACHE_LIMIT=0为25/48在容差内；完整Torch-WY链两边均12/24越界。未消除原异常，不能算修复。控制器清理时恢复a2临时unit触发systemd启动频率限制，原status保留failed；reset-failed后交接Dense独立缓存启动screen，最后统一恢复。
-
-Dense问题草稿见docs/upstream/310p-dense-w8a8-startup.md；无模型权重的GDN复现包results/upstream-gdn-repro-20261103.tar.gz及SHA清单已生成，均未发布。
-
-
-### 本轮最终状态
-
-Dense在原Graph配置下仅设ACLNN_CACHE_LIMIT=0，仍启动失败507015，故障kernel仍为QuantBatchMatmulV3_NZ_NZ_int8_int8_fp16_high_performance_21；没有HTTP请求或性能数据。记录results/qwen38-dense-no-executor-cache-screen-20261103/。至此，生产布局随机矩阵4项通过、真实输入独立重放6项通过，但模型启动故障未定位，不能提交猜测性数值修复。
+Eco-Tech/Qwen3.8-27B-w8a8-310p共26文件、36,447,005,796字节、9权重分片，固定revision/SHA256及safetensors header/index通过。生产栈两rank各加载19.2416GB后报507015；同步eager和关闭executor cache均未解决，未获得请求性能基线。
 
 ## 2026-11-04：Dense 权重存储与双设备交叉诊断
 
-生产固定镜像下，模型内仅将down_proj权重重新分配并按原始物理[N,K] ND→NZ→transpose恢复，CPU逐元素严格相等检查通过。两个rank仍各加载19.2416GB；rank0首调用完成，rank1首调用仍507015、故障kernel/hash不变。无健康端点、无HTTP质量/性能结果，候选排除。完整实际worker与日志见results/qwen38-dense-quant-repack-20261104/。
+原权重存储重建、设备交叉及allocator对照未得到可靠修复；真实输入和合成权重均可独立进程复现间歇507015，见[诊断证据](ascend310p-profiling.md)。
 
-核对发现此前实际输入6/6重放仅覆盖rank0/device0。补充两个TP捕获分片×两个物理设备交叉，4096行/原始布局，四项均PASS，96元素CPU采样最大误差0且全输出finite。输入与pertoken_scale全零，不能作为一般非零精度结论。单独分片或设备不足以复现，完整调用历史/分配状态仍待定位。记录results/dense-quant-rank-device-grid-20261104/。
-
-另审计两套已有post4镜像，只读元数据归档results/dense-runtime-audit-20261104/。CANN安装文件均自报9.1.0/内部V100R001C11SPC001B243，历史9.1.1标签不能替代本次读数。选较接近的vLLM0.23镜像作完整运行栈兼容性筛选，不改生产镜像或驱动；不能归因为单独torch-npu升级。首次入口脚本差异导致读取/model失败，尚未加载权重，单独保留；显式入口重试另记。
-
-### 真实输入独立进程间歇507015已复现
-
-显式expandable=True四格3PASS/1FAIL（rank1/device0，原kernel/hash）。继而rank1/device0 False/True交替5次：False4PASS/1FAIL507015；True3PASS/1FAIL507015，最后1项初始化HDC等待128.88s后停止，未到算子，单独记为未完成。原status=failed保留。关闭expandable不能作为修复，早期独立重放通过不代表该故障只能在模型内出现。记录results/dense-quant-expandable-grid-20261104、dense-quant-allocator-paired-20261104。
+post4完整镜像实读CANN9.1.0/内部V100R001C11SPC001B243、torch-npu2.10.0.post4，vLLM仍0fc695fc，Ascend为1cdb8c4d；dynamic W8 Python源码与生产逐字节相同。该对照改变多个运行栈组件。
 
 post4 v3已通过profile_run，随后KV准入失败（8.09GiB需求/7.66GiB可用）；与生产dynamic W8 Python代码逐字节相同，但CANN/torch-npu及Ascend提交均不同，不能定位到单独组件，也不能凭一次通过宣称间歇错误已修复。vLLM提交仍0fc695fc，Ascend为1cdb8c4d。当前保持262144上下文，在同镜像上以利用率0.94单独检查容量，不通过缩短上下文制造可运行结论。
 
@@ -175,9 +120,7 @@ post4 v3已通过profile_run，随后KV准入失败（8.09GiB需求/7.66GiB可�
 
 ## 完整上游 H/O 组合通过算子门禁（2026-11-04）
 
-固定PR17640 head18163f6b，在生产post2镜像构建成对FwdH/FwdO及保留NZ初始状态逻辑的原始binding，独立namespace/vendor。与此前新O/旧H混合组合分开记录。两张卡、Torch/原生WY四组完整链各24次加冻结克隆24次，共192/192在误差门限内，raw输出逐位稳定，最大绝对误差6.3153e-6。两个新进程各10/10严格门禁（每组6项完整GDN输出/最终状态，3项WY布局，1项CPU回退）通过，多形状输出最大误差8.2599e-6，状态最大8.8640e-5；Torch WY+成对H/O也通过CPU参考。原始probe和严格门禁有不同检查范围，不能把192次都说成重新运行WY或逐次state验证。
-
-这是对既有上游实现的生产栈验证，不是新原创kernel；完整组合尚未完成模型/业务/Logits等价与性能验收。模型判定见下一节。首次准备失败和成功重试分别见results/upstream-gdn-pair-v{1,2}-20261104；贡献范围审计见results/upstream-gdn-pr-audit-20261104。
+PR17640配套H/O通过生产post2完整链及独立CPU门禁；检查范围和误差见[Profiling](ascend310p-profiling.md)。
 
 ## 2026-11-04：完整H/O候选本轮最终判定
 
