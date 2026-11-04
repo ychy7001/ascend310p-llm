@@ -2,7 +2,7 @@
 """Run preserved Chinese minutes, Responses tools, and five JSON-schema cases."""
 import argparse,concurrent.futures,json,pathlib,time,urllib.request
 import jsonschema
-p=argparse.ArgumentParser();p.add_argument('--url',default='http://127.0.0.1:18031');p.add_argument('--urls',nargs='+');p.add_argument('--model',default='Qwen3.6-35B-A3B-w8a8');p.add_argument('--out',type=pathlib.Path,required=True);p.add_argument('--fixtures-dir',type=pathlib.Path,required=True);a=p.parse_args();root=a.fixtures_dir
+p=argparse.ArgumentParser();p.add_argument('--url',help='Endpoint URL; provide --url or --urls explicitly');p.add_argument('--urls',nargs='+');p.add_argument('--model',default='Qwen3.6-35B-A3B-w8a8');p.add_argument('--out',type=pathlib.Path,required=True);p.add_argument('--fixtures-dir',type=pathlib.Path,required=True);a=p.parse_args();root=a.fixtures_dir
 if a.out.exists():raise SystemExit('Refusing to append to existing quality output')
 a.out.parent.mkdir(parents=True,exist_ok=True)
 def send(path,payload,url):
