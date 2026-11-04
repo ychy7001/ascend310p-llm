@@ -147,28 +147,6 @@ PR17640配套H/O通过生产post2完整链及独立CPU门禁；检查范围和�
 
 结构化字段在已测输入通过，原自由文本的完成状态、期限和行动项结构仍有问题，整体保持`not_accepted_business_semantics`。冻结输入、双方分母、逐会议差异及覆盖边界统一见[配对验证](research/action-state-paired-validation.md)。
 
-## 2026-11-04：27B新版16K实测及排序/标点诊断
+## 27B与GPU行为对照摘要
 
-27B W8A8 TP2在固定9.2.1+PR17640配套H/O+原Torch WY下实际健康启动，maxlen16384，Graph[1,2]、MTP0、prefix on。两rank日志各19.2416GB权重，实际映射paired API；本轮未复现旧507015，但不宣称所有形状/长上下文均修复。
-
-首轮短题7/8，排序期望2,7,9而输出279，和旧post4同题输出相同。ABA一致、无canary泄漏。按预定门禁停止事实/业务/性能；20条语义准则提前冻结但未执行，不能报告27B会议质量或与35B的业务排名。
-
-首轮原服务独立HTTP200后再启动窄范围第二轮，保持同配置。6类×3重复：原排序3/3输出279，raw token IDs=[17,22,24,248046]，未生成逗号11；数字逗号复制、字母逗号复制、分号、数组复制和JSON schema排序五类15/15通过。原排序首个样本生成2后，下个token7的logprob约-0.257、逗号约-1.491，greedy选7。CPU tokenizer亦可完整往返2,7,9。该例定位到提示词相关的生成选择，不是已观察到的API解析删逗号；仍不能区分基础模型与量化影响。JSON schema改变约束，其通过不能覆盖原题失败。
-
-两次均not_accepted_short_format_gate，未执行正式性能或业务比较。证据位于results/cann921-upgrade-20261104/dense-quality-pair921-16k-v1及dense-quality-format-pair921-16k-v1。新增短上下文容量选项、双worker库验证、独立诊断模式与原始token/logprobs留存。下一步保留失败，围绕同模型参考/精度与原始提示词对照定位，不为标点错误盲改GDN算子，也不扩大八种profile的可用声明。
-
-
-### 窄范围35B对照与下一步
-
-原服务恢复HTTP200后，a2原35B W8A8部署完成同样6类×3次请求，18/18符合预期；27B为15/18，差异仅原排序的3次重复（35B3/3、27B0/3）。请求除model字段外严格一致；完整18组配对见dense-quality-format-pair921-16k-v1/a3b-narrow-comparison.json。运行栈、模型/权重、上下文配置不同，不能将其称为单独模型能力或量化因果对照，亦不是会议业务评测。
-
-原短题门禁保持7/8未通过；本轮没有绕过门禁跑业务/性能。下一阶段将格式遵循反例与算子数值验收分开，允许另立明确“不予验收”的业务诊断轮收集27B原会议/结构化结果，不能用诊断完成替代质量门禁通过。已有token证据不支持为此反例继续盲换CANN或改GDN；若要归因基础模型与量化，仍需同模型参考。正式性能和可部署profile均等待验收。
-
-收尾：原服务active、18081/health=HTTP200，无运行rootless实验容器；驱动仍26.1.1，a1与宿主安装未变。两轮冻结工具SHA校验、第二轮源码与本地一致、两脚本编译和diff/新增源空白检查通过。上游未发布。
-
-
-### 2026-11-04：本机GPU可复用参考已找到
-
-本机GPU_HOST有3090 24GiB（可用约0.83GiB）和3080本机报告20GiB（可用约6.98GiB），均已有服务，采样瞬时0%不代表显存空闲。3090现有18020为Qwen3.8-27B-W4A16-AutoRound-fast，FP8 KV+MTP3，健康200。未停服务或另起模型，复用其完成同18条窄诊断：GPU18/18、310P15/18，原排序GPU3/3为2,7,9、NPU3/3为279。请求除model字段完全相同。
-
-GPU/NPU tokenizer和模板文件SHA不同，但原排序实际chat输入37个token ID逐项相同（GPU/tokenize与NPU原制品无设备离线AutoTokenizer核对）。该例进一步定位至生成侧部署差异，不能据此将279归为27B固有能力不足或API解析问题；量化、KV、MTP、运行栈和底模revision仍为混杂因素。GPU不是高精度参考，W4通过不证明优于W8。下一步可先用现有端点补业务语义诊断，不为对照打断本机服务；严格归因另需统一条件。结果results/local-gpu-reference-20261104/。
+27B在post4完整上下文与9.2.1配套H/O的16K配置均因短题格式门禁失败，保持`not_accepted_short_format_gate`，无正式性能基线。排序token/logprob、GPU27B/GPU35B业务结果、short-4与证据协议复核、模型归因边界及部署候选统一见[模型质量研究](research/model-quality-and-deployment-profiles.md)。现有证据不支持将35B业务错误视为310P独有，也不足以按自动检查选择27B替代35B。
