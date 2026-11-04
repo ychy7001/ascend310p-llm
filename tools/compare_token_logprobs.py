@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""比较固定 token 条件下的生成/teacher-forcing 记录；仅报折叠 top-k KL。"""
+"""比较固定 token 条件下的生成/teacher-forcing 记录；仅报共同 top-k 条件分布 KL。"""
 import argparse
 import hashlib
 import json
@@ -17,20 +17,20 @@ def first_divergence(left, right):
                  if i >= len(left) or i >= len(right) or left[i] != right[i]), None)
 
 
-def folded_kl(left, right):
-    """共同显式 token + 单个 OTHER 桶的 KL；同分区，是完整 KL 的下界。"""
+def conditional_topk_kl(left, right):
+    """共同显式 token 支持上归一化后计算 KL；不推算舍入后的 OTHER 桶。"""
     keys = sorted(set(left) & set(right))
     if not keys:
         raise ValueError('No shared top-k support')
-    p = [math.exp(left[key]) for key in keys]
-    q = [math.exp(right[key]) for key in keys]
-    if sum(p) > 1.00001 or sum(q) > 1.00001:
-        raise ValueError('Logprobs do not describe a probability distribution')
-    # Only roundoff at a saturated probability can make the residual negative.
-    p.append(max(0.0, 1.0 - sum(p)))
-    q.append(max(0.0, 1.0 - sum(q)))
-    value = sum(x * math.log(x / y) if y else math.inf
-                for x, y in zip(p, q) if x)
+    def normalized(values):
+        logs = [values[key] for key in keys]
+        if any(not math.isfinite(value) for value in logs):
+            raise ValueError('Nonfinite shared logprob')
+        peak = max(logs)
+        normalizer = peak + math.log(math.fsum(math.exp(value-peak) for value in logs))
+        return [value-normalizer for value in logs]
+    p, q = normalized(left), normalized(right)
+    value = math.fsum(math.exp(x)*(x-y) for x,y in zip(p,q))
     return max(0.0, value), len(keys)
 
 
@@ -62,7 +62,7 @@ def compare(reference, candidate):
             if not math.isfinite(a) or not math.isfinite(b):
                 raise ValueError('Nonfinite target logprob')
             error = abs(a - b)
-            kl, support = folded_kl(x['logprobs'], y['logprobs'])
+            kl, support = conditional_topk_kl(x['logprobs'], y['logprobs'])
             top1_left.append(x['top1']); top1_right.append(y['top1'])
             case_errors.append(error); case_kls.append(kl); supports.append(support)
         top1_diff = first_divergence(top1_left, top1_right)
@@ -77,8 +77,8 @@ def compare(reference, candidate):
             'top1_divergent_suffix_fraction': 0 if top1_diff is None else (length-top1_diff)/length,
             'greedy_divergent_suffix_fraction': 0 if divergence is None else (length-divergence)/length,
             'max_absolute_target_logprob_difference': max(case_errors),
-            'mean_folded_topk_kl': sum(case_kls)/count,
-            'max_folded_topk_kl': max(case_kls),
+            'mean_conditional_topk_kl': sum(case_kls)/count,
+            'max_conditional_topk_kl': max(case_kls),
             'minimum_shared_explicit_tokens': min(supports),
         })
     if not observed:
@@ -86,8 +86,8 @@ def compare(reference, candidate):
     means = lambda key: sum(case[key] for case in per_case)/len(per_case)
     metrics = {
         'top1_disagreement_rate': mismatches/observed,
-        'mean_folded_topk_kl': sum(kls)/observed,
-        'max_folded_topk_kl': max(kls),
+        'mean_conditional_topk_kl': sum(kls)/observed,
+        'max_conditional_topk_kl': max(kls),
         'max_absolute_target_logprob_difference': max(errors),
         'mean_top1_divergent_suffix_fraction': means('top1_divergent_suffix_fraction'),
         'max_top1_divergent_suffix_fraction': max(case['top1_divergent_suffix_fraction'] for case in per_case),
@@ -96,7 +96,7 @@ def compare(reference, candidate):
     }
     return {'mode':reference['mode'], 'metrics':metrics, 'top1_agreement_rate':1-mismatches/observed,
             'positions_compared':observed, 'per_case':per_case,
-            'scope':'Folded shared-top-k plus OTHER KL, not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position.'}
+            'scope':'KL of distributions normalized on shared explicit top-k support; excludes outside support and is not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position.'}
 
 
 def adjudicate(noise, candidate, rule):

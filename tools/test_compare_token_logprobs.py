@@ -2,7 +2,7 @@ import copy
 import math
 import unittest
 
-from compare_token_logprobs import adjudicate, compare, first_divergence, folded_kl
+from compare_token_logprobs import adjudicate, compare, first_divergence, conditional_topk_kl
 
 
 class NumericalComparisonTest(unittest.TestCase):
@@ -16,11 +16,19 @@ class NumericalComparisonTest(unittest.TestCase):
         self.assertEqual(first_divergence([1],[1,2]),1)
         self.assertIsNone(first_divergence([1],[1]))
 
-    def test_folded_partition(self):
-        kl,n=folded_kl({'a':math.log(.8),'b':math.log(.1)},
-                       {'a':math.log(.6),'c':math.log(.1)})
-        self.assertEqual(n,1)
-        self.assertAlmostEqual(kl,.8*math.log(.8/.6)+.2*math.log(.2/.4))
+    def test_shared_support_conditional_kl(self):
+        kl,n=conditional_topk_kl({'a':math.log(.7),'b':math.log(.2),'c':math.log(.1)},
+                                {'a':math.log(.5),'b':math.log(.4),'d':math.log(.1)})
+        self.assertEqual(n,2)
+        self.assertAlmostEqual(kl,7/9*math.log(7/5)+2/9*math.log(2/4))
+
+    def test_rounded_explicit_mass_above_one(self):
+        left={'a':math.log(.99999998),'b':math.log(1e-8)}
+        right={'a':0.0,'b':math.log(3e-8)}
+        kl,_=conditional_topk_kl(left,right)
+        self.assertTrue(math.isfinite(kl))
+        self.assertGreaterEqual(kl,0)
+        self.assertEqual(conditional_topk_kl(right,right)[0],0)
 
     def test_identity_and_zero_noise_gate(self):
         x=self.record();noise=compare(x,x)

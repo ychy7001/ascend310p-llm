@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """从本轮原始证据生成脱敏最终判定；不访问实验机或执行 NPU 请求。"""
 import argparse
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -48,9 +49,11 @@ def main():
     status=read(raw/'status.json');rule=read(raw/'threshold-rule.json');inputs=read(raw/'inputs.json')
     g1=read(raw/'G1-adjudication.json') if (raw/'G1-adjudication.json').exists() else None
     g2=read(raw/'G2-adjudication.json') if (raw/'G2-adjudication.json').exists() else None
+    if g2 is None:
+        g2={'status':'incomplete','passed':None,'counts':{arm:read(raw/(arm+'-G2-counts.json')) for arm in ('P','A','B') if (raw/(arm+'-G2-counts.json')).exists()}}
     perf=performance(raw) if status.get('performance_complete') else {'status':'not_run','reason':'G1/G2 did not both pass or run stopped before performance'}
     complete=status['state']=='complete'
-    if g1 is not None and g2 is not None and not (g1['passed'] and g2['passed']):
+    if g1 is not None and (g1['passed'] is False or g2['passed'] is False):
         recommendation='不采用';reason='本轮模型数值或任务门禁未通过，性能按设计未执行。'
     elif complete and perf['status']=='complete':
         deltas=perf['changes']
@@ -63,6 +66,15 @@ def main():
         if path.is_file() and 'cache' not in path.parts:
             evidence[str(path.relative_to(raw))]=sha(path)
     manifests={label:read(raw/label/'manifest.json') for label in ('P','A','A_prime','B') if (raw/label/'manifest.json').exists()}
+    identity={}
+    if 'A' in manifests and 'A_prime' in manifests:
+        identity['A_and_A_prime_manifests_identical']=manifests['A']==manifests['A_prime']
+        assert identity['A_and_A_prime_manifests_identical']
+    if 'A' in manifests and 'B' in manifests:
+        left,right=copy.deepcopy(manifests['A']),copy.deepcopy(manifests['B'])
+        assert left['env'].pop('WY_GATE_ARM')=='A' and right['env'].pop('WY_GATE_ARM')=='B'
+        identity['A_vs_B_only_manifest_difference']='WY_GATE_ARM'
+        assert left==right
     configuration={}
     for label,m in manifests.items():
         command=m['command']
@@ -82,10 +94,10 @@ def main():
             'input_sha256':sha(raw/'inputs.json'),'threshold_rule_sha256':sha(raw/'threshold-rule.json'),
             'input_token_counts':[{'id':c['id'],'tokens':c['tokens'],'token_ids_sha256':c['token_ids_sha256']} for c in inputs['cases']],
             'threshold_rule':rule,'G1':g1,'G2':g2,'numerical_details':details,'performance':perf,
-            'configuration':configuration,'service_restoration':read(raw/'service-restoration.json'),
+            'configuration':configuration,'arm_identity':identity,'service_restoration':read(raw/'service-restoration.json'),
             'independent_closeout':closeout,'raw_evidence_sha256':evidence,
             'limitations_zh':['仅35条固定输入及固定任务子集，不是完整业务分布；不迁移旧栈收益。',
-                              'KL为共同top-k token+OTHER桶的折叠分布，不是完整词表KL。',
+                              'KL为共同top-k支持内归一化的条件KL，不覆盖支持外概率质量，不是完整词表KL。',
                               '生成模式仅在相同生成条件前缀上比较逐位数值；若启用，不能冒充teacher forcing。'],
             'preparation_issues_zh':['CPU预处理首轮镜像自动加载torch_npu时缺少驱动库；仅CPU预处理关闭设备后端自动加载。',
                                    'transformers新返回结构导致token长度断言失败；显式return_dict=False后，五条fixture的长度与既有SHA全部核对通过。'],

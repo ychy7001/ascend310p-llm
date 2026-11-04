@@ -264,6 +264,9 @@ class Gate:
         a=self.g1('A');ga=self.g2('A');self.stop('A')
         self.launch('A_prime','A');ap=self.g1('A_prime',a);self.stop('A_prime')
         noise=compare(a,ap);write(self.out/'A_prime-vs-A.json',noise)
+        self.candidate_sequence(p,a,ga,noise)
+
+    def candidate_sequence(self,p,a,ga,noise):
         thresholds={'rule_sha256':sha(self.out/'threshold-rule.json'),
                     'A_reference_sha256':sha(self.out/'A-G1.json'),
                     'noise_sha256':sha(self.out/'A_prime-vs-A.json'),
