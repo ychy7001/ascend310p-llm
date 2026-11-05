@@ -1,100 +1,77 @@
 # MoE 少 token tiling 实验（4b-①）
 
-**当前状态：桥接库链接修复后，G0 与新同轮 G2 均通过；双 rank 稳定步 Profile 已通过，正式回放已排队。** 首轮 B 因动态依赖装载失败，曾按停止规则收束；该故障现按构建链接遗漏处理，不作为实验结论。修复用显式 `LINKER:-rpath,$ORIGIN`，实际 ELF 已含 `RPATH=[$ORIGIN]`；原设备库 SHA 未变。新工具 `tools/check_moe_bridge_load.py` 启动全新 Python 进程，仅导入 Torch/Torch NPU 后直接加载桥接库，禁止依赖预加载或用桥接目录设置 `LD_LIBRARY_PATH`；微基准启动时也先执行此项。2026-11-05 04:01:57 UTC 在持锁生产环境中冷装载通过，依赖库未预加载；04:33:23 UTC 新同轮 G2 通过，后续正式回放仍待稳定步 Profile 完成。
+**状态：桥接链接修复、G0、新同轮G2及双rank稳定Profile均通过；正式回放因新启动期native段错误按计划外问题规则停止。** 完成1个A臂、0/5完整配对；RAG/通用画像未运行。模型当前不采用，没有端到端收益或非劣结论。
 
+本项仅改变MoE小M调度，不叠加QKVZ量化，不改权重、量化方式和其他算子。基线`74f7202`。A/B固定相同镜像ID、只读模型目录及TP2、seqs4、Graph[1,2]、MTP0、maxlen262144、batch4096、prefix on。候选在专家循环前计算全部输入行的动态scale并同步一次；逐专家GEMV沿用原始算术与行号。仅在routed M=8/16/24/32使用Torch桥接，分组、swiglu和通信保留。
 
-本项仅调整 `QuantGroupedMatmulDequant` 小 M 路径的调度，不叠加 QKVZ 量化，不改变专家权重、scale、路由、GEMV 算术或通信。基线提交 `74f7202`。
+桥接构建采用显式`LINKER:-rpath,$ORIGIN`，实际ELF含`RPATH=[$ORIGIN]`；设备库SHA保持不变，未添加桥接目录的运行时搜索路径补丁。新工具在全新Python进程导入Torch/Torch NPU后直接`torch.ops.load_library`桥接库，检查依赖未预加载、算子原先未注册。2026-11-05 **04:01:57 UTC**持锁检查通过；随后B整模型G2与Profile均成功运行。原装载失败属于已修复的构建遗漏。
 
-候选将各专家内部重复进行的动态 token scale 计算提前至专家循环前，计算所有输入行后仅同步一次；后面的逐专家 GEMV 继续使用原始源码，按原行号读取 scale。候选通过 Torch PrivateUse1 算子和 `OpCommand::RunOpApiV2` 发射，输出与 workspace 在调用内分配，并记录 stream 生命周期。仅面向总 M=8/16/24/32、每专家至多 8 行、K=256/2048、FP32 权重 scale 的实验。隔离 worker 接入已完成，新同轮 A/B 均完成 G2。
+G0：真实双rank四档M×两投影共144/144案例与官方和自编译对照逐位一致，432/432重复及144/144修改输入后的Graph replay核验通过。CPU FP32 rtol=0.002、atol=0.002，max_abs=0.0019521713，容差外0。按用户确认的逐位一致分支，G1免做。
 
-`tools/prepare_moe_prescale_310.py` 从调用者提供的生产 SDK 源码生成隔离构建目录，记录输入头文件 SHA256；仓库不分发 SDK 源码。`tools/bench_moe_prescale_310.py` 先核验官方算子、自编译原调度、候选三方，再对照 CPU FP32 量化整数点积参考，并检查候选逐位重复；正式微基准使用真实激活、256 专家 bank 与累计分组。无 Profile 的 eager/Graph 计时分开，每档 3 对 AB/BA、每臂 256 次调用。CPU 参考容差在真实样本前固定为 `rtol=0.002, atol=0.002`，所有元素均须满足；自编译对照须与官方逐位一致，候选须逐位重复且为有限值；候选对官方若不逐位一致则要求完整 G1。
-
-第一轮合成冒烟覆盖 8 案例（M 四档 × K 两类），真实 N 分别为 512、2048，稀疏非均匀分组为 7 个非空专家、每专家至多 2/4/6/8 行。全部自编译对照和候选均与官方算子逐位一致，候选各重复 3 次一致，A/B 最大绝对差为 0；参考与候选均为有限值。CPU FP32 最大绝对误差范围为 0.003858–0.008996，A/B 相同。这次冒烟尚未应用上述正式容差计数，不能直接标作完整 G0 通过。
-
-`experimental/moe_small_m/capture.py` 是隔离副本的 eager 观测钩子，只采真实输入、权重和分组用于算子回放。观测执行方式不用于性能结论。原始张量、完整日志和机器信息仅放忽略的原始目录。
-
-真实采集完成：双 rank、全部 40 层共 2,904 条路由观测，12 轮/30 请求、122,880 输入和 7,680 输出 token，所有输出均为 256 token。四档非空专家数中位数为 8/16/23/28，最大每专家行数为 1/2/3/4；全部累计边界等于 M。首层每 rank 各保留两类投影的真实 256 专家 bank，以及每档三请求、每请求前三步的输入。
-
-首次真实微基准发现捕获前固定 stream 导致候选 Graph 为空；该批计时全部作废。已改为在调用时读取当前 stream，并要求修改输入后的 Graph replay 与该臂的新调用逐位一致。`tools/adjudicate_moe_prescale_310.py` 拒绝未经该核验的数据，并检查双 rank bank、每档每投影至少三请求×三稳定输入。有效重测完成：144/144 案例均与官方和自编译对照逐位一致，432/432 次重复通过，144/144 Graph 输入变更核验通过，CPU FP32 容差外元素为 0。本轮算子收益折算为会议回放纯 Decode 转移降幅 **6.4965%**，达到 3% 理想进入门槛；首轮整模型 G2 的 B 启动失败；按追加决定修复后，新同轮 A/B 已通过 G2，稳定步 Profile 已通过，正式回放已排队。按逐位一致规则免做 G1。尚未测会议回放、RAG 8K–32K Prefill、通用 1K–32K×C1/C4，WY Prefill 不在本项中改动。未报告实测收益或非劣结论。
-
-生成和构建命令（在匹配的生产 SDK 镜像内；CPU 构建不挂载设备）：
-
-```sh
-python3 tools/prepare_moe_prescale_310.py --source "$CANN_OP_SOURCE" --output "$BUILD_SOURCE"
-cmake -S "$BUILD_SOURCE" -B "$BUILD_DIR" -DSOC_VERSION=Ascend310P3 -DCMAKE_BUILD_TYPE=Release
-cmake --build "$BUILD_DIR" -j1
-```
-
-算子命令须在已持 `flock /tmp/a310-npu.lock` 的独占窗口内执行，退出前恢复原服务并用新 SSH 独立确认 health=200：
-
-```sh
-python3 tools/bench_moe_prescale_310.py --library "$BUILD_DIR/libmoe_prescale.so" --snapshots "$CAPTURE_DIR" --output results/moe-small-m-20261105/raw/micro.json
-python3 tools/adjudicate_moe_prescale_310.py --micro results/moe-small-m-20261105/raw/micro.json --attribution "$ATTRIBUTION_DIR" --output results/moe-small-m-20261105/adjudication.json
-python3 -m unittest discover -s tools -p test_adjudicate_moe_prescale_310.py -v
-```
-
-| 档位 | 采用计时 | 两投影合计加速（跨 rank 成本比均值） | 全回放降幅贡献（推算） |
+| 微基准档位 | 计时 | 两投影合计加速 | 会议回放降幅贡献（推算） |
 |---|---|---:|---:|
-| B1 | graph | 1.7139× | 3.8291% |
-| B2 | graph | 1.6048× | 1.2426% |
+| B1 | Graph | 1.7139× | 3.8291% |
+| B2 | Graph | 1.6048× | 1.2426% |
 | B3 | eager | 1.6064× | 0.2657% |
 | B4 | eager | 1.6401× | 1.1590% |
 
-上述 6.4965% 为冻结归因池的理想转移估计，未包含 Prefill/混合阶段、固定到达与模型集成开销；不是端到端验收结果。真实单算子只重放每 rank 首个专家层，其余 39 层仅留路由分布。
+转移预算合计 **6.4965%**，达到3%进入整模型门槛。候选微基准通过实际Torch桥接调用，包含其分配、recordStream及launch开销；不是仅计设备函数。真实bank仅每rank首层，路由观测覆盖全部40层共2904条。先前固定stream导致空Graph的批次已整体作废；有效数据均有输入变更重放核验。
 
-
-首轮整模型 A 结果（装载修复前）：GSM64 **63/64**（1 题截断且缺严格答案），16 事实 **16/16**，结构字段 C1/C3 各 **13/13**，前后短题各 **8/8**。26 条结构输出 usage/tokenization 全部匹配，覆盖 4095/4096/4097 边界、16K/32K；前后 A/B/A 复用文本一致且无 canary 泄漏。B 在两个 rank 的 worker 初始化时均因上述动态依赖装载失败，实际完成门禁请求 **0**。这是模型接入失败，不能从中判定 B 的任务精度。
-
-| 负载画像 | 实测模型收益 | 当前判定 |
-|---|---|---|
-| 会议回放 | 未运行；5 对 AB/BA 完成 0 对 | 单算子转移预算 6.4965%，不是端到端收益 |
-| RAG 8K–32K Prefill | 未运行 | 未验证非劣 |
-| 通用 1K–32K × C1/C4 | 未运行 | 未验证非劣 |
-| WY Prefill | 未运行；本项不改 WY | 无新增收益结论 |
-
-`experimental/moe_small_m/worker.py` 保留隔离接入草案；`tools/replay_frozen_arrivals.py`、`tools/adjudicate_moe_model.py`、`tools/bench_moe_load_profiles.py` 保留已冻结的后续测量工具，尚未在本候选的完整模型上完成性能验证。固定到达 HTTP stub 证明慢请求不会延后下个冻结到达；回放裁决硬校验冻结计划 SHA、11 请求、200,895 输入、17,045 输出、prefix 零命中和阶段闭合。模型收益及 TTFT/TPOT 采用判定测试 4/4、单算子裁决测试 7/7、画像裁决测试 4/4、HTTP 联调测试 1/1，共 **16/16** 通过：
-
-```sh
-python3 -m unittest discover -s tools -p 'test_*moe*.py' -v
-python3 -m unittest discover -s tools -p test_replay_frozen_arrivals.py -v
-```
-
-目前已完成 A/B 模型双 rank 的稳定步 Profile，尚未做采用前人工会议语义审阅。冻结 5 对回放和 14 个画像的工具与门槛已经保留，但没有任何模型性能采用结论。原始 G2 输出、错误日志、ELF 依赖和所有窗口恢复证据只保留在忽略目录。
-
-G2 独占窗口于 2026-11-05 01:30:15 UTC 开始，原配置服务于 01:50:46 UTC 恢复；新 SSH 于 **01:51:00 UTC 独立确认 health=200**，01:51:01 UTC 放锁，共 **20 分 46 秒**。随后其他实验线程获得共享锁；未干预其窗口。全程未启动被禁用的图片服务。无推送、无合并、无其他仓库改动。
-
-追加只读 journal 核查：首轮原服务由本实验恢复控制器于 2026-11-05 **01:47:21 UTC** 发起启动，01:50:45 应用启动完成，01:50:46 健康，01:51:00 新 SSH 确认健康。01:51:01 journal 先记录外部 `systemctl stop` 和 systemd `Stopping`，随后 EngineCore 收到 SIGTERM；01:51:05 为 `Deactivated successfully`。与下一 WY 持锁窗口及其控制器停服步骤相符，没有自行崩溃证据。WY 窗口随后于 **02:39:12 UTC** 执行启动，**02:42:46 UTC** 记录应用启动完成；接续图片实验取得锁后于 **02:43:00 UTC** 再次主动停服。本任务没有干预其他窗口。
-
-执行偏差记录：追加修复时一次挂载设备的纯装载探针未包共享 flock，未生成模型请求；已向用户说明，该次结果不计门禁。新增冷进程检查在 G2 持锁窗口重做。
-
-画像裁决在取得新 B 数据前补齐：`tools/adjudicate_moe_load_profiles.py` 对14个通用/RAG画像分别核验三轮、相同token、prefix零命中，逐项报告 Prefill tok/s、输出吞吐、TTFT、TPOT 中位数的有符号变化；不添加额外退化容差。4项CPU测试覆盖全指标改善、Prefill退化、缺失32K C4画像与输出长度不符。当前仍未运行模型画像测量。
-
-链接修复后的新同轮 G2（与首轮数据分开裁决）：
-
-| 项目 | A | B | B−A |
+| 新同轮G2 | A | B | B−A |
 |---|---:|---:|---:|
-| GSM64 | 63/64 | 63/64 | 0 |
-| 独立事实 | 16/16 | 16/16 | 0 |
-| 字段 C1 | 13/13 | 13/13 | 0 |
-| 字段 C3 | 13/13 | 13/13 | 0 |
-| 前置短题 | 8/8 | 8/8 | 0 |
-| 后置短题 | 8/8 | 8/8 | 0 |
+| GSM64 | 63 | 63 | 0 |
+| facts16 | 16 | 16 | 0 |
+| fields_C1 | 13 | 13 | 0 |
+| fields_C3 | 13 | 13 | 0 |
+| short_before | 8 | 8 | 0 |
+| short_after | 8 | 8 | 0 |
 
-全部差值满足减少≤1。26条字段的输入payload一致，tokenization/usage一致，解析值均精确等于独立预期；16事实解析值A/B一致。GSM自由文本58/64完全相同，不能将算子144案例的逐位一致扩大为整模型自由文本逐位一致。G1按用户已确认的算子逐位一致分支免做。尚无正式回放和画像收益结果。
+G2各项减少均≤1，通过。26字段输入payload/tokenization/usage一致，解析值全部精确等于独立预期；16事实解析值一致；前后复用相同、无canary泄漏。GSM自由文本58/64相同，不能将算子逐位一致扩大为整模型文本逐位一致。
 
-双 rank 原生 Profile 已完成并核验：A/B × B1–B4 × 2 rank 共16捕获，各112–113个观测步，取中间96稳定步，每窗口目标kernel均为7680次（80/步）。B1/B2 FULL Graph、B3/B4 eager。CANN在Graph记录候选名`moe_prescale_0`，eager为`moe_prescale`；工具按实际模式精确核验名称与次数。
+双rank原生Profile共16捕获（A/B×B1–B4×2rank），各112–113观测步；每捕获选96稳定步，目标kernel均7680次（80/步）。B1/B2为FULL Graph命中，B3/B4为eager。CANN在Graph记录候选名`moe_prescale_0`，eager为`moe_prescale`，工具按实际模式精确核验。
 
-| batch | A MoE ms/步（双rank均值） | B MoE ms/步 | A整窗 ms/步 | B整窗 ms/步 |
+| 档位 | A MoE ms/步 | B MoE ms/步 | A整窗 ms/步 | B整窗 ms/步 |
 |---|---:|---:|---:|---:|
 | B1 | 7.457 | 4.678 | 35.778 | 32.947 |
 | B2 | 12.123 | 8.005 | 45.499 | 41.577 |
 | B3 | 17.470 | 10.720 | 64.249 | 76.041 |
 | B4 | 22.318 | 13.192 | 68.722 | 78.955 |
 
-上述计时均带Profile：eager档目标kernel下降，但整窗变慢，不能据此推定无Profile端到端收益。所有原生导出与解析在本机共享CPU锁内串行执行；匹配采集CANN版本，禁止SDK导出进程扇出。新建日志用umask0027满足SDK权限检查，不修改原始样本字节。
+这些计时带Profile：eager档目标kernel下降、整窗变慢。它们只解释执行，不能代替无Profile端到端裁决。原始捕获在设备侧不导出；本机用匹配CANN在共享CPU锁内串行解析/导出，禁止SDK子进程扇出，新建日志umask0027满足SDK权限检查；未修改样本字节。
 
-本轮G2+Profile独占窗口04:01:47–04:57:19 UTC，04:57:04原服务健康，新SSH04:57:18确认health200，共3331.466秒。未启动禁用的图片服务。
+正式回放次序预先冻结AB/BA/AB/BA/AB，各臂重建冷进程。首A臂05:20:52 UTC健康，启动210.002秒；05:31:37完成回放，墙钟 **644.948969秒**（不含启动/图捕获），11请求、200895输入、17045输出、prefix零命中，11831 scheduler/worker/joined steps全部对应，未匹配步0、阶段墙钟残差0。
+
+首B臂约 **05:32:34 UTC** 日志打印`Segfault encountered`：native栈为CPU AVX2的FP16 `TensorIterator` fill/zero/zeros。另一worker打印small-M桥接安装成功，随后EngineCore初始化失败；05:32:44控制器检测容器退出。没有再次出现缺失`libmoe_prescale.so`错误。host kernel journal该时间段无记录，不能由此判定更深根因。没有B回放请求、没有完整配对；按计划外问题规则停止，不修改配置、不重试、不扩展排查。
+
+| 负载画像 | 实测收益/完成度 | 判定 |
+|---|---|---|
+| 会议回放 | A单臂644.949s；完整配对0/5 | 无配对收益，未裁决≥3% |
+| RAG 8K/16K/32K Prefill ×C1/C4 | 未运行 | 未验证非劣 |
+| 通用1K/4K/16K/32K ×C1/C4 | 未运行 | 未验证非劣 |
+| WY Prefill | 未运行；本项不修改WY | 无新增结论 |
+
+门禁与工具验证命令（设备步骤须在独占flock窗口内执行，退出前恢复原服务并用新SSH确认health200）：
 
 ```sh
+python3 tools/check_moe_bridge_load.py --library "$BUILD_DIR/libmoe_prescale_torch.so"
+python3 tools/bench_moe_prescale_310.py --library "$BUILD_DIR/libmoe_prescale.so" --snapshots "$CAPTURE_DIR" --output "$MICRO_JSON"
+python3 tools/eval_gsm8k_http.py --base-url "$BASE_URL" --model "$MODEL" --dataset "$GSM_DATASET" --limit 64 --seed 310 --max-tokens 512 --label "$ARM" --out "$GSM_OUT"
+python3 tools/check_business_facts.py --base-url "$BASE_URL" --model "$MODEL" --cases 8 --concurrencies 1 3 --out "$FACTS_OUT"
+python3 tools/check_action_state_regression.py --base-url "$BASE_URL" --fixtures "$ACTION_FIXTURES" --out "$FIELDS_OUT"
+python3 tools/check_cache_request_reuse.py --base-url "$BASE_URL" --model "$MODEL" --out "$SHORT_OUT"
 flock /tmp/a310-cpu-heavy.lock python3 tools/adjudicate_moe_stable_profiles.py --root "$LOCAL_PROFILES" --out "$LOCAL_PROFILES/native-adjudication.json"
+python3 tools/replay_frozen_arrivals.py --base-url "$BASE_URL" --model "$MODEL" --plan "$FROZEN_PLAN" --out "$HTTP_EVENTS"
+flock /tmp/a310-cpu-heavy.lock python3 tools/analyze_decode_observation.py --observation-dir "$OBSERVATION" --http-events "$HTTP_EVENTS" --out "$PHASE_ANALYSIS"
+python3 -m unittest discover -s tools -p 'test_*moe*.py' -v
+python3 -m unittest discover -s tools -p test_replay_frozen_arrivals.py -v
 ```
+
+CPU裁决测试15/15、固定到达HTTP联调1/1，共16/16；持锁冷装载1/1；原生Profile16/16。完整回放采用裁决及14画像的输入/usage/prefix与Prefill/吞吐/TTFT/TPOT非劣工具已预先冻结，尚无完整模型测量结果。
+
+只读服务journal核查：本控制器01:47:21 UTC启动原服务，01:50:45应用启动完成，01:50:46健康，01:51:00新SSH确认200，01:51:01放锁。同秒journal先记录外部`systemctl stop`与systemd Stopping，随后EngineCore收到SIGTERM，01:51:05为`Deactivated successfully`；与接续WY持锁窗口及控制器停服步骤相符，无自行崩溃证据。WY随后02:39:12启动恢复，02:42:46应用启动完成；图片实验接锁后02:43:00主动停服。
+
+本轮G2+Profile窗口04:01:47–04:57:19 UTC，04:57:04恢复健康，04:57:18新SSH验活，共3331.466秒。本次正式回放窗口由本控制器恢复原服务：**05:36:09健康，05:36:12新SSH确认200，05:36:13放锁**，持锁 **1135.221905秒**。两窗均小于3小时，原配置恢复，未启动禁用的图片服务。全部后续自动控制器已退出，未申请其余实验窗口。
+
+执行偏差：追加修复时一次挂载设备的纯装载探针漏共享锁，已向用户说明，该结果不计门禁；04:01:57持锁重做通过。所有raw日志、张量、启动栈与恢复证据留在忽略目录。
+
+真实限制：首层bank微基准不覆盖所有层；144案例逐位一致不代表所有模型执行；Profile包含观测开销；正式B启动native崩溃根因未定，0配对不能判断端到端收益；RAG/通用/WY未测，人工会议语义审阅未做。未推送、未合并、未部署，未用其他候选补收益。

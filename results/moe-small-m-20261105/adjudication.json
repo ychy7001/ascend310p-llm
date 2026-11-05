@@ -136,21 +136,27 @@
   "entry_threshold_pct": 3.0,
   "enter_model_gate": true,
   "requires_G1": false,
-  "performance_acceptance": false,
+  "performance_acceptance": null,
   "G1": "not_required_bitwise",
   "G2": "passed: same-round A/B counts identical",
   "profiles": {
-    "meeting_replay": "projection only; no measured end-to-end gain",
-    "RAG_8K_32K_prefill": "not measured",
-    "general_1K_32K_C1_C4": "not measured",
-    "WY_prefill": "not measured; unchanged operator"
+    "meeting_replay": {
+      "pairs_completed": 0,
+      "pairs_required": 5,
+      "A_only_wall_s": 644.9489688339963,
+      "paired_gain_pct": null
+    },
+    "RAG_8K_32K_prefill": "not run after formal startup crash",
+    "general_1K_32K_C1_C4": "not run after formal startup crash",
+    "WY_prefill": "not measured; no WY changes"
   },
   "limits": [
-    "Only the first encountered real expert layer is replayed per rank; routing is observed across all layers.",
-    "Capture is eager at 4K context; it is not the production Graph/AOT performance baseline.",
-    "The transfer estimates pure decode only; mixed/prefill stages, arrival dependence, and integration overhead are unmeasured.",
-    "Three paired timing samples do not characterize tail latency.",
-    "GSM free text matches in 58/64 cases across the model arms; equal task counts do not establish model-wide bitwise output identity. G1 exemption follows the confirmed operator-bitwise branch."
+    "Microbenchmark uses the first expert-layer bank per rank; all 40 layers were observed for routing.",
+    "Operator equality on 144 cases does not establish equality for every model execution; GSM free text matched on 58/64.",
+    "Profiled eager windows became slower despite lower MoE kernel time; only unprofiled paired replay can adjudicate end-to-end gain.",
+    "Formal replay has one complete A arm and zero complete pairs after native startup crash; RAG/general/WY gains and noninferiority are unmeasured.",
+    "The native startup crash root cause has not been established; no runtime tuning, retry, fallback or extra operator change was attempted.",
+    "No human meeting semantic review has been performed."
   ],
   "numeric_summary": {
     "max_AB_abs": 0.0,
@@ -231,7 +237,7 @@
     "output_tokens": 7680,
     "all_expected_usage": true
   },
-  "status": "G2_and_dual_rank_stable_profiles_passed_formal_replay_queued",
+  "status": "stopped_formal_B_startup_native_segmentation_fault",
   "artifact_sha256": {
     "valid_micro": "d302b311209201001f75e8dff121c94140942fa7beb8ba5338f20c9395b6aa2f",
     "capture_manifest": "b0499d7d7422012ae1f8745b59148c0df49da1e4c8111d46d64cbb4adc0bc8f1",
@@ -257,7 +263,10 @@
     "formal_replay_pairs_completed": 0,
     "candidate_model_Profile_windows_completed": 8,
     "load_adjudication_CPU_tests": 4,
-    "total_model_Profile_windows_completed": 16
+    "total_model_Profile_windows_completed": 16,
+    "formal_replay_arms_completed": 1,
+    "stable_profile_native_windows_passed": 16,
+    "load_profiles_completed": 0
   },
   "service_handoff": {
     "restoration_health": 200,
@@ -683,5 +692,50 @@
     "independent_check_utc": "2026-11-05T04:57:18Z",
     "lock_release_utc": "2026-11-05T04:57:19.302828Z",
     "window_seconds": 3331.465503
+  },
+  "formal_replay_attempt": {
+    "phase": "p1-B startup",
+    "observation": "Native segmentation-fault backtrace in CPU AVX2 FP16 TensorIterator fill/zero/zeros; another worker logged successful small-M bridge installation. EngineCore then failed initialization.",
+    "root_cause": "not established; no further debugging or retry under unplanned-issue stop rule",
+    "candidate_replay_requests_completed": 0,
+    "complete_pairs": 0,
+    "target_pairs": 5,
+    "A_only_wall_s": 644.9489688339963,
+    "A_only_requests": 11,
+    "A_only_input_tokens": 200895,
+    "A_only_output_tokens": 17045,
+    "A_only_validation": {
+      "scheduler_steps": 11831,
+      "worker_steps": 11831,
+      "joined_steps": 11831,
+      "unmatched_worker_sequences": [],
+      "worker_pid": 568,
+      "rank": 0,
+      "unmatched_replay_worker_sequences": [],
+      "unmatched_outside_replay_count": 0,
+      "http_completed": 11,
+      "server_completed": 11,
+      "all_requests_identified": true,
+      "request_count_matches": true,
+      "http_server_token_counts_match": true,
+      "no_negative_computed": true,
+      "prompt_tokens_accounted": true,
+      "prefix_zero_hits": true,
+      "wall_partition_residual_s": 0.0
+    },
+    "performance_conclusion": "not adjudicated; no paired B replay data",
+    "observed_before_utc": "2026-11-05T05:32:34Z"
+  },
+  "adoption_reason": "Formal paired replay and load profiles are incomplete after an unplanned native startup crash.",
+  "formal_attempt_service_handoff": {
+    "lock_acquired_utc": "2026-11-05T05:17:17.988551+00:00",
+    "restoration_utc": "2026-11-05T05:36:09.187452+00:00",
+    "new_independent_SSH_health": 200,
+    "independent_check_utc": "2026-11-05T05:36:12Z",
+    "lock_release_utc": "2026-11-05T05:36:13.210456+00:00",
+    "window_seconds": 1135.221905,
+    "original_configuration_restored": true,
+    "disabled_image_service_started": false,
+    "subsequent_windows_started": false
   }
 }
