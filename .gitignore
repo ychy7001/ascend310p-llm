@@ -286,3 +286,8 @@ logs/
 !/results/wy921-localize-20261104/README.md
 !/results/wy921-localize-20261104/adjudication.json
 !/results/wy921-localize-20261104/repro-manifest.json
+
+# qkvz-1: retain only sanitized experiment summaries
+/results/qkvz-w8a8-20261105/**
+!/results/qkvz-w8a8-20261105/README.md
+!/results/qkvz-w8a8-20261105/adjudication.json

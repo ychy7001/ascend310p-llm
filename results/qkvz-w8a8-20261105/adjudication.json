@@ -1,0 +1,53 @@
+{
+  "status": "stopped_unplanned_fp16_zero_channels",
+  "base_commit": "74f7202",
+  "scope": "30 linear_attn.in_proj_qkvz only",
+  "image_sha256": "c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
+  "checkpoint_index_sha256": "375cade0403985c0d95be2225cde65e6c71770734254345de1d918e9c68da038",
+  "first_layer": {
+    "qkv_shape": [
+      8192,
+      2048
+    ],
+    "z_shape": [
+      4096,
+      2048
+    ],
+    "checkpoint_bf16_qkv_zero_rows": 0,
+    "converted_fp16_qkv_zero_rows": 112,
+    "converted_fp16_zero_rows_by_rank": [
+      22,
+      90
+    ],
+    "converted_fp16_z_zero_rows": 0,
+    "finite": true
+  },
+  "quantized_tensor_files_created": 0,
+  "original_weights_modified": false,
+  "npu_windows": 0,
+  "service_stop_start_operations": 0,
+  "G0": "not_run",
+  "G1": "not_run",
+  "G2": "not_run",
+  "G1_thresholds_frozen": false,
+  "model_B_runs": 0,
+  "speedup": null,
+  "ideal_min_speedup": 1.663716814159292,
+  "stop_reason": "FP16 conversion underflows entire rows; frozen absmax/127 scale is zero. No unrequested zero-channel policy added.",
+  "workload_gains": {
+    "meeting_replay": null,
+    "RAG_8K_32K_prefill": null,
+    "general_1K_32K_C1_C4": null,
+    "WY_prefill": null
+  },
+  "validation": {
+    "python_compile_tools": 2,
+    "budget_boundary_checks": 4,
+    "independent_primary_active": true,
+    "independent_primary_health_http": 200
+  },
+  "limitations": [
+    "Only first layer diagnosed; no NPU timing or numeric validation.",
+    "The speed threshold was not evaluated; zero scale is preparation rejection, not G0 rejection."
+  ]
+}
