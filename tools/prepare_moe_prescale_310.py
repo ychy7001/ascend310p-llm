@@ -107,7 +107,7 @@ target_compile_definitions(moe_prescale_torch PRIVATE _GLIBCXX_USE_CXX11_ABI=${T
 target_include_directories(moe_prescale_torch PRIVATE ${TORCH_ROOT}/include ${TORCH_ROOT}/include/torch/csrc/api/include ${NPU_ROOT}/include ${ASCEND_CANN_PACKAGE_PATH}/include)
 target_link_directories(moe_prescale_torch PRIVATE ${TORCH_ROOT}/lib ${NPU_ROOT}/lib)
 target_link_libraries(moe_prescale_torch PRIVATE moe_prescale torch_npu torch torch_cpu c10)
-set_target_properties(moe_prescale_torch PROPERTIES BUILD_RPATH "$ORIGIN")
+target_link_options(moe_prescale_torch PRIVATE "LINKER:-rpath,$ORIGIN")
 ''')
     (output / 'source-manifest.json').write_text(json.dumps({'source_sha256': hashes,
         'change': 'schedule dynamic token scales once before serial expert GEMV loop',

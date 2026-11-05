@@ -8,6 +8,7 @@ import statistics
 import time
 import torch
 import torch_npu
+from check_moe_bridge_load import check as check_cold_bridge_load
 
 
 def main():
@@ -22,6 +23,8 @@ def main():
     torch.set_num_threads(1)
     torch.manual_seed(20261105)
     torch.npu.set_device(0)
+    cold_load = check_cold_bridge_load(a.library.resolve().with_name("libmoe_prescale_torch.so"))
+    print(json.dumps(cold_load), flush=True)
     lib = ctypes.CDLL(str(a.library.resolve()))
     torch.ops.load_library(str(a.library.resolve().with_name('libmoe_prescale_torch.so')))
     launch = lib.launch_moe_prescale
