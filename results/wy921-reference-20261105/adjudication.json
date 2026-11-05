@@ -45,9 +45,9 @@
     },
     "cpu": {
       "status": "rejected",
-      "reason": "No complete same-model BF16 checkpoint exists in checked local model/cache/volume locations. The only Qwen3.6-35B-A3B local candidate is GPTQ packed Int4 with I32 qweight/qzeros/g_idx plus F16 scales; dequantizing it would reconstruct an approximation, not the requested original BF16 reference. Existing BF16 tensors are vision/MTP auxiliaries, not the language-model weights. CPU conversion/inference was therefore not started.",
+      "reason": "No complete same-model BF16 checkpoint exists in checked local model/cache/volume locations. The only Qwen3.6-35B-A3B local candidate is GPTQ packed Int4 with I32 qweight/qzeros/g_idx plus F16 scales; dequantizing it would reconstruct an approximation, not the requested original BF16 reference. Existing BF16 portions include vision/MTP and unquantized language-model parameters, but language-model MoE projections remain packed Int4; no complete original BF16 language model is present. CPU conversion/inference was therefore not started.",
       "availability_audit": "raw/cpu-weight-availability-audit.json",
-      "availability_audit_sha256": "ff7f803a1b52c5f6142bbbf6ec78f010bbfeb7d209ec27310609b3b20afca739",
+      "availability_audit_sha256": "a9db07e2b62b1b301585ee1792d55da25218216c2a47b0bdd382774e80ba8ff9",
       "conversion_options": [
         {
           "source": "GPTQ Int4",
@@ -64,7 +64,21 @@
           "possible": "none",
           "cost": "different model and incomplete tensor set"
         }
-      ]
+      ],
+      "gguf_header": {
+        "architecture": "qwen35moe",
+        "name": "Qwen3.6-35B-A3B",
+        "tensor_count": 733,
+        "total_parameters": 34660610688,
+        "bf16_materialized_weight_bytes": 69321221376,
+        "tensor_types": {
+          "Q6_K": 151,
+          "F32": 301,
+          "Q4_K": 191,
+          "Q3_K": 90
+        },
+        "data_not_read": true
+      }
     },
     "actions_not_taken": [
       "no new download",

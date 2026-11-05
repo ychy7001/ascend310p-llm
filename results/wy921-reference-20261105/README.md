@@ -68,8 +68,8 @@ CPU 子集协议 SHA-256（同前述规范 JSON 编码）：`761d1ebefe0f49d978d
 
 ## CPU 权重核查
 
-在 CPU 重任务锁内核查了本机模型目录、缓存、容器卷及已有参考 fixture。Qwen3.6-35B-A3B 唯一完整候选仍是 GPTQ Int4：语言模型 shard 的 header 含 `I32` 打包 `qweight/qzeros/g_idx` 和 `F16` scale；BF16 文件只覆盖视觉/ MTP 辅助部分。它可以做反量化近似，但不是原始 BF16，无法作为本轮 R。已有 BF16 fixture 仅是另一模型的两块 float shard 加少量 expert tensor，缺少完整语言模型。
+在 CPU 重任务锁内核查了本机模型目录、缓存、容器卷及已有参考 fixture。Qwen3.6-35B-A3B 唯一完整候选仍是 GPTQ Int4：语言模型 shard 的 header 含 `I32` 打包 `qweight/qzeros/g_idx` 和 `F16` scale；BF16 部分包括视觉/MTP 及未量化的语言模型参数，但语言模型的 MoE 投影仍是打包 Int4，不能组成原始 BF16 全模型。它可以做反量化近似，但不是原始 BF16，无法作为本轮 R。已有 BF16 fixture 仅是另一模型的两块 float shard 加少量 expert tensor，缺少完整语言模型。
 
-另有 Qwen3.6-35B-A3B APEX GGUF compact，可按 GGUF 专用路径反量化，但会保留量化误差，且不能满足“原始权重、纯 torch eager”的 R 定义。转换 GPTQ/GGUF 还需要大规模 CPU/disk 临时空间；未在资源不足时启动。核查明细和 header SHA 见 `raw/cpu-weight-availability-audit.json`。
+另有 Qwen3.6-35B-A3B APEX GGUF compact，header 显示 733 个 tensor、约 34.66B 参数，包含 Q6_K 151 个、Q4_K 191 个、Q3_K 90 个及 F32 301 个；按 BF16 物化约需 69.32 GB，仅读取 header 未读取 tensor data。它可按 GGUF 专用路径反量化，但会保留量化误差，且不能满足“原始权重、纯 torch eager”的 R 定义。转换 GPTQ/GGUF 还需要大规模 CPU/disk 临时空间；未在资源不足时启动。核查明细和 header SHA 见 `raw/cpu-weight-availability-audit.json`。
 
 因此没有读取 R，也没有重跑同轮 A/A′ 或读取新的 B/B0；G1/G2/性能继续不执行。
