@@ -231,7 +231,7 @@
     "output_tokens": 7680,
     "all_expected_usage": true
   },
-  "status": "G2_passed_collecting_stable_profiles",
+  "status": "G2_and_dual_rank_stable_profiles_passed_formal_replay_queued",
   "artifact_sha256": {
     "valid_micro": "d302b311209201001f75e8dff121c94140942fa7beb8ba5338f20c9395b6aa2f",
     "capture_manifest": "b0499d7d7422012ae1f8745b59148c0df49da1e4c8111d46d64cbb4adc0bc8f1",
@@ -255,8 +255,9 @@
     "total_passed": 16,
     "G1": "not required under bitwise rule",
     "formal_replay_pairs_completed": 0,
-    "candidate_model_Profile_windows_completed": 0,
-    "load_adjudication_CPU_tests": 4
+    "candidate_model_Profile_windows_completed": 8,
+    "load_adjudication_CPU_tests": 4,
+    "total_model_Profile_windows_completed": 16
   },
   "service_handoff": {
     "restoration_health": 200,
@@ -356,5 +357,331 @@
         "identical_parsed": 16
       }
     }
+  },
+  "stable_profiles": {
+    "passed": true,
+    "captures": 16,
+    "stable_steps_per_capture": 96,
+    "observations": {
+      "A": [
+        {
+          "rank": 0,
+          "batch": 1,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 0,
+          "batch": 2,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 0,
+          "batch": 3,
+          "stable_observed_steps": 113,
+          "graph": false
+        },
+        {
+          "rank": 0,
+          "batch": 4,
+          "stable_observed_steps": 112,
+          "graph": false
+        },
+        {
+          "rank": 1,
+          "batch": 1,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 1,
+          "batch": 2,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 1,
+          "batch": 3,
+          "stable_observed_steps": 113,
+          "graph": false
+        },
+        {
+          "rank": 1,
+          "batch": 4,
+          "stable_observed_steps": 113,
+          "graph": false
+        }
+      ],
+      "B": [
+        {
+          "rank": 0,
+          "batch": 1,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 0,
+          "batch": 2,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 0,
+          "batch": 3,
+          "stable_observed_steps": 113,
+          "graph": false
+        },
+        {
+          "rank": 0,
+          "batch": 4,
+          "stable_observed_steps": 113,
+          "graph": false
+        },
+        {
+          "rank": 1,
+          "batch": 1,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 1,
+          "batch": 2,
+          "stable_observed_steps": 112,
+          "graph": true
+        },
+        {
+          "rank": 1,
+          "batch": 3,
+          "stable_observed_steps": 113,
+          "graph": false
+        },
+        {
+          "rank": 1,
+          "batch": 4,
+          "stable_observed_steps": 113,
+          "graph": false
+        }
+      ]
+    },
+    "records": [
+      {
+        "arm": "A",
+        "rank": 0,
+        "batch": 1,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 7.476936583333113,
+        "window_ms_per_step": 35.785420583333334,
+        "uncovered_by_named_kernel_ms_per_step": 3.521063166669463
+      },
+      {
+        "arm": "A",
+        "rank": 0,
+        "batch": 2,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 12.260940999999896,
+        "window_ms_per_step": 45.508332072916666,
+        "uncovered_by_named_kernel_ms_per_step": 3.4562363541651577
+      },
+      {
+        "arm": "A",
+        "rank": 0,
+        "batch": 3,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 17.4501953645833,
+        "window_ms_per_step": 64.26200885416667,
+        "uncovered_by_named_kernel_ms_per_step": 6.200051927077497
+      },
+      {
+        "arm": "A",
+        "rank": 0,
+        "batch": 4,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 22.336379135416735,
+        "window_ms_per_step": 68.73546917708333,
+        "uncovered_by_named_kernel_ms_per_step": 4.7593916145650335
+      },
+      {
+        "arm": "A",
+        "rank": 1,
+        "batch": 1,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 7.437599312499838,
+        "window_ms_per_step": 35.771446583333336,
+        "uncovered_by_named_kernel_ms_per_step": 3.257340552073205
+      },
+      {
+        "arm": "A",
+        "rank": 1,
+        "batch": 2,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 11.98425350000014,
+        "window_ms_per_step": 45.49055633333333,
+        "uncovered_by_named_kernel_ms_per_step": 3.4738223020675307
+      },
+      {
+        "arm": "A",
+        "rank": 1,
+        "batch": 3,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 17.489307833333,
+        "window_ms_per_step": 64.2369206875,
+        "uncovered_by_named_kernel_ms_per_step": 4.9510965104113955
+      },
+      {
+        "arm": "A",
+        "rank": 1,
+        "batch": 4,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant": 7680
+        },
+        "moe_ms_per_step": 22.30023397916635,
+        "window_ms_per_step": 68.70864246875,
+        "uncovered_by_named_kernel_ms_per_step": 4.772013489569547
+      },
+      {
+        "arm": "B",
+        "rank": 0,
+        "batch": 1,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale_0": 7680
+        },
+        "moe_ms_per_step": 4.6982345729166,
+        "window_ms_per_step": 32.95364620833333,
+        "uncovered_by_named_kernel_ms_per_step": 3.196947625003115
+      },
+      {
+        "arm": "B",
+        "rank": 0,
+        "batch": 2,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale_0": 7680
+        },
+        "moe_ms_per_step": 8.024200145833143,
+        "window_ms_per_step": 41.58483514583334,
+        "uncovered_by_named_kernel_ms_per_step": 3.3625868958348777
+      },
+      {
+        "arm": "B",
+        "rank": 0,
+        "batch": 3,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale": 7680
+        },
+        "moe_ms_per_step": 10.723060781250288,
+        "window_ms_per_step": 76.05561946875001,
+        "uncovered_by_named_kernel_ms_per_step": 20.98494403123301
+      },
+      {
+        "arm": "B",
+        "rank": 0,
+        "batch": 4,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale": 7680
+        },
+        "moe_ms_per_step": 13.174138260417074,
+        "window_ms_per_step": 78.96993002083333,
+        "uncovered_by_named_kernel_ms_per_step": 20.859224260381986
+      },
+      {
+        "arm": "B",
+        "rank": 1,
+        "batch": 1,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale_0": 7680
+        },
+        "moe_ms_per_step": 4.657982812500002,
+        "window_ms_per_step": 32.94083629166666,
+        "uncovered_by_named_kernel_ms_per_step": 3.478415874991561
+      },
+      {
+        "arm": "B",
+        "rank": 1,
+        "batch": 2,
+        "graph": true,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale_0": 7680
+        },
+        "moe_ms_per_step": 7.985453760416701,
+        "window_ms_per_step": 41.568641812500005,
+        "uncovered_by_named_kernel_ms_per_step": 3.534536520821135
+      },
+      {
+        "arm": "B",
+        "rank": 1,
+        "batch": 3,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale": 7680
+        },
+        "moe_ms_per_step": 10.717229041666576,
+        "window_ms_per_step": 76.02590328125,
+        "uncovered_by_named_kernel_ms_per_step": 16.675450958327943
+      },
+      {
+        "arm": "B",
+        "rank": 1,
+        "batch": 4,
+        "graph": false,
+        "steps": 96,
+        "moe_kernel_counts": {
+          "moe_prescale": 7680
+        },
+        "moe_ms_per_step": 13.209578541666785,
+        "window_ms_per_step": 78.93908233333333,
+        "uncovered_by_named_kernel_ms_per_step": 13.577978968726375
+      }
+    ],
+    "limitation": "Profiling explains kernel execution; adoption uses separate unprofiled replay."
+  },
+  "service_handoff_after_G2_and_profiles": {
+    "lock_acquired_utc": "2026-11-05T04:01:47.837325Z",
+    "restoration_utc": "2026-11-05T04:57:04.292519Z",
+    "new_independent_SSH_health": 200,
+    "independent_check_utc": "2026-11-05T04:57:18Z",
+    "lock_release_utc": "2026-11-05T04:57:19.302828Z",
+    "window_seconds": 3331.465503
   }
 }
