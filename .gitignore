@@ -286,3 +286,8 @@ logs/
 !/results/wy921-localize-20261104/README.md
 !/results/wy921-localize-20261104/adjudication.json
 !/results/wy921-localize-20261104/repro-manifest.json
+
+# moe-1: retain sanitized experiment summaries only
+/results/moe-small-m-20261105/**
+!/results/moe-small-m-20261105/README.md
+!/results/moe-small-m-20261105/adjudication.json
