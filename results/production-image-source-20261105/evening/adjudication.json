@@ -1,0 +1,168 @@
+{
+  "arms": [
+    {
+      "healthy": true,
+      "observed_unix_ns": 1793860982853193549,
+      "startup_s": 211.71846022293903,
+      "arm": "B1",
+      "kind": "B",
+      "exit_code": 0,
+      "oom_killed": false,
+      "available_ram_gib": [
+        "14.44"
+      ],
+      "worker_pids": [
+        "567",
+        "574"
+      ],
+      "segfault": false,
+      "avx2_fp16_fill": false,
+      "crash_stack_sha256": null,
+      "kernel_segfault_records": []
+    },
+    {
+      "healthy": true,
+      "observed_unix_ns": 1793861217444397065,
+      "startup_s": 224.5305168509949,
+      "arm": "Control1",
+      "kind": "Control",
+      "exit_code": 0,
+      "oom_killed": false,
+      "available_ram_gib": [
+        "14.54"
+      ],
+      "worker_pids": [
+        "568",
+        "576"
+      ],
+      "segfault": false,
+      "avx2_fp16_fill": false,
+      "crash_stack_sha256": null,
+      "kernel_segfault_records": []
+    },
+    {
+      "healthy": true,
+      "observed_unix_ns": 1793861439619092276,
+      "startup_s": 211.75402748491615,
+      "arm": "B2",
+      "kind": "B",
+      "exit_code": 0,
+      "oom_killed": false,
+      "available_ram_gib": [
+        "14.50"
+      ],
+      "worker_pids": [
+        "567",
+        "575"
+      ],
+      "segfault": false,
+      "avx2_fp16_fill": false,
+      "crash_stack_sha256": null,
+      "kernel_segfault_records": []
+    },
+    {
+      "healthy": true,
+      "observed_unix_ns": 1793861664391964807,
+      "startup_s": 213.95252358703874,
+      "arm": "Control2",
+      "kind": "Control",
+      "exit_code": 0,
+      "oom_killed": false,
+      "available_ram_gib": [
+        "14.58"
+      ],
+      "worker_pids": [
+        "567",
+        "574"
+      ],
+      "segfault": false,
+      "avx2_fp16_fill": false,
+      "crash_stack_sha256": null,
+      "kernel_segfault_records": []
+    },
+    {
+      "healthy": true,
+      "observed_unix_ns": 1793861889789837528,
+      "startup_s": 214.20919144595973,
+      "arm": "B3",
+      "kind": "B",
+      "exit_code": 0,
+      "oom_killed": false,
+      "available_ram_gib": [
+        "14.45"
+      ],
+      "worker_pids": [
+        "567",
+        "574"
+      ],
+      "segfault": false,
+      "avx2_fp16_fill": false,
+      "crash_stack_sha256": null,
+      "kernel_segfault_records": []
+    },
+    {
+      "healthy": true,
+      "observed_unix_ns": 1793862113264586853,
+      "startup_s": 212.97503885789774,
+      "arm": "Control3",
+      "kind": "Control",
+      "exit_code": 0,
+      "oom_killed": false,
+      "available_ram_gib": [
+        "14.48"
+      ],
+      "worker_pids": [
+        "567",
+        "574"
+      ],
+      "segfault": false,
+      "avx2_fp16_fill": false,
+      "crash_stack_sha256": null,
+      "kernel_segfault_records": []
+    }
+  ],
+  "B_failures": 0,
+  "Control_failures": 0,
+  "runs_each": 3,
+  "classification": "candidate starts successfully; deterministic candidate-only failure not reproduced",
+  "classification_limit": "Stable candidate-only failure not reproduced; host root cause is not established by six successful runs.",
+  "gate_status": "same-round A and A_prime collection in progress; old frozen thresholds retained",
+  "evidence_sha256": {
+    "Control2-preexec.json": "5007d49272f395ae2b73d797f11d164d92157bd6bd728364c393cb15051d6ea2",
+    "Control3-server.log": "893f791c4cacc0726f631c718330f88bcac179e016fce1d65dbbe0ba36185e7c",
+    "Control2-kernel.txt": "21533aea43cf31bf596b41c25e733a1a3dc386750e6e0a8f7ee67c4142b70d98",
+    "Control1-launch-command.json": "2104397ce342bf31b01328cad0dd3e10c83797b297efa55411e7c99541b48406",
+    "Control3-kernel.txt": "827f4f02ced77236d5e467f9f43c791422be8a5affb15fd84f571cc2bf1ba1d3",
+    "B3-launch-command.json": "f34d2497e47dc04612de58f6109ffef140b81dce4de4e425c026e452aa23b71d",
+    "Control3-preexec.json": "15e22d5481fe274ae27add55adec71405a49f4918a38cc4f7927073e7c3f06bd",
+    "B2-server.log": "f20a341c4909706e3b778487e239023d8295fcfaa424d2ebc266e5d95e9c0626",
+    "B3-outcome.json": "9b25bdb856c7e8c27b721cee143c1562d4448e6c89c2be29c2ba739389657e8e",
+    "B3-kernel.txt": "59797a81a99546292aef55bf0174813a18b7daf6a1a496be7bc18d75e85537bc",
+    "B2-outcome.json": "d3d2a44f7feead20a4f53dcafd7d0828564758efd3e8b307c016d72617c2411e",
+    "B2-preexec.json": "63bc7d3f3714f88f715b0731b237a29e75f8814396e9be8f7b4ccbd3b890cb3f",
+    "Control1-server.log": "a8b79fc33e294ab8e77f2403922f5ebface2ab5a8b73b64af34e9192ff395c8b",
+    "Control2-launch-command.json": "38a2b9b48fe181c4acde995b183038e508c23f6b2c3b5b3ede36f82fe1ce0b1e",
+    "Control1-outcome.json": "5154b536c5a10358912155be74f0a27bff96cca5753662a2427a6585f58b93d6",
+    "Control3-outcome.json": "b91d93798770fa1b47f39d2d1ca9fb28e780f5d8bef423aa86fe99fe4cdb0248",
+    "B1-outcome.json": "2e1cf7c20fe4b1666e3dd2fed2e036055381b1bc23e27cabdbe11296621a4162",
+    "Control1-kernel.txt": "6d570eb5e82f6402b22457dbc6cfd256f0134bc2f40fb3cb4aa167a920e6022c",
+    "Control1-inspect.json": "53b451d07cac12dce35f40dd92069cc06c40f5e3c611150f6bb45f1a5bbbaa26",
+    "Control3-inspect.json": "959d091de8e8c02a909b118e4265f8ba611918e607e9f06117d4f75fbd4f7781",
+    "B3-preexec.json": "4fc729f948be568269266e5a8641d44fac64e2728c9de923093fc7090990e425",
+    "B1-inspect.json": "36a89fd6a939e686f08b01f727b79fcb4aead12874db1bde293a06bdfead6f86",
+    "B1-launch-command.json": "22101e975e65e623ad1d623afc3b38bafd699265b05aa8a2a56ceb0533cc6130",
+    "B2-launch-command.json": "95c415911d28aea954417712cc4fcd52da05bbddeffbfd484c3bf2ddc98932f3",
+    "B2-kernel.txt": "9a79c6de1ff6782327a7f988651c91068efdf6664d77a8c3d33d5b1a484b2f0b",
+    "B3-server.log": "743bf2345048043ed63910e47361d52cbf4c4e1cc35b5b2f6fdf1109ea0439ac",
+    "Control2-outcome.json": "d1c03ce2309a6b1e4971e8b803b20e9c4efb320474706519e96684c684e0beb3",
+    "B3-inspect.json": "274a39e53c54ed98e45eda97df7a9a39c0c6e1277feaba4d7bab19b1f7a07c8f",
+    "B1-server.log": "000eb755f85effd32bea199f5bc564f6f9852867a8ca2908ab50af01fd8f6304",
+    "B1-preexec.json": "fd836dc9ce381affd90de04db73fda9aa345c9708f1b01e82d628642264a7e89",
+    "B2-inspect.json": "009e286681ddca027c6b3a2ce86feed4d01948d6532139f09fa976492ace5096",
+    "Control1-preexec.json": "9a3cdf2697c194e8f062d54ed491108a31e2e76c055d444156595e9ce2e8d5da",
+    "Control3-launch-command.json": "d42dd4a832913083cac781ab625571efed5f37db4ced03b5f2b5d8555f552afd",
+    "B1-kernel.txt": "59630e4657b9f37e39b9ef53bf9c2471fe23a97a1ba472d83bbadf608ad132db",
+    "Control2-server.log": "48effe787c17ec8d84e9a9b8055ca0db0cb6cf6925db63d5767f1689a8a5ab93",
+    "Control2-inspect.json": "a06cfd1ba13d4715bcc4810150155758f78ea2c2083de3b09d1f9afb47f3624c"
+  }
+}
