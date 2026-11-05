@@ -30,6 +30,7 @@ def main():
     resource.setrlimit(resource.RLIMIT_CPU, (1800, 1800))
     os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[:2])
     os.environ['OMP_NUM_THREADS'] = '1'
+    sys.dont_write_bytecode = True
     sys.path.insert(0, str(analysis))
     from msinterface.msprof_export import ExportCommand
     from msinterface.msprof_entrance import MsprofEntrance

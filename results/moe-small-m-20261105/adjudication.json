@@ -138,7 +138,7 @@
   "requires_G1": false,
   "performance_acceptance": false,
   "G1": "not_required_bitwise",
-  "G2": "incomplete: A completed; B worker initialization failed before any gate request",
+  "G2": "passed: same-round A/B counts identical",
   "profiles": {
     "meeting_replay": "projection only; no measured end-to-end gain",
     "RAG_8K_32K_prefill": "not measured",
@@ -149,7 +149,8 @@
     "Only the first encountered real expert layer is replayed per rank; routing is observed across all layers.",
     "Capture is eager at 4K context; it is not the production Graph/AOT performance baseline.",
     "The transfer estimates pure decode only; mixed/prefill stages, arrival dependence, and integration overhead are unmeasured.",
-    "Three paired timing samples do not characterize tail latency."
+    "Three paired timing samples do not characterize tail latency.",
+    "GSM free text matches in 58/64 cases across the model arms; equal task counts do not establish model-wide bitwise output identity. G1 exemption follows the confirmed operator-bitwise branch."
   ],
   "numeric_summary": {
     "max_AB_abs": 0.0,
@@ -230,7 +231,7 @@
     "output_tokens": 7680,
     "all_expected_usage": true
   },
-  "status": "resumed_linkage_fixed_waiting_locked_G2_rerun",
+  "status": "G2_passed_collecting_stable_profiles",
   "artifact_sha256": {
     "valid_micro": "d302b311209201001f75e8dff121c94140942fa7beb8ba5338f20c9395b6aa2f",
     "capture_manifest": "b0499d7d7422012ae1f8745b59148c0df49da1e4c8111d46d64cbb4adc0bc8f1",
@@ -240,34 +241,22 @@
     "G2_A_counts": "10dbd787872221257a082f5a2ad6ee0f068b042dad3f3f5aaea0e2dc438ec01e",
     "loader_ELF": "1ba3ca7f79b3c311d404e05b6e571eefb36e64cbedab9543b66eaac0a0850ae4",
     "window_events": "0414e13820c6cc30fbe749efa212f3aced2d84b0e6b30fbd2f63ab0c87e6bac0",
-    "G2_independent_health": "010133e515d7f53ccb47a55b2eea1b480ab1478bc698a8434e81893eaf0b92b3"
-  },
-  "model_gate": {
-    "A": {
-      "GSM64": 63,
-      "facts16": 16,
-      "fields_C1": 13,
-      "fields_C3": 13,
-      "short_before": 8,
-      "short_after": 8
-    },
-    "B": null,
-    "passed": false,
-    "completed_B_gate_requests": 0,
-    "candidate_numeric_regression_established": false,
-    "observed_error": "OSError: libmoe_prescale.so: cannot open shared object file: No such file or directory",
-    "loader_evidence": "Torch bridge ELF needs libmoe_prescale.so and has no RPATH/RUNPATH entry. Microbench preloads the C library; model worker attempts the bridge first.",
-    "action": "User classified the missing dependency as a build linkage omission and authorized repair plus the original remaining gates; rerun both arms in a new round."
+    "G2_independent_health": "010133e515d7f53ccb47a55b2eea1b480ab1478bc698a8434e81893eaf0b92b3",
+    "G2_v2_adjudication.json": "cec6452b8e3a5088635b5a823bc1a6c499ab37e328418d39a96e159bd8194da2",
+    "G2_v2_A-counts.json": "10dbd787872221257a082f5a2ad6ee0f068b042dad3f3f5aaea0e2dc438ec01e",
+    "G2_v2_B-counts.json": "10dbd787872221257a082f5a2ad6ee0f068b042dad3f3f5aaea0e2dc438ec01e",
+    "G2_v2_response-comparison.json": "0602d4519f0e8705845aebcdc7869459a93b60d4a7f7618d31eadc0178c9462e"
   },
   "model_adoption": false,
   "validation": {
     "operator_adjudication_CPU_tests": 7,
     "model_adjudication_CPU_tests": 4,
     "fixed_arrival_HTTP_tests": 1,
-    "total_passed": 12,
+    "total_passed": 16,
     "G1": "not required under bitwise rule",
     "formal_replay_pairs_completed": 0,
-    "candidate_model_Profile_windows_completed": 0
+    "candidate_model_Profile_windows_completed": 0,
+    "load_adjudication_CPU_tests": 4
   },
   "service_handoff": {
     "restoration_health": 200,
@@ -298,10 +287,74 @@
     "device_library_unchanged": true,
     "device_library_sha256": "20eff25fa1abd4d5d9a5bbdf9fe41b20da63cf89b7447cca7be7f3ef411735b8",
     "bridge_sha256": "053508059f82c00f869490e77dbc0db32aa3da958f30e9d5cc7d8256c2c72261",
-    "locked_cold_load_gate": "pending",
+    "locked_cold_load_gate": {
+      "passed": true,
+      "utc": "2026-11-05T04:01:57.386156Z",
+      "dependency_preloaded": false,
+      "new_process": true,
+      "library_search_directory_patch": false,
+      "log_sha256": "0d570e2226d2c7939a96ceb20559c71996ef0d860365b1ebe6eb09512bed26b8"
+    },
     "runtime_library_search_patch": false
   },
   "execution_deviations": [
     "One device-visible cold import probe ran without the shared NPU lock; excluded from gate evidence. The new G2 window repeats it under the lock."
-  ]
+  ],
+  "model_gate_previous_attempt": {
+    "A": {
+      "GSM64": 63,
+      "facts16": 16,
+      "fields_C1": 13,
+      "fields_C3": 13,
+      "short_before": 8,
+      "short_after": 8
+    },
+    "B": null,
+    "passed": false,
+    "completed_B_gate_requests": 0,
+    "candidate_numeric_regression_established": false,
+    "observed_error": "OSError: libmoe_prescale.so: cannot open shared object file: No such file or directory",
+    "loader_evidence": "Torch bridge ELF needs libmoe_prescale.so and has no RPATH/RUNPATH entry. Microbench preloads the C library; model worker attempts the bridge first.",
+    "action": "User classified the missing dependency as a build linkage omission and authorized repair plus the original remaining gates; rerun both arms in a new round."
+  },
+  "model_gate": {
+    "counts": {
+      "A": {
+        "GSM64": 63,
+        "facts16": 16,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "B": {
+        "GSM64": 63,
+        "facts16": 16,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      }
+    },
+    "passed": true,
+    "max_allowed_decrease": 1,
+    "round": "g2-v2",
+    "response_comparison": {
+      "gsm64": {
+        "cases": 64,
+        "identical_text": 58
+      },
+      "fields": {
+        "cases": 26,
+        "identical_parsed": 26,
+        "all_tokenization_match": true,
+        "all_expected_fields_exact": true,
+        "payloads_identical": true
+      },
+      "facts": {
+        "cases": 16,
+        "identical_parsed": 16
+      }
+    }
+  }
 }
