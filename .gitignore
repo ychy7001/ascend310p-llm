@@ -286,3 +286,8 @@ logs/
 !/results/wy921-localize-20261104/README.md
 !/results/wy921-localize-20261104/adjudication.json
 !/results/wy921-localize-20261104/repro-manifest.json
+
+# wy-4: keep only sanitized gate summaries
+/results/wy921-fix-20261105/**
+!/results/wy921-fix-20261105/README.md
+!/results/wy921-fix-20261105/adjudication.json
