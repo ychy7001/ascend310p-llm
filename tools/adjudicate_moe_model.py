@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import statistics
 
+PLAN_SHA256 = '975945e7aee37ad1a0ae3723187f59050ff892e1c9c21ecd2b9e1c2a8959253e'
 ORDERS = [('A','B'),('B','A'),('A','B'),('B','A'),('A','B')]
 
 
@@ -13,6 +14,7 @@ def summarize(root, label):
     folder = root / label
     events = [json.loads(line) for line in (folder/'http-events.jsonl').read_text().splitlines()]
     config = next(e for e in events if e['kind']=='config')
+    assert config['plan_sha256']==PLAN_SHA256 and config['seed']==17
     begin = next(e for e in events if e['kind']=='replay_start')
     end = next(e for e in events if e['kind']=='replay_end')
     requests = [e for e in events if e['kind']=='request_end']
