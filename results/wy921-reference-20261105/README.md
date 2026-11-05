@@ -56,7 +56,7 @@ wy-4 已完成的 A/A′ 数据显示最大目标 logprob 差至少为 7.31，�
 
 本轮未操作实验站 NPU 或服务，没有恢复窗口；没有独立复核当前服务健康状态，也未启动附属图像服务。会议回放、RAG 8K–32K、通用 1K–32K×C1/C4 和 WY Prefill 收益均未测量。
 
-## 用户指定的 CPU 子集方案（后续冻结）
+## 用户指定的 CPU 子集方案（已冻结，权重核查后停止）
 
 本节替代上一版要求完整词表 KL 的采用判据；完整词表 KL 不再是本轮前置要求。旧协议保留作为历史记录。
 
@@ -64,4 +64,12 @@ wy-4 已完成的 A/A′ 数据显示最大目标 logprob 差至少为 7.31，�
 
 R 与各臂固定 top-20；目标 token 缺失时记录 logprob 上界和误差区间。KL 使用五臂同一显式支持交集上的条件 KL，报告支持数与概率覆盖质量；不能解释为完整词表 KL。无交集或截尾区间无法确定大小时为待定。采用条件逐指标为 `L(B,R)−L(A,R) ≤ |L(A′,R)−L(A,R)|`，无绝对豁免，并保留同子集的 A′/A 噪声与 B/A 偏离。精确定义见 JSON。
 
-CPU 子集协议 SHA-256（同前述规范 JSON 编码）：`761d1ebefe0f49d978dd99d8646d1dbe78b04b13fef6c0ee8ff240d8e0295fb9`。本次提交先于 R 和新 B/B0 读取；同轮 A 续写 SHA 仍须在获取后、读取 R/B 前补充冻结。
+CPU 子集协议 SHA-256（同前述规范 JSON 编码）：`761d1ebefe0f49d978dd99d8646d1dbe78b04b13fef6c0ee8ff240d8e0295fb9`。本次提交先于 R 和新 B/B0 读取；同轮 A 续写 SHA 仍须在获取后、读取 R/B 前补充冻结。实际核查未发现可用的原始 BF16 权重，因此 R 未启动。
+
+## CPU 权重核查
+
+在 CPU 重任务锁内核查了本机模型目录、缓存、容器卷及已有参考 fixture。Qwen3.6-35B-A3B 唯一完整候选仍是 GPTQ Int4：语言模型 shard 的 header 含 `I32` 打包 `qweight/qzeros/g_idx` 和 `F16` scale；BF16 文件只覆盖视觉/ MTP 辅助部分。它可以做反量化近似，但不是原始 BF16，无法作为本轮 R。已有 BF16 fixture 仅是另一模型的两块 float shard 加少量 expert tensor，缺少完整语言模型。
+
+另有 Qwen3.6-35B-A3B APEX GGUF compact，可按 GGUF 专用路径反量化，但会保留量化误差，且不能满足“原始权重、纯 torch eager”的 R 定义。转换 GPTQ/GGUF 还需要大规模 CPU/disk 临时空间；未在资源不足时启动。核查明细和 header SHA 见 `raw/cpu-weight-availability-audit.json`。
+
+因此没有读取 R，也没有重跑同轮 A/A′ 或读取新的 B/B0；G1/G2/性能继续不执行。

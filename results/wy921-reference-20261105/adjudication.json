@@ -2,7 +2,7 @@
   "task": "wy-5",
   "decision": "待定",
   "recommendation": "停止模型实验，暂不建议采用",
-  "reason": "用户指定 CPU 子集方案；已冻结 296 个位置与 top-k 判据，继续只读核查本机原始权重完整性。",
+  "reason": "用户已将 R 改为本机 CPU 子集方案；已冻结 296 个位置和截尾规则，并完成原始权重可用性核查，但没有完整同模型 BF16 权重，因此无法执行纯 torch eager R，按资源条件停止。",
   "tool": {
     "path": "tools/compare_token_logprobs.py",
     "tests": {
@@ -45,7 +45,26 @@
     },
     "cpu": {
       "status": "rejected",
-      "reason": "No same-model BF16 or higher-precision checkpoint found in checked local model caches and existing reference mounts. Available RAM about 41 GiB and nearly exhausted swap add capacity constraints; memory-mapped/offloaded execution was not tested."
+      "reason": "No complete same-model BF16 checkpoint exists in checked local model/cache/volume locations. The only Qwen3.6-35B-A3B local candidate is GPTQ packed Int4 with I32 qweight/qzeros/g_idx plus F16 scales; dequantizing it would reconstruct an approximation, not the requested original BF16 reference. Existing BF16 tensors are vision/MTP auxiliaries, not the language-model weights. CPU conversion/inference was therefore not started.",
+      "availability_audit": "raw/cpu-weight-availability-audit.json",
+      "availability_audit_sha256": "ff7f803a1b52c5f6142bbbf6ec78f010bbfeb7d209ec27310609b3b20afca739",
+      "conversion_options": [
+        {
+          "source": "GPTQ Int4",
+          "possible": "dequantize to BF16-shaped tensors",
+          "cost": "large CPU/disk pass and temporary storage; output retains quantization error and is not a valid high-precision R"
+        },
+        {
+          "source": "APEX GGUF compact",
+          "possible": "GGUF-specific dequantization/conversion",
+          "cost": "format/runtime conversion and quantization error; not pure torch eager from original BF16 weights"
+        },
+        {
+          "source": "partial BF16 fixtures",
+          "possible": "none",
+          "cost": "different model and incomplete tensor set"
+        }
+      ]
     },
     "actions_not_taken": [
       "no new download",
@@ -89,12 +108,14 @@
     "B0": "not started",
     "G2": "not started",
     "performance": "not started",
-    "npu_window": "not started"
+    "npu_window": "not started",
+    "R": "not started: no original same-model BF16 checkpoint"
   },
   "limitations": [
     "Existing wy-4 A/A-prime data is not reused as a new same-round R comparison.",
     "The existing GPU 35B checkpoint is quantized GPTQ and cannot establish a high precision reference.",
-    "No same-model high-precision checkpoint was found in the checked locations. CPU memory mapping/offloading was not tested; prompt subsets do not remove the need for model weights."
+    "No same-model high-precision checkpoint was found in the checked locations. CPU memory mapping/offloading was not tested; prompt subsets do not remove the need for model weights.",
+    "The local Qwen3.6-35B-A3B candidate is GPTQ Int4; dequantization would not meet the requested original-BF16 reference definition and was not used."
   ],
   "frozen_protocol_sha256": "47a47f287a92ae049a9c2ec410972942ba24bcd4f0a1b0f8c9482ed3b5bc8d98",
   "wy2_gap_ge13": {
