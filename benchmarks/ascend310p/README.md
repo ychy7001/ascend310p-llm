@@ -64,6 +64,8 @@
 - `tools/test_check_business_facts.py`
 - `tools/test_compare_token_logprobs.py`
 - `tools/test_replay_stage_workload.py`
+- `tools/patch_pr17640_wy_fp32.py`
+- `tools/check_pr17640_wy_patch.py`
 - `tools/wy_snapshot_reference.py`
 - `tools/test_wy_snapshot_reference.py`
 
@@ -75,3 +77,5 @@
 PYTHONPATH=tools:benchmarks/ascend310p python3 -m unittest discover -s tools -p 'test_*.py'
 PYTHONPATH=tools:benchmarks/ascend310p python3 -m unittest discover -s benchmarks/ascend310p -p 'test_*.py'
 ```
+
+`tools/patch_pr17640_wy_fp32.py` 只接受 PR17640 `18163f6b` 的固定 WY 内核 blob，生成 Gram 高低拆分、补偿前缀和及移除经验性倍增准入的修复候选。`tools/check_pr17640_wy_patch.py --source-root <固定源码目录>` 在 CPU 检查候选源码身份、拒绝改动过的源码、拒绝重复应用和单文件修改范围；数值验收仍以扩充 G0 与后续模型门禁为准。
