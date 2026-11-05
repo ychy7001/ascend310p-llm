@@ -1,0 +1,15 @@
+{
+  "architecture": "amd64",
+  "base_manifest_digest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
+  "base_image_id": "sha256:e86feb2f76788cfa1fa70bfe088ca3b26ad92a23e316927e7a41e51739ebd9b7",
+  "base_provenance": "recovered-from-production-first-19-layers",
+  "production_manifest_digest": "sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+  "sources": {
+    "/vllm-workspace/vllm": "0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665",
+    "/vllm-workspace/vllm-ascend": "88eac2713b14beedc7a48803274f8d6cee3e9f30"
+  },
+  "patches": {
+    "patches/production/attention-mask.patch": "f69d61f2b61fbd6b50032f44c5c5d6fbc32d1da274b4d01fc6364244f8b2e4ab"
+  },
+  "triton_wheel_sha256": "8d9b215efc1c26fa7eefb9a157915c92d52e000d2bf83e5f69704047e63f125c"
+}

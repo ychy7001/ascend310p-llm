@@ -1,0 +1,2 @@
+# PyPI CPython 3.12 Linux x86_64 wheel; production uses --no-deps.
+triton==3.2.0 --hash=sha256:8d9b215efc1c26fa7eefb9a157915c92d52e000d2bf83e5f69704047e63f125c
