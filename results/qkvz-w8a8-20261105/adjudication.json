@@ -636,7 +636,9 @@
     "unprofiled_paired_measurements": 24,
     "timed_steps_all_arms_ranks_batches": 12288,
     "source_bf16_tensor_headers_verified": 60,
-    "shared_logprob_comparison_tests": 7
+    "shared_logprob_comparison_tests": 7,
+    "model_gate_python_compile": 2,
+    "G2_orchestration_synthetic_check": true
   },
   "limits": [
     "real weights, synthetic activations",

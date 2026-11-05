@@ -48,6 +48,7 @@
 | 性能筛选 | `bench_qkvz_w8a8.py bench --weights WEIGHTS --output OUTPUT --rank RANK` | 八档各3对×256步，共24对、12288个计时步；有效1.699228× |
 | G0 | `bench_qkvz_w8a8.py g0 --weights WEIGHTS --output OUTPUT --rank RANK` | 240/240通过；最大NRMSE=0.016041696；最小cosine=0.999871194；A/B位模式重复240/240 |
 | G1 / G2 | 同轮模型对照准备 | G1阈值未冻结；模型B 0次 |
+| G2 编排 | 合成工具输出检查（未访问模型） | 五项计数正确：64 / 13 / 13 / 8 / 8；修正状态记录参数重名 |
 
 | 负载画像 | 本轮收益 |
 |---|---|

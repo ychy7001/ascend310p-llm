@@ -209,7 +209,7 @@ class Gate:
                     '--label', label, '--out', str(self.root/(label+'-gsm64.jsonl'))])
                 self.command(label+'-fields', ['python3', str(self.tools/'check_action_state_regression.py'), *common,
                     '--fixtures', str(self.args.fields), '--out', str(self.root/(label+'-fields.jsonl'))])
-            self.state('G2', arm=label, phase=phase)
+            self.state('G2', arm=label, step=phase)
             self.command(label+'-short-'+phase, ['python3', str(self.tools/'check_cache_request_reuse.py'), *common,
                 '--out', str(self.root/(label+'-short-'+phase+'.json'))])
             result = read(self.root/(label+'-short-'+phase+'.json'))
