@@ -1,6 +1,8 @@
 # 生产镜像源码化：候选发布与设备窗口（2026-11-05）
 
-**候选已发布，设备验收未完成。** 生产 A、生产新进程 A′ 完成 G1/G2；候选 B 在 模型加载之前的 Python 子进程 CPU FP16 zeros 初始化中段错误退出，退出码 1，未达到健康状态。按计划外问题停止规则，未重试、未改参数、未采 B 数据、未跑性能矩阵。根因尚未确定，不能把 CPU 文件一致视为设备验收通过。
+后续同日启动复现和冻结阈值复核见 [后续窗口](evening/README.md)；本页保留早先窗口的结果。
+
+**候选已发布，设备验收未完成。** 生产 A、生产新进程 A′ 完成 G1/G2；候选 B 在 TP1 权重加载之前的 Python 子进程 CPU FP16 zeros 初始化中段错误退出，退出码 1，未达到健康状态。按计划外问题停止规则，未重试、未改参数、未采 B 数据、未跑性能矩阵。根因尚未确定，不能把 CPU 文件一致视为设备验收通过。
 
 ## 发布与固定运行条件
 
@@ -47,7 +49,7 @@
 
 ## 失败证据、窗口与限制
 
-B 在启动后约64.5秒退出，日志为 `WorkerProc initialization failed` / `Engine core initialization failed`，容器 `ExitCode=1`、`OOMKilled=false`。启动区间读取的内核日志没有 OOM 记录；这些信息不足以确定根因。aarch64 loader 警告在成功的 A、A′ 中也出现，未据此归因或添加兼容处理。没有分析或改动 Ascend 算子/内核实现。
+B 在启动后约64.5秒退出，容器 `ExitCode=1`、`OOMKilled=false`。更正后的日志定位是TP1 权重加载之前，一个 `python -c` 子进程在对象初始化中调用 CPU FP16 `torch.zeros`，原生栈经过 ATen AVX2 `fill_non_native_type<c10::Half>`、`fill_kernel`、`zero_` 和 `THPVariable_zeros`。`tvm_ffi` 是信号报告者；后续 `WorkerProc initialization failed` / `Engine core initialization failed` 是退出结果。TP1 没有打印 `Starting to load model`，也没有 `Loading model weights took` 或可用 KV cache 日志；另一个 TP0 在段错误之后才打印开始加载，不能将其当成崩溃子进程的阶段。原始 B 未单独保存完整日志，仅保留 emergency 日志；启动区间内核日志没有 OOM 记录，根因仍未确定。aarch64 loader 警告在成功的 A、A′ 中也出现，未据此归因或添加兼容处理。没有分析或改动 Ascend 算子/内核实现。
 
 阻塞排队4318.97秒后取锁，取锁时原服务 active、health=200；全窗口持有共享 NPU 锁。结束时恢复原单元，在新的独立 SSH 连接确认 health=200 后放锁，持锁3132.73秒（52分13秒），未超过三小时。健康结论对应解锁前的恢复确认。
 

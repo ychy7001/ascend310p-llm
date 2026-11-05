@@ -196,16 +196,25 @@
     "healthy": false,
     "exit_code": 1,
     "oom_killed": false,
-    "stage": "before model loading: python -c object initialization, CPU float16 torch.zeros, ATen AVX2 fill",
+    "stage": "before TP1 weight loading: python -c object initialization, CPU float16 torch.zeros, ATen AVX2 fill",
     "root_cause": "undetermined",
     "g1_samples": 0,
     "g2_samples": 0,
     "retries": 0,
-    "log_sha256": "a713508e4cfd5c71479f593fb55c8772fbccf0b776ae9c9abc859a737645b923",
     "kernel_oom_records_in_startup_interval": 0,
     "native_stack": "AVX2 fill_non_native_type<c10::Half> -> fill_kernel -> zero_ -> zeros_symint -> THPVariable_zeros",
     "signal_reporter": "tvm_ffi; reporter does not establish fault ownership",
-    "interpretation_corrected_on": "2026-11-05"
+    "interpretation_corrected_on": "2026-11-05",
+    "retained_emergency_log_sha256": "a713508e4cfd5c71479f593fb55c8772fbccf0b776ae9c9abc859a737645b923",
+    "complete_individual_log_retained": false,
+    "retained_log_scope": "emergency-server.log; no separately retained B-server.log",
+    "retained_log_observations": {
+      "segfault_line": 98,
+      "TP0_starting_to_load_after_segfault_line": 159,
+      "available_ram_20_49_gib_line": 166,
+      "auto_prefetch_disabled_line": 167,
+      "TP1_starting_to_load_observed": false
+    }
   },
   "arm_configuration": {
     "A_equals_A_prime": true,

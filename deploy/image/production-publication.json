@@ -11,7 +11,7 @@
   "local_uncompressed_manifest_digest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
   "transport_change": "OCI layers compressed with gzip on push; config and all 19 diff_ids unchanged",
   "candidate_published": true,
-  "device_validation": "candidate-startup-failed-before-G1",
+  "device_validation": "candidate-startups-passed; same-round-production-noise-exceeds-frozen-thresholds",
   "inspection_date": "2026-11-05",
   "candidate_reference": "${REGISTRY}/${NAMESPACE}/ascend310p-llm-candidate@sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
   "candidate_tag": "image-src-f46116b-amd64-310p",

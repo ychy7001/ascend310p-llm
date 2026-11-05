@@ -22,6 +22,6 @@
   },
   "production_inventory_sha256": "33802da84af081175b21ce92a4cb3a28c0c291e60abede16f6c64279d075f6e0",
   "candidate_inventory_sha256": "43456f977efaaf6fe78d51a55ba0e0f3ca182c3f91b349dbc2c3dbe6f6f180f8",
-  "device_validation": "candidate-startup-failed-before-G1",
+  "device_validation": "candidate-startups-passed; same-round-production-noise-exceeds-frozen-thresholds",
   "registry_published": true
 }
