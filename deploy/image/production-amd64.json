@@ -11,5 +11,6 @@
   "patches": {
     "patches/production/attention-mask.patch": "f69d61f2b61fbd6b50032f44c5c5d6fbc32d1da274b4d01fc6364244f8b2e4ab"
   },
-  "triton_wheel_sha256": "8d9b215efc1c26fa7eefb9a157915c92d52e000d2bf83e5f69704047e63f125c"
+  "triton_wheel_sha256": "8d9b215efc1c26fa7eefb9a157915c92d52e000d2bf83e5f69704047e63f125c",
+  "base_registry_reference": "${REGISTRY}/${NAMESPACE}/vllm-ascend-310p-base@sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f"
 }

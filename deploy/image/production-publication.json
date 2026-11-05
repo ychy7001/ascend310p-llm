@@ -1,0 +1,16 @@
+{
+  "base_reference": "${REGISTRY}/${NAMESPACE}/vllm-ascend-310p-base@sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+  "base_tag": "recovered-1a193ded0d75-amd64",
+  "local_push_manifest_digest": "sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+  "remote_manifest_digest": "sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+  "remote_manifest_matches_push_digest": true,
+  "remote_config_digest": "sha256:e86feb2f76788cfa1fa70bfe088ca3b26ad92a23e316927e7a41e51739ebd9b7",
+  "remote_config_matches_recovered_base": true,
+  "production_prefix_diff_ids_equal": true,
+  "layers": 19,
+  "local_uncompressed_manifest_digest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
+  "transport_change": "OCI layers compressed with gzip on push; config and all 19 diff_ids unchanged",
+  "candidate_published": false,
+  "device_validation": "not-executed-service-preflight-failed",
+  "inspection_date": "2026-11-05"
+}

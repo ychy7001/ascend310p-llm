@@ -2,7 +2,7 @@
 
 本仓在现有 `deploy/image` 中增加 `production` target，用固定的生产恢复基底、上游提交和补丁队列重建 W8A8/TP2 镜像。默认 `runtime` target 仍是已有 W4/TP1 打包入口。两者没有共享模型启动参数：生产 target 继承基底的官方入口、环境和默认命令，服务方继续提供实际生产命令。
 
-本次只做 CPU 取证、恢复、构建与对照。没有执行模型推理、设备门禁或切换生产引用。官方换底另见 [评估](production-image-base-evaluation.md)。
+CPU 取证、恢复、构建与对照已完成，恢复基底已发布到指定的新仓库。设备验证在服务预检时停止；没有执行模型推理、设备门禁或切换生产引用。官方换底另见 [评估](production-image-base-evaluation.md)。
 
 ## 固定组成
 
@@ -40,7 +40,7 @@ triton wheel 为 `triton-3.2.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x
 
 ## 恢复和构建
 
-以下命令仅在本机操作。`WORK_DIR` 放仓库外，`PRODUCTION_REGISTRY` 由操作方提供。每项拉取、解层、构建或批量哈希开始前检查 `pgrep -f '[a]sr_realtime_ws_smoke'`；有输出时每 60 秒检查一次，结束后才开始，并记录等待时长。重步骤串行运行。
+以下命令仅在本机操作。`WORK_DIR` 放仓库外，`PRODUCTION_REGISTRY` 由操作方提供。每项拉取、解层、构建或批量哈希开始前检查 `pgrep -f '[a]sr_realtime_ws_smoke'`；有输出时每 60 秒检查一次，结束后才开始，并记录等待时长。重步骤还需持有 `flock /tmp/a310-cpu-heavy.lock`，串行运行。
 
 ```bash
 PRODUCTION_IMAGE="${PRODUCTION_REGISTRY}/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38"
@@ -54,7 +54,7 @@ podman build --jobs 1 --arch amd64 --pull=never --format docker --target product
   -t localhost/a310-image-src:candidate .
 ```
 
-恢复工具先验证生产 22 个 diff_id，再生成前 19 层的 OCI 索引。该工具原地改变导出目录的 index，保留 blob；再次恢复需要新的生产导出目录。输出应与锁文件的 manifest/config digest 一致。构建用 image config ID 固定 `FROM`；基底没有发布到 registry，不提供虚构的 registry 引用。
+恢复工具先验证生产 22 个 diff_id，再生成前 19 层的 OCI 索引。该工具原地改变导出目录的 index，保留 blob；再次恢复需要新的生产导出目录。输出应与锁文件的 manifest/config digest 一致。构建用 image config ID 固定 `FROM`。恢复基底已发布，其他构建机可先拉取锁文件 `base_registry_reference` 的不可变引用；该引用中的 registry/namespace 由操作方展开。
 
 Containerfile 校验 x86_64、两份源码 HEAD、干净工作树和补丁 SHA256，随后应用队列并按 wheel 哈希安装 triton。构建不会加载模型或导入 torch。基底自带 CANN 和上游编译制品，本流程复现生产 overlay，并不从源码重编 CANN 或全部上游二进制。
 
@@ -103,8 +103,20 @@ python3 deploy/image/compare-production.py \
 
 已有 `base-amd64.json` 固定 2026-09-22 的另一基础索引，vllm-ascend 为 `1cdb8c4db6e50f36f1fb3283b3e3dd618f6821e8`。准备器、start.sh 和原校验模式打包 W4/C8/GDN/MindIEQ 制品并启动 TP1；它属于另一运行镜像线，部分 vLLM 来源重合。生产 target 使用同一个 Containerfile 和校验器，保留官方入口；没有把已有 qwen36/qwen38 实验补丁加入生产队列。Podman 默认跳过不影响目标的 stage，现有 W4 准备器仍选择最后的 runtime stage。
 
-## 设备验证的交接边界
+## 发布记录
 
-第 1–3 步结论须交 owner 确认，第 5 步另行派发。本轮未登录交付站、未停服务、未运行 NPU 门禁。
+恢复基底的远端引用是 `${REGISTRY}/${NAMESPACE}/vllm-ascend-310p-base@sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f`，tag 为 `recovered-1a193ded0d75-amd64`。推送输出 digest 与通过 registry API 重新下载的原始 manifest SHA256 完全一致；远端 config 的 SHA256 与恢复基底 image ID 一致，19 个 diff_id 与生产前缀一致。记录见 [`production-publication.json`](../deploy/image/production-publication.json)。
 
-后续若获批，在无业务流量的限时窗口内停止 backend，固定同一模型及有效参数，以生产 A、候选 B、生产重启 A′ 三臂执行现有 G1/G2 工具；先用 A/A′ 冻结噪声阈值，再采 B。沿用 `tools/compare_token_logprobs.py`、GSM64、短题/复用/事实和业务检查；不以自动 schema 通过代替语义验收。门禁通过后运行 `tools/bench_http_stream.py` 的 1K/4K/16K/32K × C1/C4 八格矩阵，不要求额外收益，候选不得比生产差。窗口结束恢复原镜像，确认 `18081/health=200` 且 `backend-api-smoke` 通过。具体时长、冻结样本和阈值由后续派发确定。
+本地恢复 OCI 使用未压缩层；推送时 Podman 将层 gzip 压缩，因此发布 manifest digest 与本地未压缩 manifest digest 不同。config、文件系统 diff_id 和文件内容没有改变。锁文件保留未压缩恢复 digest，并另外记录可拉取的 registry 来源引用。
+
+候选尚未发布，不能提供候选远端 digest；生产镜像仓库未写入任何 tag。
+
+## 设备验证状态与门禁口径
+
+2026-11-05 的授权允许在实验设备执行验证，禁止触碰交付站。只读服务预检返回原 backend 服务 `LoadState=loaded`、`ActiveState=inactive`、`SubState=dead`，18081 `/health` 连接失败（HTTP 000）。按计划外问题停止规则，本轮在取得设备锁、改变服务和运行门禁之前停止；候选推送也尚未开始。未修复或启动任何服务。
+
+后续执行前须重新满足共享规则：整个设备窗口持有 `/tmp/a310-npu.lock`，最多三小时，结束恢复原服务，并在新的独立 SSH 连接确认 health=200 后才放锁。
+
+固定同一模型和生产启动参数，生产 A、候选 B、生产新进程 A′ 三臂。采 B 前固定样本、比较项和阈值口径：G1 的 B 对 A 偏差不得超过同轮 A′ 对 A 噪声底（系数 1.0）；G2 同轮重跑 GSM64、13 例结构化字段和 8 短题，每项差异不超过 1。沿用 `tools/compare_token_logprobs.py` 和已有评测工具，不以 schema 通过代替语义验收。若 B 超出 A′ 噪声底，停止并汇报。
+
+门禁通过后用 `tools/bench_http_stream.py` 测 1K/4K/16K/32K × C1/C4，候选不得比生产差。本轮 G1/G2 和八格基准均未执行，没有设备数值或性能结论。
