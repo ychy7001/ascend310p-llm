@@ -116,8 +116,10 @@ def compare(reference, candidate):
 def adjudicate(noise, candidate, rule):
     if noise['mode'] != candidate['mode']:
         raise ValueError('Different modes')
-    assert rule['multiplier'] == 1.5 and rule['absolute_floor'] == 0
-    thresholds = {key: 1.5 * value for key, value in noise['metrics'].items()}
+    multiplier = rule['multiplier']
+    if not math.isfinite(multiplier) or multiplier <= 0 or rule['absolute_floor'] != 0:
+        raise ValueError('Expected positive finite noise multiplier and zero absolute floor')
+    thresholds = {key: multiplier * value for key, value in noise['metrics'].items()}
     checks = {}
     for key,value in candidate['metrics'].items():
         censored = (key=='max_absolute_target_logprob_difference'

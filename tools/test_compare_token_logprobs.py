@@ -38,6 +38,25 @@ class NumericalComparisonTest(unittest.TestCase):
         self.assertFalse(result['passed'])
         self.assertFalse(result['checks']['max_absolute_target_logprob_difference']['passed'])
 
+    def test_strict_noise_floor_uses_frozen_multiplier(self):
+        x=self.record();noise=compare(x,x)
+        y=copy.deepcopy(x);y['cases'][0]['positions'][4]['logprobs']['1']=math.log(.79)
+        paired=compare(x,y)
+        noise['metrics']=dict(paired['metrics'])
+        self.assertTrue(adjudicate(noise,paired,{'multiplier':1.0,'absolute_floor':0})['passed'])
+        noise['metrics']['max_absolute_target_logprob_difference']/=1.25
+        strict=adjudicate(noise,paired,{'multiplier':1.0,'absolute_floor':0})
+        self.assertFalse(strict['passed'])
+        self.assertTrue(adjudicate(noise,paired,{'multiplier':1.5,'absolute_floor':0})['passed'])
+        self.assertEqual(strict['checks']['max_absolute_target_logprob_difference']['threshold'],
+                         noise['metrics']['max_absolute_target_logprob_difference'])
+
+    def test_invalid_multiplier_rejected(self):
+        noise=compare(self.record(),self.record())
+        for multiplier in (0,-1,math.inf,math.nan):
+            with self.assertRaises(ValueError):
+                adjudicate(noise,noise,{'multiplier':multiplier,'absolute_floor':0})
+
     def test_generated_only_compares_common_context(self):
         x=self.record('generated');y=copy.deepcopy(x)
         y['cases'][0]['greedy_ids'][2]=2
