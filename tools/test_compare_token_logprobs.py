@@ -2,7 +2,7 @@ import copy
 import math
 import unittest
 
-from compare_token_logprobs import adjudicate, compare, first_divergence, conditional_topk_kl
+from compare_token_logprobs import adjudicate, censored_metrics, compare, first_divergence, conditional_topk_kl
 
 
 class NumericalComparisonTest(unittest.TestCase):
@@ -82,16 +82,65 @@ class NumericalComparisonTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'reference sequences'):
             compare(x,y)
     def test_censored_error_cannot_pass_from_a_small_bound(self):
+        rule={'multiplier':1.5,'absolute_floor':0,'gating_metrics':['max_absolute_target_logprob_difference']}
         noise=compare(self.record(),self.record())
         noise['metrics']['max_absolute_target_logprob_difference']=10
-        for key in noise['metrics']:
-            if 'divergent_suffix_fraction' in key or key=='top1_disagreement_rate':noise['metrics'][key]=1
         y=self.record();del y['cases'][0]['positions'][0]['logprobs']['1']
         y['cases'][0]['greedy_ids'][0]=2
         y['cases'][0]['positions'][0]['top1']=2
-        result=adjudicate(noise,compare(self.record(),y),{'multiplier':1.5,'absolute_floor':0})
+        result=adjudicate(noise,compare(self.record(),y),rule)
         self.assertIsNone(result['checks']['max_absolute_target_logprob_difference']['passed'])
         self.assertIsNone(result['passed'])
+
+    def test_per_case_metrics_do_not_move_with_compared_position_count(self):
+        # The same absolute amount of divergence, spread over cases: the
+        # position-weighted rate halves when the compared denominator doubles,
+        # the per-case metrics do not.
+        x=self.record('generated')
+        early=copy.deepcopy(x);late=copy.deepcopy(x)
+        for y,at in ((early,5),(late,250)):
+            y['cases'][0]['greedy_ids'][at]=2
+            y['cases'][0]['positions'][at]['top1']=2
+            y['cases'][0]['positions']=y['cases'][0]['positions'][:at+1]
+        e,l=compare(x,early),compare(x,late)
+        self.assertAlmostEqual(e['metrics']['top1_disagreement_rate'],1/6)
+        self.assertAlmostEqual(l['metrics']['top1_disagreement_rate'],1/251)
+        self.assertAlmostEqual(e['metrics']['mean_case_top1_mismatch_rate'],1/6)
+        self.assertAlmostEqual(l['metrics']['mean_case_top1_mismatch_rate'],1/251)
+        self.assertEqual(e['metrics']['top1_disagreeing_case_rate'],1.0)
+        self.assertEqual(l['metrics']['top1_disagreeing_case_rate'],1.0)
+
+    def test_prefix_magnitude_is_uncensored_and_excludes_divergence(self):
+        x=self.record('generated');y=copy.deepcopy(x)
+        # Divergence at position 4: positions 0-3 are the shared prefix.
+        y['cases'][0]['greedy_ids'][4]=2;y['cases'][0]['positions'][4]['top1']=2
+        y['cases'][0]['positions']=y['cases'][0]['positions'][:5]
+        y['cases'][0]['positions'][4]['logprobs']={'2':math.log(.9)}
+        result=compare(x,y)
+        self.assertEqual(result['per_case'][0]['prefix_positions'],4)
+        self.assertEqual(result['per_case'][0]['censored_target_positions'],[4])
+        self.assertEqual(result['target_logprob_error_coverage']['cases_without_uncensored_positions'],0)
+        self.assertNotIn('mean_prefix_absolute_target_logprob_difference',censored_metrics(result))
+        # Moving a prefix position does move it; moving only the divergence
+        # position does not.
+        moved=copy.deepcopy(y);moved['cases'][0]['positions'][2]['logprobs']['1']=math.log(.75)
+        self.assertGreater(compare(x,moved)['metrics']['mean_prefix_absolute_target_logprob_difference'],
+                           result['metrics']['mean_prefix_absolute_target_logprob_difference'])
+
+    def test_gating_metrics_select_the_judged_subset(self):
+        noise=compare(self.record(),self.record())
+        y=copy.deepcopy(self.record());y['cases'][0]['positions'][4]['logprobs']['1']=math.log(.79)
+        paired=compare(self.record(),y)
+        noise['metrics']=dict(paired['metrics'])
+        noise['metrics']['max_absolute_target_logprob_difference']/=1.25
+        rule={'multiplier':1.0,'absolute_floor':0,
+              'gating_metrics':['mean_case_max_conditional_topk_kl','mean_prefix_absolute_target_logprob_difference']}
+        selected=adjudicate(noise,paired,rule)
+        self.assertEqual(sorted(selected['checks']),
+                         ['mean_case_max_conditional_topk_kl','mean_prefix_absolute_target_logprob_difference'])
+        self.assertTrue(selected['passed'])
+        with self.assertRaisesRegex(ValueError,'not measured'):
+            adjudicate(noise,paired,{**rule,'gating_metrics':['not_a_metric']})
 
 
 if __name__=='__main__':unittest.main()
