@@ -283,7 +283,14 @@
       "utc": "2026-11-05T01:51:01Z",
       "mechanism": "external systemctl stop, EngineCore SIGTERM, normal successful deactivation at 01:51:05 UTC",
       "next_window": "WY model gates",
-      "self_crash_evidence": false
+      "self_crash_evidence": false,
+      "subsequent_restoration": {
+        "controller": "WY model-gate window",
+        "start_utc": "2026-11-05T02:39:12Z",
+        "application_startup_complete_utc": "2026-11-05T02:42:46Z",
+        "next_external_stop_utc": "2026-11-05T02:43:00Z",
+        "next_lock_holder": "image experiment window"
+      }
     }
   },
   "linkage_repair": {
