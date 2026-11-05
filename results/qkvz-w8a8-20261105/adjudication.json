@@ -1,5 +1,5 @@
 {
-  "status": "G0_passed_fresh_model_A_queued",
+  "status": "stopped_A_G2_evaluator_CLI_error_before_A_prime_or_B",
   "base_commit": "74f7202",
   "scope": "30 linear_attn.in_proj_qkvz only",
   "image_sha256": "c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
@@ -618,8 +618,33 @@
     "A_B_bitwise_repeat_passed": 240,
     "quant_reference_max_abs": 0.0033292770385742188
   },
-  "G1": "not_run",
-  "G2": "not_run",
+  "G1": {
+    "status": "incomplete",
+    "A_cases": 37,
+    "A_output_positions": 9472,
+    "A_explicit_logprobs": 189440,
+    "A_nonfinite_logprobs": 0,
+    "A_prefix_queries": 414551,
+    "A_prefix_hits": 0,
+    "A_prime_runs": 0,
+    "B_runs": 0,
+    "thresholds_frozen": false,
+    "A_record_sha256": "1221f8f2ab3cab56aff412ff3f8fdf1857eec916073ae9c95ebeca821126db27"
+  },
+  "G2": {
+    "status": "incomplete_evaluator_CLI_error",
+    "A_GSM64_correct": 63,
+    "A_GSM64_samples": 64,
+    "A_GSM64_parse_missing": 1,
+    "A_GSM64_truncated": 1,
+    "A_short_before": 8,
+    "A_reuse_identical_text": true,
+    "A_canary_leaked": false,
+    "A_fields_C1": null,
+    "A_fields_C3": null,
+    "A_short_after": null,
+    "B_runs": 0
+  },
   "G1_thresholds_frozen": false,
   "model_B_runs": 0,
   "workload_gains": {
@@ -643,10 +668,13 @@
   "limits": [
     "real weights, synthetic activations",
     "ranks measured sequentially without TP2 communication",
-    "contexts 4K/16K/32K/80K/94K not sampled",
+    "operator screen uses synthetic activations; context-specific activation distributions not sampled",
     "no measured meeting/RAG/general end-to-end improvement",
     "projected reduction transfers prior profile kernel pools; not an end-to-end measurement",
-    "no WY change or WY Prefill measurement"
+    "no WY change or WY Prefill measurement",
+    "A G2 stopped at evaluator argument parsing; structured fields and final short repeat not run",
+    "A-prime and B not run; concrete G1 thresholds not frozen; model non-inferiority not established",
+    "No formal five-pair performance acceptance; real-activation saturation and SSM state drift not observed"
   ],
   "screen": {
     "status": "screen_pass_requires_model_gates",
@@ -772,6 +800,20 @@
         "returncode": 0,
         "elapsed_seconds": 1158.1314186428208
       }
+    },
+    "model_A": {
+      "independent_health": {
+        "http_status": 200,
+        "active": "active",
+        "independent_ssh": true,
+        "time": 1793851306.4683647
+      },
+      "controller": {
+        "returncode": 1,
+        "elapsed_seconds": 8648.54460335197
+      },
+      "locked_work_and_restore_seconds": 1600.7767069339752,
+      "controller_elapsed_includes_lock_queue": true
     }
   },
   "G1_inputs": {
@@ -783,5 +825,13 @@
     ],
     "threshold_multiplier": 1,
     "concrete_thresholds_frozen": false
+  },
+  "stop_reason": {
+    "stage": "A G2 structured fields evaluator",
+    "exit_code": 2,
+    "message": "check_action_state_regression.py rejects --model passed by run_qkvz_model_gate.py",
+    "category": "experiment orchestration error; no candidate result",
+    "action": "Restored primary, independently confirmed health before unlock, stopped per unexpected-problem rule; no A-prime, B or formal performance run",
+    "tool_fix_applied": false
   }
 }
