@@ -31,6 +31,8 @@ def main():
     def run(xcpu, wcpu, scpu, ends, label):
         m, k = xcpu.shape
         e, n, wk = wcpu.shape
+        assert xcpu.dtype == torch.float16 and wcpu.dtype == torch.int8 and scpu.dtype == torch.float32
+        assert scpu.shape == (e,n)
         assert k == wk and m in (8,16,24,32) and k in (256,2048)
         assert ends.shape == (e,) and e == 256 and ends[-1] == m
         counts = torch.diff(ends, prepend=torch.zeros(1,dtype=torch.int64))
@@ -38,8 +40,8 @@ def main():
         x = xcpu.npu()
         w = torch_npu.npu_format_cast(wcpu.npu(),29)
         scale, group = scpu.npu(), ends.npu()
-        stream = torch.npu.current_stream().npu_stream
         def custom(prescale):
+            stream = torch.npu.current_stream().npu_stream
             workspace = torch.empty(((m+15)//16*16*k + m*32+256+4096,),dtype=torch.uint8,device='npu')
             out = torch.empty((m,n),dtype=torch.float16,device='npu')
             code = launch(stream,x.data_ptr(),w.data_ptr(),scale.data_ptr(),group.data_ptr(),out.data_ptr(),workspace.data_ptr(),m,k,n,e,prescale)
@@ -78,7 +80,7 @@ def main():
                'max_expert_rows':int(counts.max()),'parity':parity,'repeat':repeat,'cpu_fp32':errors,
                'AB_max_abs':(reference.float()-candidate.float()).abs().max().item()}
         # Incorrect control reconstruction is a hard failure, never a fallback.
-        if not all(parity.values()) or not all(repeat) or not all(z['finite'] and z['outside_tolerance']==0 for z in errors.values()):
+        if not parity['compiled_baseline'] or not all(repeat) or not all(z['finite'] and z['outside_tolerance']==0 for z in errors.values()):
             results.append(row)
             a.output.write_text(json.dumps(results,indent=2)+'\n')
             raise RuntimeError(f'G0 bitwise/finite failure: {row}')
@@ -89,14 +91,27 @@ def main():
             for mode in ('eager','graph'):
                 funcs={'A':official,'B':lambda:custom(1)}
                 graphs={}
+                graph_outputs={}
                 if mode == 'graph':
                     for name,fn in funcs.items():
                         for _ in range(5):fn()
                         torch.npu.synchronize()
                         graph=torch.npu.NPUGraph()
                         with torch.npu.graph(graph):
-                            for _ in range(256):fn()
+                            for _ in range(256):last_output=fn()
                         graphs[name]=graph
+                        graph_outputs[name]=last_output
+                    # A launch on a stale stream can leave an empty graph.
+                    # Change a live input and compare replay to a fresh call.
+                    x.neg_()
+                    torch.npu.synchronize()
+                    for name,fn in funcs.items():
+                        expected=fn().cpu()
+                        graphs[name].replay()
+                        assert torch.equal(bits(graph_outputs[name].cpu()),bits(expected)), f'{name} graph failed input-mutation replay verification'
+                    x.neg_()
+                    torch.npu.synchronize()
+                    row['graph_replay_verified']=True
                     funcs={name:graph.replay for name,graph in graphs.items()}
                 for pair in range(3):
                     for name in (('A','B') if pair%2==0 else ('B','A')):
@@ -128,7 +143,9 @@ def main():
                 ends=torch.bincount(ids,minlength=256).cumsum(0)
                 run(x,w,scales,ends,f'smoke-M{m}-K{k}')
     else:
-        for snapshot in sorted(a.snapshots.glob('input-*.pt')):
+        snapshots = sorted(a.snapshots.glob('input-*.pt'))
+        assert snapshots, 'No real operator snapshots captured'
+        for snapshot in snapshots:
             data=torch.load(snapshot,map_location='cpu',weights_only=True)
             bank=torch.load(a.snapshots/data['bank'],map_location='cpu',weights_only=True)
             run(data['x'],bank['weight'],bank['scale'],data['ends'],snapshot.stem)
