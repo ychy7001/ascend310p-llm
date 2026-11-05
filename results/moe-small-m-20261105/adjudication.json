@@ -138,7 +138,7 @@
   "requires_G1": false,
   "performance_acceptance": false,
   "G1": "not_required_bitwise",
-  "G2": "not run",
+  "G2": "incomplete: A completed; B worker initialization failed before any gate request",
   "profiles": {
     "meeting_replay": "projection only; no measured end-to-end gain",
     "RAG_8K_32K_prefill": "not measured",
@@ -230,10 +230,54 @@
     "output_tokens": 7680,
     "all_expected_usage": true
   },
-  "status": "operator_entry_pass_pending_G2",
+  "status": "stopped_unplanned_model_library_loading_error",
   "artifact_sha256": {
     "valid_micro": "d302b311209201001f75e8dff121c94140942fa7beb8ba5338f20c9395b6aa2f",
     "capture_manifest": "b0499d7d7422012ae1f8745b59148c0df49da1e4c8111d46d64cbb4adc0bc8f1",
-    "source_manifest": "aaf56ebc0547091a3c336b92a3a7ba53cd54bd6d52aa04f3d25b28963e09cacf"
+    "source_manifest": "aaf56ebc0547091a3c336b92a3a7ba53cd54bd6d52aa04f3d25b28963e09cacf",
+    "G2_A_GSM64": "4e946a7ff8da2c7c49f402204f17dff44a7961dffb07ace7f860fa6db474df94",
+    "G2_A_fields": "39d5546dd4334d42637f24fcba2044b4460eb818179816d5382dbe716c07e7da",
+    "G2_A_counts": "10dbd787872221257a082f5a2ad6ee0f068b042dad3f3f5aaea0e2dc438ec01e",
+    "loader_ELF": "1ba3ca7f79b3c311d404e05b6e571eefb36e64cbedab9543b66eaac0a0850ae4",
+    "window_events": "0414e13820c6cc30fbe749efa212f3aced2d84b0e6b30fbd2f63ab0c87e6bac0",
+    "G2_independent_health": "010133e515d7f53ccb47a55b2eea1b480ab1478bc698a8434e81893eaf0b92b3"
+  },
+  "model_gate": {
+    "A": {
+      "GSM64": 63,
+      "facts16": 16,
+      "fields_C1": 13,
+      "fields_C3": 13,
+      "short_before": 8,
+      "short_after": 8
+    },
+    "B": null,
+    "passed": false,
+    "completed_B_gate_requests": 0,
+    "candidate_numeric_regression_established": false,
+    "observed_error": "OSError: libmoe_prescale.so: cannot open shared object file: No such file or directory",
+    "loader_evidence": "Torch bridge ELF needs libmoe_prescale.so and has no RPATH/RUNPATH entry. Microbench preloads the C library; model worker attempts the bridge first.",
+    "action": "Stop under the unexpected-issue rule; do not repair loading configuration or run new experiments in this task."
+  },
+  "model_adoption": false,
+  "validation": {
+    "operator_adjudication_CPU_tests": 7,
+    "model_adjudication_CPU_tests": 4,
+    "fixed_arrival_HTTP_tests": 1,
+    "total_passed": 12,
+    "G1": "not required under bitwise rule",
+    "formal_replay_pairs_completed": 0,
+    "candidate_model_Profile_windows_completed": 0
+  },
+  "service_handoff": {
+    "restoration_health": 200,
+    "restoration_utc": "2026-11-05T01:50:46.189921+00:00",
+    "new_independent_SSH_health": 200,
+    "independent_check_utc": "2026-11-05T01:51:00Z",
+    "lock_release_utc": "2026-11-05T01:51:01.213576+00:00",
+    "G2_window_seconds": 1246.073391,
+    "original_configuration_restored": true,
+    "disabled_image_service_started": false,
+    "note": "Another experiment acquired the shared lock after this handoff; subsequent service status belongs to that window."
   }
 }
