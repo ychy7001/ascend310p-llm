@@ -19,10 +19,14 @@ def check(library):
     if library.parent in search:
         raise ValueError('Bridge directory must not be supplied through LD_LIBRARY_PATH')
     child = '''import json,sys,torch,torch_npu
+from pathlib import Path
+dependency_preloaded = any("libmoe_prescale.so" in line
+                           for line in Path("/proc/self/maps").read_text().splitlines())
+assert not dependency_preloaded
 assert "moe_prescale_310::grouped" not in torch._C._dispatch_get_all_op_names()
 torch.ops.load_library(sys.argv[1])
 assert "moe_prescale_310::grouped" in torch._C._dispatch_get_all_op_names()
-print(json.dumps({"cold_bridge_load": True, "dependency_preloaded": False}))
+print(json.dumps({"cold_bridge_load": True, "dependency_preloaded": dependency_preloaded}))
 '''
     result = subprocess.run([sys.executable, '-c', child, str(library)],
                             capture_output=True, text=True, timeout=120)
