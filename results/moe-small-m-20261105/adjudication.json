@@ -230,7 +230,7 @@
     "output_tokens": 7680,
     "all_expected_usage": true
   },
-  "status": "stopped_unplanned_model_library_loading_error",
+  "status": "resumed_linkage_fixed_waiting_locked_G2_rerun",
   "artifact_sha256": {
     "valid_micro": "d302b311209201001f75e8dff121c94140942fa7beb8ba5338f20c9395b6aa2f",
     "capture_manifest": "b0499d7d7422012ae1f8745b59148c0df49da1e4c8111d46d64cbb4adc0bc8f1",
@@ -257,7 +257,7 @@
     "candidate_numeric_regression_established": false,
     "observed_error": "OSError: libmoe_prescale.so: cannot open shared object file: No such file or directory",
     "loader_evidence": "Torch bridge ELF needs libmoe_prescale.so and has no RPATH/RUNPATH entry. Microbench preloads the C library; model worker attempts the bridge first.",
-    "action": "Stop under the unexpected-issue rule; do not repair loading configuration or run new experiments in this task."
+    "action": "User classified the missing dependency as a build linkage omission and authorized repair plus the original remaining gates; rerun both arms in a new round."
   },
   "model_adoption": false,
   "validation": {
@@ -278,6 +278,23 @@
     "G2_window_seconds": 1246.073391,
     "original_configuration_restored": true,
     "disabled_image_service_started": false,
-    "note": "Another experiment acquired the shared lock after this handoff; subsequent service status belongs to that window."
-  }
+    "note": "Another experiment acquired the shared lock after this handoff; subsequent service status belongs to that window.",
+    "post_release_stop": {
+      "utc": "2026-11-05T01:51:01Z",
+      "mechanism": "external systemctl stop, EngineCore SIGTERM, normal successful deactivation at 01:51:05 UTC",
+      "next_window": "WY model gates",
+      "self_crash_evidence": false
+    }
+  },
+  "linkage_repair": {
+    "bridge_rpath": "$ORIGIN",
+    "device_library_unchanged": true,
+    "device_library_sha256": "20eff25fa1abd4d5d9a5bbdf9fe41b20da63cf89b7447cca7be7f3ef411735b8",
+    "bridge_sha256": "053508059f82c00f869490e77dbc0db32aa3da958f30e9d5cc7d8256c2c72261",
+    "locked_cold_load_gate": "pending",
+    "runtime_library_search_patch": false
+  },
+  "execution_deviations": [
+    "One device-visible cold import probe ran without the shared NPU lock; excluded from gate evidence. The new G2 window repeats it under the lock."
+  ]
 }
