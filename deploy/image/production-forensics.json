@@ -1,6 +1,6 @@
 {
-  "inspection_date": "2026-11-04",
-  "status": "blocked_before_filesystem_inspection",
+  "inspection_date": "2026-11-05",
+  "status": "production-and-recovered-base-inspected",
   "production_image": "${PRODUCTION_REGISTRY}/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
   "architecture": "amd64",
   "production_config_digest": "sha256:c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
@@ -248,7 +248,63 @@
     },
     "ArgsEscaped": true
   },
-  "source_heads_verified": false,
-  "filesystem_diff_complete": false,
-  "candidate_built": false
+  "source_heads_verified": true,
+  "filesystem_diff_complete": true,
+  "candidate_built": false,
+  "sources": {
+    "/vllm-workspace/vllm": {
+      "head": "0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665",
+      "status": ""
+    },
+    "/vllm-workspace/vllm-ascend": {
+      "head": "88eac2713b14beedc7a48803274f8d6cee3e9f30",
+      "status": " M tests/ut/_310p/attention/test_attention_mask_310.py\n M vllm_ascend/_310p/attention/attention_mask.py\n"
+    }
+  },
+  "versions": {
+    "torch-2.10.0+cpu.dist-info": "Name: torch\nVersion: 2.10.0+cpu",
+    "torch_npu-2.10.0.post2.dist-info": "Name: torch_npu\nVersion: 2.10.0.post2",
+    "vllm-0.23.0+empty.dist-info": "Name: vllm\nVersion: 0.23.0+empty",
+    "vllm_ascend-0.23.0rc2.dev93+g88eac2713.dist-info": "Name: vllm_ascend\nVersion: 0.23.0rc2.dev93+g88eac2713"
+  },
+  "cann_version": "9.1.0-beta.1",
+  "pip_freeze_sha256": "7e5eae5ef2a2d97d854a551e902f9dad381d88eaf0721d109f365dbc42ba42a5",
+  "entrypoint_sha256": "e4e8978a61fc498e8a8160e681e6c8b283302da0da31d150947ef333763ac135",
+  "recovered_base": {
+    "manifest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
+    "config": "sha256:e86feb2f76788cfa1fa70bfe088ca3b26ad92a23e316927e7a41e51739ebd9b7",
+    "layers": 19,
+    "provenance": "recovered-from-production"
+  },
+  "filesystem_difference_summary": {
+    "base_entries": 189233,
+    "production_entries": 189664,
+    "changed_entries": 433,
+    "groups": {
+      "/etc/hostname": 1,
+      "/etc/resolv.conf": 1,
+      "pip-cache": 13,
+      "triton-cli": 2,
+      "triton-package": 414,
+      "/vllm-workspace/vllm-ascend/tests/ut/_310p/attention/test_attention_mask_310.py": 1,
+      "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/attention/attention_mask.py": 1
+    },
+    "diff_sha256": "4dfb6930c5f37c2fc8def2100f21961eccb6c1699d93139210ab4592c9a98bb8",
+    "layers_entry_counts": {
+      "20": 6,
+      "21": 7,
+      "22": 457
+    },
+    "modified_files": {
+      "/vllm-workspace/vllm-ascend/tests/ut/_310p/attention/test_attention_mask_310.py": {
+        "before": "0c6283b406a7d3f53538ccf4dda8869b002c02a2faf7bfad44c3b7e53e5853b0",
+        "after": "4961ac2bcf66436d3962a37e651ad5e90018e53b1c037c80077a81d7f3ca5f8f"
+      },
+      "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/attention/attention_mask.py": {
+        "before": "596578b488d4c89efb55ec287bd7f580ff2abaa3f9160b470c2fc66aa8189f6e",
+        "after": "6576912c671c9e2bd3a2ee1ba46843bac57daf40b1d49a59cc3bd50f870a1e01"
+      }
+    }
+  },
+  "independent_official_base_available": false
 }
