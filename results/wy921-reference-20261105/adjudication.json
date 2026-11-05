@@ -1,0 +1,86 @@
+{
+  "task": "wy-5",
+  "decision": "待定",
+  "recommendation": "停止模型实验，暂不建议采用",
+  "reason": "统一比较器已修复并通过测试，但同模型 BF16/更高精度参考 R 不可取得；不以 GPTQ 或不同模型 GPU 输出替代 R，因此未启动 a2 NPU。",
+  "tool": {
+    "path": "tools/compare_token_logprobs.py",
+    "tests": {
+      "command": "python3 -m unittest discover -s tools -p test_compare_token_logprobs.py",
+      "passed": 9,
+      "total": 9
+    },
+    "truncated_target": "record lower bound",
+    "disjoint_topk": "record KL unavailable positions",
+    "noise_truncation": "lower bound is not treated as exact threshold",
+    "multiplier": 1.0,
+    "absolute_floor": 0,
+    "sha256": "ce55247e22937227b1418531b18e7ba82032087e13602e798b4749e4c74a099a"
+  },
+  "reference_R": {
+    "status": "unavailable",
+    "selection_order": [
+      "existing GPU BF16 or higher precision",
+      "local CPU high precision"
+    ],
+    "gpu35b": {
+      "status": "rejected",
+      "reason": "GPTQ Int4/W4A16, not BF16 or higher precision; current RTX3090 has about 0.8 GiB free",
+      "weight_header_audit": "raw/gptq-header-audit.json",
+      "shards": 7,
+      "tensor_count": 124611,
+      "total_bytes": 24420021632,
+      "quantization": {
+        "bits": 4,
+        "group_size": 128,
+        "method": "gptq",
+        "pack_dtype": "int32"
+      },
+      "weight_header_audit_sha256": "3b60a54906b42998dc937bf7b6ea29f2c7cb5359854b4d73bf8df0244954a69d"
+    },
+    "gpu27b": {
+      "status": "rejected",
+      "reason": "different model, W4A16, FP8 KV, MTP3 and runtime; not a Qwen3.6-35B-A3B high precision reference"
+    },
+    "cpu": {
+      "status": "rejected",
+      "reason": "no same-model BF16/FP16 checkpoint found locally; available memory and exhausted swap are insufficient for a safe 35B high precision run"
+    },
+    "actions_not_taken": [
+      "no new download",
+      "no a1",
+      "no yys",
+      "no local RTX3080",
+      "no a2 NPU window"
+    ]
+  },
+  "frozen_before_B": {
+    "input": "wy-2 frozen 35 token-ID inputs",
+    "candidate_arms": [
+      "B repaired native WY",
+      "B0 pre-fix native WY"
+    ],
+    "reference_metrics": [
+      "top1 agreement",
+      "KL",
+      "maximum target logprob difference",
+      "first divergence position"
+    ],
+    "criterion": "B to R no worse than A to R within the A-prime-to-R versus A-to-R noise floor; old A/B/A-prime gate retained as reference",
+    "g2": "GSM64, 13 structured C1/C3, 8 short before/after; each count difference against P and A at most 1",
+    "performance_prerequisite": "G1 and G2 pass"
+  },
+  "execution": {
+    "A_A_prime": "not rerun",
+    "B": "not started",
+    "B0": "not started",
+    "G2": "not started",
+    "performance": "not started",
+    "npu_window": "not started"
+  },
+  "limitations": [
+    "Existing wy-4 A/A-prime data is not reused as a new same-round R comparison.",
+    "The existing GPU 35B checkpoint is quantized GPTQ and cannot establish a high precision reference.",
+    "The local CPU has no same-model high precision checkpoint and insufficient safe capacity for a 35B run."
+  ]
+}

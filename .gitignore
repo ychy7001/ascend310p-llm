@@ -291,3 +291,8 @@ logs/
 /results/wy921-fix-20261105/**
 !/results/wy921-fix-20261105/README.md
 !/results/wy921-fix-20261105/adjudication.json
+
+# wy-5: high-precision-reference audit raw data stays local
+/results/wy921-reference-20261105/**
+!/results/wy921-reference-20261105/README.md
+!/results/wy921-reference-20261105/adjudication.json

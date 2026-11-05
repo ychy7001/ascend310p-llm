@@ -62,6 +62,27 @@ class NumericalComparisonTest(unittest.TestCase):
         y=copy.deepcopy(x);y['reference_sequence_sha256']='different'
         with self.assertRaisesRegex(ValueError,'reference sequences'):
             compare(x,y)
+    def test_disjoint_topk_is_recorded_as_unavailable(self):
+        x=self.record();y=copy.deepcopy(x)
+        for position in y['cases'][0]['positions']:
+            position['logprobs']={'9': math.log(.9)}
+        result=compare(x,y)
+        self.assertEqual(result['kl_censoring']['count'],256)
+        self.assertIsNone(result['metrics']['max_conditional_topk_kl'])
+        self.assertIsNone(adjudicate(compare(x,x),result,{'multiplier':1.5,'absolute_floor':0})['passed'])
+
+    def test_censored_noise_is_not_an_exact_threshold(self):
+        reference=self.record();cut=self.record()
+        del cut['cases'][0]['positions'][0]['logprobs']['1']
+        noise=compare(reference,cut)
+        exact=compare(reference,reference)
+        gate=adjudicate(noise,exact,{'multiplier':1.0,'absolute_floor':0})
+        self.assertTrue(gate['passed'])
+        exact['metrics']['max_absolute_target_logprob_difference']=100
+        gate=adjudicate(noise,exact,{'multiplier':1.0,'absolute_floor':0})
+        self.assertIsNone(gate['passed'])
+        self.assertIsNone(adjudicate(noise,noise,{'multiplier':1.0,'absolute_floor':0})['passed'])
+
     def test_censored_error_cannot_pass_from_a_small_bound(self):
         noise=compare(self.record(),self.record())
         noise['metrics']['max_absolute_target_logprob_difference']=10
