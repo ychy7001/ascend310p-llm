@@ -15,7 +15,8 @@
     "noise_truncation": "lower bound is not treated as exact threshold",
     "multiplier": 1.0,
     "absolute_floor": 0,
-    "sha256": "ce55247e22937227b1418531b18e7ba82032087e13602e798b4749e4c74a099a"
+    "sha256": "ce55247e22937227b1418531b18e7ba82032087e13602e798b4749e4c74a099a",
+    "runtime_deployment": "Canonical comparator fixed and unit tested; archived controller and remote runtime bundle were not changed or executed because R is unavailable."
   },
   "reference_R": {
     "status": "unavailable",
@@ -44,14 +45,13 @@
     },
     "cpu": {
       "status": "rejected",
-      "reason": "no same-model BF16/FP16 checkpoint found locally; available memory and exhausted swap are insufficient for a safe 35B high precision run"
+      "reason": "No same-model BF16 or higher-precision checkpoint found in checked local model caches and existing reference mounts. Available RAM about 41 GiB and nearly exhausted swap add capacity constraints; memory-mapped/offloaded execution was not tested."
     },
     "actions_not_taken": [
       "no new download",
-      "no a1",
-      "no yys",
-      "no local RTX3080",
-      "no a2 NPU window"
+      "no delivery machine access",
+      "no local RTX3080 inference or allocation",
+      "no a2 NPU window or service changes"
     ]
   },
   "frozen_before_B": {
@@ -68,7 +68,20 @@
     ],
     "criterion": "B to R no worse than A to R within the A-prime-to-R versus A-to-R noise floor; old A/B/A-prime gate retained as reference",
     "g2": "GSM64, 13 structured C1/C3, 8 short before/after; each count difference against P and A at most 1",
-    "performance_prerequisite": "G1 and G2 pass"
+    "performance_prerequisite": "G1 and G2 pass",
+    "input_sha256": "e8fa2ed60bb717b2cad731988a0f85ba9dd07f39f0e614b2fb2e9b333b9e8c13",
+    "conditioning": "All arms and R teacher-force the same 256-token A reference continuation per frozen input; independently generated divergent contexts are excluded from distribution comparisons.",
+    "loss_metrics": {
+      "top1": "fraction of teacher-forced positions whose argmax differs from R",
+      "KL_mean": "mean over positions of KL(R || arm), using complete normalized vocabulary distributions",
+      "KL_max": "maximum positional KL(R || arm)",
+      "max_target_logprob_difference": "maximum absolute logprob difference from R for tokens in the fixed A reference continuation",
+      "first_divergence_per_case": "256 - first zero-based teacher-forced argmax disagreement index with R; 0 if no disagreement among 256 positions"
+    },
+    "inequality": "For every loss metric (and every case for first divergence), L(B,R) <= L(A,R) + abs(L(A_prime,R)-L(A,R)); multiplier 1.0, no absolute floor. B0 is reported separately and is not the adoption candidate.",
+    "censoring": "Target absent from top-k: record a bound, never substitute an exact value. Shared-top-k conditional KL remains auxiliary and cannot certify full KL. Missing/overlapping bounds or unavailable full KL leave the R gate indeterminate unless a bound proves failure. No adoption with an indeterminate metric.",
+    "old_G1": "B versus A loss <= same-round A_prime versus A loss, multiplier 1.0; censored-noise threshold remains a lower bound, never an exact threshold.",
+    "collection_status": "Only the protocol is frozen; no numeric same-round thresholds or R distributions have been collected."
   },
   "execution": {
     "A_A_prime": "not rerun",
@@ -81,6 +94,31 @@
   "limitations": [
     "Existing wy-4 A/A-prime data is not reused as a new same-round R comparison.",
     "The existing GPU 35B checkpoint is quantized GPTQ and cannot establish a high precision reference.",
-    "The local CPU has no same-model high precision checkpoint and insufficient safe capacity for a 35B run."
-  ]
+    "No same-model high-precision checkpoint was found in the checked locations. CPU memory mapping/offloading was not tested; prompt subsets do not remove the need for model weights."
+  ],
+  "frozen_protocol_sha256": "47a47f287a92ae049a9c2ec410972942ba24bcd4f0a1b0f8c9482ed3b5bc8d98",
+  "wy2_gap_ge13": {
+    "conditioning": "common generated prefix through first divergent position inclusive",
+    "source_arm_B": "wy-2 pre-fix B, called B0 in wy-5",
+    "positions": [
+      {
+        "case": "replay-17",
+        "position_zero_based": 22,
+        "first_greedy_divergence_zero_based": 22,
+        "target_token_id": 98898,
+        "A_logprob": -0.05510175973176956,
+        "B0_logprob": -13.308626174926758,
+        "B0_value_kind": "upper_bound",
+        "absolute_gap": 13.253524415194988,
+        "gap_kind": "lower_bound",
+        "A_top1": 98898,
+        "B0_top1": 96025,
+        "A_top1_margin": 4.031250111758709,
+        "B0_top1_margin": 6.1718751369044185,
+        "R_logprob": null,
+        "attribution": "unresolved_without_R"
+      }
+    ],
+    "raw_sha256": "7043388d49e24126d0d9781bd8a996c8d171faebcf1ad5cd995e516fea0f0175"
+  }
 }

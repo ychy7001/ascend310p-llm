@@ -21,10 +21,10 @@ python3 -m unittest discover -s tools -p test_compare_token_logprobs.py
 
 按用户规定的优先顺序核查：
 
-1. 已有 GPU 35B 环境使用 GPTQ Int4/W4A16 权重，3090 当前只有约 0.8 GiB 可用显存，不能启动同模型 BF16 或更高精度参考。
+1. 已有 GPU 35B 环境使用 GPTQ Int4/W4A16 权重，不能充当同模型 BF16 或更高精度参考；3090 核查时另有约 0.8 GiB 可用显存的容量限制。
 2. 已有 GPU 27B 环境是另一模型、W4A16、FP8 KV、MTP3 和不同运行栈，不能充当 Qwen3.6-35B-A3B W8A8 TP2 的高精度 R。
-3. 本机缓存没有同模型 BF16/FP16 权重；发现的 35B 文件是 GPTQ 量化 shard。只读 safetensors header 审计见 `raw/gptq-header-audit.json`：7 个 shard、124611 个 tensor、约 24.42 GB，量化配置为 `bits=4`、`group_size=128`、`method=gptq`、`pack_dtype=int32`。
-4. 本机 CPU 没有可加载的同模型高精度 checkpoint；当前可用内存约 41 GiB、交换空间已基本耗尽，不具备安全运行 35B 高精度 teacher-forcing 的条件。没有新下载权重，没有访问 a1、yys 或本机 3080。
+3. 已检查的本机缓存及已有参考环境挂载中没有同模型 BF16/更高精度权重；发现的 35B 文件是 GPTQ 量化 shard。只读 safetensors header 审计见 `raw/gptq-header-audit.json`：7 个 shard、124611 个 tensor、约 24.42 GB，量化配置为 `bits=4`、`group_size=128`、`method=gptq`、`pack_dtype=int32`。
+4. 已检查位置没有同模型高精度 checkpoint，这是 CPU 路线的直接阻塞。当前可用内存约 41 GiB、交换空间基本耗尽，还存在容量限制；未测试内存映射或 CPU offload，不能仅凭内存数字断言这些路线不可行。没有新下载权重，没有访问交付站，没有在本机 3080 分配资源或执行推理。
 
 因此本轮不伪造 R，不把 GPU GPTQ 或旧模型输出当作高精度参考，也不启动 a2 NPU。
 
@@ -42,4 +42,16 @@ python3 -m unittest discover -s tools -p test_compare_token_logprobs.py
 
 ## 真实限制
 
-wy-4 已完成的 A/A′ 数据显示最大目标 logprob 差至少为 7.31，且 14/35 条 greedy 序列发生分歧；该噪声底必须由同轮数据重新完整记录，不能用绝对小阈值替代。由于本轮没有合格 R，未重跑 A/A′、未运行 B/B0、未运行 G2 和性能。后续需要提供同模型 BF16/更高精度 checkpoint，或释放合适的 GPU/CPU 资源后再继续。
+wy-4 已完成的 A/A′ 数据显示最大目标 logprob 差至少为 7.31，且 14/35 条 greedy 序列发生分歧；该噪声底必须由同轮数据重新完整记录，不能用绝对小阈值替代。由于本轮没有合格 R，未重跑 A/A′、未运行 B/B0、未运行 G2 和性能。后续首先需要已有或另行提供的同模型 BF16/更高精度 checkpoint，以及能容纳权重与 teacher-forcing 工作集的 GPU/CPU 资源；单纯释放显存仍不能补齐高精度权重。缩减 prompt 子集也不能省去模型权重。
+
+比较器修复仅在规范工具及单元测试中完成；未部署或执行归档控制器，不宣称旧远端导入路径已在运行时验证。
+
+冻结协议的精确定义、输入 SHA 和截尾规则见 adjudication.json。统一使用 A 的固定 256-token 续写作 teacher-forcing 条件；损失指标采用 top-1 不一致率、完整词表 KL(R∥臂) 的均值/最大值、目标 logprob 最大差，以及逐请求首分歧损失（256 减首分歧下标，无分歧为 0）。每项满足 `L(B,R) ≤ L(A,R) + |L(A′,R)−L(A,R)|`。无法取得完整 KL 时，条件 top-k KL 只作辅助记录，门禁保持待定；不以截尾下界代替精确阈值。尚未采集同轮数值阈值。
+
+协议 SHA-256（adjudication.json 的 frozen_before_B 对象，UTF-8、排序键、紧凑 JSON）：`47a47f287a92ae049a9c2ec410972942ba24bcd4f0a1b0f8c9482ed3b5bc8d98`。
+
+## wy-2 ≥13 的位置复核
+
+在分歧前共享生成上下文（含首分歧位置）内逐位检查 35 条旧记录，≥13 的位置共 **1 个**：`replay-17`，零起始位置 **22**，也正是首个 greedy 分歧位置。A 的目标 token `98898` 的 logprob 为 **−0.0551017597**；旧 B（本轮称 B0）未把该 token 列入 top-20，其 logprob **≤−13.3086261749**，所以差值 **≥13.2535244152**。A/B0 的 top-1 分别为 `98898`/`96025`，各自 top-1 与 top-2 的 logprob 间隔约 **4.03125/6.17188**，这两侧观测并非接近平局。R 缺失，无法判断 A 或 B0 谁更接近参考；修复后 B 尚无该位置数据，也未继续作分层归因。原始逐位记录与 SHA 见 adjudication.json 和被忽略的 raw/wy2-gap-ge13.json。
+
+本轮未操作实验站 NPU 或服务，没有恢复窗口；没有独立复核当前服务健康状态，也未启动附属图像服务。会议回放、RAG 8K–32K、通用 1K–32K×C1/C4 和 WY Prefill 收益均未测量。
