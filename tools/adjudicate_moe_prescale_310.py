@@ -56,7 +56,7 @@ def adjudicate(rows, attribution):
             'G0_tolerance':{'rtol':.002,'atol':.002},'by_batch':by_batch,
             'projected_replay_reduction_pct':improvement,'entry_threshold_pct':3.,
             'enter_model_gate':bool(g0 and improvement>=3.),'requires_G1':not bool(bits),
-            'performance_acceptance':False,'G1':'not run','G2':'not run',
+            'performance_acceptance':False,'G1':'required' if not bits else 'not_required_bitwise','G2':'not run',
             'profiles':{'meeting_replay':'projection only; no measured end-to-end gain',
                         'RAG_8K_32K_prefill':'not measured',
                         'general_1K_32K_C1_C4':'not measured','WY_prefill':'not measured; unchanged operator'},

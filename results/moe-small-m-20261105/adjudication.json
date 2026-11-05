@@ -1,0 +1,239 @@
+{
+  "operator_cases": 144,
+  "bitwise_pass": true,
+  "G0_pass": true,
+  "G0_tolerance": {
+    "rtol": 0.002,
+    "atol": 0.002
+  },
+  "by_batch": {
+    "1": {
+      "mode": "graph",
+      "rank_banks": [
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 120.7844687769466,
+            "B": 70.37226563966215
+          },
+          "speedup": 1.7163646456320982
+        },
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 120.65467970501231,
+            "B": 70.49587500773669
+          },
+          "speedup": 1.7115140381160014
+        }
+      ],
+      "cost_ratio_B_over_A": 0.5834523882665579,
+      "speedup": 1.7139359099566096,
+      "pool_fraction_of_replay": 0.09192560647953192,
+      "projected_replay_reduction_pct": 3.8291391836197253
+    },
+    "2": {
+      "mode": "graph",
+      "rank_banks": [
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 223.466351570778,
+            "B": 138.9668476576844
+          },
+          "speedup": 1.6080551249262005
+        },
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 228.99298048173478,
+            "B": 142.97524219841762
+          },
+          "speedup": 1.601626805876949
+        }
+      ],
+      "cost_ratio_B_over_A": 0.623117201481621,
+      "speedup": 1.604834528114845,
+      "pool_fraction_of_replay": 0.03297047838543763,
+      "projected_replay_reduction_pct": 1.2426006162393461
+    },
+    "3": {
+      "mode": "eager",
+      "rank_banks": [
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 389.0633203127436,
+            "B": 242.49431641010233
+          },
+          "speedup": 1.6044224296571399
+        },
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 390.81362888282456,
+            "B": 242.97808204210014
+          },
+          "speedup": 1.6084316148940108
+        }
+      ],
+      "cost_ratio_B_over_A": 0.6225004580258908,
+      "speedup": 1.60642452082888,
+      "pool_fraction_of_replay": 0.007039651184549279,
+      "projected_replay_reduction_pct": 0.2657465097824848
+    },
+    "4": {
+      "mode": "eager",
+      "rank_banks": [
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 497.17690237116585,
+            "B": 302.8009609522542
+          },
+          "speedup": 1.6419264351329486
+        },
+        {
+          "samples": {
+            "up": 9,
+            "down": 9
+          },
+          "median_projection_pair_us": {
+            "A": 485.03969139801484,
+            "B": 296.0785195114113
+          },
+          "speedup": 1.6382130395627053
+        }
+      ],
+      "cost_ratio_B_over_A": 0.6097309515840612,
+      "speedup": 1.6400676354087529,
+      "pool_fraction_of_replay": 0.0296976294947301,
+      "projected_replay_reduction_pct": 1.1590065603117432
+    }
+  },
+  "projected_replay_reduction_pct": 6.4964928699532996,
+  "entry_threshold_pct": 3.0,
+  "enter_model_gate": true,
+  "requires_G1": false,
+  "performance_acceptance": false,
+  "G1": "not_required_bitwise",
+  "G2": "not run",
+  "profiles": {
+    "meeting_replay": "projection only; no measured end-to-end gain",
+    "RAG_8K_32K_prefill": "not measured",
+    "general_1K_32K_C1_C4": "not measured",
+    "WY_prefill": "not measured; unchanged operator"
+  },
+  "limits": [
+    "Only the first encountered real expert layer is replayed per rank; routing is observed across all layers.",
+    "Capture is eager at 4K context; it is not the production Graph/AOT performance baseline.",
+    "The transfer estimates pure decode only; mixed/prefill stages, arrival dependence, and integration overhead are unmeasured.",
+    "Three paired timing samples do not characterize tail latency."
+  ],
+  "numeric_summary": {
+    "max_AB_abs": 0.0,
+    "all_144_bitwise_identical": true,
+    "candidate_repeat_checks": 432,
+    "all_graph_mutation_checks": true,
+    "CPU_tolerance_violations": 0,
+    "CPU_FP32_max_abs": 0.0019521713256835938
+  },
+  "routing": {
+    "by_M": {
+      "8": {
+        "observations": 726,
+        "rank_workers": 2,
+        "layers": 40,
+        "active_experts_min": 8,
+        "active_experts_median": 8.0,
+        "active_experts_max": 8,
+        "max_expert_rows": 1,
+        "expert_row_count_histogram": {
+          "0": 180048,
+          "1": 5808
+        },
+        "all_ends_equal_M": true
+      },
+      "16": {
+        "observations": 726,
+        "rank_workers": 2,
+        "layers": 40,
+        "active_experts_min": 9,
+        "active_experts_median": 16.0,
+        "active_experts_max": 16,
+        "max_expert_rows": 2,
+        "expert_row_count_histogram": {
+          "0": 175128,
+          "1": 9840,
+          "2": 888
+        },
+        "all_ends_equal_M": true
+      },
+      "24": {
+        "observations": 726,
+        "rank_workers": 2,
+        "layers": 40,
+        "active_experts_min": 17,
+        "active_experts_median": 23.0,
+        "active_experts_max": 24,
+        "max_expert_rows": 3,
+        "expert_row_count_histogram": {
+          "0": 169816,
+          "1": 14696,
+          "2": 1304,
+          "3": 40
+        },
+        "all_ends_equal_M": true
+      },
+      "32": {
+        "observations": 726,
+        "rank_workers": 2,
+        "layers": 40,
+        "active_experts_min": 17,
+        "active_experts_median": 28.0,
+        "active_experts_max": 32,
+        "max_expert_rows": 4,
+        "expert_row_count_histogram": {
+          "0": 165928,
+          "1": 17134,
+          "2": 2330,
+          "3": 418,
+          "4": 46
+        },
+        "all_ends_equal_M": true
+      }
+    },
+    "capture_rounds": 12,
+    "requests": 30,
+    "input_tokens": 122880,
+    "output_tokens": 7680,
+    "all_expected_usage": true
+  },
+  "status": "operator_entry_pass_pending_G2",
+  "artifact_sha256": {
+    "valid_micro": "d302b311209201001f75e8dff121c94140942fa7beb8ba5338f20c9395b6aa2f",
+    "capture_manifest": "b0499d7d7422012ae1f8745b59148c0df49da1e4c8111d46d64cbb4adc0bc8f1",
+    "source_manifest": "aaf56ebc0547091a3c336b92a3a7ba53cd54bd6d52aa04f3d25b28963e09cacf"
+  }
+}

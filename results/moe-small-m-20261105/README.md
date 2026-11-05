@@ -12,7 +12,7 @@
 
 真实采集完成：双 rank、全部 40 层共 2,904 条路由观测，12 轮/30 请求、122,880 输入和 7,680 输出 token，所有输出均为 256 token。四档非空专家数中位数为 8/16/23/28，最大每专家行数为 1/2/3/4；全部累计边界等于 M。首层每 rank 各保留两类投影的真实 256 专家 bank，以及每档三请求、每请求前三步的输入。
 
-首次真实微基准发现捕获前固定 stream 导致候选 Graph 为空；该批计时全部作废。已改为在调用时读取当前 stream，并要求修改输入后的 Graph replay 与该臂的新调用逐位一致。`tools/adjudicate_moe_prescale_310.py` 拒绝未经该核验的数据，并检查双 rank bank、每档每投影至少三请求×三稳定输入。正在排队重测无 Profile 微基准并折算收益。只有达到会议回放 3% 的理想进入门槛才继续整模型 G2 与正式回放；逐位不一致则完整 G0/G1/G2。尚未测会议回放、RAG 8K–32K Prefill、通用 1K–32K×C1/C4，WY Prefill 不在本项中改动。未报告实测收益或非劣结论。
+首次真实微基准发现捕获前固定 stream 导致候选 Graph 为空；该批计时全部作废。已改为在调用时读取当前 stream，并要求修改输入后的 Graph replay 与该臂的新调用逐位一致。`tools/adjudicate_moe_prescale_310.py` 拒绝未经该核验的数据，并检查双 rank bank、每档每投影至少三请求×三稳定输入。有效重测完成：144/144 案例均与官方和自编译对照逐位一致，432/432 次重复通过，144/144 Graph 输入变更核验通过，CPU FP32 容差外元素为 0。本轮算子收益折算为会议回放纯 Decode 转移降幅 **6.4965%**，达到 3% 理想进入门槛；继续整模型 G2，只有 G2 通过才进正式回放。逐位不一致则完整 G0/G1/G2。尚未测会议回放、RAG 8K–32K Prefill、通用 1K–32K×C1/C4，WY Prefill 不在本项中改动。未报告实测收益或非劣结论。
 
 生成和构建命令（在匹配的生产 SDK 镜像内；CPU 构建不挂载设备）：
 
@@ -29,3 +29,12 @@ python3 tools/bench_moe_prescale_310.py --library "$BUILD_DIR/libmoe_prescale.so
 python3 tools/adjudicate_moe_prescale_310.py --micro results/moe-small-m-20261105/raw/micro.json --attribution "$ATTRIBUTION_DIR" --output results/moe-small-m-20261105/adjudication.json
 python3 -m unittest discover -s tools -p test_adjudicate_moe_prescale_310.py -v
 ```
+
+| 档位 | 采用计时 | 两投影合计加速（跨 rank 成本比均值） | 全回放降幅贡献（推算） |
+|---|---|---:|---:|
+| B1 | graph | 1.7139× | 3.8291% |
+| B2 | graph | 1.6048× | 1.2426% |
+| B3 | eager | 1.6064× | 0.2657% |
+| B4 | eager | 1.6401× | 1.1590% |
+
+上述 6.4965% 为冻结归因池的理想转移估计，未包含 Prefill/混合阶段、固定到达与模型集成开销；不是端到端验收结果。真实单算子只重放每 rank 首个专家层，其余 39 层仅留路由分布。
