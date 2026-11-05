@@ -2,7 +2,7 @@
   "task": "wy-5",
   "decision": "待定",
   "recommendation": "停止模型实验，暂不建议采用",
-  "reason": "统一比较器已修复并通过测试，但同模型 BF16/更高精度参考 R 不可取得；不以 GPTQ 或不同模型 GPU 输出替代 R，因此未启动 a2 NPU。",
+  "reason": "用户指定 CPU 子集方案；已冻结 296 个位置与 top-k 判据，继续只读核查本机原始权重完整性。",
   "tool": {
     "path": "tools/compare_token_logprobs.py",
     "tests": {
@@ -120,5 +120,236 @@
       }
     ],
     "raw_sha256": "7043388d49e24126d0d9781bd8a996c8d171faebcf1ad5cd995e516fea0f0175"
-  }
+  },
+  "cpu_subset_protocol": {
+    "version": "wy5-cpu-subset-v1",
+    "input_sha256": "e8fa2ed60bb717b2cad731988a0f85ba9dd07f39f0e614b2fb2e9b333b9e8c13",
+    "positions": [
+      {
+        "case": "replay-00",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 738
+      },
+      {
+        "case": "replay-01",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 692
+      },
+      {
+        "case": "replay-02",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 820
+      },
+      {
+        "case": "replay-03",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 751
+      },
+      {
+        "case": "replay-04",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 752
+      },
+      {
+        "case": "replay-05",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 730
+      },
+      {
+        "case": "replay-06",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 901
+      },
+      {
+        "case": "replay-07",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 821
+      },
+      {
+        "case": "replay-08",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 765
+      },
+      {
+        "case": "replay-09",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 971
+      },
+      {
+        "case": "replay-10",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 734
+      },
+      {
+        "case": "replay-11",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 841
+      },
+      {
+        "case": "replay-12",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 768
+      },
+      {
+        "case": "replay-13",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 702
+      },
+      {
+        "case": "replay-14",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 767
+      },
+      {
+        "case": "replay-15",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 891
+      },
+      {
+        "case": "replay-16",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 515
+      },
+      {
+        "case": "replay-17",
+        "start_inclusive": 0,
+        "stop_exclusive": 24,
+        "prompt_tokens": 853
+      },
+      {
+        "case": "replay-18",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 814
+      },
+      {
+        "case": "replay-19",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 746
+      },
+      {
+        "case": "replay-20",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 10886
+      },
+      {
+        "case": "replay-21",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 10993
+      },
+      {
+        "case": "replay-22",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 10740
+      },
+      {
+        "case": "replay-23",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 9194
+      },
+      {
+        "case": "replay-24",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 10396
+      },
+      {
+        "case": "replay-25",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 8850
+      },
+      {
+        "case": "long-4095",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 4095
+      },
+      {
+        "case": "long-4096",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 4096
+      },
+      {
+        "case": "long-4097",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 4097
+      },
+      {
+        "case": "long-16384",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 16384
+      },
+      {
+        "case": "long-32768",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 32768
+      },
+      {
+        "case": "meeting-16384-0",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 16384
+      },
+      {
+        "case": "meeting-16384-1",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 16384
+      },
+      {
+        "case": "meeting-32768-0",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 32768
+      },
+      {
+        "case": "meeting-32768-1",
+        "start_inclusive": 0,
+        "stop_exclusive": 8,
+        "prompt_tokens": 32768
+      }
+    ],
+    "position_count": 296,
+    "position_semantics": "Zero-based positions in A reference continuation, not prompt tokens. Preserve full original prompt and the identical A continuation prefix; truncating the prompt is a different experiment and not permitted here.",
+    "A_reference_continuation": "Fresh same-round A greedy continuation, frozen with SHA before reading R or B/B0. Existing wy-2 continuation is only for historical >=13 analysis, never substituted for the fresh continuation.",
+    "reference": "Same Qwen3.6-35B-A3B original BF16 or higher precision weights, pure torch eager CPU, no quantized or Ascend operators, no new downloads. A different model or partial weight fixture cannot serve as model-level R.",
+    "topk": 20,
+    "required_target": "Fixed A continuation token at each selected position. Record explicit target logprob if available, otherwise an upper bound at smallest returned top-k logprob. Do not silently increase k after observing B.",
+    "top1_metric": "Fraction of selected positions where arm argmax differs from R.",
+    "KL_metric": "Auxiliary conditional KL(R || arm), normalized on the same explicit support: intersection of R,A,A_prime,B,B0 returned top-20 keys per position. Report support size and covered probability mass for every arm. Empty support makes KL unavailable. This is not full-vocabulary KL. Aggregate mean and maximum; retain pairwise comparator output separately.",
+    "target_difference_metric": "Maximum absolute target logprob difference versus R; use intervals when either side is censored. Two censored targets do not define an exact difference.",
+    "first_divergence_metric": "Per-case divergent suffix fraction within selected prefix: (N-first_argmax_disagreement_index)/N; 0 for no disagreement. Report index as well.",
+    "adoption": "For every scalar loss metric and each case first-divergence loss: L(B,R)-L(A,R) <= abs(L(A_prime,R)-L(A,R)), multiplier=1, absolute_floor=0. Interval arithmetic must prove the inequality for a pass or its negation for a fail; otherwise indeterminate. An unavailable metric cannot pass. B0 is diagnostic only.",
+    "parallel_records": "On exactly this subset also record A_prime versus A noise and B versus A deviation, with censor locations and bounds. Fresh same-round A and A_prime are mandatory; old wy-4 noise is historical only.",
+    "cpu_resource_rule": "Hold /tmp/a310-cpu-heavy.lock for weight conversion/loading/inference and heavy parsing. Check original weight completeness before loading, inspect cgroup/available RAM, use bounded layer/chunk execution if feasible, never allocate the whole 35B model speculatively. No CUDA allocation.",
+    "execution_state": "Selection and protocol frozen before R/B; no R or new B data read."
+  },
+  "cpu_subset_protocol_sha256": "761d1ebefe0f49d978dd99d8646d1dbe78b04b13fef6c0ee8ff240d8e0295fb9"
 }
