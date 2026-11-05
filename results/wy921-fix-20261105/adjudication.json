@@ -1,6 +1,6 @@
 {
   "task": "wy-4",
-  "status": "G0_passed_model_gates_pending_shared_lock",
+  "status": "G0_passed_model_gate_aborted_before_B_due_logprob_tool_limitation",
   "protocol_sha256": "e6327d44945f392f00b8e13897c7d48344cb5f9ecd2968c192b130b02458d93f",
   "protocol": {
     "schema": 1,
@@ -744,12 +744,12 @@
     "torch_vs_cpu_pass": 98,
     "native_vs_cpu_pass": 111,
     "snapshots": 120,
-    "new_round_pending": true
+    "new_round_pending": false
   },
   "gates": {
     "G0": "passed",
-    "G1": "not_started",
-    "G2": "not_started",
+    "G1": "not_adjudicated_A_prime_comparison_failed_on_missing_top20_target",
+    "G2": "P_A_completed_B_not_started",
     "performance": "not_started"
   },
   "g0_fixture_generation": {
@@ -1087,6 +1087,11 @@
         "torch_recorded": 0
       },
       "cases": 120
+    },
+    "generated_logprob_comparison_unit_tests": {
+      "passed": 7,
+      "total": 7,
+      "scope": "existing repository comparator used only for offline diagnostic; no device continuation"
     }
   },
   "g0_candidate_results": {
@@ -1314,7 +1319,13 @@
       "candidate_manifest_sha256": "8ff33c4e6f54efdc778952b804cd26b36e3d559c1e4653292a3bd1b45ca3d329",
       "candidate_source_sha256": "3ec7d34f7b3f43e142e69ecdb4e2dfaf0c5f9dd469b5682b8d3d3fe6b3e2dda8",
       "threshold_protocol_sha256": "e6327d44945f392f00b8e13897c7d48344cb5f9ecd2968c192b130b02458d93f",
-      "no_fallback": true
+      "no_fallback": true,
+      "queued_bitwise_repeats": {
+        "passed": 132,
+        "total": 132,
+        "repeat_count": 3,
+        "method": "byte equality; three calls queued before CPU readback against synchronized anchor"
+      }
     }
   },
   "remaining_failing_chunks": [
@@ -1452,6 +1463,17 @@
       "health": 200,
       "utc": "2026-11-05T01:25:53Z",
       "verification": "fresh independent SSH connection while NPU lock held"
+    },
+    {
+      "primary": "active",
+      "image": "inactive",
+      "image_enabled": "disabled",
+      "health": 200,
+      "utc": "2026-11-05T02:42:51Z",
+      "verification": "fresh independent SSH connection while NPU lock held",
+      "window_elapsed_s": 3110.973041448,
+      "finished_utc": "2026-11-05T02:42:52.458852Z",
+      "evidence": "First independent-health record in watch-models.log; precedes window finished marker. Later diagnostic recheck not used to establish lock-held restoration."
     }
   ],
   "upstream_patch": {
@@ -1459,7 +1481,123 @@
     "bytes": 5280,
     "sha256": "aa00aedca70ee286305df7580a05e793e62b5f7da1e0a8fcb3ba1f25f7135adb",
     "base_commit": "18163f6b1d208ab3b4fb06e9752225611c37f40e",
-    "state": "G0_passed_model_pending_not_sent",
+    "state": "G0_passed_model_gate_blocked_not_sent",
     "apply_check": "passed"
-  }
+  },
+  "remaining_failing_chunks_label": "Historical pre-fix diagnostic points, all resolved in v3",
+  "model_worker": {
+    "source": "same numerical-gate worker as wy-2 final run",
+    "sha256": "d56e25e71ea775427e0c07a451e1862aacd8bf18373bb5d1144be20f435e1e27",
+    "B_fallback_prohibited": true,
+    "B_native_call_log_required": true,
+    "controller_preflight_correction": "Replaced accidental wy-3 observer alias before first A process started; P production replica does not import this worker; no A or B observations were collected with observer alias.",
+    "A_two_ranks_log_verified": true
+  },
+  "g2_same_round": {
+    "counts": {
+      "P": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "A": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "B": null
+    },
+    "passed": null
+  },
+  "g1_same_round": {
+    "A_reference_sha256": "72e2591a813021ffd598e1c166f54015c520f6b10fd0d762594f371d5785353c",
+    "A_cases": 35,
+    "A_output_tokens": 8960,
+    "mode": "generated",
+    "passed": null,
+    "A_prime_reference_sha256": "7c8ebbc10b772867c62e93bafc569db2219f7d70af16ea9e5075b214b6da1351",
+    "A_prime_cases": 35,
+    "A_prime_output_tokens": 8960,
+    "A_A_prime_manifest_identical": true,
+    "manifest_sha256": "36580959b9b4656299e5a0e457156a0098b5b4eda243f9c040fa261b824f020c",
+    "B_started": false,
+    "concrete_thresholds_frozen": false,
+    "A_prefix_cache_hits": 0,
+    "A_prime_prefix_cache_hits": 0
+  },
+  "artifacts": {
+    "A-G1.json": {
+      "sha256": "72e2591a813021ffd598e1c166f54015c520f6b10fd0d762594f371d5785353c",
+      "bytes": 8034763
+    },
+    "A_prime-vs-A-diagnostic.json": {
+      "sha256": "b96c1d8164f3af0da162c4d06bbe476f0e5a67e27ec3791d847edd4f1c49f733",
+      "bytes": 18767
+    }
+  },
+  "model_gate_failure": {
+    "phase": "A_prime_vs_A",
+    "error": "ValueError: Missing A target logprob: meeting-32768-0 position 0",
+    "cause": "Controller packaging reused an archived comparison module. It raises when the A target token is absent from A_prime top-20; the current repository module instead records a censored lower bound. No runtime inference request failed.",
+    "B_started": false,
+    "thresholds_frozen": false,
+    "service_restored": true,
+    "runtime_comparator_sha256": "cd11e1ded9bcde229208b768e9d40f091bbaedc4acd5c03e1b333b1ed8f5db4f",
+    "current_repository_comparator_sha256": "51692e840f07f2f2d6281f2d0c6310b645d74a1d7dcb41a26678947b2d6445d8",
+    "no_device_continuation_after_failure": true,
+    "all_arms_not_adjudicated": true
+  },
+  "a_prime_diagnostic": {
+    "mode": "generated",
+    "metrics": {
+      "top1_disagreement_rate": 0.002044989775051125,
+      "mean_conditional_topk_kl": 0.000887040429790428,
+      "max_conditional_topk_kl": 2.3719002790559043,
+      "max_absolute_target_logprob_difference": 7.310889303684235,
+      "mean_top1_divergent_suffix_fraction": 0.2375,
+      "max_top1_divergent_suffix_fraction": 1.0,
+      "mean_greedy_divergent_suffix_fraction": 0.2375,
+      "max_greedy_divergent_suffix_fraction": 1.0
+    },
+    "top1_agreement_rate": 0.9979550102249489,
+    "positions_compared": 6846,
+    "target_logprob_censoring": {
+      "count": 1,
+      "positions": [
+        {
+          "id": "meeting-32768-0",
+          "position": 0,
+          "absolute_error_lower_bound": 7.310889303684235
+        }
+      ],
+      "max_error_metric_is_lower_bound": true
+    },
+    "scope": "KL of distributions normalized on shared explicit top-k support; excludes outside support and is not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position."
+  },
+  "decision": "待定",
+  "decision_reason": "扩充 G0 修复通过；同轮 A_prime 比较遇到 top-20 截尾并被打包的旧比较器中止，B 未运行，G1/G2 未完成；按计划外问题停止，不测性能。",
+  "performance": {
+    "executed": false,
+    "reason": "G1 and G2 prerequisites not completed",
+    "meeting_replay": null,
+    "RAG_8K_16K_32K_prefix_reuse": null,
+    "general_1K_4K_16K_32K_C1_C4": null,
+    "WY_cold_Prefill": null,
+    "B_vs_A_percent": null,
+    "B_vs_P_percent": null,
+    "A_A_drift": null
+  },
+  "limitations": [
+    "120 captured calls originate from one real request and two TP ranks; expanded G0 does not prove model accuracy.",
+    "Generated top-20 logprobs only compare common identical conditioning prefixes including first divergence; conditional KL excludes unobserved vocabulary support.",
+    "A_prime differs from A in 14 of 35 greedy sequences; one 32K meeting case diverges at position 0 with censored A-target logprob difference >=7.310889303684235.",
+    "A_prime maximum target-logprob difference is a lower bound; no complete numerical G1 threshold file was frozen.",
+    "B model G1/G2 and all performance loads were not run.",
+    "Queued repetition check retains the same inputs and does not exhaust cross-stream allocation lifetimes.",
+    "Existing full-GDN repeats use exact zero-tolerance value comparison; additional WY queued repeats use byte comparison."
+  ]
 }
