@@ -1,5 +1,5 @@
 {
-  "status": "weights_ready_screen_queued",
+  "status": "screen_pass_G0_pending",
   "base_commit": "74f7202",
   "scope": "30 linear_attn.in_proj_qkvz only",
   "image_sha256": "c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
@@ -625,9 +625,117 @@
     "cpu_preparation_files": 60,
     "zero_channel_exact_representation_files": 60,
     "python_compile_tools": 2,
-    "budget_boundary_checks": 6
+    "budget_boundary_checks": 6,
+    "unprofiled_paired_measurements": 24,
+    "timed_steps_all_arms_ranks_batches": 12288,
+    "source_bf16_tensor_headers_verified": 60
   },
   "limits": [
-    "Timing and model gates pending; no adoption conclusion."
-  ]
+    "real weights, synthetic activations",
+    "ranks measured sequentially without TP2 communication",
+    "contexts 4K/16K/32K/80K/94K not sampled",
+    "no measured meeting/RAG/general end-to-end improvement",
+    "projected reduction transfers prior profile kernel pools; not an end-to-end measurement",
+    "no WY change or WY Prefill measurement"
+  ],
+  "screen": {
+    "status": "screen_pass_requires_model_gates",
+    "ideal_min_speedup": 1.663021471519359,
+    "pure_decode_pool_fraction": 0.07524740342307913,
+    "weighted_effective_speedup": 1.6992279933206818,
+    "projected_decode_only_replay_reduction_fraction": 0.030964114942156437,
+    "target_replay_reduction_fraction": 0.03,
+    "strata": [
+      {
+        "rank": 0,
+        "batch": 1,
+        "mode": "graph",
+        "A_ms_30": 4.658839335945686,
+        "B_ms_30": 2.6788811132689716,
+        "median_paired_speedup": 1.7393822266604702,
+        "prior_replay_wall_pool_fraction": 0.027445140789392128,
+        "budget_reduction_fraction": 0.01166646927675659
+      },
+      {
+        "rank": 0,
+        "batch": 2,
+        "mode": "graph",
+        "A_ms_30": 4.666779269513199,
+        "B_ms_30": 2.6972942382883502,
+        "median_paired_speedup": 1.7302710930616758,
+        "prior_replay_wall_pool_fraction": 0.006015888743489407,
+        "budget_reduction_fraction": 0.0025390412323607163
+      },
+      {
+        "rank": 0,
+        "batch": 3,
+        "mode": "eager",
+        "A_ms_30": 4.733623324227665,
+        "B_ms_30": 2.7706393086077696,
+        "median_paired_speedup": 1.7071181900202181,
+        "prior_replay_wall_pool_fraction": 0.0009758252526576236,
+        "budget_reduction_fraction": 0.00040420387438265694
+      },
+      {
+        "rank": 0,
+        "batch": 4,
+        "mode": "eager",
+        "A_ms_30": 4.740104746105089,
+        "B_ms_30": 2.7942070351514303,
+        "median_paired_speedup": 1.6968807847518772,
+        "prior_replay_wall_pool_fraction": 0.0031413996144604604,
+        "budget_reduction_fraction": 0.0012901207015933995
+      },
+      {
+        "rank": 1,
+        "batch": 1,
+        "mode": "graph",
+        "A_ms_30": 4.608983277336165,
+        "B_ms_30": 2.758039468744755,
+        "median_paired_speedup": 1.6712379255184104,
+        "prior_replay_wall_pool_fraction": 0.027516719332590377,
+        "budget_reduction_fraction": 0.011051846849484888
+      },
+      {
+        "rank": 1,
+        "batch": 2,
+        "mode": "graph",
+        "A_ms_30": 4.619791394532058,
+        "B_ms_30": 2.776386097679051,
+        "median_paired_speedup": 1.6636454380177552,
+        "prior_replay_wall_pool_fraction": 0.006030715192213832,
+        "budget_reduction_fraction": 0.002405714904051788
+      },
+      {
+        "rank": 1,
+        "batch": 3,
+        "mode": "eager",
+        "A_ms_30": 4.675844507829652,
+        "B_ms_30": 2.8453714296858834,
+        "median_paired_speedup": 1.6433160391808126,
+        "prior_replay_wall_pool_fraction": 0.0009735765540695576,
+        "budget_reduction_fraction": 0.0003811302255137417
+      },
+      {
+        "rank": 1,
+        "batch": 4,
+        "mode": "eager",
+        "A_ms_30": 4.684567355468516,
+        "B_ms_30": 2.860838832020818,
+        "median_paired_speedup": 1.6374803442385697,
+        "prior_replay_wall_pool_fraction": 0.0031481379442057484,
+        "budget_reduction_fraction": 0.0012255878780126567
+      }
+    ],
+    "limits": [
+      "real weights, synthetic activations",
+      "ranks measured sequentially without TP2 communication",
+      "contexts 4K/16K/32K/80K/94K not sampled",
+      "no measured meeting/RAG/general end-to-end improvement",
+      "projected reduction transfers prior profile kernel pools; not an end-to-end measurement",
+      "no WY change or WY Prefill measurement"
+    ],
+    "manifest_sha256": "ef9ae990c9af5a042787fa10f9600c538dcec2acf2e8a876bf2a40d589cac2a7",
+    "budget_sha256": "c913a960ebefad7df65ac2c9f38c00a4684546114cd5532d18b72057bb651e33"
+  }
 }
