@@ -142,5 +142,64 @@ class NumericalComparisonTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'not measured'):
             adjudicate(noise,paired,{**rule,'gating_metrics':['not_a_metric']})
 
+    def multi(self, cases=2):
+        record={'mode':'generated','input_sha256':'frozen','reference_sequence_sha256':'A','cases':[]}
+        for n in range(cases):
+            position={'top1':1,'logprobs':{'1':math.log(.8),'2':math.log(.1)}}
+            record['cases'].append({'id':'case%d'%n,'greedy_ids':[1]*256,
+                                    'positions':[copy.deepcopy(position) for _ in range(256)]})
+        return record
+
+    def diverge(self, record, case, at):
+        record['cases'][case]['greedy_ids'][at]=2
+        record['cases'][case]['positions'][at]['top1']=2
+        record['cases'][case]['positions']=record['cases'][case]['positions'][:at+1]
+        return record
+
+    def test_empty_shared_support_is_recorded_not_fatal(self):
+        # Two high-entropy positions can each return a full top-k with no token in
+        # common. That is an observation, not a defect: the run must finish and say so.
+        x=self.multi(1);y=self.diverge(copy.deepcopy(x),0,1)
+        y['cases'][0]['positions'][1]['logprobs']={'9':math.log(.7)}
+        self.assertEqual(conditional_topk_kl(x['cases'][0]['positions'][1]['logprobs'],
+                                             y['cases'][0]['positions'][1]['logprobs']),(None,0))
+        result=compare(x,y)
+        self.assertEqual(result['empty_topk_support']['count'],1)
+        self.assertEqual(result['empty_topk_support']['positions'],[{'id':'case0','position':1}])
+        self.assertEqual(result['prefix_positions'],1)
+        self.assertIsNotNone(result['metrics']['pooled_prefix_kl'])
+
+    def test_pooled_prefix_kl_weights_by_position_not_by_case(self):
+        # One long-prefix case and one short-prefix case, with a disturbance inside
+        # the long prefix only. Pooled is the mean over all 8 prefix positions, so
+        # that one position contributes 1/8 -- not 1/2, which is what averaging the
+        # two per-case means would give it.
+        x=self.multi(2)
+        y=self.diverge(self.diverge(copy.deepcopy(x),0,6),1,2)
+        y['cases'][0]['positions'][3]['logprobs']['1']=math.log(.5)
+        result=compare(x,y)
+        self.assertEqual(result['prefix_positions'],8)
+        self.assertEqual([case['prefix_positions'] for case in result['per_case']],[6,2])
+        disturbed=conditional_topk_kl(x['cases'][0]['positions'][3]['logprobs'],
+                                      y['cases'][0]['positions'][3]['logprobs'])[0]
+        self.assertGreater(disturbed,0)
+        self.assertAlmostEqual(result['metrics']['pooled_prefix_kl'],disturbed/8,places=12)
+        # Averaging the two per-case prefix means instead gives that same disturbed
+        # position weight 1/6 within its case and then 1/2 across cases, i.e.
+        # disturbed/12 -- a value the round it was measured in, not the run, decides.
+        per_case=(disturbed/6 + 0)/2
+        self.assertNotAlmostEqual(result['metrics']['pooled_prefix_kl'],per_case,places=12)
+
+    def test_unmeasurable_gating_metric_cannot_pass(self):
+        # Every case diverges at position 0, so no prefix position exists and the
+        # pooled magnitude is undefined. Judging on it must fail loudly, not pass.
+        x=self.multi(1)
+        result=compare(x,self.diverge(copy.deepcopy(x),0,0))
+        self.assertEqual(result['prefix_positions'],0)
+        self.assertIsNone(result['metrics']['pooled_prefix_kl'])
+        rule={'multiplier':1.25,'absolute_floor':0,'gating_metrics':['pooled_prefix_kl']}
+        with self.assertRaisesRegex(ValueError,'not measurable'):
+            adjudicate(result,result,rule)
+
 
 if __name__=='__main__':unittest.main()

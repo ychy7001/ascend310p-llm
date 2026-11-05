@@ -18,10 +18,16 @@ def first_divergence(left, right):
 
 
 def conditional_topk_kl(left, right):
-    """共同显式 token 支持上归一化后计算 KL；不推算舍入后的 OTHER 桶。"""
+    """共同显式 token 支持上归一化后计算 KL；不推算舍入后的 OTHER 桶。
+
+    支持集为空返回 (None, 0)：两个高熵位置可以各自返回 20 个 token 而完全不重叠
+    （实测 replay-21 第 1 位，top1 分别是 98260 与 97279），这是合法的观测结果而非
+    缺陷，调用方负责记账并排除。分歧前的位置结构上不可能为空——那里两臂 top1 相同，
+    而生成模式下 greedy 恒等于 top1，故该 token 必在双方返回的 top-k 内。
+    """
     keys = sorted(set(left) & set(right))
     if not keys:
-        raise ValueError('No shared top-k support')
+        return None, 0
     def normalized(values):
         logs = [values[key] for key in keys]
         if any(not math.isfinite(value) for value in logs):
@@ -42,7 +48,10 @@ def compare(reference, candidate):
     if reference['reference_sequence_sha256'] != candidate['reference_sequence_sha256']:
         raise ValueError('Different A reference sequences')
     per_case, errors, kls, mismatches, observed = [], [], [], 0, 0
-    censored_positions = []
+    # Prefix positions of every case pooled into one list: the gating magnitude
+    # metric is a single mean over all of them, not a mean of per-case means.
+    prefix_kls = []
+    censored_positions, empty_support_positions = [], []
     for left, right in zip(reference['cases'], candidate['cases'], strict=True):
         if left['id'] != right['id']:
             raise ValueError('Case order mismatch')
@@ -75,7 +84,12 @@ def compare(reference, candidate):
                 censored_positions.append(item); case_censored.append(i)
             kl, support = conditional_topk_kl(x['logprobs'], y['logprobs'])
             top1_left.append(x['top1']); top1_right.append(y['top1'])
-            case_errors.append(error); case_kls.append(kl); supports.append(support)
+            case_errors.append(error); supports.append(support)
+            if kl is None:
+                # Disjoint top-k slices: record it instead of aborting the run.
+                empty_support_positions.append({'id':left['id'], 'position':i})
+            else:
+                case_kls.append(kl)
         top1_diff = first_divergence(top1_left, top1_right)
         case_mismatch = sum(a != b for a, b in zip(top1_left, top1_right))
         mismatches += case_mismatch; observed += count
@@ -88,6 +102,7 @@ def compare(reference, candidate):
         # this the only magnitude family that needs no lower-bound caveat.
         prefix = length if divergence is None else divergence
         prefix_errors = case_errors[:prefix]
+        prefix_kls.extend(case_kls[:prefix])
         per_case.append({
             'id': left['id'], 'positions_compared': count,
             'top1_mismatches': case_mismatch,
@@ -97,8 +112,9 @@ def compare(reference, candidate):
             'top1_divergent_suffix_fraction': 0 if top1_diff is None else (length-top1_diff)/length,
             'greedy_divergent_suffix_fraction': 0 if divergence is None else (length-divergence)/length,
             'max_absolute_target_logprob_difference': max(case_errors),
-            'mean_conditional_topk_kl': sum(case_kls)/count,
-            'max_conditional_topk_kl': max(case_kls),
+            'mean_conditional_topk_kl':
+                sum(case_kls)/len(case_kls) if case_kls else None,
+            'max_conditional_topk_kl': max(case_kls) if case_kls else None,
             'prefix_positions': prefix,
             'prefix_mean_absolute_target_logprob_difference':
                 None if not prefix_errors else sum(prefix_errors)/prefix,
@@ -112,41 +128,50 @@ def compare(reference, candidate):
         raise ValueError('No observations')
     cases = len(per_case)
     means = lambda key: sum(case[key] for case in per_case)/cases
+    # A case whose every compared position had an empty shared support has no KL
+    # at all; it is left out of the per-case KL means rather than counted as zero.
+    kl_cases = [case for case in per_case if case['mean_conditional_topk_kl'] is not None]
     # Two families, both measured and both reported; the rule's gating_metrics
-    # names which of them decide. Measured over two independent A/A_prime rounds
-    # on the same image, the first family reproduces to 1.18x and the second to
-    # 1.49x, which is why the first is the gate.
+    # names which of them decide.
     #
-    # Gating family: per-case normalized, so the value does not move with the
-    # number of compared positions (truncation at the first divergence makes that
-    # vary between rounds), the per-case maxima are means over cases rather than
-    # the single worst position of the run, and the two magnitude metrics need no
-    # censoring caveat -- the prefix one is uncensorable by construction and the
-    # uncensored maximum excludes the truncated positions entirely.
+    # Gating family: one mean pooled over every strictly pre-divergence position,
+    # plus the three per-case normalized divergence/extent rates. Measured over
+    # three independent A/A_prime rounds on the same image they reproduce to
+    # 1.09x / 1.17x / 1.08x / 1.07x.
     #
-    # Diagnostic family: the previous gate. Position-weighted means and run-wide
-    # extremes are both dominated by whichever case happened to diverge that
-    # round; the max logprob difference can only be a lower bound.
+    # Pooling is what makes the magnitude metric stable. Averaging per case
+    # instead -- the earlier design -- gives 0.0289 / 0.0243 / 0.0057 over the
+    # same three rounds, a 5.1x spread: 5, 4 and 5 of the 35 cases diverge at
+    # position 0, carry no prefix at all, and then still weigh 1/35 each against
+    # a case with 190 compared positions.
+    #
+    # Diagnostic family: everything else, including the whole earlier gate.
+    # Per-case magnitude means (1.5-5.1x), run-wide extremes and severity counts
+    # (1.4-4.0x) are dominated by which case happened to diverge, and how far,
+    # in a given round. They stay reported; they no longer decide.
     covered = [case for case in per_case if case['max_uncensored_absolute_target_logprob_difference'] is not None]
     with_prefix = [case for case in per_case if case['prefix_positions']]
     metrics = {
         'top1_disagreeing_case_rate': sum(1 for case in per_case if case['top1_mismatches'])/cases,
         'mean_case_top1_mismatch_rate': means('top1_mismatch_rate'),
-        'mean_case_mean_conditional_topk_kl': means('mean_conditional_topk_kl'),
-        'mean_case_max_conditional_topk_kl': means('max_conditional_topk_kl'),
+        'mean_greedy_divergent_suffix_fraction': means('greedy_divergent_suffix_fraction'),
+        'pooled_prefix_kl': sum(prefix_kls)/len(prefix_kls) if prefix_kls else None,
+        'mean_top1_divergent_suffix_fraction': means('top1_divergent_suffix_fraction'),
+        'mean_case_mean_conditional_topk_kl':
+            sum(case['mean_conditional_topk_kl'] for case in kl_cases)/len(kl_cases) if kl_cases else None,
+        'mean_case_max_conditional_topk_kl':
+            sum(case['max_conditional_topk_kl'] for case in kl_cases)/len(kl_cases) if kl_cases else None,
         'mean_prefix_absolute_target_logprob_difference':
             0.0 if not with_prefix else sum(case['prefix_mean_absolute_target_logprob_difference']
                                             for case in with_prefix)/cases,
         'mean_case_max_uncensored_target_logprob_difference':
             0.0 if not covered else sum(case['max_uncensored_absolute_target_logprob_difference']
                                         for case in covered)/cases,
-        'mean_top1_divergent_suffix_fraction': means('top1_divergent_suffix_fraction'),
         'max_top1_divergent_suffix_fraction': max(case['top1_divergent_suffix_fraction'] for case in per_case),
-        'mean_greedy_divergent_suffix_fraction': means('greedy_divergent_suffix_fraction'),
         'max_greedy_divergent_suffix_fraction': max(case['greedy_divergent_suffix_fraction'] for case in per_case),
         'top1_disagreement_rate': mismatches/observed,
-        'mean_conditional_topk_kl': sum(kls)/observed,
-        'max_conditional_topk_kl': max(kls),
+        'mean_conditional_topk_kl': sum(kls)/len(kls) if kls else None,
+        'max_conditional_topk_kl': max(kls) if kls else None,
         'max_absolute_target_logprob_difference': max(errors),
     }
     severity = {
@@ -158,6 +183,9 @@ def compare(reference, candidate):
     return {'mode':reference['mode'], 'metrics':metrics, 'severity':severity,
             'top1_agreement_rate':1-mismatches/observed,
             'positions_compared':observed, 'per_case':per_case,
+            'prefix_positions':len(prefix_kls),
+            'empty_topk_support':{'count':len(empty_support_positions),
+                'positions':empty_support_positions},
             'target_logprob_censoring':{'count':len(censored_positions),'positions':censored_positions,
                 'max_error_metric_is_lower_bound':bool(censored_positions)},
             'target_logprob_error_coverage':{'cases_with_uncensored_positions':len(covered),
@@ -199,6 +227,10 @@ def adjudicate(noise, candidate, rule):
     checks = {}
     for key in gating_keys(rule, candidate):
         value, floor = candidate['metrics'][key], noise['metrics'][key]
+        if value is None or floor is None:
+            # Reported as null when every position holding the quantity was
+            # unmeasurable; a metric that cannot be measured cannot pass.
+            raise ValueError('Gating metric not measurable: {}'.format(key))
         threshold = multiplier * floor
         passed = value <= threshold
         if key in censored and passed:
