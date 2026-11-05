@@ -98,3 +98,5 @@
 - 已验证 health 与一次短文本生成；未进行长上下文、并发、长期稳定性或性能测试。
 - 上次失联是否由 Profile 并行解析引起仍未证实；本次显存竞争的直接根因则由日志、进程归属和释放显存后启动成功共同支持。
 - 未访问另一实验机，未操作其他服务或容器，未运行 NPU 实验或远端重解析，未删除 ascend-lab-runtime 下任何文件。本地仅更新本脱敏记录并提交，未推送。
+
+2026-11-05 00:34:02 UTC（a2fix-3）：执行 `systemctl --user disable qwen36-image.service` 成功（退出码 0）；复核该单元 is-enabled=disabled、is-active=inactive，原服务 `llm-backend-primary.service` 仍为 active、18081/health=200；未启动或停止服务，未重启宿主机，未删除容器、镜像、单元文件或模型数据，未操作其他服务。
