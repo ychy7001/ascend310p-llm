@@ -84,6 +84,8 @@ extern "C" int launch_moe_prescale(void* stream,void* x,void* w,void* scale,
   return ACLRT_LAUNCH_KERNEL(moe_prescale)(8,stream,x,w,scale,groups,y,workspace,m,k,n,e,prescale);
 }
 ''')
+    template = Path(__file__).resolve().parents[1] / 'experimental/moe_small_m/torch_launch.cpp'
+    shutil.copyfile(template, output / 'torch_launch.cpp')
     (output / 'CMakeLists.txt').write_text('''cmake_minimum_required(VERSION 3.20)
 project(moe_prescale LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
@@ -93,6 +95,19 @@ include(${ASCEND_CANN_PACKAGE_PATH}/compiler/tikcpp/ascendc_kernel_cmake/ascendc
 ascendc_library(moe_device STATIC experiment.cpp)
 add_library(moe_prescale SHARED launch.cpp)
 target_link_libraries(moe_prescale PRIVATE moe_device)
+execute_process(COMMAND ${CMAKE_COMMAND} -E env TORCH_DEVICE_BACKEND_AUTOLOAD=0 python3 -c
+  "import importlib.util,pathlib,torch; print(pathlib.Path(torch.__file__).parent); print(pathlib.Path(importlib.util.find_spec('torch_npu').origin).parent); print(int(torch.compiled_with_cxx11_abi()))"
+  OUTPUT_VARIABLE TORCH_PATHS OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
+string(REPLACE "\\n" ";" TORCH_PATHS "${TORCH_PATHS}")
+list(GET TORCH_PATHS 0 TORCH_ROOT)
+list(GET TORCH_PATHS 1 NPU_ROOT)
+list(GET TORCH_PATHS 2 TORCH_ABI)
+add_library(moe_prescale_torch SHARED torch_launch.cpp)
+target_compile_definitions(moe_prescale_torch PRIVATE _GLIBCXX_USE_CXX11_ABI=${TORCH_ABI})
+target_include_directories(moe_prescale_torch PRIVATE ${TORCH_ROOT}/include ${TORCH_ROOT}/include/torch/csrc/api/include ${NPU_ROOT}/include ${ASCEND_CANN_PACKAGE_PATH}/include)
+target_link_directories(moe_prescale_torch PRIVATE ${TORCH_ROOT}/lib ${NPU_ROOT}/lib)
+target_link_libraries(moe_prescale_torch PRIVATE moe_prescale torch_npu torch torch_cpu c10)
+set_target_properties(moe_prescale_torch PROPERTIES BUILD_RPATH "$ORIGIN")
 ''')
     (output / 'source-manifest.json').write_text(json.dumps({'source_sha256': hashes,
         'change': 'schedule dynamic token scales once before serial expert GEMV loop',

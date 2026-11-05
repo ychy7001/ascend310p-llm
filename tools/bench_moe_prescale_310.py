@@ -23,6 +23,7 @@ def main():
     torch.manual_seed(20261105)
     torch.npu.set_device(0)
     lib = ctypes.CDLL(str(a.library.resolve()))
+    torch.ops.load_library(str(a.library.resolve().with_name('libmoe_prescale_torch.so')))
     launch = lib.launch_moe_prescale
     launch.argtypes = [ctypes.c_void_p]*7 + [ctypes.c_uint32]*5
     launch.restype = ctypes.c_int
@@ -41,6 +42,8 @@ def main():
         w = torch_npu.npu_format_cast(wcpu.npu(),29)
         scale, group = scpu.npu(), ends.npu()
         def custom(prescale):
+            if prescale:
+                return torch.ops.moe_prescale_310.grouped(x,w,scale,group)
             stream = torch.npu.current_stream().npu_stream
             workspace = torch.empty(((m+15)//16*16*k + m*32+256+4096,),dtype=torch.uint8,device='npu')
             out = torch.empty((m,n),dtype=torch.float16,device='npu')

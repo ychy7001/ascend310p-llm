@@ -2,7 +2,7 @@
 
 本项仅调整 `QuantGroupedMatmulDequant` 小 M 路径的调度，不叠加 QKVZ 量化，不改变专家权重、scale、路由、GEMV 算术或通信。基线提交 `74f7202`。
 
-候选将各专家内部重复进行的动态 token scale 计算提前至专家循环前，计算所有输入行后仅同步一次；后面的逐专家 GEMV 继续使用原始源码，按原行号读取 scale。仅面向总 M=8/16/24/32、每专家至多 8 行、K=256/2048、FP32 权重 scale 的实验。算子之外未接入候选。
+候选将各专家内部重复进行的动态 token scale 计算提前至专家循环前，计算所有输入行后仅同步一次；后面的逐专家 GEMV 继续使用原始源码，按原行号读取 scale。候选通过 Torch PrivateUse1 算子和 `OpCommand::RunOpApiV2` 发射，输出与 workspace 在调用内分配，并记录 stream 生命周期。仅面向总 M=8/16/24/32、每专家至多 8 行、K=256/2048、FP32 权重 scale 的实验。算子之外未接入候选。
 
 `tools/prepare_moe_prescale_310.py` 从调用者提供的生产 SDK 源码生成隔离构建目录，记录输入头文件 SHA256；仓库不分发 SDK 源码。`tools/bench_moe_prescale_310.py` 先核验官方算子、自编译原调度、候选三方，再对照 CPU FP32 量化整数点积参考，并检查候选逐位重复；正式微基准使用真实激活、256 专家 bank 与累计分组。无 Profile 的 eager/Graph 计时分开，每档 3 对 AB/BA、每臂 256 次调用。CPU 参考容差在真实样本前固定为 `rtol=0.002, atol=0.002`，所有元素均须满足；自编译对照须与官方逐位一致，候选须逐位重复且为有限值；候选对官方若不逐位一致则要求完整 G1。
 
@@ -13,3 +13,19 @@
 真实采集完成：双 rank、全部 40 层共 2,904 条路由观测，12 轮/30 请求、122,880 输入和 7,680 输出 token，所有输出均为 256 token。四档非空专家数中位数为 8/16/23/28，最大每专家行数为 1/2/3/4；全部累计边界等于 M。首层每 rank 各保留两类投影的真实 256 专家 bank，以及每档三请求、每请求前三步的输入。
 
 首次真实微基准发现捕获前固定 stream 导致候选 Graph 为空；该批计时全部作废。已改为在调用时读取当前 stream，并要求修改输入后的 Graph replay 与该臂的新调用逐位一致。`tools/adjudicate_moe_prescale_310.py` 拒绝未经该核验的数据，并检查双 rank bank、每档每投影至少三请求×三稳定输入。正在排队重测无 Profile 微基准并折算收益。只有达到会议回放 3% 的理想进入门槛才继续整模型 G2 与正式回放；逐位不一致则完整 G0/G1/G2。尚未测会议回放、RAG 8K–32K Prefill、通用 1K–32K×C1/C4，WY Prefill 不在本项中改动。未报告实测收益或非劣结论。
+
+生成和构建命令（在匹配的生产 SDK 镜像内；CPU 构建不挂载设备）：
+
+```sh
+python3 tools/prepare_moe_prescale_310.py --source "$CANN_OP_SOURCE" --output "$BUILD_SOURCE"
+cmake -S "$BUILD_SOURCE" -B "$BUILD_DIR" -DSOC_VERSION=Ascend310P3 -DCMAKE_BUILD_TYPE=Release
+cmake --build "$BUILD_DIR" -j1
+```
+
+算子命令须在已持 `flock /tmp/a310-npu.lock` 的独占窗口内执行，退出前恢复原服务并用新 SSH 独立确认 health=200：
+
+```sh
+python3 tools/bench_moe_prescale_310.py --library "$BUILD_DIR/libmoe_prescale.so" --snapshots "$CAPTURE_DIR" --output results/moe-small-m-20261105/raw/micro.json
+python3 tools/adjudicate_moe_prescale_310.py --micro results/moe-small-m-20261105/raw/micro.json --attribution "$ATTRIBUTION_DIR" --output results/moe-small-m-20261105/adjudication.json
+python3 -m unittest discover -s tools -p test_adjudicate_moe_prescale_310.py -v
+```
