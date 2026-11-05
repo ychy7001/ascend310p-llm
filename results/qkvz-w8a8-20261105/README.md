@@ -1,6 +1,6 @@
 # 4b-②：30 个 QKVZ 投影 W8A8
 
-状态：**性能筛选达到理想预算门槛，G0 待执行，尚未进入整模型。**基点 `74f7202`；仅量化 30 个 `linear_attn.in_proj_qkvz`，没有叠加 MoE tiling 或共享专家量化。
+状态：**性能筛选达到理想预算门槛，G0 已通过，正在重跑整模型对照 A。**基点 `74f7202`；仅量化 30 个 `linear_attn.in_proj_qkvz`，没有叠加 MoE tiling 或共享专家量化。
 
 量化规则已写死：每输出通道从生产 FP16 权重计算 absmax/127、nearest-even。**仅整行全零的通道使用 int8 全 0、scale=1.0**，精确表示生产 FP16 的零输出；非零通道不加 scale 下限。BF16 源仅用于记录生产转换事实，不参与量化 scale。动态激活量化使用逐 token absmax；算子筛选使用固定 seed 的合成 Gaussian 激活，不使用业务文本，无校准集调参。
 
@@ -46,7 +46,8 @@
 | 语法 | `python3 -m py_compile benchmarks/ascend310p/bench_qkvz_w8a8.py tools/summarize_qkvz_screen.py` | 2 个工具通过 |
 | 预算边界检查 | 导入 `summarize_qkvz_screen`，使用真实 manifest/预算、合成计时 | 6/6：1.66×停止、2×进入门禁、2×预算值、1×零收益、0.5×负收益、拒绝不完整记录 |
 | 性能筛选 | `bench_qkvz_w8a8.py bench --weights WEIGHTS --output OUTPUT --rank RANK` | 八档各3对×256步，共24对、12288个计时步；有效1.699228× |
-| G0 / G1 / G2 | 未执行 | G1 阈值未冻结；模型 B 0次 |
+| G0 | `bench_qkvz_w8a8.py g0 --weights WEIGHTS --output OUTPUT --rank RANK` | 240/240通过；最大NRMSE=0.016041696；最小cosine=0.999871194；A/B位模式重复240/240 |
+| G1 / G2 | 同轮模型对照准备 | G1阈值未冻结；模型B 0次 |
 
 | 负载画像 | 本轮收益 |
 |---|---|
@@ -55,4 +56,6 @@
 | 通用 1K–32K × C1/C4 | 未测 |
 | WY Prefill | 未测；未改 WY |
 
-真实限制：算子性能筛选已完成，数值门禁未执行；没有长上下文真实激活、饱和统计或 SSM 漂移证据，没有正式5对 AB/BA回放。预备算子筛选的双 rank 顺序运行，不含 TP2 通信，合成输入不表示上下文分布。原始 manifest、日志、量化产物位置和窗口控制记录均保留在忽略区。
+性能与G0两个NPU窗口均已恢复原服务，并由新的SSH独立确认active、health=200后释放锁。G1已冻结37条输入、共414551 token，包含81920/96256 token两条合成长尾；A、A′、B将分别持锁运行，每窗工作预算6600秒，为恢复及独立健康确认保留时间。
+
+真实限制：算子性能筛选与G0已完成，模型门禁待执行；没有长上下文真实激活、饱和统计或 SSM 漂移证据，没有正式5对 AB/BA回放。预备算子筛选的双 rank 顺序运行，不含 TP2 通信，合成输入不表示上下文分布。原始 manifest、日志、量化产物位置和窗口控制记录均保留在忽略区。

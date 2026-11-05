@@ -1,5 +1,5 @@
 {
-  "status": "screen_pass_G0_pending",
+  "status": "G0_passed_fresh_model_A_queued",
   "base_commit": "74f7202",
   "scope": "30 linear_attn.in_proj_qkvz only",
   "image_sha256": "c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
@@ -610,7 +610,14 @@
     ]
   },
   "ideal_min_speedup": 1.663021471519359,
-  "G0": "not_run",
+  "G0": {
+    "passed": true,
+    "cases": 240,
+    "max_nrmse": 0.016041696071624756,
+    "min_cosine": 0.9998711943626404,
+    "A_B_bitwise_repeat_passed": 240,
+    "quant_reference_max_abs": 0.0033292770385742188
+  },
   "G1": "not_run",
   "G2": "not_run",
   "G1_thresholds_frozen": false,
@@ -628,7 +635,8 @@
     "budget_boundary_checks": 6,
     "unprofiled_paired_measurements": 24,
     "timed_steps_all_arms_ranks_batches": 12288,
-    "source_bf16_tensor_headers_verified": 60
+    "source_bf16_tensor_headers_verified": 60,
+    "shared_logprob_comparison_tests": 7
   },
   "limits": [
     "real weights, synthetic activations",
@@ -737,5 +745,41 @@
     ],
     "manifest_sha256": "ef9ae990c9af5a042787fa10f9600c538dcec2acf2e8a876bf2a40d589cac2a7",
     "budget_sha256": "c913a960ebefad7df65ac2c9f38c00a4684546114cd5532d18b72057bb651e33"
+  },
+  "windows": {
+    "v2": {
+      "independent_health": {
+        "http_status": 200,
+        "active": "active",
+        "independent_ssh": true,
+        "time": 1793841212.5876024
+      },
+      "controller": {
+        "returncode": 0,
+        "elapsed_seconds": 1218.7246118190233
+      }
+    },
+    "g0": {
+      "independent_health": {
+        "http_status": 200,
+        "active": "active",
+        "independent_ssh": true,
+        "time": 1793842213.5002565
+      },
+      "controller": {
+        "returncode": 0,
+        "elapsed_seconds": 1158.1314186428208
+      }
+    }
+  },
+  "G1_inputs": {
+    "cases": 37,
+    "tokens": 414551,
+    "tail_tokens": [
+      81920,
+      96256
+    ],
+    "threshold_multiplier": 1,
+    "concrete_thresholds_frozen": false
   }
 }

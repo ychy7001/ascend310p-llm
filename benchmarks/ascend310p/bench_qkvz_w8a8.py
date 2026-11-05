@@ -100,7 +100,7 @@ def benchmark(weights, output, rank, gate=False):
               'action': 'g0' if gate else 'bench',
               'g0_rule': {'quant_reference_atol': .002, 'quant_reference_rtol': .002,
                           'fp32_original_nrmse_max': .03, 'fp32_original_cosine_min': .999,
-                          'repeat': 'bitwise FP16 outputs, 3 calls'}, 'g0': [], 'timings': []}
+                          'repeat': 'INT16 view of FP16 outputs; A and B each 3 calls'}, 'g0': [], 'timings': []}
     write(output, result)
     for batch in (1, 2, 3, 4):
         xc = torch.randn(batch, 2048, dtype=torch.float16)
@@ -118,24 +118,28 @@ def benchmark(weights, output, rank, gate=False):
                 original = xc.float() @ w['fp16'].float().T
                 nrmse = ((yc-original).square().mean() / original.square().mean()).sqrt().item()
                 cosine = torch.nn.functional.cosine_similarity(yc.flatten(), original.flatten(), dim=0).item()
-                repeated = all(torch.equal(y.cpu(), torch_npu.npu_quant_matmul(
-                    *[qx, qw[i], scales[i]], pertoken_scale=xs, output_dtype=torch.float16).cpu())
+                bits = y.cpu().contiguous().view(torch.int16)
+                repeated = all(torch.equal(bits, torch_npu.npu_quant_matmul(
+                    *[qx, qw[i], scales[i]], pertoken_scale=xs, output_dtype=torch.float16).cpu().contiguous().view(torch.int16))
                     for _ in range(2))
                 # Repeat the entire changed path too, including dynamic quantization.
                 for _ in range(2):
                     q2, s2 = torch_npu.npu_dynamic_quant(x)
                     y2 = torch_npu.npu_quant_matmul(q2, qw[i], scales[i], pertoken_scale=s2,
                                                   output_dtype=torch.float16)
-                    repeated = repeated and torch.equal(y.cpu(), y2.cpu())
-                fp_y = torch.nn.functional.linear(x, fp[i]).cpu().float()
+                    repeated = repeated and torch.equal(bits, y2.cpu().contiguous().view(torch.int16))
+                fp_raw = torch.nn.functional.linear(x, fp[i]).cpu()
+                fp_y = fp_raw.float()
+                a_repeated = all(torch.equal(fp_raw.contiguous().view(torch.int16),
+                    torch.nn.functional.linear(x, fp[i]).cpu().contiguous().view(torch.int16)) for _ in range(2))
                 torch.testing.assert_close(fp_y, original.half().float(), atol=.002, rtol=.002)
                 row = {'batch': batch, 'module': entries[i]['module'], 'nrmse': nrmse,
                        'cosine': cosine, 'finite': bool(torch.isfinite(yc).all()),
-                       'bitwise_repeat': repeated,
+                       'bitwise_repeat': repeated, 'A_bitwise_repeat': a_repeated,
                        'quant_reference_max_abs': (yc-quant_reference).abs().max().item()}
                 result['g0'].append(row)
                 write(output, result)
-                assert nrmse <= .03 and cosine >= .999 and row['finite'] and repeated, row
+                assert nrmse <= .03 and cosine >= .999 and row['finite'] and repeated and a_repeated, row
             continue
         def a():
             return [torch.nn.functional.linear(x, weight) for weight in fp]
