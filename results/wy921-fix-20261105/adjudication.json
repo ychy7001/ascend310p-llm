@@ -1,6 +1,6 @@
 {
   "task": "wy-4",
-  "status": "G0_candidates_1_2_rejected_candidate_3_waiting_shared_lock",
+  "status": "G0_passed_model_gates_pending_shared_lock",
   "protocol_sha256": "e6327d44945f392f00b8e13897c7d48344cb5f9ecd2968c192b130b02458d93f",
   "protocol": {
     "schema": 1,
@@ -747,7 +747,7 @@
     "new_round_pending": true
   },
   "gates": {
-    "G0": "pending",
+    "G0": "passed",
     "G1": "not_started",
     "G2": "not_started",
     "performance": "not_started"
@@ -1233,19 +1233,89 @@
       }
     },
     "v3": {
-      "status": "CPU_built_waiting_NPU_lock",
-      "source_sha256": "3ec7d34f7b3f43e142e69ecdb4e2dfaf0c5f9dd469b5682b8d3d3fe6b3e2dda8",
-      "patch_sha256": "aa00aedca70ee286305df7580a05e793e62b5f7da1e0a8fcb3ba1f25f7135adb",
-      "scope": "WY Gram residual, compensated gate prefix sum, remove empirical Frobenius doubling admission; gating/H/O unchanged"
+      "passed": true,
+      "WY": {
+        "cases": 132,
+        "totals": {
+          "native": {
+            "q": {
+              "squared_error": 0.0,
+              "outside": 0
+            },
+            "k": {
+              "squared_error": 0.0,
+              "outside": 0
+            },
+            "w": {
+              "squared_error": 0.0004686242590853561,
+              "outside": 0
+            },
+            "u": {
+              "squared_error": 0.0770120448787155,
+              "outside": 0
+            },
+            "g": {
+              "squared_error": 1.5752817367465175e-06,
+              "outside": 0
+            }
+          },
+          "torch": {
+            "q": {
+              "squared_error": 0.0,
+              "outside": 0
+            },
+            "k": {
+              "squared_error": 0.0,
+              "outside": 0
+            },
+            "w": {
+              "squared_error": 0.002134437846055375,
+              "outside": 1
+            },
+            "u": {
+              "squared_error": 0.1642904677135392,
+              "outside": 198
+            },
+            "g": {
+              "squared_error": 6.307268091927815e-05,
+              "outside": 0
+            }
+          }
+        },
+        "no_worse_control": {
+          "q": true,
+          "k": true,
+          "w": true,
+          "u": true,
+          "g": true
+        },
+        "bitwise_repeats_passed": 132,
+        "repeat_count": 3,
+        "snapshots": {
+          "native": 120,
+          "torch": 98,
+          "cases": 120
+        },
+        "triggers": {
+          "native": 12,
+          "torch": 0,
+          "cases": 12
+        },
+        "passed": true
+      },
+      "full_gdn_synthetic": {
+        "passed": 30,
+        "total": 30,
+        "torch_cpu_passed": 30,
+        "native_repeats": 3
+      },
+      "total_passed": 162,
+      "total_cases": 162,
+      "candidate_manifest_sha256": "8ff33c4e6f54efdc778952b804cd26b36e3d559c1e4653292a3bd1b45ca3d329",
+      "candidate_source_sha256": "3ec7d34f7b3f43e142e69ecdb4e2dfaf0c5f9dd469b5682b8d3d3fe6b3e2dda8",
+      "threshold_protocol_sha256": "e6327d44945f392f00b8e13897c7d48344cb5f9ecd2968c192b130b02458d93f",
+      "no_fallback": true
     }
-  },
-  "window1_recovery": {
-    "primary": "active",
-    "image": "inactive",
-    "image_enabled": "disabled",
-    "health": 200,
-    "utc": "2026-11-05T01:08:29Z",
-    "verification": "fresh independent SSH connection while NPU lock held"
   },
   "remaining_failing_chunks": [
     {
@@ -1365,5 +1435,31 @@
       "old_gram_frobenius_squared": 42.66456604003906,
       "v_rms": 0.804957389831543
     }
-  ]
+  ],
+  "recovery_windows": [
+    {
+      "primary": "active",
+      "image": "inactive",
+      "image_enabled": "disabled",
+      "health": 200,
+      "utc": "2026-11-05T01:08:29Z",
+      "verification": "fresh independent SSH connection while NPU lock held"
+    },
+    {
+      "primary": "active",
+      "image": "inactive",
+      "image_enabled": "disabled",
+      "health": 200,
+      "utc": "2026-11-05T01:25:53Z",
+      "verification": "fresh independent SSH connection while NPU lock held"
+    }
+  ],
+  "upstream_patch": {
+    "path": "results/wy921-fix-20261105/pr17640-wy-fp32.patch",
+    "bytes": 5280,
+    "sha256": "aa00aedca70ee286305df7580a05e793e62b5f7da1e0a8fcb3ba1f25f7135adb",
+    "base_commit": "18163f6b1d208ab3b4fb06e9752225611c37f40e",
+    "state": "G0_passed_model_pending_not_sent",
+    "apply_check": "passed"
+  }
 }
