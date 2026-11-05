@@ -1,6 +1,6 @@
 {
   "inspection_date": "2026-11-05",
-  "status": "production-and-recovered-base-inspected",
+  "status": "cpu-reconstruction-and-comparison-complete",
   "production_image": "${PRODUCTION_REGISTRY}/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
   "architecture": "amd64",
   "production_config_digest": "sha256:c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
@@ -250,7 +250,7 @@
   },
   "source_heads_verified": true,
   "filesystem_diff_complete": true,
-  "candidate_built": false,
+  "candidate_built": true,
   "sources": {
     "/vllm-workspace/vllm": {
       "head": "0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665",

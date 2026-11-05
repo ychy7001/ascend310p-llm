@@ -9,6 +9,8 @@ RUN --mount=type=bind,source=.,target=/image-source,ro \
 # Production layer 22 also contains these empty builder-generated files.
 COPY --chmod=0700 deploy/image/empty /etc/hostname
 COPY --chmod=0700 deploy/image/empty /etc/resolv.conf
+RUN chmod 0664 /vllm-workspace/vllm-ascend/vllm_ascend/_310p/attention/attention_mask.py \
+               /vllm-workspace/vllm-ascend/tests/ut/_310p/attention/test_attention_mask_310.py
 LABEL org.opencontainers.image.revision="f8f58951e43054b2da7f7e200939d01f933197cb" \
       org.opencontainers.image.title="vllm-ascend-310P-PI1-live-SplitFuse-mask-v023-overlay"
 
