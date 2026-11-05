@@ -88,7 +88,7 @@ python3 deploy/image/compare-production.py \
 
 ## 本次 CPU 对照结果
 
-候选本机 manifest digest 为 `sha256:16b584b0bb5dda64d5c121df438e43467e9ab090fb06cdd04c55b72e1ec952f9`，image config ID 为 `sha256:efd8af10e8619595c428493a7dc14338815679a35f0e77f67b736e37a07a3a79`。未推送，该 digest 仅对应本地镜像，不能作为已发布 registry 引用。
+候选本机 manifest digest 为 `sha256:16b584b0bb5dda64d5c121df438e43467e9ab090fb06cdd04c55b72e1ec952f9`，image config ID 为 `sha256:efd8af10e8619595c428493a7dc14338815679a35f0e77f67b736e37a07a3a79`。该 digest 对应构建时本地镜像；发布后的 OCI manifest 引用见下文。
 
 [`production-comparison.json`](../deploy/image/production-comparison.json) 记录结果和完整清单摘要：
 
@@ -109,11 +109,11 @@ python3 deploy/image/compare-production.py \
 
 本地恢复 OCI 使用未压缩层；推送时 Podman 将层 gzip 压缩，因此发布 manifest digest 与本地未压缩 manifest digest 不同。config、文件系统 diff_id 和文件内容没有改变。锁文件保留未压缩恢复 digest，并另外记录可拉取的 registry 来源引用。
 
-候选尚未发布，不能提供候选远端 digest；生产镜像仓库未写入任何 tag。
+候选已发布为 `${REGISTRY}/${NAMESPACE}/ascend310p-llm-candidate@sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0`，tag 为 `image-src-f46116b-amd64-310p`。原始 manifest 远端回读与本地推送输出 digest 一致，远端运行 Config 和所有 diff_id 与本地候选一致。发布使用 OCI 格式，config 外层序列化与本地 Docker 格式不同，不能将两者的 config ID 混用。生产镜像仓库未写入任何 tag。
 
 ## 设备验证状态与门禁口径
 
-2026-11-05 的授权允许在实验设备执行验证，禁止触碰交付站。只读服务预检返回原 backend 服务 `LoadState=loaded`、`ActiveState=inactive`、`SubState=dead`，18081 `/health` 连接失败（HTTP 000）。按计划外问题停止规则，本轮在取得设备锁、改变服务和运行门禁之前停止；候选推送也尚未开始。未修复或启动任何服务。
+2026-11-05 的授权允许在实验设备执行验证，禁止触碰交付站。只读服务预检返回原 backend 服务 `LoadState=loaded`、`ActiveState=inactive`、`SubState=dead`，18081 `/health` 连接失败（HTTP 000）。该次预检发生在取得共享锁之前，现已确认这是其他实验线程持锁期间的正常状态。后续按新的顺序阻塞取锁，取锁后再检查原服务；若仍 inactive，按原单元启动并确认 health=200，随后进入验证窗口。
 
 后续执行前须重新满足共享规则：整个设备窗口持有 `/tmp/a310-npu.lock`，最多三小时，结束恢复原服务，并在新的独立 SSH 连接确认 health=200 后才放锁。
 

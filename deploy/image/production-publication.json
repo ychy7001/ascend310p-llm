@@ -10,7 +10,15 @@
   "layers": 19,
   "local_uncompressed_manifest_digest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
   "transport_change": "OCI layers compressed with gzip on push; config and all 19 diff_ids unchanged",
-  "candidate_published": false,
-  "device_validation": "not-executed-service-preflight-failed",
-  "inspection_date": "2026-11-05"
+  "candidate_published": true,
+  "device_validation": "pending-shared-lock",
+  "inspection_date": "2026-11-05",
+  "candidate_reference": "${REGISTRY}/${NAMESPACE}/ascend310p-llm-candidate@sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+  "candidate_tag": "image-src-f46116b-amd64-310p",
+  "candidate_source_revision": "f46116b",
+  "candidate_local_push_manifest_digest": "sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+  "candidate_remote_manifest_digest": "sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+  "candidate_remote_config_digest": "sha256:82c6b7db670880ffe2a4cdb918feca5e87758334c444766d523e36957a2965d2",
+  "candidate_runtime_config_equal": true,
+  "candidate_diff_ids_equal": true
 }
