@@ -1,0 +1,107 @@
+{
+  "passed": true,
+  "files_reviewed": [
+    {
+      "file": "README.md",
+      "bytes": 5914,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "SHA256SUMS",
+      "bytes": 945,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "build_pr17640_wy_extension.py",
+      "bytes": 3408,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "input.json",
+      "bytes": 460986,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "input_data.py",
+      "bytes": 2117,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "observed-minimal.json",
+      "bytes": 6165,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "pr_torch_reference.py",
+      "bytes": 1035,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "recorded-outputs.json",
+      "bytes": 646467,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "repro-real-wy.py",
+      "bytes": 2666,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "test_wy_snapshot_reference.py",
+      "bytes": 3385,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "validate_cpu.py",
+      "bytes": 2346,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    },
+    {
+      "file": "wy_snapshot_reference.py",
+      "bytes": 2851,
+      "sha256_verified": true,
+      "utf8_text": true,
+      "metadata_checked": true,
+      "sensitive_pattern_hits": 0
+    }
+  ],
+  "archive_sha256": "95ce55702b7329a6d2cb2d08fcdef7bcd20ae9febef43ac62f79cc89aa6c797b",
+  "notes": [
+    "All public files also read for semantic review; numeric JSON has only tensor values and metadata.",
+    "Internal background README, adjudication, raw logs and binary files are excluded from gist.",
+    "Pattern scans supplement manual inspection; CPU checks do not constitute a new device run."
+  ]
+}

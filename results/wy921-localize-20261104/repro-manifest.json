@@ -1,36 +1,57 @@
 {
   "path": "results/wy921-localize-20261104/upstream-gdn-wy921-runtime-repro.tar.gz",
-  "size_bytes": 50410,
-  "sha256": "aa62d77c36499d34d1976f061a7f78801a248729cf4eba034ad4587e3c392497",
+  "size_bytes": 279469,
+  "sha256": "95ce55702b7329a6d2cb2d08fcdef7bcd20ae9febef43ac62f79cc89aa6c797b",
   "unpacked_path": "results/wy921-localize-20261104/upstream-gdn-wy921-runtime-repro",
   "contains_weights": false,
   "contains_prompts": false,
-  "inputs": "one 64-token, one-head activation snapshot",
+  "contains_binaries": false,
+  "inputs": "one 64-token, one-head activation snapshot in lossless decimal JSON",
   "files": [
     {
       "path": "README.md",
-      "size_bytes": 2834,
-      "sha256": "514a4f967103c97b6b35eb6a959d1848b32f86e7790ebb600d172927ed48a26c"
+      "size_bytes": 5914,
+      "sha256": "8258cd2e12e242b26869ff44f55b65000d6bc691b9009be265908e9b1553722e"
+    },
+    {
+      "path": "SHA256SUMS",
+      "size_bytes": 945,
+      "sha256": "000442bcbf365dd30fcf819889498fa84be387d911e2fc132d5b801aca83257b"
     },
     {
       "path": "build_pr17640_wy_extension.py",
-      "size_bytes": 2995,
-      "sha256": "74f5e06179112309fd735e9549c65caeb9ad725ed07414dce5b3c9bbb408bebb"
+      "size_bytes": 3408,
+      "sha256": "51c18ae00e31d0b25ba5cfb41030c8d6b4310232a511f67170c4a02c8a57b8c4"
     },
     {
-      "path": "input.pt",
-      "size_bytes": 51843,
-      "sha256": "291fb3926578f07ebf853fded508a606a508f223bb12b0b94cf353ad7e018ba3"
+      "path": "input.json",
+      "size_bytes": 460986,
+      "sha256": "98df851ed7068b63bfb7a9c1715acc32daa24ff059f2a357ab94b6cf19b39d34"
+    },
+    {
+      "path": "input_data.py",
+      "size_bytes": 2117,
+      "sha256": "e4b23873cba354c3a06e06abda4c8925ba59c233f5982765c07a710ed291addc"
     },
     {
       "path": "observed-minimal.json",
-      "size_bytes": 6354,
-      "sha256": "273454ede7cbe17d74eff46ab0a0eb864da3a41e04d687d7495e8df0ca85efbc"
+      "size_bytes": 6165,
+      "sha256": "65a864adaa34ae5582938747ae204bc9c9753652081c807d420abbe8c90fee10"
+    },
+    {
+      "path": "pr_torch_reference.py",
+      "size_bytes": 1035,
+      "sha256": "18ff946f9d8e9f767a16269bd1233ebaa192609353a434e566ecd44fe6a2aafb"
+    },
+    {
+      "path": "recorded-outputs.json",
+      "size_bytes": 646467,
+      "sha256": "797c6f55aa7b54312d192429de319f70964469a417b286c1135f0a402e5d7813"
     },
     {
       "path": "repro-real-wy.py",
-      "size_bytes": 2049,
-      "sha256": "0c9ec38b8bf270234ae9009ef23c5ca36a84dcf1b55a5737feab21072f035510"
+      "size_bytes": 2666,
+      "sha256": "42fb8f66eb0195d060ec38476b44244455470f39bbf29ba94eac64aa7be4aa81"
     },
     {
       "path": "test_wy_snapshot_reference.py",
@@ -38,11 +59,28 @@
       "sha256": "baf893cf6d48569e58f86a3b2a23c6b9aa0c62fd47fe693b48066dffbf6d0821"
     },
     {
+      "path": "validate_cpu.py",
+      "size_bytes": 2346,
+      "sha256": "947b0e95e95a2ffc93e4b2f86e281187fdb6e53b5140cde3586c02becbfc4540"
+    },
+    {
       "path": "wy_snapshot_reference.py",
       "size_bytes": 2851,
       "sha256": "3ba4c218f28f149d9ae08b578b690c906c6c8046d96a8ffc229047d07ccdf03a"
     }
   ],
-  "published": false,
-  "requires_build": "fixed PR17640 checkout and CANN9.2.1 toolchain; binaries not bundled"
+  "published": true,
+  "requires_build": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e; CANN 9.2.1; torch 2.10.0; torch-npu 2.10.0.post7; no private binaries",
+  "archive_metadata": {
+    "uid": 0,
+    "gid": 0,
+    "uname": "",
+    "gname": "",
+    "mtime": 0,
+    "format": "ustar",
+    "gzip_filename": ""
+  },
+  "gist_url": "https://gist.github.com/ychy7001/b94596c3949f19012d635f97b203dd23",
+  "comment_url": "https://github.com/vllm-project/vllm-ascend/pull/17640#issuecomment-6646514137",
+  "published_at_utc": "2026-11-05T00:52:37Z"
 }

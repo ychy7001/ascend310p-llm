@@ -47,7 +47,7 @@ Native/Torch重放全部有限；Native重复120/120逐位一致，Torch离线�
 
 ## 4. 最小复现包、修复与B2
 
-复现包路径、大小、逐文件SHA见 `repro-manifest.json`。`upstream-gdn-wy921-runtime-repro.tar.gz` **50,410字节**，无模型权重、prompt、tokenizer或二进制，含51,843字节的单chunk/head输入、复现脚本、独立CPU参考/测试、固定PR绑定构建工具、实际结果与README；需使用固定9.2.1工具链和上游checkout重编译。未推送、未发布上游。
+复现包路径、大小、逐文件SHA见 `repro-manifest.json`。独立审查后重新打包：`upstream-gdn-wy921-runtime-repro.tar.gz` **279,469字节**；无权重、prompt、tokenizer或二进制，使用可无损还原的数值JSON输入与设备记录输出，含英文README、CPU参考/测试/校验、固定PR绑定构建及对照脚本。tar身份与时间元数据已清除。需使用CANN9.2.1和固定PR源码重新构建设备部分。发布状态见本文末尾审查记录。
 
 最小例Native↔CPU的u最大绝对差0.0039176941，1个元素超差；Native↔Torch最大0.01171875，2个元素超差。Torch↔CPU也超差。原生内核未修改，故没有“修复后重新门禁”的结论；原生整模型留待后续轮决定。
 
@@ -65,4 +65,16 @@ B2使用固定ops-transformer `0340eae051ddf5ab956df0f7e0396dbd6314cfc5`及上�
 
 ## 恢复
 
-每一阶段均在finally中停止实验容器并恢复原服务。最终于 **2026-11-04 14:04:23 UTC** 通过独立新SSH会话确认原服务active、18081/health=200；运行中的rootful容器仅原服务，rootless实验容器为空。总用时约43.1分钟，未超时间盒。`qwen36-image.service` 全程保持停止，结束后也不启动；它仍为enabled。本轮未操作另一实验机，未更换CANN/驱动或宿主安装，未推送。
+每一阶段均在finally中停止实验容器并恢复原服务。最终于 **2026-11-04 14:04:23 UTC** 通过独立新SSH会话确认原服务active、18081/health=200；运行中的rootful容器仅原服务，rootless实验容器为空。总用时约43.1分钟，未超时间盒。`<local-image-service>` 全程保持停止，结束后也不启动；它仍为enabled。本轮未操作另一实验机，未更换CANN/驱动或宿主安装，未推送。
+
+
+## 2026-11-05 独立审查与上游发布
+
+- 逐项结论与真实限制见 `review-report.md`；归档逐文件审查见 `public-package-audit.json`。
+- 修复原tar用户名元数据、二进制输入发布缺口、内部vendor名称与构建说明；所有公开数据均为数值JSON或文本脚本，无权重或业务文本。
+- Python3.11.15 / torch2.5.1+cpu：三项参考测试、输入无损重建/回读、张量SHA/shape/dtype/有限性、记录输出重算均通过；新解压包重复验证通过。固定PR的两个Torch函数与历史观测函数AST一致，CPU执行通过。
+- 本次未重新执行NPU构建/运行；设备数字来自2026-11-04保留输出，原精确驱动版本未保留。原先50,410字节二进制输入包由279,469字节纯文本包替代，SHA见清单。
+- 创建公开gist后，重新下载12个文本文件，逐一核对SHA；发送前再确认PR OPEN/未合并/head精确匹配18163f6b。只发一条普通英文评论，无review或issue/PR操作。
+- gist：https://gist.github.com/ychy7001/b94596c3949f19012d635f97b203dd23
+- 评论：https://github.com/vllm-project/vllm-ascend/pull/17640#issuecomment-6646514137
+- 评论正文见 `comment-body.md`；发布时间 2026-11-05T00:52:37Z，正文已与远端回读核对。本地提交，不推送。

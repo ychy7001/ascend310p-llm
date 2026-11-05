@@ -1,0 +1,231 @@
+{
+  "passed": true,
+  "torch_version": "2.5.1+cpu",
+  "device_run_during_review": false,
+  "shapes": [
+    [
+      1,
+      64,
+      1,
+      128
+    ],
+    [
+      1,
+      64,
+      1,
+      128
+    ],
+    [
+      1,
+      64,
+      1,
+      128
+    ],
+    [
+      1,
+      64,
+      1
+    ],
+    [
+      1,
+      64,
+      1
+    ]
+  ],
+  "features": {
+    "v_max": 18.078125,
+    "v_rms": 1.42574143409729,
+    "g_min": -0.006116192787885666,
+    "g_max": -5.7000917877303436e-05,
+    "g_sum": -0.04549932852387428,
+    "k_offdiag_abs_max": 0.9999727606773376,
+    "beta_min": 0.4677734375,
+    "beta_max": 0.9638671875
+  },
+  "native_vs_cpu": [
+    {
+      "output": "q",
+      "finite": true,
+      "max_abs": 0.0,
+      "reference_at_max": 0.0162811279296875,
+      "actual_at_max": 0.0162811279296875,
+      "relative_rmse": 0.0,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": true,
+      "passed": true
+    },
+    {
+      "output": "k",
+      "finite": true,
+      "max_abs": 0.0,
+      "reference_at_max": -0.00814056396484375,
+      "actual_at_max": -0.00814056396484375,
+      "relative_rmse": 0.0,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": true,
+      "passed": true
+    },
+    {
+      "output": "w",
+      "finite": true,
+      "max_abs": 0.00016663037240505219,
+      "reference_at_max": 0.016600346192717552,
+      "actual_at_max": 0.0164337158203125,
+      "relative_rmse": 0.0002856518840417266,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": false,
+      "passed": true
+    },
+    {
+      "output": "u",
+      "finite": true,
+      "max_abs": 0.003917694091796875,
+      "reference_at_max": 18.378917694091797,
+      "actual_at_max": 18.375,
+      "relative_rmse": 0.0002469693426974118,
+      "outside_tolerance": 1,
+      "elements": 8192,
+      "exact_required": false,
+      "passed": false
+    },
+    {
+      "output": "g",
+      "finite": true,
+      "max_abs": 1.1175870895385742e-08,
+      "reference_at_max": -0.0428767204284668,
+      "actual_at_max": -0.0428767092525959,
+      "relative_rmse": 1.5478390480438975e-07,
+      "outside_tolerance": 0,
+      "elements": 64,
+      "exact_required": false,
+      "passed": true
+    }
+  ],
+  "native_vs_torch": [
+    {
+      "output": "q",
+      "finite": true,
+      "max_abs": 0.0,
+      "reference_at_max": 0.0162811279296875,
+      "actual_at_max": 0.0162811279296875,
+      "relative_rmse": 0.0,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": true,
+      "passed": true
+    },
+    {
+      "output": "k",
+      "finite": true,
+      "max_abs": 0.0,
+      "reference_at_max": -0.00814056396484375,
+      "actual_at_max": -0.00814056396484375,
+      "relative_rmse": 0.0,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": true,
+      "passed": true
+    },
+    {
+      "output": "w",
+      "finite": true,
+      "max_abs": 0.000274658203125,
+      "reference_at_max": 0.00698089599609375,
+      "actual_at_max": 0.00670623779296875,
+      "relative_rmse": 0.0005279976176097989,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": false,
+      "passed": true
+    },
+    {
+      "output": "u",
+      "finite": true,
+      "max_abs": 0.01171875,
+      "reference_at_max": 4.60546875,
+      "actual_at_max": 4.6171875,
+      "relative_rmse": 0.000611480325460434,
+      "outside_tolerance": 2,
+      "elements": 8192,
+      "exact_required": false,
+      "passed": false
+    },
+    {
+      "output": "g",
+      "finite": true,
+      "max_abs": 1.1175870895385742e-08,
+      "reference_at_max": -0.042726486921310425,
+      "actual_at_max": -0.04272647574543953,
+      "relative_rmse": 1.4944228610147547e-07,
+      "outside_tolerance": 0,
+      "elements": 64,
+      "exact_required": false,
+      "passed": true
+    }
+  ],
+  "torch_vs_cpu": [
+    {
+      "output": "q",
+      "finite": true,
+      "max_abs": 0.0,
+      "reference_at_max": 0.0162811279296875,
+      "actual_at_max": 0.0162811279296875,
+      "relative_rmse": 0.0,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": true,
+      "passed": true
+    },
+    {
+      "output": "k",
+      "finite": true,
+      "max_abs": 0.0,
+      "reference_at_max": -0.00814056396484375,
+      "actual_at_max": -0.00814056396484375,
+      "relative_rmse": 0.0,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": true,
+      "passed": true
+    },
+    {
+      "output": "w",
+      "finite": true,
+      "max_abs": 0.0003822147846221924,
+      "reference_at_max": 0.3648841679096222,
+      "actual_at_max": 0.364501953125,
+      "relative_rmse": 0.00053750304505229,
+      "outside_tolerance": 0,
+      "elements": 8192,
+      "exact_required": false,
+      "passed": true
+    },
+    {
+      "output": "u",
+      "finite": true,
+      "max_abs": 0.012281417846679688,
+      "reference_at_max": 4.61775016784668,
+      "actual_at_max": 4.60546875,
+      "relative_rmse": 0.000630976224783808,
+      "outside_tolerance": 2,
+      "elements": 8192,
+      "exact_required": false,
+      "passed": false
+    },
+    {
+      "output": "g",
+      "finite": true,
+      "max_abs": 3.725290298461914e-09,
+      "reference_at_max": -0.03374233469367027,
+      "actual_at_max": -0.033742330968379974,
+      "relative_rmse": 5.263405711275482e-08,
+      "outside_tolerance": 0,
+      "elements": 64,
+      "exact_required": false,
+      "passed": true
+    }
+  ]
+}
