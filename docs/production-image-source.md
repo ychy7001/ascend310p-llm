@@ -2,7 +2,7 @@
 
 本仓在现有 `deploy/image` 中增加 `production` target，用固定的生产恢复基底、上游提交和补丁队列重建 W8A8/TP2 镜像。默认 `runtime` target 仍是已有 W4/TP1 打包入口。两者没有共享模型启动参数：生产 target 继承基底的官方入口、环境和默认命令，服务方继续提供实际生产命令。
 
-CPU 取证、恢复、构建与对照已完成，恢复基底和候选均已发布到指定的新仓库。同日六臂启动复现均成功；随后采用七项指标和1.25倍率的 day 窗口，在生产 A/A′ 比较时遇到显式 top-k 支持交集为空的异常，具体阈值未冻结、候选未启动，没有候选门禁或八格基准结论，没有切换生产引用。官方换底另见 [评估](production-image-base-evaluation.md)。
+CPU 取证、恢复、构建与对照已完成，恢复基底和候选均已发布到指定的新仓库。同日六臂启动复现均成功；随后采用七项指标和1.25倍率的 day 窗口，在生产 A/A′ 比较时遇到显式 top-k 支持交集为空的异常，具体阈值未冻结、候选未启动。按第三轮噪声数据修正判定口径后（见[判定口径修正](#判定口径修正2026-11-05)），候选门禁与八格基准尚未重跑，没有候选结论，没有切换生产引用。官方换底另见 [评估](production-image-base-evaluation.md)。
 
 ## 固定组成
 
@@ -143,3 +143,14 @@ python3 deploy/image/compare-production.py \
 `day-20261105` 按七项 case 归一化指标和1.25倍率运行，判定工具及临时控制脚本均未修改。生产 A、A′ 各完成35条G1和全部G2；两臂均健康启动，GSM63/64、结构化C1/C3各13/13、短题前后各8/8。之后 `compare(a, ap)` 在 `replay-21` 第2个生成位置遇到两份20-token集合交集为0，抛出 `ValueError('No shared top-k support')`。窗口状态为 `failed`；具体阈值未冻结、B未启动，没有候选通过或失败的数值判定。未填补替代KL值、修改规则或重开窗口。
 
 汇总脚本正常生成失败摘要，因缺少B数据，依赖B的G1重算与冻结时序校验分支未执行。窗口持锁2839.21秒，关闭自检确认无运行容器、两个服务inactive，未重启服务。逐臂日志散列、七项未判定状态、诊断缺失及完整时延账见[day窗口结果](../results/production-image-source-20261105/day/README.md)。八格三臂基准的工作量排期估算约99分钟，C4尚未实测，仍须先解决比较异常并完成门禁。
+
+
+## 判定口径修正（2026-11-05）
+
+空交集是高熵位置的合法观测而非缺陷：`replay-21` 第 1 个生成位置两臂各自返回 20 个 token 而交集为 0（A 的 top1 为 98260、对数概率 -0.3364，A′ 为 97279、-0.0522），历史上同一位置的交集是 5 和 3。现在 `conditional_topk_kl` 返回 `(None, 0)`，`compare()` 记账到 `empty_topk_support` 并从 KL 均值中排除，不再中断整轮比较。分歧前的位置结构上不会出现空交集——那里两臂 top1 相同，生成模式又恒返回自身 top1，故该 token 必在双方 top-k 内；三轮实测 1144/1664/1114 个前缀位置均为 0 次。
+
+同轮 A/A′ 噪声现在有三轮，按 case 归一化的量级指标被证明不可复现：`mean_case_mean_conditional_topk_kl` 漂 1.96×、`mean_case_max_conditional_topk_kl` 1.66×、`mean_prefix_absolute_target_logprob_difference` 1.67×（KL 形式 5.09×）。根因是 35 个 case 里分别有 5、4、5 个在第 0 位即分歧、完全没有前缀，却仍按 1/35 参与平均。改为**分歧前全部位置汇总成一个分母**的 `pooled_prefix_kl` 后，三轮为 0.00714/0.00737/0.00687，即 1.07×。
+
+因此判定集从七项收缩为四项：`top1_disagreeing_case_rate`（1.09×）、`mean_case_top1_mismatch_rate`（1.17×）、`mean_greedy_divergent_suffix_fraction`（1.08×）、`pooled_prefix_kl`（1.07×）。其余指标（含旧门禁七项与 `severity` 四个分位计数）继续计算并落盘，只报不判。`mean_top1_divergent_suffix_fraction` 与 `mean_greedy_divergent_suffix_fraction` 在生成模式下恒等（8960 个位置零偏差），保留前者仅为对照。
+
+倍率仍为 1.25：四项指标在 12 个两两比值上的几何均值 1.0677、对数标准差 0.0511，1.25 为均值 +3.0σ，比最差观测比值 1.1729 留 6.6% 余量，同时仍能拒绝 1.5× 的真实退化。改动见提交 `3ce016e`，单测 15 项。
