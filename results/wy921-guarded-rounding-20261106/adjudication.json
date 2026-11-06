@@ -54,7 +54,23 @@
     "queued_byte_repeats_passed": true,
     "independent_closeout_passed": true
   },
-  "model_pilot": "running_five_previous_failure_positions_plus_KL_peak_and_p22_attribution",
+  "model_pilot": {
+    "passed": false,
+    "eligible_for_full_G1": false,
+    "five_point_matches_R": {
+      "A": false,
+      "A_prime": true,
+      "B": false,
+      "B_precise": false,
+      "B0": false
+    },
+    "peak_KL": "unavailable_empty_five_way_support",
+    "G1": "not_started",
+    "G2": "not_started",
+    "performance": "not_started",
+    "adopted": false,
+    "independent_closeout": true
+  },
   "G1": "not_started",
   "G2": "not_started",
   "performance": "not_started"
