@@ -99,6 +99,15 @@ class BenchmarkAdjudicationTest(unittest.TestCase):
                     self.assertAlmostEqual(row['bound'], threshold * math.exp(offset))
                     self.assertEqual(row['passed'], offset * sign < 0)
 
+    def test_invalid_metric_values(self):
+        for value in (None, 0, -1, float('inf'), float('nan'), True):
+            for arm in ('A', 'B', 'A_prime'):
+                with self.subTest(value=value, arm=arm):
+                    cells = self.cells()
+                    cells[0][arm]['ttft_s'] = value
+                    with self.assertRaisesRegex(ValueError, 'finite positive'):
+                        adjudicate(cells, self.rule())
+
     def test_wrong_degrees_of_freedom(self):
         rule = self.rule(6)
         rule['t_critical']['degrees_of_freedom'] = 7
@@ -126,7 +135,7 @@ class BenchmarkAdjudicationTest(unittest.TestCase):
             self.assertEqual(read_cell(path, 2, 2),
                              {'ttft_s': 6.0, 'mean_tpot_s': .6,
                               'aggregate_output_tok_s': 20.0, 'prompt_ids': [10, 20]})
-            for change in ('failure', 'output_tokens', 'round', 'prompt_ids'):
+            for change in ('failure', 'output_tokens', 'round', 'prompt_ids', 'nonfinite'):
                 with self.subTest(change=change):
                     invalid = copy.deepcopy(rows)
                     if change == 'failure':
@@ -135,6 +144,8 @@ class BenchmarkAdjudicationTest(unittest.TestCase):
                         invalid[1]['usage']['completion_tokens'] = 255
                     elif change == 'round':
                         invalid.pop()
+                    elif change == 'nonfinite':
+                        invalid[1]['ttft_s'] = float('nan')
                     else:
                         invalid[0]['prompt_ids'] = [10]
                     path.write_text(''.join(json.dumps(row) + '\n' for row in invalid))

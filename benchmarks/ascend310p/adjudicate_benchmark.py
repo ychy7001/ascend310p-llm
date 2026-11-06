@@ -34,8 +34,9 @@ def read_cell(path, prompt_tokens, concurrency, output_tokens=256, repeats=3):
     for metric, rows in (('ttft_s', requests), ('mean_tpot_s', requests),
                          ('aggregate_output_tok_s', rounds)):
         values = [row.get(metric) for row in rows]
-        if any(value is None for value in values):
-            raise ValueError(f'Missing {metric}, observed {values!r}')
+        if any(not isinstance(value, (int, float)) or isinstance(value, bool)
+               or not math.isfinite(value) or value <= 0 for value in values):
+            raise ValueError(f'Expected finite positive {metric}, observed {values!r}')
         result[metric] = float(statistics.median(values))
     return result
 
@@ -64,6 +65,13 @@ def adjudicate(cells, rule):
         if key in seen:
             raise ValueError(f'Duplicate cell {key!r}')
         seen.add(key)
+        for arm in ('A', 'B', 'A_prime'):
+            for metric in ('ttft_s', 'mean_tpot_s', 'aggregate_output_tok_s'):
+                value = cell[arm][metric]
+                if (not isinstance(value, (int, float)) or isinstance(value, bool)
+                        or not math.isfinite(value) or value <= 0):
+                    raise ValueError(f'Cell {key!r} {arm}: expected finite positive {metric}, '
+                                     f'observed {value!r}')
         ids = {arm: cell[arm]['prompt_ids'] for arm in ('A', 'B', 'A_prime')}
         if not ids['A'] == ids['B'] == ids['A_prime']:
             raise ValueError(f'Cell {key!r}: different prompt_ids {ids!r}')
