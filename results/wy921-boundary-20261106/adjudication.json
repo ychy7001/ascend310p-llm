@@ -121,5 +121,216 @@
         97235
       ]
     }
+  },
+  "repeated_capture": {
+    "boundary_records": 7920,
+    "results": [
+      {
+        "arm": "A",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 0,
+        "capture": false,
+        "elapsed_s": 14.608054662006907,
+        "top1": 16
+      },
+      {
+        "arm": "A",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 1,
+        "capture": true,
+        "elapsed_s": 14.579325485014124,
+        "top1": 16
+      },
+      {
+        "arm": "A",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 2,
+        "capture": false,
+        "elapsed_s": 13.889844856981654,
+        "top1": 16
+      },
+      {
+        "arm": "A",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 3,
+        "capture": true,
+        "elapsed_s": 14.583618267002748,
+        "top1": 16
+      },
+      {
+        "arm": "A",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 4,
+        "capture": false,
+        "elapsed_s": 13.892435017012758,
+        "top1": 16
+      },
+      {
+        "arm": "A",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 5,
+        "capture": true,
+        "elapsed_s": 14.596765941998456,
+        "top1": 16
+      },
+      {
+        "arm": "A",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 0,
+        "capture": false,
+        "elapsed_s": 0.8899012860201765,
+        "top1": 97235
+      },
+      {
+        "arm": "A",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 1,
+        "capture": true,
+        "elapsed_s": 1.0503994940081611,
+        "top1": 97235
+      },
+      {
+        "arm": "A",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 2,
+        "capture": false,
+        "elapsed_s": 0.8655991110135801,
+        "top1": 97235
+      },
+      {
+        "arm": "A",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 3,
+        "capture": true,
+        "elapsed_s": 1.0647723949805368,
+        "top1": 97235
+      },
+      {
+        "arm": "B",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 0,
+        "capture": false,
+        "elapsed_s": 10.583239683008287,
+        "top1": 15
+      },
+      {
+        "arm": "B",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 1,
+        "capture": true,
+        "elapsed_s": 10.455571071011946,
+        "top1": 15
+      },
+      {
+        "arm": "B",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 2,
+        "capture": false,
+        "elapsed_s": 9.809331748983823,
+        "top1": 15
+      },
+      {
+        "arm": "B",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 3,
+        "capture": true,
+        "elapsed_s": 10.426366816012887,
+        "top1": 15
+      },
+      {
+        "arm": "B",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 4,
+        "capture": false,
+        "elapsed_s": 9.813456500996836,
+        "top1": 15
+      },
+      {
+        "arm": "B",
+        "case": "meeting-16384-0",
+        "position": 0,
+        "repeat": 5,
+        "capture": true,
+        "elapsed_s": 10.439705127995694,
+        "top1": 15
+      },
+      {
+        "arm": "B",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 0,
+        "capture": false,
+        "elapsed_s": 0.6380883310048375,
+        "top1": 16
+      },
+      {
+        "arm": "B",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 1,
+        "capture": true,
+        "elapsed_s": 0.8216472390049603,
+        "top1": 16
+      },
+      {
+        "arm": "B",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 2,
+        "capture": false,
+        "elapsed_s": 0.6260370129894,
+        "top1": 16
+      },
+      {
+        "arm": "B",
+        "case": "replay-03",
+        "position": 2,
+        "repeat": 3,
+        "capture": true,
+        "elapsed_s": 0.821361229987815,
+        "top1": 16
+      }
+    ],
+    "B_sampled_repeat_differences": 0,
+    "A_first_observed_change": "layer32 WY cumulative gate at long chunk ordinal2, without a top1 change; only sampled inputs compared, so no local nondeterminism claim",
+    "layer0_fixed_state_checks": 352,
+    "h0_matches_incoming_state": true,
+    "max_local_relative_rmse_below": 0.000289,
+    "closure_passed": true,
+    "window_s": 565.545748700999
+  },
+  "hybrid_screen": {
+    "state": "running",
+    "candidates": [
+      {
+        "name": "H20",
+        "native_from_layer": 20,
+        "native_GDN_layers": 15
+      },
+      {
+        "name": "H28",
+        "native_from_layer": 28,
+        "native_GDN_layers": 9
+      }
+    ],
+    "selection": "Both rules frozen before screen; five previous failure positions must match R. Historical replay17 p22 diagnostic only. Prefer H20 if both qualify. Otherwise H28; if neither qualifies, stop. Eligible policy requires full fresh A/AP/B/B0 G1 under unchanged protocol.",
+    "request_id_independent": true,
+    "kernel_artifact_unchanged": true,
+    "adopted": false
   }
 }
