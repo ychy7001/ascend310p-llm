@@ -1,8 +1,8 @@
 {
   "task": "wy-5",
   "decision": "待定",
-  "recommendation": "停止模型实验，暂不建议采用",
-  "reason": "用户已将 R 改为本机 CPU 子集方案；已冻结 296 个位置和截尾规则，并完成原始权重可用性核查，但没有完整同模型 BF16 权重，因此无法执行纯 torch eager R，按资源条件停止。",
+  "recommendation": "待完整同轮G1/G2结果，当前不采用",
+  "reason": "原始BF16权重与长输入CPU资源探针已通过；新同轮A续写已冻结，完整CPU R与A/A_prime严格teacher-forcing正在采集，修复版B及B0等待R与对照完成后运行。尚无完整模型精度裁决。",
   "tool": {
     "path": "tools/compare_token_logprobs.py",
     "tests": {
@@ -16,10 +16,10 @@
     "multiplier": 1.0,
     "absolute_floor": 0,
     "sha256": "ce55247e22937227b1418531b18e7ba82032087e13602e798b4749e4c74a099a",
-    "runtime_deployment": "Canonical comparator fixed and unit tested; archived controller and remote runtime bundle were not changed or executed because R is unavailable."
+    "runtime_deployment": "Historical controller is retained; the new detached five-arm pipeline uses strict subset teacher forcing and the new R comparator. No repaired B result is available yet."
   },
   "reference_R": {
-    "status": "unavailable",
+    "status": "running_original_BF16_CPU_subset",
     "selection_order": [
       "existing GPU BF16 or higher precision",
       "local CPU high precision"
@@ -44,8 +44,8 @@
       "reason": "different model, W4A16, FP8 KV, MTP3 and runtime; not a Qwen3.6-35B-A3B high precision reference"
     },
     "cpu": {
-      "status": "rejected",
-      "reason": "No complete same-model BF16 checkpoint exists in checked local model/cache/volume locations. The only Qwen3.6-35B-A3B local candidate is GPTQ packed Int4 with I32 qweight/qzeros/g_idx plus F16 scales; dequantizing it would reconstruct an approximation, not the requested original BF16 reference. Existing BF16 portions include vision/MTP and unquantized language-model parameters, but language-model MoE projections remain packed Int4; no complete original BF16 language model is present. CPU conversion/inference was therefore not started.",
+      "status": "running",
+      "reason": "原始26分片、1045个BF16 tensor已通过SHA和header/index审计；逐层FP32 CPU参考正在执行。32K线性/完整注意力探针通过，尚未得到完整296位置R。",
       "availability_audit": "raw/cpu-weight-availability-audit.json",
       "availability_audit_sha256": "a9db07e2b62b1b301585ee1792d55da25218216c2a47b0bdd382774e80ba8ff9",
       "conversion_options": [
@@ -78,9 +78,10 @@
           "Q3_K": 90
         },
         "data_not_read": true
-      }
+      },
+      "historical_unavailable_reason": "No complete same-model BF16 checkpoint exists in checked local model/cache/volume locations. The only Qwen3.6-35B-A3B local candidate is GPTQ packed Int4 with I32 qweight/qzeros/g_idx plus F16 scales; dequantizing it would reconstruct an approximation, not the requested original BF16 reference. Existing BF16 portions include vision/MTP and unquantized language-model parameters, but language-model MoE projections remain packed Int4; no complete original BF16 language model is present. CPU conversion/inference was therefore not started."
     },
-    "actions_not_taken": [
+    "historical_actions_not_taken": [
       "no new download",
       "no delivery machine access",
       "no local RTX3080 inference or allocation",
@@ -117,19 +118,19 @@
     "collection_status": "Only the protocol is frozen; no numeric same-round thresholds or R distributions have been collected."
   },
   "execution": {
-    "A_A_prime": "not rerun",
-    "B": "not started",
-    "B0": "not started",
-    "G2": "not started",
-    "performance": "not started",
-    "npu_window": "not started",
-    "R": "not started: no original same-model BF16 checkpoint"
+    "A_A_prime": "fresh_A_35x256_frozen; strict_teacher_forcing_A_in_progress_A_prime_pending",
+    "B": "queued_after_R_and_controls_freeze",
+    "B0": "queued_diagnostic_only",
+    "G2": "queued_after_G1_pass",
+    "performance": "queued_after_G1_G2_pass",
+    "npu_window": "controls_window_active_A_then_A_prime",
+    "R": "running_full_40_layer_CPU_FP32_from_original_BF16"
   },
   "limitations": [
-    "Existing wy-4 A/A-prime data is not reused as a new same-round R comparison.",
-    "The existing GPU 35B checkpoint is quantized GPTQ and cannot establish a high precision reference.",
-    "No same-model high-precision checkpoint was found in the checked locations. CPU memory mapping/offloading was not tested; prompt subsets do not remove the need for model weights.",
-    "The local Qwen3.6-35B-A3B candidate is GPTQ Int4; dequantization would not meet the requested original-BF16 reference definition and was not used."
+    "Current complete model G1/G2 is not finished; operator/resource probes cannot establish adoption.",
+    "CPU reference retains all prompt tokens up to 32768, uses layer-at-a-time original BF16-to-FP32 weights and pure torch eager math.",
+    "Conditional KL uses the frozen five-way top20 intersection; censoring and empty support can leave the gate indeterminate.",
+    "Historical prefill gains do not establish repaired-WY performance on the current runtime."
   ],
   "frozen_protocol_sha256": "47a47f287a92ae049a9c2ec410972942ba24bcd4f0a1b0f8c9482ed3b5bc8d98",
   "wy2_gap_ge13": {
@@ -592,6 +593,57 @@
       "cpu-probe-freeze.json": "371acd17d35e00b1157feafedee9126b9b5b9f15fc0786900e482e5cd800f2c0",
       "probe-layer0.py": "4748a83d933e5e5c55d862c7fdf4bb805952295c898f37bb271fa458e1df28dd",
       "run-cpu-probe.py": "e70d067cea5d90345163b6e7759dfea8ac510e22353f0f2c65aecffd818a0a49"
+    },
+    "complete_model_execution": {
+      "state": "running",
+      "fresh_A_continuation_cases": 35,
+      "fresh_A_continuation_tokens_each": 256,
+      "fresh_A_continuation_sha256": "d3ccb0ce6a6ccc285c7bec38a575f24cc2a781dd5753409e7312a314212e0363",
+      "reference_cases": 35,
+      "reference_positions": 296,
+      "reference_layers": 40,
+      "compute": "pure_torch_eager_CPU_FP32_from_original_BF16",
+      "cpu_threads": 4,
+      "container_memory_limit_gib": 24,
+      "CPU_budget_s": 43200,
+      "NPU_window_action_budget_s": 9600,
+      "NPU_window_limit_s": 10800,
+      "diagnostic_kernel_checks": {
+        "passed": true,
+        "attention_max_abs": 2.384185791015625e-07,
+        "gdn_upstream_max_abs": 1.7881393432617188e-07,
+        "gdn_recurrent_max_abs": 1.9371509552001953e-07
+      },
+      "complete_tiny_model_check": {
+        "passed": true,
+        "layers": 4,
+        "tokens": 577,
+        "max_abs": 2.384185791015625e-07
+      },
+      "long_prompt_resource_probe": {
+        "tokens": 32768,
+        "linear_attention_layer_s": 88.69915832905099,
+        "full_attention_layer_s": 46.00152938766405,
+        "max_rss_kib": 9054800,
+        "finite": true,
+        "exit_code": 0,
+        "oom_killed": false
+      },
+      "comparator_tests": {
+        "new_five_arm": 16,
+        "existing_pairwise": 9,
+        "passed": 25
+      },
+      "historical_replay17_position22": {
+        "fresh_A_context_matches_historical": true,
+        "all_256_A_tokens_match": true,
+        "target": 98898,
+        "R_attribution": "pending_complete_R"
+      },
+      "adopted": false,
+      "performance_result": null,
+      "production_original_text_config_exact_match": true
     }
-  }
+  },
+  "historical_stopped_reason": "用户已将 R 改为本机 CPU 子集方案；已冻结 296 个位置和截尾规则，并完成原始权重可用性核查，但没有完整同模型 BF16 权重，因此无法执行纯 torch eager R，按资源条件停止。"
 }
