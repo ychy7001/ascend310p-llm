@@ -40,6 +40,20 @@ def conditional_topk_kl(left, right):
     return max(0.0, value), len(keys)
 
 
+def top1_margin(logprobs, top1):
+    """胜出 token 与次优之间的 logprob 间距。
+
+    单调 softmax 下等于 logit margin，故不改变判据含义。返回 None 表示该位置的
+    返回集合不足以定义次优（实测每个位置恒返 20 条，此分支只是防御）。
+    """
+    if str(top1) not in logprobs or len(logprobs) < 2:
+        return None
+    others = [value for key, value in logprobs.items() if key != str(top1)]
+    if not others:
+        return None
+    return logprobs[str(top1)] - max(others)
+
+
 def compare(reference, candidate):
     if reference['mode'] != candidate['mode']:
         raise ValueError('Different observation modes')
@@ -51,6 +65,10 @@ def compare(reference, candidate):
     # Prefix positions of every case pooled into one list: the gating magnitude
     # metric is a single mean over all of them, not a mean of per-case means.
     prefix_kls = []
+    # How far the winning token sits ahead of the runner-up, per position. A top-1
+    # flip between two tokens that are nearly tied is not the same event as a flip
+    # across a wide gap, but the divergence rates count both as one.
+    prefix_margin_deltas = []
     censored_positions, empty_support_positions = [], []
     for left, right in zip(reference['cases'], candidate['cases'], strict=True):
         if left['id'] != right['id']:
@@ -64,6 +82,7 @@ def compare(reference, candidate):
         assert len(xs) == count and len(ys) == count
         top1_left, top1_right = [], []
         case_kls, case_errors, supports, case_censored = [], [], [], []
+        case_margin_deltas = []
         for i, (x, y) in enumerate(zip(xs, ys, strict=True)):
             target = str(left['greedy_ids'][i])
             if target not in x['logprobs']:
@@ -84,6 +103,14 @@ def compare(reference, candidate):
                 censored_positions.append(item); case_censored.append(i)
             kl, support = conditional_topk_kl(x['logprobs'], y['logprobs'])
             top1_left.append(x['top1']); top1_right.append(y['top1'])
+            # Margin is measured at the same positions as the pooled prefix
+            # metrics: strictly before the first divergence, where both arms
+            # condition on identical context. A position that cannot define a
+            # runner-up is skipped rather than counted as a zero difference.
+            margin_left = top1_margin(x['logprobs'], x['top1'])
+            margin_right = top1_margin(y['logprobs'], y['top1'])
+            if margin_left is not None and margin_right is not None:
+                case_margin_deltas.append(abs(margin_left-margin_right))
             case_errors.append(error); supports.append(support)
             if kl is None:
                 # Disjoint top-k slices: record it instead of aborting the run.
@@ -103,6 +130,7 @@ def compare(reference, candidate):
         prefix = length if divergence is None else divergence
         prefix_errors = case_errors[:prefix]
         prefix_kls.extend(case_kls[:prefix])
+        prefix_margin_deltas.extend(case_margin_deltas[:prefix])
         per_case.append({
             'id': left['id'], 'positions_compared': count,
             'top1_mismatches': case_mismatch,
@@ -156,6 +184,8 @@ def compare(reference, candidate):
         'mean_case_top1_mismatch_rate': means('top1_mismatch_rate'),
         'mean_greedy_divergent_suffix_fraction': means('greedy_divergent_suffix_fraction'),
         'pooled_prefix_kl': sum(prefix_kls)/len(prefix_kls) if prefix_kls else None,
+        'mean_prefix_top1_margin_delta':
+            sum(prefix_margin_deltas)/len(prefix_margin_deltas) if prefix_margin_deltas else None,
         'mean_top1_divergent_suffix_fraction': means('top1_divergent_suffix_fraction'),
         'mean_case_mean_conditional_topk_kl':
             sum(case['mean_conditional_topk_kl'] for case in kl_cases)/len(kl_cases) if kl_cases else None,
@@ -215,6 +245,20 @@ def censored_metrics(result):
     return censored
 
 
+# 取值天然不超过 1 的比例指标。噪声底 × 倍率可能越过 1，此时该指标对候选恒为
+# 通过——它在判定中已失去作用，静默保留会让门禁看起来比实际更严。
+UNIT_BOUNDED_METRICS = {
+    'top1_disagreeing_case_rate',
+    'mean_case_top1_mismatch_rate',
+    'mean_greedy_divergent_suffix_fraction',
+    'mean_top1_divergent_suffix_fraction',
+    'max_top1_divergent_suffix_fraction',
+    'max_greedy_divergent_suffix_fraction',
+    'top1_disagreement_rate',
+    'top1_agreement_rate',
+}
+
+
 def adjudicate(noise, candidate, rule):
     if noise['mode'] != candidate['mode']:
         raise ValueError('Different modes')
@@ -232,6 +276,13 @@ def adjudicate(noise, candidate, rule):
             # unmeasurable; a metric that cannot be measured cannot pass.
             raise ValueError('Gating metric not measurable: {}'.format(key))
         threshold = multiplier * floor
+        # A unit-bounded metric whose threshold has reached 1 can never fail; the
+        # gate would look four-metric while actually judging fewer. Report it as
+        # a configuration error instead of a silent pass.
+        if key in UNIT_BOUNDED_METRICS and threshold >= 1.0:
+            raise ValueError(
+                'Gating metric {} has threshold {} >= 1, which its range cannot exceed; '
+                'the metric cannot fail'.format(key, threshold))
         passed = value <= threshold
         if key in censored and passed:
             passed = None  # A bound below threshold cannot establish the true error passes.

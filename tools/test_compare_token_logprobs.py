@@ -190,6 +190,32 @@ class NumericalComparisonTest(unittest.TestCase):
         per_case=(disturbed/6 + 0)/2
         self.assertNotAlmostEqual(result['metrics']['pooled_prefix_kl'],per_case,places=12)
 
+    def test_prefix_margin_delta_measures_runner_up_gap(self):
+        # Margin is the distance from the winner to the runner-up, so the same
+        # winner with a reshaped tail still moves it.
+        x=self.record('generated')
+        self.assertAlmostEqual(compare(x,x)['metrics']['mean_prefix_top1_margin_delta'],0)
+        y=copy.deepcopy(x)
+        for position in y['cases'][0]['positions']:
+            position['logprobs']={'1':math.log(.7),'2':math.log(.2)}
+        delta=compare(x,y)['metrics']['mean_prefix_top1_margin_delta']
+        self.assertAlmostEqual(delta,abs((math.log(.8)-math.log(.1))-(math.log(.7)-math.log(.2))),places=12)
+        # It is confined to the shared prefix: a divergence position does not count.
+        self.assertAlmostEqual(
+            compare(x,self.diverge(copy.deepcopy(x),0,3))['metrics']['mean_prefix_top1_margin_delta'],0)
+
+    def test_unit_bounded_gate_above_its_range_is_rejected(self):
+        # A rate cannot exceed 1, so a threshold of 1.18 can never fail. Silently
+        # judging it would make the gate look stricter than it is.
+        noise=compare(self.multi(1),self.multi(1))
+        noise['metrics']['mean_case_top1_mismatch_rate']=0.95
+        rule={'multiplier':1.40,'absolute_floor':0,'gating_metrics':['mean_case_top1_mismatch_rate']}
+        with self.assertRaisesRegex(ValueError,'cannot fail'):
+            adjudicate(noise,noise,dict(rule))
+        # The same metric stays judgeable while its threshold remains in range.
+        noise['metrics']['mean_case_top1_mismatch_rate']=0.5
+        self.assertTrue(adjudicate(noise,noise,dict(rule))['passed'])
+
     def test_unmeasurable_gating_metric_cannot_pass(self):
         # Every case diverges at position 0, so no prefix position exists and the
         # pooled magnitude is undefined. Judging on it must fail loudly, not pass.

@@ -153,7 +153,11 @@ python3 deploy/image/compare-production.py \
 
 因此判定集从七项收缩为四项：`top1_disagreeing_case_rate`（1.09×）、`mean_case_top1_mismatch_rate`（1.17×）、`mean_greedy_divergent_suffix_fraction`（1.08×）、`pooled_prefix_kl`（1.07×）。其余指标（含旧门禁七项与 `severity` 四个分位计数）继续计算并落盘，只报不判。`mean_top1_divergent_suffix_fraction` 与 `mean_greedy_divergent_suffix_fraction` 在生成模式下恒等（8960 个位置零偏差），保留前者仅为对照。
 
-倍率原为 1.25，后被第四轮噪声证伪，改为 1.40：四轮共 24 个两两比值，几何均值 1.0973、对数标准差 0.0817，最差观测比值 1.3132（`pooled_prefix_kl`，r2/r4）；1.25 下无真实退化时的误拒率为 16.4%。1.40 约为均值 +2.9σ，误拒率 4.0%，对真实 1.5× 退化的检出率 99.9%。day2 按更严的 1.25 通过，因此在 1.40 下同样通过。`top1_disagreeing_case_rate`（阈值 1.178571）与 `mean_greedy_divergent_suffix_fraction`（阈值 1.008650）的阈值超过指标上限 1.0，实际不会失败；暂不补绝对上限。改动见提交 `3ce016e`，单测 15 项。
+倍率原为 1.25，后被第四轮噪声证伪，改为 1.40：四轮共 24 个两两比值，几何均值 1.0973、对数标准差 0.0817，最差观测比值 1.3132（`pooled_prefix_kl`，r2/r4）；1.25 下无真实退化时的误拒率为 16.4%。1.40 约为均值 +2.9σ，误拒率 4.0%，对真实 1.5× 退化的检出率 99.9%。day2 按更严的 1.25 通过，因此在 1.40 下同样通过。改动见提交 `3ce016e`，单测 15 项。
+
+`top1_disagreeing_case_rate`（阈值 1.178571）与 `mean_greedy_divergent_suffix_fraction`（阈值 1.008650）的噪声底乘倍率后超过指标上限 1.0，这两项实际不可能失败，门禁看起来四项、实际在判两项。不补绝对上限（那会重新引入一个与噪声无关的人工阈值），改为让 `adjudicate()` 在遇到取值天然不超过 1 的比例指标其阈值已达 1.0 时抛 `ValueError`：宁可停下改配置，也不静默保留一个不会失败的判据。两项仍照常计算、落盘和汇报。day2 的冻结记录按当时口径重算，与该守卫无关。
+
+新增只报不判的 `mean_prefix_top1_margin_delta`：分歧前前缀上，|胜出 token 与次优 token 的 logprob 间距之差|，单调 softmax 下等价于 logit margin。四轮 A/A′ 为 0.4287/0.4363/0.3834/0.4151，最差比值 1.1379、对数标准差 0.0809，是全套候选指标里最稳的；它把"两个近乎并列的 token 之间翻位"和"跨大间距翻位"区分开，而分歧率把两者都记成一次。本轮尚未纳入判定集。
 
 
 ## day2 窗口：四项 G1 与 G2 三臂通过
