@@ -37,6 +37,17 @@ class AdoptionTest(unittest.TestCase):
         self.assertFalse(result['replay_performance_pass'])
         self.assertTrue(result['stratum_regressions_over_3pct'])
 
+    def test_invalid_timing_cannot_pass(self):
+        for value in (float('nan'), float('inf'), -float('inf'), 0, -1, True):
+            for metric in ('wall_s', 'ttft_s', 'mean_tpot_s'):
+                with self.subTest(value=value, metric=metric):
+                    row = sample()
+                    if metric == 'wall_s':row[metric] = value
+                    else:row['requests'][0][metric] = value
+                    with patch.object(model, 'summarize', return_value=row):
+                        with self.assertRaisesRegex(ValueError, 'finite positive'):
+                            model.adjudicate(None)
+
 
 if __name__=='__main__':
     unittest.main()

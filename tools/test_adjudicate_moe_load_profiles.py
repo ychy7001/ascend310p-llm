@@ -49,6 +49,18 @@ class LoadAdoptionTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.compare(wrong_tokens=True)
 
+    def test_invalid_metric_cannot_pass(self):
+        for value in (float('nan'), float('inf'), -float('inf'), 0, -1, True):
+            for metric in ('request_prefill_tok_s', 'aggregate_output_tok_s', 'median_ttft_s', 'median_tpot_s'):
+                with self.subTest(value=value, metric=metric), tempfile.TemporaryDirectory() as directory:
+                    a, b = [Path(directory)/name for name in ('a.jsonl', 'b.jsonl')]
+                    self.write(a);self.write(b, gain=1.1)
+                    rows = [json.loads(line) for line in b.read_text().splitlines()]
+                    rows[1][metric] = value
+                    b.write_text('\n'.join(json.dumps(row) for row in rows)+'\n')
+                    with self.assertRaisesRegex(ValueError, 'finite positive'):
+                        adjudicate(a, b)
+
 
 if __name__ == '__main__':
     unittest.main()

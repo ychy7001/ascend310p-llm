@@ -3,6 +3,7 @@
 import argparse
 from collections import defaultdict
 import json
+import math
 from pathlib import Path
 import statistics
 
@@ -41,6 +42,14 @@ def summarize(root, label):
                 max_arrival_lateness_s=max(r['arrival_lateness_seconds'] for r in starts.values()))
 
 
+def validate_summary(row):
+    for value in [row['wall_s'], *(r[k] for r in row['requests'] for k in ('ttft_s', 'mean_tpot_s'))]:
+        if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
+            raise ValueError('Replay timings must be finite positive numbers')
+    if len(row['requests']) != 11 or len({r['label'] for r in row['requests']}) != 11:
+        raise ValueError('Expected eleven unique replay requests')
+
+
 def adjudicate(root):
     pairs = []
     arms = {arm:[] for arm in ('A','B')}
@@ -48,6 +57,7 @@ def adjudicate(root):
     for i, order in enumerate(ORDERS,1):
         rows = {arm:summarize(root,f'p{i}-{arm}') for arm in order}
         for arm,row in rows.items():
+            validate_summary(row)
             current = (row['plan_sha256'],row['seed'],row['unit_token_ids'])
             if identity is None:
                 identity = current
@@ -94,8 +104,8 @@ def main():
     p.add_argument('--out',type=Path,required=True)
     args = p.parse_args()
     result = adjudicate(args.root)
-    args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
-    print(json.dumps(result,ensure_ascii=False,indent=2))
+    args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
+    print(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False))
 
 
 if __name__=='__main__':

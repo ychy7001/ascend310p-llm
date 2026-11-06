@@ -3,6 +3,7 @@
 import argparse
 from collections import defaultdict
 import json
+import math
 from pathlib import Path
 import statistics
 
@@ -30,7 +31,9 @@ def load(path):
         for response in row['responses']:
             assert response['usage']['prompt_tokens'] == key[1]
             assert response['usage']['completion_tokens'] == CASES[key]
-        assert all(row[metric] > 0 for metric in METRICS)
+        if any(type(row[metric]) not in (int, float) or not math.isfinite(row[metric])
+               or row[metric] <= 0 for metric in METRICS):
+            raise ValueError('Profile metrics must be finite positive numbers')
         groups[key].append(row)
     assert set(groups) == set(CASES)
     for rows in groups.values():
@@ -67,8 +70,8 @@ def main():
     p.add_argument('--out', type=Path, required=True)
     args = p.parse_args()
     result = adjudicate(args.A, args.B)
-    args.out.write_text(json.dumps(result, indent=2)+'\n')
-    print(json.dumps(result, indent=2))
+    args.out.write_text(json.dumps(result, indent=2, allow_nan=False)+'\n')
+    print(json.dumps(result, indent=2, allow_nan=False))
 
 
 if __name__ == '__main__':
