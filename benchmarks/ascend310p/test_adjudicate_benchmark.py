@@ -1,5 +1,6 @@
 import copy
 import json
+import math
 from pathlib import Path
 import tempfile
 import unittest
@@ -64,6 +65,39 @@ class BenchmarkAdjudicationTest(unittest.TestCase):
                 self.assertEqual(result['metrics']['aggregate_output_tok_s']['passed'], passed)
                 self.assertTrue(result['metrics']['ttft_s']['passed'])
                 self.assertTrue(result['metrics']['mean_tpot_s']['passed'])
+
+    def test_nonzero_variance_confidence_bound(self):
+        cells = self.cells()
+        for cell, log_ratio in zip(cells, (-.01, 0., .01)):
+            for metric in ('ttft_s', 'mean_tpot_s', 'aggregate_output_tok_s'):
+                cell['B'][metric] *= math.exp(log_ratio)
+        result = adjudicate(cells, self.rule())
+        expected_se = .01 / math.sqrt(3)
+        for metric, row in result['metrics'].items():
+            self.assertAlmostEqual(row['pooled_ratio'], 1.)
+            self.assertAlmostEqual(row['log_sd'], .01)
+            self.assertAlmostEqual(row['standard_error'], expected_se)
+            sign = -1 if metric == 'aggregate_output_tok_s' else 1
+            self.assertAlmostEqual(row['bound'], math.exp(sign * 2.92 * expected_se))
+        self.assertTrue(result['metrics']['ttft_s']['passed'])
+        self.assertFalse(result['metrics']['aggregate_output_tok_s']['passed'])
+
+    def test_nonzero_variance_threshold_crossings(self):
+        # Known log deviations have sample sd=.01; vary the center across
+        # each confidence-bound threshold while keeping dispersion fixed.
+        for metric, threshold, sign in (('ttft_s', 1.02, 1),
+                                        ('mean_tpot_s', 1.02, 1),
+                                        ('aggregate_output_tok_s', .99, -1)):
+            center = math.log(threshold) - sign * 2.92 * .01 / math.sqrt(3)
+            for offset in (-1e-6, 1e-6):
+                with self.subTest(metric=metric, offset=offset):
+                    cells = self.cells()
+                    for cell, deviation in zip(cells, (-.01, 0., .01)):
+                        cell['B'][metric] *= math.exp(center + deviation + offset)
+                    row = adjudicate(cells, self.rule())['metrics'][metric]
+                    self.assertGreater(row['log_sd'], 0)
+                    self.assertAlmostEqual(row['bound'], threshold * math.exp(offset))
+                    self.assertEqual(row['passed'], offset * sign < 0)
 
     def test_wrong_degrees_of_freedom(self):
         rule = self.rule(6)
