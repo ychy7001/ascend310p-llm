@@ -14,7 +14,7 @@
 
 CPU 跟随器初次 SSH 参数引号错误、CPU 输入哈希常量抄写错误均在预检阶段中止；已修正并保留失败记录，未把失败尝试计作有效模型证据。
 
-历史结论：**原 wy-5 因缺原始 BF16 停止，未启动该轮模型实验。**
+历史结论：**原 wy-5 因缺原始 BF16 停止，未启动该轮模型实验。** `adjudication.json` 的 `frozen_before_B`、`cpu_subset_protocol` 保留冻结时原文；当前执行状态查看 `execution` 与 `followup_20261106.complete_model_execution`。
 
 已修复并测试统一的 `tools/compare_token_logprobs.py`：
 
@@ -31,7 +31,7 @@ python3 -m unittest discover -s tools -p test_compare_token_logprobs.py
 
 结果：**9/9**。
 
-## 高精度参考 R
+## 历史高精度参考 R 可用性核查（下载前）
 
 按用户规定的优先顺序核查：
 
