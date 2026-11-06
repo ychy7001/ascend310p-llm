@@ -153,7 +153,7 @@ python3 deploy/image/compare-production.py \
 
 因此判定集从七项收缩为四项：`top1_disagreeing_case_rate`（1.09×）、`mean_case_top1_mismatch_rate`（1.17×）、`mean_greedy_divergent_suffix_fraction`（1.08×）、`pooled_prefix_kl`（1.07×）。其余指标（含旧门禁七项与 `severity` 四个分位计数）继续计算并落盘，只报不判。`mean_top1_divergent_suffix_fraction` 与 `mean_greedy_divergent_suffix_fraction` 在生成模式下恒等（8960 个位置零偏差），保留前者仅为对照。
 
-倍率仍为 1.25：四项指标在 12 个两两比值上的几何均值 1.0677、对数标准差 0.0511，1.25 为均值 +3.0σ，比最差观测比值 1.1729 留 6.6% 余量，同时仍能拒绝 1.5× 的真实退化。改动见提交 `3ce016e`，单测 15 项。
+倍率原为 1.25，后被第四轮噪声证伪，改为 1.40：四轮共 24 个两两比值，几何均值 1.0973、对数标准差 0.0817，最差观测比值 1.3132（`pooled_prefix_kl`，r2/r4）；1.25 下无真实退化时的误拒率为 16.4%。1.40 约为均值 +2.9σ，误拒率 4.0%，对真实 1.5× 退化的检出率 99.9%。day2 按更严的 1.25 通过，因此在 1.40 下同样通过。`top1_disagreeing_case_rate`（阈值 1.178571）与 `mean_greedy_divergent_suffix_fraction`（阈值 1.008650）的阈值超过指标上限 1.0，实际不会失败；暂不补绝对上限。改动见提交 `3ce016e`，单测 15 项。
 
 
 ## day2 窗口：四项 G1 与 G2 三臂通过
