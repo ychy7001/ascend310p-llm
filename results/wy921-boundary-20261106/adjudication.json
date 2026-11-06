@@ -1,0 +1,125 @@
+{
+  "adopted": false,
+  "original_G1": "fail_preserved",
+  "scope": "Sampled WY/H/O boundaries; diagnostic only, not a new accuracy acceptance",
+  "selected_positions": [
+    {
+      "case": "replay-03",
+      "position": 2
+    },
+    {
+      "case": "meeting-16384-0",
+      "position": 0
+    }
+  ],
+  "boundary_records": 2880,
+  "WY_samples_per_arm": 480,
+  "actual_vs_CPU_tolerance_failures": {
+    "A": 80,
+    "B": 0
+  },
+  "B_same_input_Torch_vs_CPU_tolerance_failures": 77,
+  "short_reproduction": {
+    "A_plain_and_capture": 97235,
+    "B_plain_and_capture": 16
+  },
+  "long_reproduction": {
+    "A_plain_and_capture": 16,
+    "B_plain": 15,
+    "B_capture": 16,
+    "matched_failure": false
+  },
+  "timing_B": {
+    "meeting-16384-0": {
+      "plain": [
+        16,
+        15,
+        16,
+        15,
+        15,
+        15,
+        15
+      ],
+      "sync_WY": [
+        15,
+        16
+      ],
+      "sync_H": [
+        98898,
+        15
+      ],
+      "sync_O": [
+        15,
+        15
+      ],
+      "torch_side": [
+        15,
+        15
+      ]
+    },
+    "replay-03": {
+      "plain": [
+        16,
+        16
+      ],
+      "sync_WY": [
+        16
+      ],
+      "sync_H": [],
+      "sync_O": [],
+      "torch_side": [
+        16
+      ]
+    }
+  },
+  "interpretation": [
+    "Native sampled WY arithmetic is not shown to be less accurate than CPU reference.",
+    "Long-output changes occur even across plain repeated B requests; synchronization does not consistently remove them.",
+    "Matched A plain long requests also vary (16 versus 2005); shared runtime path must be localized. Repeated state-boundary diagnosis in progress; no kernel math change justified yet."
+  ],
+  "G2": "not_started",
+  "performance_acceptance": "not_started",
+  "timing_A": {
+    "meeting-16384-0": {
+      "plain": [
+        16,
+        2005,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "sync_WY": [
+        16,
+        16
+      ],
+      "sync_H": [
+        16,
+        16
+      ],
+      "sync_O": [
+        16,
+        16
+      ],
+      "torch_side": [
+        16,
+        16
+      ]
+    },
+    "replay-03": {
+      "plain": [
+        97235,
+        97235
+      ],
+      "sync_WY": [
+        97235
+      ],
+      "sync_H": [],
+      "sync_O": [],
+      "torch_side": [
+        97235
+      ]
+    }
+  }
+}
