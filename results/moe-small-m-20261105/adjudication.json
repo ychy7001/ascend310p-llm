@@ -737,5 +737,67 @@
     "original_configuration_restored": true,
     "disabled_image_service_started": false,
     "subsequent_windows_started": false
+  },
+  "startup_followup_20261106": {
+    "evidence_kind": "experimentally verified log comparison and CPU-only probe",
+    "logs": {
+      "image_candidate_startup": {
+        "log_sha256": "a713508e4cfd5c71479f593fb55c8772fbccf0b776ae9c9abc859a737645b923",
+        "first_14_frames": [
+          "void c10::function_ref<void (char**, long const*, long, long)>::callback_fn<at::native::AVX2::VectorizedLoop2d<at::native::(anonymous namespace)::fill_non_native_type<c10::Half>(at::TensorIterator&, c10::Scalar const&)::{lambda()#1}, at::native::(anonymous namespace)::fill_non_native_type<c10::Half>(at::TensorIterator&, c10::Scalar const&)::{lambda()#2}> >(long, char**, long const*, long, long)",
+          "at::TensorIteratorBase::serial_for_each(c10::function_ref<void (char**, long const*, long, long)>, at::Range) const",
+          "at::TensorIteratorBase::for_each(c10::function_ref<void (char**, long const*, long, long)>, long)",
+          "at::native::(anonymous namespace)::fill_kernel(at::TensorIterator&, c10::Scalar const&)",
+          "at::native::fill_out(at::Tensor&, c10::Scalar const&)",
+          "at::_ops::fill__Scalar::call(at::Tensor&, c10::Scalar const&)",
+          "at::native::zero_(at::Tensor&)",
+          "at::_ops::zero_::call(at::Tensor&)",
+          "at::native::zeros_symint(c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>), &at::(anonymous namespace)::(anonymous namespace)::wrapper_CompositeExplicitAutograd__zeros>, at::Tensor, c10::guts::typelist::typelist<c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool> > >, at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)>::call(c10::OperatorKernel*, c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "at::_ops::zeros::redispatch(c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>), &at::(anonymous namespace)::zeros>, at::Tensor, c10::guts::typelist::typelist<c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool> > >, at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)>::call(c10::OperatorKernel*, c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "at::_ops::zeros::call(c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "torch::autograd::THPVariable_zeros(_object*, _object*, _object*)"
+        ],
+        "native_prefix_sha256": "d0873b6ba882647280aeb8264cae6a98ae16cfa23cc22425ad6695f2a2aa8a2e"
+      },
+      "moe_candidate_startup": {
+        "log_sha256": "685355b04fb7aec93ccab1ac52941cdd8eda296076144483831b0bce3e48ea67",
+        "first_14_frames": [
+          "void c10::function_ref<void (char**, long const*, long, long)>::callback_fn<at::native::AVX2::VectorizedLoop2d<at::native::(anonymous namespace)::fill_non_native_type<c10::Half>(at::TensorIterator&, c10::Scalar const&)::{lambda()#1}, at::native::(anonymous namespace)::fill_non_native_type<c10::Half>(at::TensorIterator&, c10::Scalar const&)::{lambda()#2}> >(long, char**, long const*, long, long)",
+          "at::TensorIteratorBase::serial_for_each(c10::function_ref<void (char**, long const*, long, long)>, at::Range) const",
+          "at::TensorIteratorBase::for_each(c10::function_ref<void (char**, long const*, long, long)>, long)",
+          "at::native::(anonymous namespace)::fill_kernel(at::TensorIterator&, c10::Scalar const&)",
+          "at::native::fill_out(at::Tensor&, c10::Scalar const&)",
+          "at::_ops::fill__Scalar::call(at::Tensor&, c10::Scalar const&)",
+          "at::native::zero_(at::Tensor&)",
+          "at::_ops::zero_::call(at::Tensor&)",
+          "at::native::zeros_symint(c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>), &at::(anonymous namespace)::(anonymous namespace)::wrapper_CompositeExplicitAutograd__zeros>, at::Tensor, c10::guts::typelist::typelist<c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool> > >, at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)>::call(c10::OperatorKernel*, c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "at::_ops::zeros::redispatch(c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::WrapFunctionIntoFunctor_<c10::CompileTimeFunctionPointer<at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>), &at::(anonymous namespace)::zeros>, at::Tensor, c10::guts::typelist::typelist<c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool> > >, at::Tensor (c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)>::call(c10::OperatorKernel*, c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "at::_ops::zeros::call(c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>)",
+          "torch::autograd::THPVariable_zeros(_object*, _object*, _object*)"
+        ],
+        "native_prefix_sha256": "d0873b6ba882647280aeb8264cae6a98ae16cfa23cc22425ad6695f2a2aa8a2e"
+      }
+    },
+    "same_first_14_native_frames": true,
+    "cpu_probe": {
+      "metadata": {
+        "torch": "2.10.0+cpu",
+        "git_version": "449b1768410104d3ed79d3bcfe4ba1d65c7f22c0",
+        "cpu_capability": "AVX2",
+        "threads": 1,
+        "npu_backend_autoload": false
+      },
+      "result": {
+        "cpu_fp16_cases_passed": 420
+      },
+      "log_sha256": "f4ade3e8d74be0513f1835b6e5acee4ea837b3879d1c51474e7367d4b0356097",
+      "scope": "Local CPU only, NPU autoload disabled because host driver is unavailable. Not the target host or full model initialization."
+    },
+    "conclusion": "The observed native stack prefix is shared. Pure CPU fill did not reproduce the crash. Common root cause and resolution remain unproven.",
+    "next_step": "One guarded candidate cold-start check before restarting paired replay; stop and preserve evidence at the first failure."
   }
 }
