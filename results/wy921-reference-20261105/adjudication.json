@@ -386,5 +386,212 @@
     "cpu_resource_rule": "Hold /tmp/a310-cpu-heavy.lock for weight conversion/loading/inference and heavy parsing. Check original weight completeness before loading, inspect cgroup/available RAM, use bounded layer/chunk execution if feasible, never allocate the whole 35B model speculatively. No CUDA allocation.",
     "execution_state": "Selection and protocol frozen before R/B; no R or new B data read."
   },
-  "cpu_subset_protocol_sha256": "761d1ebefe0f49d978dd99d8646d1dbe78b04b13fef6c0ee8ff240d8e0295fb9"
+  "cpu_subset_protocol_sha256": "761d1ebefe0f49d978dd99d8646d1dbe78b04b13fef6c0ee8ff240d8e0295fb9",
+  "followup_20261106": {
+    "date": "2026-11-06",
+    "checkpoint_available": true,
+    "source_repository": "ModelScope Qwen/Qwen3.6-35B-A3B",
+    "revision": "1a5ae24e867f8d82388070d3f61590158a01d15c",
+    "shards": 26,
+    "weight_file_bytes": 71903776776,
+    "tensor_count": 1045,
+    "tensor_dtypes": {
+      "BF16": 1045
+    },
+    "tensor_payload_bytes": 71903645408,
+    "all_files_sha256_verified": true,
+    "index_header_complete": true,
+    "source_files": [
+      {
+        "file": "config.json",
+        "bytes": 3686,
+        "sha256": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99"
+      },
+      {
+        "file": "generation_config.json",
+        "bytes": 202,
+        "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+      },
+      {
+        "file": "model-00001-of-00026.safetensors",
+        "bytes": 3996199712,
+        "sha256": "adee7bcb930aed22e0677e58d4873b48dadb1ed8001cb5c6a0487286eadb3478"
+      },
+      {
+        "file": "model-00002-of-00026.safetensors",
+        "bytes": 1284907696,
+        "sha256": "88f2dfd2b9e73e4b70be533dbf61bcfa3c9a0003758900fcbc9d9b96f5751d4b"
+      },
+      {
+        "file": "model-00003-of-00026.safetensors",
+        "bytes": 3357898360,
+        "sha256": "8f7d72178d3f4431864978e5bcfa4c6cb1c204bc00590644d90bb19d6d522eeb"
+      },
+      {
+        "file": "model-00004-of-00026.safetensors",
+        "bytes": 3370808712,
+        "sha256": "12d7db38689ba3c8af74b23ef8523eca41e0cd95db870583d0663a3ee8a6bd60"
+      },
+      {
+        "file": "model-00005-of-00026.safetensors",
+        "bytes": 3357898360,
+        "sha256": "a836047305d0f7a7b50f0815d09d5c03ec03d59ec2c763fcdc4bf7e9936bf902"
+      },
+      {
+        "file": "model-00006-of-00026.safetensors",
+        "bytes": 3959424904,
+        "sha256": "c9080d718e9c5f9e337443225aa417d4c24d00ae7995d76ee3f1cc296b557d15"
+      },
+      {
+        "file": "model-00007-of-00026.safetensors",
+        "bytes": 1096788232,
+        "sha256": "e8c05e23131b1dd45a455ec38cfac7db14667358268623c3938d00cf3e959a68"
+      },
+      {
+        "file": "model-00008-of-00026.safetensors",
+        "bytes": 3946842008,
+        "sha256": "4b6a6d495053089f4a80e7cbc82e848fba44e2c0c60122233d8fdff79fa7b296"
+      },
+      {
+        "file": "model-00009-of-00026.safetensors",
+        "bytes": 1096460848,
+        "sha256": "a31a954bb72d1c714e751bf0aabf2ff533f5a509693ebf7dd22ad6e90be46f67"
+      },
+      {
+        "file": "model-00010-of-00026.safetensors",
+        "bytes": 3946841992,
+        "sha256": "246560e66570fe746653b8443e245dc334c9b8b831ea43d2d9f1b7d98623994e"
+      },
+      {
+        "file": "model-00011-of-00026.safetensors",
+        "bytes": 1096460752,
+        "sha256": "7180392817fe3ecb3a27a1da43b7ff22c1a94806bac49975f9f122c3126df675"
+      },
+      {
+        "file": "model-00012-of-00026.safetensors",
+        "bytes": 3409971080,
+        "sha256": "043fb525f6625c2f2acb75e65a9959ee3fa7b6e3fdd2034b5cfe1859b01d3cfb"
+      },
+      {
+        "file": "model-00013-of-00026.safetensors",
+        "bytes": 1633331664,
+        "sha256": "33a20fb20a21379bf43c84a43105f9c0cc35bd50d740b1c302dcbe4b700f5425"
+      },
+      {
+        "file": "model-00014-of-00026.safetensors",
+        "bytes": 3422553872,
+        "sha256": "be823e33c5cb6120ad3769d081f34a2449dc2358041fca7c29d636c1ba19130d"
+      },
+      {
+        "file": "model-00015-of-00026.safetensors",
+        "bytes": 1633659224,
+        "sha256": "a89d547c6f9d0b535ee5ea2f2478f163089539f3f0dd330cb23d278a19d76123"
+      },
+      {
+        "file": "model-00016-of-00026.safetensors",
+        "bytes": 3946842136,
+        "sha256": "69fc3ae0316482288afdcdd0b9eb7d626703ae26f7567e89aa3fc8d1ffd4ff5b"
+      },
+      {
+        "file": "model-00017-of-00026.safetensors",
+        "bytes": 1096460608,
+        "sha256": "e356e3943cf3852b76bb8992e674f3256013e27d54b78e8250514151cdc29637"
+      },
+      {
+        "file": "model-00018-of-00026.safetensors",
+        "bytes": 3946841992,
+        "sha256": "9e5e63fd1cc7d6848330c1fa363dfcb661bbc2ac87e672d0e28b71c9cb7f3c7f"
+      },
+      {
+        "file": "model-00019-of-00026.safetensors",
+        "bytes": 1096460808,
+        "sha256": "708644ad34f1de727bf484f396944d8ec628645d52c183e9a992e65671685e21"
+      },
+      {
+        "file": "model-00020-of-00026.safetensors",
+        "bytes": 3409971072,
+        "sha256": "ca083a1d1aa64f8e8a785998f543a43374f13436dc85d396eee4e72c7a84e1ae"
+      },
+      {
+        "file": "model-00021-of-00026.safetensors",
+        "bytes": 1633331744,
+        "sha256": "ada4ae48f3d48fe01b4c53f2f82bce25e798a9631fd33959c881156fef2ccbce"
+      },
+      {
+        "file": "model-00022-of-00026.safetensors",
+        "bytes": 3370808752,
+        "sha256": "def207fb42d7db31efb512755557763c23233c6e4d4c433027cb5102a7bce2f7"
+      },
+      {
+        "file": "model-00023-of-00026.safetensors",
+        "bytes": 3357898392,
+        "sha256": "864d52ca7768a36f514069222e8de8626264ae124097ba8fcce5b5da2c6e2ed7"
+      },
+      {
+        "file": "model-00024-of-00026.safetensors",
+        "bytes": 3370808752,
+        "sha256": "391acd27420cdce5935ff18152423c70620d19dac3c39a5ef1a81d369f82d737"
+      },
+      {
+        "file": "model-00025-of-00026.safetensors",
+        "bytes": 3832888256,
+        "sha256": "778e7f76602f05042b69ba7f3ec91f1fdffef390540b16074041c258fb81d154"
+      },
+      {
+        "file": "model-00026-of-00026.safetensors",
+        "bytes": 2231416848,
+        "sha256": "1a97404220077ed3d4182e10385b152004cab608377f50cec9f54a6b8d28b613"
+      },
+      {
+        "file": "model.safetensors.index.json",
+        "bytes": 98383,
+        "sha256": "41b9356101ebf8e7519e150dc811f80c4226e727301fbb032b890f006ed0be83"
+      }
+    ],
+    "cpu_feasibility_probe": {
+      "case": "replay-00",
+      "tokens": 738,
+      "torch": "2.10.0+cpu",
+      "transformers": "5.5.4",
+      "device": "cpu",
+      "torch_npu_imported": false,
+      "dtype": "float32_from_original_bf16",
+      "threads": 2,
+      "load_s": 1.1494480059482157,
+      "layer0_prefill_s": 3.9484050259925425,
+      "max_rss_kib": 4223832,
+      "output_shape": [
+        1,
+        738,
+        2048
+      ],
+      "finite": true,
+      "output_sha256": "8a952fdd7c0fa2a499b37f01e08adb07a2beb51f0ffffcc5f46eecd30f8b9cb7",
+      "limitations": [
+        "Single layer prefill is not a complete model R or adoption gate.",
+        "No continuation logits or full-attention layer measured.",
+        "Full prompt retained; no CUDA/NPU or quantized kernels."
+      ]
+    },
+    "probe_exit_code": 0,
+    "probe_oom_killed": false,
+    "probe_container_stopped": true,
+    "preflight_failures_resolved": [
+      "Podman Id may be a bare immutable 64-hex digest; validate the digest instead of requiring a prefix.",
+      "Disable optional Transformers NPU backend discovery for the explicitly CPU-only diagnostic; do not import the driver."
+    ],
+    "reference_R_executed": false,
+    "same_round_A_continuation_frozen": false,
+    "adoption": "pending; complete-model and long-context CPU reference not yet validated",
+    "evidence_sha256": {
+      "download-status.json": "84b49effd72f38ccdba5a46cd9f7b5e289fa634518f8ddddc4a2e3e55e05435a",
+      "header-audit.json": "d7e70b4a465ff6d75c746a7d70b5aebc31a201dba0dc81a9e5d467ddc4c32809",
+      "cpu-layer0.json": "34d495b7ab729d06851b4dad5711bc51df18537520ec963a0a40e1d02b018295",
+      "cpu-layer0.log": "287b132db7ac9ee01126e92c3be55127b975e3970bdb84ba203ade40c154dfe1",
+      "cpu-probe-inspect.json": "9512186ab5b56bf4fd677467804b4bf16dd09df22bb8ae49501dc21fba11e1b6",
+      "cpu-probe-freeze.json": "371acd17d35e00b1157feafedee9126b9b5b9f15fc0786900e482e5cd800f2c0",
+      "probe-layer0.py": "4748a83d933e5e5c55d862c7fdf4bb805952295c898f37bb271fa458e1df28dd",
+      "run-cpu-probe.py": "e70d067cea5d90345163b6e7759dfea8ac510e22353f0f2c65aecffd818a0a49"
+    }
+  }
 }
