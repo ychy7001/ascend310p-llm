@@ -799,5 +799,29 @@
     },
     "conclusion": "The observed native stack prefix is shared. Pure CPU fill did not reproduce the crash. Common root cause and resolution remain unproven.",
     "next_step": "One guarded candidate cold-start check before restarting paired replay; stop and preserve evidence at the first failure."
+  },
+  "resume_20261106_cold_start": {
+    "state": "cold_start_check_passed",
+    "root_cause_fixed": false,
+    "elapsed_s": 216.88651306700194,
+    "exit_code": 0,
+    "oom_killed": false,
+    "both_ranks_candidate_worker_installed": true,
+    "window_closed": true,
+    "performance_pairs_completed_at_record": 0,
+    "evidence_sha256": {
+      "cold-B/launch-command.json": "f07a47d7773f88493e26722c1b820f973103ef7ddac292ad63927f610b8ebc92",
+      "cold-B/healthy.json": "5dd06a69589af219d0ed7e8085a914d894f3c3cf844976f7a992a15048544d7d",
+      "cold-B/kernel-journal.json": "fbe3d2b43338f324314dd045e2bbf08b681c3954c4f22f1f358c719dfefa3d00",
+      "cold-B/server.log": "b89ac9d5382428ea0fc1474810c1793d333f6be36434665d646303549a300460",
+      "cold-B/inspect.json": "2c559d7318af4456f7593f654a73861f355f423f4c6ddab77bdc3920fdc327bb",
+      "cold-B/stop.json": "6d57617b4db7e05d998262c7cb7250d220681ab67b881ac59d91b4a3418814ca",
+      "cold-B/manifest.json": "92240d19e115072c1735c087bbebba282d2848a8d34c2ff7d70ff2da6f1be649",
+      "windows/cold/window-open.json": "d934610d798058e665a85d03038a4207eb81fa23dcc68e33d6dfb3b7d761bc25",
+      "windows/cold/cold-B-launch.log": "dcf6e35c0c190c70e901d9e3b457c17948105d961b874d9b44eb3f015d541d8e",
+      "windows/cold/window-closed.json": "8f79016f3b4241095b1764e45be6f88f9be32f4e03cb6bb4d5ce78101f2cded0",
+      "windows/cold/status.json": "3099614bfc0b96f0daf7c7e74480da3a7e6a8bbd7f29bbf623fdfb2051e0771c"
+    },
+    "scope": "One guarded cold startup succeeded; no CPU FP16 fill crash reproduced in this startup. Root cause remains unresolved. Five-pair performance collection is separate."
   }
 }
