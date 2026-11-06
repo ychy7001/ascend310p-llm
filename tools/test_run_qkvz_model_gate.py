@@ -8,7 +8,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from run_qkvz_model_gate import Gate, SERVICE
+from run_qkvz_model_gate import Gate, SERVICE, sha
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -90,6 +90,48 @@ class GateControllerTest(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, 'cleanup failed'):
                     gate.execute()
             self.assertFalse(json.loads((gate.root/'A-window-closed.json').read_text())['passed'])
+
+    def test_b_preserves_censored_noise_verdict_and_rejects_changed_freeze(self):
+        for tampered in (False, True):
+            with self.subTest(tampered=tampered), tempfile.TemporaryDirectory() as directory:
+                gate = self.make_gate(Path(directory))
+                gate.args.arm = 'B'
+                gate.rule = {'multiplier': 1, 'absolute_floor': 0}
+                noise = {'mode': 'generated', 'metrics': {'max_absolute_target_logprob_difference': 1},
+                         'target_logprob_censoring': {'count': 1}}
+                paired = {'mode': 'generated', 'metrics': {'max_absolute_target_logprob_difference': 2},
+                          'target_logprob_censoring': {'count': 0}, 'scope': 'common prefix only'}
+                files = {'A-G1.json': {}, 'A_prime-G1.json': {}, 'inputs.json': {},
+                         'threshold-rule.json': gate.rule, 'A_prime-vs-A.json': noise,
+                         'A-G2-counts.json': {'GSM64': 63}, 'A_prime-G2-counts.json': {'GSM64': 63}}
+                for name, value in files.items():
+                    (gate.root/name).write_text(json.dumps(value))
+                frozen = {'thresholds': noise['metrics']}
+                for key, name in [('A', 'A-G1.json'), ('A_prime', 'A_prime-G1.json'),
+                                  ('input', 'inputs.json'), ('rule', 'threshold-rule.json')]:
+                    frozen[key+'_sha256'] = sha(gate.root/name)
+                frozen['controller_sha256'] = sha(REPO/'tools/run_qkvz_model_gate.py')
+                frozen['comparator_sha256'] = sha(REPO/'tools/compare_token_logprobs.py')
+                (gate.root/'concrete-thresholds.json').write_text(json.dumps(frozen))
+                if tampered:
+                    (gate.root/'A-G1.json').write_text('{"changed": true}')
+                with patch.object(gate, 'preflight_evaluators'), \
+                     patch.object(gate, 'snapshot', side_effect=[self.snapshot()]*3), \
+                     patch.object(gate, 'launch') as launch, \
+                     patch.object(gate, 'g1', return_value={}), \
+                     patch.object(gate, 'g2', return_value={'GSM64': 63}), \
+                     patch.object(gate, 'stop'), \
+                     patch('run_qkvz_model_gate.compare', return_value=paired):
+                    if tampered:
+                        with self.assertRaisesRegex(RuntimeError, 'AssertionError'):
+                            gate.execute()
+                        launch.assert_not_called()
+                    else:
+                        gate.execute()
+                        verdict = json.loads((gate.root/'G1-adjudication.json').read_text())
+                        self.assertIsNone(verdict['passed'])
+                        self.assertIsNone(verdict['checks']['max_absolute_target_logprob_difference']['passed'])
+                        launch.assert_called_once_with('B', candidate=True)
 
 
 if __name__ == '__main__':

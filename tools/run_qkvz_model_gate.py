@@ -17,7 +17,7 @@ import subprocess
 import time
 import urllib.request
 
-from compare_token_logprobs import compare, digest
+from compare_token_logprobs import adjudicate, compare, digest
 
 BASE = 'http://localhost:18142'
 MODEL = 'Qwen3.6-35B-A3B-w8a8'
@@ -317,7 +317,11 @@ else:
                 frozen = {'thresholds': noise['metrics'], 'multiplier': 1, 'absolute_floor': 0,
                           'A_sha256': sha(self.root/'A-G1.json'), 'A_prime_sha256': sha(self.root/'A_prime-G1.json'),
                           'input_sha256': sha(self.root/'inputs.json'), 'rule_sha256': sha(self.root/'threshold-rule.json'),
-                          'frozen_unix_ns': time.time_ns(), 'B_started': False}
+                          'frozen_unix_ns': time.time_ns(), 'B_started': False,
+                          'controller_sha256': sha(Path(__file__)),
+                          'comparator_sha256': sha(Path(__file__).with_name('compare_token_logprobs.py')),
+                          'scope': noise['scope'],
+                          'censoring': 'Bounds and unavailable KL retain three-valued verdicts; multiplier 1, no floor.'}
                 write(self.root/'concrete-thresholds.json', frozen)
                 self.state('thresholds_frozen_before_first_model_B', thresholds_sha256=sha(self.root/'concrete-thresholds.json'))
             else:
@@ -328,22 +332,22 @@ else:
                 frozen = read(self.root/'concrete-thresholds.json')
                 assert frozen['thresholds'] == noise['metrics']
                 assert frozen['rule_sha256'] == sha(self.root/'threshold-rule.json')
+                assert frozen['A_sha256'] == sha(self.root/'A-G1.json')
+                assert frozen['A_prime_sha256'] == sha(self.root/'A_prime-G1.json')
+                assert frozen['input_sha256'] == sha(self.root/'inputs.json')
+                assert frozen['controller_sha256'] == sha(Path(__file__))
+                assert frozen['comparator_sha256'] == sha(Path(__file__).with_name('compare_token_logprobs.py'))
                 self.launch('B', candidate=True)
                 b = self.g1('B', a)
                 gb = self.g2('B')
                 self.stop('B')
                 paired = compare(a, b)
                 write(self.root/'B-vs-A.json', paired)
-                checks = {}
-                for key, value in paired['metrics'].items():
-                    passed = value <= frozen['thresholds'][key]
-                    if key == 'max_absolute_target_logprob_difference' and paired['target_logprob_censoring']['count'] and passed:
-                        passed = None
-                    checks[key] = {'noise': noise['metrics'][key], 'threshold': frozen['thresholds'][key],
-                                   'B_vs_A': value, 'passed': passed}
-                passed = all(c['passed'] is True for c in checks.values())
-                write(self.root/'G1-adjudication.json', {'passed': passed, 'checks': checks,
-                    'concrete_thresholds_sha256': sha(self.root/'concrete-thresholds.json')})
+                g1 = adjudicate(noise, paired, self.rule)
+                passed = g1['passed']
+                g1.update(concrete_thresholds_sha256=sha(self.root/'concrete-thresholds.json'),
+                          scope=paired['scope'])
+                write(self.root/'G1-adjudication.json', g1)
                 task_checks = {k: {'A': ga[k], 'A_prime': gap[k], 'B': gb[k],
                                   'B_vs_A_difference': abs(gb[k]-ga[k]),
                                   'B_vs_A_prime_difference': abs(gb[k]-gap[k]),

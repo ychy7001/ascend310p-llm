@@ -18,10 +18,15 @@ def first_divergence(left, right):
 
 
 def conditional_topk_kl(left, right):
-    """共同显式 token 支持上归一化后计算 KL；不推算舍入后的 OTHER 桶。"""
+    """共同显式 token 支持上归一化后计算 KL。
+
+    返回 ``(None, 0)`` 表示两个截断 top-k 没有共同 token；这种情况
+    不能从截断列表估计 KL，但必须作为不确定观测记录，不能中止整批比较。
+    不推算未返回的 OTHER 桶。
+    """
     keys = sorted(set(left) & set(right))
     if not keys:
-        raise ValueError('No shared top-k support')
+        return None, 0
     def normalized(values):
         logs = [values[key] for key in keys]
         if any(not math.isfinite(value) for value in logs):
@@ -42,7 +47,7 @@ def compare(reference, candidate):
     if reference['reference_sequence_sha256'] != candidate['reference_sequence_sha256']:
         raise ValueError('Different A reference sequences')
     per_case, errors, kls, mismatches, observed = [], [], [], 0, 0
-    censored_positions = []
+    censored_positions, kl_unavailable_positions = [], []
     for left, right in zip(reference['cases'], candidate['cases'], strict=True):
         if left['id'] != right['id']:
             raise ValueError('Case order mismatch')
@@ -74,8 +79,13 @@ def compare(reference, candidate):
                 item = {'id':left['id'], 'position':i, 'absolute_error_lower_bound':error}
                 censored_positions.append(item); case_censored.append(i)
             kl, support = conditional_topk_kl(x['logprobs'], y['logprobs'])
+            if kl is None:
+                kl_unavailable_positions.append({'id': left['id'], 'position': i,
+                                                'reason': 'no_shared_explicit_top_k_support'})
+            else:
+                case_kls.append(kl)
             top1_left.append(x['top1']); top1_right.append(y['top1'])
-            case_errors.append(error); case_kls.append(kl); supports.append(support)
+            case_errors.append(error); supports.append(support)
         top1_diff = first_divergence(top1_left, top1_right)
         case_mismatch = sum(a != b for a, b in zip(top1_left, top1_right))
         mismatches += case_mismatch; observed += count
@@ -88,8 +98,8 @@ def compare(reference, candidate):
             'top1_divergent_suffix_fraction': 0 if top1_diff is None else (length-top1_diff)/length,
             'greedy_divergent_suffix_fraction': 0 if divergence is None else (length-divergence)/length,
             'max_absolute_target_logprob_difference': max(case_errors),
-            'mean_conditional_topk_kl': sum(case_kls)/count,
-            'max_conditional_topk_kl': max(case_kls),
+            'mean_conditional_topk_kl': (sum(case_kls)/count if len(case_kls)==count else None),
+            'max_conditional_topk_kl': (max(case_kls) if len(case_kls)==count else None),
             'minimum_shared_explicit_tokens': min(supports),
             'censored_target_positions':case_censored,
         })
@@ -98,8 +108,8 @@ def compare(reference, candidate):
     means = lambda key: sum(case[key] for case in per_case)/len(per_case)
     metrics = {
         'top1_disagreement_rate': mismatches/observed,
-        'mean_conditional_topk_kl': sum(kls)/observed,
-        'max_conditional_topk_kl': max(kls),
+        'mean_conditional_topk_kl': (sum(kls)/observed if not kl_unavailable_positions else None),
+        'max_conditional_topk_kl': (max(kls) if not kl_unavailable_positions else None),
         'max_absolute_target_logprob_difference': max(errors),
         'mean_top1_divergent_suffix_fraction': means('top1_divergent_suffix_fraction'),
         'max_top1_divergent_suffix_fraction': max(case['top1_divergent_suffix_fraction'] for case in per_case),
@@ -110,24 +120,41 @@ def compare(reference, candidate):
             'positions_compared':observed, 'per_case':per_case,
             'target_logprob_censoring':{'count':len(censored_positions),'positions':censored_positions,
                 'max_error_metric_is_lower_bound':bool(censored_positions)},
+            'kl_censoring':{'count':len(kl_unavailable_positions),
+                'positions':kl_unavailable_positions,
+                'metric_is_unavailable_when_nonzero':True},
             'scope':'KL of distributions normalized on shared explicit top-k support; excludes outside support and is not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position.'}
 
 
 def adjudicate(noise, candidate, rule):
     if noise['mode'] != candidate['mode']:
         raise ValueError('Different modes')
-    assert rule['multiplier'] == 1.5 and rule['absolute_floor'] == 0
-    thresholds = {key: 1.5 * value for key, value in noise['metrics'].items()}
+    assert rule['multiplier'] in (1.0, 1.5) and rule['absolute_floor'] == 0
     checks = {}
     for key,value in candidate['metrics'].items():
+        baseline = noise['metrics'][key]
+        threshold = None if baseline is None else rule['multiplier'] * baseline
         censored = (key=='max_absolute_target_logprob_difference'
                     and candidate.get('target_logprob_censoring',{}).get('count',0)>0)
-        passed = value <= thresholds[key]
-        if censored and passed:
-            passed = None  # A bound below threshold cannot establish the true error passes.
-        checks[key] = {'noise':noise['metrics'][key], 'candidate':value,
-                       'threshold':thresholds[key], 'passed':passed,
-                       'candidate_value_kind':'lower_bound' if censored else 'measured'}
+        noise_censored = (key=='max_absolute_target_logprob_difference'
+                    and noise.get('target_logprob_censoring',{}).get('count',0)>0)
+        if baseline is None or value is None:
+            passed = None
+        elif noise_censored:
+            # The true noise threshold is at least this lower bound. A measured
+            # candidate below it proves noninferiority; exceeding it proves
+            # neither failure nor success. Two lower bounds cannot be ordered.
+            passed = True if not censored and value <= threshold else None
+        elif censored:
+            passed = False if value > threshold else None
+        else:
+            passed = value <= threshold
+        checks[key] = {'noise':baseline, 'candidate':value,
+                       'threshold':threshold, 'passed':passed,
+                       'noise_value_kind':('unavailable' if baseline is None else
+                                           'lower_bound' if noise_censored else 'measured'),
+                       'candidate_value_kind':('unavailable' if value is None else
+                                               'lower_bound' if censored else 'measured')}
     outcomes=[row['passed'] for row in checks.values()]
     passed=False if False in outcomes else (None if None in outcomes else True)
     return {'passed':passed, 'checks':checks}
