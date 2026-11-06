@@ -73,3 +73,11 @@ CPU 子集协议 SHA-256（同前述规范 JSON 编码）：`761d1ebefe0f49d978d
 另有 Qwen3.6-35B-A3B APEX GGUF compact，header 显示 733 个 tensor、约 34.66B 参数，包含 Q6_K 151 个、Q4_K 191 个、Q3_K 90 个及 F32 301 个；按 BF16 物化约需 69.32 GB，仅读取 header 未读取 tensor data。它可按 GGUF 专用路径反量化，但会保留量化误差，且不能满足“原始权重、纯 torch eager”的 R 定义。转换 GPTQ/GGUF 还需要大规模 CPU/disk 临时空间；未在资源不足时启动。核查明细和 header SHA 见 `raw/cpu-weight-availability-audit.json`。
 
 因此没有读取 R，也没有重跑同轮 A/A′ 或读取新的 B/B0；G1/G2/性能继续不执行。
+
+## 2026-11-06 用户补充参考来源
+
+用户提供ModelScope仓库 `Qwen/Qwen3.6-35B-A3B`，已读取仓库元数据并固定revision `1a5ae24e867f8d82388070d3f61590158a01d15c`。26个原始safetensors分片共71,903,776,776字节（约66.97GiB），首分片张量header为BF16。正在本机共享重任务锁内限速下载，完整文件按源元数据SHA256校验，partial按Range续传；权重不入仓库。用户给出的下载来源替代此前“no new downloads”限制，其余数值协议不变。
+
+此前的“已核查本地位置没有完整原始checkpoint”是当时的可用性结论。此次下载尚未完成，未宣称R已可用；完整后还需逐分片header/index一致性与BF16审计。计划随后用2线程、12GiB内存和600秒上限做第0层完整短prompt的纯CPU FP32可行性探针，禁止整模试载和CUDA分配。单层探针不构成模型参考R或模型门禁。
+
+本机可用内存约43GiB，低于权重总量；映射/分层执行的实际时间和峰值内存仍待实测。35例296个续写位置继续使用冻结协议，必须先取得并冻结新同轮A续写，再读R/B；当前未执行R、新A/A′、修复B/B0、G2或性能。
