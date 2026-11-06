@@ -1,8 +1,8 @@
 {
   "task": "wy-5",
   "decision": "待定",
-  "recommendation": "待完整同轮G1/G2结果，当前不采用",
-  "reason": "原始BF16权重与长输入CPU资源探针已通过；新同轮A续写已冻结，完整CPU R与A/A_prime严格teacher-forcing正在采集，修复版B及B0等待R与对照完成后运行。尚无完整模型精度裁决。",
+  "recommendation": "G1失败，不采用；G2和性能未启动",
+  "reason": "完整同轮R/A/A_prime/B/B0已完成35例296位置。B的逐例首分歧损失在5个固定用例超过A_prime噪声底；条件KL和目标logprob受top-20截尾影响不可判定，按冻结规则G1失败。",
   "tool": {
     "path": "tools/compare_token_logprobs.py",
     "tests": {
@@ -19,7 +19,7 @@
     "runtime_deployment": "Historical controller is retained; the new detached five-arm pipeline uses strict subset teacher forcing and the new R comparator. No repaired B result is available yet."
   },
   "reference_R": {
-    "status": "running_original_BF16_CPU_subset",
+    "status": "complete_original_BF16_CPU_subset",
     "selection_order": [
       "existing GPU BF16 or higher precision",
       "local CPU high precision"
@@ -44,8 +44,8 @@
       "reason": "different model, W4A16, FP8 KV, MTP3 and runtime; not a Qwen3.6-35B-A3B high precision reference"
     },
     "cpu": {
-      "status": "running",
-      "reason": "原始26分片、1045个BF16 tensor已通过SHA和header/index审计；逐层FP32 CPU参考正在执行。32K线性/完整注意力探针通过，尚未得到完整296位置R。",
+      "status": "complete",
+      "reason": "原始26分片、1045个BF16 tensor已通过SHA和header/index审计；逐层FP32 CPU参考完成35例296位置。32K线性/完整注意力探针及完整运行均无OOM。",
       "availability_audit": "raw/cpu-weight-availability-audit.json",
       "availability_audit_sha256": "a9db07e2b62b1b301585ee1792d55da25218216c2a47b0bdd382774e80ba8ff9",
       "conversion_options": [
@@ -118,13 +118,14 @@
     "collection_status": "Only the protocol is frozen; no numeric same-round thresholds or R distributions have been collected."
   },
   "execution": {
-    "A_A_prime": "fresh_A_35x256_frozen; strict_teacher_forcing_A_in_progress_A_prime_pending",
-    "B": "queued_after_R_and_controls_freeze",
-    "B0": "queued_diagnostic_only",
-    "G2": "queued_after_G1_pass",
-    "performance": "queued_after_G1_G2_pass",
-    "npu_window": "controls_window_active_A_then_A_prime",
-    "R": "running_full_40_layer_CPU_FP32_from_original_BF16"
+    "A_A_prime": "complete_fresh_A_and_A_prime_35x296_strict_teacher_forcing",
+    "B": "complete_35x296",
+    "B0": "complete_diagnostic_35x296",
+    "G1": "fail",
+    "G2": "not_started_G1_failed",
+    "performance": "not_started_G1_failed",
+    "npu_window": "complete_cleaned",
+    "R": "complete_full_40_layer_CPU_FP32_from_original_BF16"
   },
   "limitations": [
     "Current complete model G1/G2 is not finished; operator/resource probes cannot establish adoption.",
@@ -595,7 +596,7 @@
       "run-cpu-probe.py": "e70d067cea5d90345163b6e7759dfea8ac510e22353f0f2c65aecffd818a0a49"
     },
     "complete_model_execution": {
-      "state": "running",
+      "state": "complete_g1_failed",
       "fresh_A_continuation_cases": 35,
       "fresh_A_continuation_tokens_each": 256,
       "fresh_A_continuation_sha256": "d3ccb0ce6a6ccc285c7bec38a575f24cc2a781dd5753409e7312a314212e0363",
@@ -638,7 +639,27 @@
         "fresh_A_context_matches_historical": true,
         "all_256_A_tokens_match": true,
         "target": 98898,
-        "R_attribution": "pending_complete_R"
+        "R_attribution": "complete",
+        "R_top1": 97792,
+        "R_target_logprob": -7.523801326751709,
+        "A_target_logprob": -0.03571862354874611,
+        "B_target_logprob": -0.4942122995853424,
+        "B0_top1": 96025,
+        "B0_target_logprob": -6.2296247482299805
+      },
+      "g1_result": {
+        "passed": false,
+        "positions": 296,
+        "B_top1_disagreement_rate": 0.11824324324324324,
+        "A_top1_disagreement_rate": 0.12837837837837837,
+        "A_prime_top1_disagreement_rate": 0.12162162162162163,
+        "definite_first_divergence_failures": ["replay-00", "replay-03", "replay-06", "replay-14", "meeting-16384-0"],
+        "conditional_topk_kl": "unavailable",
+        "target_logprob_interval_B": [12.49694013595581, "+infinity"],
+        "target_logprob_interval_A": [14.440335154533386, "+infinity"],
+        "g2_started": false,
+        "performance_started": false,
+        "source": "tasks/tmp/a310-wy-complete-20261106/G1-adjudication.json"
       },
       "adopted": false,
       "performance_result": null,

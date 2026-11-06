@@ -1,6 +1,8 @@
 # wy-5 高精度参考与 logprob 比较器可行性核查
 
-最新进展（2026-11-06）：**完整模型精度验证执行中，尚未裁决，不采用。** 原始 BF16 已校验完整，text_config 与生产 W8A8 逐字段相同；新同轮 A 的 35×256 token 续写已冻结，A/A′ 正在用严格 teacher forcing 采集 296 个位置。CPU R 已开始逐层运行，保留所有原始提示词，最长 32768 tokens。下文“没有原始权重、停止模型实验”为历史核查记录。
+最新进展（2026-11-06）：**完整模型 G1 精度门禁失败，不采用。** 原始 BF16 已校验完整，text_config 与生产 W8A8 逐字段相同；R、A、A′、B、B0 均完成同轮严格 teacher forcing，共 35 例、296 个位置。最终比较显示 B 的若干逐例首分歧指标超过 A′ 噪声底；条件 KL 和目标 logprob 因 top-20 截尾保持不可判定，G1 按冻结规则不能通过。G2 和性能测试按前置条件未启动。下文“没有原始权重、停止模型实验”为历史核查记录。
+
+最终结果摘要：B top-1 disagreement 为 `11.8243%`，低于 A 的 `12.8378%`，但逐例首分歧在 `replay-00`、`replay-03`、`replay-06`、`replay-14`、`meeting-16384-0` 超过同轮 A′ 噪声底；这些确定性失败已经足以拒绝 G1。B 的目标 logprob 差区间为 `[12.4969401, +infinity]`，A/A′ 为 `[14.4403352, +infinity]`；该指标仍不能证明非劣。五臂共同 top-20 支持不足，条件 KL 不可用，不被当作通过依据。B0 仅作诊断，未进入采用判定。
 
 本轮新增可复用工具：
 
@@ -10,11 +12,11 @@
 - 真实 32K 提示词资源探针：第 0 层线性注意力 88.70 秒，第 3 层完整注意力 46.00 秒，峰值 RSS 9054800 KiB，输出有限、ExitCode 0、无 OOM。这两层是资源诊断，不能替代完整 R。
 - 历史 `replay-17` 第 22 位置：新 A 与历史 A 的 256-token 续写完全相同，目标 token 仍为 98898，可使用本轮 R 的同一位置分析历史 logprob 差 ≥13。
 
-执行顺序：冻结新 A → 采集完整 R 和 A/A′ → 冻结对照记录与判据 → 修复 B／诊断 B0 → G1 裁决。G1 通过才继续同轮 P/A/B G2；双门禁通过才采性能。每个 NPU 窗口自行持锁、限时、完整留日志，结束清场并保持两服务 inactive。后台控制器保存独立 PID／状态／退出记录；聊天中断不会直接杀掉实验。
+执行顺序已完成：冻结新 A → 采集完整 R 和 A/A′ → 冻结对照记录与判据 → 修复 B／诊断 B0 → G1 裁决。G1 失败后按规则停止，未启动 G2 或性能。R 使用原始 BF16、纯 torch eager CPU，B/B0 使用固定 NPU 窗口和禁止 fallback 的 WY 路径；两个窗口均保存完整日志并清场，a2 两服务保持 inactive。
 
 CPU 跟随器初次 SSH 参数引号错误、CPU 输入哈希常量抄写错误均在预检阶段中止；已修正并保留失败记录，未把失败尝试计作有效模型证据。
 
-历史结论：**原 wy-5 因缺原始 BF16 停止，未启动该轮模型实验。** `adjudication.json` 的 `frozen_before_B`、`cpu_subset_protocol` 保留冻结时原文；当前执行状态查看 `execution` 与 `followup_20261106.complete_model_execution`。
+历史结论：**原 wy-5 因缺原始 BF16 停止，未启动该轮模型实验。** 当前完整执行已收口为 G1 fail；`adjudication.json` 的 `frozen_before_B`、`cpu_subset_protocol` 保留冻结时原文，当前结果和执行状态查看本节与 `followup_20261106.complete_model_execution`。
 
 已修复并测试统一的 `tools/compare_token_logprobs.py`：
 
