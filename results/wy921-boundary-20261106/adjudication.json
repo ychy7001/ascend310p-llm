@@ -75,7 +75,7 @@
   "interpretation": [
     "Native sampled WY arithmetic is not shown to be less accurate than CPU reference.",
     "Long-output changes occur even across plain repeated B requests; synchronization does not consistently remove them.",
-    "Matched A plain long requests also vary (16 versus 2005); shared runtime path must be localized. Repeated state-boundary diagnosis in progress; no kernel math change justified yet."
+    "Matched A plain long requests also vary; repeated B sampled boundaries are bitwise stable. No first-layer WY/H/O arithmetic defect demonstrated. H28 full G1 fails maximum conditional KL; no adoption or performance claim."
   ],
   "G2": "not_started",
   "performance_acceptance": "not_started",
@@ -315,7 +315,7 @@
     "window_s": 565.545748700999
   },
   "hybrid_screen": {
-    "state": "completed_full_validation_running",
+    "state": "completed_H28_full_G1_failed",
     "candidates": [
       {
         "name": "H20",
@@ -352,5 +352,134 @@
       }
     ],
     "selected_policy_unix_ns": 1793961740750750065
+  },
+  "hybrid_full_G1": {
+    "candidate": "H28",
+    "native_from_layer": 28,
+    "native_GDN_layers": 9,
+    "cases": 35,
+    "positions": 296,
+    "passed": false,
+    "verdict": "fail",
+    "adopted": false,
+    "screen_already_observed": true,
+    "new_controls": true,
+    "original_R_and_fixed_continuation": true,
+    "checks": {
+      "top1_disagreement_rate": {
+        "passed": true,
+        "candidate_loss": [
+          0.125,
+          0.125
+        ],
+        "A_loss": [
+          0.12837837837837837,
+          0.12837837837837837
+        ],
+        "A_prime_loss": [
+          0.11824324324324324,
+          0.11824324324324324
+        ],
+        "B_minus_A": [
+          -0.0033783783783783716,
+          -0.0033783783783783716
+        ],
+        "noise": [
+          0.010135135135135129,
+          0.010135135135135129
+        ]
+      },
+      "mean_conditional_topk_kl": {
+        "passed": true,
+        "candidate_loss": [
+          0.09348958757883145,
+          0.09348958757883145
+        ],
+        "A_loss": [
+          0.10933050714731074,
+          0.10933050714731074
+        ],
+        "A_prime_loss": [
+          0.09526813592957614,
+          0.09526813592957614
+        ],
+        "B_minus_A": [
+          -0.015840919568479286,
+          -0.015840919568479286
+        ],
+        "noise": [
+          0.014062371217734598,
+          0.014062371217734598
+        ]
+      },
+      "max_conditional_topk_kl": {
+        "passed": false,
+        "candidate_loss": [
+          4.20331760141258,
+          4.20331760141258
+        ],
+        "A_loss": [
+          3.3550192893061457,
+          3.3550192893061457
+        ],
+        "A_prime_loss": [
+          3.3550192893061457,
+          3.3550192893061457
+        ],
+        "B_minus_A": [
+          0.8482983121064347,
+          0.8482983121064347
+        ],
+        "noise": [
+          0.0,
+          0.0
+        ]
+      },
+      "max_absolute_target_logprob_difference": {
+        "passed": null,
+        "candidate_loss": [
+          14.490665629506111,
+          "+infinity"
+        ],
+        "A_loss": [
+          14.440335154533386,
+          "+infinity"
+        ],
+        "A_prime_loss": [
+          14.440335154533386,
+          "+infinity"
+        ],
+        "B_minus_A": [
+          "-infinity",
+          "+infinity"
+        ],
+        "noise": [
+          0.0,
+          "+infinity"
+        ]
+      }
+    },
+    "first_divergence_passed_cases": 35,
+    "failure_peak": {
+      "case": "replay-11",
+      "position": 0,
+      "metric": "max_conditional_topk_kl",
+      "A": 3.3550192893061457,
+      "A_prime": 3.3550192893061457,
+      "B": 4.20331760141258,
+      "support_size": 3
+    },
+    "five_way_empty_support_positions": 0,
+    "top1_disagreement_counts": {
+      "A": 38,
+      "A_prime": 35,
+      "B": 37
+    },
+    "window_s": 7818.66184753101,
+    "closure_passed": true,
+    "container_count": 8,
+    "all_container_exit_zero_no_OOM": true,
+    "independent_local_remote_comparison_equal": true,
+    "exact_target_addendum": "not_started_definite_KL_failure"
   }
 }
