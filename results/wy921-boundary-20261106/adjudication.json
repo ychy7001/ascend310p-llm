@@ -315,7 +315,7 @@
     "window_s": 565.545748700999
   },
   "hybrid_screen": {
-    "state": "running",
+    "state": "completed_full_validation_running",
     "candidates": [
       {
         "name": "H20",
@@ -331,6 +331,26 @@
     "selection": "Both rules frozen before screen; five previous failure positions must match R. Historical replay17 p22 diagnostic only. Prefer H20 if both qualify. Otherwise H28; if neither qualifies, stop. Eligible policy requires full fresh A/AP/B/B0 G1 under unchanged protocol.",
     "request_id_independent": true,
     "kernel_artifact_unchanged": true,
-    "adopted": false
+    "adopted": false,
+    "passed": {
+      "H28": true,
+      "H20": false
+    },
+    "selected_native_from_layer": 28,
+    "H20_failures": [
+      {
+        "case": "replay-00",
+        "position": 2,
+        "top1": 24,
+        "R_top1": 16
+      },
+      {
+        "case": "meeting-16384-0",
+        "position": 0,
+        "top1": 18,
+        "R_top1": 16
+      }
+    ],
+    "selected_policy_unix_ns": 1793961740750750065
   }
 }
