@@ -1,0 +1,61 @@
+{
+  "candidate": "GRC1",
+  "adopted": false,
+  "prior_full_native_G1": "fail_preserved",
+  "H28_G1": "fail_preserved",
+  "scope": "New two-pass guarded-rounding diagnostic, G0 only; not model precision or performance acceptance",
+  "kernel_source_sha256": "0751599b0f99fd6cb0434fb388769a64f468f9755c070466265380e83e26ec87",
+  "candidate_manifest_sha256": "49f57b06475e906d258ea8c0195f97766592116f42bb0933b70cfe5e62576e12",
+  "rule": "Only 128x128: preserve existing precise output as anchor; recompute coarse half(beta*K) Gram, FP32 inverse and half inverse/RHS apply; accept compatible half element iff abs(diff)<=0.125*(0.0005+0.04*abs(anchor)); otherwise keep anchor. All requests/layers same rule. q/k/g unchanged; other supported dimensions retain precise path.",
+  "G0": {
+    "passed": true,
+    "WY_cases": 612,
+    "sets": {
+      "snapshots": {
+        "cases": 120,
+        "native_passed": 120,
+        "torch_passed": 98,
+        "no_worse_control": {
+          "q": true,
+          "k": true,
+          "w": true,
+          "u": true,
+          "g": true
+        }
+      },
+      "triggers": {
+        "cases": 12,
+        "native_passed": 12,
+        "torch_passed": 0,
+        "no_worse_control": {
+          "q": true,
+          "k": true,
+          "w": true,
+          "u": true,
+          "g": true
+        }
+      },
+      "boundaries": {
+        "cases": 480,
+        "native_passed": 480,
+        "torch_passed": 403,
+        "no_worse_control": {
+          "q": true,
+          "k": true,
+          "w": true,
+          "u": true,
+          "g": true
+        }
+      }
+    },
+    "synthetic_passed": 30,
+    "synthetic_total": 30,
+    "serial_byte_repeats_passed": true,
+    "queued_byte_repeats_passed": true,
+    "independent_closeout_passed": true
+  },
+  "model_pilot": "running_five_previous_failure_positions_plus_KL_peak_and_p22_attribution",
+  "G1": "not_started",
+  "G2": "not_started",
+  "performance": "not_started"
+}
