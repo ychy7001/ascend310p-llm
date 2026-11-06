@@ -823,5 +823,613 @@
       "windows/cold/status.json": "3099614bfc0b96f0daf7c7e74480da3a7e6a8bbd7f29bbf623fdfb2051e0771c"
     },
     "scope": "One guarded cold startup succeeded; no CPU FP16 fill crash reproduced in this startup. Root cause remains unresolved. Five-pair performance collection is separate."
+  },
+  "resume_20261106_replay": {
+    "state": "completed_not_adopted",
+    "performance": {
+      "pairs": [
+        {
+          "pair": 1,
+          "order": [
+            "A",
+            "B"
+          ],
+          "A_wall_s": 642.8475212539779,
+          "B_wall_s": 633.0725827999995,
+          "reduction_pct": 1.520568739988415
+        },
+        {
+          "pair": 2,
+          "order": [
+            "B",
+            "A"
+          ],
+          "A_wall_s": 642.5927379599889,
+          "B_wall_s": 633.1565259000054,
+          "reduction_pct": 1.4684591814623116
+        },
+        {
+          "pair": 3,
+          "order": [
+            "A",
+            "B"
+          ],
+          "A_wall_s": 644.930384523992,
+          "B_wall_s": 634.1206516359816,
+          "reduction_pct": 1.6761084835518747
+        },
+        {
+          "pair": 4,
+          "order": [
+            "B",
+            "A"
+          ],
+          "A_wall_s": 642.5015463639866,
+          "B_wall_s": 632.5917501249933,
+          "reduction_pct": 1.542377025405517
+        },
+        {
+          "pair": 5,
+          "order": [
+            "A",
+            "B"
+          ],
+          "A_wall_s": 643.5713200860191,
+          "B_wall_s": 633.6931065880053,
+          "reduction_pct": 1.5349057967178337
+        }
+      ],
+      "median_wall_reduction_pct": 1.5349057967178337,
+      "faster_pairs": 5,
+      "strata": [
+        {
+          "stratum": "concurrency:C1",
+          "counts": {
+            "A": 17,
+            "B": 20
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 7.471237081015715,
+              "B": 6.543516598001588
+            },
+            "regression_pct": -12.417227200184143
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.03302445411452739,
+              "B": 0.029378112776854228
+            },
+            "regression_pct": -11.041337201298784
+          }
+        },
+        {
+          "stratum": "concurrency:C2",
+          "counts": {
+            "A": 8,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 16.51460849850264,
+              "B": 16.54260989901377
+            },
+            "regression_pct": 0.16955533952662805
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.04102650569938639,
+              "B": 0.036484964050631084
+            },
+            "regression_pct": -11.069774457597125
+          }
+        },
+        {
+          "stratum": "concurrency:C3",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 39.493265735014575,
+              "B": 39.45723829299095
+            },
+            "regression_pct": -0.09122426660118643
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.1537528954714513,
+              "B": 0.15456044120882428
+            },
+            "regression_pct": 0.5252231087400361
+          }
+        },
+        {
+          "stratum": "concurrency:C4",
+          "counts": {
+            "A": 25,
+            "B": 25
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 16.66421933998936,
+              "B": 16.659238009015098
+            },
+            "regression_pct": -0.029892375230000656
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.07657416200265377,
+              "B": 0.0739944255392419
+            },
+            "regression_pct": -3.3689385504766745
+          }
+        },
+        {
+          "stratum": "context:0-8K",
+          "counts": {
+            "A": 15,
+            "B": 15
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 5.571679635002511,
+              "B": 5.595138247997966
+            },
+            "regression_pct": 0.4210330552403496
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.031392135725345896,
+              "B": 0.02849707397826923
+            },
+            "regression_pct": -9.22225162507565
+          }
+        },
+        {
+          "stratum": "context:16-32K",
+          "counts": {
+            "A": 15,
+            "B": 15
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 17.39189913502196,
+              "B": 17.38932247000048
+            },
+            "regression_pct": -0.014815317185745691
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.041012450930355944,
+              "B": 0.036484964050631084
+            },
+            "regression_pct": -11.039298498431794
+          }
+        },
+        {
+          "stratum": "context:32-64K",
+          "counts": {
+            "A": 10,
+            "B": 10
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 48.42448549201072,
+              "B": 48.598574801013456
+            },
+            "regression_pct": 0.3595067809888386
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.11075845006768006,
+              "B": 0.1109657407206116
+            },
+            "regression_pct": 0.18715561007298653
+          }
+        },
+        {
+          "stratum": "context:8-16K",
+          "counts": {
+            "A": 15,
+            "B": 15
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 13.084979203005787,
+              "B": 13.158021525014192
+            },
+            "regression_pct": 0.5582150408892206
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.07657416200265377,
+              "B": 0.0739944255392419
+            },
+            "regression_pct": -3.3689385504766745
+          }
+        },
+        {
+          "stratum": "request:replay-000",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 17.39189913502196,
+              "B": 17.38932247000048
+            },
+            "regression_pct": -0.014815317185745691
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.0330866170504943,
+              "B": 0.03027051289999838
+            },
+            "regression_pct": -8.511308805606188
+          }
+        },
+        {
+          "stratum": "request:replay-001",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 5.571679635002511,
+              "B": 5.595138247997966
+            },
+            "regression_pct": 0.4210330552403496
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.031352421883889946,
+              "B": 0.02849707397826923
+            },
+            "regression_pct": -9.107264236859159
+          }
+        },
+        {
+          "stratum": "request:replay-002",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 4.10835837200284,
+              "B": 4.1499399690073915
+            },
+            "regression_pct": 1.0121219533309578
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.031013528289756318,
+              "B": 0.02820776640110511
+            },
+            "regression_pct": -9.046896768523894
+          }
+        },
+        {
+          "stratum": "request:replay-003",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 7.484366660006344,
+              "B": 7.499536206974881
+            },
+            "regression_pct": 0.2026831081058278
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.09105571233127471,
+              "B": 0.08644602345168838
+            },
+            "regression_pct": -5.062492798711604
+          }
+        },
+        {
+          "stratum": "request:replay-004",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 16.543281967984512,
+              "B": 16.54260989901377
+            },
+            "regression_pct": -0.004062488761569227
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.041012450930355944,
+              "B": 0.036484964050631084
+            },
+            "regression_pct": -11.039298498431794
+          }
+        },
+        {
+          "stratum": "request:replay-005",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 39.493265735014575,
+              "B": 39.45723829299095
+            },
+            "regression_pct": -0.09122426660118643
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.1537528954714513,
+              "B": 0.15456044120882428
+            },
+            "regression_pct": 0.5252231087400361
+          }
+        },
+        {
+          "stratum": "request:replay-006",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 43.45779640600085,
+              "B": 43.398147753003286
+            },
+            "regression_pct": -0.13725650615209473
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.16185634063793303,
+              "B": 0.1626982423598749
+            },
+            "regression_pct": 0.5201536860549583
+          }
+        },
+        {
+          "stratum": "request:replay-007",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 10.60670570700313,
+              "B": 10.548008861020207
+            },
+            "regression_pct": -0.5533937454695992
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.1034478591730427,
+              "B": 0.10496786160896965
+            },
+            "regression_pct": 1.4693416065617804
+          }
+        },
+        {
+          "stratum": "request:replay-008",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 13.084979203005787,
+              "B": 13.158021525014192
+            },
+            "regression_pct": 0.5582150408892206
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.07657416200265377,
+              "B": 0.0739944255392419
+            },
+            "regression_pct": -3.3689385504766745
+          }
+        },
+        {
+          "stratum": "request:replay-009",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 16.66421933998936,
+              "B": 16.659238009015098
+            },
+            "regression_pct": -0.029892375230000656
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.060045368975539144,
+              "B": 0.057258549013264
+            },
+            "regression_pct": -4.6411905028186595
+          }
+        },
+        {
+          "stratum": "request:replay-010",
+          "counts": {
+            "A": 5,
+            "B": 5
+          },
+          "sufficient": true,
+          "ttft_s": {
+            "medians": {
+              "A": 57.43806995698833,
+              "B": 58.31459738599369
+            },
+            "regression_pct": 1.5260391403501883
+          },
+          "mean_tpot_s": {
+            "medians": {
+              "A": 0.06774912864798942,
+              "B": 0.06830720782152168
+            },
+            "regression_pct": 0.8237436918663965
+          }
+        }
+      ],
+      "stratum_regressions_over_3pct": [],
+      "replay_performance_pass": false,
+      "load_profiles_required_separately": true,
+      "semantic_review_required_before_adoption": true,
+      "phase_seconds": {
+        "A": [
+          {
+            "prefill": 34.41101183599676,
+            "decode": 437.15843393901014,
+            "mixed": 170.46102514100494
+          },
+          {
+            "prefill": 34.495015378983226,
+            "decode": 436.5301137790084,
+            "mixed": 170.80423940499895
+          },
+          {
+            "prefill": 17.336359778011683,
+            "decode": 436.33729073396535,
+            "mixed": 191.15939452702878
+          },
+          {
+            "prefill": 34.43987888202537,
+            "decode": 436.5398595620063,
+            "mixed": 170.79893912898842
+          },
+          {
+            "prefill": 34.534204012015834,
+            "decode": 437.7535362110066,
+            "mixed": 171.10294615200837
+          }
+        ],
+        "B": [
+          {
+            "prefill": 34.52629455694114,
+            "decode": 407.9382983860269,
+            "mixed": 170.5854428570019
+          },
+          {
+            "prefill": 34.486795377975795,
+            "decode": 408.87834249204025,
+            "mixed": 170.83533395800623
+          },
+          {
+            "prefill": 34.540623725013575,
+            "decode": 410.5520777150232,
+            "mixed": 170.76530896197073
+          },
+          {
+            "prefill": 34.50225816105376,
+            "decode": 406.99010699096834,
+            "mixed": 171.0420057279989
+          },
+          {
+            "prefill": 34.520025970967254,
+            "decode": 410.0564979769988,
+            "mixed": 171.09255897800904
+          }
+        ]
+      },
+      "max_arrival_lateness_s": 0.0037028039223514497,
+      "limitations": "Observed concurrency can change with service speed; sparse strata are reported separately. Five pairs do not establish tail-latency improvements."
+    },
+    "window_closures": [
+      {
+        "window": "perf-0-2",
+        "elapsed_s": 3424.5940640580084,
+        "passed": true
+      },
+      {
+        "window": "perf-2-4",
+        "elapsed_s": 3415.1883686899964,
+        "passed": true
+      },
+      {
+        "window": "perf-4-5",
+        "elapsed_s": 1709.751474507997,
+        "passed": true
+      }
+    ],
+    "requests": 110,
+    "request_errors": 0,
+    "completed_arms": 10,
+    "criterion": "Median paired wall reduction >=3%, >=4/5 faster pairs, no sufficient stratum TTFT/TPOT regression >3%",
+    "failure_reason": "Median paired wall reduction 1.5349057967178337% is below frozen 3% minimum",
+    "load_profiles_run": false,
+    "production_adopted": false,
+    "evidence_sha256": {
+      "freeze.json": "0a67465130dcb701c59c1881fb65054ef1625e88b8f5f6da4c3dbc983916f042",
+      "paired-protocol.json": "7aa36e05218b8665201f1a8145e204cb1d85fb778d1780abb4698f166c3ad62f",
+      "performance/adjudication.json": "f52eabf8724a618706f5cc5a0ce85911559d490db73450ff64a763eee27e1be6",
+      "cold-B/server.log": "b89ac9d5382428ea0fc1474810c1793d333f6be36434665d646303549a300460",
+      "cold-B/inspect.json": "2c559d7318af4456f7593f654a73861f355f423f4c6ddab77bdc3920fdc327bb",
+      "windows/cold/window-closed.json": "8f79016f3b4241095b1764e45be6f88f9be32f4e03cb6bb4d5ce78101f2cded0",
+      "windows/perf-0-2/window-closed.json": "d0e833be0ca44a5f18d2ddfa555e5849ef1838e3c64d623054d13baa4c16edd7",
+      "windows/perf-4-5/window-closed.json": "bbf27c8cb032436425a0cce00f04a9e52dde0844d96213e933e78264ee7d40a6",
+      "windows/perf-2-4/window-closed.json": "cb79572ed2064daaa848dc918ff46a43ece2059ae416c45b2f8cd6820fb99620",
+      "performance/p3-B/server.log": "2c86ecd504e53d75453e89c766b52d148ce94fffe245f8b706f7c468b39cb19e",
+      "performance/p3-B/inspect.json": "95854960240b60b94b4fad620e28393925a903e36dbce2c3f664ddc51053eb7a",
+      "performance/p5-B/server.log": "371eea914483e0efbe8ad0653e0def4f402d735cca5f17cd993d20523d1a63b0",
+      "performance/p5-B/inspect.json": "25d40f36db653aad4c930ca506e52b17fc89d586706a0b0046fd7950b342a966",
+      "performance/p2-B/server.log": "3f3414a0376d7a7483e7227b51c0869e0ec440b0ad6a5332033ee6b41087d481",
+      "performance/p2-B/inspect.json": "2516dd5e689a588c3d85681952e3887e875cf4d0a19e0206971ff1c358fb0f64",
+      "performance/p1-A/server.log": "f20489be9b8a9bfe137d76b2641435609930ba8ac76e44977d665fefc7da4966",
+      "performance/p1-A/inspect.json": "a7edeaaa336fafc01ba83d909d2da1c9e680a1ef67bec8a5843c252161628aec",
+      "performance/p4-A/server.log": "033b6017ffb66f322e913fd82cae8cbb134087593d6bd8dcab076d1c44f6310f",
+      "performance/p4-A/inspect.json": "3152d7aac3b601c16dda66cffc0a2e17cf731a7000e827faae89c231a9998b07",
+      "performance/p2-A/server.log": "7a1b9f17e77efcbc71829f71d7e6a4c626adcfbcf894ba25c700fa334556a31b",
+      "performance/p2-A/inspect.json": "5ac5a5f15bdb456c4970340d3e86bc00e0d3bce832838b0a4e80c45ad9c72ca6",
+      "performance/p4-B/server.log": "884c9ccf02ea7326ea887d9be9acfa21bd87f3ee03adce3b47a6485976f12b72",
+      "performance/p4-B/inspect.json": "52c975b5c61ff8a79bb2d997b273f538a45679c8fd0fc18d823abace3a1d901f",
+      "performance/p5-A/server.log": "2b82097c43a0a09b8d3bdcb14c35236cee6bdeec4288cfb0d5d73124eea8f8e5",
+      "performance/p5-A/inspect.json": "4902e26f29a93f3699553a61686bc840e0e68ce56241f5cccdd7ffc0c5572906",
+      "performance/p3-A/server.log": "090e3500e95d2cb1cc31e9149b7feb9869d18bc1102e6b53f4c63966365d63e5",
+      "performance/p3-A/inspect.json": "bddd0b1e1a89253063a63b0718cb563e78c0311da98e81931976088a55c7f78e",
+      "performance/p1-B/server.log": "93dc4663fc09ba15b13232018af20d73a6414feac272769d2cd34612dd021af9",
+      "performance/p1-B/inspect.json": "885f77f2d97f301f480dffdb32ddcf7cb829c515b56614298a0fe84109941bb4",
+      "performance/cold-B/server.log": "b89ac9d5382428ea0fc1474810c1793d333f6be36434665d646303549a300460",
+      "performance/cold-B/inspect.json": "2c559d7318af4456f7593f654a73861f355f423f4c6ddab77bdc3920fdc327bb",
+      "performance/p3-B/analysis/replay-summary.json": "b419e27ab7068cac46331c95c6e2b0d9963fc2aec91aaaa6a2fcc1971a55b0b0",
+      "performance/p5-B/analysis/replay-summary.json": "c47a4417627395dfcd257fee86bbc19dba519171804fa6693e09db6910a69213",
+      "performance/p2-B/analysis/replay-summary.json": "c3fa9d44096b55dc0e98145c7c4e6af9a02332add2bf4ab5d467bcc70ef50b5f",
+      "performance/p1-A/analysis/replay-summary.json": "e7dbeb846869b374032039a0bad25ed521aa5261daf4dce40f4a08fba8124ddf",
+      "performance/p4-A/analysis/replay-summary.json": "e7dc18397c8c47ce4ebea2979a551da463dba5338799851d877395608210c71d",
+      "performance/p2-A/analysis/replay-summary.json": "92f90bad2edcb4de6c264943eea42dd8500057a2913d344c32a814dfa24df4bb",
+      "performance/p4-B/analysis/replay-summary.json": "f1d0b5fac730240957b20ca09581aa6095c10d06a12eaf352cf31ced61c5b37d",
+      "performance/p5-A/analysis/replay-summary.json": "0176f80b3052f58a80767170538568acbacddd28f017d828833ea3e58a6d65dd",
+      "performance/p3-A/analysis/replay-summary.json": "e44fbd6c3a7b607bc4fd9638d60ce805399ff1c87eab6aaa42717ce3596fe978",
+      "performance/p1-B/analysis/replay-summary.json": "46de73feeea5a2127a41e9e0df207e3c9a0e2171b8525bd7aee06566de60e64f"
+    }
   }
 }
