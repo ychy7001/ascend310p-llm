@@ -1,0 +1,28 @@
+{
+  "dataset": "ICDAR 2019 SROIE",
+  "purpose": "paired receipt field quality evaluation for TP2 W8A8 WY staging",
+  "source_repo": "https://github.com/zzzDavid/ICDAR-2019-SROIE",
+  "source_commit": "27be4271b251c256f695acbade9a801bffe85994",
+  "source_license": "MIT",
+  "selection": "first 100 indexed image/key pairs from data/img and data/key",
+  "count": 100,
+  "fields": ["company", "address", "date", "total"],
+  "manifest_sha256": "3e37725a1d751075b6d363d3012f6caa5c19276c92e35d71f0dc7fefc9298392",
+  "evaluation": {
+    "torch": {
+      "valid_json": "100/100",
+      "field_presence": "400/400",
+      "field_exact_match": "347/400",
+      "date_total_exact_match": "194/200"
+    },
+    "wy_locked": {
+      "valid_json": "100/100",
+      "field_presence": "400/400",
+      "field_exact_match": "345/400",
+      "date_total_exact_match": "193/200"
+    }
+  },
+  "manual_reviewed": false,
+  "result_sha256": "d9a5f1d13209f94b8f29cc84acd7e33484e0a68b4a10afc7ee39be2d41ec16a9",
+  "result_path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/pr17640-wy-sroie-quality-20261108-v3/summary.json"
+}
