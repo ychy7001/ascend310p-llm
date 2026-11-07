@@ -1,0 +1,462 @@
+{
+  "scope": "complete original WY graph operator diagnostic; preserves arithmetic; includes five input copies and five output clones; 3840 synthetic from repeated640 chunks; no model/performance adoption gate",
+  "baseline_sha": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+  "probe_sha": "514e7124fca04d839a0f189ab77d68d0828a2997c9a4e51c2de8b43e5d1ccb5c",
+  "cases": [
+    {
+      "rank": 0,
+      "tokens": 640,
+      "synthetic": false,
+      "repeat_factor": 1,
+      "inputs": [
+        {
+          "file": "rank0-call0001.pt",
+          "sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f"
+        },
+        {
+          "file": "rank0-call0002.pt",
+          "sha": "6f22be136790b7b0e017f034fb1e404f24268b284075673b949125dca5861d91"
+        }
+      ],
+      "serial_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "queued_alternating_inputs_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 6.37733309995383,
+          "graph": 6.337864202214405,
+          "speedup": 1.006227476083447
+        },
+        {
+          "graph": 6.326560900197364,
+          "baseline": 6.258259000605904,
+          "speedup": 0.9892039449759615
+        },
+        {
+          "baseline": 6.325465100235306,
+          "graph": 6.323868100298569,
+          "speedup": 1.0002525353014022
+        },
+        {
+          "graph": 6.319903102121316,
+          "baseline": 6.299207601114176,
+          "speedup": 0.9967253452034426
+        },
+        {
+          "baseline": 6.371352399582975,
+          "graph": 6.327554801828228,
+          "speedup": 1.0069217255521978
+        },
+        {
+          "graph": 6.320360497920774,
+          "baseline": 6.431238597724587,
+          "speedup": 1.0175430024664398
+        },
+        {
+          "baseline": 6.321821198798716,
+          "graph": 6.32910139975138,
+          "speedup": 0.9988497259732717
+        },
+        {
+          "graph": 6.320686099934392,
+          "baseline": 6.370973298908211,
+          "speedup": 1.0079559715794686
+        }
+      ],
+      "median_speedup": 1.0032400056924247,
+      "faster_pairs": 5
+    },
+    {
+      "rank": 0,
+      "tokens": 3840,
+      "synthetic": true,
+      "repeat_factor": 6,
+      "inputs": [
+        {
+          "file": "rank0-call0001.pt",
+          "sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f"
+        },
+        {
+          "file": "rank0-call0002.pt",
+          "sha": "6f22be136790b7b0e017f034fb1e404f24268b284075673b949125dca5861d91"
+        }
+      ],
+      "serial_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "queued_alternating_inputs_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 36.527860900969245,
+          "graph": 37.39039070205763,
+          "speedup": 0.9769317788636822
+        },
+        {
+          "graph": 37.38428120268509,
+          "baseline": 36.47907050035428,
+          "speedup": 0.97578632855282
+        },
+        {
+          "baseline": 36.428069800604135,
+          "graph": 37.37384349806234,
+          "speedup": 0.9746942350869735
+        },
+        {
+          "graph": 37.375556901679374,
+          "baseline": 36.51675150031224,
+          "speedup": 0.977022271437284
+        },
+        {
+          "baseline": 36.4337904000422,
+          "graph": 37.37852740159724,
+          "speedup": 0.9747251412179853
+        },
+        {
+          "graph": 37.37815770145971,
+          "baseline": 36.453938399790786,
+          "speedup": 0.9752738134112792
+        },
+        {
+          "baseline": 36.533347200020216,
+          "graph": 37.39021480141673,
+          "speedup": 0.9770831056749091
+        },
+        {
+          "graph": 37.37557669810485,
+          "baseline": 36.466660199221224,
+          "speedup": 0.975681539144526
+        }
+      ],
+      "median_speedup": 0.975733933848673,
+      "faster_pairs": 0
+    },
+    {
+      "rank": 1,
+      "tokens": 640,
+      "synthetic": false,
+      "repeat_factor": 1,
+      "inputs": [
+        {
+          "file": "rank1-call0001.pt",
+          "sha": "69b9cbd1be5c42842759d05f8c40e86aaa17ed47fdcf1f8f0ea307ffbb556118"
+        },
+        {
+          "file": "rank1-call0002.pt",
+          "sha": "adf7174b3ce348c16b207f2b6fe8248e69173d195145e5b1dc5dbc4a317c53bd"
+        }
+      ],
+      "serial_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "queued_alternating_inputs_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 6.367187498835847,
+          "graph": 6.365337400347926,
+          "speedup": 1.0002906520694126
+        },
+        {
+          "graph": 6.350528399343602,
+          "baseline": 6.384895800147206,
+          "speedup": 1.0054117387786432
+        },
+        {
+          "baseline": 6.367712299106643,
+          "graph": 6.364811002276838,
+          "speedup": 1.00045583393266
+        },
+        {
+          "graph": 6.371164001757279,
+          "baseline": 6.343048202688806,
+          "speedup": 0.9955870231780695
+        },
+        {
+          "baseline": 6.375119500444271,
+          "graph": 6.3616920000640675,
+          "speedup": 1.0021106806774154
+        },
+        {
+          "graph": 6.35941090004053,
+          "baseline": 6.40530530072283,
+          "speedup": 1.007216769195085
+        },
+        {
+          "baseline": 6.356810199213214,
+          "graph": 6.365704201743938,
+          "speedup": 0.9986028250372854
+        },
+        {
+          "graph": 6.371167200268246,
+          "baseline": 6.370770800276659,
+          "speedup": 0.9999377822023616
+        }
+      ],
+      "median_speedup": 1.0003732430010364,
+      "faster_pairs": 5
+    },
+    {
+      "rank": 1,
+      "tokens": 3840,
+      "synthetic": true,
+      "repeat_factor": 6,
+      "inputs": [
+        {
+          "file": "rank1-call0001.pt",
+          "sha": "69b9cbd1be5c42842759d05f8c40e86aaa17ed47fdcf1f8f0ea307ffbb556118"
+        },
+        {
+          "file": "rank1-call0002.pt",
+          "sha": "adf7174b3ce348c16b207f2b6fe8248e69173d195145e5b1dc5dbc4a317c53bd"
+        }
+      ],
+      "serial_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "queued_alternating_inputs_byte_equal": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 36.6374169010669,
+          "graph": 37.00437730003614,
+          "speedup": 0.9900833245755257
+        },
+        {
+          "graph": 36.98295099893585,
+          "baseline": 36.553330000606366,
+          "speedup": 0.9883832688651091
+        },
+        {
+          "baseline": 36.52585090021603,
+          "graph": 37.00057090027258,
+          "speedup": 0.987169927692844
+        },
+        {
+          "graph": 37.013763398863375,
+          "baseline": 36.63315600133501,
+          "speedup": 0.9897171386376763
+        },
+        {
+          "baseline": 36.54398669896182,
+          "graph": 36.98443850153126,
+          "speedup": 0.9880908884813485
+        },
+        {
+          "graph": 36.985920899314806,
+          "baseline": 36.534256298909895,
+          "speedup": 0.9877882018502538
+        },
+        {
+          "baseline": 36.616427497938275,
+          "graph": 36.98520390025806,
+          "speedup": 0.9900290828917883
+        },
+        {
+          "graph": 36.989935298333876,
+          "baseline": 36.58009780046996,
+          "speedup": 0.9889202969792061
+        }
+      ],
+      "median_speedup": 0.9886517829221576,
+      "faster_pairs": 0
+    }
+  ],
+  "captures": [
+    {
+      "device": "npu:0",
+      "tokens": 640,
+      "capture_s": 0.008278040011646226,
+      "allocated_bytes": 24351744,
+      "reserved_bytes": 90177536
+    },
+    {
+      "device": "npu:0",
+      "tokens": 3840,
+      "capture_s": 0.020769867987837642,
+      "allocated_bytes": 182476800,
+      "reserved_bytes": 541065216
+    },
+    {
+      "device": "npu:1",
+      "tokens": 640,
+      "capture_s": 0.013212766003562137,
+      "allocated_bytes": 24351744,
+      "reserved_bytes": 90177536
+    },
+    {
+      "device": "npu:1",
+      "tokens": 3840,
+      "capture_s": 0.020788194990018383,
+      "allocated_bytes": 182476800,
+      "reserved_bytes": 541065216
+    }
+  ],
+  "completed": true
+}
