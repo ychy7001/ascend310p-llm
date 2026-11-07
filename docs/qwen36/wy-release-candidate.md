@@ -54,8 +54,9 @@ not a production switch declaration.
 
 ## Remaining gates
 
-- Run the locked image through the full 4K/32K performance and PDF repeat
-  matrix, rather than relying only on the equivalent local-parent image data.
+- The locked image 4K/32K cold Prefill and PDF repeat matrix is complete:
+  three cold repeats at each text length and three repeats for PDF-01 through
+  PDF-04, with valid outputs and zero prefix-cache hits.
 - Expand the receipt set beyond the 20-image SROIE smoke and add a manually
   reviewed OCR/receipt set. The current PDF text-layer proxy has
   `manual_ground_truth=false` and is not a business quality gate.
