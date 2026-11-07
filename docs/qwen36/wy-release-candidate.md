@@ -33,6 +33,15 @@ not a production switch declaration.
   matching field presence of `121/183`, and answer exact-match counts of
   `62/183` versus `64/183`. This is a non-regression smoke signal, not the
   final invoice quality gate.
+- SROIE receipt smoke (20 images, four labeled fields per image) produced
+  valid JSON and complete field presence for both arms: `20/20` documents and
+  `80/80` fields. Field exact-match was `69/80` for Torch and `71/80` for WY.
+  The frozen manifest is outside this repository at
+  `/home/ychy/workspace/tasks/data/ocr-public/sroie-test20/manifest.json`,
+  with manifest SHA256
+  `0a3e0eff7ff4bde90c5e0f515a06e0a240b59644c29c229774ab1c16db707ffe`.
+  This is a receipt-specific non-regression smoke signal, not a production
+  quality gate.
 
 ## Release procedure
 
@@ -47,7 +56,8 @@ not a production switch declaration.
 
 - Run the locked image through the full 4K/32K performance and PDF repeat
   matrix, rather than relying only on the equivalent local-parent image data.
-- Add a manually labeled OCR/receipt set. The current PDF text-layer proxy has
+- Expand the receipt set beyond the 20-image SROIE smoke and add a manually
+  reviewed OCR/receipt set. The current PDF text-layer proxy has
   `manual_ground_truth=false` and is not a business quality gate.
 - Compare field-level exact match, numeric-field exact match, JSON validity,
   truncation, and severe-field errors against the Torch arm.
