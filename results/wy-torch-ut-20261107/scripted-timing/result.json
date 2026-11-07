@@ -1,0 +1,517 @@
+{
+  "scope": "alternating microdiagnostic, not model or Prefill acceptance",
+  "cases": [
+    {
+      "rank": 0,
+      "file": "wy921-localize-v1/capture/captures/rank0-call0031.pt",
+      "shapes": [
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          16,
+          128
+        ],
+        [
+          1,
+          128,
+          16
+        ],
+        [
+          1,
+          128,
+          16
+        ]
+      ],
+      "pairs": [
+        {
+          "pair": 0,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.8586722997715697,
+          "scripted_ms": 3.063159398152493,
+          "byte_equal": true,
+          "speedup": 0.9332430762485762
+        },
+        {
+          "pair": 1,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 3.253747700364329,
+          "baseline_ms": 3.756014400278218,
+          "byte_equal": true,
+          "speedup": 1.1543655950514078
+        },
+        {
+          "pair": 2,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.705910601071082,
+          "scripted_ms": 2.629733001231216,
+          "byte_equal": true,
+          "speedup": 1.0289678076839741
+        },
+        {
+          "pair": 3,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 3.527782400487922,
+          "baseline_ms": 2.933693799423054,
+          "byte_equal": true,
+          "speedup": 0.831597152652414
+        },
+        {
+          "pair": 4,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.8298260003793985,
+          "scripted_ms": 3.015416700509377,
+          "byte_equal": true,
+          "speedup": 0.9384527186247169
+        },
+        {
+          "pair": 5,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 2.978648801217787,
+          "baseline_ms": 2.6854105992242694,
+          "byte_equal": true,
+          "speedup": 0.9015532808454523
+        },
+        {
+          "pair": 6,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.889208699343726,
+          "scripted_ms": 3.2222798006841913,
+          "byte_equal": true,
+          "speedup": 0.8966349535289444
+        },
+        {
+          "pair": 7,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 3.134104498894885,
+          "baseline_ms": 2.889350100304,
+          "byte_equal": true,
+          "speedup": 0.9219061142737303
+        }
+      ],
+      "median_speedup": 0.9275745952611532,
+      "baseline_median_ms": 2.873940499557648,
+      "scripted_median_ms": 3.098631948523689,
+      "scripted_faster_pairs": 2
+    },
+    {
+      "rank": 0,
+      "file": "wy921-localize-v1/capture/captures/rank0-call0001.pt",
+      "shapes": [
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          16,
+          128
+        ],
+        [
+          1,
+          640,
+          16
+        ],
+        [
+          1,
+          640,
+          16
+        ]
+      ],
+      "pairs": [
+        {
+          "pair": 0,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.460073700873181,
+          "scripted_ms": 6.4916723989881575,
+          "byte_equal": true,
+          "speedup": 0.9951324256412105
+        },
+        {
+          "pair": 1,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.447733199456707,
+          "baseline_ms": 6.424273698939942,
+          "byte_equal": true,
+          "speedup": 0.9963615894468553
+        },
+        {
+          "pair": 2,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.429588200990111,
+          "scripted_ms": 6.508109997957945,
+          "byte_equal": true,
+          "speedup": 0.9879347772252663
+        },
+        {
+          "pair": 3,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.341476700617932,
+          "baseline_ms": 6.467711000004783,
+          "byte_equal": true,
+          "speedup": 1.019906136274939
+        },
+        {
+          "pair": 4,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.4724794996436685,
+          "scripted_ms": 6.470486099715345,
+          "byte_equal": true,
+          "speedup": 1.0003080757608631
+        },
+        {
+          "pair": 5,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.376955000450835,
+          "baseline_ms": 6.440506302169524,
+          "byte_equal": true,
+          "speedup": 1.0099657754702984
+        },
+        {
+          "pair": 6,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.456865899963304,
+          "scripted_ms": 6.374800400226377,
+          "byte_equal": true,
+          "speedup": 1.012873422630458
+        },
+        {
+          "pair": 7,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.4346511993790045,
+          "baseline_ms": 6.463591099600308,
+          "byte_equal": true,
+          "speedup": 1.00449750877314
+        }
+      ],
+      "median_speedup": 1.0024027922670016,
+      "baseline_median_ms": 6.458469800418243,
+      "scripted_median_ms": 6.441192199417856,
+      "scripted_faster_pairs": 5
+    },
+    {
+      "rank": 1,
+      "file": "wy921-localize-v1/capture/captures/rank1-call0031.pt",
+      "shapes": [
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          16,
+          128
+        ],
+        [
+          1,
+          128,
+          16
+        ],
+        [
+          1,
+          128,
+          16
+        ]
+      ],
+      "pairs": [
+        {
+          "pair": 0,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.7702107006916776,
+          "scripted_ms": 2.5784447003388777,
+          "byte_equal": true,
+          "speedup": 1.0743727411829296
+        },
+        {
+          "pair": 1,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 2.6156378007726744,
+          "baseline_ms": 2.5327233015559614,
+          "byte_equal": true,
+          "speedup": 0.9683004660690331
+        },
+        {
+          "pair": 2,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.5254020001739264,
+          "scripted_ms": 2.5595939019694924,
+          "byte_equal": true,
+          "speedup": 0.9866416693018151
+        },
+        {
+          "pair": 3,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 2.6158660009969026,
+          "baseline_ms": 2.592364899464883,
+          "byte_equal": true,
+          "speedup": 0.9910159383075955
+        },
+        {
+          "pair": 4,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.5354826997499913,
+          "scripted_ms": 2.629760099807754,
+          "byte_equal": true,
+          "speedup": 0.9641498096861935
+        },
+        {
+          "pair": 5,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 2.5859506014967337,
+          "baseline_ms": 2.528329100459814,
+          "byte_equal": true,
+          "speedup": 0.977717478050985
+        },
+        {
+          "pair": 6,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 2.5346428010379896,
+          "scripted_ms": 2.5299262983025983,
+          "byte_equal": true,
+          "speedup": 1.001864284638867
+        },
+        {
+          "pair": 7,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 2.6011846988694742,
+          "baseline_ms": 2.5486655009444803,
+          "byte_equal": true,
+          "speedup": 0.9798095083567807
+        }
+      ],
+      "median_speedup": 0.9832255888292979,
+      "baseline_median_ms": 2.5350627503939904,
+      "scripted_median_ms": 2.593567650183104,
+      "scripted_faster_pairs": 2
+    },
+    {
+      "rank": 1,
+      "file": "wy921-localize-v1/capture/captures/rank1-call0001.pt",
+      "shapes": [
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          16,
+          128
+        ],
+        [
+          1,
+          640,
+          16
+        ],
+        [
+          1,
+          640,
+          16
+        ]
+      ],
+      "pairs": [
+        {
+          "pair": 0,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.403466800111346,
+          "scripted_ms": 6.331882800441235,
+          "byte_equal": true,
+          "speedup": 1.0113053260659093
+        },
+        {
+          "pair": 1,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.471637499635108,
+          "baseline_ms": 6.357091601239517,
+          "byte_equal": true,
+          "speedup": 0.9823003222287946
+        },
+        {
+          "pair": 2,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.376861501485109,
+          "scripted_ms": 6.362486301804893,
+          "byte_equal": true,
+          "speedup": 1.0022593682718246
+        },
+        {
+          "pair": 3,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.349391301046126,
+          "baseline_ms": 6.38748120109085,
+          "byte_equal": true,
+          "speedup": 1.0059989845071367
+        },
+        {
+          "pair": 4,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.345446599880233,
+          "scripted_ms": 6.321351701626554,
+          "byte_equal": true,
+          "speedup": 1.003811668673249
+        },
+        {
+          "pair": 5,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.4645826001651585,
+          "baseline_ms": 6.375921500148252,
+          "byte_equal": true,
+          "speedup": 0.9862851006011367
+        },
+        {
+          "pair": 6,
+          "order": [
+            "baseline",
+            "scripted"
+          ],
+          "baseline_ms": 6.3547226978698745,
+          "scripted_ms": 6.40589389950037,
+          "byte_equal": true,
+          "speedup": 0.9920118562009766
+        },
+        {
+          "pair": 7,
+          "order": [
+            "scripted",
+            "baseline"
+          ],
+          "scripted_ms": 6.325474500772543,
+          "baseline_ms": 6.3814113003900275,
+          "byte_equal": true,
+          "speedup": 1.0088430993770747
+        }
+      ],
+      "median_speedup": 1.0030355184725368,
+      "baseline_median_ms": 6.3763915008166805,
+      "scripted_median_ms": 6.355938801425509,
+      "scripted_faster_pairs": 5
+    }
+  ]
+}

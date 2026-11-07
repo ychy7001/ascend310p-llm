@@ -1,0 +1,150 @@
+{
+  "script_sha": "a5ee66371e502131e4845b7eba5b11536528eda94785f693e2fe9ee7387a2938",
+  "baseline_sha": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+  "scope": "alternating microdiagnostic, not model or Prefill acceptance",
+  "pairs": 8,
+  "calls_per_arm": 10,
+  "warmups_per_arm": 5,
+  "selection": [
+    {
+      "rank": 0,
+      "file": "wy921-localize-v1/capture/captures/rank0-call0031.pt",
+      "sha": "36f21e88bffa55416ef35b099b8caa364890e979deb8d59b208a95e0364745a5",
+      "shapes": [
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          16,
+          128
+        ],
+        [
+          1,
+          128,
+          16
+        ],
+        [
+          1,
+          128,
+          16
+        ]
+      ]
+    },
+    {
+      "rank": 0,
+      "file": "wy921-localize-v1/capture/captures/rank0-call0001.pt",
+      "sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f",
+      "shapes": [
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          16,
+          128
+        ],
+        [
+          1,
+          640,
+          16
+        ],
+        [
+          1,
+          640,
+          16
+        ]
+      ]
+    },
+    {
+      "rank": 1,
+      "file": "wy921-localize-v1/capture/captures/rank1-call0031.pt",
+      "sha": "f5cf8849a1aa364d3e265ade401ac15bd38f03bebfec7488c11b6d20f3a0e9c8",
+      "shapes": [
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          16,
+          128
+        ],
+        [
+          1,
+          128,
+          16
+        ],
+        [
+          1,
+          128,
+          16
+        ]
+      ]
+    },
+    {
+      "rank": 1,
+      "file": "wy921-localize-v1/capture/captures/rank1-call0001.pt",
+      "sha": "69b9cbd1be5c42842759d05f8c40e86aaa17ed47fdcf1f8f0ea307ffbb556118",
+      "shapes": [
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          16,
+          128
+        ],
+        [
+          1,
+          640,
+          16
+        ],
+        [
+          1,
+          640,
+          16
+        ]
+      ]
+    }
+  ]
+}
