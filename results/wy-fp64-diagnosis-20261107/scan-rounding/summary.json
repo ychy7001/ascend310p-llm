@@ -1,0 +1,30 @@
+{
+  "scope": "CPU emulation of FP32 sequential/compensated scans, not device correctness",
+  "cases": 612,
+  "modes": {
+    "sequential": {
+      "different_elements": 1215442,
+      "elements": 2151168,
+      "cases_equal": 0,
+      "max_abs": 0.001953125,
+      "squared_error": 0.0009781222382679296
+    },
+    "kahan": {
+      "different_elements": 142379,
+      "elements": 2151168,
+      "cases_equal": 0,
+      "max_abs": 0.00048828125,
+      "squared_error": 5.388880869709575e-06
+    },
+    "neumaier": {
+      "different_elements": 0,
+      "elements": 2151168,
+      "cases_equal": 612,
+      "max_abs": 0.0,
+      "squared_error": 0.0
+    }
+  },
+  "elapsed_s": 4.228072273079306,
+  "script_sha": "fea3b1de5644d6ba87fe5df02a2fc2fc34f1427c47cf5cb385612f2498a76efe",
+  "inputs_freeze_sha": "94bd56e2743a2e0b082ae920dc651fd0a95795b70ccacb60fcf9ccadb82ad581"
+}

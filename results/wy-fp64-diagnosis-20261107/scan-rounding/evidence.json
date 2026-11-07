@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "cpu_lock_reacquired": true,
+  "container_cleared": true,
+  "script_sha": "fea3b1de5644d6ba87fe5df02a2fc2fc34f1427c47cf5cb385612f2498a76efe",
+  "summary_sha": "0d4eabdfd8cb134e1d999aa44ae135d6456c7fe3e81888467a989c04dc6342e9",
+  "raw_rows_sha": "7c79445b7a81ecd09736a8693cf6cb982d040cda32b77d61154f6a31179d202c",
+  "raw_rows_not_archived": true
+}

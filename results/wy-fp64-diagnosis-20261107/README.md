@@ -35,3 +35,10 @@ CPU FP32相对FP64的W/U平方误差很小；只做最终FP16 cast的W也无超�
 下一步隔离构建K/V=128 raw-K library Gram + FP32 beta postscale候选，保持scan、阈值、solve、W/U apply和输出格式不变，再以固定输入设备输出和原CPU FP32门禁裁决。累计g的严格no-worse问题单列，不能以W/U改善抵消。
 
 原始逐例统计仍保留在workspace临时证据目录；本目录保留脚本、输入/设备输出SHA、汇总及原始统计文件SHA。
+
+
+## 3. 累计g：补偿扫描CPU可行性
+
+固定612组、2,151,168个累计g元素，对照冻结CPU torch.cumsum。纯FP32顺序累加有1,215,442个元素不同，Kahan补偿仍有142,379个；Neumaier补偿在本批全部逐位一致。CPU模拟耗时4.23秒，无设备或kernel修改。这是可行性证据，不证明设备编译后的浮点表达式或流水线正确，也不证明任意输入通用精度。
+
+该诊断用于后续单独处理g严格no-worse失败。当前raw-K Gram候选不包含该扫描改动，避免把两项原因合并。
