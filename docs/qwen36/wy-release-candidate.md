@@ -54,7 +54,10 @@ not a production switch declaration.
   Overall exact-match was `56/63` for Torch and `55/63` for WY; total-price
   exact-match was `17/19` versus `16/19`, and tax-price exact-match was `7/8`
   versus `6/8`. This second receipt source shows a one-field delta without a
-  structural failure, but it is also a smoke set rather than manual review.
+  structural failure. All 20 source images were then visually reviewed against
+  the published amount labels; the review artifact is
+  `docs/qwen36/cord-v2-manual-review.json`. This is still Indonesian public
+  receipt data, not Chinese invoice acceptance.
 
 ## Release procedure
 

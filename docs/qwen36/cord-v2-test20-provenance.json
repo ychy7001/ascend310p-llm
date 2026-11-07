@@ -43,7 +43,8 @@
       }
     }
   },
-  "manual_reviewed": false,
+  "manual_reviewed": true,
+  "manual_review_artifact": "docs/qwen36/cord-v2-manual-review.json",
   "result_sha256": "2f1991e0825eaa80bd4e8eec64e1a9b53a0fd04663f44581717b96ec53151bc4",
   "result_path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/pr17640-wy-cord-quality-20261108-v2/summary.json",
   "startup_note": "The first immediate restart after the SROIE run failed during model startup; a 60-second idle interval and clean rerun passed."

@@ -1,0 +1,28 @@
+{
+  "dataset": "CORD v2 test first 20 rows",
+  "manifest_sha256": "6bed04bd346c8d8e629db4bb2e921e002cb4ccb456523d2c16b5a9ef4f5b7424",
+  "review_method": "Visual inspection of each original-resolution receipt image against the published amount labels.",
+  "reviewer": "Codex visual review",
+  "scope": [
+    "total_price",
+    "cashprice",
+    "creditcardprice",
+    "subtotal_price",
+    "tax_price",
+    "discount_price"
+  ],
+  "reviewed_ids": [
+    "000", "001", "002", "003", "004", "005", "006", "007", "008", "009",
+    "010", "011", "012", "013", "014", "015", "016", "017", "018", "019"
+  ],
+  "reviewed_count": 20,
+  "confirmed_count": 20,
+  "ambiguous_count": 0,
+  "notes": [
+    "004 is heavily crumpled, but subtotal, discount, total and cash values remain readable.",
+    "007 and 012 have low contrast; the labeled subtotal/tax/total values remain readable.",
+    "013 shows the duplicated subtotal representation present in the source annotation and the same printed amount in the image.",
+    "014 and 019 are low contrast but the reviewed amount lines are readable."
+  ],
+  "business_scope_limit": "This is a visual review of public Indonesian receipts, not a Chinese invoice acceptance set or a business-owner adjudication."
+}
