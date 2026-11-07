@@ -31,4 +31,6 @@ The corrected probe reconstructed the original row recurrence and then profiled 
 
 The actual WY ReduceSum entry point and accumulation class are now confirmed, so a targeted fusion prototype is technically possible but not yet justified. The next step is to inspect the compiled kernel or obtain a source-level implementation of the `dichotomy_reduce` tree; another hand-written sequential or simple pairwise CPU tree is insufficient. No production adoption follows from this audit.
 
+The corrected binary inspection found the exact precompiled ELF (`5,861,568` bytes; SHA256 `871a2f33ad61e434f8a7d861eb24439a4c42fbea20a079f41cae7427a162ac00`). It contains Ascend metadata and all registered kernel names, but no usable C/C++ symbols or reduction-order metadata. The installed generic 310P vector-reduction headers expose `vcadd`-based multi-step reduction, which is useful implementation context but does not prove that the legacy TBE binary uses the same source path. The fusion line is therefore closed pending a source-level or disassembly-quality implementation of the exact legacy kernel.
+
 Frozen protocol, rules, worker, R, WY Torch module, and production kernel SHA values were unchanged.
