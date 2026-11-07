@@ -1,0 +1,46 @@
+{
+  "baseline_sha": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+  "reference_sha": "e024ecaee543964c44c6e80fa1c1ed5baaa1ec5e04df98c3555615bcbc19295d",
+  "input_sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f",
+  "scope": "single real-input diagnostic, not G0/G1 or performance acceptance",
+  "baseline_ms": 6.390498999583845,
+  "no_clone_ms": 6.754130668317278,
+  "comparisons": [
+    {
+      "name": "q",
+      "equal": true,
+      "different": 0,
+      "max_abs": 0.0,
+      "relative_rmse": 0.0
+    },
+    {
+      "name": "k",
+      "equal": true,
+      "different": 0,
+      "max_abs": 0.0,
+      "relative_rmse": 0.0
+    },
+    {
+      "name": "w",
+      "equal": true,
+      "different": 0,
+      "max_abs": 0.0,
+      "relative_rmse": 0.0
+    },
+    {
+      "name": "u",
+      "equal": true,
+      "different": 0,
+      "max_abs": 0.0,
+      "relative_rmse": 0.0
+    },
+    {
+      "name": "g",
+      "equal": true,
+      "different": 0,
+      "max_abs": 0.0,
+      "relative_rmse": 0.0
+    }
+  ],
+  "speedup": 0.9461615881316628
+}

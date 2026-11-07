@@ -14,3 +14,9 @@
 未执行合成H/O、完整G1/G2或性能门禁，未采用。冻结阈值、协议、worker、R与生产kernel未改。
 
 `blocked/replay-torch-ut-g0.py`与`analyze-torch-ut-g0.py`是此次诊断脚本快照，保留固定/runtime和/work挂载契约，需要冻结镜像、捕获输入及源码文件；不是可独立运行的生产实现。原始3.1GiB设备输出保留在workspace的`tasks/tmp/a310-wy-localize-20261106/torch-ut-g0-20261107`，不进入git。清场和原始证据SHA见`blocked/evidence.json`。
+
+## 2. 去除逐行UT的clone：短诊断没有收益
+
+仅去掉逐行UT中row/sub的两个clone，保留全部算术顺序。固定rank0-call0001的q/k/w/u/g逐位一致，但三次计时下完整WY由6.3905ms增至6.7541ms，候选/基线时延比约1.057，未见扩大测试的依据。
+
+这是单输入短诊断，不能声称对全体形状逐位等价或存在全局性能回退。未执行612组、完整模型或生产采用。设备清场通过。脚本快照需要上一条所列冻结源文件与输入挂载。

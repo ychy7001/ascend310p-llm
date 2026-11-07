@@ -1,0 +1,13 @@
+{
+  "elapsed_s": 9.20227313041687,
+  "container_exit": "0",
+  "error": null,
+  "running_rootless": "",
+  "running_rootful": "",
+  "services": {
+    "primary": "inactive",
+    "image": "inactive"
+  },
+  "cleanup_passed": true,
+  "raw_closed_sha": "0c8c6152dae90624bc2f4dd0916f0631b5f9dee09be64964c37f8512a47e03c8"
+}
