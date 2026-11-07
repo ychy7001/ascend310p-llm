@@ -1,0 +1,121 @@
+{
+  "scope": "Torch baseline OCR smoke only, PDF text references not manual labels",
+  "completed": 5,
+  "results": [
+    {
+      "id": "pdf-00",
+      "first_delta_s": 3.083766775991535,
+      "first_content_s": 3.083766775991535,
+      "elapsed_s": 84.81345533000422,
+      "usage": {
+        "prompt_tokens": 1941,
+        "total_tokens": 5013,
+        "completion_tokens": 3072,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "created_cache_tokens": 1920,
+          "multimodal_tokens": {
+            "image": 1900
+          }
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "length",
+      "image_sha": "59066586266425ee2678ba9284ff4ad6b7d17e468f277e216f813504287849d0"
+    },
+    {
+      "id": "pdf-01",
+      "first_delta_s": 2.8190066200040746,
+      "first_content_s": 2.8190066200040746,
+      "elapsed_s": 18.619805808004458,
+      "usage": {
+        "prompt_tokens": 1941,
+        "total_tokens": 2539,
+        "completion_tokens": 598,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "created_cache_tokens": 1920,
+          "multimodal_tokens": {
+            "image": 1900
+          }
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "image_sha": "84bf40a33dbb58f7be63df189990b6f53fb6d3340deb66467092daaa331f6b95"
+    },
+    {
+      "id": "pdf-02",
+      "first_delta_s": 1.7240428969962522,
+      "first_content_s": 1.7240428969962522,
+      "elapsed_s": 3.908985284011578,
+      "usage": {
+        "prompt_tokens": 1166,
+        "total_tokens": 1250,
+        "completion_tokens": 84,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "created_cache_tokens": 640,
+          "multimodal_tokens": {
+            "image": 1125
+          }
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "image_sha": "41ddc4da633d70193e63d934445adce9c22b3171c3e46f2f1fd221bda236d499"
+    },
+    {
+      "id": "pdf-03",
+      "first_delta_s": 1.6414601669821423,
+      "first_content_s": 1.6414601669821423,
+      "elapsed_s": 3.828639477986144,
+      "usage": {
+        "prompt_tokens": 1166,
+        "total_tokens": 1250,
+        "completion_tokens": 84,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "created_cache_tokens": 640,
+          "multimodal_tokens": {
+            "image": 1125
+          }
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "image_sha": "eb07402ec15d40af1f86ae67f68d7e687b676b98b91344338c02877d526ceda2"
+    },
+    {
+      "id": "pdf-04",
+      "first_delta_s": 1.6375271710276138,
+      "first_content_s": 1.6375271710276138,
+      "elapsed_s": 3.0621326850086916,
+      "usage": {
+        "prompt_tokens": 1166,
+        "total_tokens": 1221,
+        "completion_tokens": 55,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "created_cache_tokens": 640,
+          "multimodal_tokens": {
+            "image": 1125
+          }
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "image_sha": "c54869cceae354f979e0c3b14c54ed551f03299a6b04ea3e140e9203097b0f48"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "controller_sha": "c4e3b57ee6240b5dab0f92e06a3077967f7d03b3af6d7945ae46e14e4ed1aac4",
+  "launch_template_sha": "bfcb906dc85164ef538c57e330bea528349f56bfd87897f6df451f30771ad701",
+  "paired_worker_sha": "060812c6e90d39ec24df69281c8c76568fd85ee77474475fcdef79c5a9f36442",
+  "input_manifest_sha": "120bd8af0f6edb0fd866d55e69ad3f0e4a04a6a30481b03df2e5532816baeaf7",
+  "source_manifest_sha": "3479e4b77084a6338a6e99ec69fd88130d9a891da12764f218d0e602dfe811c2",
+  "case_ids": [
+    "pdf-00",
+    "pdf-01",
+    "pdf-02",
+    "pdf-03",
+    "pdf-04"
+  ],
+  "prompt": "请逐行识别图中文字，尽量保持原文阅读顺序；保留数字、英文、公式和标点；只输出识别文字。",
+  "temperature": 0,
+  "seed": 0,
+  "max_tokens": 3072,
+  "thinking": false,
+  "scope": "5-page Torch-WY OCR smoke, no quality/performance acceptance; no native candidate",
+  "action_budget_s": 3000
+}

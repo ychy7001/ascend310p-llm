@@ -1,0 +1,72 @@
+{
+  "scope": "auxiliary OCR smoke metrics only; PDF embedded text may have reading-order and formula encoding errors; no human field ground truth or quality pass threshold",
+  "manual_ground_truth": false,
+  "completed": 5,
+  "cases": [
+    {
+      "id": "pdf-00",
+      "reference_chars": 2213,
+      "recognized_chars": 3074,
+      "normalized_edit_distance": 1357,
+      "auxiliary_cer": 0.6131947582467239,
+      "digit_runs_reference": 112,
+      "digit_runs_recognized": 3,
+      "digit_runs_overlap": 3,
+      "finish_reason": "length",
+      "truncated": true,
+      "response_sha256": "bc4b225e62b85cb40b5fd85d481c6aa3ce1b59d624fd44cbb2a635d8922f8c41"
+    },
+    {
+      "id": "pdf-01",
+      "reference_chars": 1529,
+      "recognized_chars": 1542,
+      "normalized_edit_distance": 32,
+      "auxiliary_cer": 0.020928711576193592,
+      "digit_runs_reference": 26,
+      "digit_runs_recognized": 25,
+      "digit_runs_overlap": 25,
+      "finish_reason": "stop",
+      "truncated": false,
+      "response_sha256": "eabec373a10a906cd1b6ca5da3aec435749c48b18e6594a853d78635fd418600"
+    },
+    {
+      "id": "pdf-02",
+      "reference_chars": 190,
+      "recognized_chars": 225,
+      "normalized_edit_distance": 144,
+      "auxiliary_cer": 0.7578947368421053,
+      "digit_runs_reference": 0,
+      "digit_runs_recognized": 3,
+      "digit_runs_overlap": 0,
+      "finish_reason": "stop",
+      "truncated": false,
+      "response_sha256": "1ffc9a72767e769327d019cebaad054d86068ffe5281a9e64a37699e8f441ec3"
+    },
+    {
+      "id": "pdf-03",
+      "reference_chars": 229,
+      "recognized_chars": 112,
+      "normalized_edit_distance": 202,
+      "auxiliary_cer": 0.8820960698689956,
+      "digit_runs_reference": 0,
+      "digit_runs_recognized": 3,
+      "digit_runs_overlap": 0,
+      "finish_reason": "stop",
+      "truncated": false,
+      "response_sha256": "7f351bfe598719f0e9eeb43a56540f4d71347d1092f5c8a44a2f61efda1bcd97"
+    },
+    {
+      "id": "pdf-04",
+      "reference_chars": 62,
+      "recognized_chars": 118,
+      "normalized_edit_distance": 64,
+      "auxiliary_cer": 1.032258064516129,
+      "digit_runs_reference": 1,
+      "digit_runs_recognized": 3,
+      "digit_runs_overlap": 1,
+      "finish_reason": "stop",
+      "truncated": false,
+      "response_sha256": "a5c69d20ec6504e10ea998a0da8cc177ca6a198d200949a2745b0fb44eaf1cd2"
+    }
+  ]
+}
