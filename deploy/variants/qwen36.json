@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "model_family": "Qwen3.6-35B-A3B",
+  "variants": {
+    "tp1-w4a8": {
+      "status": "existing-production-candidate",
+      "tensor_parallel_size": 1,
+      "weight_format": "W4A8",
+      "mtp": true,
+      "entrypoint": "deploy/image/start.sh",
+      "config": "configs/tp1-profile.sh",
+      "base_lock": "deploy/image/base-amd64.json",
+      "notes": "Preserve the current W4A8/C8/MTP runtime and its existing quality gates."
+    },
+    "tp2-w8a8-wy": {
+      "status": "staging-candidate",
+      "tensor_parallel_size": 2,
+      "weight_format": "W8A8",
+      "mtp": false,
+      "entrypoint": "deploy/image/start-wy.sh",
+      "config": "deploy/qwen36-wy-image.env.example",
+      "base_lock": "deploy/image/base-wy-310p.json",
+      "wy_source": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e",
+      "notes": "Candidate only. Requires the tested 310P custom OPP and PR17640 WY artifacts; no production switch."
+    }
+  }
+}

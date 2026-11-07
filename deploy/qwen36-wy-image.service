@@ -1,0 +1,16 @@
+[Unit]
+Description=Qwen3.6 TP2 W8A8 PR17640 WY staging runtime
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+EnvironmentFile=%h/.config/qwen36-wy-image.env
+ExecStartPre=-/usr/bin/podman rm qwen36-wy-image-managed
+ExecStartPre=/usr/bin/sleep 60
+ExecStart=/usr/bin/podman run --rm --pull=never --name qwen36-wy-image-managed --network host --group-add keep-groups --shm-size 32g --device /dev/davinci0 --device /dev/davinci1 --device /dev/davinci_manager --device /dev/devmm_svm --device /dev/hisi_hdc --env-file %h/.config/qwen36-wy-image.env -v ${MODEL_DIR}:/model:ro -v /usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro -v /usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro -v /usr/local/dcmi:/usr/local/dcmi:ro -v /etc/ascend_install.info:/etc/ascend_install.info:ro ${IMAGE}
+ExecStop=/usr/bin/podman stop -t 90 qwen36-wy-image-managed
+Restart=no
+TimeoutStopSec=120
+
+[Install]
+WantedBy=default.target
