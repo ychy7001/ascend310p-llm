@@ -28,6 +28,11 @@ not a production switch declaration.
 - Concurrency 1/4/8 and PDF repeatability checks passed on the equivalent
   PR17640 candidate.
 - a2 has no residual NPU process after the checks. a1 was not changed.
+- FUNSD labeled smoke (20 images, 183 non-empty linked pairs in the evaluated
+  subset) produced matching JSON-valid counts of `18/20` for Torch and WY,
+  matching field presence of `121/183`, and answer exact-match counts of
+  `62/183` versus `64/183`. This is a non-regression smoke signal, not the
+  final invoice quality gate.
 
 ## Release procedure
 

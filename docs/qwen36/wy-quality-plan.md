@@ -38,3 +38,9 @@ The first public labeled subset is now frozen outside the repository:
 This subset is suitable for the first paired smoke comparison. It is a form
 understanding set rather than a receipt-only set, so it does not replace a
 later invoice/receipt set with amount and tax-field coverage.
+
+The first paired run completed on the locked WY image and the Torch arm. Both
+arms produced parseable JSON for 18/20 images and exposed 121/183 expected
+fields. Answer exact-match counts were Torch 62/183 and WY 64/183. The result
+supports “no observed regression on this smoke subset”; it is too small and
+too form-oriented to authorize production by itself.
