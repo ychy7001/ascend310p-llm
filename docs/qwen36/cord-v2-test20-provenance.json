@@ -1,0 +1,50 @@
+{
+  "dataset": "CORD v2 test",
+  "purpose": "paired receipt amount-field quality smoke for TP2 W8A8 WY staging",
+  "source_repo": "https://huggingface.co/datasets/naver-clova-ix/cord-v2",
+  "source_revision": "7f0115a4b758a71d6473b8d085751692da2fef98",
+  "source_license": "CC BY 4.0",
+  "selection": "first 20 rows returned for the test split",
+  "count": 20,
+  "fields": [
+    "total_price",
+    "cashprice",
+    "creditcardprice",
+    "subtotal_price",
+    "tax_price",
+    "discount_price"
+  ],
+  "manifest_sha256": "6bed04bd346c8d8e629db4bb2e921e002cb4ccb456523d2c16b5a9ef4f5b7424",
+  "evaluation": {
+    "torch": {
+      "valid_json": "20/20",
+      "field_presence": "62/63",
+      "field_exact_match": "56/63",
+      "per_field_exact_match": {
+        "total_price": "17/19",
+        "cashprice": "13/15",
+        "creditcardprice": "4/4",
+        "subtotal_price": "13/14",
+        "tax_price": "7/8",
+        "discount_price": "2/3"
+      }
+    },
+    "wy_locked": {
+      "valid_json": "20/20",
+      "field_presence": "62/63",
+      "field_exact_match": "55/63",
+      "per_field_exact_match": {
+        "total_price": "16/19",
+        "cashprice": "13/15",
+        "creditcardprice": "4/4",
+        "subtotal_price": "13/14",
+        "tax_price": "6/8",
+        "discount_price": "3/3"
+      }
+    }
+  },
+  "manual_reviewed": false,
+  "result_sha256": "2f1991e0825eaa80bd4e8eec64e1a9b53a0fd04663f44581717b96ec53151bc4",
+  "result_path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/pr17640-wy-cord-quality-20261108-v2/summary.json",
+  "startup_note": "The first immediate restart after the SROIE run failed during model startup; a 60-second idle interval and clean rerun passed."
+}

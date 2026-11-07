@@ -49,6 +49,12 @@ not a production switch declaration.
   mismatched numeric fields was `6` versus `7`. This is within the provisional
   one-point engineering delta on this smoke set, but it is still not a
   manually reviewed production gate.
+- CORD v2 receipt amount smoke (20 images, 63 non-empty labeled fields)
+  produced valid JSON `20/20` and field presence `62/63` for both arms.
+  Overall exact-match was `56/63` for Torch and `55/63` for WY; total-price
+  exact-match was `17/19` versus `16/19`, and tax-price exact-match was `7/8`
+  versus `6/8`. This second receipt source shows a one-field delta without a
+  structural failure, but it is also a smoke set rather than manual review.
 
 ## Release procedure
 
