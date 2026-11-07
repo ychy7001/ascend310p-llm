@@ -26,3 +26,15 @@ metrics; retain CER only as a diagnostic signal.
 | Staging | fixed replay | fixed replay | rollback and repeatability pass |
 
 The TP2 WY variant remains staging-only until the paired set is available.
+
+The first public labeled subset is now frozen outside the repository:
+
+- Dataset: FUNSD `testing_data`
+- Subset: 20 images, 336 linked question/answer pairs
+- Archive SHA256: `c31735649e4f441bcbb4fd0f379574f7520b42286e80b01d80b445649d54761f`
+- Subset manifest SHA256: `418c585a3da8cb368f0ff243ac5bf891d24e793cd476e4f8fdf710c213cecb4f`
+- Local manifest: `/home/ychy/workspace/tasks/data/ocr-public/funsd-test20/manifest.json`
+
+This subset is suitable for the first paired smoke comparison. It is a form
+understanding set rather than a receipt-only set, so it does not replace a
+later invoice/receipt set with amount and tax-field coverage.
