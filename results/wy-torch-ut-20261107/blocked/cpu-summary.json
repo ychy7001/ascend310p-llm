@@ -1,0 +1,189 @@
+{
+  "scope": "612 real-input G0 subset; no synthetic H/O or model acceptance",
+  "sets": {
+    "snapshots": {
+      "cases": 120,
+      "candidate_passed": 94,
+      "baseline_passed": 98,
+      "repeat_passed": 120,
+      "qkg_exact": 120,
+      "no_worse": {
+        "q": true,
+        "k": true,
+        "w": false,
+        "u": false,
+        "g": true
+      }
+    },
+    "triggers": {
+      "cases": 12,
+      "candidate_passed": 0,
+      "baseline_passed": 0,
+      "repeat_passed": 12,
+      "qkg_exact": 12,
+      "no_worse": {
+        "q": true,
+        "k": true,
+        "w": false,
+        "u": false,
+        "g": true
+      }
+    },
+    "boundaries": {
+      "cases": 480,
+      "candidate_passed": 403,
+      "baseline_passed": 403,
+      "repeat_passed": 480,
+      "qkg_exact": 480,
+      "no_worse": {
+        "q": true,
+        "k": true,
+        "w": false,
+        "u": false,
+        "g": true
+      }
+    }
+  },
+  "totals": {
+    "snapshots": {
+      "candidate": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.0028449626033639533,
+          "outside": 1
+        },
+        "u": {
+          "squared_error": 0.13598637139491493,
+          "outside": 156
+        },
+        "g": {
+          "squared_error": 6.307268091861587e-05,
+          "outside": 0
+        }
+      },
+      "baseline": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.002064634417046744,
+          "outside": 1
+        },
+        "u": {
+          "squared_error": 0.13106222291157893,
+          "outside": 168
+        },
+        "g": {
+          "squared_error": 6.307268091861587e-05,
+          "outside": 0
+        }
+      }
+    },
+    "triggers": {
+      "candidate": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 9.621811811023884e-05,
+          "outside": 0
+        },
+        "u": {
+          "squared_error": 0.03854694363928689,
+          "outside": 20
+        },
+        "g": {
+          "squared_error": 6.622713445356143e-16,
+          "outside": 0
+        }
+      },
+      "baseline": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 6.980277633702249e-05,
+          "outside": 0
+        },
+        "u": {
+          "squared_error": 0.033227756514698045,
+          "outside": 30
+        },
+        "g": {
+          "squared_error": 6.622713445356143e-16,
+          "outside": 0
+        }
+      }
+    },
+    "boundaries": {
+      "candidate": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.005089283689320257,
+          "outside": 7
+        },
+        "u": {
+          "squared_error": 0.25291647172832427,
+          "outside": 346
+        },
+        "g": {
+          "squared_error": 0.00010467284369826254,
+          "outside": 0
+        }
+      },
+      "baseline": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.003686130283666937,
+          "outside": 2
+        },
+        "u": {
+          "squared_error": 0.24467207672155528,
+          "outside": 319
+        },
+        "g": {
+          "squared_error": 0.00010467284369826254,
+          "outside": 0
+        }
+      }
+    }
+  },
+  "passed": false,
+  "elapsed_s": 24.172483230009675
+}

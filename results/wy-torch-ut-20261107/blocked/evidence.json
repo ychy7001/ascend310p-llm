@@ -1,0 +1,25 @@
+{
+  "decision": "rejected_real_input_g0",
+  "full_model_started": false,
+  "performance_acceptance_started": false,
+  "device_cases": 612,
+  "synchronised_and_queued_repeats_passed": true,
+  "qkg_exact": true,
+  "closed": {
+    "elapsed_s": 38.15928888320923,
+    "container_exit": "0",
+    "error": null,
+    "running_rootless": "",
+    "running_rootful": "",
+    "services": {
+      "primary": "inactive",
+      "image": "inactive"
+    },
+    "cleanup_passed": true
+  },
+  "raw_sha256": {
+    "torch-ut-g0-window-20261107/closed.json": "66c3d95abb493a9125fe4db6ca15547990f431f1264aebcdf2a6a635ea4bc481",
+    "torch-ut-g0-20261107/freeze.json": "94bd56e2743a2e0b082ae920dc651fd0a95795b70ccacb60fcf9ccadb82ad581",
+    "torch-ut-cpu-20261107/summary.json": "e9db0281cc1ed36951176ff8558277f9523e2da86174910004efd76684d0c4c7"
+  }
+}
