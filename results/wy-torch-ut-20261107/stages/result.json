@@ -1,0 +1,162 @@
+{
+  "source_sha": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+  "cases": [
+    {
+      "file": "rank0-call0001.pt",
+      "input_sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f",
+      "shapes": [
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          8,
+          128
+        ],
+        [
+          1,
+          640,
+          16,
+          128
+        ],
+        [
+          1,
+          640,
+          16
+        ],
+        [
+          1,
+          640,
+          16
+        ]
+      ],
+      "plain_ms": [
+        8.733435010071844,
+        8.893187012290582,
+        8.867344004102051
+      ],
+      "stage_median_ms": {
+        "layout_and_cumsum": 0.6264639960136265,
+        "decay": 1.1843520042020828,
+        "gram": 0.390989996958524,
+        "mask": 0.33737599733285606,
+        "ut_rows_and_identity": 7.515064004110172,
+        "wu_apply": 0.630730006378144,
+        "output_cast": 0.2341090003028512
+      },
+      "stage_samples_ms": [
+        {
+          "layout_and_cumsum": 0.6130159890744835,
+          "decay": 1.1921660043299198,
+          "gram": 0.3657100023701787,
+          "mask": 0.48429600428789854,
+          "ut_rows_and_identity": 7.513732009101659,
+          "wu_apply": 0.7780949817970395,
+          "output_cast": 0.2341090003028512
+        },
+        {
+          "layout_and_cumsum": 0.6264639960136265,
+          "decay": 1.1581250000745058,
+          "gram": 0.390989996958524,
+          "mask": 0.33332101884298027,
+          "ut_rows_and_identity": 7.555314979981631,
+          "wu_apply": 0.6255909975152463,
+          "output_cast": 0.24847002350725234
+        },
+        {
+          "layout_and_cumsum": 0.6365360168274492,
+          "decay": 1.1843520042020828,
+          "gram": 0.3925199853256345,
+          "mask": 0.33737599733285606,
+          "ut_rows_and_identity": 7.515064004110172,
+          "wu_apply": 0.630730006378144,
+          "output_cast": 0.22301898570731282
+        }
+      ],
+      "all_outputs_byte_equal": true
+    },
+    {
+      "file": "rank0-call0060.pt",
+      "input_sha": "d87d645ceffefbe9e3fae3fb0c6f3821d0dd999626fa6ba29f36cfce69b6c8d9",
+      "shapes": [
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          8,
+          128
+        ],
+        [
+          1,
+          128,
+          16,
+          128
+        ],
+        [
+          1,
+          128,
+          16
+        ],
+        [
+          1,
+          128,
+          16
+        ]
+      ],
+      "plain_ms": [
+        8.13056799233891,
+        7.969014986883849,
+        7.722220994764939
+      ],
+      "stage_median_ms": {
+        "layout_and_cumsum": 0.31401499290950596,
+        "decay": 0.25962700601667166,
+        "gram": 0.19128702115267515,
+        "mask": 0.28962898068130016,
+        "ut_rows_and_identity": 7.174967002356425,
+        "wu_apply": 0.2503640134818852,
+        "output_cast": 0.11380499927327037
+      },
+      "stage_samples_ms": [
+        {
+          "layout_and_cumsum": 0.33996798447333276,
+          "decay": 0.2767489932011813,
+          "gram": 0.19228100427426398,
+          "mask": 0.32871501753106713,
+          "ut_rows_and_identity": 7.526533998316154,
+          "wu_apply": 0.26300098397769034,
+          "output_cast": 0.1239720149897039
+        },
+        {
+          "layout_and_cumsum": 0.31361900619231164,
+          "decay": 0.25799399008974433,
+          "gram": 0.19128702115267515,
+          "mask": 0.28962898068130016,
+          "ut_rows_and_identity": 7.1471490082331,
+          "wu_apply": 0.2503640134818852,
+          "output_cast": 0.11110299965366721
+        },
+        {
+          "layout_and_cumsum": 0.31401499290950596,
+          "decay": 0.25962700601667166,
+          "gram": 0.1684649905655533,
+          "mask": 0.2538670087233186,
+          "ut_rows_and_identity": 7.174967002356425,
+          "wu_apply": 0.24001699057407677,
+          "output_cast": 0.11380499927327037
+        }
+      ],
+      "all_outputs_byte_equal": true
+    }
+  ],
+  "scope": "synchronised WY stages; boundaries perturb scheduling, stage times are not additive estimates of production time; no G0/G1/performance acceptance"
+}
