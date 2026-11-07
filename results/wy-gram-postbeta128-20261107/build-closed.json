@@ -1,0 +1,24 @@
+{
+  "start_unix_ns": 1794011900828935073,
+  "end_unix_ns": 1794012335359340743,
+  "cleanup_passed": true,
+  "snapshot": {
+    "rootless": {
+      "code": 0,
+      "stdout": ""
+    },
+    "rootful": {
+      "code": 0,
+      "stdout": ""
+    },
+    "primary": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "image": {
+      "code": 3,
+      "stdout": "inactive"
+    }
+  },
+  "error": null
+}

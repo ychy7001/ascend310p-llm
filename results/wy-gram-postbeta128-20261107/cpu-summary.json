@@ -1,0 +1,214 @@
+{
+  "scope": "Raw-K library Gram + FP32 beta postscale vs frozen independent CPU FP32 reference; no model/performance gate",
+  "wy_cases": 612,
+  "sets": {
+    "snapshots": {
+      "cases": 120,
+      "native_passed": 118,
+      "torch_passed": 98,
+      "no_worse_control": {
+        "q": true,
+        "k": true,
+        "w": true,
+        "u": true,
+        "g": false
+      }
+    },
+    "triggers": {
+      "cases": 12,
+      "native_passed": 12,
+      "torch_passed": 0,
+      "no_worse_control": {
+        "q": true,
+        "k": true,
+        "w": true,
+        "u": true,
+        "g": true
+      }
+    },
+    "boundaries": {
+      "cases": 480,
+      "native_passed": 479,
+      "torch_passed": 403,
+      "no_worse_control": {
+        "q": true,
+        "k": true,
+        "w": true,
+        "u": true,
+        "g": false
+      }
+    }
+  },
+  "totals": {
+    "snapshots": {
+      "native": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.0005660010200314943,
+          "outside": 0
+        },
+        "u": {
+          "squared_error": 0.08296969404818344,
+          "outside": 2
+        },
+        "g": {
+          "squared_error": 0.0003810230038000474,
+          "outside": 0
+        }
+      },
+      "torch": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.002064634417046744,
+          "outside": 1
+        },
+        "u": {
+          "squared_error": 0.13106222291157893,
+          "outside": 168
+        },
+        "g": {
+          "squared_error": 6.307268091861587e-05,
+          "outside": 0
+        }
+      }
+    },
+    "triggers": {
+      "native": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 1.0631315242512238e-05,
+          "outside": 0
+        },
+        "u": {
+          "squared_error": 0.002660436903437483,
+          "outside": 0
+        },
+        "g": {
+          "squared_error": 5.7273521862633014e-15,
+          "outside": 0
+        }
+      },
+      "torch": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 6.980277633702249e-05,
+          "outside": 0
+        },
+        "u": {
+          "squared_error": 0.033227756514698045,
+          "outside": 30
+        },
+        "g": {
+          "squared_error": 6.622713445356143e-16,
+          "outside": 0
+        }
+      }
+    },
+    "boundaries": {
+      "native": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.0008886599243504345,
+          "outside": 0
+        },
+        "u": {
+          "squared_error": 0.14896557556273987,
+          "outside": 2
+        },
+        "g": {
+          "squared_error": 0.0005970992344621556,
+          "outside": 0
+        }
+      },
+      "torch": {
+        "q": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "k": {
+          "squared_error": 0.0,
+          "outside": 0
+        },
+        "w": {
+          "squared_error": 0.003686130283666937,
+          "outside": 2
+        },
+        "u": {
+          "squared_error": 0.24467207672155528,
+          "outside": 319
+        },
+        "g": {
+          "squared_error": 0.00010467284369826254,
+          "outside": 0
+        }
+      }
+    }
+  },
+  "synthetic": [
+    {
+      "kind": "summary",
+      "candidate": "native",
+      "namespace": "pr17640_wy",
+      "cases": 15,
+      "passed": 15,
+      "native_calls": 60,
+      "loaded_apis": [
+        "/pair/opp/vendors/hyperqwen_gdn_pair921_transformer/op_api/lib/libcust_opapi.so",
+        "/wy/opp/vendors/hyperqwen_gram_postbeta128_transformer/op_api/lib/libcust_opapi.so"
+      ]
+    },
+    {
+      "kind": "summary",
+      "candidate": "native",
+      "namespace": "pr17640_wy",
+      "cases": 15,
+      "passed": 15,
+      "native_calls": 60,
+      "loaded_apis": [
+        "/pair/opp/vendors/hyperqwen_gdn_pair921_transformer/op_api/lib/libcust_opapi.so",
+        "/wy/opp/vendors/hyperqwen_gram_postbeta128_transformer/op_api/lib/libcust_opapi.so"
+      ]
+    }
+  ],
+  "serial_repeat_passed": true,
+  "queued_repeat_passed": true,
+  "queued_legacy_cases": 132,
+  "candidate_manifest_sha256": "a6aa4c07490bf21343478b2ec5bc87f1680c13a3da7b8330aa090269b5d6abb7",
+  "elapsed_s": 14.55698389094323,
+  "passed": false
+}

@@ -1,0 +1,111 @@
+{
+  "scope": "4 existing outliers, CPU route/RHS model only",
+  "rows": [
+    {
+      "index": 5,
+      "set": "snapshots",
+      "source_sha": "36e046ab5a6d733ae927218c343360623880ab8a10212bf0a12cec58740a7b9f",
+      "file": "wy921-localize-v1/capture/captures/rank0-call0006.pt",
+      "coordinate": [
+        0,
+        8,
+        60,
+        87
+      ],
+      "chunk": 0,
+      "chunk_row": 60,
+      "native": 0.0008902549743652344,
+      "cpu_fp32": 0.0002779460628516972,
+      "tolerance": 0.0005111178616061807,
+      "native_error": 0.0006123089115135372,
+      "postbeta_full_rhs_double_solve_final_half": 0.0002779960632324219,
+      "postbeta_half_rhs_double_solve_final_half": 0.0004127025604248047,
+      "full_rhs_error": 5.00003807246685e-08,
+      "half_rhs_error": 0.00013475649757310748,
+      "max_row_sum_cpu_model": 3.552234172821045,
+      "frob_squared_cpu_model": 7.436882019042969,
+      "predicted_route": "fast_doubling",
+      "route_note": "derived from CPU Gram model; not instrumented device branch trace"
+    },
+    {
+      "index": 80,
+      "set": "snapshots",
+      "source_sha": "01998c88ab13b8a9cb9cd454f55ca0620d51f44fc1c1487c98c593562d87553c",
+      "file": "wy921-localize-v1/capture/captures/rank1-call0021.pt",
+      "coordinate": [
+        0,
+        7,
+        4,
+        10
+      ],
+      "chunk": 0,
+      "chunk_row": 4,
+      "native": -0.0010061264038085938,
+      "cpu_fp32": -0.0016209613531827927,
+      "tolerance": 0.0005648384685628116,
+      "native_error": 0.0006148349493741989,
+      "postbeta_full_rhs_double_solve_final_half": -0.001621246337890625,
+      "postbeta_half_rhs_double_solve_final_half": -0.0010442733764648438,
+      "full_rhs_error": 2.849847078323364e-07,
+      "half_rhs_error": 0.0005766879767179489,
+      "max_row_sum_cpu_model": 2.171999454498291,
+      "frob_squared_cpu_model": 3.316509246826172,
+      "predicted_route": "fast_doubling",
+      "route_note": "derived from CPU Gram model; not instrumented device branch trace"
+    },
+    {
+      "index": 452,
+      "set": "boundaries",
+      "source_sha": "e01c557d1a781d271d18e275ff9f80ecc971facc9f76e19dff59f256e8dbe0e9",
+      "file": "wy-boundary-20261106/capture/B/captures/rank1-0241-WY.pt",
+      "coordinate": [
+        0,
+        7,
+        22,
+        10
+      ],
+      "chunk": 0,
+      "chunk_row": 22,
+      "native": -0.0007863044738769531,
+      "cpu_fp32": -0.0016037692548707128,
+      "tolerance": 0.0005641508032567799,
+      "native_error": 0.0008174647809937596,
+      "postbeta_full_rhs_double_solve_final_half": -0.0016040802001953125,
+      "postbeta_half_rhs_double_solve_final_half": -0.0010204315185546875,
+      "full_rhs_error": 3.109453245997429e-07,
+      "half_rhs_error": 0.0005833377363160253,
+      "max_row_sum_cpu_model": 2.2435991764068604,
+      "frob_squared_cpu_model": 3.457324981689453,
+      "predicted_route": "fast_doubling",
+      "route_note": "derived from CPU Gram model; not instrumented device branch trace"
+    },
+    {
+      "index": 452,
+      "set": "boundaries",
+      "source_sha": "e01c557d1a781d271d18e275ff9f80ecc971facc9f76e19dff59f256e8dbe0e9",
+      "file": "wy-boundary-20261106/capture/B/captures/rank1-0241-WY.pt",
+      "coordinate": [
+        0,
+        7,
+        43,
+        10
+      ],
+      "chunk": 0,
+      "chunk_row": 43,
+      "native": 0.004695892333984375,
+      "cpu_fp32": 0.003938008565455675,
+      "tolerance": 0.000657520373351872,
+      "native_error": 0.0007578837685286999,
+      "postbeta_full_rhs_double_solve_final_half": 0.003936767578125,
+      "postbeta_half_rhs_double_solve_final_half": 0.004207611083984375,
+      "full_rhs_error": 1.2409873306751251e-06,
+      "half_rhs_error": 0.0002696025185286999,
+      "max_row_sum_cpu_model": 2.2435991764068604,
+      "frob_squared_cpu_model": 3.457324981689453,
+      "predicted_route": "fast_doubling",
+      "route_note": "derived from CPU Gram model; not instrumented device branch trace"
+    }
+  ],
+  "elapsed_s": 0.14074934693053365,
+  "script_sha": "d13db412a342b4ecdab2c5fa2c75d794b11a84d8d9d56b6a9df95fe44014c11f"
+}

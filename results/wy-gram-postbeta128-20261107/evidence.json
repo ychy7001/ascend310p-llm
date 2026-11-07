@@ -1,0 +1,33 @@
+{
+  "files": {
+    "build-closed.json": "47c6addb743e9cb7d0576e5d5f64a18e0cabccdd8cb65a46b0d1790594e1ee58",
+    "build-gram-postbeta128.py": "7655065887546651b46ccea4388ce84ee9708063e87f1611eb559c3d85d4c393",
+    "incomplete-queued-repeat.json": "c71d5ca625247f5f39b31f7002ba7f76c300dde0f57be9c7813ca12d818cbf4f",
+    "incomplete-window-closed.json": "4fea6b551ac84859e2d0568d16fadf087522f0f2a0de4ac1091846431e1d1569",
+    "residual-summary.json": "e5e0eee05e702f5212c5e4211bdd865762e9edb5198a7a35695c7fa945b7b436",
+    "analyze-postbeta-residual.py": "d13db412a342b4ecdab2c5fa2c75d794b11a84d8d9d56b6a9df95fe44014c11f",
+    "source-provenance.json": "f53287de50b2dd6bba36a900f9c24275384d4766302018255698276462c533ef",
+    "device-freeze.json": "dacc4eebe238ac144934e5c4e7e1646b26f82e828ce3e45eb16d0a071c1dc5c9",
+    "run-g0-fixed-inputs.py": "dae37e052475b03ce1c43c567252ebb13064a614d699fe825b3f3c61e7a05bff",
+    "queued-repeat.json": "e383b44dcdb9645adc07c0a7bde1deb7bdbe399570d5401d95600778a993e516",
+    "device-closed.json": "929b3576bdcdfd089d60346b03c059bc97df68dafb9cead01739b22db524e7bb",
+    "analyze-gram-postbeta128-g0.py": "3493f0bb7d769638a01b9101e15ef749a71d91d2020ae8837e470addbc9d5fb0",
+    "patch_pr17640_wy_gram_postbeta128.py": "be29435af625bca32e6e7842fba7ac60c642495b0b87d742139afcf11b1117b5",
+    "operator-artifacts.json": "a6aa4c07490bf21343478b2ec5bc87f1680c13a3da7b8330aa090269b5d6abb7",
+    "cpu-summary.json": "86eee99c861f27df86d01955e2af34e60fdbe8d6f3e331e6f6deaa9dac50edeb",
+    "tools/check_native_wy.py": "96fc9c8b82575e957d43c0e956ebe0f81dbe91d343312c89394746eec0a364ac",
+    "tools/native_wy.py": "8a105de5d5ac6241785e3fd685a03843c081911ca0df148d8a2bdbd522272627",
+    "tools/replay-g0-wy.py": "8fcadb260057ff75ee50b5d469187f6d8108706ef7ee5c92a69d48dfece72458",
+    "tools/replay-guarded-boundaries.py": "d727ef750dfd3880af0a09310894ae1cec12f1a486cd9da6758facecb61232a2",
+    "tools/check-wy4-gdn.py": "b003e9f19186a0b71093ccaabacbdd3d4d0a7a0149116e5ed61796a1470c2e2c",
+    "tools/check-wy-queued-fixed-inputs.py": "8470e7de35e5e9977ae4f81eec5a7a5fa9949e762a0c87a2b2360dc965c385b8"
+  },
+  "cpu_rows_sha": "2e2eae84affa7ebdcb6b3ceccdb9fcca9ea291eea3268ca8c63c8ccd1550fc4a",
+  "device_serial_rows_sha": "2b8992532fcb33fd8633858a1b6179ff07ab1621bbf297bd0f470ec7b4737094",
+  "device_boundary_rows_sha": "b5ca3045088297fa28aecc99ed4ef68c75d8c42906d1d3eee35448039e2a1bb8",
+  "raw_tensors_and_logs_kept_outside_git": true,
+  "cpu_gate_exit_code": 1,
+  "residual_cpu_exit_code": 0,
+  "cpu_container_cleared": true,
+  "cpu_lock_reacquired": true
+}

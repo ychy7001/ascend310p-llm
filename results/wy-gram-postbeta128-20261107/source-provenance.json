@@ -1,0 +1,7 @@
+{
+  "commit": "18163f6b1d208ab3b4fb06e9752225611c37f40e",
+  "image": "d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a",
+  "original_kernel_git_blob": "6b2f061fc8d3440bf0942a36c17196181d1d3f8e",
+  "patched_kernel_sha256": "5a0d155954bfb5c9965cddbaca87a79ee094ee389ee1152c6afea406a193c40d",
+  "scope": "K/V=128 raw-K library Gram followed by FP32 beta; no betaK half quantization in Gram; solve and W/U apply unchanged; no device during build"
+}
