@@ -1,0 +1,405 @@
+{
+  "scope": "CPU Gram-rounding model only; actual gate from previously rejected library-Gram output; double solve and final half; not a device implementation or gate",
+  "sets": {
+    "snapshots": {
+      "cases": 120,
+      "comparisons": {
+        "full_fp64/device_torch": {
+          "w": {
+            "squared_error": 0.0020646315166894225,
+            "outside": 1,
+            "elements": 94371840,
+            "cases_outside": 1,
+            "max_abs": 0.0006599420408009305
+          },
+          "u": {
+            "squared_error": 0.13106033625683147,
+            "outside": 168,
+            "elements": 94371840,
+            "cases_outside": 21,
+            "max_abs": 0.015753120337602233
+          }
+        },
+        "full_fp64/device_library_gram": {
+          "w": {
+            "squared_error": 0.000713601545232439,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00031424163961425895
+          },
+          "u": {
+            "squared_error": 0.08700005796255056,
+            "outside": 25,
+            "elements": 94371840,
+            "cases_outside": 9,
+            "max_abs": 0.008115764650597157
+          }
+        },
+        "full_fp64/model_half_kbeta_gram_final_half": {
+          "w": {
+            "squared_error": 0.000604804215539089,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00031424163961425895
+          },
+          "u": {
+            "squared_error": 0.057215061472732434,
+            "outside": 22,
+            "elements": 94371840,
+            "cases_outside": 7,
+            "max_abs": 0.0075003146069114734
+          }
+        },
+        "full_fp64/model_raw_k_gram_then_beta_final_half": {
+          "w": {
+            "squared_error": 0.00045676807076040744,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00024399361887339488
+          },
+          "u": {
+            "squared_error": 0.05283938066457504,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0075003146069114734
+          }
+        },
+        "device_library_gram/device_torch": {
+          "w": {
+            "squared_error": 0.00201348649054367,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0005340576171875
+          },
+          "u": {
+            "squared_error": 0.06154194697459303,
+            "outside": 148,
+            "elements": 94371840,
+            "cases_outside": 21,
+            "max_abs": 0.015625
+          }
+        },
+        "device_library_gram/device_library_gram": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          }
+        },
+        "device_library_gram/model_half_kbeta_gram_final_half": {
+          "w": {
+            "squared_error": 0.00022812067093624933,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00048828125
+          },
+          "u": {
+            "squared_error": 0.07747854453693037,
+            "outside": 2,
+            "elements": 94371840,
+            "cases_outside": 2,
+            "max_abs": 0.0078125
+          }
+        },
+        "device_library_gram/model_raw_k_gram_then_beta_final_half": {
+          "w": {
+            "squared_error": 0.0005819166085565541,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00048828125
+          },
+          "u": {
+            "squared_error": 0.08787180633763114,
+            "outside": 23,
+            "elements": 94371840,
+            "cases_outside": 9,
+            "max_abs": 0.0078125
+          }
+        }
+      }
+    },
+    "triggers": {
+      "cases": 12,
+      "comparisons": {
+        "full_fp64/device_torch": {
+          "w": {
+            "squared_error": 6.980334285560252e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00038618684406604986
+          },
+          "u": {
+            "squared_error": 0.033225747192955915,
+            "outside": 30,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.02456381929631135
+          }
+        },
+        "full_fp64/device_library_gram": {
+          "w": {
+            "squared_error": 2.0316242322368138e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641557113238896
+          },
+          "u": {
+            "squared_error": 0.005426552595674314,
+            "outside": 12,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.011922010252725102
+          }
+        },
+        "full_fp64/model_half_kbeta_gram_final_half": {
+          "w": {
+            "squared_error": 2.03208302492838e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641557113238896
+          },
+          "u": {
+            "squared_error": 0.005426551805474957,
+            "outside": 12,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.011922010252725102
+          }
+        },
+        "full_fp64/model_raw_k_gram_then_beta_final_half": {
+          "w": {
+            "squared_error": 1.0631478453166208e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641557113238896
+          },
+          "u": {
+            "squared_error": 0.0026600749526162325,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.011922010252725102
+          }
+        },
+        "device_library_gram/device_torch": {
+          "w": {
+            "squared_error": 7.122174248763713e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00048828125
+          },
+          "u": {
+            "squared_error": 0.030630285369099397,
+            "outside": 16,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.0234375
+          }
+        },
+        "device_library_gram/device_library_gram": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          }
+        },
+        "device_library_gram/model_half_kbeta_gram_final_half": {
+          "w": {
+            "squared_error": 5.9581623190752e-08,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 6.103515625e-05
+          },
+          "u": {
+            "squared_error": 6.684935272005532e-09,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.52587890625e-05
+          }
+        },
+        "device_library_gram/model_raw_k_gram_then_beta_final_half": {
+          "w": {
+            "squared_error": 1.9228218590683355e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.000244140625
+          },
+          "u": {
+            "squared_error": 0.005180862410611553,
+            "outside": 12,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.015625
+          }
+        }
+      }
+    },
+    "boundaries": {
+      "cases": 480,
+      "comparisons": {
+        "full_fp64/device_torch": {
+          "w": {
+            "squared_error": 0.003686125450746466,
+            "outside": 2,
+            "elements": 180879360,
+            "cases_outside": 2,
+            "max_abs": 0.0006588486698512024
+          },
+          "u": {
+            "squared_error": 0.24467334332500926,
+            "outside": 319,
+            "elements": 180879360,
+            "cases_outside": 76,
+            "max_abs": 0.015915786969316503
+          }
+        },
+        "full_fp64/device_library_gram": {
+          "w": {
+            "squared_error": 0.001180393834944708,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00035811189694501255
+          },
+          "u": {
+            "squared_error": 0.15716314305584264,
+            "outside": 25,
+            "elements": 180879360,
+            "cases_outside": 22,
+            "max_abs": 0.008719163649265838
+          }
+        },
+        "full_fp64/model_half_kbeta_gram_final_half": {
+          "w": {
+            "squared_error": 0.0010437620229730444,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.000349642305292594
+          },
+          "u": {
+            "squared_error": 0.10470238698857841,
+            "outside": 20,
+            "elements": 180879360,
+            "cases_outside": 18,
+            "max_abs": 0.008610925856288532
+          }
+        },
+        "full_fp64/model_raw_k_gram_then_beta_final_half": {
+          "w": {
+            "squared_error": 0.0007527309264966666,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00024413073888762682
+          },
+          "u": {
+            "squared_error": 0.09627501739156374,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.007014074143711468
+          }
+        },
+        "device_library_gram/device_torch": {
+          "w": {
+            "squared_error": 0.0036246412853415677,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00060272216796875
+          },
+          "u": {
+            "squared_error": 0.11938567815420242,
+            "outside": 274,
+            "elements": 180879360,
+            "cases_outside": 68,
+            "max_abs": 0.015625
+          }
+        },
+        "device_library_gram/device_library_gram": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          }
+        },
+        "device_library_gram/model_half_kbeta_gram_final_half": {
+          "w": {
+            "squared_error": 0.0002774266842457962,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00048828125
+          },
+          "u": {
+            "squared_error": 0.13765733420810022,
+            "outside": 2,
+            "elements": 180879360,
+            "cases_outside": 2,
+            "max_abs": 0.0078125
+          }
+        },
+        "device_library_gram/model_raw_k_gram_then_beta_final_half": {
+          "w": {
+            "squared_error": 0.0009327492009205685,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00048828125
+          },
+          "u": {
+            "squared_error": 0.15744706356298366,
+            "outside": 24,
+            "elements": 180879360,
+            "cases_outside": 21,
+            "max_abs": 0.015625
+          }
+        }
+      }
+    }
+  },
+  "elapsed_s": 41.799023195169866
+}

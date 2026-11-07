@@ -1,0 +1,597 @@
+{
+  "scope": "CPU FP64 diagnostic only; existing FP32 oracle/gate unchanged; library-Gram is previously rejected candidate, not original native",
+  "sets": {
+    "snapshots": {
+      "cases": 120,
+      "comparisons": {
+        "full_fp64/cpu_fp32": {
+          "w": {
+            "squared_error": 8.927018030888418e-10,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 3.296206166347737e-07
+          },
+          "u": {
+            "squared_error": 6.3322985198971e-08,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 2.6603739854191844e-05
+          }
+        },
+        "full_fp64/coeff32_solve64": {
+          "w": {
+            "squared_error": 6.966291541204804e-10,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 2.91882376050618e-07
+          },
+          "u": {
+            "squared_error": 5.367663630082745e-08,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 2.6739162038769138e-05
+          }
+        },
+        "full_fp64/fp64_final_half": {
+          "w": {
+            "squared_error": 0.00045676779262481616,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00024399361887339488
+          },
+          "u": {
+            "squared_error": 0.052839357350671856,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0075003146069114734
+          }
+        },
+        "full_fp64/coeff32_half_u_solve64": {
+          "w": {
+            "squared_error": 6.966291541204804e-10,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 2.91882376050618e-07
+          },
+          "u": {
+            "squared_error": 0.08672280482501278,
+            "outside": 103,
+            "elements": 94371840,
+            "cases_outside": 15,
+            "max_abs": 0.009894181136581137
+          }
+        },
+        "full_fp64/device_torch": {
+          "w": {
+            "squared_error": 0.0020646315166894225,
+            "outside": 1,
+            "elements": 94371840,
+            "cases_outside": 1,
+            "max_abs": 0.0006599420408009305
+          },
+          "u": {
+            "squared_error": 0.13106033625683147,
+            "outside": 168,
+            "elements": 94371840,
+            "cases_outside": 21,
+            "max_abs": 0.015753120337602233
+          }
+        },
+        "full_fp64/device_library_gram": {
+          "w": {
+            "squared_error": 0.000713601545232439,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00031424163961425895
+          },
+          "u": {
+            "squared_error": 0.08700005796255056,
+            "outside": 25,
+            "elements": 94371840,
+            "cases_outside": 9,
+            "max_abs": 0.008115764650597157
+          }
+        },
+        "coeff32_solve64/cpu_fp32": {
+          "w": {
+            "squared_error": 1.9679783192841716e-10,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 2.554717388608685e-07
+          },
+          "u": {
+            "squared_error": 9.619328765165226e-09,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 8.988843106294553e-06
+          }
+        },
+        "coeff32_solve64/coeff32_solve64": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          }
+        },
+        "coeff32_solve64/fp64_final_half": {
+          "w": {
+            "squared_error": 0.000456767956582001,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00024396181106567383
+          },
+          "u": {
+            "squared_error": 0.05283958029444813,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.007500532771587132
+          }
+        },
+        "coeff32_solve64/coeff32_half_u_solve64": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.08672410754163672,
+            "outside": 103,
+            "elements": 94371840,
+            "cases_outside": 15,
+            "max_abs": 0.009893663143284437
+          }
+        },
+        "coeff32_solve64/device_torch": {
+          "w": {
+            "squared_error": 0.0020646337927830213,
+            "outside": 1,
+            "elements": 94371840,
+            "cases_outside": 1,
+            "max_abs": 0.0006598120230769215
+          },
+          "u": {
+            "squared_error": 0.13106202338780037,
+            "outside": 168,
+            "elements": 94371840,
+            "cases_outside": 21,
+            "max_abs": 0.01575371361817357
+          }
+        },
+        "coeff32_solve64/device_library_gram": {
+          "w": {
+            "squared_error": 0.0007136018642086469,
+            "outside": 0,
+            "elements": 94371840,
+            "cases_outside": 0,
+            "max_abs": 0.00031420303065603054
+          },
+          "u": {
+            "squared_error": 0.08700153940097034,
+            "outside": 25,
+            "elements": 94371840,
+            "cases_outside": 9,
+            "max_abs": 0.008113005026681108
+          }
+        }
+      }
+    },
+    "triggers": {
+      "cases": 12,
+      "comparisons": {
+        "full_fp64/cpu_fp32": {
+          "w": {
+            "squared_error": 3.4034564716629205e-11,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.697978625064822e-07
+          },
+          "u": {
+            "squared_error": 1.3140925684587585e-08,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.6531959236232296e-05
+          }
+        },
+        "full_fp64/coeff32_solve64": {
+          "w": {
+            "squared_error": 2.592853871101986e-11,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.3449694628853148e-07
+          },
+          "u": {
+            "squared_error": 7.748247573936803e-09,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.4654427325400121e-05
+          }
+        },
+        "full_fp64/fp64_final_half": {
+          "w": {
+            "squared_error": 1.063147155351887e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641557113238896
+          },
+          "u": {
+            "squared_error": 0.0026600749519364655,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.011922010252725102
+          }
+        },
+        "full_fp64/coeff32_half_u_solve64": {
+          "w": {
+            "squared_error": 2.592853871101986e-11,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.3449694628853148e-07
+          },
+          "u": {
+            "squared_error": 0.017383956105797273,
+            "outside": 20,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.01645530876078327
+          }
+        },
+        "full_fp64/device_torch": {
+          "w": {
+            "squared_error": 6.980334285560252e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00038618684406604986
+          },
+          "u": {
+            "squared_error": 0.033225747192955915,
+            "outside": 30,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.02456381929631135
+          }
+        },
+        "full_fp64/device_library_gram": {
+          "w": {
+            "squared_error": 2.0316242322368138e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641557113238896
+          },
+          "u": {
+            "squared_error": 0.005426552595674314,
+            "outside": 12,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.011922010252725102
+          }
+        },
+        "coeff32_solve64/cpu_fp32": {
+          "w": {
+            "squared_error": 8.6184299359277e-12,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.5600138529581198e-07
+          },
+          "u": {
+            "squared_error": 6.676536521902327e-09,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 1.5766503053349368e-05
+          }
+        },
+        "coeff32_solve64/coeff32_solve64": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          }
+        },
+        "coeff32_solve64/fp64_final_half": {
+          "w": {
+            "squared_error": 1.0631263248833021e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641862016752444
+          },
+          "u": {
+            "squared_error": 0.0026602055104347952,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.011922751667512443
+          }
+        },
+        "coeff32_solve64/coeff32_half_u_solve64": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.01738444784176839,
+            "outside": 20,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.016450593603151376
+          }
+        },
+        "coeff32_solve64/device_torch": {
+          "w": {
+            "squared_error": 6.980214746477228e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.0003862332424381387
+          },
+          "u": {
+            "squared_error": 0.03322623294095903,
+            "outside": 30,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.02456787180270581
+          }
+        },
+        "coeff32_solve64/device_library_gram": {
+          "w": {
+            "squared_error": 2.031475748262138e-05,
+            "outside": 0,
+            "elements": 98304,
+            "cases_outside": 0,
+            "max_abs": 0.00021641862016752444
+          },
+          "u": {
+            "squared_error": 0.00542763840155878,
+            "outside": 12,
+            "elements": 98304,
+            "cases_outside": 12,
+            "max_abs": 0.011922751667512443
+          }
+        }
+      }
+    },
+    "boundaries": {
+      "cases": 480,
+      "comparisons": {
+        "full_fp64/cpu_fp32": {
+          "w": {
+            "squared_error": 1.6371301891182033e-09,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 4.2237902670924643e-07
+          },
+          "u": {
+            "squared_error": 1.1706182641804406e-07,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 2.7006002586205113e-05
+          }
+        },
+        "full_fp64/coeff32_solve64": {
+          "w": {
+            "squared_error": 1.2870256390508693e-09,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 3.8903869192981333e-07
+          },
+          "u": {
+            "squared_error": 9.941046886374917e-08,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 2.653808575026062e-05
+          }
+        },
+        "full_fp64/fp64_final_half": {
+          "w": {
+            "squared_error": 0.0007527303291697875,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00024413073888762682
+          },
+          "u": {
+            "squared_error": 0.09627498817017252,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.007014074143711468
+          }
+        },
+        "full_fp64/coeff32_half_u_solve64": {
+          "w": {
+            "squared_error": 1.2870256390508693e-09,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 3.8903869192981333e-07
+          },
+          "u": {
+            "squared_error": 0.16181425701906352,
+            "outside": 224,
+            "elements": 180879360,
+            "cases_outside": 49,
+            "max_abs": 0.010372011207353538
+          }
+        },
+        "full_fp64/device_torch": {
+          "w": {
+            "squared_error": 0.003686125450746466,
+            "outside": 2,
+            "elements": 180879360,
+            "cases_outside": 2,
+            "max_abs": 0.0006588486698512024
+          },
+          "u": {
+            "squared_error": 0.24467334332500926,
+            "outside": 319,
+            "elements": 180879360,
+            "cases_outside": 76,
+            "max_abs": 0.015915786969316503
+          }
+        },
+        "full_fp64/device_library_gram": {
+          "w": {
+            "squared_error": 0.001180393834944708,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00035811189694501255
+          },
+          "u": {
+            "squared_error": 0.15716314305584264,
+            "outside": 25,
+            "elements": 180879360,
+            "cases_outside": 22,
+            "max_abs": 0.008719163649265838
+          }
+        },
+        "coeff32_solve64/cpu_fp32": {
+          "w": {
+            "squared_error": 3.5062242505041053e-10,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 3.284554629325205e-07
+          },
+          "u": {
+            "squared_error": 1.806476923159836e-08,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 9.674340521848013e-06
+          }
+        },
+        "coeff32_solve64/coeff32_solve64": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          }
+        },
+        "coeff32_solve64/fp64_final_half": {
+          "w": {
+            "squared_error": 0.0007527315367394634,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.000244140625
+          },
+          "u": {
+            "squared_error": 0.09627510984509814,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.0070134972045963195
+          }
+        },
+        "coeff32_solve64/coeff32_half_u_solve64": {
+          "w": {
+            "squared_error": 0.0,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.0
+          },
+          "u": {
+            "squared_error": 0.16181432856439365,
+            "outside": 223,
+            "elements": 180879360,
+            "cases_outside": 49,
+            "max_abs": 0.01037303916221255
+          }
+        },
+        "coeff32_solve64/device_torch": {
+          "w": {
+            "squared_error": 0.0036861298067979364,
+            "outside": 2,
+            "elements": 180879360,
+            "cases_outside": 2,
+            "max_abs": 0.0006588555655712251
+          },
+          "u": {
+            "squared_error": 0.24467262119589933,
+            "outside": 319,
+            "elements": 180879360,
+            "cases_outside": 76,
+            "max_abs": 0.01591595691819958
+          }
+        },
+        "coeff32_solve64/device_library_gram": {
+          "w": {
+            "squared_error": 0.0011803971244109754,
+            "outside": 0,
+            "elements": 180879360,
+            "cases_outside": 0,
+            "max_abs": 0.00035811994458434526
+          },
+          "u": {
+            "squared_error": 0.1571620094907715,
+            "outside": 25,
+            "elements": 180879360,
+            "cases_outside": 22,
+            "max_abs": 0.008719293004876505
+          }
+        }
+      }
+    }
+  },
+  "elapsed_s": 58.25453180912882
+}

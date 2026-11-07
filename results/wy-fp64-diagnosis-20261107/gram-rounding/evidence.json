@@ -1,0 +1,11 @@
+{
+  "script_sha": "10c07c931dc772ababdbc303d91b2fd97fb95504daac583cc3254a734e6e0ad5",
+  "summary_sha": "d01345d01de815651ebcc29ab0a5615274d6959e10de6b2521c6943520eca08b",
+  "provenance_sha": "541623a5ad759af38db7921b6da26537f0976523f495036c780064b9343b520d",
+  "raw_rows_sha": "eac573719789ebffc602f460f01a7cf2f42a0ce703c2ac164d6902e990d68cc3",
+  "raw_rows_not_archived": true,
+  "exit_code": 0,
+  "device_used": false,
+  "cpu_container_cleared": true,
+  "cpu_lock_reacquired": true
+}
