@@ -1,0 +1,114 @@
+{
+  "cases": 612,
+  "repeat_passed": true,
+  "qkg_exact": true,
+  "all_outputs_exact": true,
+  "status": "baseline_identity_pass_not_absolute_G0",
+  "captures": [
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        16,
+        10,
+        64,
+        64
+      ],
+      "capture_s": 0.0065575530170463026,
+      "allocated_bytes": 34235904,
+      "reserved_bytes": 69206016
+    },
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        16,
+        2,
+        64,
+        64
+      ],
+      "capture_s": 0.003267427993705496,
+      "allocated_bytes": 36603904,
+      "reserved_bytes": 115343360
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        16,
+        10,
+        64,
+        64
+      ],
+      "capture_s": 0.0038422030047513545,
+      "allocated_bytes": 34235904,
+      "reserved_bytes": 69206016
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        16,
+        2,
+        64,
+        64
+      ],
+      "capture_s": 0.003332404972752556,
+      "allocated_bytes": 36602368,
+      "reserved_bytes": 115343360
+    },
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        1,
+        1,
+        64,
+        64
+      ],
+      "capture_s": 0.0032953879854176193,
+      "allocated_bytes": 6519296,
+      "reserved_bytes": 54525952
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        1,
+        1,
+        64,
+        64
+      ],
+      "capture_s": 0.003201415005605668,
+      "allocated_bytes": 6519296,
+      "reserved_bytes": 54525952
+    },
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        16,
+        3,
+        64,
+        64
+      ],
+      "capture_s": 0.0032007439876906574,
+      "allocated_bytes": 16607744,
+      "reserved_bytes": 62914560
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        16,
+        3,
+        64,
+        64
+      ],
+      "capture_s": 0.003253656002925709,
+      "allocated_bytes": 16607744,
+      "reserved_bytes": 62914560
+    }
+  ],
+  "cache_entries": 8
+}

@@ -1,0 +1,538 @@
+{
+  "scope": "operator timing diagnostic only, not model/production performance acceptance; 3840 token inputs repeat existing independent 64-token chunks and are synthetic",
+  "baseline_sha": "4f10c88e13739df03544c594f0cf49b9762c3d3d1f567348767b52e73a49126f",
+  "candidate_sha": "4d4adae19d45ec2ea05b5ebe3b7ef10a42a69abbd011cfa37c318e96c50d8e86",
+  "cases": [
+    {
+      "rank": 0,
+      "tokens": 128,
+      "source": "rank0-call0031.pt",
+      "input_sha": "36f21e88bffa55416ef35b099b8caa364890e979deb8d59b208a95e0364745a5",
+      "repeat_factor": 1,
+      "synthetic": false,
+      "byte_equal_repeats": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 3.781497399904765,
+          "graph": 2.143436300684698,
+          "speedup": 1.7642219639075842
+        },
+        {
+          "graph": 2.133879199391231,
+          "baseline": 7.183130699559115,
+          "speedup": 3.3662311819752366
+        },
+        {
+          "baseline": 2.6559250021819025,
+          "graph": 2.1247898024739698,
+          "speedup": 1.2499707025558542
+        },
+        {
+          "graph": 2.153413198539056,
+          "baseline": 3.8736910006264225,
+          "speedup": 1.7988609911253715
+        },
+        {
+          "baseline": 2.9281005990924314,
+          "graph": 2.1326751011656597,
+          "speedup": 1.3729707809183005
+        },
+        {
+          "graph": 2.11693879973609,
+          "baseline": 2.7053016994614154,
+          "speedup": 1.2779309915802357
+        },
+        {
+          "baseline": 2.7323818008881062,
+          "graph": 2.1564097987720743,
+          "speedup": 1.2670976557628368
+        },
+        {
+          "graph": 2.127493600710295,
+          "baseline": 2.933530800510198,
+          "speedup": 1.3788670384394084
+        }
+      ],
+      "median_speedup": 1.3759189096788544,
+      "faster_pairs": 8
+    },
+    {
+      "rank": 0,
+      "tokens": 640,
+      "source": "rank0-call0001.pt",
+      "input_sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f",
+      "repeat_factor": 1,
+      "synthetic": false,
+      "byte_equal_repeats": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 6.428314198274165,
+          "graph": 6.283535098191351,
+          "speedup": 1.0230410267183019
+        },
+        {
+          "graph": 6.272232401533984,
+          "baseline": 6.370086400420405,
+          "speedup": 1.0156011436793204
+        },
+        {
+          "baseline": 6.345425301697105,
+          "graph": 6.294580100802705,
+          "speedup": 1.0080776159934666
+        },
+        {
+          "graph": 6.285849801497534,
+          "baseline": 6.3379105005878955,
+          "speedup": 1.0082822053874019
+        },
+        {
+          "baseline": 6.485121900914237,
+          "graph": 6.288829501136206,
+          "speedup": 1.0312128671547809
+        },
+        {
+          "graph": 6.278042501071468,
+          "baseline": 6.3936847989680246,
+          "speedup": 1.0184201202646876
+        },
+        {
+          "baseline": 6.409574800636619,
+          "graph": 6.295902500278316,
+          "speedup": 1.0180549651703275
+        },
+        {
+          "graph": 6.295671101543121,
+          "baseline": 6.377642799634486,
+          "speedup": 1.0130203272644394
+        }
+      ],
+      "median_speedup": 1.016828054424824,
+      "faster_pairs": 8
+    },
+    {
+      "rank": 0,
+      "tokens": 3840,
+      "source": "rank0-call0001.pt",
+      "input_sha": "d8536e147e32c0da8a411f7000deb9c63894352bae712d221ff8bfed922d9b9f",
+      "repeat_factor": 6,
+      "synthetic": true,
+      "byte_equal_repeats": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 36.521931999595836,
+          "graph": 36.68679030088242,
+          "speedup": 0.9955063307546254
+        },
+        {
+          "graph": 36.68553710158449,
+          "baseline": 36.5176507999422,
+          "speedup": 0.9954236378991155
+        },
+        {
+          "baseline": 36.543958602123894,
+          "graph": 36.696241301251575,
+          "speedup": 0.9958501826419348
+        },
+        {
+          "graph": 36.696312300045975,
+          "baseline": 36.524795499281026,
+          "speedup": 0.9953260480409435
+        },
+        {
+          "baseline": 36.480948599637486,
+          "graph": 36.705567498574965,
+          "speedup": 0.9938805223772607
+        },
+        {
+          "graph": 36.69119419937488,
+          "baseline": 36.53775060083717,
+          "speedup": 0.9958179720806056
+        },
+        {
+          "baseline": 36.57041479891632,
+          "graph": 36.666159000014886,
+          "speedup": 0.9973887583616672
+        },
+        {
+          "graph": 36.65314610116184,
+          "baseline": 36.47818400058895,
+          "speedup": 0.9952265461717804
+        }
+      ],
+      "median_speedup": 0.9954649843268704,
+      "faster_pairs": 0
+    },
+    {
+      "rank": 1,
+      "tokens": 128,
+      "source": "rank1-call0031.pt",
+      "input_sha": "f5cf8849a1aa364d3e265ade401ac15bd38f03bebfec7488c11b6d20f3a0e9c8",
+      "repeat_factor": 1,
+      "synthetic": false,
+      "byte_equal_repeats": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 2.59089210012462,
+          "graph": 2.2157172992592677,
+          "speedup": 1.1693243091033212
+        },
+        {
+          "graph": 2.1810279024066404,
+          "baseline": 2.6662876014597714,
+          "speedup": 1.2224912842782407
+        },
+        {
+          "baseline": 2.601036199484952,
+          "graph": 2.216757897986099,
+          "speedup": 1.173351497629924
+        },
+        {
+          "graph": 2.1645027009071782,
+          "baseline": 2.585578599246219,
+          "speedup": 1.1945370168226452
+        },
+        {
+          "baseline": 2.586922698537819,
+          "graph": 2.1962828002870083,
+          "speedup": 1.1778641157685896
+        },
+        {
+          "graph": 2.171584899770096,
+          "baseline": 2.5748540996573865,
+          "speedup": 1.1857027095417658
+        },
+        {
+          "baseline": 2.71559749962762,
+          "graph": 2.1716249990276992,
+          "speedup": 1.2504909921572431
+        },
+        {
+          "graph": 2.1866758004762232,
+          "baseline": 2.5973279000027105,
+          "speedup": 1.18779743180816
+        }
+      ],
+      "median_speedup": 1.186750070674963,
+      "faster_pairs": 8
+    },
+    {
+      "rank": 1,
+      "tokens": 640,
+      "source": "rank1-call0001.pt",
+      "input_sha": "69b9cbd1be5c42842759d05f8c40e86aaa17ed47fdcf1f8f0ea307ffbb556118",
+      "repeat_factor": 1,
+      "synthetic": false,
+      "byte_equal_repeats": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 6.367386301280931,
+          "graph": 6.367826001951471,
+          "speedup": 0.9999309496411483
+        },
+        {
+          "graph": 6.361452498822473,
+          "baseline": 6.371110799955204,
+          "speedup": 1.0015182540676864
+        },
+        {
+          "baseline": 6.352558400249109,
+          "graph": 6.362818498746492,
+          "speedup": 0.9983874915653488
+        },
+        {
+          "graph": 6.3602798007195815,
+          "baseline": 6.361207697773352,
+          "speedup": 1.0001458893449413
+        },
+        {
+          "baseline": 6.391736099612899,
+          "graph": 6.390474698855542,
+          "speedup": 1.0001973876459573
+        },
+        {
+          "graph": 6.3540553994243965,
+          "baseline": 6.3602652022382244,
+          "speedup": 1.0009772975562017
+        },
+        {
+          "baseline": 6.36642389872577,
+          "graph": 6.356621900340542,
+          "speedup": 1.0015420137517859
+        },
+        {
+          "graph": 6.3718989986227825,
+          "baseline": 6.36269049718976,
+          "speedup": 0.9985548262087939
+        }
+      ],
+      "median_speedup": 1.0001716384954493,
+      "faster_pairs": 5
+    },
+    {
+      "rank": 1,
+      "tokens": 3840,
+      "source": "rank1-call0001.pt",
+      "input_sha": "69b9cbd1be5c42842759d05f8c40e86aaa17ed47fdcf1f8f0ea307ffbb556118",
+      "repeat_factor": 6,
+      "synthetic": true,
+      "byte_equal_repeats": [
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      ],
+      "timing_pairs": [
+        {
+          "baseline": 36.68823720072396,
+          "graph": 37.08708540070802,
+          "speedup": 0.9892456310417845
+        },
+        {
+          "graph": 37.06927350140177,
+          "baseline": 36.69534609944094,
+          "speedup": 0.9899127399422412
+        },
+        {
+          "baseline": 36.700122797628865,
+          "graph": 37.06986279867124,
+          "speedup": 0.9900258600078868
+        },
+        {
+          "graph": 37.0815116999438,
+          "baseline": 36.637587400036864,
+          "speedup": 0.988028419566627
+        },
+        {
+          "baseline": 36.67296750063542,
+          "graph": 37.05728469940368,
+          "speedup": 0.9896291052653827
+        },
+        {
+          "graph": 37.1085699996911,
+          "baseline": 36.6855555010261,
+          "speedup": 0.9886006251744942
+        },
+        {
+          "baseline": 36.70765209826641,
+          "graph": 37.094038000213914,
+          "speedup": 0.989583611739836
+        },
+        {
+          "graph": 37.0900346984854,
+          "baseline": 36.68394740088843,
+          "speedup": 0.9890513098491776
+        }
+      ],
+      "median_speedup": 0.9894146213908103,
+      "faster_pairs": 0
+    }
+  ],
+  "captures": [
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        16,
+        2,
+        64,
+        64
+      ],
+      "capture_s": 0.008568024000851437,
+      "allocated_bytes": 6858240,
+      "reserved_bytes": 29360128
+    },
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        16,
+        10,
+        64,
+        64
+      ],
+      "capture_s": 0.00331980298506096,
+      "allocated_bytes": 35285504,
+      "reserved_bytes": 73400320
+    },
+    {
+      "device": "npu:0",
+      "shape": [
+        1,
+        16,
+        60,
+        64,
+        64
+      ],
+      "capture_s": 0.009742160997120664,
+      "allocated_bytes": 213737984,
+      "reserved_bytes": 293601280
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        16,
+        2,
+        64,
+        64
+      ],
+      "capture_s": 0.010057373001473024,
+      "allocated_bytes": 6858240,
+      "reserved_bytes": 29360128
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        16,
+        10,
+        64,
+        64
+      ],
+      "capture_s": 0.0033234409929718822,
+      "allocated_bytes": 35285504,
+      "reserved_bytes": 73400320
+    },
+    {
+      "device": "npu:1",
+      "shape": [
+        1,
+        16,
+        60,
+        64,
+        64
+      ],
+      "capture_s": 0.009050988999661058,
+      "allocated_bytes": 213737984,
+      "reserved_bytes": 293601280
+    }
+  ],
+  "completed": true
+}
