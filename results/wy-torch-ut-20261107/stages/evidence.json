@@ -1,6 +1,9 @@
 {
   "profile-torch-wy-stages.py": "c4a78af86f78b35c8322722de5e9c09b0e048142cdcda5093cea451b21d86909",
-  "run-torch-wy-stages.py": "81d41a1a8bda40e84bb3e4110d354490812a43886130f0fcc8015d39a5b369f6",
+  "run-torch-wy-stages.py": {
+    "deployed_original_sha256": "81d41a1a8bda40e84bb3e4110d354490812a43886130f0fcc8015d39a5b369f6",
+    "portable_archive_sha256": "e835fb7fc5b9fb827dd9be5a4bed909edb3959c9e27dddf9ba1132519ccb0643"
+  },
   "result.json": "9f45ff60212c28e97b1b3ed31adc5dd5b1e3353e6c4bcfd62359936ab9155753",
   "closed.json": "d3c984dd4044066ac7095aefc2d16e33cdfd6df291b2721ef6eb85e3bc00095d"
 }

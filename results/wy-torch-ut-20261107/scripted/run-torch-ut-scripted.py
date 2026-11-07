@@ -1,6 +1,6 @@
 import json, subprocess, fcntl, time, hashlib
 from pathlib import Path
-base=Path('/home/ychy/ascend-lab-runtime/hyperqwen-20261103')
+base=Path(__file__).resolve().parent
 out=base/'torch-ut-scripted-window-20261107';out.mkdir(exist_ok=False)
 name='wy-torch-ut-scripted-20261107'
 started=time.time(); code=None; error=None

@@ -1,8 +1,14 @@
 {
   "probe-torch-ut-scripted.py": "bcfd343f02b32566ab9fc6046df3e10788d82835b945c56bcc0b0621f1630be2",
-  "run-torch-ut-scripted.py": "921976e9a0a7c78bd118d32c01e6adcb1960839cad1fb1e26c6a89e33ccf5689",
+  "run-torch-ut-scripted.py": {
+    "deployed_original_sha256": "921976e9a0a7c78bd118d32c01e6adcb1960839cad1fb1e26c6a89e33ccf5689",
+    "portable_archive_sha256": "56fbc95792c5bba501bdb358753f92de9776b813df1671343103352308fc5399"
+  },
   "replay-torch-ut-scripted-identity.py": "d6600d7d839e8b352ebad2ef48c43f7fbe8fafab88204560c521304067148a33",
-  "run-torch-ut-scripted-identity.py": "aa999d3f7bca529221ed3fd5c038cdf487ee78582a9f241942683e8587563ada",
+  "run-torch-ut-scripted-identity.py": {
+    "deployed_original_sha256": "aa999d3f7bca529221ed3fd5c038cdf487ee78582a9f241942683e8587563ada",
+    "portable_archive_sha256": "0b1a8394e09e6170d90ce46c124c4ae8e378adfed20b6dc3169de3f64a32f3b6"
+  },
   "pilot-result.json": "81ae33d59348312248a6e89eab8e3eec94497b50a42f611d84bbe5a5bea91195",
   "pilot-closed.json": "7907b114ece5d876dd5e64c4b7a48fef40ec20f8bb07bcae2a38d00ab3273322",
   "identity-summary.json": "235d1161679d8a1f3739119881a648d897338fef1ed34f7a4a893420f5766c06",
