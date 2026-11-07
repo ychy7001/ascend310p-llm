@@ -58,6 +58,12 @@ not a production switch declaration.
   the published amount labels; the review artifact is
   `docs/qwen36/cord-v2-manual-review.json`. This is still Indonesian public
   receipt data, not Chinese invoice acceptance.
+- The final delivery tag
+  `localhost/ascend310p-llm-qwen36:tp2-w8a8-wy-20261108` is recorded in the
+  runtime manifest; that exact tag was
+  started on a2, passed health and a completion returning `OK.`, and exited
+  cleanly with no residual NPU process. It points to the locked candidate
+  image ID `9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163`.
 
 ## Release procedure
 
