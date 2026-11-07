@@ -10,6 +10,8 @@
       "entrypoint": "deploy/image/start.sh",
       "config": "configs/tp1-profile.sh",
       "base_lock": "deploy/image/base-amd64.json",
+      "production_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35",
+      "production_image_id": "86e64c35bf5b13c732df580538684e98764c1257b68ca346398953a9b2ab4f68",
       "notes": "Preserve the current W4A8/C8/MTP runtime and its existing quality gates."
     },
     "tp2-w8a8-wy": {
@@ -21,6 +23,7 @@
       "config": "deploy/qwen36-wy-image.env.example",
       "base_lock": "deploy/image/base-wy-310p.json",
       "candidate_image": "localhost/qwen36-pr17640-wy-locked:20261108",
+      "delivery_tag": "localhost/ascend310p-llm-qwen36:tp2-w8a8-wy-20261108",
       "candidate_image_id": "9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163",
       "wy_source": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e",
       "notes": "Candidate only. Requires the tested 310P custom OPP and PR17640 WY artifacts; no production switch."
