@@ -1,0 +1,7 @@
+{
+  "cases": 612,
+  "repeat_passed": true,
+  "qkg_exact": true,
+  "all_outputs_exact": true,
+  "status": "baseline_identity_pass_not_absolute_G0"
+}
