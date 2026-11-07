@@ -1,0 +1,17 @@
+{
+  "controller_sha": "8a202493fa48b0f17018b1d46720d5a196a819ef5e1662d4484ba6e0f3b2f062",
+  "policy_sha": "777d8c05a7f65e79aa9e36161bf68a7c3e9b05e7ba48af15dacd9c6a94ed72a8",
+  "g0_sha": "6f48cff4e237f60d4d7221c94abdcaea21dfdb5ce584590031ded44f45dd7584",
+  "worker_sha": "d56e25e71ea775427e0c07a451e1862aacd8bf18373bb5d1144be20f435e1e27",
+  "launch_template_sha": "bfcb906dc85164ef538c57e330bea528349f56bfd87897f6df451f30771ad701",
+  "start_script_sha": "c5099998371c94b5ee21db3874146cbaf3ebfcae5b52bf54a900514bcc4f9d99",
+  "wy_manifest_sha": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06",
+  "protocol_sha": "1bf38a536e889a752d3b6325f9d19f33213aa708d6815dda7b2355c0ce2036ab",
+  "rule_sha": "761d1ebefe0f49d978dd99d8646d1dbe78b04b13fef6c0ee8ff240d8e0295fb9",
+  "rule_source": "protocol.cpu_subset_protocol",
+  "input_sha": "e8fa2ed60bb717b2cad731988a0f85ba9dd07f39f0e614b2fb2e9b333b9e8c13",
+  "continuation_sha": "d3ccb0ce6a6ccc285c7bec38a575f24cc2a781dd5753409e7312a314212e0363",
+  "R_sha": "bc0c1e97c1caca616c8afac5ae4de1605475fecbde4ed7137d23d2a0fb1d6a1c",
+  "scope": "fixed screen only; historical G1 fails preserved; no G2/performance/full G1",
+  "action_budget_s": 3000
+}

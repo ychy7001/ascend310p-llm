@@ -1,0 +1,13 @@
+{
+  "screen_only": true,
+  "controls_structural_match_R": true,
+  "candidate_structural_match_R": false,
+  "eligible_for_full_G1": false,
+  "near_tie_policy": "record_only",
+  "censored_policy": "indeterminate",
+  "historical_G1_fail": "preserved",
+  "G1": "not_started",
+  "G2": "not_started",
+  "performance": "not_started",
+  "adopted": false
+}

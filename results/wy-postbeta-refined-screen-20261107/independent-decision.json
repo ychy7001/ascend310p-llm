@@ -1,0 +1,232 @@
+{
+  "scope": "independent fixed-screen audit, not G1/G2/performance/adoption",
+  "rows": [
+    {
+      "arm": "A",
+      "case": "replay-00",
+      "position": 2,
+      "classification": "near_tie_record_only",
+      "top1": 16,
+      "R_top1": 16,
+      "matches_R": true,
+      "raw_sha": "e2982934aaaeafef116298dce6b817ecc70e35b86cbd58554131953c6be4103c"
+    },
+    {
+      "arm": "A",
+      "case": "replay-03",
+      "position": 2,
+      "classification": "structural",
+      "top1": 97235,
+      "R_top1": 97235,
+      "matches_R": true,
+      "raw_sha": "176a1127b62d6784a42e2ea7018b1fa257f47f985d68c0ac96654785ba78d6aa"
+    },
+    {
+      "arm": "A",
+      "case": "replay-06",
+      "position": 0,
+      "classification": "near_tie_record_only",
+      "top1": 15,
+      "R_top1": 15,
+      "matches_R": true,
+      "raw_sha": "91e2881b34af5cbe9ceaa3a199d13395c7c4db3c163653c0d87c33b098cff14c"
+    },
+    {
+      "arm": "A",
+      "case": "replay-14",
+      "position": 5,
+      "classification": "censored_indeterminate",
+      "top1": 104032,
+      "R_top1": 104032,
+      "matches_R": true,
+      "raw_sha": "8a47b642b0e347a4924ba4ac5654f179ba81f080f6274f5082a96a96337f3488"
+    },
+    {
+      "arm": "A",
+      "case": "meeting-16384-0",
+      "position": 0,
+      "classification": "near_tie_record_only",
+      "top1": 16,
+      "R_top1": 16,
+      "matches_R": true,
+      "raw_sha": "2adac177a1ddf9e75706f3b41d587b9aea04aa8730b6214a37216d3e3d023496"
+    },
+    {
+      "arm": "A_prime",
+      "case": "replay-00",
+      "position": 2,
+      "classification": "near_tie_record_only",
+      "top1": 16,
+      "R_top1": 16,
+      "matches_R": true,
+      "raw_sha": "537815cd16c28c0509bc26b9c319820343af61c3d5e821d5bda034e042e4b9c2"
+    },
+    {
+      "arm": "A_prime",
+      "case": "replay-03",
+      "position": 2,
+      "classification": "structural",
+      "top1": 97235,
+      "R_top1": 97235,
+      "matches_R": true,
+      "raw_sha": "a6d27c56139635e2c57d6d85b226134bf551fe03698e027b29616dd82b1d888e"
+    },
+    {
+      "arm": "A_prime",
+      "case": "replay-06",
+      "position": 0,
+      "classification": "near_tie_record_only",
+      "top1": 15,
+      "R_top1": 15,
+      "matches_R": true,
+      "raw_sha": "ecaaf880fabf191ecf5de2478525c9ba4e35af17ce5326a0ebf28c88bf15630a"
+    },
+    {
+      "arm": "A_prime",
+      "case": "replay-14",
+      "position": 5,
+      "classification": "censored_indeterminate",
+      "top1": 104032,
+      "R_top1": 104032,
+      "matches_R": true,
+      "raw_sha": "10df7d0c60d72f35ba75196327ff44c57820a4047c7b0992f998abc1db29878a"
+    },
+    {
+      "arm": "A_prime",
+      "case": "meeting-16384-0",
+      "position": 0,
+      "classification": "near_tie_record_only",
+      "top1": 16,
+      "R_top1": 16,
+      "matches_R": true,
+      "raw_sha": "245ce557f4e2b85d15f3faab0b988ef7e6fc45975e82c1e01cb2f3b0ccf9db0f"
+    },
+    {
+      "arm": "B",
+      "case": "replay-00",
+      "position": 2,
+      "classification": "near_tie_record_only",
+      "top1": 16,
+      "R_top1": 16,
+      "matches_R": true,
+      "raw_sha": "554f84727a39447bb0029b62a3342b1b71658ec3a9441bc14be176e385767f49"
+    },
+    {
+      "arm": "B",
+      "case": "replay-03",
+      "position": 2,
+      "classification": "structural",
+      "top1": 16,
+      "R_top1": 97235,
+      "matches_R": false,
+      "raw_sha": "3e9ff87097cc6ae5acf7788b192f6368463f81dfb11e54a7db322bed7a0e7b6c"
+    },
+    {
+      "arm": "B",
+      "case": "replay-06",
+      "position": 0,
+      "classification": "near_tie_record_only",
+      "top1": 15,
+      "R_top1": 15,
+      "matches_R": true,
+      "raw_sha": "277ce606a061d40ef776f3ca0f158d48fb4382a2da14cc7074811e1876ffe938"
+    },
+    {
+      "arm": "B",
+      "case": "replay-14",
+      "position": 5,
+      "classification": "censored_indeterminate",
+      "top1": 96069,
+      "R_top1": 104032,
+      "matches_R": false,
+      "raw_sha": "d7ae18f91f76736dfbf0de5a5cf36ec47c3f0332526c38fb8fd796ce2f175ae3"
+    },
+    {
+      "arm": "B",
+      "case": "meeting-16384-0",
+      "position": 0,
+      "classification": "near_tie_record_only",
+      "top1": 97787,
+      "R_top1": 16,
+      "matches_R": false,
+      "raw_sha": "c49e25d1b818d75349a86a32ac1feb8db02b6011043e0953894e1b1a48d941ce"
+    }
+  ],
+  "structural_match": {
+    "A": true,
+    "A_prime": true,
+    "B": false
+  },
+  "controls_valid": true,
+  "candidate_structural_match": false,
+  "eligible_for_full_G1": false,
+  "native_call_records": 12,
+  "native_ranks": [
+    0,
+    1
+  ],
+  "rank_identity_source": "Worker_TP rank and PID prefix; frozen worker LOCAL_RANK field is null",
+  "expected_library_verified": true,
+  "identities": {
+    "A": {
+      "container_exitcode": 0,
+      "worker_records": [
+        {
+          "arm": "A",
+          "wy": "torch",
+          "fallback": false,
+          "wy_artifact_manifest_sha256": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06"
+        },
+        {
+          "arm": "A",
+          "wy": "torch",
+          "fallback": false,
+          "wy_artifact_manifest_sha256": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06"
+        }
+      ],
+      "server_log_sha": "3e4c18f387a00b99d37accadc10b96f36296c987811d418956b5b92333c14b65"
+    },
+    "A_prime": {
+      "container_exitcode": 0,
+      "worker_records": [
+        {
+          "arm": "A",
+          "wy": "torch",
+          "fallback": false,
+          "wy_artifact_manifest_sha256": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06"
+        },
+        {
+          "arm": "A",
+          "wy": "torch",
+          "fallback": false,
+          "wy_artifact_manifest_sha256": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06"
+        }
+      ],
+      "server_log_sha": "e5b9fd362a4b9b215aea9f26ba9f2dacefcc15f0621aa3d353bca0dc2f77d977"
+    },
+    "B": {
+      "container_exitcode": 0,
+      "worker_records": [
+        {
+          "arm": "B",
+          "wy": "native",
+          "fallback": false,
+          "wy_artifact_manifest_sha256": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06"
+        },
+        {
+          "arm": "B",
+          "wy": "native",
+          "fallback": false,
+          "wy_artifact_manifest_sha256": "ad09658f727acd5ca52cab3391593ed0f6d909dfb1deb711fc17b454e2660f06"
+        }
+      ],
+      "server_log_sha": "742c103ae79acf967de4a8561eaf663dec4542d9417ed150cc1c2ce4739df4bc"
+    }
+  },
+  "cleanup_passed": true,
+  "elapsed_s": 646.1567020470102,
+  "freeze_sha": "f6c55c3aa187796e1c716a23e9a1a0ed5e2f90b35d4d09ff1860180009312cdc",
+  "policy_sha": "777d8c05a7f65e79aa9e36161bf68a7c3e9b05e7ba48af15dacd9c6a94ed72a8",
+  "original_decision_sha": "d816c0e39d3e784c8e60916f8fce0acc5a31b9723a5e5ffa26b0c13c9d590b3d",
+  "historical_fail_preserved": true
+}

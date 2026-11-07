@@ -1,0 +1,50 @@
+{
+  "scope": "fixed_screen_only",
+  "candidate_kernel_sha": "1e4b68e09ccae455c2c80415ee4ae50ae906aae37ff8ad05d048af208523009b",
+  "R_sha256": "bc0c1e97c1caca616c8afac5ae4de1605475fecbde4ed7137d23d2a0fb1d6a1c",
+  "points": [
+    {
+      "case": "replay-00",
+      "position": 2,
+      "context_sha256": "564b8701d4b6e8d3039bddfb31808122c6f181bbacfb091e480a0adb391c2542",
+      "R_top1": 16,
+      "R_target_logprob": -2.122955322265625,
+      "classification": "near_tie_record_only"
+    },
+    {
+      "case": "replay-03",
+      "position": 2,
+      "context_sha256": "caa3d4c483a7508c84ef06f934c381d960407215499ef9f421e260b655145960",
+      "R_top1": 97235,
+      "R_target_logprob": -0.0667770504951477,
+      "classification": "structural"
+    },
+    {
+      "case": "replay-06",
+      "position": 0,
+      "context_sha256": "85cd6a0546bce9a726b1e3d83b4fbd989073bd4bb865af497b19ea1ae646429e",
+      "R_top1": 15,
+      "R_target_logprob": -2.1693196296691895,
+      "classification": "near_tie_record_only"
+    },
+    {
+      "case": "replay-14",
+      "position": 5,
+      "context_sha256": "e19fafb6bfd2bbb98aae48d4b97047075435afc5149f565aeb96dac01841d7dd",
+      "R_top1": 104032,
+      "R_target_logprob": -14.398797035217285,
+      "classification": "censored_indeterminate"
+    },
+    {
+      "case": "meeting-16384-0",
+      "position": 0,
+      "context_sha256": "54acba324cd6341dc1c3a41a4a660ffb391d2a550d3be26d682e27659d5dc157",
+      "R_top1": 16,
+      "R_target_logprob": -0.016897164285182953,
+      "classification": "near_tie_record_only"
+    }
+  ],
+  "selection": "A and A_prime controls plus B must exactly match R at structural replay-03 p2. replay-00 p2 and replay-06 p0 have small R top1/top2 logprob gaps; meeting-16384-0 p0 recorded under prior accepted near-tie classification. All near-tie points record only. replay-14 p5 target censoring remains indeterminate. This screen cannot pass full G1; no G2/performance or automatic adoption. Historical fails remain unchanged.",
+  "prior_observation_disclosure": "Same fixed failure points and 612 G0 cases informed candidate design; not independent blind validation.",
+  "unix_ns": 1794014540059818335
+}
