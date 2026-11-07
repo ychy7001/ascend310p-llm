@@ -1,0 +1,28 @@
+{
+  "source_file": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/upstream-gdn-pair921-v1/source/csrc/moe/chunk_fwd_o_vllm/op_kernel/arch20/gemm/block/block_scheduler_gdn_fwd_o.hpp",
+  "sha256": "e0f1b5672a0e169bfcb26a4ebc15b187aa84fd0289e003f554b187d7e5373593",
+  "drain_return_present": true,
+  "source_commit": "18163f6b1d208ab3b4fb06e9752225611c37f40e",
+  "libraries": [
+    {
+      "path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/upstream-gdn-pair921-v1/extension/pr17640_gdn_pair.so",
+      "sha256": "e18bf5b2af29f781c023c86c3757ea9594fbbf6b39369c969b964a90e8c8b5bf"
+    },
+    {
+      "path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/upstream-gdn-pair921-v1/opp/vendors/hyperqwen_gdn_pair921_transformer/op_api/lib/libcust_opapi.so",
+      "sha256": "f3855ca7b612144649cd192dbebafec4b8f0a99beee1ad2ba15ad6c23c61db37"
+    },
+    {
+      "path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/upstream-gdn-pair921-v1/opp/vendors/hyperqwen_gdn_pair921_transformer/op_impl/ai_core/tbe/op_tiling/lib/linux/x86_64/libcust_opmaster_rt2.0.so",
+      "sha256": "ff12ed9c8993b251f13e547df1710574fc3e4662f25bc223769afda4aa265f8c"
+    },
+    {
+      "path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/upstream-gdn-pair921-v1/opp/vendors/hyperqwen_gdn_pair921_transformer/op_impl/ai_core/tbe/op_tiling/liboptiling.so",
+      "sha256": "ff12ed9c8993b251f13e547df1710574fc3e4662f25bc223769afda4aa265f8c"
+    },
+    {
+      "path": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/upstream-gdn-pair921-v1/opp/vendors/hyperqwen_gdn_pair921_transformer/op_proto/lib/linux/x86_64/libcust_opsproto_rt2.0.so",
+      "sha256": "5470af7d3c238aeb7ea0fd61099c9533be0e21fff529f3c9d5d8c0653ffd4b79"
+    }
+  ]
+}
