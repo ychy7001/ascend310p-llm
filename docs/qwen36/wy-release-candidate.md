@@ -42,6 +42,13 @@ not a production switch declaration.
   `0a3e0eff7ff4bde90c5e0f515a06e0a240b59644c29c229774ab1c16db707ffe`.
   This is a receipt-specific non-regression smoke signal, not a production
   quality gate.
+- The expanded SROIE staging set (100 images, 400 labeled fields) produced
+  valid JSON `100/100` and complete field presence `400/400` for both arms.
+  Overall field exact-match was `347/400` for Torch and `345/400` for WY;
+  date plus total exact-match was `194/200` versus `193/200`, and the count of
+  mismatched numeric fields was `6` versus `7`. This is within the provisional
+  one-point engineering delta on this smoke set, but it is still not a
+  manually reviewed production gate.
 
 ## Release procedure
 
@@ -57,8 +64,9 @@ not a production switch declaration.
 - The locked image 4K/32K cold Prefill and PDF repeat matrix is complete:
   three cold repeats at each text length and three repeats for PDF-01 through
   PDF-04, with valid outputs and zero prefix-cache hits.
-- Expand the receipt set beyond the 20-image SROIE smoke and add a manually
-  reviewed OCR/receipt set. The current PDF text-layer proxy has
+- Add a manually reviewed OCR/receipt set, preferably including the actual
+  Chinese invoice fields used by the service. The current PDF text-layer proxy
+  has
   `manual_ground_truth=false` and is not a business quality gate.
 - Compare field-level exact match, numeric-field exact match, JSON validity,
   truncation, and severe-field errors against the Torch arm.
