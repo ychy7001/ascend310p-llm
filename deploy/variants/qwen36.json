@@ -15,7 +15,7 @@
       "notes": "Preserve the current W4A8/C8/MTP runtime and its existing quality gates."
     },
     "tp2-w8a8-wy": {
-      "status": "staging-candidate",
+      "status": "production-candidate-ready-for-canary",
       "tensor_parallel_size": 2,
       "weight_format": "W8A8",
       "mtp": false,
@@ -26,7 +26,7 @@
       "delivery_tag": "localhost/ascend310p-llm-qwen36:tp2-w8a8-wy-20261108",
       "candidate_image_id": "9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163",
       "wy_source": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e",
-      "notes": "Candidate only. Requires the tested 310P custom OPP and PR17640 WY artifacts; no production switch."
+      "notes": "Ready for an owner-approved production canary. Keep TP1 as rollback; the 60-second device cooldown is mandatory."
     }
   }
 }

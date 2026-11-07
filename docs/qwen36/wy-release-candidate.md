@@ -1,7 +1,7 @@
 # WY Release Candidate
 
-This is the staging release record for the TP2 W8A8 PR17640 WY variant. It is
-not a production switch declaration.
+This is the release record for the TP2 W8A8 PR17640 WY production candidate.
+It does not perform the production switch.
 
 ## Locked candidate
 
@@ -74,18 +74,22 @@ not a production switch declaration.
 4. Start the selected variant and require `/health` plus one valid completion.
 5. On rollback, repeat steps 1--4. Never perform an immediate image swap.
 
-## Remaining gates
+## Release decision
 
 - The locked image 4K/32K cold Prefill and PDF repeat matrix is complete:
   three cold repeats at each text length and three repeats for PDF-01 through
   PDF-04, with valid outputs and zero prefix-cache hits.
-- Add a manually reviewed OCR/receipt set, preferably including the actual
-  Chinese invoice fields used by the service. The current PDF text-layer proxy
-  has
-  `manual_ground_truth=false` and is not a business quality gate.
+- The receipt quality evidence is complete for the general candidate: SROIE
+  100-image paired evaluation plus CORD v2 20-image evaluation, with all CORD
+  images visually reviewed against the published amount labels.
+- A Chinese business invoice set is not available in the current workspace.
+  Chinese amount/tax-ID acceptance remains a business-specific follow-up, not
+  a reason to invalidate the general WY image candidate.
 - Compare field-level exact match, numeric-field exact match, JSON validity,
   truncation, and severe-field errors against the Torch arm.
-- Keep the candidate staging-only until the paired quality set passes and the
-  release procedure has been exercised with the locked image.
+- Those comparisons are recorded for both public receipt sets; the final
+  delivery tag also passed health, completion, and cleanup on a2.
+- An owner-approved canary is still required before changing a1. The TP1
+  W4A8/MTP image remains the immediate rollback image.
 
 The TP1 W4A8/MTP image remains the production baseline and rollback image.
