@@ -1,6 +1,6 @@
 # TP2 W8A8 + WY + MTP2 满上下文部署配置
 
-2026-11-08，a2完整容量、组合工程验收与同镜像内置入口验收均已通过，独立版本镜像已发布并完成registry manifest/config摘要核验。部署模板固定digest；a1未切换。本页不宣称正式OCR业务非劣效。
+原 a2 制品 `a11b8aca…` / image ID `bb0fa66f…` 已通过完整工程验收。随后部署模板改指的 `777611…` 是另一重建 staging 制品，a1 推理 canary 失败且确认缺少原制品修复，不能继承本页历史验收结论。详见[制品一致性审计](a1-wy-mtp-artifact-audit-20261108.md)。本页不宣称正式OCR业务非劣效。
 
 ## 固定配置
 
@@ -19,7 +19,7 @@
 | prefix caching / async | 开启 / 开启 |
 | served model name | Qwen3.6-35B-A3B-w8a8 |
 
-候选image ID：`696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab4`。不可变镜像引用：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`。该 digest 已于2026-11-08在 a1 pull 验证；镜像内启动脚本与当前仓库模板仍有差异，不能把本次 canary 视为正式发布验收。
+当前失败 staging image ID：`bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952`；digest：`sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`。入口脚本已匹配仓库，但完整制品未匹配原验收清单；a1 首次推理失败，禁止据此放行。
 
 镜像元数据版本为torch2.10.0+cpu、torch_npu2.10.0.post2、vLLM0.23.0+empty、vllm-ascend0.23.0rc2.dev93+g88eac2713，CANN9.1.0-beta.1；本地overlay另外登记SHA，不把包版本当作未修改源码证明。
 
@@ -31,7 +31,7 @@
 
 ## 完整窗口实测
 
-`main-graph-release-full`耗时1324.247秒，driver0，独立清场通过。请求阶段计数器统计，三次正式请求取中位数；生产 profile 保持 prefix cache 开启，测试用每请求独立 cache salt 避免复用，因此 prefix hits 为0。数字是服务Prefill阶段吞吐，不是纯kernel吞吐。
+`main-graph-release-full`耗时1324.247秒，driver0，独立清场通过。请求阶段计数器统计，三次正式请求取中位数；该历史窗口实际关闭 prefix cache，且使用每请求独立 cache salt，prefix hits 为0；后续生产模板改为开启不属于该窗口验收范围。数字是服务Prefill阶段吞吐，不是纯kernel吞吐。
 
 | 冷文本输入 | Prefill tok/s | TTFT秒 | 有效次数 |
 | --- | ---: | ---: | ---: |

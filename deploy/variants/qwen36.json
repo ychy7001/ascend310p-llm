@@ -36,7 +36,7 @@
       "registry_verification": "results/wy-registry-delivery-20261108/registry-images.json"
     },
     "tp2-w8a8-wy-mtp": {
-      "status": "validated-staging-candidate",
+      "status": "staging-canary-failed-artifact-mismatch",
       "tensor_parallel_size": 2,
       "weight_format": "W8A8",
       "mtp": true,
