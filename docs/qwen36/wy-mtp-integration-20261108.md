@@ -63,10 +63,14 @@ aclrtMemcpy 107030 / captured-stream synchronization 107027
 
 v1窗口在PDF客户端读取输出目录变量时因 `PDF_AB_OUT` 未设置而中断，尚未发PDF请求。总耗时884.506秒，driver非零退出并独立清场通过。这是实验脚本错误，不是模型/PDF失败，也不构成完整矩阵通过。原始文本结果、日志与清场归档于 `results/wy-mtp-integration-20261108/tp1-native-mtp2-v1/`。
 
-修复客户端变量后开启v2窗口，第一臂以SHA登记复用v1已完成的文本证据，仅续跑PDF，其余对照臂按原计划运行。尚无Torch WY对照结果，不计算当前WY收益。
+修复客户端变量后开启v2窗口，第一臂以SHA登记复用v1已完成的文本证据，续跑4页PDF、各2次，8/8满足脚本功能检查；其中pdf-01两次均达到512输出token上限，其余正常stop。这是功能smoke，不是完整OCR质量验收。prefix hits为0，但多模态缓存未禁用，不能将重复PDF时延称为完全冷视觉Prefill。结果归档于 `results/wy-mtp-integration-20261108/tp1-native-mtp2-v2/`。
 
-## 后续矩阵
+随后按用户收敛范围的要求停止剩余W4对照，保留既有稳定profile与镜像。Torch/MTP2臂被主动停止，容器ExitCode 137属于取消清场，不计为模型失败；driver与本地自动收集器均已停止。独立检查确认无实验容器、NPU无运行进程。取消证据归档于 `results/wy-mtp-integration-20261108/tp1-scope-cancellation/`。没有完成当前Torch WY对照，不计算当前WY收益。
 
-1. TP2：eager MTP1 最小生成隔离已通过。先定位 SplitFuse mask 在 Graph capture 中的主机拷贝问题，再决定 Graph MTP1/2 性能/PDF；不为绕过 Graph 失败而将 eager 设为交付默认。
-2. TP1：使用已有镜像及其原始 wrapper 的 Torch/native 两函数，固定其余 GDN 与 W4 组件；比较 WY Torch/native × MTP0/2。观察适配器打印实际 native eligibility；不替换 kernel。
-3. 性能只做同一量化格式和同一执行模式的比较。记录冷 Prefill、TTFT、Decode、MTP counters、PDF 输出和清场；未经质量验证不升级默认交付配置。
+## 收敛后的交付范围（2026-11-08）
+
+1. TP1 W4A8：复用现有稳定profile、原镜像digest和历史WY/MTP证据，停止额外的Torch/native × MTP0/2实验矩阵。本轮文本及PDF仅作为补充记录。
+2. TP2 W8A8：沿用可复用的WY实现与Graph/MTP配置思路，保留W8量化入口、双卡映射及相应显存配置。先处理已复现的Graph启动兼容性；不将W4专用C8/MindIEQ扩展整体复制进W8运行时。
+3. W8仅补交付必需的启动、实际native命中、Graph/MTP工作状态、代表性冷Prefill和PDF smoke；发生明确异常时再扩大排查。未经验证不将eager或MTP设为新的交付默认。
+4. 验收后的W8镜像推送到既有registry的独立版本tag，并登记registry digest、image ID、base/source/binding版本、profile、启动命令和验收证据。W4已在registry，以既有digest登记即可，无需重建；确需统一别名时再核对别名对应digest。
+5. 镜像登记与现有a1生产切换分别处理；本轮不触碰a1。冻结协议/规则/worker/R/kernel SHA均未变。原W8无MTP候选与未通过Graph验收的MTP扩展必须分别标注。

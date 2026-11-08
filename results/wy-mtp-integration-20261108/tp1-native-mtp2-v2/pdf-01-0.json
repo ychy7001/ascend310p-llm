@@ -1,0 +1,30 @@
+{
+  "id": "pdf-01",
+  "arm": "mtp2",
+  "repeat": 0,
+  "image_sha": "84bf40a33dbb58f7be63df189990b6f53fb6d3340deb66467092daaa331f6b95",
+  "payload_sha": "fe8ec538acbbe279f3366487c7d0aec890829bd14d7cb2d6ad1dfe8ccb6ac3c9",
+  "first_delta_s": 6.172913201036863,
+  "first_content_s": 6.172913201036863,
+  "elapsed_s": 18.918290675035678,
+  "usage": {
+    "prompt_tokens": 1941,
+    "total_tokens": 2453,
+    "completion_tokens": 512
+  },
+  "finish_reason": "length",
+  "text": "(continued from previous page)\n\nc_assigned_bb = d2l.box_corner_to_center(assigned_bb)\n\noffset_xy = 10 * (c_assigned_bb[:, :2] - c_anc[:, :2]) / c_anc[:, 2:]\n\noffset_wh = 5 * torch.log(eps + c_assigned_bb[:, 2:] / c_anc[:, 2:])\n\noffset = torch.cat([offset_xy, offset_wh], axis=1)\n\nreturn offset\n\n如果一个锚框没有被分配真实边界框，我们只需将锚框的类别标记为背景（background）。背景类别的锚框通常被称为负类锚框，其余的被称为正类锚框。我们使用真实边界框（labels参数）实现以下multibox_target函数，来标记锚框的类别和偏移量（anchors参数）。此函数将背景类别的索引设置为零，然后将新类别的整数索引递增一。\n\n# @save\n\ndef multibox_target(anchors, labels):\n\n    \"\"\"使用真实边界框标记锚框\"\"\"\n\n    batch_size, anchors = labels.shape[0], anchors.squeeze(0)\n\n    batch_offset, batch_mask, batch_class_labels = [], [], []\n\n    device, num_anchors = anchors.device, anchors.shape[0]\n\n    for i in range(batch_size):\n\n        label = labels[i, :, :]\n\n        anchors_bbox_map = assign_anchor_to_bbox(\n\n            label[:, 1:], anchors, device)\n\n        bbox_mask = ((anchors_bbox_map >= 0).float().unsqueeze(-1)).repeat(\n\n            1, 4)\n\n        # 将类标签和分配的边界框坐标初始化为零\n\n        class_labels = torch.zeros(num_anchors, dtype=torch.long,\n\n            device=device)\n\n        assigned_bb = torch.zeros((num_anchors, 4), dtype=torch.float32,\n\n            device=device)\n\n        # 使用真实边界框来标记锚框的类别。\n\n        # 如果一个锚框没有被分配，标记其为背景（值为零）\n\n        indices_true = torch.nonzero(anchors_bbox_map >= 0)\n\n        bb_idx = anchors_bbox_map[indices_true]\n\n        class_labels[indices_true] = label[bb_idx, 0].long() + 1\n\n        assigned_bb[indices_true] = label[bb_idx, 1:]\n\n        # 偏移量转换\n\n        offset = offset_boxes(anchors, assigned_bb) *",
+  "reasoning": "",
+  "metrics_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 5.924650677014142,
+    "vllm:request_decode_time_seconds_sum": 12.746652042027563,
+    "vllm:prefix_cache_queries_total": 0.0,
+    "vllm:prefix_cache_hits_total": 0.0
+  },
+  "prefill_seconds": 5.924650677014142,
+  "prefix_cache_queries": 0.0,
+  "prefix_cache_hits": 0.0,
+  "valid": true,
+  "text_sha256": "20654b6a7c92c24570ec0b46d84ee9c36518751b70407e4945e9ff4b4e645ffd"
+}

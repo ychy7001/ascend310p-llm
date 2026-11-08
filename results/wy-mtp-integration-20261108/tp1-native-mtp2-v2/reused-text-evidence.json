@@ -1,0 +1,11 @@
+{
+  "source": "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/w4-wy-mtp-matrix-20261108-v1/w4-native-mtp2",
+  "sha256": {
+    "decode-4096-128.jsonl": "f02a284a4d4aba968fda105666c7fdd0d371f1902314c2322546c0983be670c2",
+    "prefill-4096.jsonl": "9600eb8202925a9272b07faf6bbfe9eed049a3a6442a18acfe708cafa2d33cc9",
+    "prefill-8192.jsonl": "ac3e4fa76e2c2c1e0ae44cbadca32a69584cfd9a1fa75bd2e5a220c5109200f1",
+    "prefill-16384.jsonl": "8539c6f7fef9dcc6015100246b1942b838b4b6f72b72ec2f5c7857fce7192f6f",
+    "prefill-32768.jsonl": "43f1183779fbac5460fdaf752ec2636861c181e95aeef34a64ca1732249dfb17",
+    "smoke.json": "3c63ea5b85a7151e3681afdb10a0b7aee484ea41b2e53b9831f8e2b255965ad0"
+  }
+}

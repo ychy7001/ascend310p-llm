@@ -1,0 +1,30 @@
+{
+  "id": "pdf-04",
+  "arm": "mtp2",
+  "repeat": 1,
+  "image_sha": "c54869cceae354f979e0c3b14c54ed551f03299a6b04ea3e140e9203097b0f48",
+  "payload_sha": "07a2de025758689ee5a6f0a60aef0e3dafc06a0f0176780f9ed2a4340fa32115",
+  "first_delta_s": 2.6109793260111474,
+  "first_content_s": 2.6109793260111474,
+  "elapsed_s": 4.058106731041335,
+  "usage": {
+    "prompt_tokens": 1166,
+    "total_tokens": 1222,
+    "completion_tokens": 56
+  },
+  "finish_reason": "stop",
+  "text": "动手学深度学习 v2\nhttps://gluon-cv.mxnet.io/model_zoo/detection.html\n本池 · AWS\nYolo V3\nmAP\n#samples/sec\ncenter_net\nfaster_rcnn\nssd\nyolo3\n",
+  "reasoning": "",
+  "metrics_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 2.596388380974531,
+    "vllm:request_decode_time_seconds_sum": 1.4473594370065257,
+    "vllm:prefix_cache_queries_total": 0.0,
+    "vllm:prefix_cache_hits_total": 0.0
+  },
+  "prefill_seconds": 2.596388380974531,
+  "prefix_cache_queries": 0.0,
+  "prefix_cache_hits": 0.0,
+  "valid": true,
+  "text_sha256": "64c2ccc97d47bbf51cdf561bdea58573197134e851cb9ee1b2e7f03266ef7083"
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "path": "op_impl/ai_core/tbe/custom_transformer_impl/ascendc/chunk_gated_delta_rule_compute_wy/chunk_gated_delta_rule_compute_wy.cpp",
+    "w4_sha256": "3f42fad80232e02a77e3995cd64dbb7af010275698dc3123db629336cbfac0c4",
+    "tp2_sha256": "3f42fad80232e02a77e3995cd64dbb7af010275698dc3123db629336cbfac0c4",
+    "matches": true
+  },
+  {
+    "path": "op_impl/ai_core/tbe/custom_transformer_impl/ascendc/chunk_gated_delta_rule_compute_wy/chunk_gated_delta_rule_compute_wy_tiling_data.h",
+    "w4_sha256": "84ad7bdd34b110293dafb686b98bbb8965decfb7a7acb1a9391feec80792720e",
+    "tp2_sha256": "84ad7bdd34b110293dafb686b98bbb8965decfb7a7acb1a9391feec80792720e",
+    "matches": true
+  }
+]

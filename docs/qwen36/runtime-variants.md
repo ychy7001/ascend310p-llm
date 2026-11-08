@@ -41,3 +41,13 @@ subprocess initialization failure, while the same WY image started after a
 60-second idle interval. The WY systemd unit therefore includes a 60-second
 pre-start delay. A rollback procedure must stop the active container, wait for
 the same interval, and only then start the other variant.
+
+## Delivery scope update — 2026-11-08
+
+Reuse the existing TP1 stable profile and registry digest; the extra W4
+Torch/native × MTP0/2 matrix was canceled by scope after the native MTP2
+text and PDF smoke. No further W4 experiments are required for this delivery.
+Focus on the TP2 W8A8 extension, including its Graph/MTP compatibility and
+minimal startup, cold-prefill and PDF acceptance. Register the tested image
+with an immutable registry digest and its exact profile. The earlier
+no-MTP TP2 candidate does not imply that the MTP extension has passed.

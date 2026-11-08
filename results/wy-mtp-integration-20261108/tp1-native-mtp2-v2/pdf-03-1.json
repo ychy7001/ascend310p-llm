@@ -1,0 +1,30 @@
+{
+  "id": "pdf-03",
+  "arm": "mtp2",
+  "repeat": 1,
+  "image_sha": "eb07402ec15d40af1f86ae67f68d7e687b676b98b91344338c02877d526ceda2",
+  "payload_sha": "f6fea50f4c4d69e8f006791ad29514a118574ea1bf34dc1c5439a5b9683d2a0a",
+  "first_delta_s": 2.650058038008865,
+  "first_content_s": 2.650058038008865,
+  "elapsed_s": 4.758029785007238,
+  "usage": {
+    "prompt_tokens": 1166,
+    "total_tokens": 1250,
+    "completion_tokens": 84
+  },
+  "finish_reason": "stop",
+  "text": "SSD 模型\n• 一个基础网络来抽取特征，然\n后多个卷积层块来减半高宽\n• 在每段都生成锚框\n• 底部段来拟合小物体，顶部段\n来拟合大物体\n• 对每个锚框预测类别和边缘框\n动手学深度学习 v2 • https://courses.d2l.ai/zh-v2\n",
+  "reasoning": "",
+  "metrics_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 2.634054798982106,
+    "vllm:request_decode_time_seconds_sum": 2.1084142270265147,
+    "vllm:prefix_cache_queries_total": 0.0,
+    "vllm:prefix_cache_hits_total": 0.0
+  },
+  "prefill_seconds": 2.634054798982106,
+  "prefix_cache_queries": 0.0,
+  "prefix_cache_hits": 0.0,
+  "valid": true,
+  "text_sha256": "aeaab6a208ff4182fa986b621a9e918ed1cc895435080347abf852d79579ddbb"
+}
