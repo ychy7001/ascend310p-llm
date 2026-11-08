@@ -13,7 +13,7 @@ set -euo pipefail
 if [[ ! "$NUM_SPECULATIVE_TOKENS" =~ ^[012]$ ]]; then
   echo 'NUM_SPECULATIVE_TOKENS must be 0, 1 or 2' >&2; exit 2
 fi
-: "${ENABLE_PREFIX_CACHING:=0}"
+: "${ENABLE_PREFIX_CACHING:=1}"
 : "${ASYNC_SCHEDULING:=1}"
 : "${ENFORCE_EAGER:=1}"
 if [[ ! "$ENABLE_PREFIX_CACHING" =~ ^[01]$ ]]; then

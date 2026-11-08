@@ -16,10 +16,10 @@
 | 调度并发上限 | 4 |
 | max_num_batched_tokens | 2048 |
 | memory utilization | 0.90 |
-| prefix caching / async | 关闭 / 开启 |
+| prefix caching / async | 开启 / 开启 |
 | served model name | Qwen3.6-35B-A3B-w8a8 |
 
-候选image ID：`bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4`。不可变镜像引用：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5`。registry验证时间为2026-11-08 06:56:19 UTC。
+候选image ID：`696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab4`。不可变镜像引用：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa`。该 digest 已于2026-11-08在 a1 pull 验证；镜像内启动脚本与当前仓库模板仍有差异，不能把本次 canary 视为正式发布验收。
 
 镜像元数据版本为torch2.10.0+cpu、torch_npu2.10.0.post2、vLLM0.23.0+empty、vllm-ascend0.23.0rc2.dev93+g88eac2713，CANN9.1.0-beta.1；本地overlay另外登记SHA，不把包版本当作未修改源码证明。
 
@@ -31,7 +31,7 @@
 
 ## 完整窗口实测
 
-`main-graph-release-full`耗时1324.247秒，driver0，独立清场通过。请求阶段计数器统计，三次正式请求取中位数；文本每请求独立cache salt，prefix hits为0。数字是服务Prefill阶段吞吐，不是纯kernel吞吐。
+`main-graph-release-full`耗时1324.247秒，driver0，独立清场通过。请求阶段计数器统计，三次正式请求取中位数；生产 profile 保持 prefix cache 开启，测试用每请求独立 cache salt 避免复用，因此 prefix hits 为0。数字是服务Prefill阶段吞吐，不是纯kernel吞吐。
 
 | 冷文本输入 | Prefill tok/s | TTFT秒 | 有效次数 |
 | --- | ---: | ---: | ---: |
