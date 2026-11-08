@@ -1,0 +1,6 @@
+{
+  "state": "failed",
+  "elapsed_s": 263.6540850289748,
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-production-20261108/run_profile.py\", line 49, in main\n    common.wait_health(name); status('smoke')\n    ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w8_mask_fix_20261108.py\", line 138, in wait_health\n    raise RuntimeError('startup fatal error; see archived server.log')\nRuntimeError: startup fatal error; see archived server.log\n",
+  "cleanup_passed": true
+}

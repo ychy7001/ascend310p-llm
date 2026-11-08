@@ -1,0 +1,26 @@
+{
+  "ychy-a1": {
+    "config.json": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+    "configuration.json": "c1b09db419119513247e9b8b912c4b9897106c9b20c6cada7e107d993c5435eb",
+    "generation_config.json": "c2ad4a8bd9fd07dd9f5efd0d27f8244adc1ca0f962a652475b1f78d7c1a76187",
+    "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "tokenizer_config.json": "dbfb3c20ce3d5b8370faeecd548e771c1dcc8e4fdcf636797fc24b0d0733fb02",
+    "video_preprocessor_config.json": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+  },
+  "ychy-a2": {
+    "config.json": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+    "configuration.json": "c1b09db419119513247e9b8b912c4b9897106c9b20c6cada7e107d993c5435eb",
+    "generation_config.json": "c2ad4a8bd9fd07dd9f5efd0d27f8244adc1ca0f962a652475b1f78d7c1a76187",
+    "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "tokenizer_config.json": "dbfb3c20ce3d5b8370faeecd548e771c1dcc8e4fdcf636797fc24b0d0733fb02",
+    "video_preprocessor_config.json": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+  },
+  "common_equal": {
+    "configuration.json": true,
+    "preprocessor_config.json": true,
+    "video_preprocessor_config.json": true,
+    "config.json": true,
+    "generation_config.json": true,
+    "tokenizer_config.json": true
+  }
+}

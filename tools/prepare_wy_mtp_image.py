@@ -18,7 +18,7 @@ files={
     'runtime/wy_compat/graph_safe_splitfuse.py':'wy-compat/graph_safe_splitfuse.py',
     'experimental/direct_graph_310.py':'wy-compat/direct_graph_310.py',
 }
-manifest={'base_image':args.base_image,'variant':'tp2-w8a8-wy-mtp','compatibility':'legacy SplitFuse stable mask buffer; main Graph, eager MTP draft','artifacts':{}}
+manifest={'base_image':args.base_image,'variant':'tp2-w8a8-wy-mtp','compatibility':'eager production main/draft; optional legacy SplitFuse stable Graph mask for diagnostics','artifacts':{}}
 for source,target in files.items():
     dest=args.output/target
     dest.parent.mkdir(parents=True,exist_ok=True)

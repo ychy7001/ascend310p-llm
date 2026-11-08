@@ -42,7 +42,9 @@ def install():
 
     def prepare(wrapper, *args, **kwargs):
         context = get_forward_context()
-        if wrapper.runtime_mode == CUDAGraphMode.FULL and not context.capturing:
+        if (wrapper.runtime_mode == CUDAGraphMode.FULL
+                and context.cudagraph_runtime_mode == wrapper.runtime_mode
+                and not context.capturing):
             metadata = context.attn_metadata
             if isinstance(metadata, dict) and metadata:
                 metadata = next((item for item in metadata.values() if isinstance(item, AscendMetadata)), None)

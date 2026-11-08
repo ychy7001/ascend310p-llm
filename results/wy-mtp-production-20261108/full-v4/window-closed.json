@@ -1,0 +1,53 @@
+{
+  "elapsed_s": 279.36190559802344,
+  "cleanup_passed": true,
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-production-20261108/run_profile.py\", line 65, in main\n    with concurrent.futures.ThreadPoolExecutor(max_workers=count) as pool: rows=list(pool.map(exact,range(count)))\n                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 619, in result_iterator\n    yield _result_or_cancel(fs.pop())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 317, in _result_or_cancel\n    return fut.result(timeout)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 456, in result\n    return self.__get_result()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"/usr/lib/python3.12/concurrent/futures/thread.py\", line 58, in run\n    result = self.fn(*self.args, **self.kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-production-20261108/run_profile.py\", line 60, in exact\n    r=common.post('/v1/chat/completions',{'model':MODEL,'messages':[{'role':'user','content':'Return exactly this JSON object, no other text: '+json.dumps(expected)}],'temperature':0,'max_tokens':192,'chat_template_kwargs':{'enable_thinking':False},'cache_salt':out.name+'-json'+str(i)})\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w8_mask_fix_20261108.py\", line 32, in post\n    with urllib.request.urlopen(req, timeout=timeout) as response:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 500: Internal Server Error\n",
+  "container_state": {
+    "OciVersion": "1.1.0",
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 137,
+    "Error": "",
+    "StartedAt": "2026-11-08T02:27:07.268218255Z",
+    "FinishedAt": "2026-11-08T02:31:42.670870234Z",
+    "Health": {
+      "Status": "",
+      "FailingStreak": 0,
+      "Log": null
+    },
+    "CheckpointedAt": "0001-01-01T00:00:00Z",
+    "RestoredAt": "0001-01-01T00:00:00Z",
+    "StoppedByUser": true
+  },
+  "snapshot": {
+    "rootless": {
+      "code": 0,
+      "stdout": ""
+    },
+    "rootful": {
+      "code": 0,
+      "stdout": ""
+    },
+    "primary": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "image": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "npu": {
+      "code": 0,
+      "stdout": "+--------------------------------------------------------------------------------------------------------+\n| npu-smi 26.1.1                                   Version: 26.1.1                                       |\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |\n| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |\n+===============================+=================+======================================================+\n| 8       310P3                 | OK              | NA           68                0     / 0             |\n| 0       0                     | 0000:01:00.0    | 0            1508 / 44277                            |\n+-------------------------------+-----------------+------------------------------------------------------+\n| 8       310P3                 | OK              | NA           66                0     / 0             |\n| 1       1                     | 0000:01:00.0    | 0            1458 / 43693                            |\n+===============================+=================+======================================================+\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Chip                  | Process id      | Process name             | Process memory(MB)        |\n+===============================+=================+======================================================+\n| No running processes found in NPU 8                                                                    |\n+===============================+=================+======================================================+"
+    },
+    "memory": {
+      "code": 0,
+      "stdout": "total        used        free      shared  buff/cache   available\nMem:              31           1          19           0          10          29\nSwap:              7           0           7"
+    }
+  }
+}

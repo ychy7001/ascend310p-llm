@@ -1,0 +1,18 @@
+[
+  "python3",
+  "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-boundary-20261106/tools/bench_server_phases.py",
+  "--base-url",
+  "http://127.0.0.1:18126",
+  "--model",
+  "qwen36-w8a8-wy-mtp",
+  "--prompt-tokens",
+  "8192",
+  "--output-tokens",
+  "1",
+  "--repeats",
+  "3",
+  "--cache-salt-prefix",
+  "w8-production-full-v2-p8192-o1",
+  "--out",
+  "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/w8-production-full-v2/p8192-o1.jsonl"
+]

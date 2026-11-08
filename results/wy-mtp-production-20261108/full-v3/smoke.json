@@ -1,0 +1,149 @@
+[
+  {
+    "prompt": "Reply with OK.",
+    "elapsed_s": 0.489503878983669,
+    "response": {
+      "id": "chatcmpl-89db6314d292c211",
+      "object": "chat.completion",
+      "created": 1794104694,
+      "model": "qwen36-w8a8-wy-mtp",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "OK.",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+      "usage": {
+        "prompt_tokens": 16,
+        "total_tokens": 19,
+        "completion_tokens": 3,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "metrics_delta": {
+      "vllm:request_prefill_time_seconds_count": 1.0,
+      "vllm:request_prefill_time_seconds_sum": 0.19805099599761888,
+      "vllm:request_decode_time_seconds_sum": 0.18012099800398573,
+      "vllm:prefix_cache_queries_total": 0.0,
+      "vllm:prefix_cache_hits_total": 0.0
+    }
+  },
+  {
+    "prompt": "Compute 17 + 25. Reply with the number only.",
+    "elapsed_s": 0.267554358986672,
+    "response": {
+      "id": "chatcmpl-8ccd3c67c8ae22e4",
+      "object": "chat.completion",
+      "created": 1794104695,
+      "model": "qwen36-w8a8-wy-mtp",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "42",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+      "usage": {
+        "prompt_tokens": 27,
+        "total_tokens": 30,
+        "completion_tokens": 3,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "metrics_delta": {
+      "vllm:request_prefill_time_seconds_count": 1.0,
+      "vllm:request_prefill_time_seconds_sum": 0.1552594899549149,
+      "vllm:request_decode_time_seconds_sum": 0.057705044047906995,
+      "vllm:prefix_cache_queries_total": 0.0,
+      "vllm:prefix_cache_hits_total": 0.0
+    }
+  },
+  {
+    "prompt": "Return JSON with exactly these fields: invoice_total as 57.80, date as 2026-11-08.",
+    "elapsed_s": 0.861900825984776,
+    "response": {
+      "id": "chatcmpl-8f8b428065524f5c",
+      "object": "chat.completion",
+      "created": 1794104695,
+      "model": "qwen36-w8a8-wy-mtp",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "{\n  \"invoice_total\": 57.80,\n  \"date\": \"2026-11-08\"\n}",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+      "usage": {
+        "prompt_tokens": 43,
+        "total_tokens": 77,
+        "completion_tokens": 34,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+    },
+    "metrics_delta": {
+      "vllm:request_prefill_time_seconds_count": 1.0,
+      "vllm:request_prefill_time_seconds_sum": 0.1746945669874549,
+      "vllm:request_decode_time_seconds_sum": 0.6298135460237972,
+      "vllm:prefix_cache_queries_total": 0.0,
+      "vllm:prefix_cache_hits_total": 0.0
+    }
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "chatcmpl-84acbc64b43c42ca",
+    "object": "chat.completion",
+    "created": 1794104344,
+    "model": "qwen36-w8a8-wy-mtp",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"numbers\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], \"status\": \"ok\"}",
+          "refusal": null,
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "reasoning": null
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+    "usage": {
+      "prompt_tokens": 102,
+      "total_tokens": 183,
+      "completion_tokens": 81,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": null
+    },
+    "prompt_logprobs": null,
+    "prompt_token_ids": null,
+    "prompt_text": null,
+    "kv_transfer_params": null
+  },
+  {
+    "id": "chatcmpl-a50bd03d8714045c",
+    "object": "chat.completion",
+    "created": 1794104344,
+    "model": "qwen36-w8a8-wy-mtp",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"numbers\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], \"status\": \"ok\"}",
+          "refusal": null,
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "reasoning": null
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+    "usage": {
+      "prompt_tokens": 102,
+      "total_tokens": 183,
+      "completion_tokens": 81,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": null
+    },
+    "prompt_logprobs": null,
+    "prompt_token_ids": null,
+    "prompt_text": null,
+    "kv_transfer_params": null
+  },
+  {
+    "id": "chatcmpl-96263e9e317838fc",
+    "object": "chat.completion",
+    "created": 1794104344,
+    "model": "qwen36-w8a8-wy-mtp",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"numbers\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], \"status\": \"ok\"}",
+          "refusal": null,
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "reasoning": null
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+    "usage": {
+      "prompt_tokens": 102,
+      "total_tokens": 183,
+      "completion_tokens": 81,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": null
+    },
+    "prompt_logprobs": null,
+    "prompt_token_ids": null,
+    "prompt_text": null,
+    "kv_transfer_params": null
+  },
+  {
+    "id": "chatcmpl-965fdb8d7a6067bf",
+    "object": "chat.completion",
+    "created": 1794104344,
+    "model": "qwen36-w8a8-wy-mtp",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"numbers\": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], \"status\": \"ok\"}",
+          "refusal": null,
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "reasoning": null
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.23.0-tp2-24923178",
+    "usage": {
+      "prompt_tokens": 102,
+      "total_tokens": 183,
+      "completion_tokens": 81,
+      "prompt_tokens_details": null,
+      "completion_tokens_details": null
+    },
+    "prompt_logprobs": null,
+    "prompt_token_ids": null,
+    "prompt_text": null,
+    "kv_transfer_params": null
+  }
+]

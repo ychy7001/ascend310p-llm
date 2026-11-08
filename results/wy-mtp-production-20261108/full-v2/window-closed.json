@@ -1,0 +1,53 @@
+{
+  "elapsed_s": 294.553432130022,
+  "cleanup_passed": true,
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-production-20261108/run_profile.py\", line 62, in main\n    status('concurrent-json')\n                              \n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-production-20261108/run_profile.py\", line 33, in bench\n    if a.mtp and output>1: args+=['--spec-metrics']\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-production-20261108/run_profile.py\", line 28, in command\n    with (out/(filename+'.log')).open('w') as log:\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w8_mask_fix_20261108.py\", line 28, in run\n    return subprocess.run(cmd, check=True, timeout=kwargs.pop('timeout', 60), **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['python3', '/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-boundary-20261106/tools/bench_server_phases.py', '--base-url', 'http://127.0.0.1:18126', '--model', 'qwen36-w8a8-wy-mtp', '--prompt-tokens', '8192', '--output-tokens', '1', '--repeats', '3', '--cache-salt-prefix', 'w8-production-full-v2-p8192-o1', '--out', '/home/ychy/ascend-lab-runtime/hyperqwen-20261103/w8-production-full-v2/p8192-o1.jsonl']' returned non-zero exit status 1.\n",
+  "container_state": {
+    "OciVersion": "1.1.0",
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-11-08T02:14:55.764747927Z",
+    "FinishedAt": "2026-11-08T02:19:47.907025786Z",
+    "Health": {
+      "Status": "",
+      "FailingStreak": 0,
+      "Log": null
+    },
+    "CheckpointedAt": "0001-01-01T00:00:00Z",
+    "RestoredAt": "0001-01-01T00:00:00Z",
+    "StoppedByUser": true
+  },
+  "snapshot": {
+    "rootless": {
+      "code": 0,
+      "stdout": ""
+    },
+    "rootful": {
+      "code": 0,
+      "stdout": ""
+    },
+    "primary": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "image": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "npu": {
+      "code": 0,
+      "stdout": "+--------------------------------------------------------------------------------------------------------+\n| npu-smi 26.1.1                                   Version: 26.1.1                                       |\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |\n| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |\n+===============================+=================+======================================================+\n| 8       310P3                 | OK              | NA           68                0     / 0             |\n| 0       0                     | 0000:01:00.0    | 0            1509 / 44277                            |\n+-------------------------------+-----------------+------------------------------------------------------+\n| 8       310P3                 | OK              | NA           66                0     / 0             |\n| 1       1                     | 0000:01:00.0    | 0            1457 / 43693                            |\n+===============================+=================+======================================================+\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Chip                  | Process id      | Process name             | Process memory(MB)        |\n+===============================+=================+======================================================+\n| No running processes found in NPU 8                                                                    |\n+===============================+=================+======================================================+"
+    },
+    "memory": {
+      "code": 0,
+      "stdout": "total        used        free      shared  buff/cache   available\nMem:              31           1          19           0          10          29\nSwap:              7           0           7"
+    }
+  }
+}
