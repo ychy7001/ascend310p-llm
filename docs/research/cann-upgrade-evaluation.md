@@ -4,7 +4,7 @@
 
 ## 固定版本与兼容依据
 
-已通过官方GitHub API和固定tag原始文件查询并归档至 `results/cann-upgrade-audit-20261104/`：
+已通过官方GitHub API和固定tag原始文件查询。归档的本机目录 `results/cann-upgrade-audit-20261104/` 未入库（`.gitignore` 整体忽略），需要原始文件时在保留该目录的机器上查：
 
 - vLLM-Ascend v0.30.0于2026-10-29 14:07:04 UTC发布，API标记prerelease=false。
 - 固定v0.30.0兼容矩阵为：vLLM/vLLM-Ascend均v0.30.0、CANN9.2.1、PyTorch2.10.0、torch-npu2.10.0.post7；不能随意混合版本。

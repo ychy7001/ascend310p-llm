@@ -18,7 +18,7 @@ Profile独占设备，普通计时不启动Profiler；记录HTTP start/stop、�
 
 ## W4预算支线：C16
 
-原始kernel CSV（gzip）、HTTP采集范围、前后quality、kernel摘要及服务日志：`results/profile-c16-20261103`。三份均导出成功，前后短题8/8与A/B/A通过。
+原始kernel CSV（gzip）、HTTP采集范围、前后quality、kernel摘要及服务日志留在本机 `results/profile-c16-20261103/`，未入库（`.gitignore` 整体忽略）。三份均导出成功，前后短题8/8与A/B/A通过。
 
 | 捕获范围 | kernel条数 | 捕获设备跨度 | kernel区间并集覆盖 | 主要累计耗时 |
 |---|---:|---:|---:|---|
