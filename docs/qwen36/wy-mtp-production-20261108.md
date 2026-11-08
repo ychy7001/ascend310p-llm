@@ -75,13 +75,13 @@
 - `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.container`是a1路径的Quadlet模板，包含两卡设备、60秒冷却、失败重启和现有manifest launcher；显式覆盖ENTRYPOINT执行launcher。
 - `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example`用于直接调用镜像默认入口。
 
-a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验证或部署。a1现有Quadlet由llmctl生成，部署时需同步其部署描述中的镜像与启动配置，避免再次渲染恢复旧值。切换前保存当前manifest、Quadlet与旧镜像digest；停止服务、确认NPU空闲、冷却至少60秒后启动。回滚同样执行冷却。不能只换manifest而继续使用旧镜像，也不能把旧Exec直接附加到新镜像ENTRYPOINT后。
+a1/a2驱动分别26.0.rc1和26.1.1；本节所述原始工程窗口在a2完成，后续a1复验见下节。a1现有Quadlet由llmctl生成，部署时需同步其部署描述中的镜像与启动配置，避免再次渲染恢复旧值。切换前保存当前manifest、Quadlet与旧镜像digest；停止服务、确认NPU空闲、冷却至少60秒后启动。回滚同样执行冷却。不能只换manifest而继续使用旧镜像，也不能把旧Exec直接附加到新镜像ENTRYPOINT后。
 
 结构化结果：`results/wy-mtp-production-20261108/main-graph-release-full-summary.json`。原始窗口保存在a2 runtime；`main-graph-release-packaged`实际438.875秒、driver0、清场通过。无源码挂载、关闭审计的二/三/四请求JSON、4K/32K、decode、混合请求及四并发PDF均通过；同image ID、同入口SHA、实际CLI已核对。registry manifest与config摘要也与该image ID一致，临时发布凭据已删除。完整汇总为`main-graph-release-summary.json`，发布身份见`graph-localize/main-graph-release-registry/registry-image.json`。
 
 ## a1 重建镜像 canary（2026-11-08）
 
-失败 staging 镜像为 `registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`，远端 image ID 为 `bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90698b3e68fa16f5535db952`；入口脚本虽匹配仓库，完整制品不匹配原验收清单。完整验收制品 `sha256:a11b8aca…` 已在 a1 以 prefix off 和 prefix on 各完成一次合成单请求 canary，均返回 `OK`，无507015/AICore/watchdog错误；a1随后恢复原服务。
+失败 staging 镜像为 `registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`，远端 image ID 为 `bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952`；入口脚本虽匹配仓库，完整制品不匹配原验收清单。完整验收制品 `sha256:a11b8aca…` 已在 a1 以 prefix off 和 prefix on 各完成一次合成单请求 canary，均返回 `OK`，无507015/AICore/watchdog错误；a1随后恢复原服务。
 
 候选于 21:35:32 +08:00 启动并通过 `/v1/models` 健康检查，但首次真实推理触发 NPU `507015`、HCCL watchdog 和 `EngineDeadError`，无有效速度结果，未通知前端切换。随后发现原有 a1 备份的 Quadlet 与 manifest 还存在旧镜像/入口不一致，恢复文件名并不能直接恢复 backend；该现场配置问题也已保留在 a1 journal。当前候选仅保留为 staging 诊断对象，不能作为生产或联调版本。
 
@@ -110,3 +110,18 @@ a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验
 因此候选 LLM 已通过上传、ASR、快照版本、action generation、action-items 列表和行动项编辑/幂等/版本冲突组合链路。结构化证据见 `results/wy-mtp-meetai-business-20261108/summary.json`。
 
 测试结束后已删除候选容器，冷却至少60秒，并同步恢复 systemd 实际读取的 `/etc/containers/systemd/llm-backend-primary.container` 及挂载 manifest；原镜像 `1a193ded…`、后端 HTTP 200、Agent ready、文件校验均确认。Agent 修复镜像为 `3c236939…`，Deploy 为 `6e9c0656`，仅部署 a1；n2 未变更。
+
+
+## 最终证据快照与存储校验补验（2026-11-09）
+
+前述 `3b98ecb7` 只是首版兼容修复。复查后收紧历史证据语义：已生成的完整引用保持当时原文；仅在来源版本一致时按 canonical segment ID 补齐旧短引用，不按旧索引重绑。新生成时即持久化完整快照，版本变化后的旧短引用不伪造 excerpt。
+
+首次补验发现 Agent 提取器与数据库的证据字段白名单不一致：run `5147ae24…` failed、没有发布候选，2705 input / 574 output 已结算，不自动重放。该失败源于 Agent 存储校验遗漏，不能归因镜像或模型。最终 Agent `451de6df8a3e8240c1481d503f80482d2988ecff` / image digest `2ee1cfad158adfeca05b50bf07fdc296ec9e7da32c8261d0ad72066197647033` 同步了存储校验，并验证完整证据的每个字段来自权威转写；数据库事务15项、提取→调用落库→发布联合1项、API13项、server1313项通过（25项忽略，不宣称已通过）。
+
+同一 LLM digest `a11b8aca…` 在最终 Agent 下新建录音：39段 ASR、source synced、会后流水线 completed，润色转写、笔记、摘要、可视化源及 insights ready，前四类内容通过真实 HTTP 200 非空读取。行动项 run `58da405d-3204-4ab5-b521-92595e2248a9` 完成4项，完整证据 DB/API 一致，单次调用记录和 settled 回执匹配，2711 input / 446 output。编辑、幂等回放、409、修改转写后的证据冻结、原文和 notebook 全39段投影恢复全部通过。
+
+候选实际 prefix cache on、TP2/262K/seq4/batch2048/MTP2/主Graph[3,6,12]/draft eager，启动重试0。日志按候选 systemd invocation 隔离，致命错误0；2条 ArgSort AiCore→AiCpu普通Warning保留。最初按时间截取的日志混入旧 baseline 停止时 EngineDeadError，其原始记录与纠正审计均保留，不以它作为候选错误，也不删除失败窗口。
+
+01:50:28 +08:00恢复原LLM `1a193ded…`，active、models HTTP200、实际Quadlet/manifest与备份一致，随后再次核对文件SHA及Agent ready。Deploy `0027ed77` 已将最终Agent发布到两个测试站点；前端主联调站点的公网版本、旧run回放、6项行动项和44段快照读取通过，推理没有重启，没有请求新生成。
+
+结论是此不可变候选的工程与上述真实后端业务验收通过，仍未永久切换LLM。桌面/0.3.5联合验收、人工标注的摘要/OCR/speaker/负责人质量及长期负载不由这些测试证明。历史同镜像131072+128、262016+128和超限400的原始记录已重新读取核对，历史窗口的prefix off口径保持，不改写成当前a1 prefix on容量窗口。最终结构化记录及23份成功窗口原始证据SHA：`results/wy-mtp-meetai-business-20261109/summary.json`。

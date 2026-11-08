@@ -1,13 +1,17 @@
 {
   "date": "2026-11-09",
   "timezone": "Asia/Shanghai",
-  "scope": "Real MeetAI business flow on ychy-a1 with temporary candidate LLM backend; Agent, Gateway and data services were not changed.",
+  "scope": "Real MeetAI business flow with temporary candidate LLM backend. Initial run retained the existing Agent; follow-up run deployed Agent 3b98ecb7. Gateway and data services were unchanged.",
   "candidate": {
     "registry_digest": "sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
-    "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab",
+    "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
     "prefix_caching": true,
     "mtp_tokens": 2,
-    "main_graph": [3, 6, 12]
+    "main_graph": [
+      3,
+      6,
+      12
+    ]
   },
   "agent": {
     "git_commit": "3b98ecb7a5cee3b13b4e15e0a18be92665cee60e",
@@ -45,7 +49,13 @@
   },
   "llm_runtime": {
     "candidate_fatal_log_matches": 0,
-    "patterns": ["507015", "507903", "AICore", "HCCL watchdog", "EngineDeadError"]
+    "patterns": [
+      "507015",
+      "507903",
+      "AICore",
+      "HCCL watchdog",
+      "EngineDeadError"
+    ]
   },
   "rollback": {
     "completed_at": "2026-11-09T00:54:22+08:00",
@@ -58,5 +68,6 @@
     "candidate_container_removed": true,
     "cooldown_seconds": 60
   },
-  "conclusion": "The validated candidate completed the real upload -> ASR snapshot -> action generation -> action-items listing -> edit/idempotency/version-conflict flow through the fixed Agent. The candidate window had zero fatal runtime patterns. a1 was restored to the original LLM image and verified healthy; n2 was not changed."
+  "conclusion": "The validated candidate completed the real upload -> ASR snapshot -> action generation -> action-items listing -> edit/idempotency/version-conflict flow through the fixed Agent. The candidate window had zero fatal runtime patterns. a1 was restored to the original LLM image and verified healthy; n2 was not changed.",
+  "remaining_acceptance": "Evidence snapshot and storage-validator follow-up completed in Agent 451de6df. See ../wy-mtp-meetai-business-20261109/summary.json. Desktop and formal OCR quality remain separate."
 }

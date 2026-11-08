@@ -1,0 +1,229 @@
+{
+  "date": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "status": "passed",
+  "scope": "Immutable LLM image engineering acceptance and authenticated MeetAI backend business acceptance; temporary candidate window with verified rollback.",
+  "candidate": {
+    "registry_digest": "sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+    "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+    "tensor_parallel_size": 2,
+    "max_model_len": 262144,
+    "max_num_seqs": 4,
+    "max_num_batched_tokens": 2048,
+    "mtp_tokens": 2,
+    "main_graph": [
+      3,
+      6,
+      12
+    ],
+    "draft_eager": true,
+    "prefix_caching": true,
+    "systemd_restarts": 0
+  },
+  "agent": {
+    "git_commit": "451de6df8a3e8240c1481d503f80482d2988ecff",
+    "image_digest": "sha256:2ee1cfad158adfeca05b50bf07fdc296ec9e7da32c8261d0ad72066197647033",
+    "deploy_commit": "0027ed77"
+  },
+  "tests": {
+    "database_transactions": {
+      "passed": 15,
+      "failed": 0,
+      "ignored": 0
+    },
+    "extractor_invocation_publication": {
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    "api_contracts": {
+      "passed": 13,
+      "failed": 0,
+      "ignored": 0
+    },
+    "server_lib": {
+      "passed": 1313,
+      "failed": 0,
+      "ignored": 25
+    },
+    "openapi_regenerated": true
+  },
+  "fixture": {
+    "notebook_id": "32fff808-b0b8-4fe3-8db0-2f42342901c4",
+    "session_id": "5a430430-692b-4dac-bee7-998e3d739c3c",
+    "task_id": "1c1675e9-33a5-48d4-b1b4-07e6a78ee335",
+    "source_id": "rec-1c1675e9-33a5-48d4-b1b4-07e6a78ee335",
+    "audio_sha256": "d5b3eade1e37c3184eb0411d8d9ad0495ef4f690df3f878d02650ab473c90ffd",
+    "generation_key": "image-acceptance-92701be255444705a03230505df38256",
+    "execution_run_id": "58da405d-3204-4ab5-b521-92595e2248a9"
+  },
+  "business": {
+    "upload_asr_projection": {
+      "task_status": "completed",
+      "source_state": "synced",
+      "segment_count": 39,
+      "source_content_version": "segments-v2-sha256:e3fb12ad554eb00d243588b74084cb6d711dd030bc6a06b96fd608f8bf1da270"
+    },
+    "generation_completed": {
+      "run_id": "58da405d-3204-4ab5-b521-92595e2248a9",
+      "replay_equal": true
+    },
+    "complete_evidence_persisted": {
+      "action_count": 4,
+      "db_equals_api": true
+    },
+    "billing": {
+      "state": "settled",
+      "settlement_ack": true,
+      "invocation_records": 1,
+      "terminal_usage": {
+        "output_tokens": 446,
+        "cache_write_tokens": 0,
+        "total_input_tokens": 2711,
+        "cached_input_tokens": 0
+      },
+      "settlement_usage_matches": true
+    },
+    "action_edit": {
+      "http": 200,
+      "version": 2,
+      "replay_equal": true,
+      "stale_http": 409
+    },
+    "frozen_evidence": {
+      "source_status": "changed",
+      "all_refs_unchanged": true
+    },
+    "transcript_restored": {
+      "original_text": true,
+      "all_segments_retained": true
+    },
+    "artifacts": {
+      "status": "passed",
+      "notebook_projection_original_restored": true,
+      "projection_segment_count": 39,
+      "task_id": "1c1675e9-33a5-48d4-b1b4-07e6a78ee335",
+      "ready_types": [
+        "insights",
+        "note",
+        "polished_transcript",
+        "summary",
+        "transcript",
+        "visual_source"
+      ],
+      "http_readback": [
+        {
+          "type": "visual_source",
+          "http": 200,
+          "bytes": 1124,
+          "sha256": "f987de539082e08179c9cb8e1eab662fe62ef85df30d42e1172d7929e8b364d0"
+        },
+        {
+          "type": "summary",
+          "http": 200,
+          "bytes": 3443,
+          "sha256": "0f70688dfa2246b38401bccc7c216acd331c97b66ce7bcd678bf658642ce8713"
+        },
+        {
+          "type": "note",
+          "http": 200,
+          "bytes": 3106,
+          "sha256": "ef92818c8db2bb2fc3eb1c346dc6524b2761618085af80dbfe3b7f53f06bca09"
+        },
+        {
+          "type": "polished_transcript",
+          "http": 200,
+          "bytes": 8716,
+          "sha256": "e8ee94afeb252c89ac00162c0c3b68e7429260ceee3b411466f8c9c323de65f9"
+        }
+      ],
+      "pipelines": [
+        {
+          "pipeline": "work_assistant.notebook_actions",
+          "status": "completed"
+        },
+        {
+          "pipeline": "meeting_postprocess",
+          "status": "completed"
+        }
+      ]
+    }
+  },
+  "runtime": {
+    "candidate_systemd_invocation_id": "17a3798e00284c28a6514b5d923b1789",
+    "fatal_log_matches": 0,
+    "arg_sort_aicpu_fallback_warnings": 2,
+    "candidate_log_sha256": "12b7b5804df43322ebe77941849bc72eb3f28fde1ad3e07ff8c37afcfee303ce"
+  },
+  "rollback": {
+    "models_http": 200,
+    "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+    "service_active": true,
+    "quadlet_manifest_match": true,
+    "verified_at": "2026-11-09T01:50:28.546770+08:00"
+  },
+  "n2": {
+    "release_health": "passed",
+    "public_version_matches": true,
+    "existing_run_replay": "5575857f-61f1-4728-a699-367055e9183c",
+    "same_receipt": true,
+    "action_count": 6,
+    "segment_count": 44,
+    "new_generation_requested": false,
+    "inference_restarted": false
+  },
+  "previous_gates": {
+    "artifacts_sha_verified": 43,
+    "prior_raw_evidence_sha_rechecked": 19,
+    "short_and_concurrent_json": "passed",
+    "cold_32k_prefix_hits": 0,
+    "pdf_functional_requests": 2,
+    "post_pdf_json": "passed",
+    "same_device_c1_c4_speed_comparison": "passed; 2 rounds, not a stable-gain guarantee",
+    "historical_same_image_context_capacity": "131072+128 and 262016+128 completed on a2 with prefix cache disabled; over-limit HTTP 400"
+  },
+  "retained_failure": {
+    "agent_commit": "1eb5d82f09ca56acf8700c4bb494dc176b8958a6",
+    "run_id": "5147ae24-97a9-4ab6-aa44-469467823092",
+    "cause": "Storage allowed only short evidence references and rejected newly persisted complete snapshots; fixed in 451de6df. Not an established LLM protocol failure.",
+    "billing_state": "settled",
+    "terminal_usage": {
+      "total_input_tokens": 2705,
+      "output_tokens": 574
+    },
+    "published_candidates": 0,
+    "automatic_replay": false,
+    "log_classifier_corrected": "Old baseline shutdown logs and ordinary AiCore-to-AiCpu fallback warnings are retained and separated from candidate fatal errors by systemd invocation ID."
+  },
+  "limits": [
+    "No permanent LLM cutover: original image is active after rollback.",
+    "Desktop UI, microphone/session-final/offline recovery and 0.3.5 diagnostics remain separate joint acceptance.",
+    "Artifact and PDF checks establish functional completion/readability, not formal summary, OCR, speaker or action-assignee accuracy/non-inferiority.",
+    "A single successful fresh business fixture is not a long-duration stability or multi-user load qualification."
+  ],
+  "raw_evidence_sha256": {
+    "actions-after-transcript-edit.json": "8b906b295dba70ca09c65d81b1031db779627b45914b6379720279b129b45846",
+    "actions-before.json": "bbfe4cddd6c4e0aa20513a1ee833ced3f24a7552d262d3d9f6e1cf9c24a37939",
+    "admission.json": "25bddd80c3b18b98348bc2cff819c5eba9abe7e5b540368de221d827be8f5ef8",
+    "artifact-note.data": "ef92818c8db2bb2fc3eb1c346dc6524b2761618085af80dbfe3b7f53f06bca09",
+    "artifact-polished_transcript.data": "e8ee94afeb252c89ac00162c0c3b68e7429260ceee3b411466f8c9c323de65f9",
+    "artifact-readback.json": "ad7b0f3475769bbc79fb853aa31cbd0a9dd68152233988f5406462b79224b713",
+    "artifact-summary.data": "0f70688dfa2246b38401bccc7c216acd331c97b66ce7bcd678bf658642ce8713",
+    "artifact-visual_source.data": "f987de539082e08179c9cb8e1eab662fe62ef85df30d42e1172d7929e8b364d0",
+    "artifact_readback.py": "b15fbb43f5e6650a44323098b680214eca2cbbc565c8a693145665236437391b",
+    "artifacts.json": "13b7c5c36a22fdf27b3a0235ebfca636412d8e31eb83561bb1748cbd02ea33b5",
+    "business_acceptance.py": "18b522435944cb16d3ed1439f8f5c5c117819876713328deb3a40a85eb54ab00",
+    "candidate-journal.txt": "12b7b5804df43322ebe77941849bc72eb3f28fde1ad3e07ff8c37afcfee303ce",
+    "candidate_window.py": "7d8e17fcc1b01e62ecf1c09f5f06f6118ff6d63d637e890036dcd0d5bf7989a2",
+    "edit.json": "e4deffbfacc7cd477393770906ed8f1067ae1dbc408c5cbda1ecb88eadf88829",
+    "generation-completed.json": "35db41151fbb64d4c267d8d639e215195234e3db46b48eaeb80346ac156c4576",
+    "meetai-evidence-a1-deploy-r2.log": "a47efb9f789ead8866dc5a3548f9a0bc6194343f847f195928eee2bdee2893e7",
+    "meetai-evidence-candidate-window-r2.log": "4e32211171254bd5555f3d46afee18d9e72939afc6642526f85b02f8bf0c64ec",
+    "meetai-evidence-n2-deploy.log": "475b0194abe9a568d4147fe21e68c24b6e641283b51aa2c76b853b0c6af91ff1",
+    "persisted-evidence.json": "3cef9e20b4eabda5eeb17413a4e2487c0378ee62ca9161659e2b248dbfe9860d",
+    "report.json": "463f691c0f574886c1495ca344eeaf643f063314b9f7e178c027d94eab46e436",
+    "snapshot-before.json": "8d8cece4d68485a8e458ca4859f25671d02703956f75d8a8203ff8331124ec4f",
+    "snapshot-restored.json": "088e94f1aa77691bf4a408be5f7cc305bc2fb679050bd974f63ca612f5ea3183",
+    "window.json": "c210ea00fcb524560bc19a398b47f4e99299b928709658f301e85ed64693a3f2"
+  }
+}
