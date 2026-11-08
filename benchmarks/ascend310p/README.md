@@ -8,14 +8,13 @@
 
 以下只列入口，不执行设备任务。门禁和算子工具需要匹配的 Ascend 运行时、设备及制品；CPU 单元测试独立运行。
 
-## 可复用清单（含 tools 改动，共 56 个脚本/测试）
+## 可复用清单（含 tools 改动，共 57 个脚本/测试）
 
 - `benchmarks/ascend310p/analyze_wy_snapshots.py`
 - `benchmarks/ascend310p/audit_runtime_stack.py`
 - `benchmarks/ascend310p/build_fwd_o_maskfix_extension.py`
 - `benchmarks/ascend310p/build_pr17640_fwd_o_extension.py`
 - `benchmarks/ascend310p/build_pr17640_gdn_pair_extension.py`
-- `benchmarks/ascend310p/build_pr17640_wy_extension.py`
 - `benchmarks/ascend310p/check_action_state_regression.py`
 - `benchmarks/ascend310p/check_cann921_gdn_pair.py`
 - `benchmarks/ascend310p/check_default_gdn.py`
