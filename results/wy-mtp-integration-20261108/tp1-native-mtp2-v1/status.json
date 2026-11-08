@@ -1,0 +1,6 @@
+{
+  "state": "failed",
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w4_wy_mtp_matrix_20261108.py\", line 59, in main\n    common.bench(directory,mtp,OUT)\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_wy_mtp_matrix_20261108.py\", line 104, in bench\n    row=pdf.request(case,inputs,manifest['prompt'],f'mtp{mtp}',repeat)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_pr17640_pdf_ab_20261107.py\", line 188, in request\n    with (Path(os.environ[\"PDF_AB_OUT\"]) / stream_path).open(\"x\") as raw:\n               ~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 685, in __getitem__\nKeyError: 'PDF_AB_OUT'\n",
+  "cleanup_passed": true,
+  "elapsed_s": 884.5059759360156
+}

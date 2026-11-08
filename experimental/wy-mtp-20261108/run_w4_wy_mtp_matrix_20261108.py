@@ -3,6 +3,7 @@
 import fcntl
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import time
@@ -14,7 +15,7 @@ import run_wy_mtp_matrix_20261108 as common
 ROOT=common.ROOT
 IMAGE='registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35'
 ASSETS=ROOT/'wy-mtp-20261108'
-OUT=ROOT/'w4-wy-mtp-matrix-20261108-v1'
+OUT=ROOT/'w4-wy-mtp-matrix-20261108-v2'
 common.pdf.MODEL='qwen36-w4a8-c8'
 
 def launch(mode,mtp):
@@ -56,7 +57,12 @@ def main():
                 name,directory=launch(mode,mtp)
                 try:
                     common.pdf.wait_health(name)
-                    common.bench(directory,mtp,OUT)
+                    if index==0:
+                        previous=ROOT/'w4-wy-mtp-matrix-20261108-v1/w4-native-mtp2'
+                        paths=[*previous.glob('*.jsonl'),previous/'smoke.json']
+                        common.write(directory/'reused-text-evidence.json',{'source':str(previous),'sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}})
+                        for path in paths: shutil.copy2(path,directory/path.name)
+                    common.bench(directory,mtp,OUT,pdf_only=(index==0))
                 finally:
                     state=common.stop(name,directory)
                     states.append({'mode':mode,'mtp':mtp,'state':state})

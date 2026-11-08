@@ -1,0 +1,123 @@
+{
+  "scope": "single-stream integration diagnostic; synthetic text and PDF proxy; no formal business acceptance",
+  "status": {
+    "state": "failed",
+    "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w4_wy_mtp_matrix_20261108.py\", line 59, in main\n    common.bench(directory,mtp,OUT)\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_wy_mtp_matrix_20261108.py\", line 104, in bench\n    row=pdf.request(case,inputs,manifest['prompt'],f'mtp{mtp}',repeat)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_pr17640_pdf_ab_20261107.py\", line 188, in request\n    with (Path(os.environ[\"PDF_AB_OUT\"]) / stream_path).open(\"x\") as raw:\n               ~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 685, in __getitem__\nKeyError: 'PDF_AB_OUT'\n",
+    "cleanup_passed": true,
+    "elapsed_s": 884.5059759360156
+  },
+  "arms": {
+    "w4-native-mtp2": {
+      "text": {
+        "decode-4096-128": {
+          "request_count": 3,
+          "expected_count": 3,
+          "complete": true,
+          "all_valid": true,
+          "prompt_tokens": 4096,
+          "output_tokens": 128,
+          "prompt_hashes": [
+            "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb"
+          ],
+          "prefill_s_median": 6.504657711950131,
+          "prefill_tok_s_median": 629.7026194744992,
+          "decode_tok_s_median": 35.63662644986024,
+          "ttft_s_median": 6.508594329992775,
+          "prefix_cache_hits": 0.0,
+          "response_sha256": [
+            "b5511cbb1244dac1f81bf6cf29cbd164f12d9e822153bb8426ff93d3707a4fce",
+            "b5511cbb1244dac1f81bf6cf29cbd164f12d9e822153bb8426ff93d3707a4fce",
+            "b5511cbb1244dac1f81bf6cf29cbd164f12d9e822153bb8426ff93d3707a4fce"
+          ]
+        },
+        "prefill-16384": {
+          "request_count": 3,
+          "expected_count": 3,
+          "complete": true,
+          "all_valid": true,
+          "prompt_tokens": 16384,
+          "output_tokens": 1,
+          "prompt_hashes": [
+            "7f7e9bf54820bcb90ce3c0d92ecd71189a64d484e0a5dde0ec2ab7dfcb8b9a8b"
+          ],
+          "prefill_s_median": 27.496304954984225,
+          "prefill_tok_s_median": 595.8618813263522,
+          "decode_tok_s_median": null,
+          "ttft_s_median": 27.50545781000983,
+          "prefix_cache_hits": 0.0,
+          "response_sha256": [
+            "c426a5fe614fcd11a22eeb458c5cdf6115b992c1724b529161ef6a4143bcee47",
+            "c426a5fe614fcd11a22eeb458c5cdf6115b992c1724b529161ef6a4143bcee47",
+            "c426a5fe614fcd11a22eeb458c5cdf6115b992c1724b529161ef6a4143bcee47"
+          ]
+        },
+        "prefill-32768": {
+          "request_count": 3,
+          "expected_count": 3,
+          "complete": true,
+          "all_valid": true,
+          "prompt_tokens": 32768,
+          "output_tokens": 1,
+          "prompt_hashes": [
+            "1d5ee84e8f0e2e5154107678ba3ce5ce1a8c276f474f0f90e7bd2af3271ffd56"
+          ],
+          "prefill_s_median": 60.19353766896529,
+          "prefill_tok_s_median": 544.3773745315951,
+          "decode_tok_s_median": null,
+          "ttft_s_median": 60.218811533995904,
+          "prefix_cache_hits": 0.0,
+          "response_sha256": [
+            "cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8",
+            "cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8",
+            "cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8"
+          ]
+        },
+        "prefill-4096": {
+          "request_count": 3,
+          "expected_count": 3,
+          "complete": true,
+          "all_valid": true,
+          "prompt_tokens": 4096,
+          "output_tokens": 1,
+          "prompt_hashes": [
+            "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb"
+          ],
+          "prefill_s_median": 6.444787603046279,
+          "prefill_tok_s_median": 635.5523645284959,
+          "decode_tok_s_median": null,
+          "ttft_s_median": 6.451238957000896,
+          "prefix_cache_hits": 0.0,
+          "response_sha256": [
+            "556aa8a52206ef8ffd3570b82c6a3753748b8ef39139bfe6e7c0120f0fc12453",
+            "556aa8a52206ef8ffd3570b82c6a3753748b8ef39139bfe6e7c0120f0fc12453",
+            "556aa8a52206ef8ffd3570b82c6a3753748b8ef39139bfe6e7c0120f0fc12453"
+          ]
+        },
+        "prefill-8192": {
+          "request_count": 3,
+          "expected_count": 3,
+          "complete": true,
+          "all_valid": true,
+          "prompt_tokens": 8192,
+          "output_tokens": 1,
+          "prompt_hashes": [
+            "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4"
+          ],
+          "prefill_s_median": 13.152803988021333,
+          "prefill_tok_s_median": 622.8329721526078,
+          "decode_tok_s_median": null,
+          "ttft_s_median": 13.158916467044037,
+          "prefix_cache_hits": 0.0,
+          "response_sha256": [
+            "567479c447e472328522a1d759aabb9b579e4522a6da547c983d29e94c1604c2",
+            "567479c447e472328522a1d759aabb9b579e4522a6da547c983d29e94c1604c2",
+            "567479c447e472328522a1d759aabb9b579e4522a6da547c983d29e94c1604c2"
+          ]
+        }
+      },
+      "pdf": [],
+      "has_container_inspect": true
+    }
+  },
+  "paired": []
+}

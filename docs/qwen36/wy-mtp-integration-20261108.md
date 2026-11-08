@@ -36,6 +36,8 @@ _310p/attention/attention_mask.py:95 -> query_start_loc.to("cpu", dtype=torch.in
 aclrtMemcpy 107030 / captured-stream synchronization 107027
 ```
 
+本实验使用 production manifest 启动覆盖入口；日志解析的编译模式为 `VLLM_COMPILE(3)`。镜像默认 `start-wy.sh` 的编译模式参数为 `0`，且尚未提供 MTP 开关。因此本失败只覆盖归档 manifest，不能外推为所有 Graph 配置均不支持 MTP。TP1 另带 `direct_graph_310` 兼容适配器，不能仅比较 Graph 模式名称而忽略运行时差异。
+
 这是图捕获兼容性失败；没有请求质量或组合性能结果，不能归因为 WY 精度失败。实验容器已停止、日志保存、删除，独立快照确认 NPU 无运行进程。
 
 结果目录（a2）：`/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-matrix-20261108-v1/`。总耗时 231.316 秒。下一步仅关闭图执行做 MTP1 smoke 隔离；即使 eager 通过，也不能证明原 Graph 组合可交付。
@@ -45,6 +47,23 @@ aclrtMemcpy 107030 / captured-stream synchronization 107027
 同一镜像、同一模型和原 prefix 设置，仅移除 compilation-config 并增加 `--enforce-eager`。MTP1 启动成功，三条生成分别返回 `OK.`、`42` 和包含 `57.80` / `2026-11-08` 的合法 JSON，均正常 stop。耗时 217.445 秒；独立快照清场通过。
 
 结果目录（a2）：`/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-eager-smoke-20261108-v1/`；最小结果已归档至仓库 `results/wy-mtp-integration-20261108/tp2-eager-mtp1/`。这是基础可运行证据，没有完成 PDF、长输出或正式质量验收，不支持 eager 生产放行或性能收益声明。原 Graph 启动失败结论不变。
+
+## TP1 本轮 native / MTP2 文本结果
+
+既有8e17ec9a…镜像，TP1、C8关闭、MindIEQ long-prefill、MTP2、prefix关闭，编译mode 0及既有direct-graph适配器。日志确认 `native_eligible=True`，native臂若不满足能力条件会报错，不能静默回退。Graph捕获完成，三条基础生成均正确。
+
+| 输入token | Prefill中位 tok/s | 有效重复 |
+| ---: | ---: | ---: |
+| 4096 | 635.552 | 3/3 |
+| 8192 | 622.833 | 3/3 |
+| 16384 | 595.862 | 3/3 |
+| 32768 | 544.377 | 3/3 |
+
+4K输入、128输出的Decode中位为35.637 tok/s，三次MTP草稿token接受率均83.33%。全部冷输入prefix hits为0。
+
+v1窗口在PDF客户端读取输出目录变量时因 `PDF_AB_OUT` 未设置而中断，尚未发PDF请求。总耗时884.506秒，driver非零退出并独立清场通过。这是实验脚本错误，不是模型/PDF失败，也不构成完整矩阵通过。原始文本结果、日志与清场归档于 `results/wy-mtp-integration-20261108/tp1-native-mtp2-v1/`。
+
+修复客户端变量后开启v2窗口，第一臂以SHA登记复用v1已完成的文本证据，仅续跑PDF，其余对照臂按原计划运行。尚无Torch WY对照结果，不计算当前WY收益。
 
 ## 后续矩阵
 

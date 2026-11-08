@@ -5,6 +5,7 @@ import copy
 import fcntl
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -76,25 +77,27 @@ def stop(name,directory):
     run(['podman','rm',name],capture_output=True)
     return detail[0]['State']
 
-def bench(directory,mtp,out,smoke_only=False):
-    smoke=[]
-    for index,prompt in enumerate(('Reply with OK.', 'Compute 17 + 25. Reply with the number only.', 'Return JSON with exactly these fields: invoice_total as 57.80, date as 2026-11-08.')):
-        before=pdf.metrics()
-        start=time.monotonic()
-        result=post('/v1/chat/completions',{'model':pdf.MODEL,'messages':[{'role':'user','content':prompt}], 'temperature':0,'seed':0,'max_tokens':64,'chat_template_kwargs':{'enable_thinking':False},'cache_salt':f'{out.name}-mtp{mtp}-smoke{index}'})
-        after=pdf.metrics()
-        smoke.append({'prompt':prompt,'elapsed_s':time.monotonic()-start,'response':result,'metrics_delta':{k:after[k]-before[k] for k in before}})
-        write(directory/'smoke.json',smoke)
-        assert result.get('choices') and result.get('usage'), 'invalid smoke response'
-    if smoke_only: return
-    for length in (4096,8192,16384,32768):
-        write(out/'status.json',{'state':'prefill','mtp':mtp,'length':length,'unix_ns':time.time_ns()})
-        cmd=['python3',str(ROOT/'wy-boundary-20261106/tools/bench_server_phases.py'),'--base-url',BASE,'--model',pdf.MODEL,'--prompt-tokens',str(length),'--output-tokens','1','--repeats','3','--cache-salt-prefix',f'{out.name}-mtp{mtp}-{length}','--out',str(directory/f'prefill-{length}.jsonl')]
-        run(cmd,timeout=900)
-    write(out/'status.json',{'state':'decode','mtp':mtp,'unix_ns':time.time_ns()})
-    cmd=['python3',str(ROOT/'wy-boundary-20261106/tools/bench_server_phases.py'),'--base-url',BASE,'--model',pdf.MODEL,'--prompt-tokens','4096','--output-tokens','128','--repeats','3','--cache-salt-prefix',f'{out.name}-mtp{mtp}-decode','--out',str(directory/'decode-4096-128.jsonl')]
-    if mtp: cmd += ['--spec-metrics']
-    run(cmd,timeout=1200)
+def bench(directory,mtp,out,smoke_only=False,pdf_only=False):
+    os.environ["PDF_AB_OUT"]=str(directory)
+    if not pdf_only:
+        smoke=[]
+        for index,prompt in enumerate(('Reply with OK.', 'Compute 17 + 25. Reply with the number only.', 'Return JSON with exactly these fields: invoice_total as 57.80, date as 2026-11-08.')):
+            before=pdf.metrics()
+            start=time.monotonic()
+            result=post('/v1/chat/completions',{'model':pdf.MODEL,'messages':[{'role':'user','content':prompt}], 'temperature':0,'seed':0,'max_tokens':64,'chat_template_kwargs':{'enable_thinking':False},'cache_salt':f'{out.name}-mtp{mtp}-smoke{index}'})
+            after=pdf.metrics()
+            smoke.append({'prompt':prompt,'elapsed_s':time.monotonic()-start,'response':result,'metrics_delta':{k:after[k]-before[k] for k in before}})
+            write(directory/'smoke.json',smoke)
+            assert result.get('choices') and result.get('usage'), 'invalid smoke response'
+        if smoke_only: return
+        for length in (4096,8192,16384,32768):
+            write(out/'status.json',{'state':'prefill','mtp':mtp,'length':length,'unix_ns':time.time_ns()})
+            cmd=['python3',str(ROOT/'wy-boundary-20261106/tools/bench_server_phases.py'),'--base-url',BASE,'--model',pdf.MODEL,'--prompt-tokens',str(length),'--output-tokens','1','--repeats','3','--cache-salt-prefix',f'{out.name}-mtp{mtp}-{length}','--out',str(directory/f'prefill-{length}.jsonl')]
+            run(cmd,timeout=900)
+        write(out/'status.json',{'state':'decode','mtp':mtp,'unix_ns':time.time_ns()})
+        cmd=['python3',str(ROOT/'wy-boundary-20261106/tools/bench_server_phases.py'),'--base-url',BASE,'--model',pdf.MODEL,'--prompt-tokens','4096','--output-tokens','128','--repeats','3','--cache-salt-prefix',f'{out.name}-mtp{mtp}-decode','--out',str(directory/'decode-4096-128.jsonl')]
+        if mtp: cmd += ['--spec-metrics']
+        run(cmd,timeout=1200)
     inputs=ROOT/'a310-ocr-pdf-smoke-20261107'
     manifest=json.loads((inputs/'manifest.json').read_text())
     for case in manifest['cases']:
