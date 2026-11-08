@@ -19,7 +19,7 @@
 | prefix caching / async | 开启 / 开启 |
 | served model name | Qwen3.6-35B-A3B-w8a8 |
 
-当前失败 staging image ID：`bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952`；digest：`sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`。入口脚本已匹配仓库，但完整制品未匹配原验收清单；a1 首次推理失败，禁止据此放行。
+失败 staging image ID：`bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952`；digest：`sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`。该制品缺少原验收修复，a1 首次推理失败，已禁止放行。当前部署候选恢复为完整验收制品 `bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4` / `sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5`。
 
 镜像元数据版本为torch2.10.0+cpu、torch_npu2.10.0.post2、vLLM0.23.0+empty、vllm-ascend0.23.0rc2.dev93+g88eac2713，CANN9.1.0-beta.1；本地overlay另外登记SHA，不把包版本当作未修改源码证明。
 
@@ -81,6 +81,6 @@ a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验
 
 ## a1 重建镜像 canary（2026-11-08）
 
-按当前仓库脚本重建并推送的候选镜像为 `registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`，远端 image ID 为 `bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952`。a1 pull 后确认入口脚本 SHA 与仓库 `start-wy-mtp.sh` 一致，实际 CLI 为 TP2、262144、seq4、batch2048、MTP2、主图 `[3,6,12]`；生产默认 prefix cache 为开启。
+失败 staging 镜像为 `registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`，远端 image ID 为 `bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90698b3e68fa16f5535db952`；入口脚本虽匹配仓库，完整制品不匹配原验收清单。完整验收制品 `sha256:a11b8aca…` 已在 a1 以 prefix off 和 prefix on 各完成一次合成单请求 canary，均返回 `OK`，无507015/AICore/watchdog错误；a1随后恢复原服务。
 
 候选于 21:35:32 +08:00 启动并通过 `/v1/models` 健康检查，但首次真实推理触发 NPU `507015`、HCCL watchdog 和 `EngineDeadError`，无有效速度结果，未通知前端切换。随后发现原有 a1 备份的 Quadlet 与 manifest 还存在旧镜像/入口不一致，恢复文件名并不能直接恢复 backend；该现场配置问题也已保留在 a1 journal。当前候选仅保留为 staging 诊断对象，不能作为生产或联调版本。

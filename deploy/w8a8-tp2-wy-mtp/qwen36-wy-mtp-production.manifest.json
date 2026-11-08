@@ -1,6 +1,6 @@
 {
   "runtime_kind": "vllm_ascend",
-  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189",
+  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
   "model_name": "qwen3.6-35b-a3b-w8a8",
   "port": 18081,
   "npu_devices": [
