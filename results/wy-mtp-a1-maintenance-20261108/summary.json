@@ -1,0 +1,133 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Asia/Shanghai",
+  "scope": "Same-device maintenance verification; original service restored, no permanent cutover.",
+  "candidate": {
+    "registry_digest": "sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+    "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+    "artifacts_verified": 43,
+    "prefix_caching": true,
+    "main_graph": [
+      3,
+      6,
+      12
+    ],
+    "mtp_tokens": 2,
+    "draft_eager": true,
+    "max_model_len": 262144,
+    "max_num_seqs": 4,
+    "max_num_batched_tokens": 2048,
+    "benchmarks": {
+      "1": {
+        "successful_requests": 2,
+        "aggregate_tok_s_median": 35.55645480956054,
+        "ttft_s_median": 2.1866493485867977,
+        "tpot_ms_median": 23.9014926320033
+      },
+      "4": {
+        "successful_requests": 8,
+        "aggregate_tok_s_median": 59.322438031729064,
+        "ttft_s_median": 6.4489537922199816,
+        "tpot_ms_median": 45.09508585805209
+      }
+    },
+    "cold32k": {
+      "elapsed_s": 22.496448934078217,
+      "ttft_s": 21.752033837139606,
+      "mean_tpot_s": 0.02401339022382613,
+      "usage": {
+        "prompt_tokens": 32768,
+        "total_tokens": 32800,
+        "completion_tokens": 32
+      },
+      "prefix_metrics_delta": {
+        "vllm:prefix_cache_queries_total": 32768.0,
+        "vllm:prefix_cache_hits_total": 0.0
+      }
+    },
+    "json_checks_passed": 6,
+    "pdf_functional_checks_passed": 2,
+    "pdf_finish_reasons": [
+      "stop",
+      "stop"
+    ],
+    "fatal_log_pattern_matches": 0
+  },
+  "baseline": {
+    "registry_digest": "sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+    "image_id": "c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
+    "prefix_caching": true,
+    "main_graph": [
+      1,
+      2
+    ],
+    "mtp_tokens": 0,
+    "max_num_batched_tokens": 4096,
+    "benchmarks": {
+      "1": {
+        "successful_requests": 2,
+        "aggregate_tok_s_median": 27.231870402991866,
+        "ttft_s_median": 3.1471444678027183,
+        "tpot_ms_median": 30.63220705166313
+      },
+      "4": {
+        "successful_requests": 8,
+        "aggregate_tok_s_median": 51.75900124380073,
+        "ttft_s_median": 10.946673012105748,
+        "tpot_ms_median": 55.874507840533255
+      }
+    }
+  },
+  "protocol": {
+    "order": [
+      "candidate",
+      "baseline"
+    ],
+    "input_tokens": 4096,
+    "output_tokens": 512,
+    "concurrencies": [
+      1,
+      4
+    ],
+    "rounds_per_concurrency": 2,
+    "warmup_output_tokens": 32,
+    "request_cache_salts": "distinct per request",
+    "timing": "HTTP client streaming; includes prefill, TPOT from received content events",
+    "same_tokenizer_text_and_seed": true,
+    "not_statistical_non_inferiority": true,
+    "limits": "Two rounds per concurrency, sequential windows, candidate C4 throughput 66.41 and 52.23 tok/s. Whole-stack comparison, not WY-only causal attribution. PDF checks cover raster request completion only; no formal OCR or document-quality gate."
+  },
+  "rollback": {
+    "verified_at": "2026-11-08T23:33:42+08:00",
+    "original_quadlet_matches_backup": true,
+    "original_manifest_matches_backup": true,
+    "backend_service_active": true,
+    "backend_models_http": 200,
+    "remaining_containers": [
+      "gateway",
+      "original backend"
+    ],
+    "cooldown_seconds": 60
+  },
+  "raw_evidence_sha256": {
+    "bench_http_stream.py": "17e07659e46c3a23073fe0b5946e422b92b5b10a0adfa923c974edec2fc8cc20",
+    "baseline-cli.txt": "2ab4c1fe2e52bc66337a0c2295a716433a8a6ce1591da3639d2c2630c0120365",
+    "candidate-log-check.json": "97462af43044fc36ede15cc4e4d05c66826c46c02440544c2a6dbd1c7a65881c",
+    "candidate-journal.txt": "3378b8785a7f1d78ee99a2fe9f4cd01704450a6a6c7410bcc42ad18b9978396a",
+    "candidate-cli.txt": "ece88f716241f96cdf0dd1ae063d48d837452126ff7f31b981af0a11d94b91c0",
+    "check.py": "04106491fa422eaf45d7965e53d044a103ac64672efd5d529353689d4b28991b",
+    "build-manifest.json": "03b048493519c3869269c4fdfe638d59c631c0912d6cc37da6bac40270608cd5",
+    "candidate/artifact-sha256.txt": "f8613ce62bda383b5974545be1d629d288fe6ceaec6248fcea8dd78eea2bb81b",
+    "candidate/summary.json": "3cd130c0eaa4ea904a87b9e4e25659f9a0dbb83e31bb73c63db1c1ff967cc00c",
+    "candidate/4k-512-c1.jsonl": "f329064d347b3084c9eec54d0a87ad46ea53782e294327fef0c3064930251647",
+    "candidate/4k-512-c4.jsonl": "85e12e50d70b0f9d9593c6fd75a7919082215c6e528a87dcc6b735df021340d5",
+    "candidate/status.txt": "8e57c74cfecc7f047b34ffdcd97718fd4ac1469fb553fa7a38179f6e273523af",
+    "pdf/manifest.json": "120bd8af0f6edb0fd866d55e69ad3f0e4a04a6a30481b03df2e5532816baeaf7",
+    "baseline/summary.json": "fba729b07915a7816bdccb369969e642bc0fcdaf48333a3dbf1e283b0e5605d6",
+    "baseline/4k-512-c1.jsonl": "963d76b696e759f621015e64912e70d2e033cc3138facd217f666fdfe72683e2",
+    "baseline/4k-512-c4.jsonl": "4d006aa941e27dac6798ad3533c73de1e02e67a2d7072e1faa5e1139351c43da",
+    "baseline/status.txt": "8e57c74cfecc7f047b34ffdcd97718fd4ac1469fb553fa7a38179f6e273523af",
+    "pdf/pdf-03/page.png": "eb07402ec15d40af1f86ae67f68d7e687b676b98b91344338c02877d526ceda2",
+    "pdf/pdf-02/page.png": "41ddc4da633d70193e63d934445adce9c22b3171c3e46f2f1fd221bda236d499"
+  }
+}

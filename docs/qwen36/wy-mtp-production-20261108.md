@@ -84,3 +84,19 @@ a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验
 失败 staging 镜像为 `registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`，远端 image ID 为 `bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90698b3e68fa16f5535db952`；入口脚本虽匹配仓库，完整制品不匹配原验收清单。完整验收制品 `sha256:a11b8aca…` 已在 a1 以 prefix off 和 prefix on 各完成一次合成单请求 canary，均返回 `OK`，无507015/AICore/watchdog错误；a1随后恢复原服务。
 
 候选于 21:35:32 +08:00 启动并通过 `/v1/models` 健康检查，但首次真实推理触发 NPU `507015`、HCCL watchdog 和 `EngineDeadError`，无有效速度结果，未通知前端切换。随后发现原有 a1 备份的 Quadlet 与 manifest 还存在旧镜像/入口不一致，恢复文件名并不能直接恢复 backend；该现场配置问题也已保留在 a1 journal。当前候选仅保留为 staging 诊断对象，不能作为生产或联调版本。
+
+
+## a1 完整制品维护复验与回滚（2026-11-08）
+
+恢复原完整制品 `a11b8aca…` 后，通过候选 Quadlet/manifest 临时部署，核验 build-manifest 中全部 **43** 个文件 SHA；实际 TP2/262K/seq4/batch2048/MTP2/主 Graph[3,6,12]/draft eager，prefix cache 开启。短 JSON、四并发 JSON、PDF 后 JSON 共6请求通过；两页 PDF 栅格 OCR 请求均以 stop 完成。32K+32冷请求完整返回，TTFT21.75秒、端到端22.50秒，prefix queries32768、hits0。候选窗口日志无507015/507903/AICore异常/HCCL watchdog异常/EngineDeadError。
+
+同机先候选、后恢复原服务，每组4K输入/512输出，C1/C4各两轮，每请求独立salt，各自先预热32输出token；两组各10个计时请求全部成功。以下为HTTP客户端流式计时中位数，端到端吞吐包含Prefill，TPOT不是服务端纯Decode计数器。
+
+| 配置 | 单路端到端 tok/s | 单路 TTFT 秒 | 单路 TPOT 毫秒 | C4聚合端到端 tok/s | C4 TTFT 秒 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 原服务1a193…，无MTP | 27.23 | 3.15 | 30.63 | 51.76 | 10.95 |
+| 完整候选a11b8…，MTP2 | 35.56 | 2.19 | 23.90 | 59.32 | 6.45 |
+
+本轮端到端吞吐单路约+30.6%、C4约+14.6%；只有两轮且候选C4两轮为66.41/52.23 tok/s，不能作为稳定百分比承诺或独立统计非劣证明。整栈/配置比较不能将全部收益归因于WY；本轮未重跑262K容量或正式OCR质量门禁。
+
+测试后冷却60秒，恢复本轮备份的原Quadlet及manifest并逐字节核对一致；23:33:42 +08:00确认原镜像1a193…运行、systemd active、18081/v1/models=200，同样10个测速请求全部成功。候选未永久切换，n2未操作，未通知前端。结构化结果和原始证据SHA见 `results/wy-mtp-a1-maintenance-20261108/summary.json`。后续永久部署仍须同步llmctl站点/catalog/runtime配置源，避免重新渲染覆盖候选；本轮临时维护测试未修改该配置源。
