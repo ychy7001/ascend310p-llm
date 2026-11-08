@@ -1,0 +1,606 @@
+{
+  "date": "2026-11-05",
+  "scope": "startup reproduction then conditional same-round gates; no image rebuild",
+  "candidate_reference": "${REGISTRY}/${NAMESPACE}/ascend310p-llm-candidate@sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+  "production_reference": "${REGISTRY}/${NAMESPACE}/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+  "reproduction": {
+    "arms": [
+      {
+        "healthy": true,
+        "observed_unix_ns": 1793860982853193549,
+        "startup_s": 211.71846022293903,
+        "arm": "B1",
+        "kind": "B",
+        "exit_code": 0,
+        "oom_killed": false,
+        "available_ram_gib": [
+          "14.44"
+        ],
+        "worker_pids": [
+          "567",
+          "574"
+        ],
+        "segfault": false,
+        "avx2_fp16_fill": false,
+        "crash_stack_sha256": null,
+        "kernel_segfault_records": []
+      },
+      {
+        "healthy": true,
+        "observed_unix_ns": 1793861217444397065,
+        "startup_s": 224.5305168509949,
+        "arm": "Control1",
+        "kind": "Control",
+        "exit_code": 0,
+        "oom_killed": false,
+        "available_ram_gib": [
+          "14.54"
+        ],
+        "worker_pids": [
+          "568",
+          "576"
+        ],
+        "segfault": false,
+        "avx2_fp16_fill": false,
+        "crash_stack_sha256": null,
+        "kernel_segfault_records": []
+      },
+      {
+        "healthy": true,
+        "observed_unix_ns": 1793861439619092276,
+        "startup_s": 211.75402748491615,
+        "arm": "B2",
+        "kind": "B",
+        "exit_code": 0,
+        "oom_killed": false,
+        "available_ram_gib": [
+          "14.50"
+        ],
+        "worker_pids": [
+          "567",
+          "575"
+        ],
+        "segfault": false,
+        "avx2_fp16_fill": false,
+        "crash_stack_sha256": null,
+        "kernel_segfault_records": []
+      },
+      {
+        "healthy": true,
+        "observed_unix_ns": 1793861664391964807,
+        "startup_s": 213.95252358703874,
+        "arm": "Control2",
+        "kind": "Control",
+        "exit_code": 0,
+        "oom_killed": false,
+        "available_ram_gib": [
+          "14.58"
+        ],
+        "worker_pids": [
+          "567",
+          "574"
+        ],
+        "segfault": false,
+        "avx2_fp16_fill": false,
+        "crash_stack_sha256": null,
+        "kernel_segfault_records": []
+      },
+      {
+        "healthy": true,
+        "observed_unix_ns": 1793861889789837528,
+        "startup_s": 214.20919144595973,
+        "arm": "B3",
+        "kind": "B",
+        "exit_code": 0,
+        "oom_killed": false,
+        "available_ram_gib": [
+          "14.45"
+        ],
+        "worker_pids": [
+          "567",
+          "574"
+        ],
+        "segfault": false,
+        "avx2_fp16_fill": false,
+        "crash_stack_sha256": null,
+        "kernel_segfault_records": []
+      },
+      {
+        "healthy": true,
+        "observed_unix_ns": 1793862113264586853,
+        "startup_s": 212.97503885789774,
+        "arm": "Control3",
+        "kind": "Control",
+        "exit_code": 0,
+        "oom_killed": false,
+        "available_ram_gib": [
+          "14.48"
+        ],
+        "worker_pids": [
+          "567",
+          "574"
+        ],
+        "segfault": false,
+        "avx2_fp16_fill": false,
+        "crash_stack_sha256": null,
+        "kernel_segfault_records": []
+      }
+    ],
+    "B_failures": 0,
+    "Control_failures": 0,
+    "runs_each": 3,
+    "classification": "candidate starts successfully; deterministic candidate-only failure not reproduced"
+  },
+  "classification_limit": "Both images started 3/3 in this window. Stable candidate-specific failure was not reproduced; this does not establish the earlier segfault root cause or prove a host fault.",
+  "frozen_thresholds_sha256": "870c0b398c23c9804605f6170f01f5de86521f8c979bbc94b8a62848246dc0e0",
+  "frozen_thresholds": {
+    "rule_sha256": "7540f365a5bed505171ef6843399edabab78e10adfe2e80a4a31a334f3c7e182",
+    "A_sha256": "ae5a708bdf83f19111b2118cb7092b3b3f5d148721bea7ce7688a401fc091eb6",
+    "A_prime_sha256": "28b790176c8ecb39f9fbae52e8d062dbf86fee08bb261b2a1bc17c05ef51d303",
+    "thresholds": {
+      "top1_disagreement_rate": 0.028037383177570093,
+      "mean_conditional_topk_kl": 0.0372147681527454,
+      "max_conditional_topk_kl": 6.191706365665986,
+      "max_absolute_target_logprob_difference": 12.787898302078247,
+      "mean_top1_divergent_suffix_fraction": 0.8723214285714286,
+      "max_top1_divergent_suffix_fraction": 1.0,
+      "mean_greedy_divergent_suffix_fraction": 0.8723214285714286,
+      "max_greedy_divergent_suffix_fraction": 1.0
+    },
+    "frozen_unix_ns": 1793849418237940314,
+    "B_started": false
+  },
+  "status": {
+    "state": "frozen_thresholds_not_applicable",
+    "unix_ns": 1793864944824874424,
+    "reason": "same-round noise exceeds frozen thresholds or is right-censored",
+    "noise_exceeded": true
+  },
+  "window": {
+    "start_unix_ns": 1793860758691832138,
+    "end_unix_ns": 1793864946709264350,
+    "lock_elapsed_s": 4188.017427394996,
+    "within_3_hours": true,
+    "passed": true,
+    "service_state": "inactive",
+    "image_service_state": "inactive",
+    "active_container_marker_absent": true,
+    "running_containers_empty": true
+  },
+  "benchmark": {
+    "executed": false,
+    "passed": null
+  },
+  "evidence_sha256": {
+    "A_prime-fields-command.json": "d17e1d6bbdb5cf2f92dfa7fc8e5846377a1d84116ce92e25dcdc012064a5a160",
+    "Control2-preexec.json": "5007d49272f395ae2b73d797f11d164d92157bd6bd728364c393cb15051d6ea2",
+    "A_prime-fields.jsonl": "196660072c4786f8bcee30e4b5d0fcc112c9988a46088c4a7033ffa6b9bb029c",
+    "A-short-before.json": "aaff357413433c1d106808fe44f01e923d7fd6e609c800a98fe35883a77d265f",
+    "Control3-server.log": "893f791c4cacc0726f631c718330f88bcac179e016fce1d65dbbe0ba36185e7c",
+    "A-short-before.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "Control2-kernel.txt": "21533aea43cf31bf596b41c25e733a1a3dc386750e6e0a8f7ee67c4142b70d98",
+    "A-short-before-command.json": "3a13e2fcc94e3b681e3fa5af8a1cd52d68c3a51141ba6c4997ebd0f69772365b",
+    "Control1-launch-command.json": "2104397ce342bf31b01328cad0dd3e10c83797b297efa55411e7c99541b48406",
+    "A-launch-command.json": "b5a6cf46ec6222cb79069a105384aa52d305ecba514b7f0303109829cab46c02",
+    "Control3-kernel.txt": "827f4f02ced77236d5e467f9f43c791422be8a5affb15fd84f571cc2bf1ba1d3",
+    "A_prime-kernel.txt": "99353efaa76971a74bae485005dd59d2bb2b7f4017f000e5b040997d95742d10",
+    "holder.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3-launch-command.json": "f34d2497e47dc04612de58f6109ffef140b81dce4de4e425c026e452aa23b71d",
+    "Control3-preexec.json": "15e22d5481fe274ae27add55adec71405a49f4918a38cc4f7927073e7c3f06bd",
+    "A_prime-gsm64.jsonl": "37e5ca14e551d4044a55133896480a71a6b603b09452607672506bce5363ed29",
+    "A_prime-G1.json": "5ae9ee47eb3e2d87c60f7079248a45c3ff5c218c3ec20c7f2b6350d3d343434e",
+    "B2-server.log": "f20a341c4909706e3b778487e239023d8295fcfaa424d2ebc266e5d95e9c0626",
+    "A_prime-short-after-command.json": "eb580b598a8e66524c739a9c475ddf0b5743fe403a8ee66db3366823442eb25e",
+    "B3-outcome.json": "9b25bdb856c7e8c27b721cee143c1562d4448e6c89c2be29c2ba739389657e8e",
+    "A-G1.json": "844c6534fd42ffac27d66140c8d5fce3107211bab826b7534534b8b51689d730",
+    "A_prime-launch-command.json": "2029c047d359a2f28e8a275cedfdf15a942eef229469050d3ef559deb5b30c4b",
+    "A_prime-preexec.json": "c9ce63b866d53c5d5b50cbabaa9736f233e7de7c001722fff739a1fd80b52e11",
+    "A_prime-gsm64.log": "884ac951e8b44fa91a332d45da04fa90e3a6974bcbacdb8bcd5010839aaf71fa",
+    "A_prime-G2-counts.json": "706cd5008572353dc11edd55f7aa60e800759d75308057d435b99b05d8d57316",
+    "B3-kernel.txt": "59797a81a99546292aef55bf0174813a18b7daf6a1a496be7bc18d75e85537bc",
+    "idle-before.txt": "416a56e342cb48c67827a553712ca8c03d38240ae3f79ee329da162420ea83fe",
+    "B2-outcome.json": "d3d2a44f7feead20a4f53dcafd7d0828564758efd3e8b307c016d72617c2411e",
+    "B2-preexec.json": "63bc7d3f3714f88f715b0731b237a29e75f8814396e9be8f7b4ccbd3b890cb3f",
+    "Control1-server.log": "a8b79fc33e294ab8e77f2403922f5ebface2ab5a8b73b64af34e9192ff395c8b",
+    "Control2-launch-command.json": "38a2b9b48fe181c4acde995b183038e508c23f6b2c3b5b3ede36f82fe1ce0b1e",
+    "Control1-outcome.json": "5154b536c5a10358912155be74f0a27bff96cca5753662a2427a6585f58b93d6",
+    "lock-released.json": "4565cd58345db1cca655465e002f8b054c1293f0de8507a311617c9b39dca3cd",
+    "A-fields.log": "61a4b1532e72929c481480b29f3f77f94e56b180c0c3ca0896eceb25c9367652",
+    "reproduction-summary.json": "5a5a60373827485ebce5c793079e3e0aff791531b717cfa3ed0760f1ae6bc6ee",
+    "A_prime-gsm64-command.json": "7c7d3df2acffde6ae899fc4d7edd2fc0a014835bc375075b4c4532211a009d9b",
+    "A-G2-counts.json": "706cd5008572353dc11edd55f7aa60e800759d75308057d435b99b05d8d57316",
+    "A_prime-fields.log": "61a4b1532e72929c481480b29f3f77f94e56b180c0c3ca0896eceb25c9367652",
+    "window-closed.json": "16a9fcaa9044ad5433a881f06a5ad2b213ba6c3b098edd055c23798f865c000c",
+    "A_prime-short-before.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "frozen-threshold-reference.json": "9e155e7d20227682301a6fc9c2796deaab9e804a1f4bd2b0f9cb35050f524d39",
+    "Control3-outcome.json": "b91d93798770fa1b47f39d2d1ca9fb28e780f5d8bef423aa86fe99fe4cdb0248",
+    "A_prime-short-after.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "B1-outcome.json": "2e1cf7c20fe4b1666e3dd2fed2e036055381b1bc23e27cabdbe11296621a4162",
+    "same-round-noise-vs-frozen.json": "4b945d6a6980df1e8ea5fc378e5cc835720ac17f262fb1b1754a2bbad7375d5c",
+    "A-gsm64.log": "89391609df994558cf24c8a1fe66d895d6355c8633776e1b0ba7ffc626638345",
+    "Control1-kernel.txt": "6d570eb5e82f6402b22457dbc6cfd256f0134bc2f40fb3cb4aa167a920e6022c",
+    "A-fields.jsonl": "2e01a95697aa547ecc2ec28be3609064bd1b1123bc1f4891b5f1f5181b77484b",
+    "Control1-inspect.json": "53b451d07cac12dce35f40dd92069cc06c40f5e3c611150f6bb45f1a5bbbaa26",
+    "Control3-inspect.json": "959d091de8e8c02a909b118e4265f8ba611918e607e9f06117d4f75fbd4f7781",
+    "B3-preexec.json": "4fc729f948be568269266e5a8641d44fac64e2728c9de923093fc7090990e425",
+    "A-inspect.json": "69bd9d5c9476939356be2d8c7bfb38a0dfb98a0190f23e3cb13b3061337cca91",
+    "B1-inspect.json": "36a89fd6a939e686f08b01f727b79fcb4aead12874db1bde293a06bdfead6f86",
+    "B1-launch-command.json": "22101e975e65e623ad1d623afc3b38bafd699265b05aa8a2a56ceb0533cc6130",
+    "A-gsm64.jsonl": "9647957483471b0b750d495adc41f035e083986004b55c51b97ad80423ac6a1b",
+    "B2-launch-command.json": "95c415911d28aea954417712cc4fcd52da05bbddeffbfd484c3bf2ddc98932f3",
+    "B2-kernel.txt": "9a79c6de1ff6782327a7f988651c91068efdf6664d77a8c3d33d5b1a484b2f0b",
+    "A_prime-short-before.json": "1998b10590049c0dccbb419819ea79bbd905e88c88c4364e2a39466350284cc9",
+    "A-short-after-command.json": "8860907074688f2e8839a812985c566d654687722b73a829b6d02b88ff3c8c44",
+    "B3-server.log": "743bf2345048043ed63910e47361d52cbf4c4e1cc35b5b2f6fdf1109ea0439ac",
+    "Control2-outcome.json": "d1c03ce2309a6b1e4971e8b803b20e9c4efb320474706519e96684c684e0beb3",
+    "B3-inspect.json": "274a39e53c54ed98e45eda97df7a9a39c0c6e1277feaba4d7bab19b1f7a07c8f",
+    "A_prime-short-before-command.json": "9ec09a82becfe1072e5a5df0aeadf666101e08da1cb73a293754a6bf078f4f0c",
+    "B1-server.log": "000eb755f85effd32bea199f5bc564f6f9852867a8ca2908ab50af01fd8f6304",
+    "A-preexec.json": "591c18e71a1f7caea04c049055f3bae4867327ec15389b19a003960e55bce755",
+    "B1-preexec.json": "fd836dc9ce381affd90de04db73fda9aa345c9708f1b01e82d628642264a7e89",
+    "B2-inspect.json": "009e286681ddca027c6b3a2ce86feed4d01948d6532139f09fa976492ace5096",
+    "A-server.log": "a4e5289da108c11d6c52c55215169fc71ec211c1e7a25f17c665d1a196f407a0",
+    "A-short-after.json": "3525ee7fbe60b2306ead1abca104df99c844ea87a7adaec600e6752ef8d7ca49",
+    "A_prime-vs-A.json": "d8dd2b980c7872e22a8fe1eb08d7b92efc9fa35b83a35323cfda81f738d9091e",
+    "Control1-preexec.json": "9a3cdf2697c194e8f062d54ed491108a31e2e76c055d444156595e9ce2e8d5da",
+    "Control3-launch-command.json": "d42dd4a832913083cac781ab625571efed5f37db4ced03b5f2b5d8555f552afd",
+    "A-gsm64-command.json": "a54098f69d147108af199b960b25960fa9417ddf95c2c2b3d2fa3540ac05911b",
+    "tunnel.log": "0a3717967505d47e4fde04bd8428a77a84ddab2a566f72f1d86abe557bbda971",
+    "window-ready.json": "d013a2d701efa45771a0120d31c354a0a1d8a6c2dab973ed2a8b98fcfe47126e",
+    "B1-kernel.txt": "59630e4657b9f37e39b9ef53bf9c2471fe23a97a1ba472d83bbadf608ad132db",
+    "lock-acquired.json": "efd1d2c5f551c2caf97d63803e610a7a5d6a4e6b749e5bbfdbb2e71884ef44a5",
+    "Control2-server.log": "48effe787c17ec8d84e9a9b8055ca0db0cb6cf6925db63d5767f1689a8a5ab93",
+    "status.json": "19512d516eb1f4735c59293de987a71cee281bcecb1228acc1984bf1929c4c9f",
+    "A_prime-inspect.json": "2e1ebbcc24f450c259f4bd8483ab75c36da60af31c010a3c4782d132e29cc4f2",
+    "A-fields-command.json": "5298ed81203b5931b3929ae79a4d3fa94f94854cbcd8a388426722d2b47f65d9",
+    "A_prime-short-after.json": "d4262a4f2a37d25c8502699e2c380e2bf9e29cbc9f7b3f4ecd36923f7208bfb8",
+    "Control2-inspect.json": "a06cfd1ba13d4715bcc4810150155758f78ea2c2083de3b09d1f9afb47f3624c",
+    "A_prime-server.log": "771cd6a344ccb0b2803eb87ac9b9747a8fe514879cf7413a22432268738333c2",
+    "A-kernel.txt": "5c879c75cb2c8912e9451aa520397cbbdf25ca0a4e4cf6b768eb7381dee6954e",
+    "A-short-after.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "A_prime/launch-command.json": "2029c047d359a2f28e8a275cedfdf15a942eef229469050d3ef559deb5b30c4b",
+    "A_prime/startup-result.json": "81821cfa24d2cc6d1df25ce947fbea81ff194cb04d7bb2924aa900f2e1f5614a",
+    "A_prime/launch.txt": "014935e25bcb2d0adcd273025a74c1142850f953e6c918b836021bef4b385ede",
+    "A_prime/timestamps.json": "89dd578ac88cac182514fa5afe78efdc286c0c50147cccd915952152ec76481a",
+    "A_prime/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "A_prime/exit.json": "f627cc959d8034e8e75dfef96be84da6eaed5e33af29ba5094732d461f054779",
+    "Control1/launch-command.json": "2104397ce342bf31b01328cad0dd3e10c83797b297efa55411e7c99541b48406",
+    "Control1/startup-result.json": "bf82bb636ce65e9dc6342a78ec1607bb6a6cc8c231a0216ee288c200d4b89ff5",
+    "Control1/launch.txt": "e452786c4b01970d7765fe838dd488f27bc73a264486176d3978dd4126397f43",
+    "Control1/result.json": "5154b536c5a10358912155be74f0a27bff96cca5753662a2427a6585f58b93d6",
+    "Control1/timestamps.json": "b9d8e35ae862e936c42130cd54ebbb3ced4c03ba4c53c52e6f6a623895d220d7",
+    "Control1/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "Control1/exit.json": "3a65e0a062768bcb7123dbf82d9ac7386c994e87520047ee22339413a73d0ae6",
+    "B2/launch-command.json": "95c415911d28aea954417712cc4fcd52da05bbddeffbfd484c3bf2ddc98932f3",
+    "B2/startup-result.json": "457deed5c3c8e89a97dec4206c858f037736e7fe59e4527bb19a67b2e6035c53",
+    "B2/launch.txt": "2b2269387398e4db32d574530bea4ad27da3d3cb49f88278cb037ecbab197343",
+    "B2/result.json": "d3d2a44f7feead20a4f53dcafd7d0828564758efd3e8b307c016d72617c2411e",
+    "B2/timestamps.json": "dca1170a5374d0fe865dc306efd82444bfe864018c8624bef1761db2f06fdc88",
+    "B2/manifest.json": "29223a6bb25344844d0967faa3f728113fd569683aac64b0827a7c3ab7d772bf",
+    "B2/exit.json": "df8a4e68f031d1e84f0abccbb177e3dce06841a14f942d5b20a10b36db4d38d6",
+    "B3/launch-command.json": "f34d2497e47dc04612de58f6109ffef140b81dce4de4e425c026e452aa23b71d",
+    "B3/startup-result.json": "f0f0eec38c18574b5559e16a57a20300fd25b07be5dad5b4be51c1a2d023a43d",
+    "B3/launch.txt": "81c3b58b864f654a451863800b7fa876ca703f7b8b6999009dd76610a02d13b4",
+    "B3/result.json": "9b25bdb856c7e8c27b721cee143c1562d4448e6c89c2be29c2ba739389657e8e",
+    "B3/timestamps.json": "8ec399cffc7779737b192c3a1bf66ac5617a60039dfdb87f51ed2fe3db5ea9af",
+    "B3/manifest.json": "29223a6bb25344844d0967faa3f728113fd569683aac64b0827a7c3ab7d772bf",
+    "B3/exit.json": "56282f7e75c4406043ee5a28bc496e21946ecf592d0d14f5ccb4b2178295174d",
+    "B1/launch-command.json": "22101e975e65e623ad1d623afc3b38bafd699265b05aa8a2a56ceb0533cc6130",
+    "B1/startup-result.json": "4a0ceb7114c4908673aa9362937e9bf132ffe8dd45db099de2e9420e43830a53",
+    "B1/launch.txt": "8fe5c8ff5ea90c9aa972943d091098097e2456bf1175296d688d0b8c9e5d2e49",
+    "B1/result.json": "2e1cf7c20fe4b1666e3dd2fed2e036055381b1bc23e27cabdbe11296621a4162",
+    "B1/timestamps.json": "b2aad4f5390f671f6f96ef4c6075d3e026212e797d52d2556a67df432c3b2747",
+    "B1/manifest.json": "29223a6bb25344844d0967faa3f728113fd569683aac64b0827a7c3ab7d772bf",
+    "B1/exit.json": "9b360e9c58ea08668a35fb7b697c2a8b9d75ef87f91ceb4c5f5e0ee9c333778c",
+    "Control2/launch-command.json": "38a2b9b48fe181c4acde995b183038e508c23f6b2c3b5b3ede36f82fe1ce0b1e",
+    "Control2/startup-result.json": "6e53ab1cc2df645d98e9686af164cd35c3645d3fea531adfd7196ca00303f031",
+    "Control2/launch.txt": "25499908d59921c6d71062dd18d110521f729f42515993dab103e0ad4c1e5fb2",
+    "Control2/result.json": "d1c03ce2309a6b1e4971e8b803b20e9c4efb320474706519e96684c684e0beb3",
+    "Control2/timestamps.json": "7d14878df6251554d614bc983f0a817e2004c9166c4f56840236d3e4081c78a4",
+    "Control2/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "Control2/exit.json": "813d8c552e18e1d7ee88434489af9c004207645eed5abc265a2d0ebcc9456296",
+    "Control3/launch-command.json": "d42dd4a832913083cac781ab625571efed5f37db4ced03b5f2b5d8555f552afd",
+    "Control3/startup-result.json": "3a10bc1ab62cbba0d8cdce6eac68afa4d6fe4b261b64edaa18a05bdb1b368758",
+    "Control3/launch.txt": "c9503d98a83c9a67207aff90e4104a5d2dd3074d3db0cec51f1cad3fda6120e2",
+    "Control3/result.json": "b91d93798770fa1b47f39d2d1ca9fb28e780f5d8bef423aa86fe99fe4cdb0248",
+    "Control3/timestamps.json": "69d92f374bdd3ed56a39442b25ee27947ac829d0b63b362f561ea7d30dba4464",
+    "Control3/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "Control3/exit.json": "04758e8d7c7f1a1c1e43427efe066c507c84391dc33b78697319f4cbd5842ee5",
+    "A-G1-raw/replay-22.json.gz": "eb0f477427d94a0462ec01abbc787e0217a08d8023263e87c1c11d063a3b1291",
+    "A-G1-raw/replay-18.json.gz": "e33dd64b041576b9f7509363f0c2cf3b8bb681d7974226dc0211b55ecdf769f3",
+    "A-G1-raw/replay-05.json.gz": "0d04c94605ed7ab592d748dc6af73621e944725da795fe62f96847726ca94a5b",
+    "A-G1-raw/replay-13.json.gz": "377c68c227311424f867ce8e0de436d5e29ae7606f530fc729bb9b08dd552b9d",
+    "A-G1-raw/replay-23.json.gz": "54ea40b94331c3f8da90652b90ef623981a6a525ac02ad6d12e95e42e45e565e",
+    "A-G1-raw/long-32768.json.gz": "f6a4e6836da8642a247d186dd143bc6f98f12db6168cba970a76e3f5b9d01d21",
+    "A-G1-raw/replay-10.json.gz": "9d3ef98251fbc427829be67515f42d3f233cac041f0a712ba32dc537a178fbf1",
+    "A-G1-raw/replay-07.json.gz": "c2f09b6c168bb855f264b85e4154eb71c9e59c656e70ce875bf8e357f1395c3a",
+    "A-G1-raw/replay-08.json.gz": "468c29e30ffe421edaae2e06c000de7cc34262afe6c40916d78da7d10a6c6af3",
+    "A-G1-raw/meeting-32768-1.json.gz": "e738088adcae2a3cf1838376a1226bff6a64e0d080d74fa8707e3877b13b103f",
+    "A-G1-raw/replay-03.json.gz": "fe93039afecb80cb24674271ef0fb8c39dd2c782973c3338eb19cbb4015d42a1",
+    "A-G1-raw/replay-09.json.gz": "be65ae6eb29b062078de11a2b9f18873598d090a54bc0ef0a29fd27a6d010c2b",
+    "A-G1-raw/replay-20.json.gz": "bf4e7d0773ddf926938fb57c86d5c12ce8267f27ca5fe5707f1b1ee6d4af609d",
+    "A-G1-raw/meeting-16384-1.json.gz": "b7a54b4cea0f5f0b298c4541f9dad294e035aead0f5fe0df3a6a11abc661090e",
+    "A-G1-raw/replay-11.json.gz": "6b12684e8421d41811d48d0cac7d48ff1354a3cbaef73cfa7ea40601579d9807",
+    "A-G1-raw/replay-25.json.gz": "8f9a59331ef6d8a5238c18bec1030187296875bcc310d17034ed83469df2c83e",
+    "A-G1-raw/replay-19.json.gz": "136df684b12dc84ae45b12267455541ee684d10300229cfa9a55fd2d12ddf635",
+    "A-G1-raw/replay-14.json.gz": "de0ff72f8d36dca0907a43925be0474b60ee1912125e252cc3d12b8378060ab9",
+    "A-G1-raw/replay-04.json.gz": "1e7d5bae99f3030bad82c426ea14e349b0f85fb4f3aea5d8c11c73151ac9d93f",
+    "A-G1-raw/replay-12.json.gz": "72c6f5cda13d8d6ad01b31bd64a44f9cb6e2c9aafd66102bb540c9cff13b4932",
+    "A-G1-raw/replay-01.json.gz": "ea9c368240abdbe3c12bd297431ca69f1983578be90a65b7c8291cc4cbc89f29",
+    "A-G1-raw/long-4096.json.gz": "e4277b11ee0cef108d42c59fe2ba8007d6a30cd351a0b11c2654de4a7a812995",
+    "A-G1-raw/long-4097.json.gz": "94ce31aa135e4866032d933cc05a6d7278c41948c40b7e1dcd8ab7e1773cdd9a",
+    "A-G1-raw/meeting-16384-0.json.gz": "0178bee5da784ee896be4ea28403397f63be412ef09626c6f61c816272d5c101",
+    "A-G1-raw/replay-15.json.gz": "28816b0e8df2dfca28ca39851ba1c592df6a07efa69e260f0ef84f8e1add27d1",
+    "A-G1-raw/long-4095.json.gz": "d4ebf509076ec785ca069606e8cabd2b789eb7c83e7f952871fd8ef4aa36c3b2",
+    "A-G1-raw/replay-00.json.gz": "f5e86c75e972e90364fbf0cce4f25c2ef18b3040091187acd7f8b99ec537494a",
+    "A-G1-raw/meeting-32768-0.json.gz": "127f0859bb56c45c0919015031319fbb4a1517ff75addf103b00ba77de4f11e0",
+    "A-G1-raw/replay-16.json.gz": "fda88fdba89840f51f0b10cbddf05cf7d4acce687463482d02fc1615814308ac",
+    "A-G1-raw/replay-02.json.gz": "7335e2a853048f1818a6542e2c08e40544f205cee7aa86fa7e56d26817288cab",
+    "A-G1-raw/replay-21.json.gz": "942d2fa5512216cf9afe809cb054bf8a3075451b55bdc44d02e60bd402ec6807",
+    "A-G1-raw/replay-06.json.gz": "8816a6bb7528e6d729414df98437222deb8bb6eadbe5486e2c79e2b580ad6b10",
+    "A-G1-raw/replay-24.json.gz": "a148ff43f4d40b233c471a4b05dcffa7f5375b468fae523e95395c6b86e43b32",
+    "A-G1-raw/long-16384.json.gz": "471ba45a0e60edf3659982826a9ee46f23838043952b3ce846ce93875cd238bf",
+    "A-G1-raw/replay-17.json.gz": "580fd4aaead2c1bb22788efc4f5fac3e144561892a9790587353dbcdc6c0a634",
+    "A_prime-G1-raw/replay-22.json.gz": "fde08da460d07c7ae76525d59749158e0d0f0ba718762e9262c88256ec8454d8",
+    "A_prime-G1-raw/replay-18.json.gz": "be2f3b755d2e9b728f2cdc98fb8f8273ea5a607c78e52a863250fb8ebd97353b",
+    "A_prime-G1-raw/replay-05.json.gz": "cbfa3c12a01c774236516e9c0d5e470f219ab2c0b603dc87f3060030f6ed0acd",
+    "A_prime-G1-raw/replay-13.json.gz": "db1b52ddccb9a2bdc18285ecd6b064e4ad169a3d9bbbd7d48582c6456f33d8ef",
+    "A_prime-G1-raw/replay-23.json.gz": "50ea32b5df7045cf368f64eaf8e6a8dbfaf97ab662dfc5ef6e5bd16e69bcdb18",
+    "A_prime-G1-raw/long-32768.json.gz": "38389ad81f1ce78957a7e84397ab28fdc9b1dbdb47089cf828683605b1154920",
+    "A_prime-G1-raw/replay-10.json.gz": "85b20dea719b6de6414861e95e2cb610a18e6eb9ac911e6cb14d05f56322fec1",
+    "A_prime-G1-raw/replay-07.json.gz": "a00a85f66fa7c2b44aa0c4bbc25f44bbad60da1ccd8b7977922a1ed4a0150d3b",
+    "A_prime-G1-raw/replay-08.json.gz": "a312175765c9185ad81268fd06b33f55a23df9894ade1f02b548ffdd40cb22f1",
+    "A_prime-G1-raw/meeting-32768-1.json.gz": "08583abc21a95183db74f0f3f7882b6abbd7e22d0ae88bddc8bce573e97df2e4",
+    "A_prime-G1-raw/replay-03.json.gz": "d8d51fd8eb303bb0b2a65714ec411bb3c24b8a53fcec17bdad76316aa11f3831",
+    "A_prime-G1-raw/replay-09.json.gz": "3ceb9da821df7e4063c054d1eb7922569a29cdee3ad597c76326c8eb0af602ae",
+    "A_prime-G1-raw/replay-20.json.gz": "81dbb096429b3a362bd6c908efb39cd2d67f1273825f33e5c5067aeff0d46b7f",
+    "A_prime-G1-raw/meeting-16384-1.json.gz": "f5f73cf613f7b3bc4621a1a32b51599c2573c073555f2e411e97ac34e5183475",
+    "A_prime-G1-raw/replay-11.json.gz": "6bdb05ad94d4daccb15ba01f772ca1b8d8d2da4368a0ed5146757c54b19fed0a",
+    "A_prime-G1-raw/replay-25.json.gz": "5bfd198dac7ef0ce79d1c7ad4672daf1974c577c9fa319c6977b2c341acc3519",
+    "A_prime-G1-raw/replay-19.json.gz": "0dd353de13cfb86e1090848d333a3c875d45250e62e4a0acc486d2fada2badbc",
+    "A_prime-G1-raw/replay-14.json.gz": "1eda050ca3d5cb2e36f22e1d23e3e54b5509c75831cb607ac362662b4fa56d95",
+    "A_prime-G1-raw/replay-04.json.gz": "f390d1f2b1c17f225ee496f0f8d812790db600117810c72d62ba603291f66e0a",
+    "A_prime-G1-raw/replay-12.json.gz": "cf49e20244f25aead2c90384b8b359d77aa27b6fe4dae4cae821f676692ffc10",
+    "A_prime-G1-raw/replay-01.json.gz": "02a1602d087e5fffbce4b1bb8194d7db50bbf786d8d4b893f250d41d10a77d19",
+    "A_prime-G1-raw/long-4096.json.gz": "9c4f907f85805cc152ed05b66553c937e497bf19c3437a787a5e514e2d99840d",
+    "A_prime-G1-raw/long-4097.json.gz": "d9607bc7eb887006093ccd458adccc54bdaeb3e3ef12b782e0559d1c26d5c96d",
+    "A_prime-G1-raw/meeting-16384-0.json.gz": "44cba00d43a379337e1aa4dc93c42740bd294095c169b94c0fb4338136187fe2",
+    "A_prime-G1-raw/replay-15.json.gz": "337d723f832d01c2292c71bdbec225bd98e9d4e58ba344c9b5e61871ca8669f2",
+    "A_prime-G1-raw/long-4095.json.gz": "04f7cc5092c0ef564757ec763f52a0085a11ce95bb25090f71372265be3699e7",
+    "A_prime-G1-raw/replay-00.json.gz": "9abf51af833561d298a6d1705ef70b73b4fb3777c760d4e92be2bcb0b73798e8",
+    "A_prime-G1-raw/meeting-32768-0.json.gz": "889bea91f3598a21d2cfb5ef8fab761c7d1430d7d760e3aab336a2f19a68ae76",
+    "A_prime-G1-raw/replay-16.json.gz": "830be79c08779ec53578a24c72d75333a9a729cd38fb321fe2a920e026f44df0",
+    "A_prime-G1-raw/replay-02.json.gz": "5832fc4d4b47303523f0affc9a9c524bb09561d955401c3a49c1212d843057b6",
+    "A_prime-G1-raw/replay-21.json.gz": "3fb8ecc7c5b6b2c1876c41f749e918a6d18f66c5803255f50a48b4c57ca24fd3",
+    "A_prime-G1-raw/replay-06.json.gz": "e957a770ae5f9de27a01118031887879f85916e596013847790aca65d132b1d3",
+    "A_prime-G1-raw/replay-24.json.gz": "b2088753cf67bf489fb5c8f663174f7a10e19994f1d24d633f250b09df275b7f",
+    "A_prime-G1-raw/long-16384.json.gz": "c73f5e46abbebbed1bb28ea6295e6300b2f6bfedeed0537a39b3c8281e6d5cac",
+    "A_prime-G1-raw/replay-17.json.gz": "3ddef56f1ccdd7b07493dd29cb5bad40e951fa6eb111726ab1a01277a3a38d99",
+    "A/launch-command.json": "b5a6cf46ec6222cb79069a105384aa52d305ecba514b7f0303109829cab46c02",
+    "A/startup-result.json": "1858f3e91703181d82fb6c88c8d86428f92074d21183de883db46caac753f689",
+    "A/launch.txt": "9a8fcf97fcb02e4563c1a5a488862af90b7527925b3093d61ec044e8e1f050e5",
+    "A/timestamps.json": "7e3e5341355d4da828b92d1d4b600cb7062cc9608820fcef00cf11d6024be955",
+    "A/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "A/exit.json": "8485cc9480772a93e83fb833b6b07762e6f2f2d44b379031bde0dfb6291ecc2c"
+  },
+  "source_equivalence": {
+    "unchanged_this_round": true,
+    "source_files_equal": 16869,
+    "noncache_differences": 0,
+    "pip_freeze_equal": true,
+    "runtime_config_equal": true
+  },
+  "same-round-noise-vs-frozen": {
+    "passed": false,
+    "checks": {
+      "top1_disagreement_rate": {
+        "same_round_noise": 0.018867924528301886,
+        "frozen_threshold": 0.028037383177570093,
+        "passed": true
+      },
+      "mean_conditional_topk_kl": {
+        "same_round_noise": 0.02853167088350086,
+        "frozen_threshold": 0.0372147681527454,
+        "passed": true
+      },
+      "max_conditional_topk_kl": {
+        "same_round_noise": 6.752433426661146,
+        "frozen_threshold": 6.191706365665986,
+        "passed": false
+      },
+      "max_absolute_target_logprob_difference": {
+        "same_round_noise": 13.301393538713455,
+        "frozen_threshold": 12.787898302078247,
+        "passed": false
+      },
+      "mean_top1_divergent_suffix_fraction": {
+        "same_round_noise": 0.8142857142857143,
+        "frozen_threshold": 0.8723214285714286,
+        "passed": true
+      },
+      "max_top1_divergent_suffix_fraction": {
+        "same_round_noise": 1.0,
+        "frozen_threshold": 1.0,
+        "passed": true
+      },
+      "mean_greedy_divergent_suffix_fraction": {
+        "same_round_noise": 0.8142857142857143,
+        "frozen_threshold": 0.8723214285714286,
+        "passed": true
+      },
+      "max_greedy_divergent_suffix_fraction": {
+        "same_round_noise": 1.0,
+        "frozen_threshold": 1.0,
+        "passed": true
+      }
+    },
+    "censoring": {
+      "count": 5,
+      "positions": [
+        {
+          "id": "replay-07",
+          "position": 2,
+          "absolute_error_lower_bound": 6.721557073295116
+        },
+        {
+          "id": "replay-12",
+          "position": 5,
+          "absolute_error_lower_bound": 9.764168108813465
+        },
+        {
+          "id": "replay-14",
+          "position": 5,
+          "absolute_error_lower_bound": 6.563730627298355
+        },
+        {
+          "id": "replay-21",
+          "position": 1,
+          "absolute_error_lower_bound": 8.380674783198629
+        },
+        {
+          "id": "meeting-16384-1",
+          "position": 1,
+          "absolute_error_lower_bound": 13.301393538713455
+        }
+      ],
+      "max_error_metric_is_lower_bound": true
+    }
+  },
+  "A_prime-vs-A": {
+    "mode": "generated",
+    "metrics": {
+      "top1_disagreement_rate": 0.018867924528301886,
+      "mean_conditional_topk_kl": 0.02853167088350086,
+      "max_conditional_topk_kl": 6.752433426661146,
+      "max_absolute_target_logprob_difference": 13.301393538713455,
+      "mean_top1_divergent_suffix_fraction": 0.8142857142857143,
+      "max_top1_divergent_suffix_fraction": 1.0,
+      "mean_greedy_divergent_suffix_fraction": 0.8142857142857143,
+      "max_greedy_divergent_suffix_fraction": 1.0
+    },
+    "top1_agreement_rate": 0.9811320754716981,
+    "positions_compared": 1696,
+    "target_logprob_censoring": {
+      "count": 5,
+      "positions": [
+        {
+          "id": "replay-07",
+          "position": 2,
+          "absolute_error_lower_bound": 6.721557073295116
+        },
+        {
+          "id": "replay-12",
+          "position": 5,
+          "absolute_error_lower_bound": 9.764168108813465
+        },
+        {
+          "id": "replay-14",
+          "position": 5,
+          "absolute_error_lower_bound": 6.563730627298355
+        },
+        {
+          "id": "replay-21",
+          "position": 1,
+          "absolute_error_lower_bound": 8.380674783198629
+        },
+        {
+          "id": "meeting-16384-1",
+          "position": 1,
+          "absolute_error_lower_bound": 13.301393538713455
+        }
+      ],
+      "max_error_metric_is_lower_bound": true
+    },
+    "scope": "KL of distributions normalized on shared explicit top-k support; excludes outside support and is not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position."
+  },
+  "historical_log_correction": {
+    "retained_emergency_log_sha256": "a713508e4cfd5c71479f593fb55c8772fbccf0b776ae9c9abc859a737645b923",
+    "segfault_line": 98,
+    "TP0_loading_after_fault_line": 159,
+    "available_ram_20_49_line": 166,
+    "auto_prefetch_disabled_line": 167,
+    "TP1_loading_not_observed": true
+  },
+  "G2_counts": {
+    "A": {
+      "GSM64": 63,
+      "fields_C1": 13,
+      "fields_C3": 13,
+      "short_before": 8,
+      "short_after": 8
+    },
+    "A_prime": {
+      "GSM64": 63,
+      "fields_C1": 13,
+      "fields_C3": 13,
+      "short_before": 8,
+      "short_after": 8
+    }
+  },
+  "G1_collection": {
+    "A": {
+      "cases": 35,
+      "generated_tokens": 8960,
+      "prefix_cache_delta": {
+        "vllm:prefix_cache_queries_total": 236375.0,
+        "vllm:prefix_cache_hits_total": 0.0
+      }
+    },
+    "A_prime": {
+      "cases": 35,
+      "generated_tokens": 8960,
+      "prefix_cache_delta": {
+        "vllm:prefix_cache_queries_total": 236375.0,
+        "vllm:prefix_cache_hits_total": 0.0
+      }
+    }
+  },
+  "gate_startups": {
+    "A": {
+      "startup": {
+        "healthy": true,
+        "observed_unix_ns": 1793862334628755757,
+        "startup_s": 211.45416104979813
+      },
+      "started_at": "2026-11-05T07:02:03.146708505Z",
+      "finished_at": "2026-11-05T07:25:29.994504206Z",
+      "exit_code": 0,
+      "available_ram_gib": [
+        "14.55"
+      ],
+      "worker_pids": [
+        "567",
+        "574"
+      ],
+      "kernel_segfault_records": []
+    },
+    "A_prime": {
+      "startup": {
+        "healthy": true,
+        "observed_unix_ns": 1793863750528251254,
+        "startup_s": 213.98223850200884
+      },
+      "started_at": "2026-11-05T07:25:36.550506061Z",
+      "finished_at": "2026-11-05T07:49:02.462585458Z",
+      "exit_code": 0,
+      "available_ram_gib": [
+        "14.41"
+      ],
+      "worker_pids": [
+        "568",
+        "576"
+      ],
+      "kernel_segfault_records": []
+    }
+  },
+  "preexec_available_gib": {
+    "B1": 29,
+    "Control1": 29,
+    "B2": 29,
+    "Control2": 29,
+    "B3": 29,
+    "Control3": 29
+  },
+  "all_reproduction_arms_auto_prefetch_disabled": true,
+  "local_tmp_allocated_bytes": 18567921664
+}

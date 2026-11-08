@@ -1,0 +1,225 @@
+{
+  "date": "2026-11-05",
+  "model": "Qwen3.6-35B-A3B W8A8 TP2",
+  "publication": {
+    "base_reference": "${REGISTRY}/${NAMESPACE}/vllm-ascend-310p-base@sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+    "base_tag": "recovered-1a193ded0d75-amd64",
+    "local_push_manifest_digest": "sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+    "remote_manifest_digest": "sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+    "remote_manifest_matches_push_digest": true,
+    "remote_config_digest": "sha256:e86feb2f76788cfa1fa70bfe088ca3b26ad92a23e316927e7a41e51739ebd9b7",
+    "remote_config_matches_recovered_base": true,
+    "production_prefix_diff_ids_equal": true,
+    "layers": 19,
+    "local_uncompressed_manifest_digest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
+    "transport_change": "OCI layers compressed with gzip on push; config and all 19 diff_ids unchanged",
+    "candidate_published": true,
+    "device_validation": "candidate-startup-failed-before-G1",
+    "inspection_date": "2026-11-05",
+    "candidate_reference": "${REGISTRY}/${NAMESPACE}/ascend310p-llm-candidate@sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+    "candidate_tag": "image-src-f46116b-amd64-310p",
+    "candidate_source_revision": "f46116b",
+    "candidate_local_push_manifest_digest": "sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+    "candidate_remote_manifest_digest": "sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+    "candidate_remote_config_digest": "sha256:82c6b7db670880ffe2a4cdb918feca5e87758334c444766d523e36957a2965d2",
+    "candidate_runtime_config_equal": true,
+    "candidate_diff_ids_equal": true
+  },
+  "source_equivalence": {
+    "source_files": 16869,
+    "noncache_differences": 0,
+    "pip_freeze_equal": true,
+    "runtime_config_equal": true
+  },
+  "G1": null,
+  "G2": {
+    "counts": {
+      "A": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "A_prime": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "B": null
+    },
+    "adjudication": null
+  },
+  "benchmark": {
+    "complete": false,
+    "cells": [
+      {
+        "prompt_tokens": 1024,
+        "concurrency": 1,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 1024,
+        "concurrency": 4,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 4096,
+        "concurrency": 1,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 4096,
+        "concurrency": 4,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 16384,
+        "concurrency": 1,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 16384,
+        "concurrency": 4,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 32768,
+        "concurrency": 1,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      },
+      {
+        "prompt_tokens": 32768,
+        "concurrency": 4,
+        "arms": {
+          "A": null,
+          "B": null,
+          "A_prime": null
+        },
+        "checks": null
+      }
+    ],
+    "passed": null
+  },
+  "window": {
+    "unix_ns": 1793849705452921445,
+    "lock_elapsed_s": 3132.7252438279975,
+    "within_3_hours": true,
+    "independent_confirmation": {
+      "health_code": 200,
+      "unix_ns": 1793849704134591088,
+      "method": "new independent SSH connection"
+    }
+  },
+  "queue_wait_s": 4318.973130005,
+  "status": "failed",
+  "evidence_sha256": {
+    "gates/threshold-rule.json": "7540f365a5bed505171ef6843399edabab78e10adfe2e80a4a31a334f3c7e182",
+    "gates/concrete-thresholds.json": "870c0b398c23c9804605f6170f01f5de86521f8c979bbc94b8a62848246dc0e0",
+    "benchmark-rule.json": "133bb3b0f18c069212bccf0d95501d5258eedd9fa64f8ac1e66acdc63ffbb9d7",
+    "controller-freeze.json": "556afcdd6c844d7c03955eebe1dc3af5aeb25890367abbe6a8b4f7f7a7d6cf71",
+    "tool-freeze.json": "af86ec62b2068c4e1e5f6258599af1080437758d549b26f73b72089161b64cb0",
+    "gates/A-G1.json": "ae5a708bdf83f19111b2118cb7092b3b3f5d148721bea7ce7688a401fc091eb6",
+    "gates/A_prime-G1.json": "28b790176c8ecb39f9fbae52e8d062dbf86fee08bb261b2a1bc17c05ef51d303",
+    "gates/independent-health-confirmed.json": "753e881f64c9e413a1ce8f983961dfbb43a54467e6c046e520b8c93e339904f2",
+    "gates/A/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "gates/A/launch-command.json": "1ca93d6482758cc698c7b3d8f767c747d705df313414e2d19c3de4e05ff59e9b",
+    "gates/A_prime/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "gates/A_prime/launch-command.json": "c30612529a00c1c4a6466d0e59274e63038df02a531ba663306a745368c2001f",
+    "gates/B/manifest.json": "29223a6bb25344844d0967faa3f728113fd569683aac64b0827a7c3ab7d772bf",
+    "gates/B/launch-command.json": "8e3f2f98084c93fee4e9ad8a1af202a79b16ff17e9188369f316e624b0725e96"
+  },
+  "device_accepted": false,
+  "baseline_noise": {
+    "metrics": {
+      "top1_disagreement_rate": 0.028037383177570093,
+      "mean_conditional_topk_kl": 0.0372147681527454,
+      "max_conditional_topk_kl": 6.191706365665986,
+      "max_absolute_target_logprob_difference": 12.787898302078247,
+      "mean_top1_divergent_suffix_fraction": 0.8723214285714286,
+      "max_top1_divergent_suffix_fraction": 1.0,
+      "mean_greedy_divergent_suffix_fraction": 0.8723214285714286,
+      "max_greedy_divergent_suffix_fraction": 1.0
+    },
+    "positions_compared": 1177,
+    "top1_agreement_rate": 0.9719626168224299,
+    "censoring_count": 5,
+    "scope": "KL of distributions normalized on shared explicit top-k support; excludes outside support and is not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position.",
+    "greedy_divergent_cases": 33,
+    "cases": 35,
+    "max_absolute_target_logprob_difference_kind": "lower_bound"
+  },
+  "threshold_freeze": {
+    "frozen_before_B": true,
+    "frozen_unix_ns": 1793849418237940314,
+    "B_started_at": "2026-11-05T03:30:20.374250986Z",
+    "threshold_file_sha256": "870c0b398c23c9804605f6170f01f5de86521f8c979bbc94b8a62848246dc0e0"
+  },
+  "candidate_startup": {
+    "healthy": false,
+    "exit_code": 1,
+    "oom_killed": false,
+    "stage": "before TP1 weight loading: python -c object initialization, CPU float16 torch.zeros, ATen AVX2 fill",
+    "root_cause": "undetermined",
+    "g1_samples": 0,
+    "g2_samples": 0,
+    "retries": 0,
+    "kernel_oom_records_in_startup_interval": 0,
+    "native_stack": "AVX2 fill_non_native_type<c10::Half> -> fill_kernel -> zero_ -> zeros_symint -> THPVariable_zeros",
+    "signal_reporter": "tvm_ffi; reporter does not establish fault ownership",
+    "interpretation_corrected_on": "2026-11-05",
+    "retained_emergency_log_sha256": "a713508e4cfd5c71479f593fb55c8772fbccf0b776ae9c9abc859a737645b923",
+    "complete_individual_log_retained": false,
+    "retained_log_scope": "emergency-server.log; no separately retained B-server.log",
+    "retained_log_observations": {
+      "segfault_line": 98,
+      "TP0_starting_to_load_after_segfault_line": 159,
+      "available_ram_20_49_gib_line": 166,
+      "auto_prefetch_disabled_line": 167,
+      "TP1_starting_to_load_observed": false
+    }
+  },
+  "arm_configuration": {
+    "A_equals_A_prime": true,
+    "A_B_manifest_only_image_diff": true,
+    "same_read_only_model_mount": true,
+    "all_experiment_containers_stopped": true
+  }
+}

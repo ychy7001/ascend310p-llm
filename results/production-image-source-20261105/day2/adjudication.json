@@ -1,0 +1,679 @@
+{
+  "date": "2026-11-05",
+  "window": "day2-20261105",
+  "source_revision": "2b84b42f3f13b4b02b6fbed63ebc961448cd1bf9",
+  "status": "gates_passed",
+  "error": null,
+  "multiplier": 1.25,
+  "gating_metrics": [
+    "top1_disagreeing_case_rate",
+    "mean_case_top1_mismatch_rate",
+    "mean_greedy_divergent_suffix_fraction",
+    "pooled_prefix_kl"
+  ],
+  "G1": {
+    "adjudication": {
+      "passed": true,
+      "checks": {
+        "top1_disagreeing_case_rate": {
+          "noise": 0.9428571428571428,
+          "candidate": 0.9428571428571428,
+          "threshold": 1.1785714285714286,
+          "passed": true,
+          "candidate_value_kind": "measured"
+        },
+        "mean_case_top1_mismatch_rate": {
+          "noise": 0.2358547480889031,
+          "candidate": 0.2933108262363699,
+          "threshold": 0.2948184351111289,
+          "passed": true,
+          "candidate_value_kind": "measured"
+        },
+        "mean_greedy_divergent_suffix_fraction": {
+          "noise": 0.8069196428571429,
+          "candidate": 0.8431919642857143,
+          "threshold": 1.0086495535714286,
+          "passed": true,
+          "candidate_value_kind": "measured"
+        },
+        "pooled_prefix_kl": {
+          "noise": 0.005612757112994045,
+          "candidate": 0.0049428301709644,
+          "threshold": 0.007015946391242556,
+          "passed": true,
+          "candidate_value_kind": "measured"
+        }
+      }
+    },
+    "noise_positions_compared": 1763,
+    "candidate_positions_compared": 1438,
+    "noise_top1_agreement_rate": 0.9812819058423142,
+    "candidate_top1_agreement_rate": 0.9770514603616134,
+    "censoring": {
+      "count": 7,
+      "positions": [
+        {
+          "id": "replay-14",
+          "position": 5,
+          "absolute_error_lower_bound": 6.047618098556995
+        },
+        {
+          "id": "replay-20",
+          "position": 1,
+          "absolute_error_lower_bound": 6.833226354909129
+        },
+        {
+          "id": "replay-21",
+          "position": 1,
+          "absolute_error_lower_bound": 10.82970380783081
+        },
+        {
+          "id": "replay-22",
+          "position": 8,
+          "absolute_error_lower_bound": 9.38736885972321
+        },
+        {
+          "id": "replay-24",
+          "position": 2,
+          "absolute_error_lower_bound": 7.168286484666169
+        },
+        {
+          "id": "meeting-16384-0",
+          "position": 0,
+          "absolute_error_lower_bound": 7.099239228642546
+        },
+        {
+          "id": "meeting-16384-1",
+          "position": 1,
+          "absolute_error_lower_bound": 13.479121834039688
+        }
+      ],
+      "max_error_metric_is_lower_bound": true
+    },
+    "threshold_freeze": {
+      "frozen_unix_ns": 1793889414937015175,
+      "B_started_at": "2026-11-05T14:36:56.980596228Z",
+      "frozen_before_B": true
+    },
+    "input_cases": 35,
+    "input_sha256": "e8fa2ed60bb717b2cad731988a0f85ba9dd07f39f0e614b2fb2e9b333b9e8c13",
+    "prefix_cache_delta": {
+      "A": {
+        "vllm:prefix_cache_queries_total": 236375.0,
+        "vllm:prefix_cache_hits_total": 0.0
+      },
+      "A_prime": {
+        "vllm:prefix_cache_queries_total": 236375.0,
+        "vllm:prefix_cache_hits_total": 0.0
+      },
+      "B": {
+        "vllm:prefix_cache_queries_total": 236375.0,
+        "vllm:prefix_cache_hits_total": 0.0
+      }
+    },
+    "comparison_scope": "KL of distributions normalized on shared explicit top-k support; excludes outside support and is not full vocabulary KL; generated mode only compares identical conditioning prefixes, including the first divergent position."
+  },
+  "G2": {
+    "counts": {
+      "A": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "A_prime": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      },
+      "B": {
+        "GSM64": 63,
+        "fields_C1": 13,
+        "fields_C3": 13,
+        "short_before": 8,
+        "short_after": 8
+      }
+    },
+    "adjudication": {
+      "passed": true,
+      "checks": {
+        "GSM64": {
+          "A": 63,
+          "A_prime": 63,
+          "B": 63,
+          "B_vs_A_difference": 0,
+          "B_vs_A_prime_difference": 0,
+          "passed": true
+        },
+        "fields_C1": {
+          "A": 13,
+          "A_prime": 13,
+          "B": 13,
+          "B_vs_A_difference": 0,
+          "B_vs_A_prime_difference": 0,
+          "passed": true
+        },
+        "fields_C3": {
+          "A": 13,
+          "A_prime": 13,
+          "B": 13,
+          "B_vs_A_difference": 0,
+          "B_vs_A_prime_difference": 0,
+          "passed": true
+        },
+        "short_before": {
+          "A": 8,
+          "A_prime": 8,
+          "B": 8,
+          "B_vs_A_difference": 0,
+          "B_vs_A_prime_difference": 0,
+          "passed": true
+        },
+        "short_after": {
+          "A": 8,
+          "A_prime": 8,
+          "B": 8,
+          "B_vs_A_difference": 0,
+          "B_vs_A_prime_difference": 0,
+          "passed": true
+        }
+      }
+    }
+  },
+  "diagnostics_only": {
+    "A_prime_vs_A": {
+      "metrics": {
+        "mean_top1_divergent_suffix_fraction": 0.8069196428571429,
+        "mean_case_mean_conditional_topk_kl": 0.22377082566653486,
+        "mean_case_max_conditional_topk_kl": 0.6817680668958503,
+        "mean_prefix_absolute_target_logprob_difference": 0.03166995002088572,
+        "mean_case_max_uncensored_target_logprob_difference": 0.7277115759647651,
+        "max_top1_divergent_suffix_fraction": 1.0,
+        "max_greedy_divergent_suffix_fraction": 1.0,
+        "top1_disagreement_rate": 0.01871809415768576,
+        "mean_conditional_topk_kl": 0.017339629584160077,
+        "max_conditional_topk_kl": 8.10357006947945,
+        "max_absolute_target_logprob_difference": 14.299429565668106
+      },
+      "empty_topk_support": {
+        "count": 0,
+        "positions": []
+      },
+      "target_logprob_censoring": {
+        "count": 9,
+        "positions": [
+          {
+            "id": "replay-04",
+            "position": 13,
+            "absolute_error_lower_bound": 4.644630789756775
+          },
+          {
+            "id": "replay-11",
+            "position": 0,
+            "absolute_error_lower_bound": 8.001156985759735
+          },
+          {
+            "id": "replay-19",
+            "position": 10,
+            "absolute_error_lower_bound": 4.907399296760559
+          },
+          {
+            "id": "replay-20",
+            "position": 1,
+            "absolute_error_lower_bound": 6.862883241963573
+          },
+          {
+            "id": "replay-21",
+            "position": 1,
+            "absolute_error_lower_bound": 8.415894031524658
+          },
+          {
+            "id": "replay-22",
+            "position": 88,
+            "absolute_error_lower_bound": 5.94002838130109
+          },
+          {
+            "id": "replay-24",
+            "position": 2,
+            "absolute_error_lower_bound": 7.023946446366608
+          },
+          {
+            "id": "meeting-16384-0",
+            "position": 4,
+            "absolute_error_lower_bound": 4.808358907699585
+          },
+          {
+            "id": "meeting-16384-1",
+            "position": 1,
+            "absolute_error_lower_bound": 14.299429565668106
+          }
+        ],
+        "max_error_metric_is_lower_bound": true
+      },
+      "severity": {
+        "positions_above_kl_0.5": 12,
+        "positions_above_kl_1": 5,
+        "positions_above_absolute_error_0.5": 25,
+        "positions_above_absolute_error_1": 16
+      },
+      "positions_compared": 1763,
+      "top1_agreement_rate": 0.9812819058423142
+    },
+    "B_vs_A": {
+      "metrics": {
+        "mean_top1_divergent_suffix_fraction": 0.8431919642857143,
+        "mean_case_mean_conditional_topk_kl": 0.30461362982765994,
+        "mean_case_max_conditional_topk_kl": 0.946587487705394,
+        "mean_prefix_absolute_target_logprob_difference": 0.027159500115529794,
+        "mean_case_max_uncensored_target_logprob_difference": 0.9751181554602226,
+        "max_top1_divergent_suffix_fraction": 1.0,
+        "max_greedy_divergent_suffix_fraction": 1.0,
+        "top1_disagreement_rate": 0.02294853963838665,
+        "mean_conditional_topk_kl": 0.02623271237096194,
+        "max_conditional_topk_kl": 7.962241292804309,
+        "max_absolute_target_logprob_difference": 13.479121834039688
+      },
+      "empty_topk_support": {
+        "count": 0,
+        "positions": []
+      },
+      "target_logprob_censoring": {
+        "count": 7,
+        "positions": [
+          {
+            "id": "replay-14",
+            "position": 5,
+            "absolute_error_lower_bound": 6.047618098556995
+          },
+          {
+            "id": "replay-20",
+            "position": 1,
+            "absolute_error_lower_bound": 6.833226354909129
+          },
+          {
+            "id": "replay-21",
+            "position": 1,
+            "absolute_error_lower_bound": 10.82970380783081
+          },
+          {
+            "id": "replay-22",
+            "position": 8,
+            "absolute_error_lower_bound": 9.38736885972321
+          },
+          {
+            "id": "replay-24",
+            "position": 2,
+            "absolute_error_lower_bound": 7.168286484666169
+          },
+          {
+            "id": "meeting-16384-0",
+            "position": 0,
+            "absolute_error_lower_bound": 7.099239228642546
+          },
+          {
+            "id": "meeting-16384-1",
+            "position": 1,
+            "absolute_error_lower_bound": 13.479121834039688
+          }
+        ],
+        "max_error_metric_is_lower_bound": true
+      },
+      "severity": {
+        "positions_above_kl_0.5": 12,
+        "positions_above_kl_1": 8,
+        "positions_above_absolute_error_0.5": 23,
+        "positions_above_absolute_error_1": 15
+      },
+      "positions_compared": 1438,
+      "top1_agreement_rate": 0.9770514603616134
+    }
+  },
+  "arms": {
+    "A": {
+      "started": true,
+      "healthy": true,
+      "started_at": "2026-11-05T13:50:07.343117385Z",
+      "finished_at": "2026-11-05T14:13:32.421017509Z",
+      "ExitCode": 0,
+      "OOMKilled": false,
+      "available_ram_gib": [
+        "14.53"
+      ],
+      "worker_pids": [
+        "568",
+        "575"
+      ],
+      "crash_log_suffix_sha256": null,
+      "kernel_segfault_records": [],
+      "kernel_log_collected": true,
+      "server_log_sha256": "43b42aff26b9efe65630996ee098c8da680580c05b45d72543a146caaf32e424"
+    },
+    "A_prime": {
+      "started": true,
+      "healthy": true,
+      "started_at": "2026-11-05T14:13:35.964515724Z",
+      "finished_at": "2026-11-05T14:36:53.480972495Z",
+      "ExitCode": 0,
+      "OOMKilled": false,
+      "available_ram_gib": [
+        "14.35"
+      ],
+      "worker_pids": [
+        "567",
+        "574"
+      ],
+      "crash_log_suffix_sha256": null,
+      "kernel_segfault_records": [],
+      "kernel_log_collected": true,
+      "server_log_sha256": "074582bc590eeac333dd1c950c2927261140f6c09b8f0dd9e3624c18ebdf6912"
+    },
+    "B": {
+      "started": true,
+      "healthy": true,
+      "started_at": "2026-11-05T14:36:56.980596228Z",
+      "finished_at": "2026-11-05T15:00:25.861897705Z",
+      "ExitCode": 0,
+      "OOMKilled": false,
+      "available_ram_gib": [
+        "14.46"
+      ],
+      "worker_pids": [
+        "568",
+        "575"
+      ],
+      "crash_log_suffix_sha256": null,
+      "kernel_segfault_records": [],
+      "kernel_log_collected": true,
+      "server_log_sha256": "6fc7c713645c70bc53bc6f765cde181a079aad8be07469ad50757a4cf45b2164"
+    }
+  },
+  "timings": {
+    "queue_s": 0.396451195,
+    "window_s": 4233.380563726998,
+    "arms": {
+      "A": {
+        "container_total_s": 1405.077899776,
+        "G2_segments_s": {
+          "short-before": 8.55521556,
+          "gsm64": 421.037000575,
+          "fields": 247.787150028,
+          "short-after": 6.624768416
+        },
+        "startup_until_G1_s": 211.62944697,
+        "G1_s": 504.925227672,
+        "G2_sum_s": 684.004134579
+      },
+      "A_prime": {
+        "container_total_s": 1397.51645696,
+        "G2_segments_s": {
+          "short-before": 8.306979094,
+          "gsm64": 418.01828746,
+          "fields": 245.318527089,
+          "short-after": 6.447463599
+        },
+        "startup_until_G1_s": 211.070752394,
+        "G1_s": 503.933000654,
+        "G2_sum_s": 678.091257242
+      },
+      "B": {
+        "container_total_s": 1408.881300992,
+        "G2_segments_s": {
+          "short-before": 8.410366121,
+          "gsm64": 420.535102349,
+          "fields": 245.231817427,
+          "short-after": 6.567156423
+        },
+        "startup_until_G1_s": 217.386269435,
+        "G1_s": 506.261359953,
+        "G2_sum_s": 680.74444232
+      }
+    },
+    "tool_interval_basis": "status running unix_ns to final output file mtime_ns; excludes subprocess exit overhead"
+  },
+  "next_benchmark_window_budget": {
+    "basis": "per-length slowest same/next-longer G1 case; C4 charged as four serial C1 requests; each warmup charged as full 256-token request; 15 min cleanup reserve",
+    "per_length": {
+      "1024": {
+        "observed_tokens": 4095,
+        "serial_request_s": 11.544301567
+      },
+      "4096": {
+        "observed_tokens": 4096,
+        "serial_request_s": 11.66485144
+      },
+      "16384": {
+        "observed_tokens": 16384,
+        "serial_request_s": 22.535012754
+      },
+      "32768": {
+        "observed_tokens": 32768,
+        "serial_request_s": 40.006238782
+      }
+    },
+    "forecast_s": 5925.429439998001,
+    "within_3h_estimate": true,
+    "not_measured": "C4 contention and per-length streaming timing not measured by this window; estimate is scheduling input, not a demonstrated bound",
+    "benchmark_executed_this_round": false
+  },
+  "window_closed": {
+    "start_unix_ns": 1793886596428074217,
+    "end_unix_ns": 1793890829795298060,
+    "within_3_hours": true,
+    "service_state": "inactive",
+    "image_service_state": "inactive",
+    "active_container_marker_absent": true,
+    "passed": true
+  },
+  "benchmark_executed": false,
+  "device_accepted": false,
+  "B_started": true,
+  "thresholds_frozen": true,
+  "candidate_adjudicated": true,
+  "evidence_sha256": {
+    "A_prime-fields-command.json": "bd979ba8bcccae22edc7ca470617efe4008182ddf756fb73a446b86ce135e3b3",
+    "A_prime-fields.jsonl": "ce647410bc78bf17c7fb21e53bb855e80f3528fecc62918f0287c7a2c27a4b46",
+    "A-short-before.json": "fab4ee4fa32f668870d31795634ae1a3e032e2e6d982cd9456dfeb1a9ecfca96",
+    "A-short-before.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "threshold-rule.json": "f5c2617aeb3e2c0f8556610b18ef302beae8bd388fc4d3b94f5c7784c64e0c9d",
+    "A-short-before-command.json": "78445ea8cf61d803324175b21780eeb202183a48a2ad5b2b33c7ddc1f22b9354",
+    "B-server.log": "6fc7c713645c70bc53bc6f765cde181a079aad8be07469ad50757a4cf45b2164",
+    "B-short-before.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "A_prime-kernel.txt": "2eed0037c997d667d30fbc280988acaac2d4843aa32d4b3774eec1c22b02d271",
+    "holder.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "G1-adjudication.json": "6db9d352fb939b07ffe07bc227c6b090b6edf67e6b08919ddffaa585cba016ae",
+    "A_prime-gsm64.jsonl": "2a9359b4f0c5d877929d68b43af0cd921f95fd30d8d8d7846bb93f0a71bab219",
+    "A_prime-G1.json": "73a26e2dc8da54720ff62600d2ef142e73995bb26583d3362658c194e8995a1f",
+    "B-fields-command.json": "e2df4713644662b30ecd86c73327ab761eb4b9a85d762353887d4d21f3638f51",
+    "B-short-after-command.json": "2110d97e669d422e799e5c20ece21183fbdf8894a3e504d5542b4bf209c230a1",
+    "A_prime-short-after-command.json": "cb42d1690166157a5a801392d3dbb5eeef45d00c408b258fef6c3373b7a66226",
+    "concrete-thresholds.json": "22c681a657100a9a2c67ef816be9267166ca8f79f3febb56c5b0b6476e052aa8",
+    "A-G1.json": "d022c59a783f9a4846d1aa2f029c53b957b9104d5f36a6cf0dd3663faccc3305",
+    "G2-adjudication.json": "b5571bcb83e0fd257248f44b74f0c1929052f425804a91ecc1451964e4485a4c",
+    "A_prime-gsm64.log": "d8c43905ce8e950f52d4fbef3ba3e14ab896ebd2dc6213e2dec756a631464d51",
+    "A_prime-G2-counts.json": "706cd5008572353dc11edd55f7aa60e800759d75308057d435b99b05d8d57316",
+    "B-G1.json": "063c6c6b850609160b184271babbe1d4d580e8a872f41fa5fbb06718f8ca639d",
+    "B-gsm64-command.json": "20e0219e498957254468e68db5f63ab2c06a51f38cbbb51e2ccddb35183bbaac",
+    "idle-before.txt": "0ff92ceea33c367c18491286f10d6cd9178afca08c5ce02d6b35723020647a18",
+    "B-fields.log": "61a4b1532e72929c481480b29f3f77f94e56b180c0c3ca0896eceb25c9367652",
+    "B-short-before.json": "80c1e87a0259d66fbd15ca4dfe00d05a8988dcec08a99c0a326e3328db1aec32",
+    "lock-released.json": "7ac79f73f2ee78f5262c156b84ca7e2963f61f9f1b41f2037cea6e1a705bbd44",
+    "A-fields.log": "61a4b1532e72929c481480b29f3f77f94e56b180c0c3ca0896eceb25c9367652",
+    "B-kernel.txt": "992e41c669c2124531bbbe8f50331e306b99ba7141a308143d8ed260e62731ab",
+    "B-short-after.json": "fd8cbfffd38ee26472d46cd09fae9b711dfcf180ac637a3f810c4bcc96d5599c",
+    "A_prime-gsm64-command.json": "84f9871fb6bafd86cb04942e73fc22e5a3396db37aa5391102d7abd36197963d",
+    "A-G2-counts.json": "706cd5008572353dc11edd55f7aa60e800759d75308057d435b99b05d8d57316",
+    "B-short-after.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "A_prime-fields.log": "61a4b1532e72929c481480b29f3f77f94e56b180c0c3ca0896eceb25c9367652",
+    "window-closed.json": "ce8859229b29f7be106aee24e8190763de50d352cddb1fab123886e491fccc8a",
+    "A_prime-short-before.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "A_prime-short-after.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "A-gsm64.log": "ec1e19f0515827803665636220b01e80ee1047b8a59fabf05658b54fb6a77e14",
+    "A-fields.jsonl": "9d552cab1d1541c7dbeeb927c5e33fa5d94964ef6ab286513eeb8576cdf08f68",
+    "B-gsm64.log": "d62461c98b357cd77e99923e40e651cd3ac9565ec2a8ee6c68bb388e18042ddd",
+    "A-inspect.json": "72c804486efd7d0af6e3dddfb9c9b8eb7518c6e56b40b69b77061ed7698afa7a",
+    "B-vs-A.json": "e1470b4e19ee1bc672b9ec6ebce1e1606409fee3a27730a7fde311fae39fa719",
+    "A-gsm64.jsonl": "df955bab46db5a888e379f5d9002a6bcaa22e43a55ba2b2f7bf7c7a50963f3c3",
+    "A_prime-short-before.json": "2ca3317c979c8f13c4e421cb140e3016467834111aac70b88114907ecd427553",
+    "B-short-before-command.json": "2f2c76c3599095f730bd57e44233cd3b588b554e49251bbe0ef0def2d2309939",
+    "B-inspect.json": "5c52e139026ba55493ed0f22fcb4b4f8a9581d4e0dd21804cb9c084bf49bd0ff",
+    "A-short-after-command.json": "ddb66ad331b5949209ea83e295468fc8a15ae25aa296548fcb60567e4bff50d9",
+    "tool-freeze.json": "7e53f15b13fb5a57059492e99b0df4b7da5dd717c40c552887ed023a508499a8",
+    "A_prime-short-before-command.json": "0addc542413b47394ce7332c476ce226d66639dab540a7e9361fed7304abb776",
+    "A-server.log": "43b42aff26b9efe65630996ee098c8da680580c05b45d72543a146caaf32e424",
+    "A-short-after.json": "5dde3b2ffbfc807286efeef37c1472332077c359381104fa94fd21e0fe8a7ebb",
+    "A_prime-vs-A.json": "2d32d20a4665411d172b9b45a22061eecbc4f23358c5bb19ec5ab2da2e0b0c29",
+    "queue-entry.json": "d3fbda53855eb7a41f3faec3c5fffd6bea3580f776814eb2a0cfd24d14bdb234",
+    "A-gsm64-command.json": "fd986a9e4141056d4ebe013cdce5374eed3ac3629211ed4fe590dc58cb5e69d7",
+    "tunnel.log": "b7b562bfca867071af49779a85df819fb1c52ba57ec87ddb68ee358c4255fb1a",
+    "window-ready.json": "73be29eba35b5b5b341124836bc5fa112f28c8b8236e45525a81621bbe3a3d15",
+    "B-gsm64.jsonl": "97ab1ee5b52e51899663f6d9643ed09c00e84d27383a66405827b6119c8bdf4c",
+    "lock-acquired.json": "8af3dff4a8f6f5fff9c4752d8ceb4b4a4fe57bbf88789d5962a9d6b3f2938fc1",
+    "status.json": "cd6e701fbe5a3ae427c0d77bb5a65dfa2a16a9b9b6ed88c9a9bce87278e3a95b",
+    "A_prime-inspect.json": "e5522d6871827e93bc971fe5fa6ba8217e3c4fdb4d6525883b2be1c2fbcbb549",
+    "A-fields-command.json": "d36334b5bdc4145fd9f3659eafaf7557c20cc6f219dd7b33c549b1dfb72c6d35",
+    "A_prime-short-after.json": "c3bf00fc1b1ccaccc582fec9c3198d0bc03eb8a3fd1ebf7147a31e844ed260ec",
+    "B-G2-counts.json": "706cd5008572353dc11edd55f7aa60e800759d75308057d435b99b05d8d57316",
+    "B-fields.jsonl": "f191368102e209410636a0acd5851f3f9662546e42aa138092977df8a6996a87",
+    "A_prime-server.log": "074582bc590eeac333dd1c950c2927261140f6c09b8f0dd9e3624c18ebdf6912",
+    "A-kernel.txt": "cce2ca60fbc933514bc94731d2bb43ba3b165d90a0267437f91f0a70e8970a67",
+    "A-short-after.log": "c15d5608c35da1f4533dcef9a253a9cd71bf2ba1abb5454a8a6010e0c53208fd",
+    "A_prime/launch-command.json": "f6a4c4afa40a7fb2c93905e2c0a1cb55710257f391a94b14b2ed48d0c2c2469c",
+    "A_prime/launch.txt": "604cc19ce3a9e8721c6d2d61eab96d55a2e1d5a268a3df776a00d14dc02779ad",
+    "A_prime/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69",
+    "B-G1-raw/replay-22.json.gz": "9e9d8f8111683d5671e2383a649279fb603c3df38ee788da78027b386f34f32e",
+    "B-G1-raw/replay-18.json.gz": "e8d410988d90dc30c7e792b212882f4e1e9a8a6764700967cf8be2cc2c082f2d",
+    "B-G1-raw/replay-05.json.gz": "55ab98d59cd43f8dfb67b98e0d684a87f27ff1ec853dbdef6fa163694465b542",
+    "B-G1-raw/replay-13.json.gz": "9be94495d056f1efcfb8e770b5ac2dbf19dc05c5f40065baeeb6663ea2cd9baf",
+    "B-G1-raw/replay-23.json.gz": "4dbfde3ae8b8b2c72018096bef8876256f0cc50998e2a83bc09c5d7e0fb8592c",
+    "B-G1-raw/long-32768.json.gz": "abedd09a6fdfd56fb4ee67b6aef45aebc479898a032738f9e6fca5d376ea5fb6",
+    "B-G1-raw/replay-10.json.gz": "49f3a3b78dc6477ee75ca1457f7b2bd556e67d4406e4e1ff7fc80df12d5bc59a",
+    "B-G1-raw/replay-07.json.gz": "85143612a57ccb8e488c006e0f6a1cbe5e726ed0861c1b0441a249e0101c4234",
+    "B-G1-raw/replay-08.json.gz": "30cde301b8cbdc9ae5640bd150586786a6bd594d71d55cd39e2d50b4466c5b4b",
+    "B-G1-raw/meeting-32768-1.json.gz": "83424fe991e126b3c1003f2172ad6d365f89c9c20922171b5208950a7afe3970",
+    "B-G1-raw/replay-03.json.gz": "48e6a693d55d46b27000dcf4f96c3d40d8d61232b49c545692d24c482a285b26",
+    "B-G1-raw/replay-09.json.gz": "14e291028ec2c142723560d743d76c26dae11a6bbdadc7c68ce6da802ef09dec",
+    "B-G1-raw/replay-20.json.gz": "97ac2bf24ecec6e67afbf86d162ca7049d73aadb41602fec736489c6a1b9e0a3",
+    "B-G1-raw/meeting-16384-1.json.gz": "6c7eb135e790473843dd6be899e9f4043e17283b3a857010e3cfe0ca53905a6e",
+    "B-G1-raw/replay-11.json.gz": "48254a91751ea5a45791e3776a35443df499d97408c22cbd37c4b6df91eb48a8",
+    "B-G1-raw/replay-25.json.gz": "eddcd2882799513461039586db6be31d83a611cdc9b31fa5912a791270e869c0",
+    "B-G1-raw/replay-19.json.gz": "c6f0eafca033ff72bee7a410be4f4c6af6efe3a218a9ef930deb80c0febe04f2",
+    "B-G1-raw/replay-14.json.gz": "ebaad39d577d287203ba275b695a203f46b79bde21e3dd6d330cb4105af09246",
+    "B-G1-raw/replay-04.json.gz": "e24ce24356aa7c4b6f345e6a8cabc059ecb310f6a1eaa81642c8328cb60d445b",
+    "B-G1-raw/replay-12.json.gz": "ea47adf9f6be9e80c25e507e8c97350b7034f503c17df2eb185b61a5fcf7adc0",
+    "B-G1-raw/replay-01.json.gz": "9edf05de03a03c0aa329214c99dd56437b4fbe50296a48abdab3a671f2448c43",
+    "B-G1-raw/long-4096.json.gz": "05ba38a45cde3b14968480120dcd4bc69348d3454cb8cd6f69dd78e3f986f06f",
+    "B-G1-raw/long-4097.json.gz": "21477db348ecefae0f6669639ed8857f7d720d89c42895166c619bc8964bff47",
+    "B-G1-raw/meeting-16384-0.json.gz": "86e75008712f2cc9a8dc6b6f9ed72a8993f5fdd1dac56621c22c79cdb481cec6",
+    "B-G1-raw/replay-15.json.gz": "bf1ab9d396ff7a6719f6827ffac7d91965a0f91d0ed475d0de363c34aa00638f",
+    "B-G1-raw/long-4095.json.gz": "9590f7985131179e4f87f2ba44dc1dda4adfee58d32736224cfa08e512e67971",
+    "B-G1-raw/replay-00.json.gz": "481a460497940dae4afa3de88d931f2531dfb754cd707cadf88c138fd4e7e1b8",
+    "B-G1-raw/meeting-32768-0.json.gz": "50792c387978677fbbadf99e3347bc28fc5e42852b721ccb058fa5b1b81ffc5d",
+    "B-G1-raw/replay-16.json.gz": "7e8e854f96d933621dab89fc08ff5e0f21b8445334dee353ba8b6335cdb05ba1",
+    "B-G1-raw/replay-02.json.gz": "0ab29e82431542c515982ab5ff8a77be2dd4d7266a4f32528375d1beaabbf368",
+    "B-G1-raw/replay-21.json.gz": "3e8b22b336f7095569980ff951ef6de5d1b7ba3d26abdb4a12207500a7fe11d5",
+    "B-G1-raw/replay-06.json.gz": "4712622b141502fa8cf8a944e387bfe1370cb389d1c4c27b53cd03726b89d7ac",
+    "B-G1-raw/replay-24.json.gz": "fecd85e73b2cf58ca2dc829b47612edff7d9e92f96795b9b7046619959559a7d",
+    "B-G1-raw/long-16384.json.gz": "9faf517542a3727ab1866204674696b879fcac94dbf70166336abcc4627dab90",
+    "B-G1-raw/replay-17.json.gz": "3028cac042771e6cdeb6ec43ab59e55f9a110016371ced7d3ca2f5310c6eceae",
+    "B/launch-command.json": "9ef7a094cc39fbf807c65d9a5f8a91990da24ed094d6768b018e1eeea81cfcdd",
+    "B/launch.txt": "522ecd0b327688349b731a6e18a617c2d99500632a1ea2c0f7415cb4788dad1e",
+    "B/manifest.json": "29223a6bb25344844d0967faa3f728113fd569683aac64b0827a7c3ab7d772bf",
+    "A-G1-raw/replay-22.json.gz": "2541532cc6453a8ac0b98e63d8721fbc15525f937dbf305219f59d8a9399f6b7",
+    "A-G1-raw/replay-18.json.gz": "0811342688afb4b2849ebccd347d04db71a447c2ec45624762bec75a0ac771ac",
+    "A-G1-raw/replay-05.json.gz": "8ae9dc8fe634ff85ce1e074324d9ce19d69c97a28a177c8f59193bd344168140",
+    "A-G1-raw/replay-13.json.gz": "58df88c30f55d161f31a80ebb632e3a5ef690e428aad505377660acf33a296e9",
+    "A-G1-raw/replay-23.json.gz": "3f6323de7f25302718f0978801e2779470876155efd8d12be526d9809fccd6cb",
+    "A-G1-raw/long-32768.json.gz": "1113a0006d45361287b71605254d9513b5e696a7e7acd7694efd4b929dcd06eb",
+    "A-G1-raw/replay-10.json.gz": "d2b4544d3fef721b23b83d91bd87025a3c51fd4a7e347e6e055496270a41ff41",
+    "A-G1-raw/replay-07.json.gz": "60996709a09afbcc47f44c423cec55dffccdbf688afa12a45360805423d8fbf0",
+    "A-G1-raw/replay-08.json.gz": "0e03046c2a67ca50b9a8ccf27530e759a64e41cbbcc0da69e76d4fa48f9bcf16",
+    "A-G1-raw/meeting-32768-1.json.gz": "fe372b3de5568c8fa2d155eb6dc71a58acd0d5f412ce7dd6685df475e44d694f",
+    "A-G1-raw/replay-03.json.gz": "bf4650bb54a2ed12c192b0d0504ddb4ea8b01338829ea8eeb680379f5f7555c7",
+    "A-G1-raw/replay-09.json.gz": "f564bceff2a26d149abf88736a85c195791e9c4a29dae194bba6a9138da198ca",
+    "A-G1-raw/replay-20.json.gz": "b66bbe8b5369732bc5d390dfee3950f61714ef88dc1a8e1d5ec3ea1a0e082846",
+    "A-G1-raw/meeting-16384-1.json.gz": "d003ee944a9a27274642904cac57c9a36429da82ea529cfddbe41d2576330a25",
+    "A-G1-raw/replay-11.json.gz": "419f18ec1f328480d61e8d2a37c9438bc2499b786dcf2170be3528741b8e95eb",
+    "A-G1-raw/replay-25.json.gz": "e57cc019151f1c4eaec94cad12f1ce2a86769e984af2ec9c425d1870e6454dbc",
+    "A-G1-raw/replay-19.json.gz": "cdb9934178035a19867cde321f3f34c5438c881c2a02d666fdd8c9592021dcb8",
+    "A-G1-raw/replay-14.json.gz": "741a75f2099f396eefd02f7cad4d8967ee9d4651a3f2015335c9bb5ee06df0de",
+    "A-G1-raw/replay-04.json.gz": "9d4e051dd531f493b4d53345598ca9c867e1af9e512b17339141b76a583a592f",
+    "A-G1-raw/replay-12.json.gz": "a3a75afbc7b6225425afdb9807871bf82d6b8c61817b9f30a1c8b164e931c042",
+    "A-G1-raw/replay-01.json.gz": "ee7190446c7d73ca7f8c272dd7a51866800d25725866a6dccf83d07a68d98984",
+    "A-G1-raw/long-4096.json.gz": "3ad54d36248688544fa058ac06d31062701001703f6f65a0d5c5624ace2c5a62",
+    "A-G1-raw/long-4097.json.gz": "aa68f230368c1a93f3e4a907e504bd5501a66b7d5ccc5dec35096957f1b799cb",
+    "A-G1-raw/meeting-16384-0.json.gz": "18681a6561c7172c656a86b804683008579f8aad480ff0ab16acd084bba2eb38",
+    "A-G1-raw/replay-15.json.gz": "d21787463ae54d049117169f712c100b849d9b3dcffe217547e45be103ede0f5",
+    "A-G1-raw/long-4095.json.gz": "940bf5c64dbff6600096ecb854278acccf49135bc5d3a370ae852fe32aaa99c1",
+    "A-G1-raw/replay-00.json.gz": "e81bfc400a2c4692aae056f16abc7f63c879720c31093052eb66b1a64475c0d8",
+    "A-G1-raw/meeting-32768-0.json.gz": "9db51b0bdeac13835a0c6d7169fe7bfbbb631a541722f1ce5182bb0ed2824ff4",
+    "A-G1-raw/replay-16.json.gz": "45e91bd6bd6bf439b8a9136e2b4ef28e1b79e9b1414de55a73b59a48acf03201",
+    "A-G1-raw/replay-02.json.gz": "a5ddd39d5211fb7e2c4cb94ba053210fb3c834a247063079ae3c70fd673f61f1",
+    "A-G1-raw/replay-21.json.gz": "9f70dd1af0af7517a748bb2d83045bc8bcbfa98e4f42e55ea413357f1314520e",
+    "A-G1-raw/replay-06.json.gz": "b6292a0312eb365e7b281fb666cb37ee8d870861f946a6a1fd2478576e6e1738",
+    "A-G1-raw/replay-24.json.gz": "62b021efdff82f7dce1f80f3a643359ddb2edb7de790bdfc5d75e95b35ef50f9",
+    "A-G1-raw/long-16384.json.gz": "65dc3de1463da2ebfa1434e4b46f8ca70a664a0f1a154d3827390c2a3a5d17f7",
+    "A-G1-raw/replay-17.json.gz": "b5531baf3f86639e694cc5dd3cb1e24baf1d1ea3fca2fd7d97cae747454f0e76",
+    "A_prime-G1-raw/replay-22.json.gz": "9fc1265cb5711ec0dc40802df8488370f16939d8f229515038a2127cabba8ceb",
+    "A_prime-G1-raw/replay-18.json.gz": "8b22dbff2b04f9b1fe946324ea3fe26d980f771205e5e6f394f69d9ff41d8bd2",
+    "A_prime-G1-raw/replay-05.json.gz": "6662511619263ff4b983f58e2eb2744ecb8f664072a553d3b0304862571db698",
+    "A_prime-G1-raw/replay-13.json.gz": "674ccf52decf852a52f8ac8de01a5f54130d10457d6ea838708b2cbe8c808dd3",
+    "A_prime-G1-raw/replay-23.json.gz": "8e041a4a2f1f0ded958eb9b7af832e837b93586f5fed7936ac1fbfead1947b07",
+    "A_prime-G1-raw/long-32768.json.gz": "9cdf4922b8ffcd5e37282cfc3dde2dd64b949d22a87b5b2546517eaa5828cc30",
+    "A_prime-G1-raw/replay-10.json.gz": "5f498d0422e19e05a7b2fd02bf24501db19c860f271a40d30093064da05edd6d",
+    "A_prime-G1-raw/replay-07.json.gz": "b5dfc41249a0ef07625d5411b25d0592f50473cfa85decc48eb6ae02e9d64a36",
+    "A_prime-G1-raw/replay-08.json.gz": "caf1a1a992309ccae62d74f36111b799c6d58a1a7d826285e08e7db9460f51ee",
+    "A_prime-G1-raw/meeting-32768-1.json.gz": "228080e41d052244f8880d711f53d892a473cf7616aa33982470f57e43a72ab5",
+    "A_prime-G1-raw/replay-03.json.gz": "405d6b55c89b8fbcf2ad0afce0d3d8a23a70a11d5cffbb67800c7425dd3b0612",
+    "A_prime-G1-raw/replay-09.json.gz": "ccf095a078493eb72eb2464a35588cb9475f438d69e9aeff52b68171d5a1d6c9",
+    "A_prime-G1-raw/replay-20.json.gz": "bab02a26bd71ae012898e3995582f2ca6ba476e528bd3e0b7ed89e94a03f70af",
+    "A_prime-G1-raw/meeting-16384-1.json.gz": "dafe85bfda4f724f098cc8655cb77ad513a02a7ec16df42bbfd359f03ccfd7b7",
+    "A_prime-G1-raw/replay-11.json.gz": "dd5b034153f7f3aed99f8d49233c1c5e45a11d3403b0dd80552255bd623fdef3",
+    "A_prime-G1-raw/replay-25.json.gz": "9f3992c95fd157e744d9078fc8ee4d3fd58077c4b43056a0e57e4f7818e67624",
+    "A_prime-G1-raw/replay-19.json.gz": "f79ee7ebd4026a66154d63168f28a041f3f502ab7e7819dee54e03db490b92ab",
+    "A_prime-G1-raw/replay-14.json.gz": "6b8c41bbedbd52c71eb1ea5fa086626b1adc1944113a32c7ba5bca16df077e1d",
+    "A_prime-G1-raw/replay-04.json.gz": "80edcf2c3c15a927f7040ce3ffced1e9df1f89753cd18fc3f858c51767be12a0",
+    "A_prime-G1-raw/replay-12.json.gz": "3f4e3b5778665675e8b1b865e5e9e30876c488b322674f99bf80c7f3b7f84b8a",
+    "A_prime-G1-raw/replay-01.json.gz": "7ba481f86d4f3b23db32221c500bb55369dbf7e4997a67f5b6a327fdef53336f",
+    "A_prime-G1-raw/long-4096.json.gz": "e97f73c4e6a5ab6fa6ea7d0ec22407bd9e98ebdae6226351e1effdd893798348",
+    "A_prime-G1-raw/long-4097.json.gz": "94aad7ba7667eb4b8ab1e4bc6fd3d829e491c8767d7dc505b8f96933b8d50798",
+    "A_prime-G1-raw/meeting-16384-0.json.gz": "ed26c1213942205de700aa34c1de61ad92db16ed3396c477a7e63b807ce7bb0b",
+    "A_prime-G1-raw/replay-15.json.gz": "74b41f3b9776de62be69d2d1679915ab06db487ad15b52c5d1eb957bb7c64365",
+    "A_prime-G1-raw/long-4095.json.gz": "f613c7d466e7c2baa13d98c5152303258068abcceeaa47450133d39c63275145",
+    "A_prime-G1-raw/replay-00.json.gz": "e31c119483250bfbcc4716e9686bcbd568460fe93475a8ced5aa11c263c9a9d6",
+    "A_prime-G1-raw/meeting-32768-0.json.gz": "0555ddf99535114cf4fe3a267852befefee47b6f185b0812a16b031ebc183f85",
+    "A_prime-G1-raw/replay-16.json.gz": "0343afd894a2e38312915582c4c49409bc52593c8be31585e9cacb809618a53a",
+    "A_prime-G1-raw/replay-02.json.gz": "e6819734fa55b4c5e89846fc0706b89b8540a26bdf4af58bf0f8fae608899d27",
+    "A_prime-G1-raw/replay-21.json.gz": "7d667030149edee9b00227cd1c128cec7607876865ffcb4561047694a294262e",
+    "A_prime-G1-raw/replay-06.json.gz": "de3dc9ff4eea5ddb89610605776e2bfdf9bbcfd29fd59174ebd708626599886d",
+    "A_prime-G1-raw/replay-24.json.gz": "9ef598ed34a05645484c4b81da4a1f87c5ab59b7c0b2b41549416d00589a9fc8",
+    "A_prime-G1-raw/long-16384.json.gz": "afb33f5f9b28a8db12da8950a9e8e6452d8f015fcff84f5dde7b93989d4d5f7f",
+    "A_prime-G1-raw/replay-17.json.gz": "b176fcfe9741757fc039381f5c0b941dab8cc20ae756f839a6e97c963ee995b2",
+    "A/launch-command.json": "c0d4a51445f78175021f0bba3b8fd1c481a5c61bbd859ce6df792b5333f84467",
+    "A/launch.txt": "3d09e45a4951ce8f8e07d2c09529e2f900a51cfe66adf6d1a7e2c8e037fd9633",
+    "A/manifest.json": "69d683fdebc7cefd5403c8bf5446840ae3511b7ade2b066f64ce0ec9d59c7d69"
+  },
+  "tool_freeze": {
+    "frozen_unix_ns": 1793886594400875332,
+    "tools": {
+      "tools/compare_token_logprobs.py": "e1cc73991745aa9a7a34c46594492cf419da661407f49beb3de8d1cad8d14362",
+      "tools/bench_http_stream.py": "17e07659e46c3a23073fe0b5946e422b92b5b10a0adfa923c974edec2fc8cc20",
+      "tools/eval_gsm8k_http.py": "2bdcb11bf10153c3f82a77d5647a5746fe3af7ab305a3007eadb4479e2585a93",
+      "tools/check_cache_request_reuse.py": "6d48a9f1e5043e084701c052ddcf5cae2b1a0d99fabebc10e5b222aca2241dbe",
+      "benchmarks/ascend310p/check_action_state_regression.py": "016ed983883cab867afdf989cd38e73bdc20f2b4bda2bf96ada17176e950e565",
+      "experimental/runs-20261103-04/start-production-replica.sh": "7e6b335aa4d81e81cf7562bd3757dd459264ee89a51723d8492cf449145fcabb"
+    },
+    "controller_sha256": "a3c9cf1af15c054136f088b972be0bec080868b3300b4d39e85ca68216255ae1",
+    "holder_sha256": "c1086bac09139340b9aad24cfa4dfc7981da75ea31cbf92c4c37acc1e944b4d7"
+  },
+  "summarizer_returncode": 0,
+  "references": {
+    "candidate_reference": "${REGISTRY}/${NAMESPACE}/ascend310p-llm-candidate@sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+    "candidate_tag": "image-src-f46116b-amd64-310p",
+    "candidate_remote_manifest_digest": "sha256:c590aebfa21e59f75a7d845c5b5563bce51292539c53b6b438057ffc24d167f0",
+    "base_reference": "${REGISTRY}/${NAMESPACE}/vllm-ascend-310p-base@sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f",
+    "remote_manifest_digest": "sha256:f7b14f2deb44b7558cc5506bbd7a329126bd260491d35a88249f94119b154a4f"
+  }
+}

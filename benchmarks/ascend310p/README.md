@@ -8,10 +8,12 @@
 
 以下只列入口，不执行设备任务。门禁和算子工具需要匹配的 Ascend 运行时、设备及制品；CPU 单元测试独立运行。
 
-## 可复用清单（含 tools 改动，共 57 个脚本/测试）
+## 可复用清单（含 tools 改动，共 61 个脚本/测试）
 
+- `benchmarks/ascend310p/adjudicate_benchmark.py`
 - `benchmarks/ascend310p/analyze_wy_snapshots.py`
 - `benchmarks/ascend310p/audit_runtime_stack.py`
+- `benchmarks/ascend310p/bench_qkvz_w8a8.py`
 - `benchmarks/ascend310p/build_fwd_o_maskfix_extension.py`
 - `benchmarks/ascend310p/build_pr17640_fwd_o_extension.py`
 - `benchmarks/ascend310p/build_pr17640_gdn_pair_extension.py`
@@ -37,6 +39,7 @@
 - `benchmarks/ascend310p/probe_fwd_o_frozen.py`
 - `benchmarks/ascend310p/probe_gdn_call_context.py`
 - `benchmarks/ascend310p/probe_gdn_intermediates.py`
+- `benchmarks/ascend310p/qkvz_w8a8_worker.py`
 - `benchmarks/ascend310p/recheck_meeting_owners.py`
 - `benchmarks/ascend310p/replay_dense_quant_capture.py`
 - `benchmarks/ascend310p/repro_chunk_gdn_nondeterminism.py`
@@ -44,6 +47,7 @@
 - `benchmarks/ascend310p/sample-resources.py`
 - `benchmarks/ascend310p/summarize.py`
 - `benchmarks/ascend310p/summarize_action_state_pair.py`
+- `benchmarks/ascend310p/test_adjudicate_benchmark.py`
 - `benchmarks/ascend310p/test_summarize.py`
 - `tools/analyze_decode_kernels.py`
 - `tools/bench_http_stream.py`

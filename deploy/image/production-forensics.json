@@ -1,0 +1,310 @@
+{
+  "inspection_date": "2026-11-05",
+  "status": "cpu-reconstruction-and-comparison-complete",
+  "production_image": "${PRODUCTION_REGISTRY}/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+  "architecture": "amd64",
+  "production_config_digest": "sha256:c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
+  "production_config_sha256": "sha256:c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
+  "production_created": "2026-08-10T08:48:49.285302824Z",
+  "base": {
+    "historical_tag": "${UPSTREAM_REGISTRY}/ascend/vllm-ascend:nightly-releases-v0.23.0-310p-openeuler",
+    "history_last_layer_created": "2026-08-07T06:39:52.441073521Z",
+    "layer_count": 19,
+    "historical_index_candidate": "sha256:538a7c0c52bc0c117b27fbf5bc650b22ee2bb200014890b9999f2b33b2f901a6",
+    "historical_index_candidate_verified": false,
+    "historical_child_candidates": [
+      "sha256:558f374ec8bc4597356871f1a479d97b15da5a5426d670b57cbd2a18986cd85b",
+      "sha256:9ba1fac45448b77b78f65c648471059dcd64b1948ffa2877b60b9634bf27e31f"
+    ],
+    "historical_candidate_http_status": 404,
+    "current_tag_amd64_digest": "sha256:5ab669ef238b64d2ba6e899d15ed02118f69558a248ebada1723a667892bd48b",
+    "current_tag_created": "2026-08-11T13:02:51.276472716Z",
+    "current_tag_common_diff_id_prefix": 0,
+    "existing_base_amd64_digest": "sha256:aa625af28af09b0a4d001dcd227820bd8e4c0ad023d3c33c64d36d4bc367fd73",
+    "existing_base_created": "2026-09-22T04:50:20.089430238Z",
+    "existing_base_common_diff_id_prefix": 0
+  },
+  "layers": [
+    {
+      "number": 1,
+      "role": "base",
+      "digest": "sha256:ac84c705f883f1dfa0fc993a2a0fbb55320da90401074abfebc1495923bc21a7",
+      "size": 67384344,
+      "diff_id": "sha256:3d2d95272907d58d6162b9bc4565e1868046fa40ac700cc33dcc2d40650a2422"
+    },
+    {
+      "number": 2,
+      "role": "base",
+      "digest": "sha256:c22779bccc10663b03dc03f732916bac4ee2bfb4561ff078b0efa46214ffd528",
+      "size": 1316,
+      "diff_id": "sha256:4155be295e86415c84f6b2d9926e264ebb87b19d2c693faedd69f6bacc9da78e"
+    },
+    {
+      "number": 3,
+      "role": "base",
+      "digest": "sha256:82f553dec749d3fb9305b2a2954f6056010cdd14974db220aeadcb75d3737bc7",
+      "size": 239228303,
+      "diff_id": "sha256:842f6dd89d486538d62c64d0d376b6436544baf50a18cf06c0d99228b60f83f5"
+    },
+    {
+      "number": 4,
+      "role": "base",
+      "digest": "sha256:eeb25e3d0ef7bdda5c1c3074be02c2ec7c8eceb8def0696a0a4a2277720298e1",
+      "size": 189761369,
+      "diff_id": "sha256:5b7a3b009c815b627d6f1ea833e86532cec232ab7355a245e70400bbf7323650"
+    },
+    {
+      "number": 5,
+      "role": "base",
+      "digest": "sha256:ecc8faeebebe93f3a5145f7b97b21af4a4b1d0e36a3506f4bb37d66ebb08e1f1",
+      "size": 4069458442,
+      "diff_id": "sha256:dde437ac3ba3768e0f3a6d347c9c3ee2fde4dfc0e8f6b387ac9344bab08d72d1"
+    },
+    {
+      "number": 6,
+      "role": "base",
+      "digest": "sha256:fcd9dbe78b83d44e3e7e404fcedcef0b2eb4f930fb35d5c0de9b47bad3a46d4e",
+      "size": 230,
+      "diff_id": "sha256:197e75a82316037e712bb2a559bf6c6c7856ffb00454d3abd2026adb24d85e83"
+    },
+    {
+      "number": 7,
+      "role": "base",
+      "digest": "sha256:25401f1dc6fd552934c51f9bc9ef60090d0b60cbc0f30e103a5a70ea57b5579c",
+      "size": 1433,
+      "diff_id": "sha256:22bfbdbd0bcc03f6c11f9543fa906baf0c8d79aa68e7f844f7587d04cdec90fb"
+    },
+    {
+      "number": 8,
+      "role": "base",
+      "digest": "sha256:61b1f3848be3431b4289bb883e8f39c85c46cdea11021a56e61fc9a201a20d28",
+      "size": 105,
+      "diff_id": "sha256:561f80dcf30b6baf57761e2cde23f8b6db64260d71d96cb4b501e8b8c7fa33f0"
+    },
+    {
+      "number": 9,
+      "role": "base",
+      "digest": "sha256:92e55fb99acac78d8e53b41b8f8fed5fde0606d51918100e00353f74fd958c1b",
+      "size": 235017492,
+      "diff_id": "sha256:5bd9112453474cdb151ecdb74e97388825278db43c33f95ad4575f6c78cfe020"
+    },
+    {
+      "number": 10,
+      "role": "base",
+      "digest": "sha256:774eb492e2982f1153fbe7163106bc65a505713e1414c1470d9950ca956efd3c",
+      "size": 103105620,
+      "diff_id": "sha256:ba877eb7765e5b90cb229117b9105541bda92646474d670ed7ae26dbdfaf2832"
+    },
+    {
+      "number": 11,
+      "role": "base",
+      "digest": "sha256:d49ac2cd37753810d75f8ecd7019ee4914b88775e97d19542eb086e6adf92f6a",
+      "size": 76312035,
+      "diff_id": "sha256:eb0bf5ef8c7322c78ce5534cf591ac4c8a00240f78a3cac7ea7ccc6d08feb301"
+    },
+    {
+      "number": 12,
+      "role": "base",
+      "digest": "sha256:490db0f50289afb970b1faacc6537d86f880878daeebb1d445c0e40a7ea065dd",
+      "size": 525823025,
+      "diff_id": "sha256:185a0f472c98ee6ae2518e1e392f2446e41c48f7376d767d17ea739ccce2e814"
+    },
+    {
+      "number": 13,
+      "role": "base",
+      "digest": "sha256:a65f7a020812d5ed0e6ed254a1ef18f32203cc03ccaa70f22566f3f963310637",
+      "size": 124331025,
+      "diff_id": "sha256:e263eda048fb053f1b5808090a1f750ca20b34e75e665e7156a05933e3d980c4"
+    },
+    {
+      "number": 14,
+      "role": "base",
+      "digest": "sha256:c414cfae2ec2150a2e4f726d898cac5539e8404785c064cd883cf869e8b0c11c",
+      "size": 541316736,
+      "diff_id": "sha256:aad44776f247ab755229e6325090f88a5d7471780d40e241489818321b80e658"
+    },
+    {
+      "number": 15,
+      "role": "base",
+      "digest": "sha256:abc480c9d0006d5fae880412be42439396c9638d3c0bb624c3c29be110a23a81",
+      "size": 375,
+      "diff_id": "sha256:0ec1aa26a6e0c941491784e667c22c985804d529a4eaceb4d784ee9c8e6b042c"
+    },
+    {
+      "number": 16,
+      "role": "base",
+      "digest": "sha256:43ec255988a46d9257f4e37aae346b2569022a4faf12e8a818307fd0496dcb67",
+      "size": 548,
+      "diff_id": "sha256:93a455e2b3a6021cff061f6011ac5ed167d24713ee01d973b23c45e9d7e76f92"
+    },
+    {
+      "number": 17,
+      "role": "base",
+      "digest": "sha256:92197155a20df3250e8a4b4afbe514558e87c552b3d770977367159827698e34",
+      "size": 588,
+      "diff_id": "sha256:4357f383061f22f132c9c520b692bae58b7f685758f5f6f8847063d0013f1c27"
+    },
+    {
+      "number": 18,
+      "role": "base",
+      "digest": "sha256:0a4df0ba2cca30a489b2435b26848e2c2d03e92487a62735bd06dbdc37696a58",
+      "size": 10185,
+      "diff_id": "sha256:75287a320b7cf563715045ed3f90da48632a3a7ddafe27be7405f8301046d161"
+    },
+    {
+      "number": 19,
+      "role": "base",
+      "digest": "sha256:64c32964a759fa7eeb81e666e4094219856e0aee44f0fcdfc9267e54833d9982",
+      "size": 417,
+      "diff_id": "sha256:6bce75bb0019238129c44016fa99207a103a2d2ed6923dbbfc0b390a34d4b2ee"
+    },
+    {
+      "number": 20,
+      "role": "overlay",
+      "digest": "sha256:2299544ecf91092d8fc2d67ed7ab6b205c20de686b5a55c3979947fca08e8b33",
+      "size": 3002,
+      "diff_id": "sha256:e1f5ffad9b242d1f01fd67bf49c3c875af11f4da173f8db92d7510e08c84db51"
+    },
+    {
+      "number": 21,
+      "role": "overlay",
+      "digest": "sha256:d8158c2e08f17b9e749d5d91c58a0d43b70ded591d4f1297971366c6d8af74b4",
+      "size": 1313,
+      "diff_id": "sha256:e997af525c88bdc83d8911604442b4ab0e0eb0ab0279dbea3fc3cff74b864b4f"
+    },
+    {
+      "number": 22,
+      "role": "overlay",
+      "digest": "sha256:1a0d6723800e31138d969968bc123a57052634f1dd341f3ed4205f3ae4a8f76b",
+      "size": 519052642,
+      "diff_id": "sha256:3bea0e651b5306f18d282e4f0e77404f62af515caf1fcb8583d5de9e9130541c"
+    }
+  ],
+  "overlay_history": [
+    {
+      "created": "2026-08-10T07:43:45.162359409Z",
+      "created_by": "/bin/sh -c #(nop) ARG PI1_COMMIT"
+    },
+    {
+      "created": "2026-08-10T07:43:45.564543216Z",
+      "created_by": "/bin/sh -c #(nop) LABEL org.opencontainers.image.revision=${PI1_COMMIT}"
+    },
+    {
+      "created": "2026-08-10T08:48:40.434122487Z",
+      "created_by": "/bin/sh -c #(nop) LABEL org.opencontainers.image.title=vllm-ascend-310P-PI1-live-SplitFuse-mask-v023-overlay"
+    },
+    {
+      "created": "2026-08-10T08:48:40.606705718Z",
+      "created_by": "/bin/sh -c #(nop) COPY file:5a4b211602a8edd4c549406da007dede4c1de757704c86d0e170574e2fe00b59 in /vllm-workspace/vllm-ascend/vllm_ascend/_310p/attention/attention_mask.py "
+    },
+    {
+      "created": "2026-08-10T08:48:40.842354084Z",
+      "created_by": "/bin/sh -c #(nop) COPY file:0ec4cb375820a1c9f73b6211eaf5e63a4952b673fa36e595a35ca3527b203238 in /vllm-workspace/vllm-ascend/tests/ut/_310p/attention/test_attention_mask_310.py "
+    },
+    {
+      "created": "2026-08-10T08:48:50.565514064Z",
+      "created_by": "|1 PI1_COMMIT=f8f58951e43054b2da7f7e200939d01f933197cb /bin/sh -c python3 -m pip install --no-deps triton==3.2.0"
+    }
+  ],
+  "config": {
+    "Env": [
+      "PATH=/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/bin:/usr/local/Ascend/ascend-toolkit/latest/bin:/usr/local/Ascend/ascend-toolkit/latest/compiler/ccec_compiler/bin:/usr/local/Ascend/ascend-toolkit/latest/tools/ccec_compiler/bin:/usr/local/Ascend/cann-9.1.0-beta.1/tools/show_kernel_debug_data:/usr/local/Ascend/cann-9.1.0-beta.1/tools/msobjdump:/usr/local/Ascend/cann-9.1.0-beta.1/bin:/usr/local/Ascend/cann-9.1.0-beta.1/tools/ccec_compiler/bin:/usr/local/Ascend/cann-9.1.0-beta.1/tools/profiler/bin:/usr/local/Ascend/cann-9.1.0-beta.1/tools/ascend_system_advisor/asys:/usr/local/python3.12.13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "ASCEND_TOOLKIT_HOME=/usr/local/Ascend/cann-9.1.0-beta.1",
+      "ASCEND_TOOLKIT_LATEST_HOME=/usr/local/Ascend/ascend-toolkit/latest",
+      "PYTHONPATH=/usr/local/Ascend/ascend-toolkit/latest/python/site-packages:/usr/local/Ascend/ascend-toolkit/latest/opp/built-in/op_impl/ai_core/tbe:/usr/local/Ascend/cann-9.1.0-beta.1/python/site-packages:/usr/local/Ascend/cann-9.1.0-beta.1/opp/built-in/op_impl/ai_core/tbe:",
+      "ASCEND_AICPU_PATH=/usr/local/Ascend/cann-9.1.0-beta.1",
+      "ASCEND_OPP_PATH=/usr/local/Ascend/cann-9.1.0-beta.1/opp",
+      "TOOLCHAIN_HOME=/usr/local/Ascend/cann-9.1.0-beta.1/toolkit",
+      "ASCEND_HOME_PATH=/usr/local/Ascend/cann-9.1.0-beta.1",
+      "CMAKE_PREFIX_PATH=/usr/local/Ascend/cann-9.1.0-beta.1/toolkit/tools/tikicpulib/lib/cmake:/usr/local/Ascend/cann-9.1.0-beta.1/lib64/cmake",
+      "ATB_HOME_PATH=/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1",
+      "LD_LIBRARY_PATH=/usr/local/Ascend/cann-9.1.0-beta.1/lib64:/usr/local/Ascend/cann-9.1.0-beta.1/lib64/plugin/opskernel:/usr/local/Ascend/cann-9.1.0-beta.1/lib64/plugin/nnengine:/usr/local/Ascend/cann-9.1.0-beta.1/opp/built-in/op_impl/ai_core/tbe/op_tiling:/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64/common:/usr/local/Ascend/driver/lib64/driver:/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/lib:/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/examples:/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1/tests/atbopstest:/usr/local/Ascend/ascend-toolkit/latest/tools/aml/lib64:/usr/local/Ascend/ascend-toolkit/latest/tools/aml/lib64/plugin:/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/lib64/plugin/opskernel:/usr/local/Ascend/ascend-toolkit/latest/lib64/plugin/nnengine:/usr/local/Ascend/ascend-toolkit/latest/opp/built-in/op_impl/ai_core/tbe/op_tiling:",
+      "ATB_STREAM_SYNC_EVERY_KERNEL_ENABLE=0",
+      "ATB_STREAM_SYNC_EVERY_RUNNER_ENABLE=0",
+      "ATB_STREAM_SYNC_EVERY_OPERATION_ENABLE=0",
+      "ATB_OPSRUNNER_KERNEL_CACHE_LOCAL_COUNT=1",
+      "ATB_OPSRUNNER_KERNEL_CACHE_GLOABL_COUNT=5",
+      "ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=1",
+      "ATB_COMPARE_TILING_EVERY_KERNEL=0",
+      "ATB_SHARE_MEMORY_NAME_SUFFIX=",
+      "ATB_MATMUL_SHUFFLE_K_ENABLE=1",
+      "LCCL_DETERMINISTIC=0",
+      "LCCL_PARALLEL=0",
+      "SOC_VERSION=ascend310p1",
+      "TASK_QUEUE_ENABLE=1",
+      "OMP_NUM_THREADS=1"
+    ],
+    "Entrypoint": [
+      "/usr/local/bin/entrypoint.sh"
+    ],
+    "Cmd": [
+      "/bin/bash"
+    ],
+    "WorkingDir": "/workspace",
+    "Labels": {
+      "io.buildah.version": "1.33.7",
+      "org.opencontainers.image.revision": "f8f58951e43054b2da7f7e200939d01f933197cb",
+      "org.opencontainers.image.title": "vllm-ascend-310P-PI1-live-SplitFuse-mask-v023-overlay"
+    },
+    "ArgsEscaped": true
+  },
+  "source_heads_verified": true,
+  "filesystem_diff_complete": true,
+  "candidate_built": true,
+  "sources": {
+    "/vllm-workspace/vllm": {
+      "head": "0fc695fc6d1d82e9a5ac6835ac8e4e1c83703665",
+      "status": ""
+    },
+    "/vllm-workspace/vllm-ascend": {
+      "head": "88eac2713b14beedc7a48803274f8d6cee3e9f30",
+      "status": " M tests/ut/_310p/attention/test_attention_mask_310.py\n M vllm_ascend/_310p/attention/attention_mask.py\n"
+    }
+  },
+  "versions": {
+    "torch-2.10.0+cpu.dist-info": "Name: torch\nVersion: 2.10.0+cpu",
+    "torch_npu-2.10.0.post2.dist-info": "Name: torch_npu\nVersion: 2.10.0.post2",
+    "vllm-0.23.0+empty.dist-info": "Name: vllm\nVersion: 0.23.0+empty",
+    "vllm_ascend-0.23.0rc2.dev93+g88eac2713.dist-info": "Name: vllm_ascend\nVersion: 0.23.0rc2.dev93+g88eac2713"
+  },
+  "cann_version": "9.1.0-beta.1",
+  "pip_freeze_sha256": "7e5eae5ef2a2d97d854a551e902f9dad381d88eaf0721d109f365dbc42ba42a5",
+  "entrypoint_sha256": "e4e8978a61fc498e8a8160e681e6c8b283302da0da31d150947ef333763ac135",
+  "recovered_base": {
+    "manifest": "sha256:5a49ce1e72934270662e800b0f6891ec4e97b93a763e256ca71fc6954be7c909",
+    "config": "sha256:e86feb2f76788cfa1fa70bfe088ca3b26ad92a23e316927e7a41e51739ebd9b7",
+    "layers": 19,
+    "provenance": "recovered-from-production"
+  },
+  "filesystem_difference_summary": {
+    "base_entries": 189233,
+    "production_entries": 189664,
+    "changed_entries": 433,
+    "groups": {
+      "/etc/hostname": 1,
+      "/etc/resolv.conf": 1,
+      "pip-cache": 13,
+      "triton-cli": 2,
+      "triton-package": 414,
+      "/vllm-workspace/vllm-ascend/tests/ut/_310p/attention/test_attention_mask_310.py": 1,
+      "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/attention/attention_mask.py": 1
+    },
+    "diff_sha256": "4dfb6930c5f37c2fc8def2100f21961eccb6c1699d93139210ab4592c9a98bb8",
+    "layers_entry_counts": {
+      "20": 6,
+      "21": 7,
+      "22": 457
+    },
+    "modified_files": {
+      "/vllm-workspace/vllm-ascend/tests/ut/_310p/attention/test_attention_mask_310.py": {
+        "before": "0c6283b406a7d3f53538ccf4dda8869b002c02a2faf7bfad44c3b7e53e5853b0",
+        "after": "4961ac2bcf66436d3962a37e651ad5e90018e53b1c037c80077a81d7f3ca5f8f"
+      },
+      "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/attention/attention_mask.py": {
+        "before": "596578b488d4c89efb55ec287bd7f580ff2abaa3f9160b470c2fc66aa8189f6e",
+        "after": "6576912c671c9e2bd3a2ee1ba46843bac57daf40b1d49a59cc3bd50f870a1e01"
+      }
+    }
+  },
+  "independent_official_base_available": false
+}
