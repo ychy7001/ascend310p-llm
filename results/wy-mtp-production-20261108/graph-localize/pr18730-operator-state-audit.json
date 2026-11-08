@@ -1,0 +1,21 @@
+{
+  "source_commit": "50fbb5a95",
+  "reused_build": "2026-10-14 opp-review; matched host/kernel source SHA; not rebuilt in this window",
+  "original_defect_reproduced": true,
+  "original_exit_zero_meaning": "old defect reproduced with legal and gathered controls passing; not an accuracy pass",
+  "candidate_operator_runs": [
+    {
+      "passed": 42,
+      "graph": false
+    },
+    {
+      "passed": 42,
+      "graph": true
+    }
+  ],
+  "logs_sha256": {
+    "pr18730-original-repro": "3f1e111c2042437d48d0d7716f5992a95b6fb6ce86b1dacd903df798875928af",
+    "pr18730-candidate-regression": "962a70c53dae8e7f4ef8c18d77698f6083a146fead2d9cb7ae199eba26d2b9af"
+  },
+  "candidate_status_metadata_note": "Initial candidate status script_sha256 named old repro input; actual command and committed check input identify executed test. Runner corrected afterwards."
+}

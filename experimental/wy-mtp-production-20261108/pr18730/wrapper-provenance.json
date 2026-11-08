@@ -1,0 +1,7 @@
+{
+  "base_wrapper_sha256": "1282ed500116e01a31db76ac0c6e44dbb8fd4d476460a43c2c07512733c32548",
+  "pr_wrapper_sha256": "1b6c2a6f039f145ad058413fb0a5fd3d6729bffa4e48e89b87f61aa0633f5d87",
+  "candidate_wrapper_sha256": "45bc54267d44d59e6b530de9b84ec2548c377de3abacf1688f29b9c7161d5fdc",
+  "source_commit": "50fbb5a95",
+  "change": "Only recurrent wrapper function copied from reviewed PR, other model helpers unchanged; paired OPP required."
+}
