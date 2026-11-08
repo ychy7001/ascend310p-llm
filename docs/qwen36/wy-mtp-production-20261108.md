@@ -101,10 +101,12 @@ a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验
 
 测试后冷却60秒，恢复本轮备份的原Quadlet及manifest并逐字节核对一致；23:33:42 +08:00确认原镜像1a193…运行、systemd active、18081/v1/models=200，同样10个测速请求全部成功。候选未永久切换，n2未操作，未通知前端。结构化结果和原始证据SHA见 `results/wy-mtp-a1-maintenance-20261108/summary.json`。后续永久部署仍须同步llmctl站点/catalog/runtime配置源，避免重新渲染覆盖候选；本轮临时维护测试未修改该配置源。
 
-## MeetAI真实业务链路验收（2026-11-08）
+## MeetAI真实业务链路验收（2026-11-09）
 
 在 `ychy-a1` 临时将后端切到完整候选 `a11b8aca…`，保持 Agent、Gateway、数据库和业务容器不变，使用内测账号及真实测试录音 `chinese_product_recommendation_project_meeting.wav` 完成上传、ASR任务、快照版本匹配和 action generation。任务完成，action execution run `7103e631-6bdc-4744-b88b-2c00ef17d75a` 从 pending 进入 completed；候选后端日志没有 `507015`、`507903`、AICore、HCCL watchdog 或 `EngineDeadError`。
 
-后续读取 `/api/action-items?source_meeting_task_id=…` 返回 HTTP 500，错误为 `data did not match any variant of untagged enum ActionEvidenceRef`。因此本次证明了候选镜像可承载真实业务生成链路，但不能把 action-items 列表和桌面终态展示宣称为完整通过；该项应由 Agent/API 修复后单独补验。结构化证据见 `results/wy-mtp-meetai-business-20261108/summary.json`。
+首轮读取 action items 暴露了历史短证据兼容缺陷：数据库只保存 `segment_id`/`segment_index`，旧 Agent 直接按完整 `ActionEvidenceRef` 反序列化而返回 HTTP 500。已在 Agent `3b98ecb7…` 修复读时 canonicalization，并以候选 LLM 重新执行真实 action generation：run `1cd1aab7…` 从 pending 到 completed，列表返回 8 条行动项，所有证据均含 canonical segment、speaker、时间和 excerpt。随后真实 PATCH 更新返回 200，同幂等键重放 200，旧版本更新返回 409 `VERSION_CONFLICT`。
 
-测试结束后已删除候选容器，冷却至少60秒，并同步恢复 systemd 实际读取的 `/etc/containers/systemd/llm-backend-primary.container` 及挂载 manifest；原镜像 `1a193ded…`、后端 HTTP 200、Agent ready、文件校验均确认。此前仅恢复 workspace 副本会被 Quadlet 实际来源覆盖，后续回滚必须同时更新 systemd source 和 runtime manifest。
+因此候选 LLM 已通过上传、ASR、快照版本、action generation、action-items 列表和行动项编辑/幂等/版本冲突组合链路。结构化证据见 `results/wy-mtp-meetai-business-20261108/summary.json`。
+
+测试结束后已删除候选容器，冷却至少60秒，并同步恢复 systemd 实际读取的 `/etc/containers/systemd/llm-backend-primary.container` 及挂载 manifest；原镜像 `1a193ded…`、后端 HTTP 200、Agent ready、文件校验均确认。Agent 修复镜像为 `3c236939…`，Deploy 为 `6e9c0656`，仅部署 a1；n2 未变更。

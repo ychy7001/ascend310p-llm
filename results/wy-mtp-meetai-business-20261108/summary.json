@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-08",
+  "date": "2026-11-09",
   "timezone": "Asia/Shanghai",
   "scope": "Real MeetAI business flow on ychy-a1 with temporary candidate LLM backend; Agent, Gateway and data services were not changed.",
   "candidate": {
@@ -10,8 +10,9 @@
     "main_graph": [3, 6, 12]
   },
   "agent": {
-    "git_commit": "4562dfc24898307dbd998bacf7fee9cad14ab373",
-    "image_digest": "sha256:c6c51592395dee093c5ce7c3ea413f10c80d5b37a2551d3b47098405543b0fb6"
+    "git_commit": "3b98ecb7a5cee3b13b4e15e0a18be92665cee60e",
+    "image_digest": "sha256:3c236939e2e0c9faf50c76c82f9d2b611ae350fc8172fd3f688cf63350702233",
+    "deploy_commit": "6e9c0656"
   },
   "fixture": {
     "notebook_id": "ac40885c-a3e9-4cfa-aab4-5ccda182a124",
@@ -27,21 +28,27 @@
     "asr_snapshot": "passed",
     "action_generation_admission": "passed",
     "action_generation_status": "completed",
-    "execution_run_id": "7103e631-6bdc-4744-b88b-2c00ef17d75a",
-    "action_items_list": "blocked_by_existing_server_error",
-    "action_items_list_error": {
-      "http_status": 500,
-      "error_code": "INTERNAL_ERROR",
-      "message": "data did not match any variant of untagged enum ActionEvidenceRef",
-      "request_id": "f3f768dd16aa90e80a71aab4cc6a6424"
-    }
+    "execution_run_id": "1cd1aab7-b176-4fb7-b73f-9e781bfa1015",
+    "action_items_list": "passed",
+    "action_item_count": 8,
+    "action_item_evidence": "all returned refs include canonical segment_id, segment_index, speaker, start_ms, end_ms and excerpt",
+    "edit": {
+      "http_status": 200,
+      "review_status": "confirmed",
+      "work_status": "open",
+      "version_after_update": 2,
+      "idempotent_replay": 200,
+      "stale_version_http_status": 409,
+      "stale_version_code": "VERSION_CONFLICT"
+    },
+    "previous_compatibility_failure": "historical short segment_id/segment_index refs caused ActionEvidenceRef deserialization HTTP 500; fixed by read-time canonicalization"
   },
   "llm_runtime": {
     "candidate_fatal_log_matches": 0,
     "patterns": ["507015", "507903", "AICore", "HCCL watchdog", "EngineDeadError"]
   },
   "rollback": {
-    "completed_at": "2026-11-09T00:09:55+08:00",
+    "completed_at": "2026-11-09T00:49:00+08:00",
     "original_registry_digest": "sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
     "backend_service_active": true,
     "backend_models_http": 200,
@@ -51,5 +58,5 @@
     "candidate_container_removed": true,
     "cooldown_seconds": 60
   },
-  "conclusion": "The validated candidate completed the real upload -> ASR snapshot -> action generation flow without runtime faults. Full business acceptance is partial because the deployed action-items listing contract currently returns HTTP 500 due to ActionEvidenceRef deserialization; this is recorded as a MeetAI Agent/API defect, not an LLM image failure. a1 was restored to the original image and verified healthy."
+  "conclusion": "The validated candidate completed the real upload -> ASR snapshot -> action generation -> action-items listing -> edit/idempotency/version-conflict flow through the fixed Agent. The candidate window had zero fatal runtime patterns. a1 was restored to the original LLM image and verified healthy; n2 was not changed."
 }
