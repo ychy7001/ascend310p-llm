@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Asia/Shanghai",
+  "scope": "Real MeetAI business flow on ychy-a1 with temporary candidate LLM backend; Agent, Gateway and data services were not changed.",
+  "candidate": {
+    "registry_digest": "sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+    "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab",
+    "prefix_caching": true,
+    "mtp_tokens": 2,
+    "main_graph": [3, 6, 12]
+  },
+  "agent": {
+    "git_commit": "4562dfc24898307dbd998bacf7fee9cad14ab373",
+    "image_digest": "sha256:c6c51592395dee093c5ce7c3ea413f10c80d5b37a2551d3b47098405543b0fb6"
+  },
+  "fixture": {
+    "notebook_id": "ac40885c-a3e9-4cfa-aab4-5ccda182a124",
+    "task_id": "58d2d767-9d0d-448d-8126-1c4c408a3ebb",
+    "source_id": "rec-58d2d767-9d0d-448d-8126-1c4c408a3ebb",
+    "audio": "chinese_product_recommendation_project_meeting.wav",
+    "source_content_version": "segments-v2-sha256:8c7a3543e173de6bb4e0c1bd057db7736031e49f1c38515b0a64f54a0bcf21eb",
+    "segment_count": 39,
+    "task_status": "completed"
+  },
+  "business_flow": {
+    "upload": "passed",
+    "asr_snapshot": "passed",
+    "action_generation_admission": "passed",
+    "action_generation_status": "completed",
+    "execution_run_id": "7103e631-6bdc-4744-b88b-2c00ef17d75a",
+    "action_items_list": "blocked_by_existing_server_error",
+    "action_items_list_error": {
+      "http_status": 500,
+      "error_code": "INTERNAL_ERROR",
+      "message": "data did not match any variant of untagged enum ActionEvidenceRef",
+      "request_id": "f3f768dd16aa90e80a71aab4cc6a6424"
+    }
+  },
+  "llm_runtime": {
+    "candidate_fatal_log_matches": 0,
+    "patterns": ["507015", "507903", "AICore", "HCCL watchdog", "EngineDeadError"]
+  },
+  "rollback": {
+    "completed_at": "2026-11-09T00:09:55+08:00",
+    "original_registry_digest": "sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+    "backend_service_active": true,
+    "backend_models_http": 200,
+    "agent_ready": true,
+    "quadlet_matches_backup": true,
+    "manifest_matches_backup": true,
+    "candidate_container_removed": true,
+    "cooldown_seconds": 60
+  },
+  "conclusion": "The validated candidate completed the real upload -> ASR snapshot -> action generation flow without runtime faults. Full business acceptance is partial because the deployed action-items listing contract currently returns HTTP 500 due to ActionEvidenceRef deserialization; this is recorded as a MeetAI Agent/API defect, not an LLM image failure. a1 was restored to the original image and verified healthy."
+}

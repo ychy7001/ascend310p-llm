@@ -100,3 +100,11 @@ a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验
 本轮端到端吞吐单路约+30.6%、C4约+14.6%；只有两轮且候选C4两轮为66.41/52.23 tok/s，不能作为稳定百分比承诺或独立统计非劣证明。整栈/配置比较不能将全部收益归因于WY；本轮未重跑262K容量或正式OCR质量门禁。
 
 测试后冷却60秒，恢复本轮备份的原Quadlet及manifest并逐字节核对一致；23:33:42 +08:00确认原镜像1a193…运行、systemd active、18081/v1/models=200，同样10个测速请求全部成功。候选未永久切换，n2未操作，未通知前端。结构化结果和原始证据SHA见 `results/wy-mtp-a1-maintenance-20261108/summary.json`。后续永久部署仍须同步llmctl站点/catalog/runtime配置源，避免重新渲染覆盖候选；本轮临时维护测试未修改该配置源。
+
+## MeetAI真实业务链路验收（2026-11-08）
+
+在 `ychy-a1` 临时将后端切到完整候选 `a11b8aca…`，保持 Agent、Gateway、数据库和业务容器不变，使用内测账号及真实测试录音 `chinese_product_recommendation_project_meeting.wav` 完成上传、ASR任务、快照版本匹配和 action generation。任务完成，action execution run `7103e631-6bdc-4744-b88b-2c00ef17d75a` 从 pending 进入 completed；候选后端日志没有 `507015`、`507903`、AICore、HCCL watchdog 或 `EngineDeadError`。
+
+后续读取 `/api/action-items?source_meeting_task_id=…` 返回 HTTP 500，错误为 `data did not match any variant of untagged enum ActionEvidenceRef`。因此本次证明了候选镜像可承载真实业务生成链路，但不能把 action-items 列表和桌面终态展示宣称为完整通过；该项应由 Agent/API 修复后单独补验。结构化证据见 `results/wy-mtp-meetai-business-20261108/summary.json`。
+
+测试结束后已删除候选容器，冷却至少60秒，并同步恢复 systemd 实际读取的 `/etc/containers/systemd/llm-backend-primary.container` 及挂载 manifest；原镜像 `1a193ded…`、后端 HTTP 200、Agent ready、文件校验均确认。此前仅恢复 workspace 副本会被 Quadlet 实际来源覆盖，后续回滚必须同时更新 systemd source 和 runtime manifest。
