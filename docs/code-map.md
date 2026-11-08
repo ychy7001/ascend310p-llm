@@ -55,7 +55,7 @@ python3 tools/check_source_snapshot.py docs/qwen36/source-snapshot-20261013.json
 
 ## 后端交付入口
 
-部署使用 `deploy/qwen36-image.service` 与 `deploy/qwen36-image.env.example`（镜像入口），后端只需消费OpenAI兼容HTTP接口。运维交付材料属内部文档，不在公开仓库；历史源码清单须在对应历史提交校验，清理后HEAD不再包含其全部文件。
+部署使用 `deploy/w4a8-tp1/qwen36-image.service` 与 `deploy/w4a8-tp1/qwen36-image.env.example`（镜像入口），后端只需消费OpenAI兼容HTTP接口。三套档位的目录、文件清单、镜像内路径映射与回滚步骤见[deploy/README.md](../deploy/README.md)。运维交付材料属内部文档，不在公开仓库；历史源码清单须在对应历史提交校验，清理后HEAD不再包含其全部文件。
 
 ## 与vLLM-Ascend主线的收束方式
 
@@ -74,4 +74,4 @@ python3 tools/check_source_snapshot.py docs/qwen36/source-snapshot-20261013.json
 
 ## 固定运行镜像入口
 
-`tools/prepare_runtime_image.py → deploy/image/Containerfile → deploy/image/start.sh`通过指定提交与基础digest打包运行文件和已测算子，不包含实验脚本或权重。复用`configs/tp1-profile.sh`；MTP、调度和metadata顺序是显式参数，不按主机名选择。镜像内manifest、哈希验证、构建/启动/回滚与已验收范围见[runtime-image](qwen36/runtime-image.md)。a2 已完成镜像切换；原 bind-mounted 入口保留用于回滚及源码实验。clt 维护期间暂停，ARM64 RC 镜像尚未验收。
+`tools/prepare_runtime_image.py → deploy/image/Containerfile → deploy/w4a8-tp1/start.sh`通过指定提交与基础digest打包运行文件和已测算子，不包含实验脚本或权重。复用`configs/tp1-profile.sh`；MTP、调度和metadata顺序是显式参数，不按主机名选择。镜像内manifest、哈希验证、构建/启动/回滚与已验收范围见[runtime-image](qwen36/runtime-image.md)。a2 已完成镜像切换；原 bind-mounted 入口保留用于回滚及源码实验。clt 维护期间暂停，ARM64 RC 镜像尚未验收。

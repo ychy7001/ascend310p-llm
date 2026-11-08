@@ -48,6 +48,6 @@ registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbef
 
 image ID为`696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab`。以原无MTP WY镜像9df3c6f3…为parent，parent所有rootfs层保持不变；新增入口、bootstrap及mask适配器。`published-build-manifest.json`记录新增文件SHA256。registry原始manifest及config blob哈希核验、按完整digest拉取均通过。
 
-登记位于`results/wy-mtp-mask-fix-20261108/registry/`，镜像入口结果位于`packaged-image/`。使用`deploy/qwen36-wy-mtp-image.env.example`，填宿主MODEL_DIR；现有`qwen36-wy-image.service`将容器MODEL_DIR显式覆盖为/model，同时保持宿主路径用于只读挂载。Podman环境覆盖检查已通过。不要把宿主路径直接当容器模型路径。
+登记位于`results/wy-mtp-mask-fix-20261108/registry/`，镜像入口结果位于`packaged-image/`。使用`deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example`，填宿主MODEL_DIR；现有`qwen36-wy-image.service`将容器MODEL_DIR显式覆盖为/model，同时保持宿主路径用于只读挂载。Podman环境覆盖检查已通过。不要把宿主路径直接当容器模型路径。
 
 状态为已验证的staging候选，不替换已发布无MTP镜像或W4稳定profile。仅MTP2/seq1配置经过本轮整模型测试；没有多并发或正式业务非劣效结论。未触碰a1，临时registry凭据已删除。协议/规则/worker/R/WY kernel SHA及CANN/Torch版本不变；新增运行时兼容适配器SHA已单列。

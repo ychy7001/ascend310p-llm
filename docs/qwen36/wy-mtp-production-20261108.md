@@ -54,9 +54,9 @@
 
 ## 部署资产与回滚
 
-- `deploy/qwen36-wy-mtp-production.manifest.json`保留a1模型目录、18081端口及服务名，调用镜像内入口。
-- `deploy/qwen36-wy-mtp-production.container`是a1路径的Quadlet模板，包含两卡设备、60秒冷却、失败重启和现有manifest launcher；显式覆盖ENTRYPOINT执行launcher。
-- `deploy/qwen36-wy-mtp-image.env.example`用于直接调用镜像默认入口。
+- `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.manifest.json`保留a1模型目录、18081端口及服务名，调用镜像内入口。
+- `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.container`是a1路径的Quadlet模板，包含两卡设备、60秒冷却、失败重启和现有manifest launcher；显式覆盖ENTRYPOINT执行launcher。
+- `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example`用于直接调用镜像默认入口。
 
 a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验证或部署。a1现有Quadlet由llmctl生成，部署时需同步其部署描述中的镜像与启动配置，避免再次渲染恢复旧值。切换前保存当前manifest、Quadlet与旧镜像digest；停止服务、确认NPU空闲、冷却至少60秒后启动。回滚同样执行冷却。不能只换manifest而继续使用旧镜像，也不能把旧Exec直接附加到新镜像ENTRYPOINT后。
 

@@ -66,7 +66,7 @@ PDF smoke passed; the separate registry tag/digest is registered in the
 variant manifest. Details and measured cold-prefill/decode results are in
 `wy-mtp-mask-fix-20261108.md`. The no-MTP image stays available.
 
-Use `deploy/qwen36-wy-mtp-image.env.example` with the existing TP2 systemd
+Use `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example` with the existing TP2 systemd
 unit. The unit uses host MODEL_DIR for mounting and explicitly supplies
 MODEL_DIR=/model inside the container. This optional profile is validated
 with max_num_seqs=1; it does not establish multi-request acceptance.

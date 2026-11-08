@@ -141,10 +141,10 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 
 | 路径 | 内容与作用 |
 | --- | --- |
-| `deploy/image/start-wy-mtp.sh` | WY/MTP镜像启动参数支持与交付入口维护 |
-| `deploy/qwen36-wy-mtp-image.env.example` | 固定digest、262K/seq4、Graph/MTP2环境配置示例 |
-| `deploy/qwen36-wy-mtp-production.manifest.json` | 面向a1的完整部署描述，保留模型目录、18081端口和服务名 |
-| `deploy/qwen36-wy-mtp-production.container` | Quadlet模板、两卡设备、入口launcher、60秒冷却与失败重启 |
+| `deploy/w8a8-tp2-wy-mtp/start-wy-mtp.sh` | WY/MTP镜像启动参数支持与交付入口维护 |
+| `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example` | 固定digest、262K/seq4、Graph/MTP2环境配置示例 |
+| `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.manifest.json` | 面向a1的完整部署描述，保留模型目录、18081端口和服务名 |
+| `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.container` | Quadlet模板、两卡设备、入口launcher、60秒冷却与失败重启 |
 
 ### 5.2 实现、诊断和自动收尾脚本
 

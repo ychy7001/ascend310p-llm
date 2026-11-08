@@ -6,7 +6,7 @@
 
 - 镜像：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35`
 - 镜像运行源码：`c9fd1daf7f2b059684399473626dc0509fae2f7e`；后续文档提交不改变该镜像。
-- 参数模板：[deploy/qwen36-image.env.example](../../deploy/qwen36-image.env.example)；MODEL_DIR 按实际路径修改。
+- 参数模板：[deploy/w4a8-tp1/qwen36-image.env.example](../../deploy/w4a8-tp1/qwen36-image.env.example)；MODEL_DIR 按实际路径修改。
 - 管理入口：`qwen36-image.service`，端口 18024；运维细节属内部材料，未随公开仓库发布。
 - 验证：镜像校验、32K 配对、112000-token 会议及切换后质量通过，见[原始记录](../../results/qwen36/runtime-image-20261016/README.md)。
 
@@ -27,7 +27,7 @@
 在有Podman、对应基础镜像和已测制品的机器执行；`WORK_DIR`须为新目录。脚本从提交导出，因此先提交准备发布的实现，再构建。
 
 ```bash
-# 设置 BASE_IMAGE 等变量，见 deploy/qwen36-image.env.example
+# 设置 BASE_IMAGE 等变量，见 deploy/w4a8-tp1/qwen36-image.env.example
 export WORK_DIR=/path/to/lab-runtime/qwen36-image-NEW
 python3 tools/prepare_runtime_image.py --revision HEAD \
   --mindieq-license /path/to/lab-runtime/mindieq-r3-20261013/ops-nn/LICENSE \
@@ -74,11 +74,11 @@ ARM64 RC需要自己的固定基础镜像和ARM64 host扩展，不能运行amd64
 
 ## Podman用户服务交付
 
-`deploy/qwen36-image.service`只运行已在本机预加载的镜像（`--pull=never`），配置入口为`~/.config/qwen36-image.env`。a2 实际发布与切换证据见 [`results/qwen36/runtime-image-20261016`](../../results/qwen36/runtime-image-20261016)。从`deploy/qwen36-image.env.example`填写实际模型路径、已验收registry digest和主机参数后安装unit。配置内不放registry密码。这个unit固定device0和容器名`qwen36-image-managed`；同一设备只能启用一个管理单元。
+`deploy/w4a8-tp1/qwen36-image.service`只运行已在本机预加载的镜像（`--pull=never`），配置入口为`~/.config/qwen36-image.env`。a2 实际发布与切换证据见 [`results/qwen36/runtime-image-20261016`](../../results/qwen36/runtime-image-20261016)。从`deploy/w4a8-tp1/qwen36-image.env.example`填写实际模型路径、已验收registry digest和主机参数后安装unit。配置内不放registry密码。这个unit固定device0和容器名`qwen36-image-managed`；同一设备只能启用一个管理单元。
 
 ```bash
 # 先用已授权的registry客户端拉取IMAGE，再校验manifest。
-install -m 644 deploy/qwen36-image.service ~/.config/systemd/user/qwen36-image.service
+install -m 644 deploy/w4a8-tp1/qwen36-image.service ~/.config/systemd/user/qwen36-image.service
 # 手工填写 ~/.config/qwen36-image.env，勿覆盖已有配置。
 systemctl --user daemon-reload
 systemctl --user disable --now qwen36-a2.service   # 当前a2原管理单元
