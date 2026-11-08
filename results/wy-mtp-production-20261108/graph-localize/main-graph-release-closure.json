@@ -1,0 +1,12 @@
+{
+  "state": "complete",
+  "full_window": "main-graph-release-full",
+  "packaged_window": "main-graph-release-packaged",
+  "same_image_and_entry": true,
+  "main_capture_replay_both_ranks": true,
+  "draft_eager": true,
+  "packaged_entry_unmounted": true,
+  "packaged_audit_disabled": true,
+  "image": "localhost/qwen36-w8-wy-mtp-main-graph:20261108",
+  "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4"
+}

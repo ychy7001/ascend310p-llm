@@ -1,6 +1,6 @@
 # 310P W8 WY/MTP2 Graph 定位与配置选择
 
-2026-11-08，a2实验；a1只读。结论是保留native WY，生产候选选择主模型Graph `[3,6,12]`、draft eager。最终放行状态以完整容量与封装入口窗口为准，本页定位结论不代替生产验收。
+2026-11-08，a2实验；a1只读。结论是保留native WY，生产候选选择主模型Graph `[3,6,12]`、draft eager。完整容量与同镜像封装入口工程验收已通过并发布；业务质量边界见生产配置报告。
 
 ## 三个独立问题
 
@@ -25,3 +25,5 @@
 `main-graph-release-full`使用镜像`localhost/qwen36-w8-wy-mtp-main-graph:20261108`（image ID `bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4`），目标为TP2/W8A8/WY/MTP2、262144上下文、seq4、batch2048、memory0.9、prefix关闭、async开启、主Graph三档、draft eager。
 
 通过完整qualify和独立清场后，`run_main_graph_closure.py`才启动同一镜像的无源码挂载packaged验收，并关闭生命周期审计。它核对同image ID、同入口SHA、实际CLI与主图两rank的capture/replay。失败则取消后续动作；不切a1、不推送Git。
+
+收尾结果：main-graph-release-full与main-graph-release-packaged均complete且独立清场通过；主图两rank capture/replay、同image ID与入口SHA已核对。registry digest为`sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5`，远端manifest/config核验通过。生产配置及限制见[满上下文部署配置](wy-mtp-production-20261108.md)。

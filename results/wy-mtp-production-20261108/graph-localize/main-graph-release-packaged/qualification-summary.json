@@ -1,0 +1,120 @@
+{
+  "window": "main-graph-release-packaged",
+  "status": {
+    "state": "complete",
+    "elapsed_s": 438.87497373402584,
+    "error": null,
+    "cleanup_passed": true
+  },
+  "runtime_cli": {
+    "argv": [
+      "/usr/local/python3.12.13/bin/python3",
+      "/usr/local/python3.12.13/bin/vllm",
+      "serve",
+      "/model",
+      "--served-model-name",
+      "Qwen3.6-35B-A3B-w8a8",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18126",
+      "--tensor-parallel-size",
+      "2",
+      "--quantization",
+      "ascend",
+      "--dtype",
+      "float16",
+      "--max-model-len",
+      "262144",
+      "--gpu-memory-utilization",
+      "0.90",
+      "--max-num-seqs",
+      "4",
+      "--max-num-batched-tokens",
+      "2048",
+      "--kv-cache-dtype",
+      "auto",
+      "--mamba-ssm-cache-dtype",
+      "float16",
+      "--trust-remote-code",
+      "--enable-chunked-prefill",
+      "--enable-prompt-tokens-details",
+      "--reasoning-parser",
+      "qwen3",
+      "--enable-auto-tool-choice",
+      "--tool-call-parser",
+      "qwen3_coder",
+      "--allowed-local-media-path",
+      "/",
+      "--additional-config",
+      "{\"ascend_compilation_config\":{\"fuse_norm_quant\":false}}",
+      "--compilation-config",
+      "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[3,6,12]}",
+      "--async-scheduling",
+      "--no-enable-prefix-caching",
+      "--speculative-config",
+      "{\"method\":\"mtp\",\"num_speculative_tokens\":2,\"enforce_eager\":true}"
+    ],
+    "enforce_eager": false,
+    "speculative_config": {
+      "method": "mtp",
+      "num_speculative_tokens": 2,
+      "enforce_eager": true
+    },
+    "compilation_config": {
+      "mode": 0,
+      "cudagraph_mode": "FULL_DECODE_ONLY",
+      "cudagraph_capture_sizes": [
+        3,
+        6,
+        12
+      ]
+    },
+    "max_num_seqs": "4",
+    "max_model_len": "262144"
+  },
+  "same_image_and_entry": true,
+  "source_mount": false,
+  "audit_enabled": false,
+  "pdf": [
+    {
+      "id": "pdf-01",
+      "valid": true,
+      "finish_reason": "length",
+      "elapsed_s": 18.08863181999186,
+      "scope": "concurrent PDF functional check; no per-request phase throughput"
+    },
+    {
+      "id": "pdf-02",
+      "valid": true,
+      "finish_reason": "stop",
+      "elapsed_s": 9.8237860770314,
+      "scope": "concurrent PDF functional check; no per-request phase throughput"
+    },
+    {
+      "id": "pdf-03",
+      "valid": true,
+      "finish_reason": "stop",
+      "elapsed_s": 9.725266869005281,
+      "scope": "concurrent PDF functional check; no per-request phase throughput"
+    },
+    {
+      "id": "pdf-04",
+      "valid": true,
+      "finish_reason": "stop",
+      "elapsed_s": 8.342690604971722,
+      "scope": "concurrent PDF functional check; no per-request phase throughput"
+    }
+  ],
+  "freeze_sha256": "90db618f25c9f5c8afb1c18bb4adf1b33fbd8280da197f1486a0bfd6ce095fc2",
+  "launch_mounts": [
+    "/usr/local/bin/npu-smi:/usr/local/bin/npu-smi:ro",
+    "/etc/ascend_install.info:/etc/ascend_install.info:ro",
+    "/usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro",
+    "/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro",
+    "/usr/local/dcmi:/usr/local/dcmi:ro",
+    "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/production-w8a8/model:/model:ro",
+    "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/graph-localize/main-graph-release-packaged/cache:/root/.cache:rw"
+  ],
+  "pdf_functional_passed": 4
+}

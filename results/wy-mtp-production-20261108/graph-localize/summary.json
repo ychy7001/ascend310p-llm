@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-08",
+  "scope": "a2-only W8A8 + WY + MTP2 graph localization",
+  "seq1_graph_mtp2": {
+    "passed": true,
+    "tests": [
+      "4K",
+      "32K",
+      "single decode"
+    ],
+    "cleanup": true
+  },
+  "seq4_graph_mtp0": {
+    "passed": true,
+    "tests": [
+      "multi-request",
+      "concurrent decode",
+      "32K",
+      "131K",
+      "262016",
+      "PDF"
+    ],
+    "cleanup": true
+  },
+  "known_failure": {
+    "condition": "seq>=2 + main Graph + MTP2",
+    "error": "AICore illegal instruction / unaligned UUB, 507015",
+    "kernel": "Mul_9342884c99c006e21fc9d5d9260b8bef_high_performance_223000000",
+    "stack_phase": "draft proposal -> qwen3_next attention -> chunked prefill -> SplitFuse mask",
+    "async_independent": true
+  },
+  "conclusion": "Graph seq1/MTP2 and Graph seq4/MTP0 passed; actual seq2 Graph/MTP2 failed. Main eager plus draft enforce_eager=false does not enable draft Graph on this stack. Async error synchronization site does not identify Mul source.",
+  "invalid_labels": {
+    "seq2-mtp2": "packaged mode filtered seq/eager env; actual image defaults, not Graph seq2 evidence",
+    "seq3-mtp2": "packaged mode filtered seq/eager env; actual image defaults, not Graph seq3 evidence"
+  },
+  "true_seq2_graph_mtp2": {
+    "passed": false,
+    "stage": "concurrent-json",
+    "cleanup": true,
+    "elapsed_s": 259.67613473394886
+  },
+  "main_eager_draft_false": {
+    "passed": true,
+    "elapsed_s": 425.87779451400274,
+    "cleanup": true,
+    "actual_draft_graph": false,
+    "reason": "use_cuda_graph = runner._use_aclgraph() and not speculative_config.enforce_eager"
+  }
+}

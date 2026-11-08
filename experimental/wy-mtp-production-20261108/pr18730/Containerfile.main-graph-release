@@ -1,0 +1,4 @@
+FROM localhost/qwen36-w8-wy-mtp-pr18730-slot-int64:20261108
+COPY start-main-graph-release.sh /opt/qwen36/start-wy-mtp.sh
+COPY graph_lifecycle_audit.py /opt/qwen36/wy-compat/
+COPY sitecustomize-release.py /opt/qwen36/wy-compat/sitecustomize.py

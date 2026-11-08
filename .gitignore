@@ -296,3 +296,24 @@ logs/
 /results/wy921-reference-20261105/**
 !/results/wy921-reference-20261105/README.md
 !/results/wy921-reference-20261105/adjudication.json
+
+# 310P Graph closure: retain summaries and release evidence; raw windows stay local.
+/results/wy-mtp-production-20261108/full-v5/
+/results/wy-mtp-production-20261108/graph-localize/**
+!/results/wy-mtp-production-20261108/graph-localize/*/
+!/results/wy-mtp-production-20261108/graph-localize/*.json
+!/results/wy-mtp-production-20261108/graph-localize/*/summary.json
+!/results/wy-mtp-production-20261108/graph-localize/*/interpretation.json
+!/results/wy-mtp-production-20261108/graph-localize/*/qualification-summary.json
+!/results/wy-mtp-production-20261108/graph-localize/*/first-failed-operation.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-context/artifact-sha256.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-context/runtime-versions.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-full/status.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-full/window-closed.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-full/graph-lifecycle.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-full/pdf-functional-summary.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-packaged/status.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-packaged/window-closed.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-registry/registry-image.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-registry/remote-manifest.json
+!/results/wy-mtp-production-20261108/graph-localize/main-graph-release-registry/digest.txt

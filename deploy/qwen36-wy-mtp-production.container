@@ -1,0 +1,46 @@
+# W8A8 + WY + MTP2 full-context profile. Sync llmctl deployment source before rendering.
+[Unit]
+Description=vLLM-Ascend primary backend (ychy-a1, 310P3 x2)
+After=network-online.target host_sys_init.service
+Wants=network-online.target host_sys_init.service
+StartLimitIntervalSec=10min
+StartLimitBurst=3
+
+[Container]
+ContainerName=llm-backend-primary
+Image=registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5
+Pull=missing
+EnvironmentFile=/home/ychy/meetai/config/inference/llm-service/prod.npu.env
+SecurityLabelDisable=true
+AddDevice=/dev/davinci0
+AddDevice=/dev/davinci1
+AddDevice=/dev/davinci_manager
+AddDevice=/dev/devmm_svm
+AddDevice=/dev/hisi_hdc
+ShmSize=32g
+WorkingDir=/workspace
+Volume=/srv/meetai/models/llm-service/vllm-ascend:/models:ro,Z
+Volume=/home/ychy/meetai/runtime/inference/llm-service/backend-primary/cache:/root/.cache:Z,U
+Volume=/home/ychy/meetai/config/inference/llm-service/runtime/backend-primary.manifest.json:/workspace/backend-primary.manifest.json:ro,Z
+Volume=/home/ychy/meetai/config/inference/llm-service/assets/start_vllm_ascend_quadlet.sh:/workspace/start_vllm_ascend.sh:ro,Z
+Volume=/usr/local/dcmi:/usr/local/dcmi:ro
+Volume=/usr/local/bin/npu-smi:/usr/local/bin/npu-smi:ro
+Volume=/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro
+Volume=/usr/local/Ascend/driver/lib64/driver:/usr/local/Ascend/driver/lib64/driver:ro
+Volume=/usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro
+Volume=/etc/ascend_install.info:/etc/ascend_install.info:ro
+Environment=TE_PARALLEL_COMPILER=4
+Environment=CANN_KNOWLEDGE_BANK_PROCESS_NUM=1
+Network=host
+PodmanArgs=--privileged --entrypoint /bin/bash
+Exec=/workspace/start_vllm_ascend.sh
+
+[Service]
+ExecStartPre=/usr/bin/sleep 60
+Restart=on-failure
+RestartSec=60
+TimeoutStartSec=1800
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target

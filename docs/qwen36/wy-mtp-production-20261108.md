@@ -1,35 +1,63 @@
-# TP2 W8A8 + WY + MTP2 满上下文生产配置
+# TP2 W8A8 + WY + MTP2 满上下文部署配置
 
-本页记录2026-11-08的配置收尾，当前设备验收进行中；以最终归档状态为准，不提前宣称生产放行。a1只读参考，实验在a2运行。
+2026-11-08，a2完整容量、组合工程验收与同镜像内置入口验收均已通过，独立版本镜像已发布并完成registry manifest/config摘要核验。部署模板固定digest；a1未切换。本页不宣称正式OCR业务非劣效。
 
-## 目标与基线
+## 固定配置
 
-a1运行manifest已归档到`results/wy-mtp-production-20261108/a1-reference-manifest.json`：TP2、max_model_len262144、seq4、batch4096、memory0.9、prefix caching开启、异步调度。模型服务名为`Qwen3.6-35B-A3B-w8a8`，保留reasoning parser、tool parser和视觉路径。新配置以冷Prefill为目标，默认关闭prefix caching，使用独立cache salt并验证无命中。
+| 项目 | 值 |
+| --- | --- |
+| 模型/量化 | Qwen3.6-35B-A3B，现有W8A8权重 |
+| 并行 | TP2，两张310P3 |
+| Prefill | native WY，沿用既有kernel数学路径 |
+| MTP | 2个speculative tokens |
+| 主模型图 | FULL_DECODE_ONLY，捕获[3,6,12] |
+| Draft | eager |
+| 上下文上限 | 262144，包含输入和输出 |
+| 调度并发上限 | 4 |
+| max_num_batched_tokens | 2048 |
+| memory utilization | 0.90 |
+| prefix caching / async | 关闭 / 开启 |
+| served model name | Qwen3.6-35B-A3B-w8a8 |
 
-a1/a2均为双310P3，显存容量相同；驱动分别26.0.rc1和26.1.1。保持已验证W8镜像的CANN9.1.0-beta.1、torch_npu2.10.0.post2及WY kernel，不统一W4底层栈。
+候选image ID：`bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4`。不可变镜像引用：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5`。registry验证时间为2026-11-08 06:56:19 UTC。
 
-## 新暴露的问题及修复
+镜像元数据版本为torch2.10.0+cpu、torch_npu2.10.0.post2、vLLM0.23.0+empty、vllm-ascend0.23.0rc2.dev93+g88eac2713，CANN9.1.0-beta.1；本地overlay另外登记SHA，不把包版本当作未修改源码证明。
 
-1. `w8-production-full-v1`：262144/seq4/batch4096启动，第四个主模型Graph捕获时EL0008 event resources不足。收敛MTP2布局到`[3,6,12]`，三请求批次使用标准padding，随后二/三/四并发确定JSON通过。
-2. `w8-production-full-v2`：4K测试通过，8K时兼容适配器在普通Prefill也生成4096×262144固定列宽mask，额外2GiB分配失败。修复要求forward context实际为FULL且与wrapper一致，普通eager/Prefill直接走原有路径。数学mask定义及WY kernel不变；适配器SHA更新并单列，旧候选的114688/seq1验收范围不能外推到262K。
+## Graph与状态修复
 
-3. `w8-production-full-v3/v4`：主模型Graph下双请求MTP触发同一Mul设备异常，关闭async仍复现；未证明精确根因，不作为生产默认。
-4. `w8-production-full-v5`：主模型eager、草稿eager，保留native WY与MTP2。二/三/四并发JSON、四并发128输出12/12及混合输入输出4/4通过；128K+128完成（TTFT175.075秒，Prefill748.933 tok/s，无prefix命中）。262K边界与后续PDF仍在执行。
+主模型图优化已开启。draft eager来自性能筛查：主图三档/draft eager约46 tok/s；双图受event资源限制需收敛到[12]，小批次padding后连续两窗约29 tok/s，Prefill相同。该筛查不是交替A/B，不据此宣称正式百分比收益。定位和无效实验标签见[Graph定位报告](wy-mtp-graph-localization-20261108.md)。
 
-## 验收定义
+镜像包含PR18730配套recurrent状态表修复（经源码SHA核对复用opp-review构建，eager/Graph各42项独立回归通过），并将MTP slot block IDs在乘法前提升到int64，绕过模型上下文中的int32 Mul失败调用点。WY kernel、冻结协议/规则/worker/R和CANN版本保持不变。recurrent配套OPP、wrapper和proposer的变更独立登记，不能只替换Python wrapper。
 
-- 4K/8K/16K/32K冷文本：每档warmup一次，正式三次，以请求阶段计数器计时，prefix hits必须为0；不称为纯kernel吞吐。
-- MTP：确定JSON，多轮连续生成，二/三/四并发布局；单请求4K/128输出，四并发三轮，以及输入/输出长度不等的混合并发。
-- 容量：131072+128、262016+128精确token预算请求；输入输出合计262144，额外超限请求应返回400。该测试证明容量和执行完整性，不证明262K检索语义质量。
-- PDF：四页功能检查，单列截断与finish_reason；不宣称真实OCR业务非劣效。
-- 制品：最终镜像默认入口无host源码挂载，独立启动及请求验收；按registry digest核验manifest/config，并独立清场。
+## 完整窗口实测
 
-`max_num_seqs=4`是调度并发上限，不承诺四条262K请求同时驻留。首轮KV pool报告635026 tokens（约2.42条262K请求），以最终配置启动日志为准；超出驻留容量由调度器处理，未测试的极端组合不写成已验证。
+`main-graph-release-full`耗时1324.247秒，driver0，独立清场通过。请求阶段计数器统计，三次正式请求取中位数；文本每请求独立cache salt，prefix hits为0。数字是服务Prefill阶段吞吐，不是纯kernel吞吐。
 
-## 部署资产
+| 冷文本输入 | Prefill tok/s | TTFT秒 | 有效次数 |
+| --- | ---: | ---: | ---: |
+| 4K | 2049.6 | 2.002 | 3/3 |
+| 8K | 1937.9 | 4.233 | 3/3 |
+| 16K | 1746.8 | 9.390 | 3/3 |
+| 32K | 1456.7 | 22.512 | 3/3 |
 
-- `deploy/qwen36-wy-mtp-production.manifest.json`：保留a1模型路径、端口18081及服务名，调用镜像内入口。
-- `deploy/qwen36-wy-mtp-production.container`：a1路径的Quadlet模板，显式覆盖ENTRYPOINT以执行现有manifest launcher；两卡设备、60秒冷却、失败重启均写入配置。
-- `deploy/qwen36-wy-mtp-image.env.example`：通用默认入口部署环境，交付时更新固定镜像引用及验收过的容量参数。
+- 4K输入、128输出：decode中位数45.877 tok/s，draft acceptance约85.1%。
+- 四并发decode：12/12完成；聚合输出吞吐中位数35.703 tok/s，TTFT P50/P95为6.755/9.316秒。P95是12样本经验分位数。
+- 二/三/四请求确定JSON通过，混合输入/输出长度4/4完成。
+- 131072+128完整返回：TTFT177.967秒，Prefill736.752 tok/s。
+- 262016+128完整返回，总token262144：TTFT595.558秒，Prefill440.041 tok/s；超限请求返回400。
+- 四页PDF功能检查4/4；pdf-01达到512输出上限，其余stop。长请求后JSON通过。
+- 每10秒npu-smi采样，观察到的单卡最高使用41760MB；不是allocator peak。
 
-a1现有Quadlet由llmctl生成。实际部署时需同步部署描述中的镜像与启动配置，避免重新渲染恢复旧值；本轮不修改a1。切换前保存原manifest/Quadlet和旧镜像digest，停服务、确认NPU空闲、冷却至少60秒后再启动；回滚同样执行冷却。不能只换manifest而继续使用旧镜像，也不能将旧Quadlet的Exec直接附加到新镜像ENTRYPOINT后。
+长输入测试证明容量和执行完整性，不证明262K检索语义质量。PDF仅功能检查；多模态处理缓存未专门禁用，不称为完全冷视觉吞吐。没有通过这些测试回溯修改旧G1结果，或新增正式OCR非劣效声明。
+
+`max_num_seqs=4`是调度上限，不承诺四条262K请求同时驻留。启动报告KV pool约635026 tokens，即约2.42条满上下文请求，超出驻留容量由调度器处理。
+
+## 部署资产与回滚
+
+- `deploy/qwen36-wy-mtp-production.manifest.json`保留a1模型目录、18081端口及服务名，调用镜像内入口。
+- `deploy/qwen36-wy-mtp-production.container`是a1路径的Quadlet模板，包含两卡设备、60秒冷却、失败重启和现有manifest launcher；显式覆盖ENTRYPOINT执行launcher。
+- `deploy/qwen36-wy-mtp-image.env.example`用于直接调用镜像默认入口。
+
+a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验证或部署。a1现有Quadlet由llmctl生成，部署时需同步其部署描述中的镜像与启动配置，避免再次渲染恢复旧值。切换前保存当前manifest、Quadlet与旧镜像digest；停止服务、确认NPU空闲、冷却至少60秒后启动。回滚同样执行冷却。不能只换manifest而继续使用旧镜像，也不能把旧Exec直接附加到新镜像ENTRYPOINT后。
+
+结构化结果：`results/wy-mtp-production-20261108/main-graph-release-full-summary.json`。原始窗口保存在a2 runtime；`main-graph-release-packaged`实际438.875秒、driver0、清场通过。无源码挂载、关闭审计的二/三/四请求JSON、4K/32K、decode、混合请求及四并发PDF均通过；同image ID、同入口SHA、实际CLI已核对。registry manifest与config摘要也与该image ID一致，临时发布凭据已删除。完整汇总为`main-graph-release-summary.json`，发布身份见`graph-localize/main-graph-release-registry/registry-image.json`。

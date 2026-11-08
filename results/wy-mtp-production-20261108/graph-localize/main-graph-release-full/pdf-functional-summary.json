@@ -1,0 +1,29 @@
+{
+  "scope": "PDF functional smoke only; not OCR non-inferiority or cold-vision performance",
+  "cases": [
+    {
+      "case": "pdf-01",
+      "valid": true,
+      "finish_reason": "length",
+      "elapsed_s": 12.56437828100752
+    },
+    {
+      "case": "pdf-02",
+      "valid": true,
+      "finish_reason": "stop",
+      "elapsed_s": 3.1706569159869105
+    },
+    {
+      "case": "pdf-03",
+      "valid": true,
+      "finish_reason": "stop",
+      "elapsed_s": 3.1122208299930207
+    },
+    {
+      "case": "pdf-04",
+      "valid": true,
+      "finish_reason": "stop",
+      "elapsed_s": 2.4477743479656056
+    }
+  ]
+}

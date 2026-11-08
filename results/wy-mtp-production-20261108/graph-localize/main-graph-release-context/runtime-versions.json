@@ -1,0 +1,6 @@
+{
+  "torch": "2.10.0+cpu",
+  "torch-npu": "2.10.0.post2",
+  "vllm": "0.23.0+empty",
+  "vllm-ascend": "0.23.0rc2.dev93+g88eac2713"
+}

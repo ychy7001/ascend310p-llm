@@ -1,0 +1,38 @@
+{
+  "runtime_kind": "vllm_ascend",
+  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+  "model_name": "qwen3.6-35b-a3b-w8a8",
+  "port": 18081,
+  "npu_devices": [
+    0,
+    1
+  ],
+  "env": {
+    "ASCEND_RT_VISIBLE_DEVICES": "0,1",
+    "ASCEND_VISIBLE_DEVICES": "0,1",
+    "VLLM_USE_MODELSCOPE": "false",
+    "TASK_QUEUE_ENABLE": "1",
+    "SOC_VERSION": "ascend310p1",
+    "OMP_NUM_THREADS": "1",
+    "ATB_HOME_PATH": "/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1",
+    "ASCEND_CUSTOM_PATH": "/vllm-workspace/vllm-ascend/vllm_ascend/_cann_ops_custom",
+    "MODEL_DIR": "/models/Qwen3.6-35B-A3B-w8a8",
+    "PORT": "18081",
+    "HOST": "0.0.0.0",
+    "SERVED_MODEL_NAME": "Qwen3.6-35B-A3B-w8a8",
+    "MAX_MODEL_LEN": "262144",
+    "MAX_NUM_SEQS": "4",
+    "MAX_BATCHED_TOKENS": "2048",
+    "MEMORY_UTILIZATION": "0.90",
+    "NUM_SPECULATIVE_TOKENS": "2",
+    "ENABLE_PREFIX_CACHING": "0",
+    "ENFORCE_EAGER": "0",
+    "ASYNC_SCHEDULING": "1",
+    "DRAFT_ENFORCE_EAGER": "1",
+    "GRAPH_CAPTURE_SIZES": "3,6,12"
+  },
+  "command": [
+    "bash",
+    "/opt/qwen36/start-wy-mtp.sh"
+  ]
+}

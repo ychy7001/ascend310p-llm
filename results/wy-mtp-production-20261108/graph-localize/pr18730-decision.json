@@ -18,7 +18,7 @@
     "failure": "same Mul_9342884 kernel / 507015 at concurrent JSON",
     "cleanup_passed": true
   },
-  "conclusion": "PR18730 fixes the independent state-row defect. The model Graph/MTP2 first failure is slot-mapping int32 Mul during eager preparation; isolated arithmetic did not reproduce it. Promoting block IDs to int64 passed the unsynchronized seq2 probe; seq4 and dual Graph qualification remain pending.",
+  "conclusion": "Paired state fix verified; slot int32 Mul avoided with int64 indices. Main Graph [3,6,12] with eager draft passed full 262144 capacity and exact-image packaged checks and was published. Dual Graph [12] technically passed short probe but declined after slower decode screen.",
   "first_failed_operation": {
     "window": "pr18730-seq2-mtp2-prepare",
     "op": "aten.mul.Tensor",
@@ -185,9 +185,12 @@
   "release_candidate": {
     "image": "localhost/qwen36-w8-wy-mtp-main-graph:20261108",
     "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
-    "qualification": "running",
+    "qualification": "complete",
     "full_window": "main-graph-release-full",
-    "policy": "main Graph [3,6,12], eager draft; dual Graph [12] declined after performance screen"
+    "policy": "main Graph [3,6,12], eager draft; dual Graph [12] declined after performance screen",
+    "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+    "registry_verified": true,
+    "packaged_window": "main-graph-release-packaged"
   },
   "graph_policy_performance_screen": {
     "scope": "diagnostic sequential restart windows; not alternating production A/B",
