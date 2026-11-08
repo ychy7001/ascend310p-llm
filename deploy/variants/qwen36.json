@@ -30,7 +30,7 @@
       "candidate_image_id": "9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163",
       "wy_source": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e",
       "notes": "Ready for an owner-approved production canary. Keep TP1 as rollback; the 60-second device cooldown is mandatory.",
-      "mtp_extension_status": "Eager MTP1 smoke passed; tested VLLM_COMPILE(3) Graph manifest failed capture. Graph/MTP extension is not accepted for delivery.",
+      "mtp_extension_status": "Not accepted: mode 3 MTP1, mode 0 direct-Graph MTP2, and mode 0 main-Graph/eager-draft MTP2 all failed main-model SplitFuse capture. Eager MTP1 smoke passed only; published variant disables MTP.",
       "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
       "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-20261108",
       "registry_verification": "results/wy-registry-delivery-20261108/registry-images.json"

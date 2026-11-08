@@ -1,0 +1,27 @@
+[
+  {
+    "mtp": 2,
+    "container_state": {
+      "OciVersion": "1.1.0",
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 1,
+      "Error": "",
+      "StartedAt": "2026-11-08T01:13:41.012771633Z",
+      "FinishedAt": "2026-11-08T01:18:06.401093562Z",
+      "Health": {
+        "Status": "",
+        "FailingStreak": 0,
+        "Log": null
+      },
+      "CheckpointedAt": "0001-01-01T00:00:00Z",
+      "RestoredAt": "0001-01-01T00:00:00Z",
+      "StoppedByUser": true
+    }
+  }
+]

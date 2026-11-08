@@ -1,6 +1,6 @@
 # WY / MTP 组合验证（2026-11-08）
 
-本轮仅在 a2 验证组合，不切换 a1，不推送，不改冻结 kernel、协议、规则、worker 或 R。镜像已有资产与本轮验证覆盖必须分开描述。
+初始组合诊断窗口仅在 a2 验证，不切换 a1、不推送；随后按用户镜像交付指令推送已验收的无MTP W8镜像，详见文末与registry登记。全程不改冻结 kernel、协议、规则、worker 或 R。镜像已有资产与本轮验证覆盖分别记录。
 
 ## 既有 TP1 镜像核查
 
@@ -78,3 +78,20 @@ v1窗口在PDF客户端读取输出目录变量时因 `PDF_AB_OUT` 未设置而�
 ## 镜像身份记录修正（2026-11-08）
 
 此前文档把TP1的image ID误记为86e64c35…；a2的v1/v2原始freeze.json、当前本地inspect及registry远端config均为b381d8e5…（完整值见上方与registry登记）。registry digest 8e17ec9a…未变，未更换运行镜像或冻结制品。此次修正只针对记录，保留原始实验快照。
+
+## W8交付收尾：Graph / MTP2边界（2026-11-08）
+
+在同一9df3c6f3…锁定镜像、同一W8权重上，固定TP2、mode 0、FULL_DECODE_ONLY、capture [1,2,3]、batch2048、seq1、max114688、prefix关闭，复用TP1的direct_graph_310兼容钩子，未改WY kernel。两次窗口结果：
+
+| 窗口 | MTP配置 | 耗时秒 | 结果 |
+| --- | --- | ---: | --- |
+| w8-direct-graph-20261108-v1 | MTP2，主模型和草稿Graph | 265.338 | 启动捕获失败，未发请求 |
+| w8-draft-eager-20261108-v1 | MTP2，主模型Graph、草稿enforce_eager=true | 267.974 | 启动捕获失败，未发请求 |
+
+两次调用栈均从GPUModelRunner.capture_model进入主模型forward，在310P attention的get_splitfuse_mask调用query_start_loc.to("cpu")时触发107030/107027。第二次日志不再出现草稿ACLGraphWrapper包装，确认配置生效；失败依旧发生在主模型捕获，不能归为仅草稿图兼容性，也不能归为WY数学精度问题。容器ExitCode均1；两次独立清场均通过。没有运行冷Prefill、Decode或PDF请求，不形成新的组合性能/质量证据。
+
+归档目录为`results/wy-mtp-integration-20261108/tp2-direct-graph-mtp2/`和`tp2-main-graph-draft-eager-mtp2/`；含启动manifest、source/image freeze、状态、清场与压缩日志。脚本及实验bootstrap归档在`experimental/wy-mtp-20261108/`。这些钩子仅挂载于诊断容器，没有加入已发布镜像。
+
+本次交付收束为：TP1 W4A8复用既有WY/MTP2稳定profile；TP2 W8A8发布已验收WY无MTP镜像。W8 MTP Graph作为独立兼容性问题保留，不将eager实验通过或W4成功外推为W8组合验收。后续修复应优先检查主模型多token验证进入SplitFuse时的图兼容性；不为此改WY数学路径、放宽冻结门槛或拖延已合格WY镜像登记。
+
+registry推送、digest拉取与远端manifest/config核验均完成；a2最终独立检查无容器和NPU进程，临时registry凭据文件已删除。a1未触碰。协议/规则/worker/R/kernel SHA未变，只有诊断配置和记录新增。

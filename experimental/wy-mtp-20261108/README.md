@@ -13,3 +13,13 @@
 每个窗口要求设备和服务空闲；用本地文件锁防重入。容器停机后保留日志和 inspect，删除实验容器，再用独立快照检查清场。失败停止矩阵，原失败不以其他执行模式通过而覆盖。
 
 TP2 原 Graph + MTP1 实验用的是脚本加入 eager 参数前的版本；复现条件以其归档 `manifest.json` 为准。归档的初始 source SHA 与当前扩展参数后的脚本不同。
+
+## 交付收尾诊断
+
+W4矩阵已按用户范围调整取消，不继续运行。
+
+- `run_w8_direct_graph_20261108.py`：W8 mode 0、capture [1,2,3]、MTP2，复用已有direct_graph_310。
+- `run_w8_draft_eager_20261108.py`：在上述配置中仅将speculative-config.enforce_eager设为true，保留主模型Graph。
+- `w8-bootstrap/`：复制既有direct_graph_310钩子，sitecustomize加载失败会显式终止；不包含W4权重或算子补丁。复制到a2实验根目录下`w8-delivery-bootstrap-20261108`，只在诊断容器挂载。
+- 两次均在主模型SplitFuse图捕获失败、未进入请求测试，清场通过；bootstrap未封装进发布镜像。
+- `verify_registry_delivery_20261108.py`：只读验证本轮两镜像的registry原始manifest和config；从任务临时auth.json读取凭据，输出不含凭据。运行完成后已删除临时auth.json；重新运行需提供registry读取凭据。该脚本不推送镜像、不改tag。

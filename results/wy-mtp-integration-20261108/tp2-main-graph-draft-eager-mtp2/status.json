@@ -1,0 +1,6 @@
+{
+  "state": "failed",
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w8_draft_eager_20261108.py\", line 163, in main\n    wait_health(name)\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_w8_draft_eager_20261108.py\", line 132, in wait_health\n    raise RuntimeError('startup fatal error; see archived server.log')\nRuntimeError: startup fatal error; see archived server.log\n",
+  "cleanup_passed": true,
+  "elapsed_s": 267.97489579801913
+}

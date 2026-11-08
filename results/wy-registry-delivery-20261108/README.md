@@ -8,3 +8,4 @@
 - 配置入口为`deploy/qwen36-image.env.example`和`deploy/qwen36-wy-image.env.example`。仅按宿主修改MODEL_DIR、端口与驱动设备映射，不在配置中存放registry凭据。
 - 推送未重建运行时；TP2验收证据沿用同image ID的`docs/qwen36/wy-release-candidate.md`及其结果目录。本次未切换a1，也未覆盖stable tag。
 - MTP扩展以`docs/qwen36/wy-mtp-integration-20261108.md`单独记录，不由本次registry发布推定通过。
+- 另已通过podman按完整registry digest拉取W8，返回同一image ID；见`pull-w8.txt`。`final-cleanup.json`确认最终NPU空闲、无实验容器，任务临时凭据已删除。
