@@ -5,10 +5,11 @@ set -euo pipefail
 : "${PORT:=18025}"
 : "${SERVED_MODEL_NAME:=qwen36-w8a8-wy-mtp}"
 : "${MAX_MODEL_LEN:=262144}"
-: "${MAX_BATCHED_TOKENS:=4096}"
+: "${MAX_BATCHED_TOKENS:=2048}"
 : "${MEMORY_UTILIZATION:=0.90}"
 : "${MAX_NUM_SEQS:=4}"
 : "${NUM_SPECULATIVE_TOKENS:=2}"
+: "${DRAFT_ENFORCE_EAGER:=1}"
 if [[ ! "$NUM_SPECULATIVE_TOKENS" =~ ^[012]$ ]]; then
   echo 'NUM_SPECULATIVE_TOKENS must be 0, 1 or 2' >&2; exit 2
 fi
@@ -49,7 +50,13 @@ else
   extra_args+=(--no-enable-prefix-caching)
 fi
 if [[ "$NUM_SPECULATIVE_TOKENS" != 0 ]]; then
-  extra_args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$NUM_SPECULATIVE_TOKENS,\"enforce_eager\":true}")
+  if [[ "$DRAFT_ENFORCE_EAGER" == 1 ]]; then
+    extra_args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$NUM_SPECULATIVE_TOKENS,\"enforce_eager\":true}")
+  elif [[ "$DRAFT_ENFORCE_EAGER" == 0 ]]; then
+    extra_args+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$NUM_SPECULATIVE_TOKENS,\"enforce_eager\":false}")
+  else
+    echo 'DRAFT_ENFORCE_EAGER must be 0 or 1' >&2; exit 2
+  fi
 fi
 set +u
 source /usr/local/Ascend/ascend-toolkit/set_env.sh

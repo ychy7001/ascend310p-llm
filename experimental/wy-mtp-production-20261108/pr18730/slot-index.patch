@@ -1,0 +1,11 @@
+--- a/vllm_ascend/spec_decode/llm_base_proposer.py
++++ b/vllm_ascend/spec_decode/llm_base_proposer.py
+@@ -1647,7 +1647,7 @@
+             else:
+                 block_numbers = clamped_positions // block_size
+             block_ids = old_common_metadata.block_table_tensor.gather(dim=1, index=block_numbers.view(-1, 1))
+-            block_ids = block_ids.view(-1)
++            block_ids = block_ids.view(-1).to(torch.int64)
+             if self.uses_mrope:
+                 slot_mapping = block_ids * block_size + clamped_positions[0] % block_size
+             else:

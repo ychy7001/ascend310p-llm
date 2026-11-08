@@ -1,0 +1,18 @@
+{
+  "window": "pr18730-seq4-mtp2-dual-graph",
+  "state": "complete",
+  "elapsed_s": 418.6570190300117,
+  "cleanup_passed": true,
+  "requested_draft_graph": true,
+  "actual_main_graph": true,
+  "actual_draft_graph": false,
+  "reason": "legacy diagnostic entry hardcoded draft enforce_eager=true",
+  "usable_scope": "seq4 main Graph/draft eager probe",
+  "concurrent_json": {
+    "concurrent-json-4": 4,
+    "concurrent-json-2": 2,
+    "concurrent-json-3": 3
+  },
+  "mixed_success": 4,
+  "freeze_sha256": "5f101ebb9660cd7e236544030c412a2001ced50702c11a4a39f236476f29c752"
+}

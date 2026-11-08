@@ -13,18 +13,24 @@ MODEL='qwen36-w8a8-wy-mtp'
 BASE=common.BASE
 
 def main():
+    global MODEL
     p=argparse.ArgumentParser()
     p.add_argument('--out',type=Path,required=True)
     p.add_argument('--batch',type=int,default=4096)
     p.add_argument('--mtp',type=int,default=2)
-    p.add_argument('--mode',choices=['qualify','tune','packaged'],default='qualify')
+    p.add_argument('--mode',choices=['qualify','capacity-tune','tune','probe','packaged'],default='qualify')
     p.add_argument('--prefix',type=int,default=0)
     p.add_argument('--image',default=IMAGE)
     p.add_argument('--async-scheduling',type=int,default=1)
     p.add_argument('--eager',type=int,default=0)
+    p.add_argument('--draft-eager',type=int,default=1)
+    p.add_argument('--entry',type=Path,help='Explicit diagnostic entry; archived in freeze')
+    p.add_argument('--launch-blocking',action='store_true',help='Synchronize NPU launches for fault localization only')
+    p.add_argument('--graph-audit',action='store_true',help='Opt-in image graph lifecycle evidence without device synchronization')
     p.add_argument('--seqs',type=int,default=4)
     p.add_argument('--cooldown-after',type=Path)
-    a=p.parse_args(); out=a.out; out.mkdir(); (out/'cache').mkdir()
+    p.add_argument('--served-model-name',default=MODEL)
+    a=p.parse_args(); MODEL=a.served_model_name; out=a.out; out.mkdir(); (out/'cache').mkdir()
     (out/'runner-source.py').write_bytes(Path(__file__).read_bytes())
     if a.cooldown_after:
         common.write(out/'status.json',{'state':'cooldown'})
@@ -45,22 +51,50 @@ def main():
         before=pdf.snapshot(); common.write(out/'window-start.json',before)
         assert before['rootless']['stdout']==before['rootful']['stdout']=='' and 'No running processes' in before['npu']['stdout'], 'device busy'
         cmd=['podman','run','-d','--pull=never','--name',name,'--network','host','--group-add','keep-groups','--ipc','shareable','--shm-size','32g']
-        env={'HOST':'127.0.0.1','PORT':'18126','MAX_MODEL_LEN':'262144','MAX_NUM_SEQS':str(a.seqs),'MAX_BATCHED_TOKENS':str(a.batch),'MEMORY_UTILIZATION':'0.90','NUM_SPECULATIVE_TOKENS':str(a.mtp),'ENABLE_PREFIX_CACHING':str(a.prefix),'ASYNC_SCHEDULING':str(a.async_scheduling),'ENFORCE_EAGER':str(a.eager),'SERVED_MODEL_NAME':MODEL}
+        env={'HOST':'127.0.0.1','PORT':'18126','MAX_MODEL_LEN':'262144','MAX_NUM_SEQS':str(a.seqs),'MAX_BATCHED_TOKENS':str(a.batch),'MEMORY_UTILIZATION':'0.90','NUM_SPECULATIVE_TOKENS':str(a.mtp),'DRAFT_ENFORCE_EAGER':str(a.draft_eager),'ENABLE_PREFIX_CACHING':str(a.prefix),'ASYNC_SCHEDULING':str(a.async_scheduling),'ENFORCE_EAGER':str(a.eager),'SERVED_MODEL_NAME':MODEL}
         if a.mode=='packaged': env={k:v for k,v in env.items() if k in ('HOST','PORT','SERVED_MODEL_NAME')}
+        if a.launch_blocking: env['ASCEND_LAUNCH_BLOCKING']='1'
+        if a.graph_audit: env['QWEN36_GRAPH_AUDIT']='1'
         for k,v in env.items(): cmd+=['-e',k+'='+v]
         for d in ('davinci0','davinci1','davinci_manager','devmm_svm','hisi_hdc'): cmd+=['--device','/dev/'+d]
         for path in ('/usr/local/bin/npu-smi','/etc/ascend_install.info','/usr/local/Ascend/driver/version.info','/usr/local/Ascend/driver/lib64','/usr/local/dcmi'): cmd+=['-v',path+':'+path+':ro']
-        entry=ROOT/'wy-mtp-production-20261108/start-wy-mtp.sh'
+        entry=a.entry or ROOT/'wy-mtp-production-20261108/start-wy-mtp.sh'
         cmd+=['-v',str(ROOT/'production-w8a8/model')+':/model:ro','-v',str(out/'cache')+':/root/.cache:rw']
         if a.mode!='packaged': cmd+=['-v',str(entry)+':/opt/qwen36/start-wy-mtp.sh:ro']
         cmd+=[a.image]
         common.write(out/'launch-command.json',cmd)
-        common.write(out/'freeze.json',{'env':env,'entry_sha256':hashlib.sha256(entry.read_bytes()).hexdigest(),'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'image':json.loads(subprocess.check_output(['podman','image','inspect',a.image],text=True))[0]})
+        entry_bytes = (subprocess.check_output(['podman','run','--rm','--pull=never','--network=none','--entrypoint','cat',a.image,'/opt/qwen36/start-wy-mtp.sh'])
+                       if a.mode == 'packaged' else entry.read_bytes())
+        common.write(out/'freeze.json',{'env':env,'entry_origin':'image' if a.mode=='packaged' else 'host bind',
+                     'entry_sha256':hashlib.sha256(entry_bytes).hexdigest(),'runner_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                     'image':json.loads(subprocess.check_output(['podman','image','inspect',a.image],text=True))[0]})
         try:
             common.run(cmd,capture_output=True,text=True); started=True; status('launching')
-            common.wait_health(name); status('smoke')
+            common.wait_health(name)
+            inspect_cli = "import json,pathlib; print(json.dumps(pathlib.Path('/proc/1/cmdline').read_bytes().decode().strip(chr(0)).split(chr(0))))"
+            actual_argv = json.loads(subprocess.check_output(['podman','exec',name,'python3','-S','-c',inspect_cli],text=True))
+            def actual_option(key):
+                return actual_argv[actual_argv.index(key)+1] if key in actual_argv else None
+            actual_spec = json.loads(actual_option('--speculative-config') or '{}')
+            actual_compile = json.loads(actual_option('--compilation-config') or '{}')
+            actual_config = {'argv':actual_argv,'enforce_eager':'--enforce-eager' in actual_argv,
+                             'speculative_config':actual_spec,'compilation_config':actual_compile,
+                             'max_num_seqs':actual_option('--max-num-seqs'),'max_model_len':actual_option('--max-model-len')}
+            common.write(out/'runtime-cli.json',actual_config)
+            if a.mode != 'packaged':
+                assert actual_config['enforce_eager'] == bool(a.eager), actual_config
+                assert actual_config['max_num_seqs'] == str(a.seqs), actual_config
+                assert actual_config['max_model_len'] == env['MAX_MODEL_LEN'], actual_config
+                if not a.eager:
+                    assert actual_compile.get('cudagraph_mode') == 'FULL_DECODE_ONLY', actual_config
+                if a.mtp:
+                    assert actual_spec.get('num_speculative_tokens') == a.mtp, actual_config
+                    assert actual_spec.get('enforce_eager') == bool(a.draft_eager), actual_config
+                else:
+                    assert not actual_spec, actual_config
+            status('smoke')
             pdf.MODEL=MODEL; common.bench(out,a.mtp,out,smoke_only=True)
-            if a.mode in ('qualify','packaged'):
+            if a.mode in ('qualify','capacity-tune','probe','packaged'):
                 # Exercise multiple speculative verification layouts before the long run.
                 expected={'numbers':list(range(1,21)),'status':'ok'}
                 def exact(i):
@@ -73,10 +107,10 @@ def main():
                     common.write(out/f'concurrent-json-{count}.json',rows)
             for length in ((4096,8192,16384,32768) if a.mode=='qualify' else (4096,32768)): bench(length)
             bench(4096,128)
-            if a.mode=='qualify':
+            if a.mode in ('qualify','capacity-tune'):
                 status('concurrent-decode')
                 command(['python3',str(ROOT/'wy-boundary-20261106/tools/bench_http_stream.py'),'--base-url',BASE,'--model',MODEL,'--prompt-tokens','4096','--output-tokens','128','--concurrency','4','--repeats','3','--cache-salt-prefix',out.name+'-c4','--out',str(out/'c4-p4096-o128.jsonl')],'concurrency',1200)
-            if a.mode in ('qualify','packaged'):
+            if a.mode in ('qualify','capacity-tune','probe','packaged'):
                 status('mixed-concurrency')
                 def mixed(index):
                     length=(1024,4096,8192,32768)[index]
@@ -88,10 +122,10 @@ def main():
                 with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool: mixed_rows=list(pool.map(mixed,range(4)))
                 common.write(out/'mixed-concurrency.json',mixed_rows)
                 assert all(row['success'] for row in mixed_rows)
-            if a.mode=='qualify':
+            if a.mode in ('qualify','capacity-tune'):
                 # No warmup at the capacity boundary: one exact context-budget request.
                 with http.post(BASE,'/tokenize',{'model':MODEL,'prompt':'Cold full context capacity verification. Numerical precision and efficient prefill. ','add_special_tokens':False}) as response: unit=json.load(response)['tokens']
-                for length in (131072,262016):
+                for length in ((262016,) if a.mode=='capacity-tune' else (131072,262016)):
                     status('long-context',prompt_tokens=length)
                     tokens=(unit*((length+len(unit)-1)//len(unit)))[:length]
                     before=phases.snapshot(BASE,bool(a.mtp)); cache_before=phases.prefix_snapshot(BASE)
@@ -105,7 +139,7 @@ def main():
                         raise AssertionError('over-limit request unexpectedly accepted')
                 except urllib.error.HTTPError as e:
                     body=e.read().decode(); common.write(out/'boundary-rejection.json',{'code':e.code,'body':body}); assert e.code==400
-            if a.mode in ('qualify','packaged'):
+            if a.mode in ('qualify','capacity-tune','packaged'):
                 status('pdf')
                 os.environ['PDF_AB_OUT']=str(out)
                 inputs=ROOT/'a310-ocr-pdf-smoke-20261107'; manifest=json.loads((inputs/'manifest.json').read_text())

@@ -1,0 +1,41 @@
+{
+  "window": "pr18730-seq2-mtp2-slot-int64",
+  "elapsed_s": 415.9992575320066,
+  "cleanup_passed": true,
+  "graph": {
+    "main": true,
+    "draft": false,
+    "max_num_seqs": 2
+  },
+  "concurrent_json": {
+    "concurrent-json-4": 4,
+    "concurrent-json-2": 2,
+    "concurrent-json-3": 3
+  },
+  "benchmarks": {
+    "p4096-o1": {
+      "count": 3,
+      "valid": 3,
+      "prefill_tok_s_median": 2048.815727823008,
+      "decode_tok_s_median": null
+    },
+    "p32768-o1": {
+      "count": 3,
+      "valid": 3,
+      "prefill_tok_s_median": 1457.5282474157182,
+      "decode_tok_s_median": null
+    },
+    "p4096-o128": {
+      "count": 3,
+      "valid": 3,
+      "prefill_tok_s_median": 2043.612689505778,
+      "decode_tok_s_median": 46.50750637564536
+    }
+  },
+  "source_change": {
+    "proposer_before": "d7a992ca504eb23ff601b9a5654eb280879ed54e1507bfe38ca27690d83efbaa",
+    "proposer_after": "7d4664e9560de195dba043c0221b55757057993b2c6d2f8ffb955fcbad51e423"
+  },
+  "mixed_concurrency_success": 4,
+  "freeze_sha256": "7551b775a1a0967bafcd477371f85f0bc4162b5395e472950ae86bdd0ce25b21"
+}

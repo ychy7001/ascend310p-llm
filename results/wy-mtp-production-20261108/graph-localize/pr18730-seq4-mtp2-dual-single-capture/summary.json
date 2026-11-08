@@ -1,0 +1,78 @@
+{
+  "window": "pr18730-seq4-mtp2-dual-single-capture",
+  "elapsed_s": 421.37041266198503,
+  "cleanup_passed": true,
+  "runtime": {
+    "argv": [
+      "/usr/local/python3.12.13/bin/python3",
+      "/usr/local/python3.12.13/bin/vllm",
+      "serve",
+      "/model",
+      "--served-model-name",
+      "Qwen3.6-35B-A3B-w8a8",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18126",
+      "--tensor-parallel-size",
+      "2",
+      "--quantization",
+      "ascend",
+      "--dtype",
+      "float16",
+      "--max-model-len",
+      "262144",
+      "--gpu-memory-utilization",
+      "0.90",
+      "--max-num-seqs",
+      "4",
+      "--max-num-batched-tokens",
+      "2048",
+      "--kv-cache-dtype",
+      "auto",
+      "--mamba-ssm-cache-dtype",
+      "float16",
+      "--trust-remote-code",
+      "--enable-chunked-prefill",
+      "--enable-prompt-tokens-details",
+      "--reasoning-parser",
+      "qwen3",
+      "--enable-auto-tool-choice",
+      "--tool-call-parser",
+      "qwen3_coder",
+      "--allowed-local-media-path",
+      "/",
+      "--additional-config",
+      "{\"ascend_compilation_config\":{\"fuse_norm_quant\":false}}",
+      "--compilation-config",
+      "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[12]}",
+      "--async-scheduling",
+      "--no-enable-prefix-caching",
+      "--speculative-config",
+      "{\"method\":\"mtp\",\"num_speculative_tokens\":2,\"enforce_eager\":false}"
+    ],
+    "enforce_eager": false,
+    "speculative_config": {
+      "method": "mtp",
+      "num_speculative_tokens": 2,
+      "enforce_eager": false
+    },
+    "compilation_config": {
+      "mode": 0,
+      "cudagraph_mode": "FULL_DECODE_ONLY",
+      "cudagraph_capture_sizes": [
+        12
+      ]
+    },
+    "max_num_seqs": "4",
+    "max_model_len": "262144"
+  },
+  "probe_complete": true,
+  "concurrent_json": {
+    "concurrent-json-4": 4,
+    "concurrent-json-2": 2,
+    "concurrent-json-3": 3
+  },
+  "mixed_success": 4,
+  "freeze_sha256": "04c287043f5318498e8075af8ea8e6448fe28cb3d0cfe36f9d614f5d489586d2"
+}

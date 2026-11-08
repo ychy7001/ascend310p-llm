@@ -1,0 +1,209 @@
+{
+  "original_defect_reproduced": true,
+  "candidate_image_id": "e5497645fa3a6cae1dfa75d230d2e2efc5f5539f565ced2b9e75192fe564c736",
+  "candidate_operator_checks": {
+    "eager": 42,
+    "graph": 42
+  },
+  "integration_failures": {
+    "cpu_avx2_segfault": "startup before requests",
+    "old_tiling_shadowed_candidate": "rejected 2D state indices until embedded vendor path was prelisted"
+  },
+  "ordered_candidate_model_result": {
+    "main_graph": true,
+    "draft_graph": false,
+    "seqs": 2,
+    "mtp": 2,
+    "smoke_passed": true,
+    "failure": "same Mul_9342884 kernel / 507015 at concurrent JSON",
+    "cleanup_passed": true
+  },
+  "conclusion": "PR18730 fixes the independent state-row defect. The model Graph/MTP2 first failure is slot-mapping int32 Mul during eager preparation; isolated arithmetic did not reproduce it. Promoting block IDs to int64 passed the unsynchronized seq2 probe; seq4 and dual Graph qualification remain pending.",
+  "first_failed_operation": {
+    "window": "pr18730-seq2-mtp2-prepare",
+    "op": "aten.mul.Tensor",
+    "input": {
+      "dtype": "int32",
+      "shape": [
+        2
+      ],
+      "stride": [
+        1
+      ],
+      "storage_offset": 0
+    },
+    "scalar": 128,
+    "source": "llm_base_proposer.py:1652 attn_update_stack_num_spec_norm slot_mapping",
+    "scope": "eager _propose preparation before current draft body"
+  },
+  "standalone_arithmetic": {
+    "window": "pr18730-slot-mul",
+    "passed": 11,
+    "failed": 0,
+    "conclusion": "Does not reproduce isolated; model context still matters"
+  },
+  "int64_slot_candidate": {
+    "window": "pr18730-seq2-mtp2-slot-int64",
+    "elapsed_s": 415.9992575320066,
+    "cleanup_passed": true,
+    "graph": {
+      "main": true,
+      "draft": false,
+      "max_num_seqs": 2
+    },
+    "concurrent_json": {
+      "concurrent-json-4": 4,
+      "concurrent-json-2": 2,
+      "concurrent-json-3": 3
+    },
+    "benchmarks": {
+      "p4096-o1": {
+        "count": 3,
+        "valid": 3,
+        "prefill_tok_s_median": 2048.815727823008,
+        "decode_tok_s_median": null
+      },
+      "p32768-o1": {
+        "count": 3,
+        "valid": 3,
+        "prefill_tok_s_median": 1457.5282474157182,
+        "decode_tok_s_median": null
+      },
+      "p4096-o128": {
+        "count": 3,
+        "valid": 3,
+        "prefill_tok_s_median": 2043.612689505778,
+        "decode_tok_s_median": 46.50750637564536
+      }
+    },
+    "source_change": {
+      "proposer_before": "d7a992ca504eb23ff601b9a5654eb280879ed54e1507bfe38ca27690d83efbaa",
+      "proposer_after": "7d4664e9560de195dba043c0221b55757057993b2c6d2f8ffb955fcbad51e423"
+    },
+    "mixed_concurrency_success": 4
+  },
+  "seq4_mislabeled_dual_graph": {
+    "window": "pr18730-seq4-mtp2-dual-graph",
+    "requested_draft_eager": false,
+    "actual_draft_eager": true,
+    "reason": "old diagnostic entry hardcoded speculative enforce_eager true",
+    "usable_scope": "seq4 main Graph with draft eager only; not dual Graph evidence"
+  },
+  "dual_graph_three_captures": {
+    "window": "pr18730-seq4-mtp2-true-dual-graph",
+    "actual_main_graph": true,
+    "actual_draft_graph_enabled": true,
+    "draft_wrapper": "ACLGraphWrapper runtime_mode=FULL",
+    "capture_sizes": [
+      3,
+      6,
+      12
+    ],
+    "capture_progress": "2/3 before error",
+    "failure": "no event resource / capture invalidated 507903",
+    "model_requests_started": false,
+    "cleanup_passed": true,
+    "server_log_sha256": "613e27613b0824e2ddbc3d1bb067e5c8d3baa996c0ded0d798e9864ea58c5e1d"
+  },
+  "dual_graph_single_capture": {
+    "window": "pr18730-seq4-mtp2-dual-single-capture",
+    "elapsed_s": 421.37041266198503,
+    "cleanup_passed": true,
+    "runtime": {
+      "argv": [
+        "/usr/local/python3.12.13/bin/python3",
+        "/usr/local/python3.12.13/bin/vllm",
+        "serve",
+        "/model",
+        "--served-model-name",
+        "Qwen3.6-35B-A3B-w8a8",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18126",
+        "--tensor-parallel-size",
+        "2",
+        "--quantization",
+        "ascend",
+        "--dtype",
+        "float16",
+        "--max-model-len",
+        "262144",
+        "--gpu-memory-utilization",
+        "0.90",
+        "--max-num-seqs",
+        "4",
+        "--max-num-batched-tokens",
+        "2048",
+        "--kv-cache-dtype",
+        "auto",
+        "--mamba-ssm-cache-dtype",
+        "float16",
+        "--trust-remote-code",
+        "--enable-chunked-prefill",
+        "--enable-prompt-tokens-details",
+        "--reasoning-parser",
+        "qwen3",
+        "--enable-auto-tool-choice",
+        "--tool-call-parser",
+        "qwen3_coder",
+        "--allowed-local-media-path",
+        "/",
+        "--additional-config",
+        "{\"ascend_compilation_config\":{\"fuse_norm_quant\":false}}",
+        "--compilation-config",
+        "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[12]}",
+        "--async-scheduling",
+        "--no-enable-prefix-caching",
+        "--speculative-config",
+        "{\"method\":\"mtp\",\"num_speculative_tokens\":2,\"enforce_eager\":false}"
+      ],
+      "enforce_eager": false,
+      "speculative_config": {
+        "method": "mtp",
+        "num_speculative_tokens": 2,
+        "enforce_eager": false
+      },
+      "compilation_config": {
+        "mode": 0,
+        "cudagraph_mode": "FULL_DECODE_ONLY",
+        "cudagraph_capture_sizes": [
+          12
+        ]
+      },
+      "max_num_seqs": "4",
+      "max_model_len": "262144"
+    },
+    "probe_complete": true,
+    "concurrent_json": {
+      "concurrent-json-4": 4,
+      "concurrent-json-2": 2,
+      "concurrent-json-3": 3
+    },
+    "mixed_success": 4
+  },
+  "release_candidate": {
+    "image": "localhost/qwen36-w8-wy-mtp-main-graph:20261108",
+    "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+    "qualification": "running",
+    "full_window": "main-graph-release-full",
+    "policy": "main Graph [3,6,12], eager draft; dual Graph [12] declined after performance screen"
+  },
+  "graph_policy_performance_screen": {
+    "scope": "diagnostic sequential restart windows; not alternating production A/B",
+    "main_graph_eager_draft": {
+      "window": "pr18730-seq4-mtp2-dual-graph",
+      "repeats": 3,
+      "decode_tok_s_median": 46.42975586426715,
+      "prefill_tok_s_median": 2044.827154184629
+    },
+    "dual_graph_single_capture": {
+      "window": "pr18730-seq4-mtp2-dual-single-capture",
+      "repeats": 3,
+      "decode_tok_s_median": 29.316953759193268,
+      "prefill_tok_s_median": 2045.9721377931494
+    },
+    "dual_graph_repeat_decode_tok_s_median": 28.791725240816174,
+    "decision": "Do not promote the slower single-capture dual Graph policy; qualify main Graph [3,6,12] with eager draft. Native WY retained."
+  }
+}

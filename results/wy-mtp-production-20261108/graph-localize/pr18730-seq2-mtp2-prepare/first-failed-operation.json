@@ -1,0 +1,38 @@
+{
+  "log_sha256": "b0a587afa3c0f6f8e7b5e19980fe8ee1c220325c520a597d7fa878b70b281a00",
+  "failures": [
+    {
+      "op": "aten.mul.Tensor",
+      "args": [
+        {
+          "shape": [
+            2
+          ],
+          "dtype": "torch.int32",
+          "stride": [
+            1
+          ],
+          "offset": 0,
+          "device": "npu:0"
+        },
+        128
+      ],
+      "kwargs": {},
+      "stack": [
+        "  File \"/vllm-workspace/vllm-ascend/vllm_ascend/worker/worker.py\", line 666, in sample_tokens\n    return self.model_runner.sample_tokens(grammar_output)\n",
+        "  File \"/opt/qwen36/wy-compat/graph_boundary_probe.py\", line 44, in wrapped\n    return original(self, *args, **kwargs)\n",
+        "  File \"/usr/local/python3.12.13/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 124, in decorate_context\n    return func(*args, **kwargs)\n",
+        "  File \"/vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py\", line 2466, in sample_tokens\n    propose_draft_token_ids(sampler_output.sampled_token_ids)\n",
+        "  File \"/vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py\", line 2420, in propose_draft_token_ids\n    self._draft_token_ids = self.propose_draft_token_ids(\n",
+        "  File \"/opt/qwen36/wy-compat/graph_boundary_probe.py\", line 44, in wrapped\n    return original(self, *args, **kwargs)\n",
+        "  File \"/vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py\", line 1844, in propose_draft_token_ids\n    draft_token_ids = self.drafter._propose(\n",
+        "  File \"/opt/qwen36/wy-compat/prepare_sync_probe.py\", line 39, in probe\n    return _original(self, *args, **kwargs)\n",
+        "  File \"/opt/qwen36/wy-compat/graph_boundary_probe.py\", line 44, in wrapped\n    return original(self, *args, **kwargs)\n",
+        "  File \"/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py\", line 978, in _propose\n    common_attn_metadata, attn_metadata = self.attn_update_stack_num_spec_norm(\n",
+        "  File \"/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py\", line 1652, in attn_update_stack_num_spec_norm\n    slot_mapping = block_ids * block_size + clamped_positions[0] % block_size\n",
+        "  File \"/opt/qwen36/wy-compat/prepare_sync_probe.py\", line 20, in __torch_dispatch__\n    'kwargs': tensors(kwargs or {}), 'stack': traceback.format_stack(limit=12),\n"
+      ]
+    }
+  ],
+  "freeze_sha256": "3c49ca2999cb87d45950b017988bd71b3bc4ab8a0fbef7702f719156d942e7ad"
+}

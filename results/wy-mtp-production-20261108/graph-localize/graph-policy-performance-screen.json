@@ -1,0 +1,17 @@
+{
+  "scope": "diagnostic sequential restart windows; not alternating production A/B",
+  "main_graph_eager_draft": {
+    "window": "pr18730-seq4-mtp2-dual-graph",
+    "repeats": 3,
+    "decode_tok_s_median": 46.42975586426715,
+    "prefill_tok_s_median": 2044.827154184629
+  },
+  "dual_graph_single_capture": {
+    "window": "pr18730-seq4-mtp2-dual-single-capture",
+    "repeats": 3,
+    "decode_tok_s_median": 29.316953759193268,
+    "prefill_tok_s_median": 2045.9721377931494
+  },
+  "dual_graph_repeat_decode_tok_s_median": 28.791725240816174,
+  "decision": "Do not promote the slower single-capture dual Graph policy; qualify main Graph [3,6,12] with eager draft. Native WY retained."
+}

@@ -1,0 +1,17 @@
+{
+  "window": "pr18730-seq4-mtp2-true-dual-graph",
+  "actual_main_graph": true,
+  "actual_draft_graph_enabled": true,
+  "draft_wrapper": "ACLGraphWrapper runtime_mode=FULL",
+  "capture_sizes": [
+    3,
+    6,
+    12
+  ],
+  "capture_progress": "2/3 before error",
+  "failure": "no event resource / capture invalidated 507903",
+  "model_requests_started": false,
+  "cleanup_passed": true,
+  "server_log_sha256": "613e27613b0824e2ddbc3d1bb067e5c8d3baa996c0ded0d798e9864ea58c5e1d",
+  "freeze_sha256": "4d1c623efd1e2601b3650c97d40bd390127c077c2f0f7f30d749e0944e5d4b3a"
+}
