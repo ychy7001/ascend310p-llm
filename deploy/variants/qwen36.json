@@ -30,10 +30,29 @@
       "candidate_image_id": "9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163",
       "wy_source": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e",
       "notes": "Ready for an owner-approved production canary. Keep TP1 as rollback; the 60-second device cooldown is mandatory.",
-      "mtp_extension_status": "Not accepted: mode 3 MTP1, mode 0 direct-Graph MTP2, and mode 0 main-Graph/eager-draft MTP2 all failed main-model SplitFuse capture. Eager MTP1 smoke passed only; published variant disables MTP.",
+      "mtp_extension_status": "Original unmodified image remains MTP-disabled. Separate tp2-w8a8-wy-mtp compatibility candidate passed main Graph/eager MTP2 draft validation; historical unpatched Graph failures remain valid.",
       "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
       "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-20261108",
       "registry_verification": "results/wy-registry-delivery-20261108/registry-images.json"
+    },
+    "tp2-w8a8-wy-mtp": {
+      "status": "validated-staging-candidate",
+      "tensor_parallel_size": 2,
+      "weight_format": "W8A8",
+      "mtp": true,
+      "num_speculative_tokens": 2,
+      "main_graph": true,
+      "draft_graph": false,
+      "entrypoint": "deploy/image/start-wy-mtp.sh",
+      "config": "deploy/qwen36-wy-mtp-image.env.example",
+      "base_lock": "deploy/image/base-wy-310p.json",
+      "parent_registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
+      "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa",
+      "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261108",
+      "candidate_image_id": "696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab",
+      "compatibility_source": "runtime/wy_compat/graph_safe_splitfuse.py",
+      "evidence": "results/wy-mtp-mask-fix-20261108/",
+      "notes": "Validated seq1, batch2048, max_model_len114688; cold text lengths4K/32K, decode128, deterministic multi-step JSON and PDF smoke. Eager MTP draft required. Not a formal OCR quality gate or a1 production switch."
     }
   }
 }

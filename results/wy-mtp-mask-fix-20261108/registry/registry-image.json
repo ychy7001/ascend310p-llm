@@ -1,0 +1,21 @@
+{
+  "variant": "tp2-w8a8-wy-mtp",
+  "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261108",
+  "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa",
+  "registry_digest": "sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa",
+  "image_id": "696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab",
+  "registry_verified": true,
+  "digest_pull_passed": true,
+  "parent_image_id": "9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163",
+  "parent_layers_unchanged": true,
+  "main_graph": true,
+  "draft_graph": false,
+  "mtp_depth": 2,
+  "max_num_seqs_validated": 1,
+  "max_model_len_configured": 114688,
+  "cold_prefill_lengths_tested": [
+    4096,
+    32768
+  ],
+  "verified_at_utc": "2026-11-08T01:45:02.051008+00:00"
+}

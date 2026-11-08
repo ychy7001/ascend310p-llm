@@ -56,3 +56,17 @@ Both variants now have registry references and verified config digests in
 `results/wy-registry-delivery-20261108/registry-images.json`. The TP2
 `registry_image` is the published no-MTP candidate. Use the digest-pinned
 environment examples; publishing does not switch a1.
+
+## Optional TP2 MTP profile — 2026-11-08
+
+`tp2-w8a8-wy-mtp` adds the legacy SplitFuse mask compatibility layer over
+the locked TP2 WY image. It keeps main-model Graph and runs the MTP2 draft
+in eager mode. The default entrypoint, deterministic multi-step JSON and
+PDF smoke passed; the separate registry tag/digest is registered in the
+variant manifest. Details and measured cold-prefill/decode results are in
+`wy-mtp-mask-fix-20261108.md`. The no-MTP image stays available.
+
+Use `deploy/qwen36-wy-mtp-image.env.example` with the existing TP2 systemd
+unit. The unit uses host MODEL_DIR for mounting and explicitly supplies
+MODEL_DIR=/model inside the container. This optional profile is validated
+with max_num_seqs=1; it does not establish multi-request acceptance.

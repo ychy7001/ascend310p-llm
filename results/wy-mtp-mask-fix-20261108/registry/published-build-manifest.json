@@ -1,0 +1,11 @@
+{
+  "base_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
+  "variant": "tp2-w8a8-wy-mtp",
+  "compatibility": "legacy SplitFuse stable mask buffer; main Graph, eager MTP draft",
+  "artifacts": {
+    "start-wy-mtp.sh": "5ee4511870d4827f4d5a83d0922d04daa27f525949922329eddbeacb0f971406",
+    "wy-compat/sitecustomize.py": "49791b93e8c77765c5141021a6bd3e48326903a7e794ba462274ef50767f4cb4",
+    "wy-compat/graph_safe_splitfuse.py": "47e1dee2f55d46a358eabe3d9487364a62e7e3d4c65fd54d0b2a9e665429592f",
+    "wy-compat/direct_graph_310.py": "232691c5adf740351a7309eb5210dfa1acd4b3c4b9893a8f2b8e0689e19d82d5"
+  }
+}

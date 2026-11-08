@@ -95,3 +95,7 @@ v1窗口在PDF客户端读取输出目录变量时因 `PDF_AB_OUT` 未设置而�
 本次交付收束为：TP1 W4A8复用既有WY/MTP2稳定profile；TP2 W8A8发布已验收WY无MTP镜像。W8 MTP Graph作为独立兼容性问题保留，不将eager实验通过或W4成功外推为W8组合验收。后续修复应优先检查主模型多token验证进入SplitFuse时的图兼容性；不为此改WY数学路径、放宽冻结门槛或拖延已合格WY镜像登记。
 
 registry推送、digest拉取与远端manifest/config核验均完成；a2最终独立检查无容器和NPU进程，临时registry凭据文件已删除。a1未触碰。协议/规则/worker/R/kernel SHA未变，只有诊断配置和记录新增。
+
+## 后续修复结果
+
+旧栈SplitFuse mask的CPU拷贝问题已通过新增图外准备固定mask缓冲区解决，保留原CANN/Torch/WY制品。独立`tp2-w8a8-wy-mtp`候选已通过主模型Graph+MTP2草稿eager的整模型、默认镜像入口与registry验收，详见`wy-mtp-mask-fix-20261108.md`。上述未修补配置的失败结果不回溯修改；原无MTP镜像仍保留。未声明草稿多步Graph或正式OCR非劣效验收。

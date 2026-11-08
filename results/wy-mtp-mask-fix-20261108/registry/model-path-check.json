@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "container_model_dir": "/model",
+  "host_model_dir": "/host/checkpoint",
+  "purpose": "systemd host mount path and container model path separation"
+}

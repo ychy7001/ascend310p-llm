@@ -23,3 +23,7 @@ W4矩阵已按用户范围调整取消，不继续运行。
 - `w8-bootstrap/`：复制既有direct_graph_310钩子，sitecustomize加载失败会显式终止；不包含W4权重或算子补丁。复制到a2实验根目录下`w8-delivery-bootstrap-20261108`，只在诊断容器挂载。
 - 两次均在主模型SplitFuse图捕获失败、未进入请求测试，清场通过；bootstrap未封装进发布镜像。
 - `verify_registry_delivery_20261108.py`：只读验证本轮两镜像的registry原始manifest和config；从任务临时auth.json读取凭据，输出不含凭据。运行完成后已删除临时auth.json；重新运行需提供registry读取凭据。该脚本不推送镜像、不改tag。
+
+## Legacy SplitFuse修复
+
+`splitfuse-fix/`保留mask小测与整模型候选快照；`run_mask_replay_20261108.py`为单卡独立replay窗口；`run_w8_mask_fix_20261108.py`为主Graph/草稿eager的W8验证；`run_w8_mask_image_20261108.py`等待前一窗口成功并冷却后，只使用封装镜像默认入口，无主机源码bind。运行时交付源为`runtime/wy_compat/graph_safe_splitfuse.py`，构建入口为`tools/prepare_wy_mtp_image.py`。不将该结果外推为多步草稿Graph通过。

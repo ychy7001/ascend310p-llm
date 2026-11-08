@@ -35,4 +35,19 @@ mask列宽固定为模型max_seqlen；原有上下文范围内的0/-inf可见性
 
 归档`results/wy-mtp-mask-fix-20261108/model-diagnostic/`含summary、压缩原始测量、manifest、image/source freeze、smoke、PDF、日志与清场。候选源码与bootstrap的适配器SHA256均为47e1dee2f55d46a358eabe3d9487364a62e7e3d4c65fd54d0b2a9e665429592f。
 
-已封装独立镜像，正在验证默认入口；在该验证结束前不以挂载源码的诊断通过替代镜像交付验收。当前修复只声明主模型Graph + MTP2草稿eager；未声明多步草稿Graph兼容性。
+已封装独立镜像并完成默认入口验收，结果见下方。当前修复只声明主模型Graph + MTP2草稿eager；未声明多步草稿Graph兼容性。
+
+## 镜像默认入口与registry交付
+
+`w8-mask-image-20261108-v1`在未挂载主机源码/算子条件下使用镜像默认入口，完成Graph启动、3条已知答案、81-token多步JSON（numbers为1到20，status为ok，正常stop）及PDF-02功能检查。实际258.615秒，driver 0、容器0，独立清场通过。启动参数与diag保持同一计算profile；只补默认入口smoke，没有重复完整性能矩阵。
+
+```text
+registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261108
+registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa
+```
+
+image ID为`696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab`。以原无MTP WY镜像9df3c6f3…为parent，parent所有rootfs层保持不变；新增入口、bootstrap及mask适配器。`published-build-manifest.json`记录新增文件SHA256。registry原始manifest及config blob哈希核验、按完整digest拉取均通过。
+
+登记位于`results/wy-mtp-mask-fix-20261108/registry/`，镜像入口结果位于`packaged-image/`。使用`deploy/qwen36-wy-mtp-image.env.example`，填宿主MODEL_DIR；现有`qwen36-wy-image.service`将容器MODEL_DIR显式覆盖为/model，同时保持宿主路径用于只读挂载。Podman环境覆盖检查已通过。不要把宿主路径直接当容器模型路径。
+
+状态为已验证的staging候选，不替换已发布无MTP镜像或W4稳定profile。仅MTP2/seq1配置经过本轮整模型测试；没有多并发或正式业务非劣效结论。未触碰a1，临时registry凭据已删除。协议/规则/worker/R/WY kernel SHA及CANN/Torch版本不变；新增运行时兼容适配器SHA已单列。
