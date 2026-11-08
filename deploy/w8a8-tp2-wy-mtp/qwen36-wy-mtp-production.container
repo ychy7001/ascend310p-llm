@@ -8,7 +8,7 @@ StartLimitBurst=3
 
 [Container]
 ContainerName=llm-backend-primary
-Image=registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5
+Image=registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa
 Pull=missing
 EnvironmentFile=/home/ychy/meetai/config/inference/llm-service/prod.npu.env
 SecurityLabelDisable=true
