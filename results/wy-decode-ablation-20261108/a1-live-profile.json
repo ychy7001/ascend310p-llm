@@ -1,0 +1,115 @@
+{
+  "collected_utc": "2026-11-08T10:38:01.676271+00:00",
+  "host": "ychy-a1",
+  "read_only": true,
+  "rootful_names": {
+    "code": 0,
+    "stdout": "llm-backend-primary\nllm-gateway\n",
+    "stderr": ""
+  },
+  "worker_process": {
+    "code": 0,
+    "stdout": "root      691480 VLLM::Worker_TP0\nroot      691694 VLLM::Worker_TP1\n",
+    "stderr": ""
+  },
+  "llm_units": {
+    "code": 0,
+    "stdout": "UNIT LOAD ACTIVE SUB DESCRIPTION\n\n0 loaded units listed.\nTo show all installed unit files use 'systemctl list-unit-files'.\n",
+    "stderr": ""
+  },
+  "llm_containers": [
+    {
+      "name": "llm-backend-primary",
+      "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+      "image_id": "c031cace0dc073b25b01d922bd86988674f909e741396f7c07bfbda767b24b66",
+      "path": "/usr/local/bin/entrypoint.sh",
+      "args": [
+        "bash",
+        "/workspace/start_vllm_ascend.sh"
+      ],
+      "started_at": "2026-11-06T15:08:54.997255834+08:00",
+      "mounts": [
+        {
+          "Source": "/usr/local/dcmi",
+          "Destination": "/usr/local/dcmi"
+        },
+        {
+          "Source": "/usr/local/Ascend/driver/version.info",
+          "Destination": "/usr/local/Ascend/driver/version.info"
+        },
+        {
+          "Source": "/srv/meetai/models/llm-service/vllm-ascend",
+          "Destination": "/models"
+        },
+        {
+          "Source": "/home/ychy/meetai/runtime/inference/llm-service/backend-primary/cache",
+          "Destination": "/root/.cache"
+        },
+        {
+          "Source": "/usr/local/bin/npu-smi",
+          "Destination": "/usr/local/bin/npu-smi"
+        },
+        {
+          "Source": "/usr/local/Ascend/driver/lib64",
+          "Destination": "/usr/local/Ascend/driver/lib64"
+        },
+        {
+          "Source": "/etc/ascend_install.info",
+          "Destination": "/etc/ascend_install.info"
+        },
+        {
+          "Source": "/home/ychy/meetai/config/inference/llm-service/runtime/backend-primary.manifest.json",
+          "Destination": "/workspace/backend-primary.manifest.json"
+        },
+        {
+          "Source": "/usr/local/Ascend/driver/lib64/driver",
+          "Destination": "/usr/local/Ascend/driver/lib64/driver"
+        },
+        {
+          "Source": "/home/ychy/meetai/config/inference/llm-service/assets/start_vllm_ascend_quadlet.sh",
+          "Destination": "/workspace/start_vllm_ascend.sh"
+        }
+      ],
+      "env_profile": [],
+      "actual_cli": {
+        "code": 0,
+        "stdout": "[\"/usr/local/python3.12.13/bin/python3\", \"/usr/local/python3.12.13/bin/vllm\", \"serve\", \"/models/Qwen3.6-35B-A3B-w8a8\", \"--served-model-name\", \"Qwen3.6-35B-A3B-w8a8\", \"--host\", \"0.0.0.0\", \"--port\", \"18081\", \"--data-parallel-size\", \"1\", \"--tensor-parallel-size\", \"2\", \"--quantization\", \"ascend\", \"--max-model-len\", \"262144\", \"--gpu-memory-utilization\", \"0.9\", \"--max-num-seqs\", \"4\", \"--kv-cache-dtype\", \"auto\", \"--max-num-batched-tokens\", \"4096\", \"--dtype\", \"float16\", \"--trust-remote-code\", \"--reasoning-parser\", \"qwen3\", \"--enable-chunked-prefill\", \"--enable-prefix-caching\", \"--enable-prompt-tokens-details\", \"--additional-config\", \"{\\\"ascend_compilation_config\\\": {\\\"fuse_norm_quant\\\": false}}\", \"--compilation-config\", \"{\\\"cudagraph_mode\\\": \\\"FULL_DECODE_ONLY\\\", \\\"cudagraph_capture_sizes\\\": [1, 2]}\", \"--async-scheduling\", \"--mamba-ssm-cache-dtype\", \"float16\", \"--allowed-local-media-path\", \"/\", \"--enable-auto-tool-choice\", \"--tool-call-parser\", \"qwen3_coder\"]\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "llm-gateway",
+      "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-gateway@sha256:ca9fb9ff5de105905f122c2e609f80b26ce70569e2a31a48ab1401bd448c45b5",
+      "image_id": "1f777d6700e230c7bd9040373468a77b76cfda5d621ff6c3b3d655a8cca9e28a",
+      "path": "python",
+      "args": [
+        "main.py"
+      ],
+      "started_at": "2026-11-06T15:12:20.819467888+08:00",
+      "mounts": [
+        {
+          "Source": "/home/ychy/meetai/runtime/inference/llm-service/gateway/data",
+          "Destination": "/app/data"
+        },
+        {
+          "Source": "/home/ychy/meetai/runtime/inference/llm-service/gateway/logs",
+          "Destination": "/app/logs"
+        },
+        {
+          "Source": "/home/ychy/meetai/config/inference/llm-service/configs",
+          "Destination": "/app/configs"
+        },
+        {
+          "Source": "/home/ychy/meetai/config/inference/llm-service/runtime",
+          "Destination": "/app/runtime"
+        }
+      ],
+      "env_profile": [],
+      "actual_cli": {
+        "code": 0,
+        "stdout": "[\"python\", \"main.py\"]\n",
+        "stderr": ""
+      }
+    }
+  ]
+}

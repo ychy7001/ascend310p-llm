@@ -30,6 +30,13 @@ def summarize(root):
                 {key: request.get(key) for key in ('success', 'elapsed_s', 'ttft_s', 'mean_tpot_s',
                                                   'start_offset_s', 'usage', 'error_type', 'error')}
                 for request in raw['requests']]
+            for timing, request in zip(row['request_timings'], raw['requests']):
+                if request['success']:
+                    timing['output_text_sha256'] = hashlib.sha256(request['text'].encode()).hexdigest()
+                    timing['output_characters'] = len(request['text'])
+            prefill_s = row['metrics_delta']['vllm:request_prefill_time_seconds_sum']
+            prompt_total = sum(r['usage']['prompt_tokens'] for r in raw['requests'] if r['success'])
+            row['server_prefill_tok_s_per_request_weighted'] = prompt_total / prefill_s if prefill_s > 0 else None
             row['raw_sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
             record['rounds'].append(row)
             if status['state'] == 'complete':
@@ -49,12 +56,15 @@ def summarize(root):
                 'windows': sorted(set(row['window'] for row in rows)),
                 'rounds': len(rows), 'requests': len(requests),
                 'success': sum(r['success'] for r in requests),
+                'output_text_sha256_counts': {key: sum(r['output_text_sha256'] == key for r in requests)
+                    for key in sorted(set(r['output_text_sha256'] for r in requests))},
                 'client_ttft_s_median': median(ttfts),
                 'client_tpot_ms_median': median(tpots) * 1000,
                 'client_generation_tok_s_median': median([1 / t for t in tpots]),
                 'server_decode_tok_s_per_request_weighted_median': median([
                     r['server_decode_tok_s_per_request_weighted'] for r in rows]),
                 'e2e_aggregate_output_tok_s_median': median([r['e2e_aggregate_output_tok_s'] for r in rows]),
+                'server_prefill_tok_s_per_request_weighted_median': median([r['server_prefill_tok_s_per_request_weighted'] for r in rows]),
                 'acceptance_median': median(acceptance),
                 'prefix_hits_total': sum(r['metrics_delta']['vllm:prefix_cache_hits_total'] for r in rows),
                 'per_window': {name: {

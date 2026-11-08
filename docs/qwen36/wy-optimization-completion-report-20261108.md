@@ -113,7 +113,19 @@ W8 初次增加 MTP 后，模型加载成功，但 Graph 捕获中执行 `query_
 
 262144是输入与输出总上限。seq4是调度上限；启动KV pool约635026 tokens，约2.42条满上下文请求容量，不承诺四条262K同时驻留。容量检查不证明长上下文检索或推理质量。PDF未专门关闭多模态缓存，不能称为完全冷视觉性能测试。
 
-## 4. 镜像身份与运行栈
+## 4. Decode收益与a1现役profile对照
+
+针对“最终镜像Decode是否比a1现役更快”的疑问，补做了a2受控实验：最终镜像MTP0/1/2各独立启动两次，归档a1 profile在a2独立启动两次；每窗固定4K输入、512输出，单流和四并发各2轮。a1没有发送请求。
+
+最终镜像MTP0的单流服务端Decode为33.10 tok/s，a1旧profile复现为32.28 tok/s，只有约2.6%差异；四并发服务端Decode为18.64 vs 17.31 tok/s，约7.7%差异。这说明WY本身并没有被证明带来大幅Decode加速。
+
+MTP是主要的Decode增益来源：MTP1相对同镜像MTP0，单流约40.58 tok/s、TPOT下降18.4%；MTP2约43.69 tok/s、TPOT下降24.2%。四并发端到端吞吐分别为71.10和70.04 tok/s，相对MTP0的61.94 tok/s提升约14.8%和13.1%。MTP2单流更快，MTP1四并发略快；两者差异小于MTP相对无MTP的收益。
+
+最终镜像相对旧profile更明显的优势来自Prefill和组合配置：同一4K单请求Prefill约2175 vs 1296 tok/s，四并发请求阶段约1230 vs 516 tok/s；端到端四并发约61.94 vs 51.60 tok/s。最终主Graph捕获档位更宽，且使用2048 batch tokens、状态索引修复、slot int64兼容补丁和SplitFuse图外mask准备；旧profile使用Graph[1,2]、4096 batch tokens、prefix caching开启。它们共同构成整栈差异，不能把全部差异归因于WY。
+
+这组结果确认了用户的观察，但精确定性为：**最终候选的MTP1/MTP2 Decode确实比a1现役profile快；最终镜像关闭MTP时Decode只小幅快，WY的主要价值仍是冷Prefill。** 详情见`docs/qwen36/wy-mtp-production-20261108.md`和`results/wy-decode-ablation-20261108/summary.json`。
+
+## 5. 镜像身份与运行栈
 
 最终不可变部署引用：
 
@@ -135,7 +147,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 
 既有W4稳定镜像digest为 `sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35`，登记及其profile见 `wy-mtp-integration-20261108.md`。历史W8无MTP及早期seq1 MTP镜像保留独立身份，不用它们代替最终262K制品。
 
-## 5. 仓库改动与可复核资产
+## 6. 仓库改动与可复核资产
 
 ### 5.1 生产入口和部署配置
 
@@ -191,7 +203,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 
 所有实现已本地提交，**Git尚未推送**；镜像registry发布已完成。本文是随后补充的报告文档，未改变上述实现或镜像身份。
 
-## 6. 验收纪律及已纠正的证据问题
+## 7. 验收纪律及已纠正的证据问题
 
 - a1始终未执行写操作或生产切换；不触碰3080。
 - 最后兼容修复与验收未修改WY数学路径、冻结协议/规则/worker/R及CANN版本；recurrent OPP/wrapper、proposer和运行时mask适配器变更均单独登记。
@@ -200,7 +212,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 - 旧eager `summary.json` / `full-v5/`不作为最终主Graph镜像的资格证据。
 - 每个设备窗口均保留ExitCode、预算/实际耗时、独立清场和制品身份，任务文档追加六行记录。
 
-## 7. 后续交接
+## 8. 后续交接
 
 本轮无需再扩展算子或参数搜索。下一阶段可直接使用固定digest和交付模板，在单独维护窗口完成a1切换：先保存旧manifest、Quadlet及镜像digest，确认llmctl部署描述同步更新；停旧服务、确认设备空闲、至少冷却60秒；启动后检查健康、模型名、实际CLI、短JSON、代表性冷Prefill/PDF及长请求。失败时使用保存的旧配置和旧digest，按同样冷却流程回滚。
 

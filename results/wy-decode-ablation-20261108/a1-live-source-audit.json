@@ -1,0 +1,85 @@
+{
+  "files": {
+    "/models/Qwen3.6-35B-A3B-w8a8/config.json": {
+      "sha256": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99"
+    },
+    "/models/Qwen3.6-35B-A3B-w8a8/tokenizer_config.json": {
+      "sha256": "dbfb3c20ce3d5b8370faeecd548e771c1dcc8e4fdcf636797fc24b0d0733fb02"
+    },
+    "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/ops/fla/chunk_gated_delta_rule.py": {
+      "sha256": "ab2b739bb6630ebe9fcb1d7af820f93adffce79668e32247bbb869119a0d6c69",
+      "wy_lines": []
+    },
+    "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/ops/fla/gdn_310.py": {
+      "sha256": "1282ed500116e01a31db76ac0c6e44dbb8fd4d476460a43c2c07512733c32548"
+    }
+  },
+  "manifest": {
+    "runtime_kind": "vllm_ascend",
+    "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
+    "model_name": "qwen3.6-35b-a3b-w8a8",
+    "port": 18081,
+    "npu_devices": [
+      0,
+      1
+    ],
+    "env": {
+      "ASCEND_RT_VISIBLE_DEVICES": "0,1",
+      "ASCEND_VISIBLE_DEVICES": "0,1",
+      "VLLM_USE_MODELSCOPE": "false",
+      "TASK_QUEUE_ENABLE": "1",
+      "SOC_VERSION": "ascend310p1",
+      "OMP_NUM_THREADS": "1",
+      "ATB_HOME_PATH": "/usr/local/Ascend/nnal/atb/latest/atb/cxx_abi_1",
+      "ASCEND_CUSTOM_PATH": "/vllm-workspace/vllm-ascend/vllm_ascend/_cann_ops_custom"
+    },
+    "command": [
+      "vllm",
+      "serve",
+      "/models/Qwen3.6-35B-A3B-w8a8",
+      "--served-model-name",
+      "Qwen3.6-35B-A3B-w8a8",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "18081",
+      "--data-parallel-size",
+      "1",
+      "--tensor-parallel-size",
+      "2",
+      "--quantization",
+      "ascend",
+      "--max-model-len",
+      "262144",
+      "--gpu-memory-utilization",
+      "0.9",
+      "--max-num-seqs",
+      "4",
+      "--kv-cache-dtype",
+      "auto",
+      "--max-num-batched-tokens",
+      "4096",
+      "--dtype",
+      "float16",
+      "--trust-remote-code",
+      "--reasoning-parser",
+      "qwen3",
+      "--enable-chunked-prefill",
+      "--enable-prefix-caching",
+      "--enable-prompt-tokens-details",
+      "--additional-config",
+      "{\"ascend_compilation_config\": {\"fuse_norm_quant\": false}}",
+      "--compilation-config",
+      "{\"cudagraph_mode\": \"FULL_DECODE_ONLY\", \"cudagraph_capture_sizes\": [1, 2]}",
+      "--async-scheduling",
+      "--mamba-ssm-cache-dtype",
+      "float16",
+      "--allowed-local-media-path",
+      "/",
+      "--enable-auto-tool-choice",
+      "--tool-call-parser",
+      "qwen3_coder"
+    ]
+  },
+  "manifest_sha256": "3479e4b77084a6338a6e99ec69fd88130d9a891da12764f218d0e602dfe811c2"
+}

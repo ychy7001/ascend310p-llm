@@ -52,6 +52,23 @@
 
 `max_num_seqs=4`是调度上限，不承诺四条262K请求同时驻留。启动报告KV pool约635026 tokens，即约2.42条满上下文请求，超出驻留容量由调度器处理。
 
+## Decode收益补验收
+
+2026-11-08在a2完成同一最终镜像的MTP0/1/2受控对照，并将归档的a1现役profile在a2复现两次。每个窗口使用4K固定prompt、512输出、唯一cache salt，单并发和四并发各2轮；记录客户端TTFT/TPOT、服务端请求阶段Decode、端到端聚合吞吐和MTP接受率。a1只做了只读身份核对，没有发送请求。
+
+| 臂 | 单流服务端Decode | 单流客户端TPOT | 四并发服务端Decode/请求 | 四并发端到端聚合 | 四并发TTFT P50 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 最终镜像 MTP0 | 33.10 tok/s | 30.21 ms | 18.64 tok/s | 61.94 tok/s | 5.97 s |
+| 最终镜像 MTP1 | 40.58 tok/s | 24.64 ms | 22.51 tok/s | 71.10 tok/s | 6.34 s |
+| 最终镜像 MTP2 | 43.69 tok/s | 22.89 ms | 22.62 tok/s | 70.04 tok/s | 6.69 s |
+| a1旧profile复现 | 32.28 tok/s | 30.98 ms | 17.31 tok/s | 51.60 tok/s | 10.68 s |
+
+因此，MTP1相对同镜像MTP0的单流生成吞吐约提升22.6%，四并发端到端吞吐约提升14.8%；MTP2相对MTP0单流约提升32.0%，四并发端到端约提升13.1%。MTP2的单流优于MTP1，但四并发总吞吐略低于MTP1，差异小于MTP相对无MTP的收益；当前配置保留MTP2的原因是单流与短输出场景收益更高，若业务以四并发长输出为主，MTP1值得另行评估。
+
+最终镜像MTP0相对a1旧profile的服务端Decode仅单流约+2.6%、四并发约+7.7%，不能把最终镜像相对a1的全部Decode差异归给WY。最终镜像四并发端到端吞吐约+20.1%，主要来自Prefill：同一4K请求的服务端Prefill约2175 vs 1296 tok/s（+67.7%），四并发请求阶段约1230 vs 516 tok/s（+138%）。同时最终配置使用主Graph捕获[1,2,4]（MTP0；MTP2为[3,6,12]），旧profile为[1,2]；batch tokens为2048 vs 4096；旧profile启用prefix cache但本次唯一salt命中为0。Graph档位、batch、prefix-cache开关以及最终镜像中的状态索引、slot int64和SplitFuse兼容修复均是整栈差异，不能单独拆成WY贡献。
+
+旧profile不是a1实机压测，而是在a2用归档a1镜像、同一W8权重和旧启动参数复现；a1只读核对确认现役容器实际使用该镜像及参数：无MTP、Graph[1,2]、max-num-batched-tokens4096、prefix caching开启。完整结构化结果见`results/wy-decode-ablation-20261108/summary.json`。
+
 ## 部署资产与回滚
 
 - `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.manifest.json`保留a1模型目录、18081端口及服务名，调用镜像内入口。
