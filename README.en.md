@@ -10,13 +10,16 @@ A narrative walkthrough of the adaptation work is published on Zhihu (in Chinese
 
 ## Status
 
-| Model | Configuration | Status | Entry |
-| --- | --- | --- | --- |
-| Qwen3.6-35B-A3B | W4A8 + BF16 MTP, TP1, decode graph, 112K | Passed startup, generation and long-context retrieval on real 310P3 | [qwen36](docs/qwen36/README.md) |
-| Qwen3.6-35B-A3B | C8 (INT8 KV) | Experimental, relies on an updatable-graph workaround | [C8](docs/qwen36/c8.md) |
-| Qwen3.6-35B-A3B | TP2 C8, batched concurrency, multimodal, formal P95 | **Not validated** | — |
-| Qwen3.8-Flash-Next | W4A8 + C16, TP2/EP2 (two 310P), MTP0, decode graph | Validated up to 16K; a 32K request could not be scheduled | [qwen38](docs/qwen38/README.md) |
-| Qwen3.8-Flash-Next | MTP, C8, concurrency, full quality eval | **Not validated** | — |
+Two profiles sit side by side; pick by scenario. Use W8A8 TP2 for long context, W4A8 TP1 for single-card or as the rollback target.
+
+| Model | Configuration | Scenario | Status | Entry |
+| --- | --- | --- | --- | --- |
+| Qwen3.6-35B-A3B | W8A8 + native WY + MTP2 + main-model graph, TP2, 262144 context, scheduler concurrency cap 4 | Long-context profile | Passed full-capacity, concurrency, PDF and same-image-entrypoint acceptance on a2; **not yet switched on a1** | [W8A8 262K reproduction](docs/qwen36/w8a8-262k.md) |
+| Qwen3.6-35B-A3B | W4A8 + BF16 MTP, TP1, decode graph, 112K | Single-card profile; rollback target for W8A8 | Passed startup, generation and long-context retrieval on real 310P3 | [qwen36](docs/qwen36/README.md) |
+| Qwen3.6-35B-A3B | C8 (INT8 KV) | Experimental backend | Relies on an updatable-graph workaround | [C8](docs/qwen36/c8.md) |
+| Qwen3.6-35B-A3B | TP2 C8, batched concurrency, multimodal, formal P95 | — | **Not validated** | — |
+| Qwen3.8-Flash-Next | W4A8 + C16, TP2/EP2 (two 310P), MTP0, decode graph | — | Validated up to 16K; a 32K request could not be scheduled | [qwen38](docs/qwen38/README.md) |
+| Qwen3.8-Flash-Next | MTP, C8, concurrency, full quality eval | — | **Not validated** | — |
 
 ## Weights
 
@@ -46,7 +49,7 @@ A narrative walkthrough of the adaptation work is published on Zhihu (in Chinese
 
 ## Layout
 
-`docs/qwen36`, `docs/qwen38`, `results/qwen36`, `results/qwen38` hold per-model docs and raw data. Shared code lives in `tools/`, `scripts/`, `experimental/`, `native-overlay/`, `runtime/`, `bootstrap/`, `deploy/`, `patches/`. Earlier paths remain reachable through Git history.
+`docs/qwen36`, `docs/qwen38`, `results/qwen36`, `results/qwen38` hold per-model docs and raw data. `deploy/` holds the three deployment profiles (see [deploy/README.md](deploy/README.md)). Results directories are indexed in [results/README.md](results/README.md). Shared code lives in `tools/`, `scripts/`, `experimental/`, `native-overlay/`, `runtime/`, `bootstrap/`, `benchmarks/`, `deploy/`, `patches/`. Earlier paths remain reachable through Git history.
 
 ## Known limitations
 

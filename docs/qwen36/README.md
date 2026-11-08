@@ -1,10 +1,26 @@
-# Ascend 310P — Qwen3.6-35B-A3B W4A8 / MTP / C8
+# Ascend 310P — Qwen3.6-35B-A3B W4A8 / W8A8 / MTP / C8
 
-在 Atlas 300I DUO（Ascend 310P3）单卡上跑 Qwen3.6-35B-A3B：routed experts 量化为 W4A8，叠加 BF16 MTP 推测解码、INT8 KV（C8）和 Decode Graph。W4A8 + MTP + C8 + Graph 已经在真实 310P3 上通过 4K / 32K / 112K 三档的启动、正确性和长上下文检索门禁。
+在 Atlas 300I DUO（Ascend 310P3）上跑 Qwen3.6-35B-A3B。两条主线：
+
+- **W4A8 TP1**：routed experts 量化为 W4A8，叠加 BF16 MTP、INT8 KV（C8）和 Decode Graph，已通过 4K / 32K / 112K 三档门禁。本页其余部分主要讲这一档。
+- **W8A8 TP2**：routed experts 量化为 W8A8，跑 native WY + MTP2 + 主模型 Graph，262144 上下文。见[W8A8 262K 镜像拉取与逐步复现](w8a8-262k.md)。
 
 Graph 路径用的是实验性 updatable-graph 开关，不是上游官方默认实现。本项目不是华为、Qwen 或 vLLM 官方发布。
 
-## 当前状态
+## 两档怎么选
+
+| | W8A8 TP2 | W4A8 TP1 |
+| --- | --- | --- |
+| 硬件 | 两张 310P3 | 单张 310P3 |
+| 上下文 | 262144 | 112K |
+| 部署方式 | 固定 digest 镜像，不编译算子、不挂宿主源码 | 从源码构建算子，或复用已有制品 |
+| 适用 | 长上下文档 | 单卡档；W8A8 的回滚档 |
+| 状态 | a2 通过完整容量、并发、PDF 与同镜像入口验收，a1 未切换 | 稳定档 |
+| 入口 | [w8a8-262k.md](w8a8-262k.md) | 本页「快速开始」 |
+
+档位文件、镜像内路径映射与回滚步骤见 [deploy/README.md](../../deploy/README.md)。
+
+## 当前状态（W4A8 主线）
 
 | 能力 | 状态 |
 | --- | --- |
@@ -96,10 +112,38 @@ MTP2 相对 MTP1（112K Graph，32K 输入/256 输出，同协议）：Decode 23
 
 细节见[C8 独立复现记录](c8.md)（选页 NZ 转换、原生 PA 对照、Cube/Split-KV 候选）和[Graph 上游交接记录](graph-upstream-patch.md)（310P Graph 生命周期差异、提交上游前的代码边界）。[参数选择记录](parameter-selection-20261012.md)记录了 C8/C16 和 MTP0/1/2 的取舍依据。
 
+## W8A8 / native WY 文档
+
+W8A8 档的文档按作用分层，先看结论，需要追溯过程再看定位与过程记录：
+
+**结论**
+
+| 文档 | 内容 |
+| --- | --- |
+| [w8a8-262k.md](w8a8-262k.md) | 镜像拉取、核验、启动、验证、回滚的端到端复现 |
+| [wy-mtp-production-20261108.md](wy-mtp-production-20261108.md) | 满上下文部署配置：固定参数、Graph/draft 取舍、全窗口实测、边界 |
+| [wy-optimization-completion-report-20261108.md](wy-optimization-completion-report-20261108.md) | 本轮优化执行与交付总结，含逐条验收和保留边界 |
+| [wy-release-candidate.md](wy-release-candidate.md) | 首个 W8 WY 版本（无 MTP）的锁定候选与 smoke 结果 |
+
+**定位与修复过程**
+
+| 文档 | 内容 |
+| --- | --- |
+| [wy-mtp-graph-localization-20261108.md](wy-mtp-graph-localization-20261108.md) | 三个独立 Graph 问题：状态索引缺陷、int32 slot Mul、draft Graph 资源耗尽 |
+| [wy-mtp-mask-fix-20261108.md](wy-mtp-mask-fix-20261108.md) | SplitFuse mask 在 Graph 捕获期禁止 CPU 拷贝，改为捕获外维护固定 NZ 缓冲区 |
+| [wy-mtp-integration-20261108.md](wy-mtp-integration-20261108.md) | 初始 WY/MTP 组合验证，TP1 与 TP2 的首次捕获失败与 eager 隔离 |
+
+**计划**
+
+| 文档 | 内容 |
+| --- | --- |
+| [wy-quality-plan.md](wy-quality-plan.md) | OCR 质量评测方案：公开集分层、字段级指标，不用自由文本 CER 作发布门槛 |
+
 ## 延伸阅读
 
 - [整体思路历程](development-history.md) — 适配过程的技术叙事
 - [代码入口与维护边界](../code-map.md) — 各目录职责和维护原则
+- [部署档位索引](../../deploy/README.md) — 三套档位的文件、镜像内路径映射与回滚
 - [发布校验记录](release-validation.md) — ModelScope 上传和独立加载验证的完整记录
 - [GDN 状态行 bug：复现与上游修复](gdn-bug-fix.md) — 最小复现、补丁、上游 PR #18730 的完整过程
 - [MindIEQ 长 Prefill 量化方案](mindieq-quantization.md) — 从微算子验证到输入规模分流的技术演进

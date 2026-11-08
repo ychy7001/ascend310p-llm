@@ -10,13 +10,16 @@
 
 ## 模型状态
 
-| 模型 | 配置 | 状态 | 入口 |
-| --- | --- | --- | --- |
-| Qwen3.6-35B-A3B | W4A8 + BF16 MTP，TP1，Decode Graph，112K | 已在真实 310P3 通过启动、生成、长检索门禁 | [qwen36](docs/qwen36/README.md) |
-| Qwen3.6-35B-A3B | C8（INT8 KV） | 实验后端，依赖 updatable-graph 补丁 | [C8](docs/qwen36/c8.md) |
-| Qwen3.6-35B-A3B | TP2 C8、并发批处理、多模态、正式 P95 | **未验收** | — |
-| Qwen3.8-Flash-Next | W4A8 + C16，TP2/EP2（双 310P），MTP0，Decode Graph | 已验证到 16K；32K 请求无法调度 | [qwen38](docs/qwen38/README.md) |
-| Qwen3.8-Flash-Next | MTP、C8、并发、完整质量评估 | **未验证** | — |
+两个档位并列，按场景选择：长上下文用 W8A8 TP2 档，单卡或需要回滚用 W4A8 TP1 档。
+
+| 模型 | 配置 | 适用场景 | 状态 | 入口 |
+| --- | --- | --- | --- | --- |
+| Qwen3.6-35B-A3B | W8A8 + native WY + MTP2 + 主模型 Graph，TP2，262144 上下文，调度并发上限 4 | 长上下文档 | a2 已通过完整容量、并发、PDF 与同镜像入口验收；**a1 未切换** | [W8A8 262K 复现](docs/qwen36/w8a8-262k.md) |
+| Qwen3.6-35B-A3B | W4A8 + BF16 MTP，TP1，Decode Graph，112K | 单卡档；W8A8 的回滚档 | 已在真实 310P3 通过启动、生成、长检索门禁 | [qwen36](docs/qwen36/README.md) |
+| Qwen3.6-35B-A3B | C8（INT8 KV） | 实验后端 | 依赖 updatable-graph 补丁 | [C8](docs/qwen36/c8.md) |
+| Qwen3.6-35B-A3B | TP2 C8、并发批处理、多模态、正式 P95 | — | **未验收** | — |
+| Qwen3.8-Flash-Next | W4A8 + C16，TP2/EP2（双 310P），MTP0，Decode Graph | — | 已验证到 16K；32K 请求无法调度 | [qwen38](docs/qwen38/README.md) |
+| Qwen3.8-Flash-Next | MTP、C8、并发、完整质量评估 | — | **未验证** | — |
 
 ## 权重
 
@@ -47,19 +50,25 @@
 ## 目录
 
 ```
-docs/            共享文档（来源、代码地图）
-docs/qwen36/     Qwen3.6 文档（含模型卡、验证、C8、部署）
+docs/qwen36/     Qwen3.6 文档（模型卡、验证、C8、W8A8 复现、WY）
 docs/qwen38/     Qwen3.8 文档
-results/qwen36/  Qwen3.6 原始数据与实验记录
+docs/            共享文档（来源、代码地图）
+results/qwen36/  Qwen3.6 原始数据与实验记录（索引见 results/README.md）
 results/qwen38/  Qwen3.8 原始数据与实验记录
-tools/ scripts/ experimental/ native-overlay/ runtime/ bootstrap/ deploy/ patches/
+deploy/          三套部署档（W8A8+MTP / W8A8 / W4A8），见 deploy/README.md
+tools/ scripts/ experimental/ native-overlay/ runtime/ bootstrap/ benchmarks/ patches/
 ```
 
 结果目录名带日期，不改写；旧版本 commit 中的路径仍可通过 Git 历史访问。
 
 ## 复现
 
-构建、启动、校验见 [Qwen3.6 文档](docs/qwen36/README.md)。需要 Ascend 310P 硬件、CANN 9.1 与驱动（不随仓库分发）。
+两条路线，按要跑哪一档选：
+
+- **W8A8 TP2 / 262K（已发布镜像，不编译算子）**：[W8A8 262K 镜像拉取与逐步复现](docs/qwen36/w8a8-262k.md)。
+- **W4A8 TP1 / 从源码构建**：[Qwen3.6 文档](docs/qwen36/README.md)。
+
+两条路线都需要 Ascend 310P 硬件与驱动（不随仓库分发）。
 
 ## 已知限制
 
