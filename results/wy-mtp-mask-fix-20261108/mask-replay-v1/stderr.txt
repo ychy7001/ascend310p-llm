@@ -1,0 +1,44 @@
+/usr/local/Ascend/cann-9.1.0-beta.1/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:97: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+/usr/local/Ascend/cann-9.1.0-beta.1/opp/built-in/op_impl/ai_core/tbe/impl/ops_legacy/dynamic/gelu_grad_v2.py:157: SyntaxWarning: invalid escape sequence '\h'
+  gelu_grad_erf = erfc(-\hat{x}) / 2 + (1 /sqrt(Pi)) * (\hat{x}) * exp(-\hat{x}^2)
+Traceback (most recent call last):
+  File "/experiment/check_mask_replay.py", line 15, in <module>
+    with torch.npu.graph(graph): result=causal_mask(lengths,query_lens,width)
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/npu/graphs.py", line 533, in __exit__
+    self.npu_graph.capture_end()
+  File "/usr/local/python3.12.13/lib/python3.12/site-packages/torch_npu/npu/graphs.py", line 370, in capture_end
+    super().capture_end()
+RuntimeError: The Inner error is reported as above. The process exits for this inner error, and the current working operator name is Sub.
+Since the operator is called asynchronously, the stacktrace may be inaccurate. If you want to get the accurate stacktrace, please set the environment variable ASCEND_LAUNCH_BLOCKING=1.
+Note: ASCEND_LAUNCH_BLOCKING=1 will force ops to run in synchronous mode, resulting in performance degradation. Please unset ASCEND_LAUNCH_BLOCKING in time after debugging.
+[ERROR] 2026-11-08-01:27:47 (PID:1, Device:0, RankID:-1) ERR00100 PTA call acl api failed.
+EE9999: Inner Error!
+EE9999[PID: 1] 2026-11-08-01:27:47.795.709 (EE9999):  rtMemcpy execution failed, reason=the current capture mode does not support this operation[FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:65]
+        TraceBack (most recent call last):
+       synchronized memcpy failed, kind = 0, runtime result = 107030[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:148]
+       Call aclrtMemcpy(args.get(), arg_size, kernel_def_args, kernel_def_arg_size, ACL_MEMCPY_HOST_TO_HOST) fail, ret: 0x1A216[FUNC:SetKernelArgs][FILE:tbe_task_builder.cc][LINE:291]
+       [Build][TbeOpTask]failed.[FUNC:BuildKernelTask][FILE:single_op_model.cc][LINE:580]
+       [Load][Op]Load operator failed. model = 127025476137616, ge result = 107030[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:148]
+       [Load][Op]LoadSingleOp failed or singleOp is nullptrret = 107030[FUNC:ReportInnerError][FILE:log_inner.cpp][LINE:132]
+
+[W1108 01:27:47.674590273 NPUStream.cpp:596] Warning: NPU warning, error code is 107027[Error]: .
+EE9999: Inner Error!
+EE9999[PID: 1] 2026-11-08-01:27:47.803.826 (EE9999):  rtDeviceSynchronizeWithTimeout execution failed, reason=stream is captured[FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:65]
+        TraceBack (most recent call last):
+       wait for compute device to finish failed, runtime result = 107027.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:148]
+ (function npuSynchronizeUsedDevices)
+[W1108 01:27:47.676686100 NPUStream.cpp:578] Warning: NPU warning, error code is 107027[Error]: .
+EE9999: Inner Error!
+EE9999[PID: 1] 2026-11-08-01:27:47.806.408 (EE9999):  rtDeviceSynchronizeWithTimeout execution failed, reason=stream is captured[FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:65]
+        TraceBack (most recent call last):
+       wait for compute device to finish failed, runtime result = 107027.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:148]
+ (function npuSynchronizeDevice)
+[W1108 01:27:47.679231756 npu_sys_ctrl.cpp:316] Warning: NPU warning, error code is 107027[Error]: .
+EE9999: Inner Error!
+EE9999[PID: 1] 2026-11-08-01:27:47.808.803 (EE9999):  stream is in capture mode, stream_id=69.[FUNC:StreamDestroy][FILE:api_error.cc][LINE:1011]
+        TraceBack (most recent call last):
+       rtStreamDestroyForce execution failed, reason=stream is captured[FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:65]
+       destroy stream force failed, runtime result = 107027[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:148]
+ (function operator())

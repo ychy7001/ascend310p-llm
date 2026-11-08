@@ -1,0 +1,30 @@
+{
+  "id": "pdf-02",
+  "arm": "mtp2",
+  "repeat": 0,
+  "image_sha": "41ddc4da633d70193e63d934445adce9c22b3171c3e46f2f1fd221bda236d499",
+  "payload_sha": "4f848e973e01bb2c5f495a0dd16f247596ddc300a716d31ba5daf3b7361e824a",
+  "first_delta_s": 1.4152840549941175,
+  "first_content_s": 1.4152840549941175,
+  "elapsed_s": 3.149405246018432,
+  "usage": {
+    "prompt_tokens": 1166,
+    "total_tokens": 1250,
+    "completion_tokens": 84
+  },
+  "finish_reason": "stop",
+  "text": "Faster R-CNN\n• 使用一个区域提议网络来替代启发式搜索来获得更好的锚框\nCategory\nprediction\nBounding box\nprediction\nDense layer\nRoI pooling\nCNN\nBinary category\nprediction\nBounding box\nprediction\nAnchor box\nNMS\nConv layer\nRegion proposal network\n动手学深度学习 v2 • https://courses.d2l.ai/zh-v2\n",
+  "reasoning": "",
+  "metrics_delta": {
+    "vllm:request_prefill_time_seconds_count": 1.0,
+    "vllm:request_prefill_time_seconds_sum": 1.3391092370147817,
+    "vllm:request_decode_time_seconds_sum": 1.7345256970147602,
+    "vllm:prefix_cache_queries_total": 0.0,
+    "vllm:prefix_cache_hits_total": 0.0
+  },
+  "prefill_seconds": 1.3391092370147817,
+  "prefix_cache_queries": 0.0,
+  "prefix_cache_hits": 0.0,
+  "valid": true,
+  "text_sha256": "6c475abc76cd254669ac2e93387fe330d299336212498976b552205e09c36275"
+}

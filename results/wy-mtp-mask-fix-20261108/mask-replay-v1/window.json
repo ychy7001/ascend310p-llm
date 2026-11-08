@@ -1,0 +1,97 @@
+{
+  "exit_code": 1,
+  "elapsed_s": 22.99483505898388,
+  "cleanup_passed": true,
+  "before": {
+    "rootless": {
+      "code": 0,
+      "stdout": ""
+    },
+    "rootful": {
+      "code": 0,
+      "stdout": ""
+    },
+    "primary": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "image": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "npu": {
+      "code": 0,
+      "stdout": "+--------------------------------------------------------------------------------------------------------+\n| npu-smi 26.1.1                                   Version: 26.1.1                                       |\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |\n| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |\n+===============================+=================+======================================================+\n| 8       310P3                 | OK              | NA           55                0     / 0             |\n| 0       0                     | 0000:01:00.0    | 0            1511 / 44277                            |\n+-------------------------------+-----------------+------------------------------------------------------+\n| 8       310P3                 | OK              | NA           54                0     / 0             |\n| 1       1                     | 0000:01:00.0    | 0            1457 / 43693                            |\n+===============================+=================+======================================================+\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Chip                  | Process id      | Process name             | Process memory(MB)        |\n+===============================+=================+======================================================+\n| No running processes found in NPU 8                                                                    |\n+===============================+=================+======================================================+"
+    },
+    "memory": {
+      "code": 0,
+      "stdout": "total        used        free      shared  buff/cache   available\nMem:              31           1          15           0          14          29\nSwap:              7           0           7"
+    }
+  },
+  "after": {
+    "rootless": {
+      "code": 0,
+      "stdout": ""
+    },
+    "rootful": {
+      "code": 0,
+      "stdout": ""
+    },
+    "primary": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "image": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "npu": {
+      "code": 0,
+      "stdout": "+--------------------------------------------------------------------------------------------------------+\n| npu-smi 26.1.1                                   Version: 26.1.1                                       |\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |\n| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |\n+===============================+=================+======================================================+\n| 8       310P3                 | OK              | NA           57                0     / 0             |\n| 0       0                     | 0000:01:00.0    | 0            1511 / 44277                            |\n+-------------------------------+-----------------+------------------------------------------------------+\n| 8       310P3                 | OK              | NA           54                0     / 0             |\n| 1       1                     | 0000:01:00.0    | 0            1457 / 43693                            |\n+===============================+=================+======================================================+\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Chip                  | Process id      | Process name             | Process memory(MB)        |\n+===============================+=================+======================================================+\n| No running processes found in NPU 8                                                                    |\n+===============================+=================+======================================================+"
+    },
+    "memory": {
+      "code": 0,
+      "stdout": "total        used        free      shared  buff/cache   available\nMem:              31           1          14           0          15          29\nSwap:              7           0           7"
+    }
+  },
+  "command": [
+    "podman",
+    "run",
+    "--name",
+    "w8-splitfuse-mask-replay-20261108-v1",
+    "--pull=never",
+    "--group-add",
+    "keep-groups",
+    "--network",
+    "none",
+    "-e",
+    "TORCH_DEVICE_BACKEND_AUTOLOAD=0",
+    "-e",
+    "PYTHONPATH=/experiment",
+    "-e",
+    "OMP_NUM_THREADS=1",
+    "--device",
+    "/dev/davinci0",
+    "--device",
+    "/dev/davinci_manager",
+    "--device",
+    "/dev/devmm_svm",
+    "--device",
+    "/dev/hisi_hdc",
+    "-v",
+    "/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64:ro",
+    "-v",
+    "/usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info:ro",
+    "-v",
+    "/usr/local/dcmi:/usr/local/dcmi:ro",
+    "-v",
+    "/etc/ascend_install.info:/etc/ascend_install.info:ro",
+    "-v",
+    "/home/ychy/ascend-lab-runtime/hyperqwen-20261103/mtp-graph-fix-20261108/splitfuse-fix:/experiment:ro",
+    "--entrypoint",
+    "bash",
+    "localhost/qwen36-pr17640-wy-locked:20261108",
+    "-c",
+    "source /usr/local/Ascend/ascend-toolkit/set_env.sh; exec python3 /experiment/check_mask_replay.py"
+  ]
+}

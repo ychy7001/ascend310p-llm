@@ -1,0 +1,84 @@
+{
+  "cold_prefill": {
+    "prefill-4096.jsonl": {
+      "valid": 3,
+      "repeats": 3,
+      "prefill_median_tok_s": 2015.305122602659,
+      "prefix_hits": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "prefill-32768.jsonl": {
+      "valid": 3,
+      "repeats": 3,
+      "prefill_median_tok_s": 1418.0693636839594,
+      "prefix_hits": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "decode": {
+    "valid": 3,
+    "repeats": 3,
+    "prefill_median_tok_s": 2010.4653537417105,
+    "prefix_hits": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "decode_median_tok_s": 47.006035251422915,
+    "spec_decode": [
+      {
+        "drafts": 47.0,
+        "drafted_tokens": 94.0,
+        "accepted_tokens": 80.0,
+        "acceptance_rate": 0.851063829787234,
+        "mean_acceptance_length": 2.702127659574468
+      },
+      {
+        "drafts": 47.0,
+        "drafted_tokens": 94.0,
+        "accepted_tokens": 80.0,
+        "acceptance_rate": 0.851063829787234,
+        "mean_acceptance_length": 2.702127659574468
+      },
+      {
+        "drafts": 47.0,
+        "drafted_tokens": 94.0,
+        "accepted_tokens": 80.0,
+        "acceptance_rate": 0.851063829787234,
+        "mean_acceptance_length": 2.702127659574468
+      }
+    ]
+  },
+  "pdf": [
+    {
+      "case": "pdf-02",
+      "valid": true,
+      "finish_reason": "stop",
+      "output_tokens": 84
+    },
+    {
+      "case": "pdf-03",
+      "valid": true,
+      "finish_reason": "stop",
+      "output_tokens": 84
+    },
+    {
+      "case": "pdf-01",
+      "valid": true,
+      "finish_reason": "length",
+      "output_tokens": 512
+    },
+    {
+      "case": "pdf-04",
+      "valid": true,
+      "finish_reason": "stop",
+      "output_tokens": 55
+    }
+  ]
+}

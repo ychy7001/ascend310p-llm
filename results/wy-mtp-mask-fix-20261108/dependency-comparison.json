@@ -1,0 +1,35 @@
+{
+  "w4": {
+    "torch": "2.10.0+cpu",
+    "torch_npu": "2.10.0.post4",
+    "cann": "9.1.0",
+    "compressed_interfaces": true
+  },
+  "w8": {
+    "torch": "2.10.0+cpu",
+    "torch_npu": "2.10.0.post2",
+    "cann": "9.1.0-beta.1",
+    "compressed_interfaces": false
+  },
+  "action": "Keep W8 dependency stack unchanged; prepare legacy causal mask outside graph into stable buffers",
+  "source_sha256": {
+    "w4": {
+      "attention/attention_v1.py": "80005aba42bcf61247cc0d91502a0f1338194a4b38dd82bc521f6d3c84958390",
+      "spec_decode/llm_base_proposer.py": "4a90532c5c3667d9eb4fec666bf03c65a2f1c92cd402f731b644ef8fa2ed82ab",
+      "worker/model_runner_v1.py": "60b10f97333df49c4bb2a6b5673d13d2d3b964056564c50681984b16fd84d049",
+      "_310p/model_runner_310p.py": "65688cf4571c8a1cbfd6345d6cabaa394b024a794436197db94b275d3581e890",
+      "compilation/acl_graph.py": "27f3b838f223dec86113649625f65b158969a30ce0265271d6a3ce1403db2491",
+      "_310p/attention/attention_v1.py": "d4ba1d75e93c8ae4de24f80c431750cc2bec537e14a1eaafc6475197d329d0ea",
+      "_310p/attention/attention_mask.py": "596578b488d4c89efb55ec287bd7f580ff2abaa3f9160b470c2fc66aa8189f6e"
+    },
+    "w8": {
+      "attention/attention_v1.py": "80005aba42bcf61247cc0d91502a0f1338194a4b38dd82bc521f6d3c84958390",
+      "spec_decode/llm_base_proposer.py": "d7a992ca504eb23ff601b9a5654eb280879ed54e1507bfe38ca27690d83efbaa",
+      "worker/model_runner_v1.py": "69f13d189f9462ab97ef28b2719a6b733fcefc5207bdff899b78163416566ea9",
+      "_310p/model_runner_310p.py": "92e0b78b2e154373d2deb339b3bdecb5fd7fc040ce00eda8bc73d9578e5a9a04",
+      "compilation/acl_graph.py": "27f3b838f223dec86113649625f65b158969a30ce0265271d6a3ce1403db2491",
+      "_310p/attention/attention_v1.py": "d4ba1d75e93c8ae4de24f80c431750cc2bec537e14a1eaafc6475197d329d0ea",
+      "_310p/attention/attention_mask.py": "6576912c671c9e2bd3a2ee1ba46843bac57daf40b1d49a59cc3bd50f870a1e01"
+    }
+  }
+}
