@@ -1,6 +1,6 @@
 # 310P native WY 生产优化执行与交付总结
 
-日期：2026-11-08。仓库：`ascend310p-llm`，分支：`experiment/hyperqwen-310p-20261103`。
+日期：2026-11-08。仓库：`ascend310p-llm`，分支：`main`。
 
 本报告按已归档实验、构建清单和提交历史整理；生成报告时不新增设备实验，也不调整交付配置。
 
@@ -103,8 +103,8 @@ W8 初次增加 MTP 后，模型加载成功，但 Graph 捕获中执行 `query_
 
 以上是服务Prefill阶段吞吐，不是纯WY kernel吞吐。
 
-- 4K输入/128输出：Decode **45.877 tok/s**，draft acceptance约**85.1%**。
-- 四并发端到端测试：12/12完成，含Prefill的聚合输出吞吐中位数35.703 tok/s；TTFT P50/P95为6.755/9.316秒，P95仅为12样本经验分位数。
+- 旧资格窗口（4K输入/128输出）：Decode **45.877 tok/s**，draft acceptance约**85.1%**。
+- 旧资格窗口四并发端到端测试：12/12完成，含Prefill的聚合输出吞吐中位数35.703 tok/s；TTFT P50/P95为6.755/9.316秒，P95仅为12样本经验分位数。该数字不替代下方最新4K/512受控对照。
 - 二/三/四请求确定JSON通过；混合长度4/4完成。
 - 131072输入+128输出：完整返回，TTFT177.967秒，Prefill736.752 tok/s。
 - 262016输入+128输出：总token262144，完整返回，TTFT595.558秒，Prefill440.041 tok/s；超限请求返回400。
@@ -149,7 +149,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 
 ## 6. 仓库改动与可复核资产
 
-### 5.1 生产入口和部署配置
+### 6.1 生产入口和部署配置
 
 | 路径 | 内容与作用 |
 | --- | --- |
@@ -158,7 +158,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 | `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.manifest.json` | 面向a1的完整部署描述，保留模型目录、18081端口和服务名 |
 | `deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-production.container` | Quadlet模板、两卡设备、入口launcher、60秒冷却与失败重启 |
 
-### 5.2 实现、诊断和自动收尾脚本
+### 6.2 实现、诊断和自动收尾脚本
 
 - `experimental/wy-mtp-20261108/`：早期组合运行器、direct Graph集成、SplitFuse固定缓冲区适配器及小测。
 - `experimental/wy-mtp-production-20261108/pr18730/`：匹配状态表wrapper、制品来源、旧缺陷复现、42项回归、slot int64补丁、独立算术小测、同步定位探针与最终镜像入口/Containerfile。
@@ -169,7 +169,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 
 实验脚本是可追踪的定位工具，不代表每个历史入口都应继续用于生产。当前收尾流程以 `run_main_graph_closure.py` 和最终构建清单为准。
 
-### 5.3 文档、结果与来源记录
+### 6.3 文档、结果与来源记录
 
 - `docs/qwen36/wy-release-candidate.md`：独立WY候选、历史收益和公开OCR证据。
 - `docs/qwen36/wy-mtp-integration-20261108.md`：W4资产复用、初始W8组合失败和范围收敛。
@@ -183,7 +183,7 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 - 公开OCR来源与人工核对文件位于 `docs/qwen36/`，数据manifest保存在工作区 `tasks/data/ocr-public/`，模型权重和原图不混入本次代码交付。
 - `.gitignore` 对原始窗口日志、缓存和PDF响应做定向排除；结构化汇总、清场、CLI、生命周期及SHA证据入库。原始窗口仍保留在a2 runtime，没有因整理而删除。
 
-### 5.4 本地提交组织
+### 6.4 本地提交组织
 
 编号记录覆盖多个阶段，以下按交付逻辑分组；编号不是连续计数，也不代表所有提交都修改kernel：
 
@@ -198,10 +198,12 @@ qwen36-tp2-w8a8-wy-mtp2-262k-maingraph-20261108-bb0fa66f
 | [44] `4a8ef93` | 配套recurrent状态修复审计与eager/Graph回归 |
 | [45] `1a936bd` | slot Mul定位、int64兼容补丁与Graph策略筛查 |
 | [46] `b6e6eb7` | 最终262K配置、完整/默认入口验收、镜像发布及部署资产 |
+| [48] `9296a36` | W8 MTP受控Decode对照脚本与吞吐口径澄清 |
+| [49] `8cbf8a7` | MTP0/1/2及a1旧profile受控Decode对照结果入库 |
 
 最终实现收尾三笔[44]—[46]相对其父版本共涉及 **73个文件，新增3796行、删除49行**，主要包含实验工具、结构化证据和文档，不应解读为生产kernel增加数千行。该统计不包括本报告，也不代表整个历史项目的净改动。
 
-所有实现已本地提交，**Git尚未推送**；镜像registry发布已完成。本文是随后补充的报告文档，未改变上述实现或镜像身份。
+所有实现、受控对照结果和本报告均已提交；本次整理后将同步推送到远端。镜像registry发布已完成，文档更新未改变镜像身份。
 
 ## 7. 验收纪律及已纠正的证据问题
 
