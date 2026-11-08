@@ -322,3 +322,8 @@ logs/
 /results/moe-small-m-20261105/**
 !/results/moe-small-m-20261105/README.md
 !/results/moe-small-m-20261105/adjudication.json
+
+# qkvz-1: retain only sanitized experiment summaries
+/results/qkvz-w8a8-20261105/**
+!/results/qkvz-w8a8-20261105/README.md
+!/results/qkvz-w8a8-20261105/adjudication.json
