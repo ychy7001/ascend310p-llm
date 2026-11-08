@@ -317,3 +317,8 @@ logs/
 !/results/wy-mtp-production-20261108/graph-localize/main-graph-release-registry/registry-image.json
 !/results/wy-mtp-production-20261108/graph-localize/main-graph-release-registry/remote-manifest.json
 !/results/wy-mtp-production-20261108/graph-localize/main-graph-release-registry/digest.txt
+
+# moe-1: retain sanitized experiment summaries only
+/results/moe-small-m-20261105/**
+!/results/moe-small-m-20261105/README.md
+!/results/moe-small-m-20261105/adjudication.json
