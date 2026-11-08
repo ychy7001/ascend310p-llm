@@ -11,10 +11,11 @@
       "config": "configs/tp1-profile.sh",
       "base_lock": "deploy/image/base-amd64.json",
       "production_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35",
-      "production_image_id": "86e64c35bf5b13c732df580538684e98764c1257b68ca346398953a9b2ab4f68",
+      "production_image_id": "b381d8e5ed45c11633a7bd07a50a0f5fcf8cf71bc797f1b543d589ab07dd759d",
       "notes": "Preserve existing W4A8/C8/MTP/GDN runtime. Historical combination tests exist; current WY/MTP integration audit is tracked separately.",
       "wy_integration": "Pinned PR17640 GDN/WY via independent pr17640_gdn namespace; not the TP2 vllm_ascend_C binding",
-      "delivery_plan": "Reuse existing stable profile and registry digest; additional W4 experiment matrix canceled by scope on 2026-11-08."
+      "delivery_plan": "Reuse existing stable profile and registry digest; additional W4 experiment matrix canceled by scope on 2026-11-08.",
+      "registry_verification": "results/wy-registry-delivery-20261108/registry-images.json"
     },
     "tp2-w8a8-wy": {
       "status": "production-candidate-ready-for-canary",
@@ -29,7 +30,10 @@
       "candidate_image_id": "9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163",
       "wy_source": "PR17640 18163f6b1d208ab3b4fb06e9752225611c37f40e",
       "notes": "Ready for an owner-approved production canary. Keep TP1 as rollback; the 60-second device cooldown is mandatory.",
-      "mtp_extension_status": "Eager MTP1 smoke passed; tested VLLM_COMPILE(3) Graph manifest failed capture. Graph/MTP extension is not accepted for delivery."
+      "mtp_extension_status": "Eager MTP1 smoke passed; tested VLLM_COMPILE(3) Graph manifest failed capture. Graph/MTP extension is not accepted for delivery.",
+      "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
+      "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-20261108",
+      "registry_verification": "results/wy-registry-delivery-20261108/registry-images.json"
     }
   }
 }

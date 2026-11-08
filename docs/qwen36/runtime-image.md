@@ -4,7 +4,7 @@
 
 ## 已发布的 a2 版本
 
-- 镜像：`<registry>/qwen36-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35`
+- 镜像：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35`
 - 镜像运行源码：`c9fd1daf7f2b059684399473626dc0509fae2f7e`；后续文档提交不改变该镜像。
 - 参数模板：[deploy/qwen36-image.env.example](../../deploy/qwen36-image.env.example)；MODEL_DIR 按实际路径修改。
 - 管理入口：`qwen36-image.service`，端口 18024；运维细节属内部材料，未随公开仓库发布。

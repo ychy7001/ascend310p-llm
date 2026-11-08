@@ -51,3 +51,8 @@ Focus on the TP2 W8A8 extension, including its Graph/MTP compatibility and
 minimal startup, cold-prefill and PDF acceptance. Register the tested image
 with an immutable registry digest and its exact profile. The earlier
 no-MTP TP2 candidate does not imply that the MTP extension has passed.
+
+Both variants now have registry references and verified config digests in
+`results/wy-registry-delivery-20261108/registry-images.json`. The TP2
+`registry_image` is the published no-MTP candidate. Use the digest-pinned
+environment examples; publishing does not switch a1.

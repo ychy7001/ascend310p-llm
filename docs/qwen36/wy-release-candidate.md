@@ -93,3 +93,24 @@ It does not perform the production switch.
   W4A8/MTP image remains the immediate rollback image.
 
 The TP1 W4A8/MTP image remains the production baseline and rollback image.
+
+## Registry delivery — 2026-11-08
+
+The already-tested no-MTP candidate was pushed under a new version tag:
+
+```text
+registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-20261108
+registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32
+```
+
+Registry V2 verification checked the exact manifest SHA256 and fetched the
+config blob; its SHA256 equals the tested image ID `9df3c6f3e42084d77ef258853cf824a011b4d30a1b05acc72a834a691c073163`.
+The local OCI manifest digest can differ after registry layer compression;
+the registry digest above is the deployment reference. No runtime or kernel
+was rebuilt for this push. Existing stable tags were not replaced.
+
+The two variants and original manifests are registered in
+`results/wy-registry-delivery-20261108/`. The environment examples now pin
+the verified registry digests. TP1 reuses its existing registry image; TP2
+MTP remains a separate experiment and is not enabled in this delivery.
+No a1 production switch was performed.

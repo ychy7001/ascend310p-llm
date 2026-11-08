@@ -10,7 +10,7 @@
 registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:8e17ec9ae646b1e418cf119bbb347238c4505b8b0037782a1345914824ec8d35
 ```
 
-- 镜像 ID：`86e64c35bf5b13c732df580538684e98764c1257b68ca346398953a9b2ab4f68`。
+- 镜像 ID：`b381d8e5ed45c11633a7bd07a50a0f5fcf8cf71bc797f1b543d589ab07dd759d`。
 - `/opt/qwen36/start.sh` 设置 `QWEN36_GDN_ENABLED=1`、`QWEN36_GDN_LIBRARY=/custom/pr17640_gdn.so`、`QWEN36_GDN_SOURCE=/gdn-source.py`，并传入 MTP speculative-config。
 - `/c8bootstrap/sitecustomize.py` 加载 `pr17640_gdn_adapter`。适配器将固定 PR wrapper 的 `_C_ascend` 替换为独立 `pr17640_gdn` namespace，映射 WY 为 `compute`，并同时替换 chunk 模块、消费者和 package 的导出。
 - `/gdn-source.py` 的 chunk 前向调用 `_compute_kernel_inputs_from_npu_wy`；不满足能力条件时仍可回退 Torch。因此启动开关本身不能替代实际 native eligibility 证据。
@@ -74,3 +74,7 @@ v1窗口在PDF客户端读取输出目录变量时因 `PDF_AB_OUT` 未设置而�
 3. W8仅补交付必需的启动、实际native命中、Graph/MTP工作状态、代表性冷Prefill和PDF smoke；发生明确异常时再扩大排查。未经验证不将eager或MTP设为新的交付默认。
 4. 验收后的W8镜像推送到既有registry的独立版本tag，并登记registry digest、image ID、base/source/binding版本、profile、启动命令和验收证据。W4已在registry，以既有digest登记即可，无需重建；确需统一别名时再核对别名对应digest。
 5. 镜像登记与现有a1生产切换分别处理；本轮不触碰a1。冻结协议/规则/worker/R/kernel SHA均未变。原W8无MTP候选与未通过Graph验收的MTP扩展必须分别标注。
+
+## 镜像身份记录修正（2026-11-08）
+
+此前文档把TP1的image ID误记为86e64c35…；a2的v1/v2原始freeze.json、当前本地inspect及registry远端config均为b381d8e5…（完整值见上方与registry登记）。registry digest 8e17ec9a…未变，未更换运行镜像或冻结制品。此次修正只针对记录，保留原始实验快照。
