@@ -40,8 +40,14 @@ aclrtMemcpy 107030 / captured-stream synchronization 107027
 
 结果目录（a2）：`/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-matrix-20261108-v1/`。总耗时 231.316 秒。下一步仅关闭图执行做 MTP1 smoke 隔离；即使 eager 通过，也不能证明原 Graph 组合可交付。
 
+## TP2 eager 最小隔离结果
+
+同一镜像、同一模型和原 prefix 设置，仅移除 compilation-config 并增加 `--enforce-eager`。MTP1 启动成功，三条生成分别返回 `OK.`、`42` 和包含 `57.80` / `2026-11-08` 的合法 JSON，均正常 stop。耗时 217.445 秒；独立快照清场通过。
+
+结果目录（a2）：`/home/ychy/ascend-lab-runtime/hyperqwen-20261103/wy-mtp-eager-smoke-20261108-v1/`；最小结果已归档至仓库 `results/wy-mtp-integration-20261108/tp2-eager-mtp1/`。这是基础可运行证据，没有完成 PDF、长输出或正式质量验收，不支持 eager 生产放行或性能收益声明。原 Graph 启动失败结论不变。
+
 ## 后续矩阵
 
-1. TP2：eager MTP1 最小生成隔离；成功后决定是否扩至同模式 MTP0/1/2 性能/PDF。原 Graph 失败保留，不以 eager 结果覆盖。
+1. TP2：eager MTP1 最小生成隔离已通过。先定位 SplitFuse mask 在 Graph capture 中的主机拷贝问题，再决定 Graph MTP1/2 性能/PDF；不为绕过 Graph 失败而将 eager 设为交付默认。
 2. TP1：使用已有镜像及其原始 wrapper 的 Torch/native 两函数，固定其余 GDN 与 W4 组件；比较 WY Torch/native × MTP0/2。观察适配器打印实际 native eligibility；不替换 kernel。
 3. 性能只做同一量化格式和同一执行模式的比较。记录冷 Prefill、TTFT、Decode、MTP counters、PDF 输出和清场；未经质量验证不升级默认交付配置。
