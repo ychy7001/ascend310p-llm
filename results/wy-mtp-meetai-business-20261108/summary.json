@@ -48,7 +48,7 @@
     "patterns": ["507015", "507903", "AICore", "HCCL watchdog", "EngineDeadError"]
   },
   "rollback": {
-    "completed_at": "2026-11-09T00:49:00+08:00",
+    "completed_at": "2026-11-09T00:54:22+08:00",
     "original_registry_digest": "sha256:1a193ded0d75832321019542326740c7fc4509853556d032e773631466453b38",
     "backend_service_active": true,
     "backend_models_http": 200,
