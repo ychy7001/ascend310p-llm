@@ -47,12 +47,12 @@
       "config": "deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example",
       "base_lock": "deploy/image/base-wy-310p.json",
       "parent_registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
-      "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa",
+      "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189",
       "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261108",
-      "candidate_image_id": "696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab",
+      "candidate_image_id": "bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952",
       "compatibility_source": "runtime/wy_compat/graph_safe_splitfuse.py",
       "evidence": "results/wy-mtp-mask-fix-20261108/",
-      "notes": "Validated seq1, batch2048, max_model_len114688; cold text lengths4K/32K, decode128, deterministic multi-step JSON and PDF smoke. Eager MTP draft required. Not a formal OCR quality gate or a1 production switch."
+      "notes": "a2 staging evidence passed seq1, batch2048, max_model_len114688; rebuilt image entrypoint SHA matches the repository and a1 startup/CLI inspection passed. The first a1 inference canary hit NPU 507015/HCCL watchdog/EngineDeadError and produced no valid speed result; not a formal OCR quality gate or a1 production switch."
     }
   }
 }

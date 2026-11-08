@@ -28,7 +28,7 @@ W8A8 两档的选择依据、验收边界与实测数据见 [满上下文部署�
 固定引用：
 
 ```text
-registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa
+registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189
 ```
 
 ### w8a8-tp2-wy/ — W8 基线档

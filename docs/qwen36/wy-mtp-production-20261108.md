@@ -19,7 +19,7 @@
 | prefix caching / async | 开启 / 开启 |
 | served model name | Qwen3.6-35B-A3B-w8a8 |
 
-候选image ID：`696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab4`。不可变镜像引用：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:ed57fbefba5c1631e16be53ac30baf08f091b24fb8c0e8f4799ba6231e76c1aa`。该 digest 已于2026-11-08在 a1 pull 验证；镜像内启动脚本与当前仓库模板仍有差异，不能把本次 canary 视为正式发布验收。
+候选image ID：`696bfbb604863dc85fde698b21631f95c73bd6dfde6f9fccc9a35da1f68f5cab4`。不可变镜像引用：`registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`。该 digest 已于2026-11-08在 a1 pull 验证；镜像内启动脚本与当前仓库模板仍有差异，不能把本次 canary 视为正式发布验收。
 
 镜像元数据版本为torch2.10.0+cpu、torch_npu2.10.0.post2、vLLM0.23.0+empty、vllm-ascend0.23.0rc2.dev93+g88eac2713，CANN9.1.0-beta.1；本地overlay另外登记SHA，不把包版本当作未修改源码证明。
 
@@ -78,3 +78,9 @@
 a1/a2驱动分别26.0.rc1和26.1.1；工程验收在a2完成，未自动在a1验证或部署。a1现有Quadlet由llmctl生成，部署时需同步其部署描述中的镜像与启动配置，避免再次渲染恢复旧值。切换前保存当前manifest、Quadlet与旧镜像digest；停止服务、确认NPU空闲、冷却至少60秒后启动。回滚同样执行冷却。不能只换manifest而继续使用旧镜像，也不能把旧Exec直接附加到新镜像ENTRYPOINT后。
 
 结构化结果：`results/wy-mtp-production-20261108/main-graph-release-full-summary.json`。原始窗口保存在a2 runtime；`main-graph-release-packaged`实际438.875秒、driver0、清场通过。无源码挂载、关闭审计的二/三/四请求JSON、4K/32K、decode、混合请求及四并发PDF均通过；同image ID、同入口SHA、实际CLI已核对。registry manifest与config摘要也与该image ID一致，临时发布凭据已删除。完整汇总为`main-graph-release-summary.json`，发布身份见`graph-localize/main-graph-release-registry/registry-image.json`。
+
+## a1 重建镜像 canary（2026-11-08）
+
+按当前仓库脚本重建并推送的候选镜像为 `registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:777611b2e13da9be433e2e98ce67777713d07fc3321717af16a414e2594a5189`，远端 image ID 为 `bb033d6b18c6f6ee342f13b1457f5c8cdfeeb90691698b3e68fa16f5535db952`。a1 pull 后确认入口脚本 SHA 与仓库 `start-wy-mtp.sh` 一致，实际 CLI 为 TP2、262144、seq4、batch2048、MTP2、主图 `[3,6,12]`；生产默认 prefix cache 为开启。
+
+候选于 21:35:32 +08:00 启动并通过 `/v1/models` 健康检查，但首次真实推理触发 NPU `507015`、HCCL watchdog 和 `EngineDeadError`，无有效速度结果，未通知前端切换。随后发现原有 a1 备份的 Quadlet 与 manifest 还存在旧镜像/入口不一致，恢复文件名并不能直接恢复 backend；该现场配置问题也已保留在 a1 journal。当前候选仅保留为 staging 诊断对象，不能作为生产或联调版本。
