@@ -1,0 +1,6 @@
+{
+  "state": "failed",
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_wy_mtp_matrix_20261108.py\", line 127, in main\n    pdf.wait_health(name)\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_pr17640_pdf_ab_20261107.py\", line 92, in wait_health\n    raise RuntimeError(\"model container exited during startup\")\nRuntimeError: model container exited during startup\n",
+  "cleanup_passed": true,
+  "elapsed_s": 231.31602128897794
+}

@@ -3,8 +3,9 @@
 The repository now describes two separate 310P runtime variants in
 `deploy/variants/qwen36.json`:
 
-* `tp1-w4a8` is the existing W4A8/C8/MTP path. Its entrypoint and base lock
-  remain unchanged.
+* `tp1-w4a8` is the existing W4A8/C8/MTP path. It already embeds a pinned
+  PR17640 GDN/WY implementation through the independent `pr17640_gdn`
+  namespace. Its entrypoint and base lock remain unchanged.
 * `tp2-w8a8-wy` is the PR17640 WY staging candidate. It uses two 310P
   devices, W8A8 weights, no MTP in the first release, and a separate base
   lock and entrypoint.
@@ -25,9 +26,12 @@ custom OPP and the PR17640 native WY extension. A single unconditional
 4. Evaluate a newer vLLM-Ascend base as a separate matrix. It must pass both
    variants' startup and quality checks before replacing either base lock.
 
-MTP remains enabled and versioned in the TP1 W4A8 variant. It is intentionally
-not combined with WY in the first TP2 W8A8 candidate; adding it would create a
-second independent source of quality and memory risk.
+MTP remains enabled and versioned in the TP1 W4A8 variant, alongside its
+existing PR17640 native WY/GDN adapter. Historical MTP1/2 measurements are
+recorded in `mindieq-gdn-experiments-20261013.md`; they do not establish
+equivalence to the TP2 candidate binding or current combination acceptance.
+The first TP2 W8A8 candidate disables MTP. The 2026-11-08 integration audit
+and additional experiments are tracked in `wy-mtp-integration-20261108.md`.
 
 ## Switch timing
 

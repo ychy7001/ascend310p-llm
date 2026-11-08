@@ -1,0 +1,58 @@
+{
+  "elapsed_s": 231.31540506496094,
+  "cleanup_passed": true,
+  "snapshot": {
+    "rootless": {
+      "code": 0,
+      "stdout": ""
+    },
+    "rootful": {
+      "code": 0,
+      "stdout": ""
+    },
+    "primary": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "image": {
+      "code": 3,
+      "stdout": "inactive"
+    },
+    "npu": {
+      "code": 0,
+      "stdout": "+--------------------------------------------------------------------------------------------------------+\n| npu-smi 26.1.1                                   Version: 26.1.1                                       |\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Name                  | Health          | Power(W)     Temp(C)           Hugepages-Usage(page) |\n| Chip    Device                | Bus-Id          | AICore(%)    Memory-Usage(MB)                        |\n+===============================+=================+======================================================+\n| 8       310P3                 | OK              | NA           62                0     / 0             |\n| 0       0                     | 0000:01:00.0    | 0            1505 / 44277                            |\n+-------------------------------+-----------------+------------------------------------------------------+\n| 8       310P3                 | OK              | NA           60                0     / 0             |\n| 1       1                     | 0000:01:00.0    | 0            1464 / 43693                            |\n+===============================+=================+======================================================+\n+-------------------------------+-----------------+------------------------------------------------------+\n| NPU     Chip                  | Process id      | Process name             | Process memory(MB)        |\n+===============================+=================+======================================================+\n| No running processes found in NPU 8                                                                    |\n+===============================+=================+======================================================+"
+    },
+    "memory": {
+      "code": 0,
+      "stdout": "total        used        free      shared  buff/cache   available\nMem:              31           1           9           0          20          29\nSwap:              7           0           7"
+    }
+  },
+  "error": "Traceback (most recent call last):\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_wy_mtp_matrix_20261108.py\", line 127, in main\n    pdf.wait_health(name)\n  File \"/home/ychy/ascend-lab-runtime/hyperqwen-20261103/run_pr17640_pdf_ab_20261107.py\", line 92, in wait_health\n    raise RuntimeError(\"model container exited during startup\")\nRuntimeError: model container exited during startup\n",
+  "states": [
+    {
+      "mtp": 1,
+      "container_state": {
+        "OciVersion": "1.1.0",
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 1,
+        "Error": "container is stopped",
+        "StartedAt": "2026-11-08T00:24:00.884924356Z",
+        "FinishedAt": "2026-11-08T00:27:46.799032571Z",
+        "Health": {
+          "Status": "",
+          "FailingStreak": 0,
+          "Log": null
+        },
+        "CheckpointedAt": "0001-01-01T00:00:00Z",
+        "RestoredAt": "0001-01-01T00:00:00Z",
+        "StoppedByUser": true
+      }
+    }
+  ]
+}
