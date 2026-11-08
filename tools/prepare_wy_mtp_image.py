@@ -13,7 +13,7 @@ args=parser.parse_args()
 if args.output.exists(): raise SystemExit('output already exists')
 root=Path(__file__).resolve().parents[1]
 files={
-    'deploy/image/start-wy-mtp.sh':'start-wy-mtp.sh',
+    'deploy/w8a8-tp2-wy-mtp/start-wy-mtp.sh':'start-wy-mtp.sh',
     'bootstrap/wy_sitecustomize.py':'wy-compat/sitecustomize.py',
     'runtime/wy_compat/graph_safe_splitfuse.py':'wy-compat/graph_safe_splitfuse.py',
     'experimental/direct_graph_310.py':'wy-compat/direct_graph_310.py',

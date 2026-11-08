@@ -56,7 +56,7 @@ def main() -> None:
 
     root = args.output
     artifacts = root / 'artifacts'
-    start_script = Path(__file__).resolve().parents[1] / 'deploy/image/start-wy.sh'
+    start_script = Path(__file__).resolve().parents[1] / 'deploy/w8a8-tp2-wy/start-wy.sh'
     start_sha = copy_file(start_script, root / 'start-wy.sh')
     wrapper_sha = copy_file(args.wrapper, artifacts / 'chunk_gated_delta_rule.py')
     binding_sha = copy_file(args.binding, artifacts / args.binding.name)

@@ -49,7 +49,8 @@ def main():
         raise SystemExit('Base lock must use an immutable registry digest')
     machine = {'amd64': 62, 'arm64': 183}[base['architecture']]
     paths = ['runtime', 'bootstrap', 'experimental/c8_bootstrap', 'configs/tp1-profile.sh',
-             'deploy/image', 'LICENSE', 'NOTICE', *('experimental/' + p for p in ADAPTERS)]
+             'deploy/image', 'deploy/w4a8-tp1/start.sh', 'LICENSE', 'NOTICE',
+             *('experimental/' + p for p in ADAPTERS)]
     archive = subprocess.check_output(['git', '-C', str(repo), 'archive', commit, '--', *paths])
     args.output.mkdir(parents=True, exist_ok=False)
     export = args.output / 'source'
@@ -68,8 +69,8 @@ def main():
     product = rootfs / 'opt/qwen36'
     (product / 'configs').mkdir(parents=True)
     shutil.copy2(export / 'configs/tp1-profile.sh', product / 'configs')
-    for name in ('start.sh', 'verify-image.py'):
-        shutil.copy2(export / 'deploy/image' / name, product / name)
+    shutil.copy2(export / 'deploy/w4a8-tp1/start.sh', product / 'start.sh')
+    shutil.copy2(export / 'deploy/image/verify-image.py', product / 'verify-image.py')
     licenses = product / 'licenses'
     licenses.mkdir()
     for name in ('LICENSE', 'NOTICE'):
