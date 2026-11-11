@@ -1,0 +1,218 @@
+{
+  "date": "2026-11-11",
+  "repo_head": "c811d1fcb99c4da6a31623c3135aba909e803a33",
+  "image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+  "historical_registry_digest": "sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+  "manifest_files_verified": 43,
+  "files": [
+    {
+      "path": "/opt/qwen36/start-wy-mtp.sh",
+      "sha256": "ca8391c85f1a89dae6f71eb61233c06eec0f849dedd0be0453b800cb4f60388a"
+    },
+    {
+      "path": "/opt/qwen36/wy-compat/direct_graph_310.py",
+      "sha256": "232691c5adf740351a7309eb5210dfa1acd4b3c4b9893a8f2b8e0689e19d82d5"
+    },
+    {
+      "path": "/opt/qwen36/wy-compat/graph_lifecycle_audit.py",
+      "sha256": "ec802a0825f5a51656c456649143888a1d842e5df9cd0ee71bf9ebc156808f61"
+    },
+    {
+      "path": "/opt/qwen36/wy-compat/graph_safe_splitfuse.py",
+      "sha256": "ba0a470498b1e0e30eb76f438dd4e5d005eb2d53f391c42713fba27242265794"
+    },
+    {
+      "path": "/opt/qwen36/wy-compat/sitecustomize.py",
+      "sha256": "6c9aa557b44b001761f7d8584d147f79af641151e97180f21c87e67d015eddb2"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_api/include/aclnnop/aclnn_chunk_gated_delta_rule_compute_wy.h",
+      "sha256": "15f2beffada9783a850636c6cf56f35f44161f26d45cc5e32cc62e3564cc1bd6"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_api/lib/libcust_opapi.so",
+      "sha256": "200fe750004a22095729d3620fb9dbac7a87b9a5e7b7bb6f0c329c653116bb01"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/config/ascend310p/aic-ascend310p-ops-info.json",
+      "sha256": "192d705a87c72b375aff8a721336383ec399e63bdbe9a11d3e74a8540acad7bc"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/custom_transformer_impl/ascendc/chunk_gated_delta_rule_compute_wy/chunk_gated_delta_rule_compute_wy.cpp",
+      "sha256": "3f42fad80232e02a77e3995cd64dbb7af010275698dc3123db629336cbfac0c4"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/custom_transformer_impl/ascendc/chunk_gated_delta_rule_compute_wy/chunk_gated_delta_rule_compute_wy_tiling_data.h",
+      "sha256": "84ad7bdd34b110293dafb686b98bbb8965decfb7a7acb1a9391feec80792720e"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/custom_transformer_impl/dynamic/chunk_gated_delta_rule_compute_wy.py",
+      "sha256": "9c4173e902998ed8450874b3f3ee74ae729860cb4adc2a447d0939bc0beccfca"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/causal_conv1d_v310/CausalConv1dV310_f8799e506fced51951fa40429a30b893.json",
+      "sha256": "4555211ae1d9ca4580f59b959cfd80a290ed38e7d4925da132e2d4f95c053678"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_18ccd6fd68d0f13e24d81b6b45b8ea53.json",
+      "sha256": "5113ba205f71a9a0a59646b38875d4625b76be6a08186c5716ab44cc753f1859"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_3199c7952c2f632bcaf5360f2a7f314a.json",
+      "sha256": "2056a13a0d4a6a2d3812b04645232f280e6cc309ea0838bdef2ae42dc8ff0c4a"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_779d5cc3a57004328591f44772fc01b8.json",
+      "sha256": "7d7bd7dfdf776d7627f90d7e32f3a486dfb142f5c1e5ac472cc7d4f96fe8ae2f"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_fwd_o_vllm/ChunkFwdOVllm_a64f986ebe20f72e8e871957ec3f3b0a.json",
+      "sha256": "81415b17df40b1c4e900be403f9cd5dce2c233b722994ae0c6863ddc8a37b671"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_compute_wy/ChunkGatedDeltaRuleComputeWy_8f4d8c298b43f44b7c70e383cb968fe2.json",
+      "sha256": "01589b13ce53db51986e56f465c3588c228f6ae95034094f0dd3b2f09876923e"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm_19fc4be369d63985b4ec5647a0933b43.json",
+      "sha256": "9a0f726cd82b49930b44f93005f084aaa5e7b3f9f2004ed5802c475177cca440"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm_697b00ca76a27640a52cd32c3ee23de6.json",
+      "sha256": "c6262e057cea8945b86df3ad7edf68f3447eca4a8439c4f59a33a22605ef227c"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm_b7d4fb53873673469181120e94891830.json",
+      "sha256": "cc82fcbee884c7954ec86971182a06a9147f9f456fdd229d07fe8eb4dfc53769"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/chunk_gated_delta_rule_fwd_h_vllm/ChunkGatedDeltaRuleFwdHVllm_cb18b540a6af979d8765a3622f83dc41.json",
+      "sha256": "6faf5606f5d96e0b2be81e16f62c12528dace34aa1d06b11964f3e0bca448291"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/ascend310p/recurrent_gated_delta_rule_v310/RecurrentGatedDeltaRuleV310_6aff7d75e8b2117fc8ad1f974495c0d0.json",
+      "sha256": "8854d656781a116f1a600afae8fadc0ff6fed7e93e72519b470e4146439a45cd"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/config/ascend310p/binary_info_config.json",
+      "sha256": "f38baa2f49a10e56c7e5877e35b854588060ae387735149bfb172daf1416ba65"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/config/ascend310p/causal_conv1d_v310.json",
+      "sha256": "10ce2bab78b1ac64af5c30969143007087ac5b9df2195ea7f0ff29bf303b0d67"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/config/ascend310p/chunk_fwd_o_vllm.json",
+      "sha256": "940edac269f0f069c605ca53cfb65d16df0c972527275532ae54be0624a7c9a2"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/config/ascend310p/chunk_gated_delta_rule_compute_wy.json",
+      "sha256": "510e9784595a3be42d19a3ec1275d982487c3b58095979e86916431fc85d838f"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/config/ascend310p/chunk_gated_delta_rule_fwd_h_vllm.json",
+      "sha256": "f05830edfe49ba5f5a066312c3e20c90fdd69acdfcae3196a4d01cc9389d9f38"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/kernel/config/ascend310p/recurrent_gated_delta_rule_v310.json",
+      "sha256": "31af283166a080c606e4b46589b69b8baa0849e3e0e3deb19a9bc85af37a3602"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/op_tiling/lib/linux/x86_64/libcust_opmaster_rt2.0.so",
+      "sha256": "194eab1f08b661d936e04e009a9d5ec15b1f88ae2f4acb9dd5f300acb36bf4b3"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/op_tiling/liboptiling.so",
+      "sha256": "194eab1f08b661d936e04e009a9d5ec15b1f88ae2f4acb9dd5f300acb36bf4b3"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_proto/inc/chunk_gated_delta_rule_compute_wy_proto.h",
+      "sha256": "9e809c7491ca2e3edc0ac0ec0f12f7da0241c21baec57adc5d7e34144eb1eb0d"
+    },
+    {
+      "path": "/pr17640-opp/vendors/custom_transformer/op_proto/lib/linux/x86_64/libcust_opsproto_rt2.0.so",
+      "sha256": "5d3d1f48df8c0c195503f7be4236e2a5cf8d824986800c5aede1c03e7bed4887"
+    },
+    {
+      "path": "/pr18730-opp/op_api/lib/libcust_opapi.so",
+      "sha256": "cc619e827223438846e572bb9f5a308fbabe3584e10d4adcd00f85606b46055c"
+    },
+    {
+      "path": "/pr18730-opp/op_impl/ai_core/tbe/config/ascend310p/aic-ascend310p-ops-info.json",
+      "sha256": "06220af2bf9498da2d7bbf23f878456afeffb473d0e03851053054cbfe4c2a32"
+    },
+    {
+      "path": "/pr18730-opp/op_impl/ai_core/tbe/kernel/ascend310p/recurrent_gated_delta_rule_v310/RecurrentGatedDeltaRuleV310_6aff7d75e8b2117fc8ad1f974495c0d0.json",
+      "sha256": "a95368cb824c180ffad77aa1499ce32ad9d772a342e332492fb61b63df31aabe"
+    },
+    {
+      "path": "/pr18730-opp/op_impl/ai_core/tbe/kernel/config/ascend310p/binary_info_config.json",
+      "sha256": "423aa3ce108bc3d0409b6e1e11b8e796ebfaf93f43de805a10a35d84b386d73d"
+    },
+    {
+      "path": "/pr18730-opp/op_impl/ai_core/tbe/kernel/config/ascend310p/recurrent_gated_delta_rule_v310.json",
+      "sha256": "31af283166a080c606e4b46589b69b8baa0849e3e0e3deb19a9bc85af37a3602"
+    },
+    {
+      "path": "/pr18730-opp/op_impl/ai_core/tbe/op_tiling/lib/linux/x86_64/libcust_opmaster_rt2.0.so",
+      "sha256": "4a1475e6c79f7a505e9285ab8809733764b243c498990e70573e1b4098f37f94"
+    },
+    {
+      "path": "/pr18730-opp/op_impl/ai_core/tbe/op_tiling/liboptiling.so",
+      "sha256": "4a1475e6c79f7a505e9285ab8809733764b243c498990e70573e1b4098f37f94"
+    },
+    {
+      "path": "/pr18730-opp/op_proto/lib/linux/x86_64/libcust_opsproto_rt2.0.so",
+      "sha256": "3871ea8c3303e70e11835d0c3e93a5df0bc1dfa8347080e155c2bdbf7d326f13"
+    },
+    {
+      "path": "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/ops/fla/chunk_gated_delta_rule.py",
+      "sha256": "3b9bc0eb2e2e9d944316858df1efaea72776e7221b5eb1640db4a719b985accb"
+    },
+    {
+      "path": "/vllm-workspace/vllm-ascend/vllm_ascend/_310p/ops/fla/gdn_310.py",
+      "sha256": "45bc54267d44d59e6b530de9b84ec2548c377de3abacf1688f29b9c7161d5fdc"
+    },
+    {
+      "path": "/vllm-workspace/vllm-ascend/vllm_ascend/spec_decode/llm_base_proposer.py",
+      "sha256": "7d4664e9560de195dba043c0221b55757057993b2c6d2f8ffb955fcbad51e423"
+    },
+    {
+      "path": "/vllm-workspace/vllm/vllm/model_executor/models/qwen3_5.py",
+      "sha256": "04f3de5372973770d71c5c05f2e8a5e221ec52b62cca7a1e302d9201b61b8adc"
+    },
+    {
+      "path": "/vllm-workspace/vllm/vllm/model_executor/models/qwen3_next.py",
+      "sha256": "8d614ce262ab9340585f9a2ad4ab117228f076e3672fcb5f04930ff0a38223ae"
+    },
+    {
+      "path": "/vllm-workspace/vllm/vllm/v1/core/sched/scheduler.py",
+      "sha256": "9ae1491f57a6294e32416b93ef2ea68107fa0d65c3a4d7f745f1261012f735e9"
+    },
+    {
+      "path": "/vllm-workspace/vllm-ascend/vllm_ascend/worker/model_runner_v1.py",
+      "sha256": "69f13d189f9462ab97ef28b2719a6b733fcefc5207bdff899b78163416566ea9"
+    },
+    {
+      "path": "/vllm-workspace/vllm/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py",
+      "sha256": "885c56f5e3584ab60bb4ce4b42cf8259e5e92c86ba13aa6128e6ed7a2a20d2b0"
+    },
+    {
+      "path": "/vllm-workspace/vllm/vllm/v1/engine/core.py",
+      "sha256": "cf9cbde601afb80925254aae814033abeab3817f9c4fe7bf01ca92edc9d10c2d"
+    }
+  ],
+  "scope": "CPU-only image read; no inference, imports or NPU mapping",
+  "model": {
+    "architectures": [
+      "Qwen3_5MoeForConditionalGeneration"
+    ],
+    "num_hidden_layers": 40,
+    "linear_attention_layers": 30,
+    "full_attention_layers": 10,
+    "config_source": "a2 /home/ychy/ascend-lab-runtime/hyperqwen-20261103/production-w8a8/model/config.json"
+  },
+  "performance_measurements": [],
+  "a2_initial_state": "No running NPU processes; no rootless running podman containers",
+  "next_window": "4K cold token-ID input, output=1, single request; separate unprofiled timing and profile; then expand to 8K/16K/32K only as needed"
+}
