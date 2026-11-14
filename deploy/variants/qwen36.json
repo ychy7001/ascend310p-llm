@@ -36,7 +36,7 @@
       "registry_verification": "results/wy-registry-delivery-20261108/registry-images.json"
     },
     "tp2-w8a8-wy-mtp": {
-      "status": "a1-canary-passed-original-artifact",
+      "status": "default-delivery",
       "tensor_parallel_size": 2,
       "weight_format": "W8A8",
       "mtp": true,
@@ -47,12 +47,17 @@
       "config": "deploy/w8a8-tp2-wy-mtp/qwen36-wy-mtp-image.env.example",
       "base_lock": "deploy/image/base-wy-310p.json",
       "parent_registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:e96595cbbcbabbde4fb39dd8b38ca882dcc3f13665af041ff456e2917c760b32",
-      "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
-      "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261108",
-      "candidate_image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+      "registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d",
+      "registry_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261114",
       "compatibility_source": "runtime/wy_compat/graph_safe_splitfuse.py",
-      "evidence": "results/wy-mtp-mask-fix-20261108/",
-      "notes": "Original a2 main-Graph/draft-eager artifact passed full qualification and packaged entry validation. Same immutable artifact passed a1 synthetic single-request canaries with prefix caching off and on; both returned OK without 507015/AICore/watchdog errors. Rebuilt staging digest 777611b2 was rejected for artifact mismatch and remains blocked. This is not a formal OCR quality gate or production cutover."
+      "evidence": "results/prefill-mask-reuse-20261114/release.json",
+      "notes": "Default internal delivery for dual 310P3 across workloads. Eager mask reuse passed long-prefill performance, bitwise FP16 operator parity and packaged a2 smoke. Registry push and pull verified; promotion does not change running services.",
+      "registry_default_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-default",
+      "image_id": "2793814b8ad397766b20518e09e60c1a3066f5ebacb0cb71f02601916bd018f6",
+      "rollback_registry_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+      "eager_mask_reuse": true,
+      "optimization_source": "runtime/wy_compat/eager_mask_reuse.py"
     }
-  }
+  },
+  "default_variant": "tp2-w8a8-wy-mtp"
 }

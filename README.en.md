@@ -2,7 +2,7 @@
 
 English | [中文](README.md)
 
-Inference adaptation for large MoE models on Atlas 300I DUO (Ascend 310P3): low-bit MoE operators, speculative decoding (MTP), INT8 KV cache (C8), decode graphs, and long-context validation. Every claim links to raw data, and verified results are kept separate from experimental ones.
+This repository maintains internal inference engine releases, source and qualification records for Atlas 300I DUO (Ascend 310P3): low-bit MoE operators, speculative decoding (MTP), INT8 KV cache (C8), decode graphs, and long-context validation. Every claim links to raw data, and verified results are kept separate from experimental ones.
 
 > Not an official Huawei, Qwen or vLLM release. The code builds on the community [opensensor/vllm-ascend](https://github.com/opensensor/vllm-ascend) 310P W4 work; see [provenance](docs/provenance.md) and [NOTICE](NOTICE). Detailed docs are currently written in Chinese.
 
@@ -10,12 +10,12 @@ A narrative walkthrough of the adaptation work is published on Zhihu (in Chinese
 
 ## Status
 
-Two profiles sit side by side; pick by scenario. Use W8A8 TP2 for long context, W4A8 TP1 for single-card or as the rollback target.
+**Default delivery for dual 310P: Qwen3.6-35B-A3B-W8A8 with native WY, MTP2 and eager mask reuse.** See [image, checkpoint, qualification and rollback](docs/qwen36/w8a8-wy-delivery.md). Use W4A8 TP1 for single-card deployments.
 
 | Model | Configuration | Scenario | Status | Entry |
 | --- | --- | --- | --- | --- |
-| Qwen3.6-35B-A3B | W8A8 + native WY + MTP2 + main-model graph, TP2, 262144 context, scheduler concurrency cap 4 | Long-context profile | Passed full-capacity, concurrency, PDF and same-image-entrypoint acceptance on a2; **not yet switched on a1** | [W8A8 262K reproduction](docs/qwen36/w8a8-262k.md) |
-| Qwen3.6-35B-A3B | W4A8 + BF16 MTP, TP1, decode graph, 112K | Single-card profile; rollback target for W8A8 | Passed startup, generation and long-context retrieval on real 310P3 | [qwen36](docs/qwen36/README.md) |
+| Qwen3.6-35B-A3B | W8A8 + native WY + MTP2 + main-model graph + eager mask reuse, TP2, 262144 context, scheduler concurrency cap 4 | Default dual-card release | Published and verified; 32K cold prefill throughput +7.55%, 540 bitwise-identical FP16 operator comparisons | [W8A8 262K reproduction](docs/qwen36/w8a8-262k.md) |
+| Qwen3.6-35B-A3B | W4A8 + BF16 MTP, TP1, decode graph, 112K | Single-card profile; fallback when two devices are unavailable | Passed startup, generation and long-context retrieval on real 310P3 | [qwen36](docs/qwen36/README.md) |
 | Qwen3.6-35B-A3B | C8 (INT8 KV) | Experimental backend | Relies on an updatable-graph workaround | [C8](docs/qwen36/c8.md) |
 | Qwen3.6-35B-A3B | TP2 C8, batched concurrency, multimodal, formal P95 | — | **Not validated** | — |
 | Qwen3.8-Flash-Next | W4A8 + C16, TP2/EP2 (two 310P), MTP0, decode graph | — | Validated up to 16K; a 32K request could not be scheduled | [qwen38](docs/qwen38/README.md) |
@@ -53,9 +53,9 @@ Two profiles sit side by side; pick by scenario. Use W8A8 TP2 for long context, 
 
 ## Known limitations
 
-- The graph path uses an experimental updatable-graph switch, not an upstream default.
+- The default WY/MTP2 main graph uses the qualified 310P compatibility layer. C8 and other experimental profiles are separate from the default release.
 - The public `build-native.sh` has not been run verbatim end to end in a fresh environment.
-- Performance numbers are fixed-input single-stream; quality checks are small synthetic or closed-form probes, not full accuracy evaluation.
-- Internal delivery and site-specific files were removed from HEAD; they remain in Git history.
+- Performance follows each recorded protocol. The mask increment uses real-operator output parity gates, with scope and results preserved in the release record.
+- This repository maintains the internal engine release source, image references and qualification records. Site configuration and credentials are managed by each deployment environment.
 
 License: Apache-2.0. Third-party licenses: see NOTICE.

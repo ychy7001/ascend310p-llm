@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
+export ATEN_CPU_CAPABILITY=default
 : "${MODEL_DIR:=/model}"
 : "${PORT:=18025}"
 : "${SERVED_MODEL_NAME:=qwen36-w8a8-wy-mtp}"
@@ -13,9 +14,9 @@ set -euo pipefail
 if [[ ! "$NUM_SPECULATIVE_TOKENS" =~ ^[012]$ ]]; then
   echo 'NUM_SPECULATIVE_TOKENS must be 0, 1 or 2' >&2; exit 2
 fi
-: "${ENABLE_PREFIX_CACHING:=1}"
+: "${ENABLE_PREFIX_CACHING:=0}"
 : "${ASYNC_SCHEDULING:=1}"
-: "${ENFORCE_EAGER:=1}"
+: "${ENFORCE_EAGER:=0}"
 if [[ ! "$ENABLE_PREFIX_CACHING" =~ ^[01]$ ]]; then
   echo 'ENABLE_PREFIX_CACHING must be 0 or 1' >&2; exit 2
 fi
@@ -62,6 +63,8 @@ set +u
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 set -u
 export ASCEND_CUSTOM_OPP_PATH=/pr17640-opp/vendors/custom_transformer
+export ASCEND_CUSTOM_OPP_PATH="/pr18730-opp:$ASCEND_CUSTOM_OPP_PATH:/vllm-workspace/vllm-ascend/vllm_ascend/_cann_ops_custom/vendors/custom_transformer"
+export LD_LIBRARY_PATH="/pr18730-opp/op_api/lib:${LD_LIBRARY_PATH:-}"
 export ASCEND_RT_VISIBLE_DEVICES="${ASCEND_RT_VISIBLE_DEVICES:-0,1}"
 export ASCEND_VISIBLE_DEVICES="${ASCEND_VISIBLE_DEVICES:-0,1}"
 export TORCH_DEVICE_BACKEND_AUTOLOAD=0

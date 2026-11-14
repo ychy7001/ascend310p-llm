@@ -3,7 +3,7 @@
 在 Atlas 300I DUO（Ascend 310P3）上跑 Qwen3.6-35B-A3B。两条主线：
 
 - **W4A8 TP1**：routed experts 量化为 W4A8，叠加 BF16 MTP、INT8 KV（C8）和 Decode Graph，已通过 4K / 32K / 112K 三档门禁。本页其余部分主要讲这一档。
-- **W8A8 TP2**：routed experts 量化为 W8A8，跑 native WY + MTP2 + 主模型 Graph，262144 上下文。见[W8A8 262K 镜像拉取与逐步复现](w8a8-262k.md)。
+- **W8A8 TP2（双卡默认交付）**：routed experts 量化为 W8A8，跑 native WY + MTP2 + 主模型 Graph，262144 上下文。见[默认交付清单](w8a8-wy-delivery.md)和[部署步骤](w8a8-262k.md)。
 
 Graph 路径用的是实验性 updatable-graph 开关，不是上游官方默认实现。本项目不是华为、Qwen 或 vLLM 官方发布。
 
@@ -14,7 +14,7 @@ Graph 路径用的是实验性 updatable-graph 开关，不是上游官方默认
 | 硬件 | 两张 310P3 | 单张 310P3 |
 | 上下文 | 262144 | 112K |
 | 部署方式 | 固定 digest 镜像，不编译算子、不挂宿主源码 | 从源码构建算子，或复用已有制品 |
-| 适用 | 长上下文档 | 单卡档；W8A8 的回滚档 |
+| 适用 | 双卡默认交付 | 单卡档 |
 | 状态 | a2 通过完整容量、并发、PDF 与同镜像入口验收，a1 未切换 | 稳定档 |
 | 入口 | [w8a8-262k.md](w8a8-262k.md) | 本页「快速开始」 |
 

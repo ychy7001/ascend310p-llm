@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "release_id": "qwen36-tp2-w8a8-wy-mtp2-20261114",
+  "status": "default-delivery",
+  "default_variant": "tp2-w8a8-wy-mtp",
+  "model": {
+    "served_name": "Qwen3.6-35B-A3B-w8a8",
+    "quantization": "ModelSlim W8A8",
+    "checkpoint_sha256_file": "results/prefill-mask-reuse-20261114/w8a8-checkpoint.sha256",
+    "files": 22,
+    "weight_shards": 10,
+    "internal_depot": "/srv/meetai/models/llm-service/vllm-ascend/Qwen3.6-35B-A3B-w8a8",
+    "internal_depot_verified_files": 22
+  },
+  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d",
+  "image_id": "2793814b8ad397766b20518e09e60c1a3066f5ebacb0cb71f02601916bd018f6",
+  "version_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-20261114",
+  "default_tag": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend:qwen36-tp2-w8a8-wy-mtp2-default",
+  "rollback_image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+  "rollback_env": {
+    "QWEN36_EAGER_MASK_REUSE": "0"
+  },
+  "sources": {
+    "runtime/wy_compat/eager_mask_reuse.py": "04540ffa5eca866d7f3960dc987bc721757f90e76f62daa427aed70af97c145a",
+    "deploy/w8a8-tp2-wy-mtp/start-wy-mtp.sh": "ca8391c85f1a89dae6f71eb61233c06eec0f849dedd0be0453b800cb4f60388a",
+    "runtime/wy_compat/graph_safe_splitfuse.py": "ba0a470498b1e0e30eb76f438dd4e5d005eb2d53f391c42713fba27242265794"
+  },
+  "registry": {
+    "verified_at_utc": "2026-11-14T15:58:46+00:00",
+    "manifest_file": "results/prefill-mask-reuse-20261114/registry-manifest.json",
+    "manifest_digest": "sha256:75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d",
+    "config_digest": "sha256:2793814b8ad397766b20518e09e60c1a3066f5ebacb0cb71f02601916bd018f6",
+    "layer_count": 44,
+    "version_and_default_manifests_equal": true,
+    "pull_by_digest_verified": true,
+    "pull_by_default_tag_verified": true,
+    "rollback_pull_verified": true,
+    "published": true
+  },
+  "qualification": {
+    "performance": "passed",
+    "quality": "passed",
+    "packaged_smoke": "passed after log predicate correction",
+    "performance_record": "results/prefill-mask-reuse-20261114/summary.json",
+    "quality_record": "results/prefill-mask-quality-20261114/summary.json",
+    "packaged_record": "results/prefill-mask-reuse-20261114/packaged-image.json",
+    "performance_baseline": "Previous internal WY release, identical model and CLI; no main/WY selection rerun.",
+    "cold_32k_ttft_s": {
+      "before": 22.5212402039906,
+      "after": 20.94202201499138
+    },
+    "cold_32k_prefill_throughput_gain_pct": 7.5532346384881155,
+    "same_call_fp16_bitwise_equal_checks": 540,
+    "same_call_mixed_checks": 360,
+    "max_numeric_context": 32774,
+    "scope": "Incremental eager-mask parity through 32K and packaged smoke; original WY capacity/PDF gates are historical base evidence."
+  },
+  "running_service_changed": false,
+  "evidence_sha256": {
+    "results/prefill-mask-reuse-20261114/w8a8-checkpoint.sha256": "3d97b2531a4aaf6d28b2ebae0eeb329f1b54a4fc839dd1ed7357f16120e3b451",
+    "results/prefill-mask-reuse-20261114/registry-manifest.json": "75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d",
+    "results/prefill-mask-reuse-20261114/summary.json": "ac15aa71149d9a4e0ca45691548fbf3d3c4f9d7cf37ea8008a51ba74c8aa9c63",
+    "results/prefill-mask-quality-20261114/summary.json": "f6a169960ea2c58fffebfbf862736bdb15fe86f794bfd9a54e9271a45e44221d",
+    "results/prefill-mask-reuse-20261114/packaged-image.json": "7ade08b20f558fb0773d3c20a4b354dec82b3e79217ee164f32459765f7a8ea7"
+  }
+}

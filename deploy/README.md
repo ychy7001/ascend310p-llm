@@ -8,15 +8,15 @@
 
 | 档位 | 权重 / 并行 | 上下文 | MTP | 端口 | 状态 | 目录 |
 | --- | --- | --- | ---: | ---: | --- | --- |
-| W8A8 TP2 + native WY + MTP2 + 主模型 Graph | W8A8 / TP2 | 262144 | 2 | 18025 | staging 已验证，a2 通过完整容量与同镜像入口验收；**a1 未切换** | [w8a8-tp2-wy-mtp/](w8a8-tp2-wy-mtp/) |
+| W8A8 TP2 + native WY + MTP2 + 主模型 Graph | W8A8 / TP2 | 262144 | 2 | 18025 | **双卡默认交付**；eager mask 复用已过性能、精度与封装验收 | [w8a8-tp2-wy-mtp/](w8a8-tp2-wy-mtp/) |
 | W8A8 TP2 + native WY（无 MTP） | W8A8 / TP2 | 114688 | 0 | 18025 | 已验证的 W8 基线，MTP 档的父镜像 | [w8a8-tp2-wy/](w8a8-tp2-wy/) |
 | W4A8 TP1 + MTP + MindIEQ 长 Prefill | W4A8 / TP1 | 112K | 1 或 2 | 18024 | 稳定档，同时是 W8 的回滚镜像 | [w4a8-tp1/](w4a8-tp1/) |
 
-W8A8 两档的选择依据、验收边界与实测数据见 [满上下文部署配置](../docs/qwen36/wy-mtp-production-20261108.md)；逐步复现见 [W8A8 262K 镜像复现](../docs/qwen36/w8a8-262k.md)。W4A8 档见 [Qwen3.6 文档](../docs/qwen36/README.md)。
+默认版本、验收和 registry 维护见 [WY 默认交付](../docs/qwen36/w8a8-wy-delivery.md)；逐步复现见 [W8A8 262K 镜像复现](../docs/qwen36/w8a8-262k.md)。W4A8 档见 [Qwen3.6 文档](../docs/qwen36/README.md)。
 
 ## 各目录文件
 
-### w8a8-tp2-wy-mtp/ — 生产候选档
+### w8a8-tp2-wy-mtp/ — 双卡默认交付
 
 | 文件 | 用途 |
 | --- | --- |
@@ -28,7 +28,7 @@ W8A8 两档的选择依据、验收边界与实测数据见 [满上下文部署�
 固定引用：
 
 ```text
-registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5
+registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d
 ```
 
 ### w8a8-tp2-wy/ — W8 基线档
@@ -90,7 +90,7 @@ tools/prepare_wy_mtp_image.py       → 在 W8 基线镜像上叠加兼容层
 
 ## 回滚
 
-W8A8 两档的回滚目标是 W4A8 TP1 稳定档。步骤：
+默认 W8A8 先回退同档上一版 WY digest，模型、TP2/MTP2 及上下文配置可以保留。仅需关闭复用时设 `QWEN36_EAGER_MASK_REUSE=0` 后重启。单卡降级才选 W4A8 TP1。完整引用见 [WY 默认交付](../docs/qwen36/w8a8-wy-delivery.md)。换镜像步骤：
 
 1. 停当前容器并移除。
 2. 确认 NPU 空闲、两服务均为 inactive。

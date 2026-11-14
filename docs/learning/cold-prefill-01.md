@@ -32,7 +32,7 @@
 
 `vllm/v1/engine/core.py:443` 的step及其batch-queue变体调用scheduler.schedule，再将SchedulerOutput交给model_executor.execute_model。实际是否走batch-queue分支还需运行时证据。
 
-`vllm_ascend/worker/model_runner_v1.py:2783` 的_model_forward准备模型参数并调用self.model。跨进程与TP通信细节留到后续课，不假定这是一个同进程直连栈。
+`vllm_ascend/worker/model_runner_v1.py:2783` 是通用 `_model_forward`；此 310P 镜像实际使用 `vllm_ascend/_310p/model_runner_310p.py:657` 的 310P 覆写来准备模型参数并调用 `self.model`。这一点在[第六课](cold-prefill-06.md)的复用实验中验证。跨进程与 TP 通信不是同进程直连。
 
 a2权重config声明 `Qwen3_5MoeForConditionalGeneration`，模型有40层：30层linear_attention、10层full_attention。Qwen3.6商品名与代码类名不同，不应凭名称寻找不存在的qwen3_6.py。Qwen3_5DecoderLayer继承Qwen3NextDecoderLayer，后者forward按层类型调用linear_attn或self_attn，然后进入MLP/MoE。
 

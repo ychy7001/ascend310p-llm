@@ -1,6 +1,6 @@
 {
   "runtime_kind": "vllm_ascend",
-  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca640120deaaf5429d88b6a82fb4434db25c71cde5d5760d531553dbd5",
+  "image": "registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d",
   "model_name": "qwen3.6-35b-a3b-w8a8",
   "port": 18081,
   "npu_devices": [
@@ -29,7 +29,8 @@
     "ENFORCE_EAGER": "0",
     "ASYNC_SCHEDULING": "1",
     "DRAFT_ENFORCE_EAGER": "1",
-    "GRAPH_CAPTURE_SIZES": "3,6,12"
+    "GRAPH_CAPTURE_SIZES": "3,6,12",
+    "QWEN36_EAGER_MASK_REUSE": "1"
   },
   "command": [
     "bash",

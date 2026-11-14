@@ -2,7 +2,7 @@
 
 [English](README.en.md) | 中文
 
-在 Atlas 300I DUO（Ascend 310P3）上运行大模型的推理适配工程：低比特 MoE 算子、推测解码（MTP）、INT8 KV（C8）、Decode Graph 与长上下文验证。所有结论附原始数据，并明确区分「已验证」与「实验/未验证」。
+本仓库维护 Atlas 300I DUO（Ascend 310P3）内部推理引擎的交付镜像、源码与验收记录：低比特 MoE 算子、推测解码（MTP）、INT8 KV（C8）、Decode Graph 与长上下文验证。所有结论附原始数据，并明确区分「已验证」与「实验/未验证」。
 
 > 本项目不是华为、Qwen 或 vLLM 官方发布。源码基于社区 [opensensor/vllm-ascend](https://github.com/opensensor/vllm-ascend) 的 310P W4 实现，见 [来源与署名](docs/provenance.md) 与 [NOTICE](NOTICE)。
 
@@ -10,12 +10,12 @@
 
 ## 模型状态
 
-两个档位并列，按场景选择：长上下文用 W8A8 TP2 档，单卡或需要回滚用 W4A8 TP1 档。
+**双 310P 默认交付：Qwen3.6-35B-A3B-W8A8 + native WY + MTP2 + eager mask 复用。** [默认镜像、权重、验收与回退](docs/qwen36/w8a8-wy-delivery.md)。单卡使用 W4A8 TP1。
 
 | 模型 | 配置 | 适用场景 | 状态 | 入口 |
 | --- | --- | --- | --- | --- |
-| Qwen3.6-35B-A3B | W8A8 + native WY + MTP2 + 主模型 Graph，TP2，262144 上下文，调度并发上限 4 | 长上下文档 | a2 已通过完整容量、并发、PDF 与同镜像入口验收；**a1 未切换** | [W8A8 262K 复现](docs/qwen36/w8a8-262k.md) |
-| Qwen3.6-35B-A3B | W4A8 + BF16 MTP，TP1，Decode Graph，112K | 单卡档；W8A8 的回滚档 | 已在真实 310P3 通过启动、生成、长检索门禁 | [qwen36](docs/qwen36/README.md) |
+| Qwen3.6-35B-A3B | W8A8 + native WY + MTP2 + 主模型 Graph + eager mask 复用，TP2，262144 上下文，调度并发上限 4 | 双卡默认交付 | registry 已发布并验证；32K 冷 Prefill +7.55%，540 次真实算子 FP16 逐位一致 | [W8A8 262K 复现](docs/qwen36/w8a8-262k.md) |
+| Qwen3.6-35B-A3B | W4A8 + BF16 MTP，TP1，Decode Graph，112K | 单卡档；双卡资源不足时的降级档 | 已在真实 310P3 通过启动、生成、长检索门禁 | [qwen36](docs/qwen36/README.md) |
 | Qwen3.6-35B-A3B | C8（INT8 KV） | 实验后端 | 依赖 updatable-graph 补丁 | [C8](docs/qwen36/c8.md) |
 | Qwen3.6-35B-A3B | TP2 C8、并发批处理、多模态、正式 P95 | — | **未验收** | — |
 | Qwen3.8-Flash-Next | W4A8 + C16，TP2/EP2（双 310P），MTP0，Decode Graph | — | 已验证到 16K；32K 请求无法调度 | [qwen38](docs/qwen38/README.md) |
@@ -72,9 +72,9 @@ tools/ scripts/ experimental/ native-overlay/ runtime/ bootstrap/ benchmarks/ pa
 
 ## 已知限制
 
-- Graph 路径使用实验性 updatable-graph 开关，不是上游默认实现。
+- 默认 WY/MTP2 主 Graph 使用已验收的 310P 兼容层；C8 等其他实验档位不属于默认交付。
 - 公开 `build-native.sh` 未在全新环境逐字端到端验收（见 release-validation）。
-- 所有性能数据为固定输入、单流；质量检查为小规模合成/闭式答案，不代表完整准确率评测。
-- 内部交付、会议材料和站点部署文件已移出主树，仍可在 Git 历史查阅。
+- 性能数据按各记录的固定协议解释；本次 mask 增量精度门禁为同一真实算子输出对照，范围与结果随发布记录保存。
+- 本仓库维护内部引擎交付源码、镜像版本和验收记录；站点配置与凭据由各部署环境维护。
 
 License: Apache-2.0。第三方许可见 NOTICE。

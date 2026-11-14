@@ -1,0 +1,509 @@
+{
+  "measurements": {
+    "32768": {
+      "ttft_s": [
+        22.47099420800805,
+        22.464948054985143,
+        22.49021132895723
+      ],
+      "ttft_median_s": 22.47099420800805,
+      "prefill_toks": [
+        1459.305369946437,
+        1459.682753762612,
+        1458.0742240600875
+      ],
+      "prefill_median_toks": 1459.305369946437,
+      "prefix_hits": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prompt_ids_sha256": "1d5ee84e8f0e2e5154107678ba3ce5ce1a8c276f474f0f90e7bd2af3271ffd56",
+      "raw_sha256": "c8288a5c37f0f95064d7d028ee0164efdd551ba807a7bf4952389da0de44ba4a"
+    },
+    "4096": {
+      "ttft_s": [
+        2.011135119944811,
+        2.0123446619836614,
+        2.012380694039166
+      ],
+      "ttft_median_s": 2.0123446619836614,
+      "prefill_toks": [
+        2041.905005375758,
+        2039.9462777916117,
+        2039.9008774867764
+      ],
+      "prefill_median_toks": 2039.9462777916117,
+      "prefix_hits": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+      "raw_sha256": "910d0d9383f80428558e7f994de26740701a46b65591fcf0dfde8ffcb716d1c5"
+    },
+    "8192": {
+      "ttft_s": [
+        4.245760750956833,
+        4.252015653066337,
+        4.249454395961948
+      ],
+      "ttft_median_s": 4.249454395961948,
+      "prefill_toks": [
+        1932.3177633475475,
+        1929.9120762289072,
+        1930.5140109495892
+      ],
+      "prefill_median_toks": 1930.5140109495892,
+      "prefix_hits": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+      "raw_sha256": "43ba7ed25656795f30d4a109def25771bde4d4da47c3b9626bf2e7f1e07d8dfa"
+    }
+  },
+  "profiles": [
+    {
+      "path": "profile/dp0_pp0_tp0_dcp0_ep0_rank0_160_20261114012218622_ascend_pt/ASCEND_PROFILER_OUTPUT/kernel_details.csv",
+      "kernels": 8863,
+      "span_ms": 1991.8470509999997,
+      "union_ms": 1940.0686549999896,
+      "uncovered_ms": 51.7783960000102,
+      "sum_ms": 1952.290031,
+      "top": [
+        {
+          "name": "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant",
+          "count": 160,
+          "ms": 570.419491,
+          "pct_sum": 29.217968741448747
+        },
+        {
+          "name": "MatMul5/v2",
+          "count": 470,
+          "ms": 137.5378979999999,
+          "pct_sum": 7.044952123714445
+        },
+        {
+          "name": "aclnnChunkGatedDeltaRuleComputeWy_ChunkGatedDeltaRuleComputeWy_ChunkGatedDeltaRuleComputeWy",
+          "count": 60,
+          "ms": 123.03343600000005,
+          "pct_sum": 6.302006056803967
+        },
+        {
+          "name": "RmsNorm",
+          "count": 410,
+          "ms": 108.36610500000002,
+          "pct_sum": 5.550717530657719
+        },
+        {
+          "name": "CausalConv1dV310",
+          "count": 60,
+          "ms": 90.323295,
+          "pct_sum": 4.62653056491482
+        },
+        {
+          "name": "aclnnMoeInitRoutingV2_MoeInitRoutingV2_MoeInitRoutingV2",
+          "count": 84,
+          "ms": 88.76966499999996,
+          "pct_sum": 4.546950688189011
+        },
+        {
+          "name": "PagedAttentionDecoderNzMaskKernel",
+          "count": 13,
+          "ms": 86.892099,
+          "pct_sum": 4.450778194851112
+        },
+        {
+          "name": "MoeTokenUnpermute",
+          "count": 84,
+          "ms": 46.60507700000002,
+          "pct_sum": 2.3872004804597613
+        },
+        {
+          "name": "trans_TransData_4",
+          "count": 470,
+          "ms": 45.55120700000002,
+          "pct_sum": 2.3332192592648657
+        },
+        {
+          "name": "trans_TransData_7",
+          "count": 470,
+          "ms": 42.35505700000003,
+          "pct_sum": 2.169506391338021
+        },
+        {
+          "name": "UnpadFlashAttentionNzEncoderKernel",
+          "count": 11,
+          "ms": 42.335271999999996,
+          "pct_sum": 2.168492966094544
+        },
+        {
+          "name": "MoeGatingTopKSoftmax",
+          "count": 168,
+          "ms": 34.244285999999995,
+          "pct_sum": 1.754057309940748
+        },
+        {
+          "name": "aclnnAdd_AddAiCore_Add",
+          "count": 314,
+          "ms": 32.71790899999998,
+          "pct_sum": 1.6758733835894886
+        },
+        {
+          "name": "aclnnChunkGatedDeltaRuleFwdHVllm_ChunkGatedDeltaRuleFwdHVllm_ChunkGatedDeltaRuleFwdHVllm",
+          "count": 60,
+          "ms": 32.40435199999999,
+          "pct_sum": 1.6598123990523002
+        },
+        {
+          "name": "aclnnInplaceCopy_SliceAiCore_Slice",
+          "count": 495,
+          "ms": 28.141411000000016,
+          "pct_sum": 1.4414564717920242
+        },
+        {
+          "name": "aclnnChunkFwdOVllm_ChunkFwdOVllm_ChunkFwdOVllm",
+          "count": 60,
+          "ms": 28.130818,
+          "pct_sum": 1.4409138782310364
+        },
+        {
+          "name": "aclnnIndexPutImpl_IndexPut_IndexPut",
+          "count": 90,
+          "ms": 27.538527000000002,
+          "pct_sum": 1.4105756092958301
+        },
+        {
+          "name": "SwiGlu",
+          "count": 168,
+          "ms": 26.08300499999999,
+          "pct_sum": 1.3360210104970818
+        },
+        {
+          "name": "aclnnGtTensor_GreaterAiCore_Greater",
+          "count": 13,
+          "ms": 22.185915,
+          "pct_sum": 1.136404665685659
+        },
+        {
+          "name": "aclnnSilu_SiluAiCore_Swish",
+          "count": 120,
+          "ms": 17.570215000000005,
+          "pct_sum": 0.8999797530595496
+        },
+        {
+          "name": "aclnnInplaceCopy_TransposeAiCore_Transpose",
+          "count": 257,
+          "ms": 17.412894,
+          "pct_sum": 0.8919214729115215
+        },
+        {
+          "name": "aclnnMul_MulAiCore_Mul",
+          "count": 234,
+          "ms": 17.27452800000001,
+          "pct_sum": 0.8848341038319839
+        },
+        {
+          "name": "aclnnContiguous_SliceAiCore_Slice",
+          "count": 84,
+          "ms": 17.102256000000008,
+          "pct_sum": 0.8760100050933471
+        },
+        {
+          "name": "aclnnInplaceCopy_TensorMoveAiCore_TensorMove",
+          "count": 239,
+          "ms": 16.239293,
+          "pct_sum": 0.8318074026983545
+        },
+        {
+          "name": "aclnnCat_ConcatD_ConcatD",
+          "count": 284,
+          "ms": 14.185566999999985,
+          "pct_sum": 0.7266116598840526
+        }
+      ],
+      "trace": {
+        "cpu_op": {
+          "count": 50460,
+          "union_ms": 1954.6105119999982
+        },
+        "memcpy_named": {
+          "count": 1545,
+          "union_ms": 41.58432616830757
+        },
+        "sync_named": {
+          "count": 289,
+          "union_ms": 1805.6137120602555
+        }
+      },
+      "rank": 0,
+      "kernel_csv_sha256": "591fbd951f2c381f650e61c7ffd027e2b0c7e1aaa2ad6eb0e059c6b21c118c92",
+      "trace_sha256": "8e639a441813e4384c86b57dac7e000983512a8b47cedad1fc13b88c3ca074e8"
+    },
+    {
+      "path": "profile/dp0_pp0_tp1_dcp0_ep1_rank1_172_20261114012218623_ascend_pt/ASCEND_PROFILER_OUTPUT/kernel_details.csv",
+      "kernels": 8863,
+      "span_ms": 1991.0686609999998,
+      "union_ms": 1926.0050609999982,
+      "uncovered_ms": 65.06360000000149,
+      "sum_ms": 1937.8023239999998,
+      "top": [
+        {
+          "name": "aclnnQuantGroupedMatmulDequantWeightNZ_QuantGroupedMatmulDequant_QuantGroupedMatmulDequant",
+          "count": 160,
+          "ms": 576.1318379999999,
+          "pct_sum": 29.731197597634832
+        },
+        {
+          "name": "MatMul5/v2",
+          "count": 470,
+          "ms": 138.69496999999993,
+          "pct_sum": 7.157333247165614
+        },
+        {
+          "name": "aclnnChunkGatedDeltaRuleComputeWy_ChunkGatedDeltaRuleComputeWy_ChunkGatedDeltaRuleComputeWy",
+          "count": 60,
+          "ms": 129.203676,
+          "pct_sum": 6.667536435465645
+        },
+        {
+          "name": "RmsNorm",
+          "count": 410,
+          "ms": 107.85069900000006,
+          "pct_sum": 5.565619241150217
+        },
+        {
+          "name": "CausalConv1dV310",
+          "count": 60,
+          "ms": 90.278087,
+          "pct_sum": 4.658787219000157
+        },
+        {
+          "name": "aclnnMoeInitRoutingV2_MoeInitRoutingV2_MoeInitRoutingV2",
+          "count": 84,
+          "ms": 88.60981900000003,
+          "pct_sum": 4.572696497602098
+        },
+        {
+          "name": "PagedAttentionDecoderNzMaskKernel",
+          "count": 13,
+          "ms": 87.082331,
+          "pct_sum": 4.493870707113468
+        },
+        {
+          "name": "trans_TransData_4",
+          "count": 470,
+          "ms": 45.88255999999998,
+          "pct_sum": 2.36776266762285
+        },
+        {
+          "name": "MoeTokenUnpermute",
+          "count": 84,
+          "ms": 45.714343,
+          "pct_sum": 2.359081854419326
+        },
+        {
+          "name": "trans_TransData_7",
+          "count": 470,
+          "ms": 42.92833899999995,
+          "pct_sum": 2.2153105333978305
+        },
+        {
+          "name": "UnpadFlashAttentionNzEncoderKernel",
+          "count": 11,
+          "ms": 42.423844,
+          "pct_sum": 2.1892761441439994
+        },
+        {
+          "name": "MoeGatingTopKSoftmax",
+          "count": 168,
+          "ms": 34.305216,
+          "pct_sum": 1.7703155567069082
+        },
+        {
+          "name": "aclnnChunkGatedDeltaRuleFwdHVllm_ChunkGatedDeltaRuleFwdHVllm_ChunkGatedDeltaRuleFwdHVllm",
+          "count": 60,
+          "ms": 32.238963999999996,
+          "pct_sum": 1.6636869303290194
+        },
+        {
+          "name": "aclnnAdd_AddAiCore_Add",
+          "count": 314,
+          "ms": 31.714004999999993,
+          "pct_sum": 1.6365964994064068
+        },
+        {
+          "name": "aclnnIndexPutImpl_IndexPut_IndexPut",
+          "count": 90,
+          "ms": 31.496275999999998,
+          "pct_sum": 1.6253606268252159
+        },
+        {
+          "name": "aclnnChunkFwdOVllm_ChunkFwdOVllm_ChunkFwdOVllm",
+          "count": 60,
+          "ms": 28.14666699999999,
+          "pct_sum": 1.452504553813302
+        },
+        {
+          "name": "aclnnInplaceCopy_SliceAiCore_Slice",
+          "count": 495,
+          "ms": 27.46955200000001,
+          "pct_sum": 1.41756213519744
+        },
+        {
+          "name": "SwiGlu",
+          "count": 168,
+          "ms": 26.079930999999995,
+          "pct_sum": 1.3458509506875787
+        },
+        {
+          "name": "aclnnGtTensor_GreaterAiCore_Greater",
+          "count": 13,
+          "ms": 22.186700000000002,
+          "pct_sum": 1.1449413454207418
+        },
+        {
+          "name": "aclnnInplaceCopy_TransposeAiCore_Transpose",
+          "count": 257,
+          "ms": 17.765564999999995,
+          "pct_sum": 0.9167893329453968
+        },
+        {
+          "name": "aclnnSilu_SiluAiCore_Swish",
+          "count": 120,
+          "ms": 17.515662999999996,
+          "pct_sum": 0.9038931774962614
+        },
+        {
+          "name": "aclnnMul_MulAiCore_Mul",
+          "count": 234,
+          "ms": 17.112600999999998,
+          "pct_sum": 0.883093223083574
+        },
+        {
+          "name": "aclnnContiguous_SliceAiCore_Slice",
+          "count": 84,
+          "ms": 16.912446000000003,
+          "pct_sum": 0.8727642541520662
+        },
+        {
+          "name": "aclnnCat_ConcatD_ConcatD",
+          "count": 284,
+          "ms": 14.461403000000011,
+          "pct_sum": 0.7462785455922497
+        },
+        {
+          "name": "aclnnInplaceCopy_TensorMoveAiCore_TensorMove",
+          "count": 239,
+          "ms": 14.395835999999994,
+          "pct_sum": 0.7428949703334135
+        }
+      ],
+      "trace": {
+        "cpu_op": {
+          "count": 50464,
+          "union_ms": 1953.0416119999988
+        },
+        "memcpy_named": {
+          "count": 1539,
+          "union_ms": 40.35572604114061
+        },
+        "sync_named": {
+          "count": 287,
+          "union_ms": 1771.9300714432497
+        }
+      },
+      "rank": 1,
+      "kernel_csv_sha256": "111ad735337536de393e7ec0d2a48d5e2fe9c2128bdb8271f46bd83c51668119",
+      "trace_sha256": "f0b937a07c487584baab9fc782470dcfa7345ac933510c93d97c28ee9536326b"
+    }
+  ],
+  "protocol": {
+    "date": "2026-11-14",
+    "host": "ychy-a2",
+    "git_head": "91efa51",
+    "device": "Atlas 300I DUO / 2x Ascend 310P3",
+    "driver": "26.1.1",
+    "image_entrypoint": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4 [bash /opt/qwen36/start-wy-mtp.sh]",
+    "entry_sha256": "ca8391c85f1a89dae6f71eb61233c06eec0f849dedd0be0453b800cb4f60388a",
+    "model_metadata_sha256": {
+      "config.json": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+      "quant_model_weights.safetensors.index.json": "375cade0403985c0d95be2225cde65e6c71770734254345de1d918e9c68da038"
+    },
+    "actual_pid1_argv": [
+      "/usr/local/python3.12.13/bin/python3",
+      "/usr/local/python3.12.13/bin/vllm",
+      "serve",
+      "/model",
+      "--profiler-config",
+      "{\"profiler\":\"torch\",\"torch_profiler_dir\":\"/profile\",\"torch_profiler_with_stack\":false,\"ignore_frontend\":true}",
+      "--served-model-name",
+      "Qwen3.6-35B-A3B-w8a8",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "18147",
+      "--tensor-parallel-size",
+      "2",
+      "--quantization",
+      "ascend",
+      "--dtype",
+      "float16",
+      "--max-model-len",
+      "262144",
+      "--gpu-memory-utilization",
+      "0.90",
+      "--max-num-seqs",
+      "4",
+      "--max-num-batched-tokens",
+      "2048",
+      "--kv-cache-dtype",
+      "auto",
+      "--mamba-ssm-cache-dtype",
+      "float16",
+      "--trust-remote-code",
+      "--enable-chunked-prefill",
+      "--enable-prompt-tokens-details",
+      "--reasoning-parser",
+      "qwen3",
+      "--enable-auto-tool-choice",
+      "--tool-call-parser",
+      "qwen3_coder",
+      "--allowed-local-media-path",
+      "/",
+      "--additional-config",
+      "{\"ascend_compilation_config\":{\"fuse_norm_quant\":false}}",
+      "--compilation-config",
+      "{\"mode\":0,\"cudagraph_mode\":\"FULL_DECODE_ONLY\",\"cudagraph_capture_sizes\":[3,6,12]}",
+      "--async-scheduling",
+      "--no-enable-prefix-caching",
+      "--speculative-config",
+      "{\"method\":\"mtp\",\"num_speculative_tokens\":2,\"enforce_eager\":true}"
+    ],
+    "kv_pool_reported_tokens": 636903,
+    "cold_request_output_tokens": 1,
+    "repeats": 3,
+    "profiler_capture": "one independent 4096+1 request; cache hits zero; offline export in matching image",
+    "remote_raw": "~/ascend-lab-runtime/prefill-takeover-20261114",
+    "local_raw": "artifacts/prefill-takeover-20261114/raw"
+  },
+  "post_profile": {
+    "valid": true,
+    "ttft_s": 2.0029806449310854,
+    "prefill_tok_s": 2049.2606139354702,
+    "usage": {
+      "prompt_tokens": 4096,
+      "total_tokens": 4097,
+      "completion_tokens": 1
+    }
+  },
+  "window_exit": {
+    "exit_code": 0,
+    "oom": false,
+    "start_utc": "2026-11-14T01:16:09.820696079Z",
+    "end_utc": "2026-11-14T01:22:38.659673514Z",
+    "independent_cleanup_checked": true
+  }
+}

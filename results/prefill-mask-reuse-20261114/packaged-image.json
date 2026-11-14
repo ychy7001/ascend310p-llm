@@ -1,0 +1,49 @@
+{
+  "base_image_id": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+  "image_id": "2793814b8ad397766b20518e09e60c1a3066f5ebacb0cb71f02601916bd018f6",
+  "tag": "localhost/qwen36-wy-mask-reuse:20261114",
+  "source_sha256": "04540ffa5eca866d7f3960dc987bc721757f90e76f62daa427aed70af97c145a",
+  "entry_sha256": "ca8391c85f1a89dae6f71eb61233c06eec0f849dedd0be0453b800cb4f60388a",
+  "hook_sha256": "723d02a91575ede78c41f62fc3960dbdcb3470562608c25725b0af51a18621f1",
+  "rollback_env": {
+    "QWEN36_EAGER_MASK_REUSE": "0"
+  },
+  "runtime_smoke": {
+    "result": "passed after log predicate correction",
+    "host": "ychy-a2",
+    "started_at_utc": "2026-11-14T15:46:58.394877872Z",
+    "finished_at_utc": "2026-11-14T15:51:37.009021622Z",
+    "runtime_cli_matches_qualified_overlay": true,
+    "needle": {
+      "prompt_tokens": 32768,
+      "prompt_ids_sha256": "f05a98b494458ede26c9fe1c75831388dfc0610b354b70631b35ff1082d78c34",
+      "retrieved": true,
+      "completion_tokens": 14
+    },
+    "eager_mask_hit_ranks": [
+      0,
+      1
+    ],
+    "decode_graph_capture": true,
+    "decode_graph_replay": true,
+    "graph_replay_log_marker": "Replaying aclgraph",
+    "container_exit_code": 0,
+    "container_oom_killed": false,
+    "original_smoke_script_exit_code": 1,
+    "original_smoke_script_exit_reason": "The script looked for the V2 target message; WY/vLLM v0.23.0 instead logs Replaying aclgraph.",
+    "npu_processes_remaining": false,
+    "loopback_listener_released": true,
+    "npu_lock_released": true,
+    "repeated_inference_run": false,
+    "evidence_sha256": {
+      "runtime-cli.txt": "8a768f0a0082fa8298176416b9dfa6c193476f69bf91be6eb72436e197eca883",
+      "needle.jsonl": "9512fe5d0280e05c52607d026c8167c5b2e186d6c33af7afd1a123241356c445",
+      "server.log": "ccd88493b61906706922b4479a25ada36fb03d54ded0eb0f11e5f88e2aab4225",
+      "state.json": "e9495cf39e935d747c936741c1c8563437761d8f271449c6beaa61808f5e3e1e",
+      "npu-final.txt": "5327df97f9cc8f3db20b35dba4aed2e8e0930e307f08b7e5b1a795d6502a1c79",
+      "smoke-exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    }
+  },
+  "registry_published": false,
+  "service_switched": false
+}
