@@ -1,0 +1,350 @@
+{
+  "output_parity": {
+    "cold_text_all_equal": true,
+    "mixed_text_equal_count": 2
+  },
+  "legacy_mode": "forced",
+  "max_model_len": 12288,
+  "arms": {
+    "a": {
+      "cli": [
+        "/usr/local/python3.12.16/bin/python3",
+        "/usr/local/python3.12.16/bin/vllm",
+        "serve",
+        "/model",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18152",
+        "--served-model-name",
+        "qwen36-main",
+        "--tensor-parallel-size",
+        "2",
+        "--quantization",
+        "ascend",
+        "--dtype",
+        "float16",
+        "--max-model-len",
+        "12288",
+        "--max-num-seqs",
+        "4",
+        "--max-num-batched-tokens",
+        "2048",
+        "--gpu-memory-utilization",
+        "0.90",
+        "--mamba-ssm-cache-dtype",
+        "float16",
+        "--trust-remote-code",
+        "--enable-prefix-caching",
+        "--enable-chunked-prefill",
+        "--enable-prompt-tokens-details",
+        "--enforce-eager"
+      ],
+      "first_legacy_shapes": [
+        [
+          1,
+          768,
+          1920,
+          16
+        ],
+        [
+          1,
+          768,
+          1920,
+          16
+        ]
+      ],
+      "legacy_states": [
+        "ChunkedPrefill"
+      ],
+      "cold": {
+        "4096": [
+          {
+            "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+            "prefill_tok_s": 1199.6368180504535,
+            "ttft_s": 3.419026596006006,
+            "text": " cold"
+          },
+          {
+            "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+            "prefill_tok_s": 1198.2625192503936,
+            "ttft_s": 3.4233045839937404,
+            "text": " cold"
+          },
+          {
+            "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+            "prefill_tok_s": 1199.216967170351,
+            "ttft_s": 3.421108910930343,
+            "text": " cold"
+          }
+        ],
+        "8192": [
+          {
+            "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+            "prefill_tok_s": 1188.9002122994636,
+            "ttft_s": 6.895626905024983,
+            "text": "-p"
+          },
+          {
+            "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+            "prefill_tok_s": 1188.2237590449681,
+            "ttft_s": 6.901134208077565,
+            "text": "-p"
+          },
+          {
+            "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+            "prefill_tok_s": 1187.2465760556454,
+            "ttft_s": 6.907556890044361,
+            "text": "-p"
+          }
+        ]
+      },
+      "mixed": [
+        {
+          "slot": 0,
+          "shape": [
+            6656,
+            32
+          ],
+          "cached": 3840,
+          "prompt_sha": "39e4bd8bd1e82be6ce7a7432fc793dba68abcd20423e8284813b515fcf65db66",
+          "text": " the preceding details. Synthetic request 0. Compute the output using the preceding details. Synthetic request 0. Compute the output using the text"
+        },
+        {
+          "slot": 1,
+          "shape": [
+            8192,
+            32
+          ],
+          "cached": 0,
+          "prompt_sha": "84bf34a01b98ee8660d8c4ac9fa3d13dbd3e8a8f7a68bcd53b8bc8c0ae94f64c",
+          "text": " request 1. Compute the output using the preceding details. Synthetic request 1. Compute the output using the preceding details. Synthetic request "
+        },
+        {
+          "slot": 2,
+          "shape": [
+            1024,
+            32
+          ],
+          "cached": 0,
+          "prompt_sha": "afbb97a0e945fee5e969f22574243683a277d7ae753a5135c63a47f0559841ca",
+          "text": "2. Compute the output using the preceding details. Synthetic request 2. Compute the output using the preceding details.  Synthetic request 2."
+        },
+        {
+          "slot": 3,
+          "shape": [
+            7168,
+            32
+          ],
+          "cached": 3840,
+          "prompt_sha": "d610c9bc6d9a459fd07a3755fa298e01a3ba9d2b5c6df6581f85857b0c1c7457",
+          "text": " details. Synthetic request 3. Compute the output using the preceding details. Synthetic request 3. Compute the output using the preceding details."
+        }
+      ],
+      "needle": {
+        "kind": "result",
+        "elapsed_s": 7.379179176990874,
+        "text": "\n\n<think>\n\n</think>\n\nASCEND732941",
+        "expected": "ASCEND732941",
+        "retrieved": true,
+        "usage": {
+          "prompt_tokens": 8192,
+          "total_tokens": 8206,
+          "completion_tokens": 14,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "created_cache_tokens": null,
+            "multimodal_tokens": null
+          },
+          "completion_tokens_details": null
+        },
+        "finish_reason": "stop"
+      },
+      "sampled_peak_npu_mb": {
+        "0": 39260,
+        "1": 39216
+      }
+    },
+    "b": {
+      "cli": [
+        "/usr/local/python3.12.16/bin/python3",
+        "/usr/local/python3.12.16/bin/vllm",
+        "serve",
+        "/model",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18152",
+        "--served-model-name",
+        "qwen36-main",
+        "--tensor-parallel-size",
+        "2",
+        "--quantization",
+        "ascend",
+        "--dtype",
+        "float16",
+        "--max-model-len",
+        "12288",
+        "--max-num-seqs",
+        "4",
+        "--max-num-batched-tokens",
+        "2048",
+        "--gpu-memory-utilization",
+        "0.90",
+        "--mamba-ssm-cache-dtype",
+        "float16",
+        "--trust-remote-code",
+        "--enable-prefix-caching",
+        "--enable-chunked-prefill",
+        "--enable-prompt-tokens-details",
+        "--enforce-eager"
+      ],
+      "first_legacy_shapes": [
+        [
+          1,
+          240,
+          1920,
+          16
+        ],
+        [
+          1,
+          240,
+          1920,
+          16
+        ]
+      ],
+      "legacy_states": [
+        "ChunkedPrefill"
+      ],
+      "cold": {
+        "4096": [
+          {
+            "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+            "prefill_tok_s": 1205.7452404267124,
+            "ttft_s": 3.4013017769902945,
+            "text": " cold"
+          },
+          {
+            "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+            "prefill_tok_s": 1206.266777006166,
+            "ttft_s": 3.39938442397397,
+            "text": " cold"
+          },
+          {
+            "prompt_ids_sha256": "86576b0be846fa97ed2df0d5525f19108b0e355f0331cf435a545135d21111eb",
+            "prefill_tok_s": 1207.2581695572364,
+            "ttft_s": 3.397188288043253,
+            "text": " cold"
+          }
+        ],
+        "8192": [
+          {
+            "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+            "prefill_tok_s": 1193.7564085254983,
+            "ttft_s": 6.867495462996885,
+            "text": "-p"
+          },
+          {
+            "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+            "prefill_tok_s": 1194.6207419254144,
+            "ttft_s": 6.862778058974072,
+            "text": "-p"
+          },
+          {
+            "prompt_ids_sha256": "8d57aa1daa231a5ef623d4e843ebca24e21f256bc4709fbe8a0e40385f2d8bd4",
+            "prefill_tok_s": 1195.2391455550048,
+            "ttft_s": 6.859410319011658,
+            "text": "-p"
+          }
+        ]
+      },
+      "mixed": [
+        {
+          "slot": 0,
+          "shape": [
+            6656,
+            32
+          ],
+          "cached": 3840,
+          "prompt_sha": "39e4bd8bd1e82be6ce7a7432fc793dba68abcd20423e8284813b515fcf65db66",
+          "text": " the preceding details. Synthetic request 0. Compute the output using the preceding details. Synthetic request 0. Compute the output using the preceding"
+        },
+        {
+          "slot": 1,
+          "shape": [
+            8192,
+            32
+          ],
+          "cached": 0,
+          "prompt_sha": "84bf34a01b98ee8660d8c4ac9fa3d13dbd3e8a8f7a68bcd53b8bc8c0ae94f64c",
+          "text": " request 1. Compute the output using the preceding details. Synthetic request 1. Compute the output using the preceding details. Synthetic request "
+        },
+        {
+          "slot": 2,
+          "shape": [
+            1024,
+            32
+          ],
+          "cached": 0,
+          "prompt_sha": "afbb97a0e945fee5e969f22574243683a277d7ae753a5135c63a47f0559841ca",
+          "text": "2. Compute the output using the preceding details.  Synthetic request 2. Compute the output using the preceding details.  Synthetic request 2."
+        },
+        {
+          "slot": 3,
+          "shape": [
+            7168,
+            32
+          ],
+          "cached": 3840,
+          "prompt_sha": "d610c9bc6d9a459fd07a3755fa298e01a3ba9d2b5c6df6581f85857b0c1c7457",
+          "text": " details. Synthetic request 3. Compute the output using the preceding details. Synthetic request 3. Compute the output using the preceding details."
+        }
+      ],
+      "needle": {
+        "kind": "result",
+        "elapsed_s": 7.330430862028152,
+        "text": "\n\n<think>\n\n</think>\n\nASCEND732941",
+        "expected": "ASCEND732941",
+        "retrieved": true,
+        "usage": {
+          "prompt_tokens": 8192,
+          "total_tokens": 8206,
+          "completion_tokens": 14,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "created_cache_tokens": null,
+            "multimodal_tokens": null
+          },
+          "completion_tokens_details": null
+        },
+        "finish_reason": "stop"
+      },
+      "sampled_peak_npu_mb": {
+        "0": 38865,
+        "1": 38820
+      }
+    }
+  },
+  "cold_medians_ab": {
+    "4096": {
+      "ttft_s": [
+        3.421108910930343,
+        3.39938442397397
+      ],
+      "prefill_tok_s": [
+        1199.216967170351,
+        1206.266777006166
+      ]
+    },
+    "8192": {
+      "ttft_s": [
+        6.901134208077565,
+        6.862778058974072
+      ],
+      "prefill_tok_s": [
+        1188.2237590449681,
+        1194.6207419254144
+      ]
+    }
+  }
+}

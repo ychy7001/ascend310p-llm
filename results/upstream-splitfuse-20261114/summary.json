@@ -1,0 +1,571 @@
+{
+  "upstream_commit": "76ea9d24f155afe032ad9ac6c98717f1f7334f36",
+  "upstream_verified_vllm_commit": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+  "image": "bb0fa66f1c715a94abf56afc17a6bd02e3f993c4804e200dfd229e22b0d5cab4",
+  "method": "Exact upstream and candidate mask classes, using pinned image torch_npu legacy kernel; not full upstream serving validation",
+  "baseline_full_width": 512,
+  "max_abs_error": 0.0008102655410766602,
+  "cases": [
+    {
+      "query": [
+        64
+      ],
+      "context": [
+        127
+      ],
+      "packed_shape": [
+        1,
+        8,
+        64,
+        16
+      ],
+      "upstream_full_width_bitwise_equal": true,
+      "max_abs_error_vs_cpu_fp32": 0.0008102655410766602
+    },
+    {
+      "query": [
+        17,
+        15,
+        1
+      ],
+      "context": [
+        129,
+        65,
+        33
+      ],
+      "packed_shape": [
+        1,
+        9,
+        48,
+        16
+      ],
+      "upstream_full_width_bitwise_equal": true,
+      "max_abs_error_vs_cpu_fp32": 0.0007914304733276367
+    },
+    {
+      "query": [
+        1,
+        17,
+        15
+      ],
+      "context": [
+        33,
+        129,
+        65
+      ],
+      "packed_shape": [
+        1,
+        9,
+        48,
+        16
+      ],
+      "upstream_full_width_bitwise_equal": true,
+      "max_abs_error_vs_cpu_fp32": 0.0008010268211364746
+    },
+    {
+      "query": [
+        3,
+        1920,
+        3
+      ],
+      "context": [
+        14366,
+        32774,
+        1029
+      ],
+      "packed_shape": [
+        1,
+        2049,
+        1936,
+        16
+      ],
+      "upstream_full_width_bitwise_equal": null,
+      "max_abs_error_vs_cpu_fp32": 0.00015397369861602783
+    }
+  ],
+  "probe_sha256": "ffffa20ea2921301a1716a71c96b5fbbb7e98e9e5199a4e8da8e0d4aab4497a3",
+  "upstream_mask_sha256": "596578b488d4c89efb55ec287bd7f580ff2abaa3f9160b470c2fc66aa8189f6e",
+  "candidate_mask_sha256": "b48747166a348cc9108b2c5c093df10aa7c2f444aafe156225b8a4891e679f85",
+  "result_code": 0,
+  "a2_clean": true,
+  "isolated_cpu_tests": {
+    "passed": 3,
+    "failed": 0,
+    "scope": "Exact patched upstream Python test and layout bodies with format cast mocked; Torch from the prior 310P runtime; no NPU devices exposed",
+    "log": "isolated-cpu-test.txt"
+  },
+  "upstream_serving_ab": {
+    "status": "default baseline, forced legacy eager A/B, original repeat and eager MTP smoke complete; full Graph blocked in original",
+    "pairing": "310P Dockerfile default release",
+    "vllm_commit": "4ba787ec9959e566d3b587a796dff07673324da5",
+    "cann_amd64_digest": "sha256:c4844ab1f074b526c222ea86b6cc55f0f41152c9fc20d6f49a62b259c26dadf2",
+    "initial_release_build_exit": 128,
+    "initial_release_build_blocker": "GitHub TLS interruption at vLLM source fetch",
+    "initial_release_build_log_sha256": "19b497f5ca111b94273418390238d56858b369b400902f0207229afe9a498a03",
+    "retry": "First Git pack stalled and was truncated. Recover same v0.33.0 from source archive and original commit/tag objects, require exact upstream Git tree and full Git fsck; rebuild and serve only after verification.",
+    "serving_results": "forced-serving.json",
+    "source_recovery_exit": 0,
+    "source_git_tree_verified": true,
+    "build_after_source_recovery_exit": 1,
+    "build_after_source_recovery_blocker": "Upstream archive omitted the pinned Catlass submodule, required to build 310P custom operators",
+    "catlass_commit": "41bf90da655bba3c66d0acd7e00abe33960ecfd6",
+    "current_retry": null,
+    "image": "b217eec3ca1772d3836f0db3772255866fcd5f5397b0b5bb5451f04fc9b0d185",
+    "build_exit": 0,
+    "natural_baseline": {
+      "chunked_prefill_route": "compressed SplitFuse (both ranks)",
+      "cold_ttft_s_medians": {
+        "4096": 3.355749128968455,
+        "8192": 6.756771676009521
+      },
+      "cold_samples_each": 3,
+      "needle_8192_pass": true,
+      "mixed_gate": "Expected warm request reported zero cached tokens; result not accepted",
+      "container_exit": 0,
+      "oom": false
+    },
+    "natural_verified": {
+      "selected_route": "compressed SplitFuse on both ranks",
+      "cold": {
+        "4096": {
+          "ttft_s_median": 3.3606810410274193,
+          "prefill_tok_s_median": 1220.1286853789097,
+          "samples": 3
+        },
+        "8192": {
+          "ttft_s_median": 6.7507692240178585,
+          "prefill_tok_s_median": 1214.4677824281275,
+          "samples": 3
+        }
+      },
+      "needle_8192_pass": true,
+      "mixed_cache_hits_tokens": [
+        3840,
+        0,
+        0,
+        3840
+      ],
+      "mixed_completed": 4,
+      "exit_code": 0
+    },
+    "aggregation_recovered": "Both containers exited 0 and device cleanup passed. Original aggregation failed because npu-smi memory cells are not always followed immediately by the final pipe. Fixed parser and replayed archived logs.",
+    "original_repeat": [
+      {
+        "slot": 0,
+        "cached": 3840,
+        "a_eq_b": false,
+        "a_eq_a_repeat": false,
+        "b_eq_a_repeat": true
+      },
+      {
+        "slot": 1,
+        "cached": 0,
+        "a_eq_b": true,
+        "a_eq_a_repeat": true,
+        "b_eq_a_repeat": true
+      },
+      {
+        "slot": 2,
+        "cached": 0,
+        "a_eq_b": false,
+        "a_eq_a_repeat": false,
+        "b_eq_a_repeat": true
+      },
+      {
+        "slot": 3,
+        "cached": 3840,
+        "a_eq_b": true,
+        "a_eq_a_repeat": true,
+        "b_eq_a_repeat": true
+      }
+    ],
+    "forced_legacy_graph_mtp": {
+      "status": "baseline capture failed; candidate not run",
+      "both_ranks": true,
+      "aclrtMemcpy_error": 107030,
+      "source": "get_splitfuse_mask: attn_metadata.query_start_loc.to(\"cpu\", dtype=torch.int32)",
+      "eager_mtp": "queued separately"
+    },
+    "eager_mtp": {
+      "status": "both arms exit 0",
+      "prompt_tokens": 3072,
+      "output_tokens": 64,
+      "spec_width_both_ranks_both_arms": 12288,
+      "counters_ab": [
+        {
+          "vllm:spec_decode_num_drafts_total": 26.0,
+          "vllm:spec_decode_num_draft_tokens_total": 52.0,
+          "vllm:spec_decode_num_accepted_tokens_total": 39.0
+        },
+        {
+          "vllm:spec_decode_num_drafts_total": 23.0,
+          "vllm:spec_decode_num_draft_tokens_total": 46.0,
+          "vllm:spec_decode_num_accepted_tokens_total": 42.0
+        }
+      ],
+      "text_equal": false,
+      "scope": "Single request admission test per arm; different MTP acceptance counters; no throughput or numerical equivalence claim"
+    }
+  },
+  "official_cann921_isolated": {
+    "scope": "Pinned Ascend main mask and layout functions on official v0.30.0-310p CANN 9.2.1 runtime; no local WY/Graph overlays; no model serving",
+    "image": "d103c59b31c61788998f91119e61aee6512db1177de2bfee345489c925a3e70a",
+    "runtime": {
+      "compressed_symbols_present": true,
+      "operator": "_npu_paged_attention_splitfuse",
+      "torch": "2.10.0+cpu",
+      "torch_npu": "2.10.0.post7"
+    },
+    "cases": [
+      {
+        "query": [
+          64
+        ],
+        "context": [
+          127
+        ],
+        "packed_shape": [
+          1,
+          8,
+          64,
+          16
+        ],
+        "upstream_full_width_bitwise_equal": true,
+        "max_abs_error_vs_cpu_fp32": 0.0008102655410766602
+      },
+      {
+        "query": [
+          17,
+          15,
+          1
+        ],
+        "context": [
+          129,
+          65,
+          33
+        ],
+        "packed_shape": [
+          1,
+          9,
+          48,
+          16
+        ],
+        "upstream_full_width_bitwise_equal": true,
+        "max_abs_error_vs_cpu_fp32": 0.0007914304733276367
+      },
+      {
+        "query": [
+          1,
+          17,
+          15
+        ],
+        "context": [
+          33,
+          129,
+          65
+        ],
+        "packed_shape": [
+          1,
+          9,
+          48,
+          16
+        ],
+        "upstream_full_width_bitwise_equal": true,
+        "max_abs_error_vs_cpu_fp32": 0.0008010268211364746
+      },
+      {
+        "query": [
+          3,
+          1920,
+          3
+        ],
+        "context": [
+          14366,
+          32774,
+          1029
+        ],
+        "packed_shape": [
+          1,
+          2049,
+          1936,
+          16
+        ],
+        "upstream_full_width_bitwise_equal": null,
+        "max_abs_error_vs_cpu_fp32": 0.00015397369861602783
+      }
+    ],
+    "mask_allocation": {
+      "max_model_len": 12288,
+      "query_lengths": [
+        1,
+        2046,
+        1
+      ],
+      "ctx_lengths": [
+        4097,
+        8192,
+        1025
+      ],
+      "first": {
+        "False": {
+          "ms": 133.13702307641506,
+          "peak_delta_bytes": 603981312,
+          "live_delta_bytes": 352322560,
+          "packed_shape": [
+            1,
+            768,
+            2048,
+            16
+          ],
+          "packed_bytes": 50331648
+        },
+        "True": {
+          "ms": 3.7728589959442616,
+          "peak_delta_bytes": 100708864,
+          "live_delta_bytes": 33554944,
+          "packed_shape": [
+            1,
+            512,
+            2048,
+            16
+          ],
+          "packed_bytes": 33554432
+        }
+      },
+      "steady": {
+        "False": [
+          {
+            "ms": 3.915115026757121,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.831186913885176,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.868106985464692,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.8587210001423955,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.8288140203803778,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.895475063472986,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.8622129941359162,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.8720830343663692,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          },
+          {
+            "ms": 3.8731140084564686,
+            "peak_delta_bytes": 151007232,
+            "live_delta_bytes": 50332160,
+            "packed_shape": [
+              1,
+              768,
+              2048,
+              16
+            ],
+            "packed_bytes": 50331648
+          }
+        ],
+        "True": [
+          {
+            "ms": 3.6957720294594765,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.655959037132561,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.6852869670838118,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.656267886981368,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.676036954857409,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.696009051054716,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.689368022605777,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.6742279771715403,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          },
+          {
+            "ms": 3.6842699628323317,
+            "peak_delta_bytes": 100708864,
+            "live_delta_bytes": 33554944,
+            "packed_shape": [
+              1,
+              512,
+              2048,
+              16
+            ],
+            "packed_bytes": 33554432
+          }
+        ]
+      },
+      "steady_median_ms": {
+        "False": 3.868106985464692,
+        "True": 3.6842699628323317
+      },
+      "baseline_persistent_square_bytes": 301989888,
+      "candidate_persistent_square": false,
+      "raw_output_sha256": "9b6733e26d74edff3910a11512909d301ace76de4c3cd998841220e476362402",
+      "steady_median_peak_delta_bytes": {
+        "False": 151007232,
+        "True": 100708864
+      }
+    },
+    "a2_clean": true
+  }
+}

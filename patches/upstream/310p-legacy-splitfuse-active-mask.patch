@@ -1,0 +1,92 @@
+--- a/vllm_ascend/_310p/attention/attention_mask.py
++++ b/vllm_ascend/_310p/attention/attention_mask.py
+@@ -70,31 +70,29 @@
+         return mask
+ 
+     @classmethod
+-    def get_splitfuse_mask(cls, attn_metadata: AscendMetadata, device: torch.device):
++    def get_splitfuse_mask(
++        cls, attn_metadata: AscendMetadata, device: torch.device, *, active_width: bool = False
++    ):
+         """
+         Generates and formats the attention mask for SplitFuse (chunked prefill) decoding.
+ 
+-        It calculates the specific indices required based on query start locations
+-        and context lengths, selects the relevant parts from the global chunked
+-        mask, and converts the result to the NPU-specific fractal format.
+-
+-        Args:
+-            attn_metadata (AscendMetadata): Metadata containing query start locations and sequence lengths.
+-            device (torch.device): The device to perform operations on.
+-
+-        Returns:
+-            torch.Tensor: The splitfuse attention mask cast to ACL_FORMAT_FRACTAL_NZ.
++        When requested by eager prefill, build only the active
++        [query tokens, max context] mask.
+         """
+-        if cls.chunked_prefill_attn_mask is None:
+-            cls.chunked_prefill_attn_mask = cls.gen_causal_additive_mask(cls.max_seqlen, device)
+         qsl = attn_metadata.query_start_loc.to("cpu", dtype=torch.int32)
+-        qlens = qsl[1:] - qsl[:-1]
+-        q_list = qlens.tolist()
+-        context_lens = attn_metadata.seq_lens.to("cpu", dtype=torch.int32)
+-        c_list = context_lens.tolist()
++        q_list = (qsl[1:] - qsl[:-1]).tolist()
++        c_list = attn_metadata.seq_lens.to("cpu", dtype=torch.int32).tolist()
+         pos_list = [p for ql, cl in zip(q_list, c_list) for p in range(cl - ql, cl)]
+         position = torch.tensor(pos_list, dtype=torch.int32, device=device)
+-        splitfuse_mask = cls.chunked_prefill_attn_mask.index_select(0, position)
++        if not active_width:
++            if cls.chunked_prefill_attn_mask is None:
++                cls.chunked_prefill_attn_mask = cls.gen_causal_additive_mask(cls.max_seqlen, device)
++            splitfuse_mask = cls.chunked_prefill_attn_mask.index_select(0, position)
++        else:
++            columns = torch.arange(max(c_list, default=0), dtype=torch.int32, device=device)
++            splitfuse_mask = torch.zeros(
++                (len(pos_list), columns.numel()), dtype=torch.float16, device=device
++            ).masked_fill_(columns[None, :] > position[:, None], float("-inf"))
+         splitfuse_mask_nz = torch_npu.npu_format_cast(nd_to_nz_spec(splitfuse_mask).contiguous(), ACL_FORMAT_FRACTAL_NZ)
+         return splitfuse_mask_nz
+ 
+--- a/vllm_ascend/_310p/attention/attention_v1.py
++++ b/vllm_ascend/_310p/attention/attention_v1.py
+@@ -306,7 +306,11 @@
+             return output
+ 
+         # Generate the specific mask for splitfuse
+-        mask = AttentionMaskBuilder310.get_splitfuse_mask(attn_metadata, query.device)
++        active_width = (
++            attn_metadata.attn_state in (AscendAttentionState.ChunkedPrefill, AscendAttentionState.PrefillCacheHit)
++            and (query.device.type != "npu" or not torch.npu.is_current_stream_capturing())
++        )
++        mask = AttentionMaskBuilder310.get_splitfuse_mask(attn_metadata, query.device, active_width=active_width)
+         torch_npu._npu_paged_attention_splitfuse(
+             query=query,
+             key_cache=self.key_cache,
+--- a/tests/ut/_310p/attention/test_attention_mask_310.py
++++ b/tests/ut/_310p/attention/test_attention_mask_310.py
+@@ -43,3 +43,24 @@
+         attn_metadata.seq_lens = torch.tensor([7, 4])
+         attn_mask = self.attention_mask_builder.get_splitfuse_mask(attn_metadata, torch.device("cpu"))
+         self.assertEqual(attn_mask.shape, (1, self.max_seqlen // 16, 16, 16))
++        attn_mask = self.attention_mask_builder.get_splitfuse_mask(attn_metadata, torch.device("cpu"), active_width=True)
++        self.assertEqual(attn_mask.shape, (1, 1, 16, 16))
++        expected = torch.zeros((5, 7), dtype=torch.float16)
++        expected[1, 1:] = float("-inf")
++        expected[2, 2:] = float("-inf")
++        expected[3, 3:] = float("-inf")
++        expected[4, 4:] = float("-inf")
++        torch.testing.assert_close(attn_mask[0, 0, :5, :7], expected, rtol=0, atol=0)
++
++    @patch("torch_npu.npu_format_cast", side_effect=lambda x, _: x)
++    def test_splitfuse_active_width_rounds_up_to_nz_tile(self, mock_format_cast):
++        attn_metadata = MagicMock()
++        attn_metadata.query_start_loc = torch.tensor([0, 1, 3])
++        attn_metadata.seq_lens = torch.tensor([17, 2])
++        with patch.object(AttentionMaskBuilder310, "gen_causal_additive_mask", side_effect=AssertionError):
++            attn_mask = self.attention_mask_builder.get_splitfuse_mask(
++                attn_metadata, torch.device("cpu"), active_width=True
++            )
++        self.assertEqual(attn_mask.shape, (1, 2, 16, 16))
++        self.assertEqual(attn_mask[0, 1, 0, 0].item(), 0)
++        self.assertEqual(attn_mask[0, 1, 1, 0].item(), float("-inf"))

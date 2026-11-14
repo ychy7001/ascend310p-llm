@@ -1,0 +1,8 @@
+test_get_attention_mask_310 (candidate_tests.TestAttentionMaskBuilder310.test_get_attention_mask_310) ... ok
+test_get_splitfuse_attn_mask_310 (candidate_tests.TestAttentionMaskBuilder310.test_get_splitfuse_attn_mask_310) ... ok
+test_splitfuse_active_width_rounds_up_to_nz_tile (candidate_tests.TestAttentionMaskBuilder310.test_splitfuse_active_width_rounds_up_to_nz_tile) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.072s
+
+OK
