@@ -1,0 +1,686 @@
+{
+  "date": "2026-11-15",
+  "decision": "reject_new_stack_for_causal_mask_failure",
+  "images": {
+    "upstream": "b217eec3ca1772d3836f0db3772255866fcd5f5397b0b5bb5451f04fc9b0d185",
+    "wy": "fdbafc8bb69f5d2c6fbb39d461bb533d31a302fcaebfa6b264b6bc336a6fa56f",
+    "release": "2793814b8ad397766b20518e09e60c1a3066f5ebacb0cb71f02601916bd018f6"
+  },
+  "unchanged_default_digest": "sha256:75a20b2954edae93e5990f795e12c09c06faadcc49d6acd880cbc2f5f8ab217d",
+  "serving": {
+    "graph_sizes": [
+      12
+    ],
+    "max_model_len": 262144,
+    "tested_prompt_tokens": 32768,
+    "tp": 2,
+    "route_lines": [
+      "(Worker_TP0 pid=126) [wy-compressed-probe] native WY invoked",
+      "(Worker_TP1 pid=132) [wy-compressed-probe] native WY invoked",
+      "(Worker_TP1 pid=132) [wy-compressed-probe] compressed SplitFuse invoked",
+      "(Worker_TP0 pid=126) [wy-compressed-probe] compressed SplitFuse invoked"
+    ],
+    "graph_replay": true,
+    "mtp_drafts": 11,
+    "retrieval": {
+      "kind": "result",
+      "elapsed_s": 25.410265716025606,
+      "text": "\n\n<think>\n\n</think>\n\nASCEND732941",
+      "expected": "ASCEND732941",
+      "retrieved": true,
+      "usage": {
+        "prompt_tokens": 32768,
+        "total_tokens": 32782,
+        "completion_tokens": 14,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "created_cache_tokens": null,
+          "multimodal_tokens": null
+        },
+        "completion_tokens_details": null
+      },
+      "finish_reason": "stop"
+    },
+    "cache_reported_tokens": 617467,
+    "exit_code": 0,
+    "container_exit_code": 0,
+    "cleanup_idle": true,
+    "three_graph_capture": {
+      "sizes": [
+        3,
+        6,
+        12
+      ],
+      "error_code": 507903,
+      "reason": "event resources insufficient"
+    }
+  },
+  "random_numeric_failure": {
+    "wy": [
+      {
+        "device": 0,
+        "block": 64,
+        "query": [
+          384,
+          1024,
+          512
+        ],
+        "contexts": [
+          32774,
+          1024,
+          12544
+        ],
+        "trial": 1,
+        "cutoff_diagnostic": {
+          "row": 123,
+          "head": 6,
+          "column": 175,
+          "request": 0,
+          "causal_cutoff": 32513,
+          "best_cutoff_shift": 14,
+          "best_shift_max_abs": 1.9251368939876556e-05,
+          "correct_cutoff_max_abs": 0.00671886932104826
+        },
+        "cpu_samples": [
+          {
+            "request": 0,
+            "arm": 0,
+            "max_abs": 3.9171427488327026e-05
+          },
+          {
+            "request": 0,
+            "arm": 1,
+            "max_abs": 0.006718870718032122
+          },
+          {
+            "request": 1,
+            "arm": 0,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 1,
+            "arm": 1,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 2,
+            "arm": 0,
+            "max_abs": 5.418062210083008e-05
+          },
+          {
+            "request": 2,
+            "arm": 1,
+            "max_abs": 5.418062210083008e-05
+          }
+        ],
+        "legacy_cpu_sample_max_abs": 0.0025484561920166016,
+        "compressed_cpu_sample_max_abs": 0.006718870718032122,
+        "full_legacy_compressed_max_abs": 0.006716728210449219,
+        "full_bitwise_equal": false
+      },
+      {
+        "device": 1,
+        "block": 64,
+        "query": [
+          384,
+          1024,
+          512
+        ],
+        "contexts": [
+          32774,
+          1024,
+          12544
+        ],
+        "trial": 1,
+        "cutoff_diagnostic": {
+          "row": 123,
+          "head": 6,
+          "column": 175,
+          "request": 0,
+          "causal_cutoff": 32513,
+          "best_cutoff_shift": 14,
+          "best_shift_max_abs": 1.9251368939876556e-05,
+          "correct_cutoff_max_abs": 0.00671886932104826
+        },
+        "cpu_samples": [
+          {
+            "request": 0,
+            "arm": 0,
+            "max_abs": 3.9171427488327026e-05
+          },
+          {
+            "request": 0,
+            "arm": 1,
+            "max_abs": 0.006718870718032122
+          },
+          {
+            "request": 1,
+            "arm": 0,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 1,
+            "arm": 1,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 2,
+            "arm": 0,
+            "max_abs": 5.418062210083008e-05
+          },
+          {
+            "request": 2,
+            "arm": 1,
+            "max_abs": 5.418062210083008e-05
+          }
+        ],
+        "legacy_cpu_sample_max_abs": 0.0025484561920166016,
+        "compressed_cpu_sample_max_abs": 0.006718870718032122,
+        "full_legacy_compressed_max_abs": 0.006716728210449219,
+        "full_bitwise_equal": false
+      }
+    ],
+    "upstream": [
+      {
+        "device": 0,
+        "block": 64,
+        "query": [
+          384,
+          1024,
+          512
+        ],
+        "contexts": [
+          32774,
+          1024,
+          12544
+        ],
+        "trial": 1,
+        "cutoff_diagnostic": {
+          "row": 123,
+          "head": 6,
+          "column": 175,
+          "request": 0,
+          "causal_cutoff": 32513,
+          "best_cutoff_shift": 14,
+          "best_shift_max_abs": 1.9251368939876556e-05,
+          "correct_cutoff_max_abs": 0.00671886932104826
+        },
+        "cpu_samples": [
+          {
+            "request": 0,
+            "arm": 0,
+            "max_abs": 3.9171427488327026e-05
+          },
+          {
+            "request": 0,
+            "arm": 1,
+            "max_abs": 0.006718870718032122
+          },
+          {
+            "request": 1,
+            "arm": 0,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 1,
+            "arm": 1,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 2,
+            "arm": 0,
+            "max_abs": 5.418062210083008e-05
+          },
+          {
+            "request": 2,
+            "arm": 1,
+            "max_abs": 5.418062210083008e-05
+          }
+        ],
+        "legacy_cpu_sample_max_abs": 0.0025484561920166016,
+        "compressed_cpu_sample_max_abs": 0.006718870718032122,
+        "full_legacy_compressed_max_abs": 0.006716728210449219,
+        "full_bitwise_equal": false
+      },
+      {
+        "device": 1,
+        "block": 64,
+        "query": [
+          384,
+          1024,
+          512
+        ],
+        "contexts": [
+          32774,
+          1024,
+          12544
+        ],
+        "trial": 1,
+        "cutoff_diagnostic": {
+          "row": 123,
+          "head": 6,
+          "column": 175,
+          "request": 0,
+          "causal_cutoff": 32513,
+          "best_cutoff_shift": 14,
+          "best_shift_max_abs": 1.9251368939876556e-05,
+          "correct_cutoff_max_abs": 0.00671886932104826
+        },
+        "cpu_samples": [
+          {
+            "request": 0,
+            "arm": 0,
+            "max_abs": 3.9171427488327026e-05
+          },
+          {
+            "request": 0,
+            "arm": 1,
+            "max_abs": 0.006718870718032122
+          },
+          {
+            "request": 1,
+            "arm": 0,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 1,
+            "arm": 1,
+            "max_abs": 0.0025484561920166016
+          },
+          {
+            "request": 2,
+            "arm": 0,
+            "max_abs": 5.418062210083008e-05
+          },
+          {
+            "request": 2,
+            "arm": 1,
+            "max_abs": 5.418062210083008e-05
+          }
+        ],
+        "legacy_cpu_sample_max_abs": 0.0025484561920166016,
+        "compressed_cpu_sample_max_abs": 0.006718870718032122,
+        "full_legacy_compressed_max_abs": 0.006716728210449219,
+        "full_bitwise_equal": false
+      }
+    ]
+  },
+  "standalone_future_v": {
+    "upstream": [
+      {
+        "device": 0,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32768,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32507,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": true
+      },
+      {
+        "device": 0,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32774,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32513,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0275421142578125,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": false
+      },
+      {
+        "device": 1,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32768,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32507,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": true
+      },
+      {
+        "device": 1,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32774,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32513,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0275421142578125,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": false
+      }
+    ],
+    "wy": [
+      {
+        "device": 0,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32768,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32507,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": true
+      },
+      {
+        "device": 0,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32774,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32513,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0275421142578125,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": false
+      },
+      {
+        "device": 1,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32768,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32507,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": true
+      },
+      {
+        "device": 1,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post7",
+        "query": 384,
+        "context": 32774,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32513,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          },
+          "compressed": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0275421142578125,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": true,
+        "future_invariant": false
+      }
+    ],
+    "release": [
+      {
+        "device": 0,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post2",
+        "query": 384,
+        "context": 32768,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32507,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": false,
+        "future_invariant": true
+      },
+      {
+        "device": 0,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post2",
+        "query": 384,
+        "context": 32774,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32513,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": false,
+        "future_invariant": true
+      },
+      {
+        "device": 1,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post2",
+        "query": 384,
+        "context": 32768,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32507,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": false,
+        "future_invariant": true
+      },
+      {
+        "device": 1,
+        "torch": "2.10.0+cpu",
+        "torch_npu": "2.10.0.post2",
+        "query": 384,
+        "context": 32774,
+        "physical_block": 64,
+        "row": 123,
+        "causal_cutoff": 32513,
+        "results": {
+          "legacy": {
+            "zero": {
+              "row": 0.0,
+              "last": 0.0
+            },
+            "future": {
+              "row": 0.0,
+              "last": 0.02734375
+            }
+          }
+        },
+        "compressed_available": false,
+        "future_invariant": true
+      }
+    ]
+  },
+  "performance_gate": "not_run_after_causal_failure",
+  "registry_promoted": false
+}

@@ -65,3 +65,7 @@ registry.cn-hangzhou.aliyuncs.com/meetai/llm-service-vllm-ascend@sha256:a11b8aca
 2. 发布者更新模型专用 `default` tag、`deploy/variants/qwen36.json`、所有当前部署模板与本页，保留前一版 digest 及验收依据。
 3. 执行 `python3 tools/check_default_delivery.py`，提交与推送交付源码和发布记录。已通过且发布的版本标为 `default-delivery`；后续研发另行保留实验状态。
 4. 发生回归时按同档位 digest 回退，并同步恢复默认登记与 default tag；保留失败版本的诊断记录。
+
+## 新运行栈组合验证（2026-11-15）
+
+已证明 native WY 可以与 compressed SplitFuse、MTP2、Decode Graph 同时运行；WY 不要求 legacy eager。旧镜像走 legacy 的原因是 torch-npu 算子能力。新栈独立因果门禁发现 compressed SplitFuse 在特定未对齐 context 下会读取未来 V，并在保留的上游 main 快照复现，故本轮不替换正式默认。现有 20261114 交付继续有效。见[组合与精度验证记录](../research/wy-compressed-attention-20261115.md)。
