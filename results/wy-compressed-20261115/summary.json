@@ -682,5 +682,30 @@
     ]
   },
   "performance_gate": "not_run_after_causal_failure",
-  "registry_promoted": false
+  "registry_promoted": false,
+  "source_sha256": {
+    "experimental/wy-compressed/attention_numeric.py": "db56075e19bf62a2be923cbd5df882d2b4010176920c9095cf3ffd8f81014a52",
+    "experimental/wy-compressed/launch.sh": "c321fd5c6a7a6b3a7b727cf5dd41ccc956c7a376197b146446ae32a68a9471a4",
+    "experimental/wy-compressed/legacy_attention_mask.py": "6576912c671c9e2bd3a2ee1ba46843bac57daf40b1d49a59cc3bd50f870a1e01",
+    "experimental/wy-compressed/prepare.py": "ca072f1f537a3874160ef46a7a58db57be9c9060e71063e96ce31f89af0f5698",
+    "experimental/wy-compressed/repro_future_mask.py": "67371e4069c2b74a20d76051a4c0d5179ee123720ee81b0b209506c062ca3559",
+    "experimental/wy-compressed/run_numeric.sh": "f18e44fe51ecccf1bfa0f4e849319d3258ec65ec8a515a9d4c99898a84fbc2ec",
+    "experimental/wy-compressed/screen.sh": "ea07912f6eddbc2b4f12cd83d1f16da4c13acac7d05ce8234149101a738104ac"
+  },
+  "wy_build_identity": [
+    "fdbafc8bb69f",
+    "c54172cf6f103213812f97688dc57d330b7d271b6df0750f492908b76368f521  /vllm-workspace/vllm-ascend/vllm_ascend/vllm_ascend_C.cpython-312-x86_64-linux-gnu.so",
+    "3b9bc0eb2e2e9d944316858df1efaea72776e7221b5eb1640db4a719b985accb  /vllm-workspace/vllm-ascend/vllm_ascend/_310p/ops/fla/chunk_gated_delta_rule.py",
+    "200fe750004a22095729d3620fb9dbac7a87b9a5e7b7bb6f0c329c653116bb01  /pr17640-opp/vendors/custom_transformer/op_api/lib/libcust_opapi.so",
+    "5d3d1f48df8c0c195503f7be4236e2a5cf8d824986800c5aede1c03e7bed4887  /pr17640-opp/vendors/custom_transformer/op_proto/lib/linux/x86_64/libcust_opsproto_rt2.0.so",
+    "194eab1f08b661d936e04e009a9d5ec15b1f88ae2f4acb9dd5f300acb36bf4b3  /pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/op_tiling/liboptiling.so",
+    "194eab1f08b661d936e04e009a9d5ec15b1f88ae2f4acb9dd5f300acb36bf4b3  /pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/op_tiling/lib/linux/x86_64/libcust_opmaster_rt2.0.so",
+    "2793814b8ad3",
+    "c54172cf6f103213812f97688dc57d330b7d271b6df0750f492908b76368f521  /vllm-workspace/vllm-ascend/vllm_ascend/vllm_ascend_C.cpython-312-x86_64-linux-gnu.so",
+    "3b9bc0eb2e2e9d944316858df1efaea72776e7221b5eb1640db4a719b985accb  /vllm-workspace/vllm-ascend/vllm_ascend/_310p/ops/fla/chunk_gated_delta_rule.py",
+    "200fe750004a22095729d3620fb9dbac7a87b9a5e7b7bb6f0c329c653116bb01  /pr17640-opp/vendors/custom_transformer/op_api/lib/libcust_opapi.so",
+    "5d3d1f48df8c0c195503f7be4236e2a5cf8d824986800c5aede1c03e7bed4887  /pr17640-opp/vendors/custom_transformer/op_proto/lib/linux/x86_64/libcust_opsproto_rt2.0.so",
+    "194eab1f08b661d936e04e009a9d5ec15b1f88ae2f4acb9dd5f300acb36bf4b3  /pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/op_tiling/liboptiling.so",
+    "194eab1f08b661d936e04e009a9d5ec15b1f88ae2f4acb9dd5f300acb36bf4b3  /pr17640-opp/vendors/custom_transformer/op_impl/ai_core/tbe/op_tiling/lib/linux/x86_64/libcust_opmaster_rt2.0.so"
+  ]
 }
