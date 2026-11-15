@@ -47,3 +47,16 @@ Both arms return approximately 0.02734375 for the last query after the mutation,
 A separate randomized comparison also finds this behavior for single and mixed requests. For qLens `[384,1024,512]`, contextLens `[32774,1024,12544]`, the worst sampled compressed error against the correct CPU FP32 reference is `0.00671887`. At row123/head6, a reference shifted 14 future tokens forward matches within `1.93e-5`.
 
 Could you confirm whether an additional alignment constraint or different mask representation is required for this API, or whether this is an operator defect? We have not isolated the internal CANN/ATB implementation line. A server-only WY change cannot correct this standalone failure.
+
+## Follow-up: exact visible keys and shorter reproducer
+
+`probe_cutoff.py` uses distinct V channels to identify which query-suffix keys each row actually sees. On the same two 310P3 devices, physical block 64/head_dim 256:
+
+- `context=2048, query=384`: no future keys visible. `context=2049, query=384`: 47/384 rows affected; row 123 sees offsets **+4 through +19**, while +1 through +3 remain masked. The legacy control passes at 2049.
+- `context=32768, query=383`: 40/383 rows affected despite an aligned total length. Changing query to 384 at the same context makes the history (`context - query`) page-aligned and passes.
+- `context=32774, query=384`: 47/384 rows affected. Row 56 sees +2 through +17 but not +1; row 123 sees +1 through +14. A uniform mask diagonal shift cannot explain both.
+- `context=2050, query=3`: 2/3 affected, so this is not restricted to a large query chunk.
+
+In the measured block-64 grids, no case with `context <= 2048` or page-aligned history exhibited the violation. Not every shape outside these controls failed. The publicly available wrapper at op-plugin `9f898172` forwards both lengths unchanged to `PagedAttentionOperation` with `CALC_TYPE_SPEC`; it selects `MASK_TYPE_NORM_COMPRESS` instead of legacy `MASK_TYPE_SPEC`. The public 310P tests at that commit use total context 1024 and a page-aligned prefill history. Could ATB maintainers check how the compressed mask tile is composed when the query start is inside a KV page and context exceeds the fixed mask extent?
+
+Reversing logical-to-physical page IDs (with matching cache writes) together with changing the mask penalty to -65504 preserves the observed sets in the block-64 controls. On block128/head_dim128, the `32774/384` failure repeats around rows 120–127 and 248–255. A block64/head_dim128 diagnostic also fails at aligned history, so the block64/head_dim256 alignment pattern should not be taken as a general API precondition or a validated workaround.

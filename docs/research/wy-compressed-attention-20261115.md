@@ -48,3 +48,5 @@ native WY 对应 GDN/linear attention；compressed SplitFuse 对应 full attenti
 本轮**组合验证完成，升级候选不予晋级**。精度失败后停止性能放行，不通过放宽阈值或关闭 WY 来包装升级。现有已过测 WY 正式默认持续有效，a1 在线服务未操作。
 
 [最小复现及执行说明](../../experimental/wy-compressed/README.md)、[机器可读结论](../../results/wy-compressed-20261115/summary.json)、[上游 issue 草稿](../../experimental/wy-compressed/upstream-issue.md)随源码维护。缺陷修复后，先重新通过相同因果不变量和随机混合数值门禁，再恢复新旧栈固定协议性能、Graph 档位和完整封装验收。当前没有可诚实宣称已验证有效的原生算子修复 PR。
+
+后续通过逐 token V 标记缩小了触发条件，并定位到 2048 边界、历史页对齐和部分行的非连续未来 key 放行。详见[因果边界定位](splitfuse-causal-boundary-20261115.md)。

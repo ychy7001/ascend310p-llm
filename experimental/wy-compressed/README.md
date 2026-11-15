@@ -38,3 +38,15 @@ GRAPH_SIZES=12 ./screen.sh graph12-mtp-262k
 ```
 
 这只能证明服务组合可运行。262144 是配置上限，32K 筛查没有证明完整 262K 功能或性能。三档 Graph `[3,6,12]` 在该新栈上事件资源耗尽；一档 `[12]` 通过。新栈的 compressed 算子因果门禁失败，未进入性能放行或镜像发布。
+
+## 逐 token 可见集合
+
+`probe_cutoff.py` 将当前 query 后缀中的各 key 编码到独立 V 通道，直接得到相对正确因果截止位置的额外可见 key，以及缺失的应可见 key。日志的 `extra_count_runs`、`missing_count_runs` 按 `[起始行, 结束行, 数量]` 压缩；行号从 0 起。完成测量时退出 0，缺陷由 `affected_rows` 表示。
+
+```bash
+CUTOFF_GRID=boundary NUMERIC_PREFIX=cutoff-boundary NUMERIC_PROBE=probe_cutoff.py \
+NUMERIC_IMAGE=b217eec3ca1772d3836f0db3772255866fcd5f5397b0b5bb5451f04fc9b0d185 \
+./run_numeric.sh 64
+```
+
+省略 `CUTOFF_GRID` 使用通用形状网格；`boundary` 聚焦 2048 和 q=1920；`layout` 对少数形状使用反向物理页表和更强的 mask 值，也可配合 `CUTOFF_HEAD_DIM=128`；`geometry` 对同一小组形状保留通常的页编号和 mask 值。数据见[边界定位](../../docs/research/splitfuse-causal-boundary-20261115.md)。

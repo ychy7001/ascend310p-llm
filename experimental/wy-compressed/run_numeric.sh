@@ -12,7 +12,7 @@ flock -w 900 9
 [[ -z $(podman ps -q) && -z $(sudo -n podman ps -q) ]]
 npu-smi info > "$prefix-before.txt"
 grep -q 'No running processes found' "$prefix-before.txt"
-cmd=(podman run --rm --pull=never --network=none --group-add keep-groups --ipc shareable --shm-size 8g --entrypoint bash)
+cmd=(podman run --rm --pull=never --network=none -e CUTOFF_GRID -e CUTOFF_HEAD_DIM --group-add keep-groups --ipc shareable --shm-size 8g --entrypoint bash)
 for device in davinci0 davinci1 davinci_manager devmm_svm hisi_hdc; do cmd+=(--device /dev/"$device"); done
 for file in /usr/local/bin/npu-smi /etc/ascend_install.info /usr/local/Ascend/driver/version.info /usr/local/Ascend/driver/lib64 /usr/local/dcmi; do cmd+=(-v "$file:$file:ro"); done
 cmd+=(-v "$PWD:/bench:ro" "$image" -c
