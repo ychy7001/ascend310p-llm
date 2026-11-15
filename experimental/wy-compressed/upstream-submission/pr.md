@@ -8,7 +8,7 @@ Adds `examples/310p_splitfuse_causal_repro.py`, an on-demand diagnostic for the 
 
 The example returns a nonzero status if causality fails. It is intentionally not auto-discovered by CI: the affected backend currently fails it. The PR supplies a reproducible check for backend investigation and validation of a future fix.
 
-For reference, 64 is a supported 310P block size, but not the backend default — `get_preferred_block_size` keeps 128 (`vllm_ascend/_310p/attention/attention_v1.py:102-107`). The defect is not specific to 64: a block-128/head-dim-128 variant fails too, in 23 of 384 rows at `context=32774, query=384`. The script pins 64 because the shorter context-2049 reproduction only appears at that geometry.
+For reference, 64 is a supported 310P block size, but not the backend default — `get_preferred_block_size` keeps 128 (`vllm_ascend/_310p/attention/attention_v1.py:102-107`). The defect is not specific to 64: a block-128/head-dim-128 variant fails too, in 23 of 384 rows at `context=32774, query=384`. The script pins block=64/head_dim=256 to match the validated adjacent-length pair (context 2048 passes, 2049 fails) used in the boundary check; context=2049 also fails under block-128/head-dim-128 and block-64/head-dim-128.
 
 ### Does this PR introduce _any_ user-facing change?
 
@@ -34,7 +34,7 @@ This PR is based on `main` at `4b3bd7eb`, the head when it was prepared. The har
 
 ### Why no test under `tests/ut/`
 
-There is no meaningful passing assertion to add yet: the correct expectation for the compressed operator on this stack is a failure, so the check would either be skipped or keep CI red until the backend is fixed. Adding a skipped test now would also not catch a regression. Once the operator behavior is resolved, this file should become a normal regression case — I am happy to relocate it under `tests/ut/` in a follow-up PR, or in this one if you prefer that from the start.
+The causal invariant is well-defined, but the compressed operator currently fails it on this stack. A passing assertion would keep CI red until the backend is fixed; marking it `xfail` is a reasonable way to keep it visible, though a skipped or expected-failure test would not catch a regression once the operator is corrected without also updating the expectation. Once the operator behavior is resolved, this file should become a normal regression case — I am happy to relocate it under `tests/ut/` in a follow-up PR, or in this one if you prefer that from the start.
 
 ### Checklist
 

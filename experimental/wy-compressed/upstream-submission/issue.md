@@ -2,9 +2,7 @@
 
 ### Your current environment
 
-Atlas 300I DUO (Ascend 310P3), reproduced independently on both chips. CANN 9.2.1, PyTorch 2.10.0+cpu, torch-npu 2.10.0.post7. The NPU run used a retained image with vllm-ascend revision `76ea9d24f155afe032ad9ac6c98717f1f7334f36`. It calls torch-npu directly, without importing vLLM, loading weights, starting a service, or using graph capture. That image was not built on this host, so this is an operator-level result, not a serving test at `main`.
-
-`collect_env.py` does not apply here: there is no vLLM installation in this environment, and the versions above are the ones the operator run itself recorded.
+Atlas 300I DUO (Ascend 310P3), reproduced independently on both chips. CANN 9.2.1, PyTorch 2.10.0+cpu, torch-npu 2.10.0.post7. The image has vllm-ascend revision `76ea9d24f155afe032ad9ac6c98717f1f7334f36`. The reproducer calls torch-npu directly and does not import vLLM, load weights, start a service, or use graph capture; these are direct operator measurements, not a serving test at `main`.
 
 The dispatch and mask construction quoted below were read from vllm-ascend `main` at `4b3bd7ebe51094f3afa5288bb7a3316d12d3154e`.
 
