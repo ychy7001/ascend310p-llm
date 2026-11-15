@@ -1,6 +1,6 @@
 # [310P] compressed SplitFuse v2 changes causal output when only future V is modified
 
-Status: prepared report; not submitted upstream.
+Status: historical investigation notes. The [submission package](upstream-submission/README.md) contains the shorter verified repro, issue text, and signed PR patch. Nothing has been submitted upstream.
 
 ## Problem
 
