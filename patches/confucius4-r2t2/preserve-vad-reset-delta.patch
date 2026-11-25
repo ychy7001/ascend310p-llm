@@ -1,0 +1,25 @@
+diff --git a/ws_server.py b/ws_server.py
+--- a/ws_server.py
++++ b/ws_server.py
+@@ -689,7 +689,9 @@ async def asr_stream_api_v0(request: Request, ws: Websocket):
+                             seg_new_asr_text = ""
+                         total_text = seg_final_text
+ 
+-                        out_msg = {"text": seg_new_asr_text, "reset": True, "asr_cost_ms": asr_cost_ms}
++                        # The regular chunk delta has not been sent yet.
++                        out_msg["text"] += seg_new_asr_text
++                        out_msg["reset"] = True
+                         last_fixed_asr_text = ""
+                     finish_cost_ms = round((time.time() - t0) * 1000, 1)
+                     out_msg['total_cost_ms'] = vad_cost_ms + asr_cost_ms + finish_cost_ms
+@@ -1142,7 +1144,9 @@ async def asr_stream_api_v1(request: Request, ws: Websocket):
+                             seg_new_asr_text = ""
+                         total_text = seg_final_text
+ 
+-                        out_msg = {"text": seg_new_asr_text, "reset": True, "asr_cost_ms": asr_cost_ms}
++                        # The regular chunk delta has not been sent yet.
++                        out_msg["text"] += seg_new_asr_text
++                        out_msg["reset"] = True
+                         last_fixed_asr_text = ""
+                     finish_cost_ms = round((time.time() - t0) * 1000, 1)
+                     out_msg['total_cost_ms'] = vad_cost_ms + asr_cost_ms + finish_cost_ms
