@@ -327,3 +327,9 @@ logs/
 /results/qkvz-w8a8-20261105/**
 !/results/qkvz-w8a8-20261105/README.md
 !/results/qkvz-w8a8-20261105/adjudication.json
+
+# Raw profiler dumps stay local; reports keep the derived numbers.
+kernel_details*.csv*
+op_summary_*.csv*
+task_time.csv
+*-rows.jsonl
