@@ -36,6 +36,21 @@
 - **消费方只锁 digest**。tag 仅用于人读；每次推送后把 digest 回填到本仓锁文件与 deploy 配置，不回填就不算发布。
 - 构建机与 310P 交付机分离，构建产物先在本机 `ychy-a2` 之外验证加载，再推 registry。
 
+### 发布记录
+
+| 项 | 值 |
+|---|---|
+| 镜像 | `registry.cn-hangzhou.aliyuncs.com/meetai/asr-310p:confucius4r2t2-v0300-310p-20261127-0aeb3c8` |
+| manifest digest | `sha256:2da236236d47ca220fbd77a2762ebf343d65a6f3014b53960b05d7008a0d256d` |
+| config digest | `sha256:50f54e0f51616fae7720584579befdb10b173d11a947542571227f0640e9ff16` |
+| 构建提交 | `ascend310p-llm` `0aeb3c8` |
+| 底座 | `quay.io/ascend/vllm-ascend@sha256:ebea1420f0c31c3ef41344b64b8570326e78b9aee0ab3ba927646ce97131fcaf`（amd64 manifest） |
+| 推送机 | `ychy-a2`（有线；本机 n4 上行为共享公用带宽，不适合推 21 GB 产物） |
+| 推送前验证 | `podman save` → n4 `podman load` → 容器内 import 通过；NPU 单场放音与归档终稿逐字一致（621 字，SHA256 相同），握手到首终稿 2052.313 ms 对归档 2057.048 ms |
+| 锁文件 | [`deploy/image/asr-310p.lock.json`](../deploy/image/asr-310p.lock.json) 的 `publication` 段 |
+
+消费方目前只有锁文件，尚无 Quadlet 或 deploy 配置引用该镜像；接入部署时按下节规则锁 digest。
+
 ## 升级门槛
 
 版本升级（换底座、换 vllm-ascend、换 CANN、加补丁）必须同时满足：

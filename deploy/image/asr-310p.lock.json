@@ -519,5 +519,13 @@
     "original": "ws_server.py",
     "patch": "isolate-stream-vad.patch",
     "patched_ws_server_sha256": "487cc5bcd5d637d4f681b97cc79a7efeeb16601ab6a34f2ce94b7d3e406305fe"
+  },
+  "publication": {
+    "registry": "registry.cn-hangzhou.aliyuncs.com/meetai/asr-310p",
+    "tag": "confucius4r2t2-v0300-310p-20261127-0aeb3c8",
+    "manifest_digest": "sha256:2da236236d47ca220fbd77a2762ebf343d65a6f3014b53960b05d7008a0d256d",
+    "config_digest": "sha256:50f54e0f51616fae7720584579befdb10b173d11a947542571227f0640e9ff16",
+    "pushed_from": "ychy-a2",
+    "verify": "podman push --digestfile; image loaded and NPU smoke passed before push"
   }
 }
