@@ -35,6 +35,7 @@
 - tag：`<model>-<base>-<YYYYMMDD>-<gitshort>`，例如 `confucius4r2t2-v0300-310p-20261125-062726a`。
 - **消费方只锁 digest**。tag 仅用于人读；每次推送后把 digest 回填到本仓锁文件与 deploy 配置，不回填就不算发布。
 - 构建机与 310P 交付机分离，构建产物先在本机 `ychy-a2` 之外验证加载，再推 registry。
+- `scripts/build-asr-310p-image.sh` 构建前校验：`Containerfile.asr-310p` 的 `FROM` 必须与锁文件 `base.image` 逐字一致，且该 digest 已在本地；不一致或缺失即退出。`--pull=never` 保证实际使用的底座就是这个 digest。
 
 ### 发布记录
 
