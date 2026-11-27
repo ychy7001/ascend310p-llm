@@ -1,0 +1,14 @@
+kaldiio-2.18.1.dist-info/INSTALLER,sha256=5hhM4Q4mYTT9z6QB6PGpUAW81PGNFrYrdXMj4oM_6ak,2
+kaldiio-2.18.1.dist-info/LICENSE,sha256=7y6649nyH1UMbblsuR3jYFDUoDw3gxxa8JHEgUtr-Yo,7931
+kaldiio-2.18.1.dist-info/METADATA,sha256=ZU8RTBtJBUwmXk4uiU9MRInuOyVDD6XlSdFV7zt9JOk,13488
+kaldiio-2.18.1.dist-info/RECORD,,
+kaldiio-2.18.1.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+kaldiio-2.18.1.dist-info/WHEEL,sha256=jB7zZ3N9hIM9adW7qlTAyycLYW9npaWKLRzaoVcLKcM,91
+kaldiio-2.18.1.dist-info/top_level.txt,sha256=2XjElXhcJ6-aFuwhGvzA3GaziQRO-YTKyTaSwgPCtA4,8
+kaldiio/__init__.py,sha256=NCjutdScOaHCMK9DYLvb4wOeHwiqaG7N2Pk48dM5WF8,451
+kaldiio/compression_header.py,sha256=WN0zN9nO2uvt7UlJeWQyIGhnc2q_sL17zuM0IxrNjgE,8320
+kaldiio/highlevel.py,sha256=2ogf5dAQoYC3M7nt1m6ZuoQornN8FpTw04DgnZEcczM,5495
+kaldiio/matio.py,sha256=rpZxWe0YlNBeVBvxQGnGeiq50rfcrQ_lqvglKXLz3Ec,29281
+kaldiio/python_wave.py,sha256=L11TyndF6il50Ox7DKdx8h4JQMV4a3CPTAndF-grJV8,23348
+kaldiio/utils.py,sha256=kBNBx5fJw-FdoDkWuBIEd5mU0-oD3Q0KYnf-HWTPRX4,14098
+kaldiio/wavio.py,sha256=8U7glZolrSqsWsbzCmbZJzBSP_ZR9sOY3HYczwk2HJ0,1350

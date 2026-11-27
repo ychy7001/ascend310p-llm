@@ -1,0 +1,2 @@
+[console_scripts]
+fireredvad = fireredvad.bin.fireredvad_cli:main

@@ -1,0 +1,9 @@
+--- a/qwen_asr/inference/qwen3_asr.py
++++ b/qwen_asr/inference/qwen3_asr.py
+@@ -28,3 +28,3 @@
+-AutoConfig.register("qwen3_asr", Qwen3ASRConfig)
+-AutoModel.register(Qwen3ASRConfig, Qwen3ASRForConditionalGeneration)
+-AutoProcessor.register(Qwen3ASRConfig, Qwen3ASRProcessor)
++AutoConfig.register("qwen3_asr", Qwen3ASRConfig, exist_ok=True)
++AutoModel.register(Qwen3ASRConfig, Qwen3ASRForConditionalGeneration, exist_ok=True)
++AutoProcessor.register(Qwen3ASRConfig, Qwen3ASRProcessor, exist_ok=True)

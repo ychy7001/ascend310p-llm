@@ -1,0 +1,29 @@
+FROM quay.io/ascend/vllm-ascend@sha256:ebea1420f0c31c3ef41344b64b8570326e78b9aee0ab3ba927646ce97131fcaf AS base
+
+FROM base AS build
+USER root
+WORKDIR /opt/confucius
+RUN --mount=type=bind,source=.,target=/image-input,ro \
+    set -eu; \
+    src=/image-input/asr-310p; \
+    python3 "$src/lock.py"; \
+    cp -r "$src/r2t2" "$src/ws-fast" "$src/checkpoints" .; \
+    cp "$src/entrypoint.sh" "$src/ws_server.py" "$src/ws_async_llm.py" \
+        "$src/int8_worker.py" "$src/ws_admission.py" "$src/vad_session.py" .; \
+    python3 -m pip install --disable-pip-version-check --no-deps --no-index --no-compile \
+        --target qwen-sdk --require-hashes --find-links "$src/wheels" -r "$src/stream-wheels.txt"; \
+    patch --batch --forward --fuzz=0 qwen-sdk/qwen_asr/inference/qwen3_asr.py "$src/transformers5-asr-config.patch"; \
+    sed -i 's/@check_model_inputs()/@check_model_inputs/' qwen-sdk/qwen_asr/core/transformers_backend/modeling_qwen3_asr.py; \
+    sed -i '/ModelRegistry.register_model("Qwen3ASRForConditionalGeneration"/s/.*/    pass  # Keep image-native registration./' qwen-sdk/qwen_asr/inference/qwen3_asr.py; \
+    patch --batch --forward --fuzz=0 ws_server.py "$src/isolate-stream-vad.patch"; \
+    python3 "$src/lock.py" ws_server.py; \
+    python3 "$src/prepare_ws_async_llm.py"
+
+FROM base
+USER root
+WORKDIR /opt/confucius
+COPY --from=build /opt/confucius/ /opt/confucius/
+ENV PYTHONPATH=/opt/confucius/qwen-sdk:/opt/confucius/ws-fast:/opt/confucius:${PYTHONPATH} \
+    HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1
+ENTRYPOINT ["/opt/confucius/entrypoint.sh"]
+CMD []

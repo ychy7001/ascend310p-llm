@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: TextGrid
+Version: 1.6.1
+Summary: Praat TextGrid manipulation.
+Author: Kyle Gorman et al.
+Author-email: kylebgorman@gmail.com
+License-File: LICENSE
+License-File: AUTHORS
+Dynamic: author
+Dynamic: author-email
+Dynamic: license-file
+Dynamic: summary

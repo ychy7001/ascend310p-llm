@@ -1,0 +1,32 @@
+--- a/ws_server.py
++++ b/ws_server.py
+@@ -25,2 +25,3 @@
+ from fireredvad import FireRedStreamVad, FireRedStreamVadConfig
++from vad_session import new_session_vad
+ import asyncio
+@@ -526,3 +527,4 @@
++            session_vad = new_session_vad(stream_vad, args.vad_model_path)
+             if use_vad:
+-                stream_vad.reset()
++                session_vad.reset()
+                 _logger.info(f"requestId={requestId}: stream_vad.reset() done")
+@@ -624,5 +626,5 @@
+                         audio_seg_int16 = (audio_seg * 32768).astype(np.int16)
+                         t0 = time.time()
+-                        chunk_results = stream_vad.detect_chunk(audio_seg_int16)
++                        chunk_results = session_vad.detect_chunk(audio_seg_int16)
+                         for r in chunk_results:
+                             if r.is_speech_end:
+@@ -980,3 +982,4 @@
++            session_vad = new_session_vad(stream_vad, args.vad_model_path)
+             if use_vad:
+-                stream_vad.reset()
++                session_vad.reset()
+                 _logger.info(f"requestId={requestId}: stream_vad.reset() done")
+@@ -1077,5 +1080,5 @@
+                         audio_seg_int16 = (audio_seg * 32768).astype(np.int16)
+                         t0 = time.time()
+-                        chunk_results = stream_vad.detect_chunk(audio_seg_int16)
++                        chunk_results = session_vad.detect_chunk(audio_seg_int16)
+                         for r in chunk_results:
+                             if r.is_speech_end:
