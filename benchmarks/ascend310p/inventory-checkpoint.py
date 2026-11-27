@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""纯stdlib校验ModelSlim分片/index与张量边界，并冻结每文件SHA256。"""
+"""纯stdlib校验safetensors文件/index与张量边界，并冻结每文件SHA256。"""
 import argparse
 from collections import Counter
 import hashlib
@@ -12,10 +12,17 @@ p.add_argument('model', type=Path)
 p.add_argument('--out', type=Path, required=True)
 a = p.parse_args()
 indexes = list(a.model.glob('*.safetensors.index.json'))
-if len(indexes) != 1:
-    raise RuntimeError('Expected one safetensors index')
-index = json.loads(indexes[0].read_text())['weight_map']
-expected_files = set(index.values())
+if len(indexes) == 1:
+    index = json.loads(indexes[0].read_text())['weight_map']
+    expected_files = set(index.values())
+elif not indexes:
+    weights = list(a.model.glob('*.safetensors'))
+    if len(weights) != 1:
+        raise RuntimeError('Expected one unsharded safetensors file without an index')
+    index = None
+    expected_files = {weights[0].name}
+else:
+    raise RuntimeError('Expected at most one safetensors index')
 if any(Path(name).name != name for name in expected_files):
     raise RuntimeError('Unsafe/non-flat weight path in index')
 seen = set()
@@ -42,7 +49,7 @@ for path in sorted(a.model.iterdir()):
     for name, tensor in header.items():
         if name == '__metadata__':
             continue
-        if name in seen or index.get(name) != path.name:
+        if name in seen or (index is not None and index.get(name) != path.name):
             raise RuntimeError(f'Tensor/index mismatch: {name}')
         left, right = tensor['data_offsets']
         if not 0 <= left <= right <= path.stat().st_size - 8 - header_size:
@@ -52,8 +59,10 @@ for path in sorted(a.model.iterdir()):
         dtypes[tensor['dtype']] += 1
     if end != path.stat().st_size - 8 - header_size:
         raise RuntimeError(f'Weight file size mismatch: {path}')
-if seen != set(index):
+if index is not None and seen != set(index):
     raise RuntimeError(f'Missing {len(set(index) - seen)} tensors')
+if not seen:
+    raise RuntimeError('No checkpoint tensors found')
 result = dict(status='PASS', scope='destination checkpoint index/header integrity and SHA256 fingerprint; not a separate source weight hash comparison',
               shards=len(expected_files), tensors=len(seen), dtypes=dict(dtypes), files=files,
               total_bytes=sum(row['bytes'] for row in files))
